@@ -9,7 +9,8 @@ import {
   ShoppingBag, 
   TrendingUp,
   AlertTriangle,
-  Clock
+  Clock,
+  Calendar
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -35,12 +36,27 @@ export default function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatsCard 
-          title="Available Credits" 
-          value={user?.credits || 0} 
-          icon={<div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">$</div>}
-          desc="Credits for reports & exports"
-        />
+        <Card className="bg-primary/5 border-primary/20">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-muted-foreground">Available Credits</span>
+              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">$</div>
+            </div>
+            <div className="text-3xl font-bold mb-1 text-primary">{user?.credits || 0}</div>
+            
+            {user?.plan === 'pro' && user.nextRefillDate ? (
+               <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-2">
+                 <Calendar className="w-3 h-3" />
+                 Next refill: {user.nextRefillDate} (+30)
+               </div>
+            ) : (
+               <div className="text-xs text-muted-foreground mt-2">
+                 <Link href="/billing" className="underline hover:text-primary">Top up credits</Link>
+               </div>
+            )}
+          </CardContent>
+        </Card>
+
         <StatsCard 
           title="Reports Generated" 
           value={reports.length} 

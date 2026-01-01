@@ -3,9 +3,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FileText, Download, Trash2, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Reports() {
-  const { reports } = useStore();
+  const { user, reports, spendCredits } = useStore();
+  const { toast } = useToast();
+
+  const handleDownload = (reportTitle: string) => {
+    if (user?.credits !== undefined && user.credits < 1) {
+       toast({
+        variant: "destructive",
+        title: "Insufficient Credits",
+        description: "PDF export costs 1 credit.",
+      });
+      return;
+    }
+
+    if (spendCredits(1, `PDF Export: ${reportTitle}`)) {
+      toast({
+        title: "Downloading...",
+        description: "Your PDF report is being generated.",
+      });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -53,7 +73,9 @@ export default function Reports() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm"><Download className="w-4 h-4 mr-2" /> PDF</Button>
+                  <Button variant="outline" size="sm" onClick={() => handleDownload(report.title)}>
+                    <Download className="w-4 h-4 mr-2" /> PDF (1 Credit)
+                  </Button>
                   <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10"><Trash2 className="w-4 h-4" /></Button>
                 </div>
               </CardContent>

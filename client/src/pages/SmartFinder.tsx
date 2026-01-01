@@ -8,14 +8,16 @@ import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { Sparkles, Loader2, FileText, CheckCircle, AlertTriangle, ArrowRight } from "lucide-react";
+import { Sparkles, Loader2, FileText, CheckCircle, AlertTriangle, ArrowRight, Download, Ticket } from "lucide-react";
 import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 
 // Steps: 0 = Form, 1 = Loading/Generating, 2 = Result
 export default function SmartFinder() {
   const [step, setStep] = useState(0);
   const { user, spendCredits, addReport } = useStore();
   const [_, setLocation] = useLocation();
+  const { toast } = useToast();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -27,10 +29,19 @@ export default function SmartFinder() {
   });
 
   const handleSubmit = () => {
-    if (!spendCredits(1)) {
-      alert("Not enough credits! Please upgrade or top up.");
+    // Check credits
+    if (user?.credits !== undefined && user.credits < 1) {
+      toast({
+        variant: "destructive",
+        title: "Insufficient Credits",
+        description: "You need at least 1 credit to generate a report.",
+      });
       return;
     }
+
+    const success = spendCredits(1, `Smart Finder Report: ${formData.category}`);
+    if (!success) return; // Should be handled by check above but safety first
+
     setStep(1);
     
     // Simulate AI Generation
@@ -47,6 +58,43 @@ export default function SmartFinder() {
       setStep(2);
     }, 3000);
   };
+
+  const handlePdfExport = () => {
+    if (user?.credits !== undefined && user.credits < 1) {
+      toast({
+        variant: "destructive",
+        title: "Insufficient Credits",
+        description: "PDF export costs 1 credit.",
+      });
+      return;
+    }
+    
+    if (spendCredits(1, `PDF Export: ${formData.category}`)) {
+       toast({
+        title: "Exporting...",
+        description: "Your PDF is downloading.",
+      });
+    }
+  };
+
+  const handlePremiumRequest = () => {
+    if (user?.credits !== undefined && user.credits < 10) {
+      toast({
+        variant: "destructive",
+        title: "Insufficient Credits",
+        description: "Premium Requests cost 10 credits.",
+      });
+      return;
+    }
+    
+    if (spendCredits(10, `Premium Sourcing Ticket: ${formData.category}`)) {
+       toast({
+        title: "Request Submitted",
+        description: "An agent will contact you within 24 hours.",
+      });
+    }
+  }
+
 
   if (step === 1) {
     return (
@@ -74,7 +122,7 @@ export default function SmartFinder() {
   if (step === 2) {
     return (
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50"><CheckCircle className="w-3 h-3 mr-1" /> Complete</Badge>
@@ -83,7 +131,9 @@ export default function SmartFinder() {
             <h1 className="text-3xl font-heading font-bold">Sourcing Strategy: {formData.category}</h1>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">Export PDF</Button>
+            <Button variant="outline" onClick={handlePdfExport}>
+              <Download className="w-4 h-4 mr-2" /> Export PDF (1 Credit)
+            </Button>
             <Button onClick={() => setStep(0)}>New Search</Button>
           </div>
         </div>
@@ -131,7 +181,9 @@ export default function SmartFinder() {
                   <span>Negotiate MOQ down to 50 units for trial.</span>
                 </li>
               </ul>
-              <Button className="w-full mt-6" size="sm">Start Ticketing</Button>
+              <Button className="w-full mt-6" size="sm" onClick={handlePremiumRequest}>
+                <Ticket className="w-4 h-4 mr-2" /> Request Agent (10 Credits)
+              </Button>
             </CardContent>
           </Card>
         </div>

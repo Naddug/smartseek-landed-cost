@@ -14,6 +14,7 @@ import Shortlists from "@/pages/Shortlists";
 import Admin from "@/pages/Admin";
 import Reports from "@/pages/Reports";
 import Tools from "@/pages/Tools";
+import Billing from "@/pages/Billing";
 import AppLayout from "@/components/layout/AppLayout";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
@@ -58,6 +59,9 @@ function Router() {
       </Route>
       <Route path="/tools">
         <ProtectedRoute component={Tools} />
+      </Route>
+      <Route path="/billing">
+        <ProtectedRoute component={Billing} />
       </Route>
       <Route path="/admin">
         <ProtectedRoute component={Admin} adminOnly />
