@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema } from "@shared/schema";
 import { fromError } from "zod-validation-error";
+import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -111,12 +112,27 @@ export async function registerRoutes(
         return res.status(402).json({ error: "Failed to deduct credits" });
       }
       
-      // Create report (will be filled with AI data later)
+      // Create initial report
       const report = await storage.createReport({
         ...validatedData,
         userId,
         status: "generating",
       });
+      
+      // Generate AI report in background (don't await to return quickly)
+      generateSmartFinderReport(validatedData.formData as ReportFormData)
+        .then(async (reportData) => {
+          await storage.updateReport(report.id, {
+            reportData,
+            status: "completed",
+          });
+        })
+        .catch(async (error) => {
+          console.error("Report generation failed:", error);
+          await storage.updateReport(report.id, {
+            status: "failed",
+          });
+        });
       
       res.status(201).json(report);
     } catch (error: any) {
