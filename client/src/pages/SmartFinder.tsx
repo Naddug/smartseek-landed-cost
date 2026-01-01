@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStore } from "@/lib/store";
+import { useProfile, useCreateReport, useCreateSourcingRequest } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,89 +10,71 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Sparkles, Loader2, FileText, CheckCircle, AlertTriangle, ArrowRight, Download, Ticket } from "lucide-react";
 import { useLocation } from "wouter";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 // Steps: 0 = Form, 1 = Loading/Generating, 2 = Result
 export default function SmartFinder() {
   const [step, setStep] = useState(0);
-  const { user, spendCredits, addReport } = useStore();
+  const { data: profile } = useProfile();
+  const createReport = useCreateReport();
+  const createSourcingRequest = useCreateSourcingRequest();
   const [_, setLocation] = useLocation();
-  const { toast } = useToast();
+  const [reportId, setReportId] = useState<number | null>(null);
 
   // Form State
   const [formData, setFormData] = useState({
+    productName: "",
     category: "",
     budget: "",
-    region: "global",
-    moq: "100",
-    description: ""
+    targetRegion: "Global",
+    quantity: "1000",
+    additionalRequirements: ""
   });
 
   const handleSubmit = () => {
     // Check credits
-    if (user?.credits !== undefined && user.credits < 1) {
-      toast({
-        variant: "destructive",
-        title: "Insufficient Credits",
-        description: "You need at least 1 credit to generate a report.",
-      });
+    if (!profile || profile.credits < 1) {
+      toast.error("Insufficient credits. You need at least 1 credit to generate a report.");
       return;
     }
-
-    const success = spendCredits(1, `Smart Finder Report: ${formData.category}`);
-    if (!success) return; // Should be handled by check above but safety first
 
     setStep(1);
     
-    // Simulate AI Generation
-    setTimeout(() => {
-      const newReport = {
-        id: Math.random().toString(36).substr(2, 9),
-        title: `Sourcing Report: ${formData.category}`,
-        date: new Date().toLocaleDateString(),
-        category: formData.category,
-        status: 'completed' as const,
-        data: { ...formData, riskScore: 85, margin: '45%' }
-      };
-      addReport(newReport);
-      setStep(2);
-    }, 3000);
+    // Create report with real API
+    createReport.mutate({
+      title: `Sourcing Report: ${formData.productName || formData.category}`,
+      category: formData.category,
+      formData,
+    }, {
+      onSuccess: (data) => {
+        setReportId(data.id);
+        setStep(2);
+      },
+      onError: () => {
+        setStep(0); // Go back to form on error
+      }
+    });
   };
 
   const handlePdfExport = () => {
-    if (user?.credits !== undefined && user.credits < 1) {
-      toast({
-        variant: "destructive",
-        title: "Insufficient Credits",
-        description: "PDF export costs 1 credit.",
-      });
+    if (!profile || profile.credits < 1) {
+      toast.error("Insufficient credits. PDF export costs 1 credit.");
       return;
     }
     
-    if (spendCredits(1, `PDF Export: ${formData.category}`)) {
-       toast({
-        title: "Exporting...",
-        description: "Your PDF is downloading.",
-      });
-    }
+    toast.success("PDF export feature coming soon!");
   };
 
   const handlePremiumRequest = () => {
-    if (user?.credits !== undefined && user.credits < 10) {
-      toast({
-        variant: "destructive",
-        title: "Insufficient Credits",
-        description: "Premium Requests cost 10 credits.",
-      });
+    if (!profile || profile.credits < 10) {
+      toast.error("Insufficient credits. Premium requests cost 10 credits.");
       return;
     }
     
-    if (spendCredits(10, `Premium Sourcing Ticket: ${formData.category}`)) {
-       toast({
-        title: "Request Submitted",
-        description: "An agent will contact you within 24 hours.",
-      });
-    }
+    createSourcingRequest.mutate({
+      title: `Premium Request: ${formData.productName || formData.category}`,
+      description: `Product: ${formData.productName}\nCategory: ${formData.category}\nBudget: ${formData.budget}\nQuantity: ${formData.quantity}\n\nRequirements:\n${formData.additionalRequirements || "None specified"}`,
+    });
   }
 
 
@@ -106,7 +88,7 @@ export default function SmartFinder() {
         </div>
         <div>
           <h2 className="text-2xl font-heading font-bold mb-2">Analyzing Global Markets...</h2>
-          <p className="text-muted-foreground">AI is scanning 50+ regions for "{formData.category}"</p>
+          <p className="text-muted-foreground">AI is scanning 50+ regions for "{formData.productName || formData.category}"</p>
         </div>
         <div className="w-full max-w-md space-y-2">
           <div className="text-xs text-left text-muted-foreground">Checking Compliance...</div>
@@ -146,7 +128,7 @@ export default function SmartFinder() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Based on your budget of <strong>${formData.budget}</strong> and MOQ of <strong>{formData.moq}</strong>, 
+                Based on your budget of <strong>${formData.budget}</strong> and quantity of <strong>{formData.quantity}</strong>, 
                 we recommend focusing on <strong>Vietnam</strong> and <strong>India</strong> for this category to maximize margin while maintaining quality.
               </p>
               <div className="flex gap-4">
@@ -237,41 +219,31 @@ export default function SmartFinder() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
              <div className="space-y-2">
-              <Label>Preferred Region</Label>
-              <Select defaultValue="global" onValueChange={(v) => setFormData({...formData, region: v})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Region" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="global">Global (Best Value)</SelectItem>
-                  <SelectItem value="asia">Asia Pacific</SelectItem>
-                  <SelectItem value="eu">Europe</SelectItem>
-                  <SelectItem value="na">North America</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label>Product Name</Label>
+              <Input 
+                placeholder="e.g. Smart Speaker Model X" 
+                value={formData.productName}
+                onChange={(e) => setFormData({...formData, productName: e.target.value})}
+              />
             </div>
             <div className="space-y-2">
-              <Label>Estimated MOQ</Label>
-              <Select defaultValue="100" onValueChange={(v) => setFormData({...formData, moq: v})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select MOQ" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="50">Small (50-100)</SelectItem>
-                  <SelectItem value="100">Medium (100-500)</SelectItem>
-                  <SelectItem value="1000">Large (1000+)</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label>Order Quantity</Label>
+              <Input 
+                type="number" 
+                placeholder="1000" 
+                value={formData.quantity}
+                onChange={(e) => setFormData({...formData, quantity: e.target.value})}
+              />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Specific Requirements</Label>
+            <Label>Additional Requirements</Label>
             <Textarea 
               placeholder="Describe materials, certifications, packaging needs, or specific features..." 
               className="h-32 resize-none"
-              value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              value={formData.additionalRequirements}
+              onChange={(e) => setFormData({...formData, additionalRequirements: e.target.value})}
             />
           </div>
 
