@@ -48,6 +48,10 @@ export default function SmartFinder() {
     }, {
       onSuccess: (data) => {
         setReportId(data.id);
+        // Redirect to reports page to see the full report
+        setTimeout(() => {
+          setLocation('/reports');
+        }, 2000);
         setStep(2);
       },
       onError: () => {
@@ -103,81 +107,23 @@ export default function SmartFinder() {
 
   if (step === 2) {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50"><CheckCircle className="w-3 h-3 mr-1" /> Complete</Badge>
-              <span className="text-sm text-muted-foreground">{new Date().toLocaleDateString()}</span>
-            </div>
-            <h1 className="text-3xl font-heading font-bold">Sourcing Strategy: {formData.category}</h1>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => window.open('/sample-report', '_blank')}>
-              <Download className="w-4 h-4 mr-2" /> Export PDF (1 Credit)
-            </Button>
-            <Button onClick={() => setStep(0)}>New Search</Button>
-          </div>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
+        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+          <CheckCircle className="w-10 h-10 text-green-600" />
         </div>
-
-        {/* Executive Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle className="text-lg">Executive Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">
-                Based on your budget of <strong>${formData.budget}</strong> and quantity of <strong>{formData.quantity}</strong>, 
-                we recommend focusing on <strong>Vietnam</strong> and <strong>India</strong> for this category to maximize margin while maintaining quality.
-              </p>
-              <div className="flex gap-4">
-                <div className="bg-primary/10 p-4 rounded-lg flex-1">
-                  <div className="text-xs text-muted-foreground uppercase font-bold mb-1">Target Margin</div>
-                  <div className="text-2xl font-bold text-primary">45-55%</div>
-                </div>
-                <div className="bg-amber-500/10 p-4 rounded-lg flex-1">
-                  <div className="text-xs text-muted-foreground uppercase font-bold mb-1">Risk Score</div>
-                  <div className="text-2xl font-bold text-amber-600">Low (12/100)</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Recommended Action</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <li className="flex gap-2 items-start text-sm">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span>Request samples from 3 shortlisted suppliers.</span>
-                </li>
-                <li className="flex gap-2 items-start text-sm">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span>Verify certifications (ISO 9001).</span>
-                </li>
-                <li className="flex gap-2 items-start text-sm">
-                  <CheckCircle className="w-4 h-4 text-green-500 mt-0.5" />
-                  <span>Negotiate MOQ down to 50 units for trial.</span>
-                </li>
-              </ul>
-              <Button className="w-full mt-6" size="sm" onClick={handlePremiumRequest}>
-                <Ticket className="w-4 h-4 mr-2" /> Request Agent (10 Credits)
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Supplier Shortlist */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Supplier Shortlist (AI Generated)</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             <SupplierCard name="Global Tech MFG" region="Shenzhen, CN" rating="4.8" price="$12.50" moq="500" />
-             <SupplierCard name="VietTex Industries" region="Hanoi, VN" rating="4.6" price="$13.20" moq="200" />
-             <SupplierCard name="IndoCraft Exports" region="Mumbai, IN" rating="4.5" price="$11.80" moq="1000" />
-          </div>
+          <h2 className="text-2xl font-heading font-bold mb-2">Report Created Successfully!</h2>
+          <p className="text-muted-foreground">Your AI sourcing report for "{formData.productName || formData.category}" is being generated.</p>
+          <p className="text-sm text-muted-foreground mt-2">Redirecting to Reports page...</p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" onClick={() => setStep(0)}>
+            Create Another
+          </Button>
+          <Button onClick={() => setLocation('/reports')}>
+            <FileText className="w-4 h-4 mr-2" />
+            View Reports
+          </Button>
         </div>
       </div>
     );
