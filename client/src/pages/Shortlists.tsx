@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Lock, Unlock, ArrowUpRight, MapPin, Star, ShieldCheck, Loader2, Mail } from "lucide-react";
+import { Lock, Unlock, ArrowUpRight, MapPin, Star, ShieldCheck, Loader2, Mail, ShoppingBag } from "lucide-react";
 import { Link } from "wouter";
 import type { SupplierShortlist } from "@shared/schema";
 
@@ -40,6 +40,18 @@ export default function Shortlists() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!shortlists.length && !profileLoading && !shortlistsLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="text-center">
+          <ShoppingBag className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+          <h2 className="text-xl font-bold mb-2">No Shortlists Available</h2>
+          <p className="text-muted-foreground">Check back later for curated supplier lists.</p>
+        </div>
       </div>
     );
   }
