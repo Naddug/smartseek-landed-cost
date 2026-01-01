@@ -20,9 +20,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
+            <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">How It Works</a>
             <Link href="/pricing"><a className="text-sm font-medium hover:text-primary transition-colors">Pricing</a></Link>
             <Link href="/faq"><a className="text-sm font-medium hover:text-primary transition-colors">FAQ</a></Link>
-            <Link href="/blog"><a className="text-sm font-medium hover:text-primary transition-colors">Blog</a></Link>
           </nav>
 
           <div className="flex items-center gap-4">
@@ -51,14 +51,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div>
             <div className="font-heading font-bold text-lg mb-4">SmartSeek</div>
             <p className="text-sm text-muted-foreground">
-              The AI-powered sourcing platform for modern buyers.
+              The AI-powered sourcing platform for modern buyers. Save time, reduce risk, and boost margins.
             </p>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="/pricing">Pricing</Link></li>
-              <li><Link href="/features">Features</Link></li>
+              <li><Link href="/smart-finder">Smart Finder</Link></li>
             </ul>
           </div>
           <div>
