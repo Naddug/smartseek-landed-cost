@@ -73,7 +73,7 @@ export default function Reports() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" onClick={() => handleDownload(report.title)}>
+                  <Button variant="outline" size="sm" onClick={() => window.open('/sample-report', '_blank')}>
                     <Download className="w-4 h-4 mr-2" /> PDF (1 Credit)
                   </Button>
                   <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10"><Trash2 className="w-4 h-4" /></Button>

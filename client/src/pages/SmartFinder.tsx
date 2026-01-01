@@ -131,7 +131,7 @@ export default function SmartFinder() {
             <h1 className="text-3xl font-heading font-bold">Sourcing Strategy: {formData.category}</h1>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={handlePdfExport}>
+            <Button variant="outline" onClick={() => window.open('/sample-report', '_blank')}>
               <Download className="w-4 h-4 mr-2" /> Export PDF (1 Credit)
             </Button>
             <Button onClick={() => setStep(0)}>New Search</Button>

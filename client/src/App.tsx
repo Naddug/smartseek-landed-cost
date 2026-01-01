@@ -15,6 +15,7 @@ import Admin from "@/pages/Admin";
 import Reports from "@/pages/Reports";
 import Tools from "@/pages/Tools";
 import Billing from "@/pages/Billing";
+import SampleReport from "@/pages/SampleReport"; // Import new page
 import AppLayout from "@/components/layout/AppLayout";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
@@ -43,6 +44,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/auth" component={Auth} />
+      <Route path="/sample-report" component={SampleReport} /> {/* Add public route */}
       
       {/* Protected Routes */}
       <Route path="/dashboard">

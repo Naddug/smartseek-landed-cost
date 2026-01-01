@@ -42,9 +42,9 @@ export default function Home() {
                   Start Sourcing For Free <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="#how-it-works">
+              <Link href="/sample-report">
                 <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full bg-background/50 backdrop-blur border-primary/20 hover:bg-muted/50">
-                  See How It Works
+                  View Sample Report
                 </Button>
               </Link>
             </div>
