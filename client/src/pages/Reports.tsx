@@ -14,8 +14,10 @@ import {
   Hash, Scale, Receipt, Landmark, Container, ClipboardCheck
 } from "lucide-react";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, AreaChart, Area, Legend } from "recharts";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
@@ -131,6 +133,54 @@ function StatusBadge({ status }: { status: string }) {
 function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack: () => void }) {
   const { data: report, isLoading, refetch } = useReport(reportId);
   const [activeSection, setActiveSection] = useState('overview');
+  const [isExporting, setIsExporting] = useState(false);
+  const reportRef = useRef<HTMLDivElement>(null);
+
+  const exportToPDF = async () => {
+    if (!reportRef.current || !report) return;
+    
+    setIsExporting(true);
+    try {
+      const element = reportRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+      
+      const imgWidth = 210;
+      const pageHeight = 297;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+      
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+      
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      
+      const fileName = `SmartSeek_Report_${report.title.replace(/\s+/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+      pdf.save(fileName);
+    } catch (error) {
+      console.error('PDF export failed:', error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -209,13 +259,18 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           Back to Reports
         </Button>
         <div className="flex gap-2">
-          <Button variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Export PDF
+          <Button variant="outline" onClick={exportToPDF} disabled={isExporting} data-testid="button-export-pdf">
+            {isExporting ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 mr-2" />
+            )}
+            {isExporting ? 'Generating PDF...' : 'Export PDF'}
           </Button>
         </div>
       </div>
 
+      <div ref={reportRef} className="bg-background">
       {/* Report Cover */}
       <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-8 rounded-2xl border">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
@@ -775,6 +830,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           </CardContent>
         </Card>
       )}
+      </div>
     </div>
   );
 }
