@@ -11,27 +11,111 @@ export interface ReportFormData {
   targetRegion: string;
   budget: string;
   quantity: string;
+  originCountry?: string;
+  destinationCountry?: string;
   additionalRequirements?: string;
+}
+
+export interface CustomsFees {
+  hsCode: string;
+  hsCodeDescription: string;
+  importDutyRate: string;
+  importDutyAmount: string;
+  vatRate: string;
+  vatAmount: string;
+  additionalDuties: Array<{
+    name: string;
+    rate: string;
+    amount: string;
+  }>;
+  totalCustomsFees: string;
+}
+
+export interface LandedCost {
+  productCost: string;
+  freightCost: string;
+  insuranceCost: string;
+  customsDuties: string;
+  vatTaxes: string;
+  handlingFees: string;
+  brokerageFees: string;
+  portCharges: string;
+  inlandTransport: string;
+  totalLandedCost: string;
+  costPerUnit: string;
+}
+
+export interface SellerComparison {
+  sellerName: string;
+  platform: string;
+  location: string;
+  unitPrice: string;
+  moq: string;
+  leadTime: string;
+  rating: number;
+  yearsInBusiness: number;
+  certifications: string[];
+  platformFees: string;
+  paymentTerms: string;
+  shippingOptions: string[];
+  estimatedProfit: string;
+  profitMargin: string;
+  totalCostWithFees: string;
+  recommendation: string;
 }
 
 export interface GeneratedReport {
   executiveSummary: string;
+  productClassification: {
+    hsCode: string;
+    hsCodeDescription: string;
+    tariffChapter: string;
+    productCategory: string;
+    regulatoryRequirements: string[];
+  };
   marketOverview: {
     marketSize: string;
     growthRate: string;
     keyTrends: string[];
+    majorExporters: string[];
+    majorImporters: string[];
   };
+  customsAnalysis: {
+    originCountry: string;
+    destinationCountry: string;
+    tradeAgreements: string[];
+    customsFees: CustomsFees;
+    requiredDocuments: string[];
+    complianceNotes: string[];
+  };
+  landedCostBreakdown: LandedCost;
+  sellerComparison: SellerComparison[];
   supplierAnalysis: {
     topRegions: Array<{
       region: string;
       advantages: string[];
       considerations: string[];
+      avgPriceRange: string;
     }>;
     recommendedSuppliers: Array<{
       name: string;
       location: string;
       strengths: string[];
       estimatedCost: string;
+      moq: string;
+      leadTime: string;
+      certifications: string[];
+    }>;
+  };
+  profitAnalysis: {
+    recommendedRetailPrice: string;
+    estimatedProfit: string;
+    profitMargin: string;
+    breakEvenQuantity: string;
+    platformFees: Array<{
+      platform: string;
+      feeStructure: string;
+      estimatedFees: string;
     }>;
   };
   costBreakdown: {
@@ -54,6 +138,7 @@ export interface GeneratedReport {
     tooling: string;
     production: string;
     shipping: string;
+    customsClearance: string;
     total: string;
   };
   recommendations: string[];
@@ -63,70 +148,176 @@ export interface GeneratedReport {
 export async function generateSmartFinderReport(
   formData: ReportFormData
 ): Promise<GeneratedReport> {
-  const prompt = `You are a professional sourcing consultant. Generate a comprehensive sourcing analysis report in JSON format for the following product:
+  const originCountry = formData.originCountry || "China";
+  const destinationCountry = formData.destinationCountry || "United States";
+  
+  const prompt = `You are a professional international trade and sourcing consultant with expertise in customs, tariffs, and global supply chains. Generate a comprehensive professional sourcing report in JSON format.
 
-Product: ${formData.productName}
+Product: ${formData.productName || formData.category}
 Category: ${formData.category}
-Target Region: ${formData.targetRegion}
-Budget: ${formData.budget}
-Quantity: ${formData.quantity}
-${formData.additionalRequirements ? `Additional Requirements: ${formData.additionalRequirements}` : ''}
+Origin Country: ${originCountry}
+Destination Country: ${destinationCountry}
+Target Budget: $${formData.budget} per unit
+Quantity: ${formData.quantity} units
+${formData.additionalRequirements ? `Requirements: ${formData.additionalRequirements}` : ''}
 
-Generate a detailed report with the following structure (return ONLY valid JSON, no markdown):
+Generate a detailed professional report with the following structure (return ONLY valid JSON):
 
 {
-  "executiveSummary": "2-3 sentence high-level summary of the sourcing opportunity and key findings",
-  "marketOverview": {
-    "marketSize": "Current market size estimate",
-    "growthRate": "Annual growth rate percentage",
-    "keyTrends": ["trend 1", "trend 2", "trend 3"]
+  "executiveSummary": "3-4 sentence professional summary highlighting key findings, cost analysis, and recommended action",
+  
+  "productClassification": {
+    "hsCode": "6-digit HS code for this product (e.g., 8471.30)",
+    "hsCodeDescription": "Official HS code description",
+    "tariffChapter": "Chapter number and name",
+    "productCategory": "Product category classification",
+    "regulatoryRequirements": ["FDA approval", "CE marking", etc.]
   },
+  
+  "marketOverview": {
+    "marketSize": "Global market size in USD",
+    "growthRate": "Annual growth rate",
+    "keyTrends": ["trend 1", "trend 2", "trend 3"],
+    "majorExporters": ["country 1", "country 2"],
+    "majorImporters": ["country 1", "country 2"]
+  },
+  
+  "customsAnalysis": {
+    "originCountry": "${originCountry}",
+    "destinationCountry": "${destinationCountry}",
+    "tradeAgreements": ["Applicable trade agreements"],
+    "customsFees": {
+      "hsCode": "Full HS/HTS code (10 digits)",
+      "hsCodeDescription": "Tariff description",
+      "importDutyRate": "Duty rate percentage",
+      "importDutyAmount": "Estimated duty amount based on quantity",
+      "vatRate": "VAT/GST rate",
+      "vatAmount": "Estimated VAT amount",
+      "additionalDuties": [
+        {"name": "Anti-dumping duty", "rate": "rate", "amount": "amount"},
+        {"name": "Countervailing duty", "rate": "rate", "amount": "amount"}
+      ],
+      "totalCustomsFees": "Total customs fees"
+    },
+    "requiredDocuments": ["Commercial Invoice", "Packing List", "Bill of Lading", etc.],
+    "complianceNotes": ["Important compliance requirements"]
+  },
+  
+  "landedCostBreakdown": {
+    "productCost": "FOB cost for total quantity",
+    "freightCost": "Sea/Air freight cost",
+    "insuranceCost": "Cargo insurance",
+    "customsDuties": "Import duties total",
+    "vatTaxes": "VAT/Sales tax",
+    "handlingFees": "Terminal handling",
+    "brokerageFees": "Customs broker fees",
+    "portCharges": "Port and documentation fees",
+    "inlandTransport": "Delivery to final destination",
+    "totalLandedCost": "Total landed cost",
+    "costPerUnit": "Landed cost per unit"
+  },
+  
+  "sellerComparison": [
+    {
+      "sellerName": "Realistic supplier name",
+      "platform": "Alibaba/Made-in-China/Direct",
+      "location": "City, Country",
+      "unitPrice": "$X.XX",
+      "moq": "Minimum order quantity",
+      "leadTime": "Production time",
+      "rating": 4.5,
+      "yearsInBusiness": 8,
+      "certifications": ["ISO 9001", "CE"],
+      "platformFees": "Platform transaction fees",
+      "paymentTerms": "T/T, L/C, etc.",
+      "shippingOptions": ["Sea freight", "Air freight"],
+      "estimatedProfit": "Profit per unit if sold at retail",
+      "profitMargin": "Gross margin percentage",
+      "totalCostWithFees": "Total cost including all fees",
+      "recommendation": "Why choose or avoid this seller"
+    }
+  ],
+  
   "supplierAnalysis": {
     "topRegions": [
       {
-        "region": "Region name",
-        "advantages": ["advantage 1", "advantage 2"],
-        "considerations": ["consideration 1", "consideration 2"]
+        "region": "Region, Country",
+        "advantages": ["Lower labor costs", "Specialized manufacturing"],
+        "considerations": ["Longer lead times", "Communication barriers"],
+        "avgPriceRange": "$X - $Y per unit"
       }
     ],
     "recommendedSuppliers": [
       {
-        "name": "Realistic supplier name",
+        "name": "Supplier name",
         "location": "City, Country",
-        "strengths": ["strength 1", "strength 2"],
-        "estimatedCost": "Cost range"
+        "strengths": ["Quality", "Price", "Experience"],
+        "estimatedCost": "$X per unit",
+        "moq": "500 units",
+        "leadTime": "30-45 days",
+        "certifications": ["ISO 9001", "BSCI"]
       }
     ]
   },
-  "costBreakdown": {
-    "unitCost": "Cost per unit range",
-    "toolingCost": "One-time tooling cost",
-    "shippingCost": "Estimated shipping cost",
-    "totalEstimate": "Total project cost",
-    "factors": ["factor 1", "factor 2", "factor 3"]
+  
+  "profitAnalysis": {
+    "recommendedRetailPrice": "Suggested retail price",
+    "estimatedProfit": "Profit per unit",
+    "profitMargin": "Gross margin percentage",
+    "breakEvenQuantity": "Units needed to break even",
+    "platformFees": [
+      {"platform": "Amazon FBA", "feeStructure": "Referral + fulfillment", "estimatedFees": "$X per unit"},
+      {"platform": "Shopify", "feeStructure": "Transaction fees", "estimatedFees": "$X per unit"},
+      {"platform": "eBay", "feeStructure": "Final value fee", "estimatedFees": "$X per unit"}
+    ]
   },
+  
+  "costBreakdown": {
+    "unitCost": "Manufacturing cost per unit",
+    "toolingCost": "One-time tooling/mold cost",
+    "shippingCost": "Shipping per unit",
+    "totalEstimate": "Total project investment",
+    "factors": ["Material costs", "Labor rates", "Exchange rates"]
+  },
+  
   "riskAssessment": {
     "overallRisk": "Low/Medium/High",
     "risks": [
-      {
-        "category": "Risk category",
-        "level": "Low/Medium/High",
-        "mitigation": "How to mitigate this risk"
-      }
+      {"category": "Supply Chain", "level": "Medium", "mitigation": "Diversify suppliers"},
+      {"category": "Quality Control", "level": "Low", "mitigation": "Third-party inspection"},
+      {"category": "Currency", "level": "Medium", "mitigation": "Hedge with forward contracts"},
+      {"category": "Regulatory", "level": "Low", "mitigation": "Obtain proper certifications"}
     ]
   },
+  
   "timeline": {
-    "sampling": "Timeframe",
-    "tooling": "Timeframe",
-    "production": "Timeframe",
-    "shipping": "Timeframe",
-    "total": "Total timeframe"
+    "sampling": "7-14 days",
+    "tooling": "15-30 days",
+    "production": "20-45 days",
+    "shipping": "15-35 days",
+    "customsClearance": "3-7 days",
+    "total": "60-120 days"
   },
-  "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"],
-  "nextSteps": ["step 1", "step 2", "step 3"]
+  
+  "recommendations": [
+    "Specific actionable recommendation 1",
+    "Specific actionable recommendation 2",
+    "Specific actionable recommendation 3"
+  ],
+  
+  "nextSteps": [
+    "Request samples from top 3 suppliers",
+    "Verify certifications and compliance",
+    "Negotiate payment terms and MOQ"
+  ]
 }
 
-Be specific, professional, and realistic. Include 3-5 recommended suppliers, 3-5 risks, and 3-5 recommendations.`;
+IMPORTANT: 
+- Use realistic HS codes for this product category
+- Calculate realistic customs duties based on current tariff rates
+- Include 4-5 seller comparisons with different price points
+- Show actual profit calculations
+- Be specific with all numbers and percentages`;
 
   try {
     const completion = await openai.chat.completions.create({
@@ -134,7 +325,7 @@ Be specific, professional, and realistic. Include 3-5 recommended suppliers, 3-5
       messages: [
         {
           role: "system",
-          content: "You are a professional sourcing consultant with expertise in global supply chains, manufacturing, and procurement. Provide detailed, accurate, and actionable insights."
+          content: "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations."
         },
         {
           role: "user",
@@ -142,13 +333,18 @@ Be specific, professional, and realistic. Include 3-5 recommended suppliers, 3-5
         }
       ],
       temperature: 0.7,
-      max_completion_tokens: 3000,
+      max_completion_tokens: 5000,
     });
 
     const responseText = completion.choices[0]?.message?.content || "{}";
     
-    // Parse JSON response
-    const report = JSON.parse(responseText) as GeneratedReport;
+    // Clean response - remove markdown if present
+    let cleanJson = responseText;
+    if (responseText.includes("```json")) {
+      cleanJson = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "");
+    }
+    
+    const report = JSON.parse(cleanJson) as GeneratedReport;
     return report;
   } catch (error) {
     console.error("Error generating report:", error);

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Globe, Ship, Plane } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,8 @@ export default function SmartFinder() {
     budget: "",
     targetRegion: "Global",
     quantity: "1000",
+    originCountry: "China",
+    destinationCountry: "United States",
     additionalRequirements: ""
   });
 
@@ -170,6 +173,7 @@ export default function SmartFinder() {
                 placeholder="e.g. Smart Speaker Model X" 
                 value={formData.productName}
                 onChange={(e) => setFormData({...formData, productName: e.target.value})}
+                data-testid="input-product-name"
               />
             </div>
             <div className="space-y-2">
@@ -179,7 +183,51 @@ export default function SmartFinder() {
                 placeholder="1000" 
                 value={formData.quantity}
                 onChange={(e) => setFormData({...formData, quantity: e.target.value})}
+                data-testid="input-quantity"
               />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label>Origin Country (Supplier)</Label>
+              <Select value={formData.originCountry} onValueChange={(v) => setFormData({...formData, originCountry: v})}>
+                <SelectTrigger data-testid="select-origin">
+                  <SelectValue placeholder="Select origin country" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="China">China</SelectItem>
+                  <SelectItem value="Vietnam">Vietnam</SelectItem>
+                  <SelectItem value="India">India</SelectItem>
+                  <SelectItem value="Taiwan">Taiwan</SelectItem>
+                  <SelectItem value="Thailand">Thailand</SelectItem>
+                  <SelectItem value="Indonesia">Indonesia</SelectItem>
+                  <SelectItem value="Mexico">Mexico</SelectItem>
+                  <SelectItem value="Turkey">Turkey</SelectItem>
+                  <SelectItem value="Germany">Germany</SelectItem>
+                  <SelectItem value="Japan">Japan</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Destination Country (Import)</Label>
+              <Select value={formData.destinationCountry} onValueChange={(v) => setFormData({...formData, destinationCountry: v})}>
+                <SelectTrigger data-testid="select-destination">
+                  <SelectValue placeholder="Select destination country" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="United States">United States</SelectItem>
+                  <SelectItem value="United Kingdom">United Kingdom</SelectItem>
+                  <SelectItem value="Germany">Germany</SelectItem>
+                  <SelectItem value="France">France</SelectItem>
+                  <SelectItem value="Canada">Canada</SelectItem>
+                  <SelectItem value="Australia">Australia</SelectItem>
+                  <SelectItem value="Japan">Japan</SelectItem>
+                  <SelectItem value="UAE">UAE</SelectItem>
+                  <SelectItem value="Turkey">Turkey</SelectItem>
+                  <SelectItem value="Netherlands">Netherlands</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -187,9 +235,10 @@ export default function SmartFinder() {
             <Label>Additional Requirements</Label>
             <Textarea 
               placeholder="Describe materials, certifications, packaging needs, or specific features..." 
-              className="h-32 resize-none"
+              className="h-24 resize-none"
               value={formData.additionalRequirements}
               onChange={(e) => setFormData({...formData, additionalRequirements: e.target.value})}
+              data-testid="input-requirements"
             />
           </div>
 
