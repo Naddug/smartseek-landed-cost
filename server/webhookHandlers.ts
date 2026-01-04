@@ -19,23 +19,24 @@ export class WebhookHandlers {
     await sync.processWebhook(payload, signature);
 
     // Also handle business logic for credit fulfillment
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      console.error('STRIPE_WEBHOOK_SECRET not configured - credit fulfillment disabled');
+      return;
+    }
+
     try {
       const stripe = await getUncachableStripeClient();
       const event = stripe.webhooks.constructEvent(
         payload,
         signature,
-        process.env.STRIPE_WEBHOOK_SECRET || ''
+        webhookSecret
       );
 
       await WebhookHandlers.handleEvent(event);
     } catch (err) {
-      // If webhook secret is not set, parse event directly without verification for dev
-      try {
-        const event = JSON.parse(payload.toString());
-        await WebhookHandlers.handleEvent(event);
-      } catch (parseErr) {
-        console.error('Failed to parse webhook event:', parseErr);
-      }
+      console.error('Webhook signature verification failed:', err);
+      throw new Error('Webhook signature verification failed');
     }
   }
 
