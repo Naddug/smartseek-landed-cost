@@ -42,12 +42,14 @@ function CheckoutForm({
   onSuccess, 
   onCancel, 
   quantity, 
-  type 
+  type,
+  subscriptionId
 }: { 
   onSuccess: () => void; 
   onCancel: () => void; 
   quantity: number;
   type: 'credit' | 'subscription';
+  subscriptionId?: string | null;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -55,11 +57,10 @@ function CheckoutForm({
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const confirmMutation = useMutation({
+  const confirmCreditMutation = useMutation({
     mutationFn: async (paymentIntentId: string) => {
       const res = await apiRequest('POST', '/api/stripe/confirm-payment', { 
-        paymentIntentId, 
-        quantity 
+        paymentIntentId
       });
       return res.json();
     },
@@ -67,6 +68,26 @@ function CheckoutForm({
       queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
       queryClient.invalidateQueries({ queryKey: ['/api/credits/transactions'] });
       onSuccess();
+    },
+    onError: (err: Error) => {
+      setError(err.message || 'Failed to confirm payment');
+    },
+  });
+
+  const confirmSubscriptionMutation = useMutation({
+    mutationFn: async (subId: string) => {
+      const res = await apiRequest('POST', '/api/stripe/confirm-subscription', { 
+        subscriptionId: subId
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/credits/transactions'] });
+      onSuccess();
+    },
+    onError: (err: Error) => {
+      setError(err.message || 'Failed to confirm subscription');
     },
   });
 
@@ -97,10 +118,11 @@ function CheckoutForm({
 
     if (paymentIntent && paymentIntent.status === 'succeeded') {
       if (type === 'credit') {
-        confirmMutation.mutate(paymentIntent.id);
+        confirmCreditMutation.mutate(paymentIntent.id);
+      } else if (subscriptionId) {
+        confirmSubscriptionMutation.mutate(subscriptionId);
       } else {
-        queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
-        onSuccess();
+        setError('Missing subscription ID');
       }
     } else {
       setError('Payment was not completed');
@@ -149,6 +171,7 @@ export default function Billing() {
   const [creditQuantity, setCreditQuantity] = useState(1);
   const [checkoutType, setCheckoutType] = useState<'credit' | 'subscription' | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
 
@@ -219,6 +242,7 @@ export default function Billing() {
       });
       const data = await res.json();
       setClientSecret(data.clientSecret);
+      setSubscriptionId(data.subscriptionId);
       setCheckoutType('subscription');
     } catch (err) {
       toast({
@@ -545,6 +569,7 @@ export default function Billing() {
                 onCancel={handleCheckoutCancel}
                 quantity={creditQuantity}
                 type={checkoutType || 'credit'}
+                subscriptionId={subscriptionId}
               />
             </Elements>
           )}

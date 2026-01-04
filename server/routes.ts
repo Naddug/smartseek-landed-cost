@@ -2,7 +2,8 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { db } from "./db";
-import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema, creditTransactions } from "@shared/schema";
+import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema, creditTransactions, processedStripeEvents, userProfiles } from "@shared/schema";
+import { eq, sql } from "drizzle-orm";
 import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
 import { stripeService } from "./stripeService";
@@ -641,24 +642,175 @@ export async function registerRoutes(
     }
     
     try {
-      const { paymentIntentId, quantity } = req.body;
+      const { paymentIntentId } = req.body;
       if (!paymentIntentId) {
         return res.status(400).json({ error: "Payment intent ID required" });
+      }
+      
+      // Idempotency: Check if already processed in our database
+      const existing = await db.select().from(processedStripeEvents)
+        .where(eq(processedStripeEvents.eventId, paymentIntentId))
+        .limit(1);
+      
+      if (existing.length > 0) {
+        // Already processed - return success without granting again
+        return res.json({ success: true, credits: existing[0].creditsGranted, alreadyProcessed: true });
+      }
+      
+      const profile = await storage.getUserProfile(userId);
+      if (!profile?.stripeCustomerId) {
+        return res.status(400).json({ error: "No Stripe customer found" });
       }
       
       const stripe = await getUncachableStripeClient();
       const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
       
+      // Security: Verify payment belongs to this user
+      if (paymentIntent.customer !== profile.stripeCustomerId) {
+        return res.status(403).json({ error: "Payment does not belong to this user" });
+      }
+      
+      // Security: Verify this is a credit purchase with valid metadata
+      if (paymentIntent.metadata?.type !== 'credit_purchase' || !paymentIntent.metadata?.credits) {
+        return res.status(400).json({ error: "Invalid payment type" });
+      }
+      
+      // Security: Verify userId in metadata matches session user
+      if (paymentIntent.metadata?.userId !== userId) {
+        return res.status(403).json({ error: "Payment user mismatch" });
+      }
+      
       if (paymentIntent.status === 'succeeded') {
-        const credits = parseInt(paymentIntent.metadata?.credits || quantity?.toString() || '1');
-        await storage.addTopupCredits(userId, credits, `Purchased ${credits} credit(s)`);
+        // Use only the credits from secure server-side metadata, never trust client
+        const credits = parseInt(paymentIntent.metadata.credits);
+        if (isNaN(credits) || credits <= 0) {
+          return res.status(400).json({ error: "Invalid credit amount" });
+        }
+        
+        // Use transaction to ensure atomicity: idempotency marker + credits together
+        await db.transaction(async (tx) => {
+          // Record as processed (will fail on retry due to unique constraint)
+          await tx.insert(processedStripeEvents).values({
+            eventId: paymentIntentId,
+            eventType: 'payment_intent',
+            userId,
+            creditsGranted: credits,
+          });
+          
+          // Grant credits within same transaction
+          await tx.insert(creditTransactions).values({
+            userId,
+            amount: credits,
+            type: 'topup',
+            creditSource: 'topup',
+            description: `Purchased ${credits} credit(s)`,
+          });
+          
+          // Update profile credits
+          await tx.execute(
+            sql`UPDATE user_profiles SET topup_credits = topup_credits + ${credits}, updated_at = NOW() WHERE user_id = ${userId}`
+          );
+        });
+        
         res.json({ success: true, credits });
       } else {
         res.status(400).json({ error: "Payment not completed", status: paymentIntent.status });
       }
-    } catch (error) {
+    } catch (error: any) {
+      // Handle unique constraint violation (race condition - already processed)
+      if (error?.code === '23505') {
+        return res.json({ success: true, alreadyProcessed: true });
+      }
       console.error("Error confirming payment:", error);
       res.status(500).json({ error: "Failed to confirm payment" });
+    }
+  });
+
+  // Confirm subscription after embedded checkout
+  app.post("/api/stripe/confirm-subscription", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { subscriptionId } = req.body;
+      if (!subscriptionId) {
+        return res.status(400).json({ error: "Subscription ID required" });
+      }
+      
+      // Idempotency: Check if already processed in our database
+      const existing = await db.select().from(processedStripeEvents)
+        .where(eq(processedStripeEvents.eventId, subscriptionId))
+        .limit(1);
+      
+      if (existing.length > 0) {
+        // Already processed - return success without granting again
+        return res.json({ success: true, alreadyProcessed: true });
+      }
+      
+      const profile = await storage.getUserProfile(userId);
+      if (!profile?.stripeCustomerId) {
+        return res.status(400).json({ error: "No Stripe customer found" });
+      }
+      
+      const stripe = await getUncachableStripeClient();
+      const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+      
+      // Security: Verify subscription belongs to this user
+      if (subscription.customer !== profile.stripeCustomerId) {
+        return res.status(403).json({ error: "Subscription does not belong to this user" });
+      }
+      
+      if (subscription.status === 'active' || subscription.status === 'trialing') {
+        const currentPeriodEnd = new Date((subscription as any).current_period_end * 1000);
+        
+        // Use transaction to ensure atomicity: idempotency marker + updates together
+        await db.transaction(async (tx) => {
+          // Record as processed (will fail on retry due to unique constraint)
+          await tx.insert(processedStripeEvents).values({
+            eventId: subscriptionId,
+            eventType: 'subscription_confirmation',
+            userId,
+            creditsGranted: 10,
+          });
+          
+          // Update profile and grant credits within same transaction
+          await tx.update(userProfiles)
+            .set({
+              stripeSubscriptionId: subscription.id,
+              plan: 'monthly',
+              subscriptionStatus: 'active',
+              currentPeriodEnd,
+              monthlyCredits: 10,
+              updatedAt: new Date(),
+            })
+            .where(eq(userProfiles.userId, userId));
+          
+          // Record credit transaction
+          await tx.insert(creditTransactions).values({
+            userId,
+            amount: 10,
+            type: 'subscription_refresh',
+            creditSource: 'monthly',
+            description: 'Monthly subscription activated - 10 credits',
+          });
+        });
+        
+        res.json({ success: true, status: subscription.status });
+      } else if (subscription.status === 'incomplete') {
+        // Payment still processing
+        res.json({ success: false, status: subscription.status, message: 'Payment still processing' });
+      } else {
+        res.status(400).json({ error: "Subscription not active", status: subscription.status });
+      }
+    } catch (error: any) {
+      // Handle unique constraint violation (race condition - already processed)
+      if (error?.code === '23505') {
+        return res.json({ success: true, alreadyProcessed: true });
+      }
+      console.error("Error confirming subscription:", error);
+      res.status(500).json({ error: "Failed to confirm subscription" });
     }
   });
 

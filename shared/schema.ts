@@ -39,6 +39,16 @@ export const creditTransactions = pgTable("credit_transactions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Processed Stripe events for idempotency
+export const processedStripeEvents = pgTable("processed_stripe_events", {
+  id: serial("id").primaryKey(),
+  eventId: text("event_id").notNull().unique(), // PaymentIntent ID or Subscription ID
+  eventType: varchar("event_type", { enum: ["payment_intent", "subscription_confirmation", "webhook"] }).notNull(),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  creditsGranted: integer("credits_granted").default(0).notNull(),
+  processedAt: timestamp("processed_at").defaultNow().notNull(),
+});
+
 // Smart Finder Reports
 export const reports = pgTable("reports", {
   id: serial("id").primaryKey(),
