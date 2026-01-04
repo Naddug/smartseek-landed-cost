@@ -168,6 +168,9 @@ export const insertCreditTransactionSchema = createInsertSchema(creditTransactio
 
 export const insertReportSchema = createInsertSchema(reports).omit({
   id: true,
+  userId: true,
+  status: true,
+  reportData: true,
   createdAt: true,
 });
 
