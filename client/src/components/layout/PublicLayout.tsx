@@ -28,12 +28,12 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                <Button onClick={() => setLocation('/dashboard')}>Go to Dashboard</Button>
             ) : (
               <>
-                <Link href="/auth">
+                <a href="/api/login">
                   <Button variant="ghost">Log in</Button>
-                </Link>
-                <Link href="/auth">
+                </a>
+                <a href="/api/login">
                   <Button>Get Started</Button>
-                </Link>
+                </a>
               </>
             )}
           </div>

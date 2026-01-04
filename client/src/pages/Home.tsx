@@ -37,11 +37,11 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/auth">
+              <a href="/api/login">
                 <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all">
                   Start Sourcing For Free <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-              </Link>
+              </a>
               <Link href="/sample-report">
                 <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full bg-background/50 backdrop-blur border-primary/20 hover:bg-muted/50">
                   View Sample Report
@@ -99,7 +99,7 @@ export default function Home() {
                 />
               </div>
               
-              <Link href="/auth">
+              <Link href="/sample-report">
                 <Button size="lg" className="mt-4">
                   View Sample Report <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
@@ -244,11 +244,11 @@ export default function Home() {
                  Join thousands of smart buyers who are saving time and boosting margins with SmartSeek.
                </p>
                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                 <Link href="/auth">
+                 <a href="/api/login">
                    <Button size="lg" className="h-14 px-10 text-lg rounded-full shadow-lg">
                      Get Started with 10 Free Credits
                    </Button>
-                 </Link>
+                 </a>
                  <p className="text-sm text-muted-foreground mt-4 sm:mt-0">
                    No credit card required for free tier.
                  </p>
