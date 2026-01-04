@@ -148,14 +148,14 @@ export interface GeneratedReport {
 export async function generateSmartFinderReport(
   formData: ReportFormData
 ): Promise<GeneratedReport> {
-  const originCountry = formData.originCountry || "China";
+  const originCountry = formData.originCountry && formData.originCountry !== "Any" ? formData.originCountry : "any suitable global sourcing location";
   const destinationCountry = formData.destinationCountry || "United States";
   
   const prompt = `You are a professional international trade and sourcing consultant with expertise in customs, tariffs, and global supply chains. Generate a comprehensive professional sourcing report in JSON format.
 
 Product: ${formData.productName || formData.category}
 Category: ${formData.category}
-Origin Country: ${originCountry}
+Origin Country: ${originCountry} (If 'any suitable global sourcing location' is specified, identify and recommend the top 3-5 most competitive global regions/countries for this specific product)
 Destination Country: ${destinationCountry}
 Target Budget: $${formData.budget} per unit
 Quantity: ${formData.quantity} units
@@ -164,7 +164,7 @@ ${formData.additionalRequirements ? `Requirements: ${formData.additionalRequirem
 Generate a detailed professional report with the following structure (return ONLY valid JSON):
 
 {
-  "executiveSummary": "3-4 sentence professional summary highlighting key findings, cost analysis, and recommended action",
+  "executiveSummary": "3-4 sentence professional summary highlighting key findings, cost analysis, and recommended action. If origin was 'any', specify which regions were selected as most competitive.",
   
   "productClassification": {
     "hsCode": "6-digit HS code for this product (e.g., 8471.30)",

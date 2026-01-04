@@ -140,7 +140,7 @@ export default function SmartFinder() {
     hsCode: "",
     quantity: "1000",
     unitOfMeasure: "pieces",
-    originCountry: "China",
+    originCountry: "Any",
     destinationCountry: "United States",
     preferredIncoterm: "FOB",
     shippingMethod: "sea",
@@ -310,14 +310,26 @@ export default function SmartFinder() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="category">Product Category</Label>
-                <Input 
-                  id="category"
-                  placeholder="e.g., Consumer Electronics, Textiles, Machinery"
-                  value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
-                  data-testid="input-category"
-                />
+                <Label htmlFor="category">Product Category <span className="text-destructive">*</span></Label>
+                <Select value={formData.category} onValueChange={(v) => setFormData({...formData, category: v})}>
+                  <SelectTrigger id="category" data-testid="select-category">
+                    <SelectValue placeholder="Select product category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Electronics">Consumer Electronics</SelectItem>
+                    <SelectItem value="Textiles">Textiles & Apparel</SelectItem>
+                    <SelectItem value="Machinery">Industrial Machinery</SelectItem>
+                    <SelectItem value="Furniture">Furniture & Decor</SelectItem>
+                    <SelectItem value="Beauty">Beauty & Personal Care</SelectItem>
+                    <SelectItem value="Food">Food & Beverage</SelectItem>
+                    <SelectItem value="Automotive">Automotive Parts</SelectItem>
+                    <SelectItem value="Medical">Medical Equipment</SelectItem>
+                    <SelectItem value="Metal">Metal Products</SelectItem>
+                    <SelectItem value="Plastic">Plastic Products</SelectItem>
+                    <SelectItem value="Chemicals">Chemicals</SelectItem>
+                    <SelectItem value="Other">Other / Miscellaneous</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -419,6 +431,8 @@ export default function SmartFinder() {
                     <SelectValue placeholder="Select origin country" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="Any">Any Country (Global Sourcing)</SelectItem>
+                    <Separator className="my-1" />
                     <SelectItem value="China">China</SelectItem>
                     <SelectItem value="Vietnam">Vietnam</SelectItem>
                     <SelectItem value="India">India</SelectItem>
@@ -435,6 +449,7 @@ export default function SmartFinder() {
                     <SelectItem value="Malaysia">Malaysia</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground">Select 'Any' to find the best suppliers globally</p>
               </div>
               <div className="space-y-2">
                 <Label>Destination Country (Import Market)</Label>
