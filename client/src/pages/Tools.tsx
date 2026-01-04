@@ -14,6 +14,16 @@ import {
 
 const tools = [
   {
+    title: "Trade Data Dashboard",
+    description: "Explore global trade data, market trends, and pricing intelligence",
+    icon: BarChart3,
+    href: "/trade-data",
+    color: "text-cyan-500",
+    bgColor: "bg-cyan-500/10",
+    features: ["Import/Export trends", "Price index", "Supplier rankings", "Market insights"],
+    badge: "New",
+  },
+  {
     title: "Customs Fee Calculator",
     description: "Calculate import duties, VAT, and total landed cost for any product",
     icon: Landmark,
@@ -31,7 +41,6 @@ const tools = [
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
     features: ["Sea freight", "Air freight", "Express courier", "Transit times"],
-    badge: "New",
   },
   {
     title: "Smart Finder AI",
@@ -56,7 +65,7 @@ export default function Tools() {
       </div>
 
       {/* Featured Tools */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {tools.map((tool) => (
           <Link key={tool.href + tool.title} href={tool.href}>
             <Card className="h-full hover:shadow-lg transition-all cursor-pointer group border-2 hover:border-primary/50" data-testid={`card-tool-${tool.title.toLowerCase().replace(/\s+/g, '-')}`}>

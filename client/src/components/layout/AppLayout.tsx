@@ -14,7 +14,8 @@ import {
   Menu,
   X,
   Landmark,
-  Ship
+  Ship,
+  BarChart3
 } from "lucide-react";
 import { useState } from "react";
 
@@ -58,6 +59,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <NavItem href="/shortlists" icon={<ShoppingBag size={20} />} label="Curated Shortlists" active={isActive('/shortlists')} onClick={() => setMobileOpen(false)} />
           
           <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">Trade Tools</div>
+          <NavItem href="/trade-data" icon={<BarChart3 size={20} />} label="Trade Data" active={isActive('/trade-data')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/customs-calculator" icon={<Landmark size={20} />} label="Customs Calculator" active={isActive('/customs-calculator')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/shipping-estimator" icon={<Ship size={20} />} label="Shipping Estimator" active={isActive('/shipping-estimator')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/tools" icon={<Calculator size={20} />} label="All Tools" active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
