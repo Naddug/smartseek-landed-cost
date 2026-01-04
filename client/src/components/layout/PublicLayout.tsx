@@ -10,19 +10,17 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     <div className="min-h-screen bg-background flex flex-col font-sans">
       <header className="border-b sticky top-0 bg-background/80 backdrop-blur-md z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/">
-            <a className="flex items-center gap-2 group">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-105 transition-transform">
-                S
-              </div>
-              <span className="text-xl font-heading font-bold tracking-tight">SmartSeek</span>
-            </a>
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-105 transition-transform">
+              S
+            </div>
+            <span className="text-xl font-heading font-bold tracking-tight">SmartSeek</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
             <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">How It Works</a>
-            <Link href="/pricing"><a className="text-sm font-medium hover:text-primary transition-colors">Pricing</a></Link>
-            <Link href="/faq"><a className="text-sm font-medium hover:text-primary transition-colors">FAQ</a></Link>
+            <Link href="/pricing" className="text-sm font-medium hover:text-primary transition-colors">Pricing</Link>
+            <Link href="/faq" className="text-sm font-medium hover:text-primary transition-colors">FAQ</Link>
           </nav>
 
           <div className="flex items-center gap-4">
