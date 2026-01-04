@@ -174,6 +174,12 @@ export const insertReportSchema = createInsertSchema(reports).omit({
   createdAt: true,
 });
 
+export const insertReportFullSchema = createInsertSchema(reports).omit({
+  id: true,
+  reportData: true,
+  createdAt: true,
+});
+
 export const insertSupplierShortlistSchema = createInsertSchema(supplierShortlists).omit({
   id: true,
   createdAt: true,
@@ -231,6 +237,7 @@ export type InsertCreditTransaction = z.infer<typeof insertCreditTransactionSche
 
 export type Report = typeof reports.$inferSelect;
 export type InsertReport = z.infer<typeof insertReportSchema>;
+export type InsertReportFull = z.infer<typeof insertReportFullSchema>;
 
 export type SupplierShortlist = typeof supplierShortlists.$inferSelect;
 export type InsertSupplierShortlist = z.infer<typeof insertSupplierShortlistSchema>;

@@ -12,6 +12,7 @@ import {
   type InsertCreditTransaction,
   type Report,
   type InsertReport,
+  type InsertReportFull,
   type SupplierShortlist,
   type InsertSupplierShortlist,
   type SourcingRequest,
@@ -33,7 +34,7 @@ export interface IStorage {
   getCreditTransactions(userId: string, limit?: number): Promise<CreditTransaction[]>;
   
   // Reports
-  createReport(report: InsertReport): Promise<Report>;
+  createReport(report: InsertReportFull): Promise<Report>;
   getReport(id: number): Promise<Report | undefined>;
   getUserReports(userId: string): Promise<Report[]>;
   updateReport(id: number, data: Partial<Report>): Promise<Report>;
@@ -138,7 +139,7 @@ export const storage: IStorage = {
   },
 
   // Reports
-  async createReport(report: InsertReport) {
+  async createReport(report: InsertReportFull) {
     const [newReport] = await db.insert(reports).values(report).returning();
     return newReport;
   },
