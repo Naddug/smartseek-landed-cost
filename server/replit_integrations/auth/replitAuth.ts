@@ -60,8 +60,27 @@ async function upsertUser(claims: any) {
   });
 }
 
+// Helper to get the public hostname from the request
+function getPublicHostname(req: any): string {
+  // In production, use x-forwarded-host or REPLIT_DOMAINS environment variable
+  const forwardedHost = req.get("x-forwarded-host");
+  if (forwardedHost) {
+    // x-forwarded-host can be comma-separated, take the first one
+    return forwardedHost.split(",")[0].trim();
+  }
+  
+  // Fallback to REPLIT_DOMAINS if available (comma-separated list of domains)
+  if (process.env.REPLIT_DOMAINS) {
+    return process.env.REPLIT_DOMAINS.split(",")[0].trim();
+  }
+  
+  // Final fallback to req.hostname
+  return req.hostname;
+}
+
 export async function setupAuth(app: Express) {
-  app.set("trust proxy", 1);
+  // Trust all proxies in the chain (Replit uses multiple proxies in production)
+  app.set("trust proxy", true);
   app.use(getSession());
   app.use(passport.initialize());
   app.use(passport.session());
@@ -103,27 +122,30 @@ export async function setupAuth(app: Express) {
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
-    ensureStrategy(req.hostname);
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    const hostname = getPublicHostname(req);
+    ensureStrategy(hostname);
+    passport.authenticate(`replitauth:${hostname}`, {
       prompt: "login consent",
       scope: ["openid", "email", "profile", "offline_access"],
     })(req, res, next);
   });
 
   app.get("/api/callback", (req, res, next) => {
-    ensureStrategy(req.hostname);
-    passport.authenticate(`replitauth:${req.hostname}`, {
+    const hostname = getPublicHostname(req);
+    ensureStrategy(hostname);
+    passport.authenticate(`replitauth:${hostname}`, {
       successReturnToOrRedirect: "/",
       failureRedirect: "/api/login",
     })(req, res, next);
   });
 
   app.get("/api/logout", (req, res) => {
+    const hostname = getPublicHostname(req);
     req.logout(() => {
       res.redirect(
         client.buildEndSessionUrl(config, {
           client_id: process.env.REPL_ID!,
-          post_logout_redirect_uri: `${req.protocol}://${req.hostname}`,
+          post_logout_redirect_uri: `${req.protocol}://${hostname}`,
         }).href
       );
     });
