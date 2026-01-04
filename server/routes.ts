@@ -549,6 +549,118 @@ export async function registerRoutes(
     }
   });
 
+  // Create payment intent for embedded credit purchase
+  app.post("/api/stripe/create-payment-intent", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { quantity = 1 } = req.body;
+      const amount = quantity * 1000; // $10 per credit in cents
+      
+      const profile = await storage.getUserProfile(userId);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+      
+      // Get or create Stripe customer
+      let customerId = profile.stripeCustomerId;
+      if (!customerId) {
+        const user = (req as any).user;
+        const customer = await stripeService.createCustomer(
+          user?.claims?.email || `user-${userId}@smartseek.app`,
+          userId
+        );
+        await storage.updateUserProfile(userId, { stripeCustomerId: customer.id });
+        customerId = customer.id;
+      }
+      
+      const paymentIntent = await stripeService.createPaymentIntent(customerId, amount, {
+        type: 'credit_purchase',
+        credits: quantity.toString(),
+        userId,
+      });
+      
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+      res.status(500).json({ error: "Failed to create payment intent" });
+    }
+  });
+
+  // Create subscription with embedded payment
+  app.post("/api/stripe/create-embedded-subscription", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { priceId } = req.body;
+      if (!priceId) {
+        return res.status(400).json({ error: "Price ID required" });
+      }
+      
+      const profile = await storage.getUserProfile(userId);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+      
+      // Get or create Stripe customer
+      let customerId = profile.stripeCustomerId;
+      if (!customerId) {
+        const user = (req as any).user;
+        const customer = await stripeService.createCustomer(
+          user?.claims?.email || `user-${userId}@smartseek.app`,
+          userId
+        );
+        await storage.updateUserProfile(userId, { stripeCustomerId: customer.id });
+        customerId = customer.id;
+      }
+      
+      const result = await stripeService.createSubscriptionWithPayment(customerId, priceId);
+      
+      res.json({ 
+        clientSecret: result.clientSecret,
+        subscriptionId: result.subscriptionId 
+      });
+    } catch (error) {
+      console.error("Error creating embedded subscription:", error);
+      res.status(500).json({ error: "Failed to create subscription" });
+    }
+  });
+
+  // Confirm payment success (for embedded checkout)
+  app.post("/api/stripe/confirm-payment", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { paymentIntentId, quantity } = req.body;
+      if (!paymentIntentId) {
+        return res.status(400).json({ error: "Payment intent ID required" });
+      }
+      
+      const stripe = await getUncachableStripeClient();
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      
+      if (paymentIntent.status === 'succeeded') {
+        const credits = parseInt(paymentIntent.metadata?.credits || quantity?.toString() || '1');
+        await storage.addTopupCredits(userId, credits, `Purchased ${credits} credit(s)`);
+        res.json({ success: true, credits });
+      } else {
+        res.status(400).json({ error: "Payment not completed", status: paymentIntent.status });
+      }
+    } catch (error) {
+      console.error("Error confirming payment:", error);
+      res.status(500).json({ error: "Failed to confirm payment" });
+    }
+  });
+
   // Handle subscription status updates from webhooks
   app.post("/api/stripe/sync-subscription", async (req: Request, res: Response) => {
     const userId = getUserId(req);

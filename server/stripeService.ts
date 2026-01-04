@@ -47,6 +47,39 @@ export class StripeService {
     });
   }
 
+  async createPaymentIntent(customerId: string, amount: number, metadata: Record<string, string> = {}) {
+    const stripe = await getUncachableStripeClient();
+    return await stripe.paymentIntents.create({
+      customer: customerId,
+      amount,
+      currency: 'usd',
+      automatic_payment_methods: { enabled: true },
+      metadata,
+    });
+  }
+
+  async createSubscriptionWithPayment(customerId: string, priceId: string) {
+    const stripe = await getUncachableStripeClient();
+    
+    // Create subscription with payment collection
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{ price: priceId }],
+      payment_behavior: 'default_incomplete',
+      payment_settings: { save_default_payment_method: 'on_subscription' },
+      expand: ['latest_invoice.payment_intent', 'pending_setup_intent'],
+    });
+
+    const invoice = subscription.latest_invoice as any;
+    const clientSecret = invoice?.payment_intent?.client_secret || 
+                         (subscription.pending_setup_intent as any)?.client_secret;
+
+    return {
+      subscriptionId: subscription.id,
+      clientSecret,
+    };
+  }
+
   async getProduct(productId: string) {
     const result = await db.execute(
       sql`SELECT * FROM stripe.products WHERE id = ${productId}`
