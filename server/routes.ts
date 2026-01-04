@@ -1,7 +1,8 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema } from "@shared/schema";
+import { db } from "./db";
+import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema, creditTransactions } from "@shared/schema";
 import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
 import { stripeService } from "./stripeService";
@@ -44,6 +45,14 @@ export async function registerRoutes(
           userId,
           role: "buyer",
           plan: "free",
+        });
+        // Record the free trial credits in the ledger
+        await db.insert(creditTransactions).values({
+          userId,
+          amount: 2,
+          type: "free_trial",
+          creditSource: "topup",
+          description: "Free trial credits",
         });
       }
       
