@@ -15,7 +15,8 @@ import {
   X,
   Landmark,
   Ship,
-  BarChart3
+  BarChart3,
+  Sparkles
 } from "lucide-react";
 import { useState } from "react";
 
@@ -54,7 +55,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         <nav className="flex-1 px-4 space-y-2">
           <NavItem href="/dashboard" icon={<LayoutDashboard size={20} />} label="Dashboard" active={isActive('/dashboard')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/smart-finder" icon={<Search size={20} />} label="Smart Finder" active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/search" icon={<Search size={20} />} label="Universal Search" active={isActive('/search')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/smart-finder" icon={<Sparkles size={20} />} label="Smart Finder AI" active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/reports" icon={<FileText size={20} />} label="My Reports" active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/shortlists" icon={<ShoppingBag size={20} />} label="Curated Shortlists" active={isActive('/shortlists')} onClick={() => setMobileOpen(false)} />
           

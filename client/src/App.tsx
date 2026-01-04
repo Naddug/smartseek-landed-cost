@@ -19,6 +19,7 @@ import SampleReport from "@/pages/SampleReport";
 import CustomsCalculator from "@/pages/CustomsCalculator";
 import ShippingEstimator from "@/pages/ShippingEstimator";
 import TradeData from "@/pages/TradeData";
+import UniversalSearch from "@/pages/UniversalSearch";
 import AppLayout from "@/components/layout/AppLayout";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
@@ -80,6 +81,9 @@ function Router() {
       </Route>
       <Route path="/trade-data">
         <ProtectedRoute component={TradeData} />
+      </Route>
+      <Route path="/search">
+        <ProtectedRoute component={UniversalSearch} />
       </Route>
       <Route path="/billing">
         <ProtectedRoute component={Billing} />
