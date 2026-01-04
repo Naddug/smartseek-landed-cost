@@ -16,6 +16,8 @@ import Reports from "@/pages/Reports";
 import Tools from "@/pages/Tools";
 import Billing from "@/pages/Billing";
 import SampleReport from "@/pages/SampleReport";
+import CustomsCalculator from "@/pages/CustomsCalculator";
+import ShippingEstimator from "@/pages/ShippingEstimator";
 import AppLayout from "@/components/layout/AppLayout";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
@@ -68,6 +70,12 @@ function Router() {
       </Route>
       <Route path="/tools">
         <ProtectedRoute component={Tools} />
+      </Route>
+      <Route path="/customs-calculator">
+        <ProtectedRoute component={CustomsCalculator} />
+      </Route>
+      <Route path="/shipping-estimator">
+        <ProtectedRoute component={ShippingEstimator} />
       </Route>
       <Route path="/billing">
         <ProtectedRoute component={Billing} />

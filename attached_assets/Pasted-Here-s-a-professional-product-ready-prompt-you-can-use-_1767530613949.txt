@@ -1,0 +1,160 @@
+Here’s a professional, product-ready prompt you can use for your Replit site — specifically tailored to SmartSeek as an all-in-one decision platform for products, trade data, customs fees, shipping costs, and actionable recommendations.
+
+⸻
+
+✅ Best Prompt for SmartSeek (All-in-One Trade Decision Platform)
+
+You are a senior SaaS architect + AI product engineer tasked with building **SmartSeek** — a professional global trade decision platform that helps users make smart sourcing and selling decisions.
+
+Your goal is to design and implement a web app where users can:
+
+✅ Search any product by keyword, HS code, brand, or supplier  
+✅ See **global trade data** (imports, exports, volumes, trends)  
+✅ See **product pricing trends and competitive analysis**  
+✅ Calculate **customs fees, duties, and taxes** accurately by country  
+✅ Estimate **shipping costs** (air, sea, express) using third-party APIs  
+✅ Get **AI-powered actionable insights** and recommendations  
+✅ Save and compare suppliers, products, and price scenarios  
+✅ Export data and generate reports
+
+REQUIREMENTS
+
+1) **Core Value Proposition**
+SmartSeek must be positioned as:
+- The go-to decision support system for sourcing, pricing, importing, exporting, and shipping.
+- A platform that delivers **data + analysis + AI insights** rather than just raw numbers.
+
+2) **MVP FEATURES**
+
+A) **Product & HS Code Search**
+- Universal search box (product terms, HS codes, brand names).
+- Auto-suggest and “search intent understanding”.
+- Output:
+  • Product profiles (typical specs, aliases, categories)
+  • HS code suggestions with confidence scores
+
+B) **Global Trade Data**
+- Query **official trade databases** (UN Comtrade, ITC, national customs) via APIs where allowed.
+- Display:
+  • Import/export volumes by year/country
+  • Market share and top trade partners
+  • Trend graphs & forecasts
+
+C) **Pricing Intelligence**
+- Gather product cost data from:
+  • Alibaba API (official product pricing where available)
+  • Public marketplaces (with API keys / third-party connectors)
+  • Historical pricing trends
+- Show price ranges by country and supplier tiers.
+- Attach quality signals where possible.
+
+D) **Customs Fee Calculator**
+- Allow users to input:
+  • Origin country
+  • Destination country
+  • HS code
+  • Product value
+  • Incoterms
+- Output:
+  • Customs duty
+  • VAT/GST
+  • Anti-dumping or other fees
+  • Duty triggers or thresholds
+  • Official source references
+
+E) **Shipping Cost Estimator**
+- Integrations for real-time logistics pricing:
+  • Sea freight (20′, 40′)
+  • Air freight
+  • Courier services (DHL, FedEx)
+- Show transit times + cost per kg/m³ + estimated delivery windows.
+
+F) **AI Decision Assistant**
+Integrate OpenAI (ChatGPT), Google Gemini + future models.
+
+AI tasks:
+- “Explain this product’s trade profile”
+- “Compare 3 suppliers with pros/cons”
+- “What are the cheapest exporting markets for this product?”
+- “What’s the total landed cost for importing X into the USA/EU?”
+- Branded responses: “SmartSeek Insights”
+
+Ensure every AI output:
+✔ Shows sources used
+✔ Shows code confidence levels
+✔ Allows users to re-run with different constraints
+
+3) **USER EXPERIENCE (UX)**
+- Dashboard: Saved products + trade snapshots
+- Search results tab bars: “Trade Data”, “Pricing”, “Customs”, “Shipping”, “AI Insights”
+- Downloadable reports: PDF / CSV
+- Alerts/Watchlist: Market price changes, duty changes, seasonal demand shifts
+- Simple subscription tiers: Free, Pro, Business
+
+4) **TECHNICAL ARCHITECTURE (suggested)**
+Frontend:  
+➤ Next.js + React (fast, scalable)  
+➤ Tailwind + UI library
+
+Backend:  
+➤ Node.js (API backend)  
+➤ PostgreSQL with Prisma  
+➤ Redis (cache for API calls + results)
+
+Integrations:  
+➤ UN Comtrade API (official data with key)  
+➤ Alibaba Open API (user key)
+➤ Shipping API (DHL/FedEx/Sea freight aggregator)
+➤ Customs duty sources with API
+
+AI Engine:  
+➤ Modular AI interface (OpenAI, Gemini, future models)  
+➤ Store user AI keys securely, optional
+
+Security + Compliance:
+✔ GDPR + KVKK + privacy policy
+✔ Encryption of keys
+✔ Rate limits
+
+5) **OUTPUT EXPECTATIONS**
+You will deliver:
+1) A product plan + feature specification document  
+2) A working MVP codebase that:
+   • Auth system
+   • Search engine
+   • Trade data graphs
+   • Duty calculator
+   • Shipping estimator  
+   • AI insight panel
+3) Database schema with user, project, search history, and pricing tables
+
+6) **BRAND POSITIONING**
+SmartSeek = **the decision science platform for importers, exporters, and product researchers**  
+Emphasize:
+- Reliable data  
+- Predictive insights  
+- Real business outcomes  
+(not just numbers)
+
+---
+
+## Positioning Statement for Marketing
+
+Use this to describe SmartSeek to customers on landing pages / pitch decks:
+
+**SmartSeek is the all-in-one global trade decision platform.  
+Search products, analyze market trends, calculate customs & shipping costs, and get AI-powered recommendations — all from a single dashboard.  
+SmartSeek empowers importers, exporters, and product teams to make smarter, faster, and more profitable decisions.**
+
+---
+
+## Next Steps (for development)
+
+✔ Confirm your target audience  
+✔ List APIs you have access to (UN Comtrade, shipping APIs, Alibaba, etc.)  
+✔ Prioritize the first core 5 features for MVP  
+✔ Set up data pipelines + AI enrichment workflows
+
+---
+
+If you tell me your **target pricing plans** and **top 3 user personas**, I’ll optimize the prompt further with segmented features tailored to them.

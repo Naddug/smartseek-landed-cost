@@ -12,7 +12,9 @@ import {
   Calculator,
   Crown,
   Menu,
-  X
+  X,
+  Landmark,
+  Ship
 } from "lucide-react";
 import { useState } from "react";
 
@@ -54,7 +56,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <NavItem href="/smart-finder" icon={<Search size={20} />} label="Smart Finder" active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/reports" icon={<FileText size={20} />} label="My Reports" active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/shortlists" icon={<ShoppingBag size={20} />} label="Curated Shortlists" active={isActive('/shortlists')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/tools" icon={<Calculator size={20} />} label="Tools & Calc" active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
+          
+          <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">Trade Tools</div>
+          <NavItem href="/customs-calculator" icon={<Landmark size={20} />} label="Customs Calculator" active={isActive('/customs-calculator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/shipping-estimator" icon={<Ship size={20} />} label="Shipping Estimator" active={isActive('/shipping-estimator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/tools" icon={<Calculator size={20} />} label="All Tools" active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
           
           {profile?.role === 'admin' && (
             <>
