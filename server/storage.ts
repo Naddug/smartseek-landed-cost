@@ -1,4 +1,5 @@
 import { db } from "./db";
+import { sql } from "drizzle-orm";
 import {
   userProfiles,
   creditTransactions,
@@ -28,10 +29,16 @@ export interface IStorage {
   createUserProfile(profile: InsertUserProfile): Promise<UserProfile>;
   updateUserProfile(userId: string, data: Partial<UserProfile>): Promise<UserProfile>;
   
-  // Credits
-  addCredits(userId: string, amount: number, type: CreditTransaction["type"], description: string): Promise<void>;
+  // Credits - New system with monthly + topup pools
+  getTotalCredits(userId: string): Promise<number>;
+  addTopupCredits(userId: string, amount: number, description: string): Promise<void>;
+  refreshMonthlyCredits(userId: string, amount: number): Promise<void>;
   spendCredits(userId: string, amount: number, description: string): Promise<boolean>;
   getCreditTransactions(userId: string, limit?: number): Promise<CreditTransaction[]>;
+  
+  // Stripe helpers
+  getProductsWithPrices(): Promise<any[]>;
+  getSubscriptionForUser(subscriptionId: string): Promise<any>;
   
   // Reports
   createReport(report: InsertReportFull): Promise<Report>;
@@ -80,23 +87,47 @@ export const storage: IStorage = {
     return updated;
   },
 
-  // Credits
-  async addCredits(userId: string, amount: number, type: CreditTransaction["type"], description: string) {
+  // Credits - New system: monthly credits first, then topup credits
+  async getTotalCredits(userId: string) {
+    const profile = await this.getUserProfile(userId);
+    if (!profile) return 0;
+    return profile.monthlyCredits + profile.topupCredits;
+  },
+
+  async addTopupCredits(userId: string, amount: number, description: string) {
     await db.transaction(async (tx) => {
-      await tx.insert(creditTransactions).values({
-        userId,
-        amount,
-        type,
-        description,
-      });
-      
       const [profile] = await tx.select().from(userProfiles).where(eq(userProfiles.userId, userId));
       if (profile) {
         await tx
           .update(userProfiles)
-          .set({ credits: profile.credits + amount })
+          .set({ topupCredits: profile.topupCredits + amount, updatedAt: new Date() })
           .where(eq(userProfiles.userId, userId));
       }
+      
+      await tx.insert(creditTransactions).values({
+        userId,
+        amount,
+        type: "topup",
+        creditSource: "topup",
+        description,
+      });
+    });
+  },
+
+  async refreshMonthlyCredits(userId: string, amount: number) {
+    await db.transaction(async (tx) => {
+      await tx
+        .update(userProfiles)
+        .set({ monthlyCredits: amount, updatedAt: new Date() })
+        .where(eq(userProfiles.userId, userId));
+      
+      await tx.insert(creditTransactions).values({
+        userId,
+        amount,
+        type: "subscription_refresh",
+        creditSource: "monthly",
+        description: "Monthly credits refreshed",
+      });
     });
   },
 
@@ -106,20 +137,43 @@ export const storage: IStorage = {
     await db.transaction(async (tx) => {
       const [profile] = await tx.select().from(userProfiles).where(eq(userProfiles.userId, userId));
       
-      if (!profile || profile.credits < amount) {
+      if (!profile) {
         success = false;
         return;
       }
       
+      const totalCredits = profile.monthlyCredits + profile.topupCredits;
+      if (totalCredits < amount) {
+        success = false;
+        return;
+      }
+      
+      // Deduct from monthly credits first, then topup
+      let remaining = amount;
+      let newMonthlyCredits = profile.monthlyCredits;
+      let newTopupCredits = profile.topupCredits;
+      let creditSource: "monthly" | "topup" = "monthly";
+      
+      if (profile.monthlyCredits >= remaining) {
+        newMonthlyCredits = profile.monthlyCredits - remaining;
+        creditSource = "monthly";
+      } else {
+        remaining -= profile.monthlyCredits;
+        newMonthlyCredits = 0;
+        newTopupCredits = profile.topupCredits - remaining;
+        creditSource = profile.monthlyCredits > 0 ? "monthly" : "topup";
+      }
+      
       await tx
         .update(userProfiles)
-        .set({ credits: profile.credits - amount })
+        .set({ monthlyCredits: newMonthlyCredits, topupCredits: newTopupCredits, updatedAt: new Date() })
         .where(eq(userProfiles.userId, userId));
       
       await tx.insert(creditTransactions).values({
         userId,
         amount: -amount,
         type: "spend",
+        creditSource,
         description,
       });
       
@@ -253,6 +307,48 @@ export const storage: IStorage = {
     } else {
       const [newSetting] = await db.insert(appSettings).values({ key, value }).returning();
       return newSetting;
+    }
+  },
+
+  // Stripe helpers - query from synced stripe schema
+  async getProductsWithPrices() {
+    try {
+      const result = await db.execute(
+        sql`
+          SELECT 
+            p.id as product_id,
+            p.name as product_name,
+            p.description as product_description,
+            p.active as product_active,
+            p.metadata as product_metadata,
+            pr.id as price_id,
+            pr.unit_amount,
+            pr.currency,
+            pr.recurring,
+            pr.active as price_active,
+            pr.metadata as price_metadata
+          FROM stripe.products p
+          LEFT JOIN stripe.prices pr ON pr.product = p.id AND pr.active = true
+          WHERE p.active = true
+          ORDER BY p.id, pr.unit_amount
+        `
+      );
+      return result.rows;
+    } catch (error) {
+      console.error("Error fetching Stripe products:", error);
+      return [];
+    }
+  },
+
+  async getSubscriptionForUser(subscriptionId: string) {
+    try {
+      const result = await db.execute(
+        sql`SELECT * FROM stripe.subscriptions WHERE id = ${subscriptionId}`
+      );
+      return result.rows[0] || null;
+    } catch (error) {
+      console.error("Error fetching subscription:", error);
+      return null;
     }
   },
 };

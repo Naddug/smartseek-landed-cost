@@ -12,11 +12,18 @@ export * from "./models/auth";
 export const userProfiles = pgTable("user_profiles", {
   userId: varchar("user_id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
   role: varchar("role", { enum: ["buyer", "seller", "admin"] }).default("buyer").notNull(),
-  plan: varchar("plan", { enum: ["free", "pro"] }).default("free").notNull(),
-  credits: integer("credits").default(10).notNull(),
+  plan: varchar("plan", { enum: ["free", "monthly"] }).default("free").notNull(),
+  // Credits system: monthly credits (from subscription) + topup credits (purchased)
+  monthlyCredits: integer("monthly_credits").default(0).notNull(),
+  topupCredits: integer("topup_credits").default(2).notNull(), // Free trial: 2 credits
+  hasUsedFreeTrial: boolean("has_used_free_trial").default(false).notNull(),
+  // Stripe integration
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  subscriptionStatus: varchar("subscription_status", { enum: ["active", "canceled", "past_due", "incomplete"] }),
+  currentPeriodEnd: timestamp("current_period_end"),
   region: text("region").default("North America"),
   currency: varchar("currency", { length: 3 }).default("USD"),
-  nextRefillDate: timestamp("next_refill_date"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -26,7 +33,8 @@ export const creditTransactions = pgTable("credit_transactions", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   amount: integer("amount").notNull(),
-  type: varchar("type", { enum: ["earn", "spend", "topup", "subscription", "adjustment"] }).notNull(),
+  type: varchar("type", { enum: ["spend", "topup", "subscription_refresh", "free_trial"] }).notNull(),
+  creditSource: varchar("credit_source", { enum: ["monthly", "topup"] }), // Which pool was affected
   description: text("description").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema } from "@shared/schema";
 import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
+import { stripeService } from "./stripeService";
+import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -36,13 +38,12 @@ export async function registerRoutes(
     try {
       let profile = await storage.getUserProfile(userId);
       
-      // Create profile if doesn't exist
+      // Create profile if doesn't exist - new users get 2 free trial credits
       if (!profile) {
         profile = await storage.createUserProfile({
           userId,
           role: "buyer",
           plan: "free",
-          credits: 10,
         });
       }
       
@@ -98,9 +99,10 @@ export async function registerRoutes(
     try {
       const validatedData = insertReportSchema.parse(req.body);
       
-      // Check credits
+      // Check credits (monthly + topup)
       const profile = await storage.getUserProfile(userId);
-      if (!profile || profile.credits < 1) {
+      const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+      if (!profile || totalCredits < 1) {
         return res.status(402).json({ error: "Insufficient credits" });
       }
       
@@ -368,6 +370,214 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error updating sourcing request:", error);
       res.status(500).json({ error: "Failed to update sourcing request" });
+    }
+  });
+
+  // ===== Stripe Billing Routes =====
+  
+  // Get Stripe publishable key for frontend
+  app.get("/api/stripe/config", async (_req: Request, res: Response) => {
+    try {
+      const publishableKey = await getStripePublishableKey();
+      res.json({ publishableKey });
+    } catch (error) {
+      console.error("Error getting Stripe config:", error);
+      res.status(500).json({ error: "Stripe not configured" });
+    }
+  });
+
+  // Get available products/prices
+  app.get("/api/stripe/products", async (_req: Request, res: Response) => {
+    try {
+      const rows = await storage.getProductsWithPrices();
+      
+      // Group prices by product
+      const productsMap = new Map();
+      for (const row of rows as any[]) {
+        if (!productsMap.has(row.product_id)) {
+          productsMap.set(row.product_id, {
+            id: row.product_id,
+            name: row.product_name,
+            description: row.product_description,
+            active: row.product_active,
+            metadata: row.product_metadata,
+            prices: []
+          });
+        }
+        if (row.price_id) {
+          productsMap.get(row.product_id).prices.push({
+            id: row.price_id,
+            unit_amount: row.unit_amount,
+            currency: row.currency,
+            recurring: row.recurring,
+            active: row.price_active,
+            metadata: row.price_metadata,
+          });
+        }
+      }
+      
+      res.json({ products: Array.from(productsMap.values()) });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({ error: "Failed to fetch products" });
+    }
+  });
+
+  // Create checkout session for subscription
+  app.post("/api/stripe/create-subscription-checkout", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { priceId } = req.body;
+      if (!priceId) {
+        return res.status(400).json({ error: "Price ID required" });
+      }
+      
+      let profile = await storage.getUserProfile(userId);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+      
+      // Get or create Stripe customer
+      let customerId = profile.stripeCustomerId;
+      if (!customerId) {
+        const user = (req as any).user;
+        const customer = await stripeService.createCustomer(
+          user?.claims?.email || `user-${userId}@smartseek.app`,
+          userId
+        );
+        await storage.updateUserProfile(userId, { stripeCustomerId: customer.id });
+        customerId = customer.id;
+      }
+      
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const session = await stripeService.createSubscriptionCheckout(
+        customerId,
+        priceId,
+        `${baseUrl}/billing?success=subscription`,
+        `${baseUrl}/billing?canceled=true`
+      );
+      
+      res.json({ url: session.url });
+    } catch (error) {
+      console.error("Error creating checkout:", error);
+      res.status(500).json({ error: "Failed to create checkout" });
+    }
+  });
+
+  // Create checkout session for credit purchase
+  app.post("/api/stripe/create-credit-checkout", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { priceId, quantity = 1 } = req.body;
+      if (!priceId) {
+        return res.status(400).json({ error: "Price ID required" });
+      }
+      
+      let profile = await storage.getUserProfile(userId);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+      
+      // Get or create Stripe customer
+      let customerId = profile.stripeCustomerId;
+      if (!customerId) {
+        const user = (req as any).user;
+        const customer = await stripeService.createCustomer(
+          user?.claims?.email || `user-${userId}@smartseek.app`,
+          userId
+        );
+        await storage.updateUserProfile(userId, { stripeCustomerId: customer.id });
+        customerId = customer.id;
+      }
+      
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const session = await stripeService.createCreditPurchaseCheckout(
+        customerId,
+        priceId,
+        quantity,
+        `${baseUrl}/billing?success=credits&quantity=${quantity}`,
+        `${baseUrl}/billing?canceled=true`
+      );
+      
+      res.json({ url: session.url });
+    } catch (error) {
+      console.error("Error creating credit checkout:", error);
+      res.status(500).json({ error: "Failed to create checkout" });
+    }
+  });
+
+  // Create customer portal session
+  app.post("/api/stripe/create-portal-session", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const profile = await storage.getUserProfile(userId);
+      if (!profile?.stripeCustomerId) {
+        return res.status(400).json({ error: "No Stripe customer found" });
+      }
+      
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const session = await stripeService.createCustomerPortalSession(
+        profile.stripeCustomerId,
+        `${baseUrl}/billing`
+      );
+      
+      res.json({ url: session.url });
+    } catch (error) {
+      console.error("Error creating portal session:", error);
+      res.status(500).json({ error: "Failed to create portal session" });
+    }
+  });
+
+  // Handle subscription status updates from webhooks
+  app.post("/api/stripe/sync-subscription", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const profile = await storage.getUserProfile(userId);
+      if (!profile?.stripeSubscriptionId) {
+        return res.json({ subscription: null });
+      }
+      
+      const subscription = await storage.getSubscriptionForUser(profile.stripeSubscriptionId);
+      
+      if (subscription) {
+        const status = subscription.status as string;
+        const currentPeriodEnd = subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null;
+        
+        await storage.updateUserProfile(userId, {
+          subscriptionStatus: status as any,
+          currentPeriodEnd,
+          plan: status === 'active' ? 'monthly' : 'free',
+        });
+        
+        // If subscription is active and it's a new billing period, refresh monthly credits
+        if (status === 'active') {
+          const now = new Date();
+          if (profile.monthlyCredits === 0 || !profile.currentPeriodEnd || profile.currentPeriodEnd < now) {
+            await storage.refreshMonthlyCredits(userId, 10);
+          }
+        }
+      }
+      
+      res.json({ subscription });
+    } catch (error) {
+      console.error("Error syncing subscription:", error);
+      res.status(500).json({ error: "Failed to sync subscription" });
     }
   });
 
