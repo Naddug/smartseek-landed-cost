@@ -137,43 +137,168 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
   const reportRef = useRef<HTMLDivElement>(null);
 
   const exportToPDF = async () => {
-    if (!reportRef.current || !report) return;
+    if (!report) return;
     
     setIsExporting(true);
     try {
-      const element = reportRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-      });
-      
-      const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4',
       });
       
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
+      const reportData = report.reportData as any;
+      const formData = report.formData as any;
+      const pageWidth = 210;
+      const margin = 20;
+      const contentWidth = pageWidth - (margin * 2);
+      let y = 20;
       
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      const addText = (text: string, fontSize: number = 10, isBold: boolean = false) => {
+        pdf.setFontSize(fontSize);
+        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+        const lines = pdf.splitTextToSize(text, contentWidth);
+        lines.forEach((line: string) => {
+          if (y > 270) {
+            pdf.addPage();
+            y = 20;
+          }
+          pdf.text(line, margin, y);
+          y += fontSize * 0.5;
+        });
+        y += 3;
+      };
       
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+      const addSection = (title: string) => {
+        y += 5;
+        if (y > 260) {
+          pdf.addPage();
+          y = 20;
+        }
+        pdf.setDrawColor(59, 130, 246);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, y, margin + contentWidth, y);
+        y += 6;
+        addText(title, 14, true);
+        y += 2;
+      };
+      
+      // Header
+      pdf.setFillColor(59, 130, 246);
+      pdf.rect(0, 0, pageWidth, 35, 'F');
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('SmartSeek Sourcing Report', margin, 18);
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(report.title, margin, 28);
+      
+      pdf.setTextColor(0, 0, 0);
+      y = 45;
+      
+      // Report Info
+      addText(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')}`, 10);
+      addText(`Trade Route: ${formData?.originCountry || 'China'} → ${formData?.destinationCountry || 'United States'}`, 10);
+      if (reportData?.productClassification?.hsCode) {
+        addText(`HS Code: ${reportData.productClassification.hsCode}`, 10);
       }
       
-      const fileName = `SmartSeek_Report_${report.title.replace(/\s+/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+      // Executive Summary
+      if (reportData?.executiveSummary) {
+        addSection('EXECUTIVE SUMMARY');
+        addText(reportData.executiveSummary, 10);
+      }
+      
+      // Product Classification
+      if (reportData?.productClassification) {
+        addSection('PRODUCT CLASSIFICATION');
+        addText(`HS Code: ${reportData.productClassification.hsCode || 'N/A'}`, 10);
+        addText(`Description: ${reportData.productClassification.hsCodeDescription || 'N/A'}`, 10);
+        addText(`Chapter: ${reportData.productClassification.tariffChapter || 'N/A'}`, 10);
+        addText(`Category: ${reportData.productClassification.productCategory || 'N/A'}`, 10);
+      }
+      
+      // Customs Analysis
+      if (reportData?.customsAnalysis?.customsFees) {
+        addSection('CUSTOMS DUTIES & FEES');
+        const fees = reportData.customsAnalysis.customsFees;
+        addText(`Import Duty Rate: ${fees.importDutyRate || 'N/A'}`, 10);
+        addText(`Import Duty Amount: ${fees.importDutyAmount || 'N/A'}`, 10);
+        addText(`VAT Rate: ${fees.vatRate || 'N/A'}`, 10);
+        addText(`VAT Amount: ${fees.vatAmount || 'N/A'}`, 10);
+        addText(`Total Customs Fees: ${fees.totalCustomsFees || 'N/A'}`, 10, true);
+      }
+      
+      // Landed Cost
+      if (reportData?.landedCostBreakdown) {
+        addSection('LANDED COST BREAKDOWN');
+        const lc = reportData.landedCostBreakdown;
+        addText(`Product Cost: ${lc.productCost || 'N/A'}`, 10);
+        addText(`Freight Cost: ${lc.freightCost || 'N/A'}`, 10);
+        addText(`Insurance: ${lc.insuranceCost || 'N/A'}`, 10);
+        addText(`Customs Duties: ${lc.customsDuties || 'N/A'}`, 10);
+        addText(`VAT/Taxes: ${lc.vatTaxes || 'N/A'}`, 10);
+        addText(`Total Landed Cost: ${lc.totalLandedCost || 'N/A'}`, 10, true);
+        addText(`Cost Per Unit: ${lc.costPerUnit || 'N/A'}`, 10, true);
+      }
+      
+      // Profit Analysis
+      if (reportData?.profitAnalysis) {
+        addSection('PROFIT ANALYSIS');
+        const pa = reportData.profitAnalysis;
+        addText(`Recommended Retail Price: ${pa.recommendedRetailPrice || 'N/A'}`, 10);
+        addText(`Estimated Profit: ${pa.estimatedProfit || 'N/A'}`, 10);
+        addText(`Profit Margin: ${pa.profitMargin || 'N/A'}`, 10, true);
+        addText(`Break-even Quantity: ${pa.breakEvenQuantity || 'N/A'}`, 10);
+      }
+      
+      // Supplier Comparison
+      if (reportData?.sellerComparison?.length > 0) {
+        addSection('SUPPLIER COMPARISON');
+        reportData.sellerComparison.forEach((seller: any, index: number) => {
+          addText(`${index + 1}. ${seller.sellerName || 'Supplier'}`, 11, true);
+          addText(`   Platform: ${seller.platform || 'N/A'} | Location: ${seller.location || 'N/A'}`, 9);
+          addText(`   Unit Price: ${seller.unitPrice || 'N/A'} | MOQ: ${seller.moq || 'N/A'}`, 9);
+          addText(`   Rating: ${seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
+          y += 2;
+        });
+      }
+      
+      // Risk Assessment
+      if (reportData?.riskAssessment) {
+        addSection('RISK ASSESSMENT');
+        addText(`Overall Risk Level: ${reportData.riskAssessment.overallRisk || 'N/A'}`, 10, true);
+        if (reportData.riskAssessment.risks?.length > 0) {
+          reportData.riskAssessment.risks.forEach((risk: any) => {
+            addText(`• ${risk.category}: ${risk.level} - ${risk.mitigation}`, 9);
+          });
+        }
+      }
+      
+      // Recommendations
+      if (reportData?.recommendations?.length > 0) {
+        addSection('RECOMMENDATIONS');
+        reportData.recommendations.forEach((rec: string) => {
+          addText(`• ${rec}`, 10);
+        });
+      }
+      
+      // Next Steps
+      if (reportData?.nextSteps?.length > 0) {
+        addSection('NEXT STEPS');
+        reportData.nextSteps.forEach((step: string, index: number) => {
+          addText(`${index + 1}. ${step}`, 10);
+        });
+      }
+      
+      // Footer
+      pdf.setFontSize(8);
+      pdf.setTextColor(128, 128, 128);
+      pdf.text('Generated by SmartSeek - AI-Powered Sourcing Intelligence', margin, 285);
+      pdf.text(`Page 1 of ${pdf.getNumberOfPages()}`, pageWidth - margin - 20, 285);
+      
+      const fileName = `SmartSeek_Report_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
       pdf.save(fileName);
     } catch (error) {
       console.error('PDF export failed:', error);

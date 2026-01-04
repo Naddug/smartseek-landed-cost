@@ -320,31 +320,56 @@ IMPORTANT:
 - Be specific with all numbers and percentages`;
 
   try {
+    console.log("Starting AI report generation for:", formData.productName || formData.category);
+    
     const completion = await openai.chat.completions.create({
-      model: "gpt-5.1",
+      model: "gpt-4.1",
       messages: [
         {
           role: "system",
-          content: "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations."
+          content: "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations. Always return valid JSON."
         },
         {
           role: "user",
           content: prompt
         }
       ],
-      temperature: 0.7,
-      max_completion_tokens: 5000,
+      max_completion_tokens: 8000,
     });
 
-    const responseText = completion.choices[0]?.message?.content || "{}";
+    const responseText = completion.choices[0]?.message?.content || "";
+    
+    console.log("AI response received, length:", responseText.length);
+    
+    if (!responseText || responseText.length < 100) {
+      console.error("AI returned empty or too short response");
+      throw new Error("AI returned insufficient data");
+    }
     
     // Clean response - remove markdown if present
-    let cleanJson = responseText;
-    if (responseText.includes("```json")) {
-      cleanJson = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "");
+    let cleanJson = responseText.trim();
+    if (cleanJson.includes("```json")) {
+      cleanJson = cleanJson.replace(/```json\n?/g, "").replace(/```\n?/g, "");
+    } else if (cleanJson.includes("```")) {
+      cleanJson = cleanJson.replace(/```\n?/g, "");
+    }
+    
+    // Find JSON object boundaries
+    const startIndex = cleanJson.indexOf('{');
+    const endIndex = cleanJson.lastIndexOf('}');
+    if (startIndex !== -1 && endIndex !== -1) {
+      cleanJson = cleanJson.substring(startIndex, endIndex + 1);
     }
     
     const report = JSON.parse(cleanJson) as GeneratedReport;
+    
+    // Validate that essential fields exist
+    if (!report.executiveSummary || !report.productClassification) {
+      console.error("AI response missing essential fields");
+      throw new Error("AI response missing required data");
+    }
+    
+    console.log("Report generated successfully");
     return report;
   } catch (error) {
     console.error("Error generating report:", error);
