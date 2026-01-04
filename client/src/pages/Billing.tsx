@@ -4,11 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Check, CreditCard, Zap, Loader2, ExternalLink, Gift, Calendar, Plus, Minus } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Check, CreditCard, Zap, Loader2, ExternalLink, Gift, Calendar, Plus, Minus, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { useLocation } from "wouter";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 
 interface UserProfile {
   userId: string;
@@ -31,11 +38,119 @@ interface CreditTransaction {
   createdAt: string;
 }
 
+function CheckoutForm({ 
+  onSuccess, 
+  onCancel, 
+  quantity, 
+  type 
+}: { 
+  onSuccess: () => void; 
+  onCancel: () => void; 
+  quantity: number;
+  type: 'credit' | 'subscription';
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  const confirmMutation = useMutation({
+    mutationFn: async (paymentIntentId: string) => {
+      const res = await apiRequest('POST', '/api/stripe/confirm-payment', { 
+        paymentIntentId, 
+        quantity 
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/credits/transactions'] });
+      onSuccess();
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+
+    setLoading(true);
+    setError(null);
+
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setError(submitError.message || 'Payment failed');
+      setLoading(false);
+      return;
+    }
+
+    const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      redirect: 'if_required',
+    });
+
+    if (confirmError) {
+      setError(confirmError.message || 'Payment failed');
+      setLoading(false);
+      return;
+    }
+
+    if (paymentIntent && paymentIntent.status === 'succeeded') {
+      if (type === 'credit') {
+        confirmMutation.mutate(paymentIntent.id);
+      } else {
+        queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
+        onSuccess();
+      }
+    } else {
+      setError('Payment was not completed');
+    }
+    setLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <PaymentElement />
+      {error && (
+        <div className="text-sm text-red-500 p-3 bg-red-50 rounded-lg">
+          {error}
+        </div>
+      )}
+      <div className="flex gap-3 pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCancel}
+          disabled={loading}
+          className="flex-1"
+          data-testid="button-cancel-payment"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          disabled={!stripe || loading}
+          className="flex-1"
+          data-testid="button-confirm-payment"
+        >
+          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {type === 'credit' 
+            ? `Pay $${quantity * 10}` 
+            : 'Subscribe - $80/month'}
+        </Button>
+      </div>
+    </form>
+  );
+}
+
 export default function Billing() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [location] = useLocation();
   const [creditQuantity, setCreditQuantity] = useState(1);
+  const [checkoutType, setCheckoutType] = useState<'credit' | 'subscription' | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState<string | null>(null);
+  const [loadingCheckout, setLoadingCheckout] = useState(false);
 
   const { data: profile, isLoading: profileLoading } = useQuery<UserProfile>({
     queryKey: ['/api/profile'],
@@ -49,42 +164,8 @@ export default function Billing() {
     queryKey: ['/api/stripe/products'],
   });
 
-  const subscriptionMutation = useMutation({
-    mutationFn: async (priceId: string) => {
-      const res = await apiRequest('POST', '/api/stripe/create-subscription-checkout', { priceId });
-      return res.json();
-    },
-    onSuccess: (data) => {
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to start checkout. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const creditMutation = useMutation({
-    mutationFn: async ({ priceId, quantity }: { priceId: string; quantity: number }) => {
-      const res = await apiRequest('POST', '/api/stripe/create-credit-checkout', { priceId, quantity });
-      return res.json();
-    },
-    onSuccess: (data) => {
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to start checkout. Please try again.",
-        variant: "destructive",
-      });
-    },
+  const { data: stripeConfig } = useQuery<{ publishableKey: string }>({
+    queryKey: ['/api/stripe/config'],
   });
 
   const portalMutation = useMutation({
@@ -99,62 +180,71 @@ export default function Billing() {
     },
   });
 
-  // Handle success/cancel from Stripe checkout
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('success') === 'subscription') {
-      toast({
-        title: "Subscription Active!",
-        description: "Welcome to SmartSeek Monthly! You now have 10 credits.",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
-      window.history.replaceState({}, '', '/billing');
-    } else if (params.get('success') === 'credits') {
-      const quantity = params.get('quantity') || '1';
-      toast({
-        title: "Credits Purchased!",
-        description: `Successfully added ${quantity} credit(s) to your account.`,
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
-      window.history.replaceState({}, '', '/billing');
-    } else if (params.get('canceled')) {
-      toast({
-        title: "Checkout Canceled",
-        description: "Your checkout was canceled. No charges were made.",
-      });
-      window.history.replaceState({}, '', '/billing');
-    }
-  }, [location, toast, queryClient]);
-
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isSubscribed = profile?.plan === 'monthly' && profile?.subscriptionStatus === 'active';
 
-  // Find prices from Stripe products
   const monthlyPrice = products?.products?.find(p => p.metadata?.type === 'subscription')?.prices?.[0];
   const creditPrice = products?.products?.find(p => p.metadata?.type === 'credit')?.prices?.[0];
 
-  const handleSubscribe = () => {
-    if (monthlyPrice?.id) {
-      subscriptionMutation.mutate(monthlyPrice.id);
-    } else {
+  const startCreditCheckout = async () => {
+    setLoadingCheckout(true);
+    try {
+      const res = await apiRequest('POST', '/api/stripe/create-payment-intent', { quantity: creditQuantity });
+      const data = await res.json();
+      setClientSecret(data.clientSecret);
+      setCheckoutType('credit');
+    } catch (err) {
       toast({
-        title: "Products Not Available",
-        description: "Stripe products haven't been set up yet. Please contact support.",
+        title: "Error",
+        description: "Failed to start checkout. Please try again.",
         variant: "destructive",
       });
     }
+    setLoadingCheckout(false);
   };
 
-  const handleBuyCredits = () => {
-    if (creditPrice?.id) {
-      creditMutation.mutate({ priceId: creditPrice.id, quantity: creditQuantity });
-    } else {
+  const startSubscriptionCheckout = async () => {
+    if (!monthlyPrice?.id) {
       toast({
         title: "Products Not Available",
-        description: "Stripe products haven't been set up yet. Please contact support.",
+        description: "Subscription product hasn't been set up yet. Please contact support.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setLoadingCheckout(true);
+    try {
+      const res = await apiRequest('POST', '/api/stripe/create-embedded-subscription', { 
+        priceId: monthlyPrice.id 
+      });
+      const data = await res.json();
+      setClientSecret(data.clientSecret);
+      setCheckoutType('subscription');
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to start checkout. Please try again.",
         variant: "destructive",
       });
     }
+    setLoadingCheckout(false);
+  };
+
+  const handlePaymentSuccess = () => {
+    setClientSecret(null);
+    if (checkoutType === 'credit') {
+      setShowSuccess(`Successfully purchased ${creditQuantity} credit${creditQuantity > 1 ? 's' : ''}!`);
+    } else {
+      setShowSuccess('Welcome to SmartSeek Monthly! You now have 10 credits.');
+    }
+    setCheckoutType(null);
+    queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
+    queryClient.invalidateQueries({ queryKey: ['/api/credits/transactions'] });
+  };
+
+  const handleCheckoutCancel = () => {
+    setClientSecret(null);
+    setCheckoutType(null);
   };
 
   if (profileLoading) {
@@ -173,7 +263,6 @@ export default function Billing() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Current Balance Card */}
         <Card className="bg-sidebar-primary text-sidebar-primary-foreground border-none">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-medium opacity-90">Credit Balance</CardTitle>
@@ -203,7 +292,6 @@ export default function Billing() {
           </CardContent>
         </Card>
 
-        {/* Current Plan Card */}
         <Card className="md:col-span-2">
           <CardHeader>
             <div className="flex justify-between items-start">
@@ -266,11 +354,11 @@ export default function Billing() {
                     </div>
                   </div>
                   <Button 
-                    onClick={handleSubscribe}
-                    disabled={subscriptionMutation.isPending}
+                    onClick={startSubscriptionCheckout}
+                    disabled={loadingCheckout}
                     data-testid="button-subscribe"
                   >
-                    {subscriptionMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Subscribe Now
                   </Button>
                 </div>
@@ -288,7 +376,6 @@ export default function Billing() {
 
         <TabsContent value="topup" className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Pay-as-you-go Card */}
             <Card className="border-primary shadow-md">
               <CardHeader className="text-center pb-2">
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
@@ -336,18 +423,17 @@ export default function Billing() {
                 </ul>
                 <Button 
                   className="w-full" 
-                  onClick={handleBuyCredits}
-                  disabled={creditMutation.isPending}
+                  onClick={startCreditCheckout}
+                  disabled={loadingCheckout}
                   data-testid="button-buy-credits"
                 >
-                  {creditMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <CreditCard className="mr-2 h-4 w-4" />
                   Buy {creditQuantity} Credit{creditQuantity > 1 ? 's' : ''} - ${(10 * creditQuantity).toFixed(0)}
                 </Button>
               </CardContent>
             </Card>
 
-            {/* How Credits Work Card */}
             <Card>
               <CardHeader>
                 <CardTitle>How Credits Work</CardTitle>
@@ -433,6 +519,50 @@ export default function Billing() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <Dialog open={!!clientSecret && !!checkoutType} onOpenChange={() => handleCheckoutCancel()}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {checkoutType === 'credit' 
+                ? `Purchase ${creditQuantity} Credit${creditQuantity > 1 ? 's' : ''}`
+                : 'Subscribe to Monthly Plan'}
+            </DialogTitle>
+          </DialogHeader>
+          {clientSecret && stripeConfig?.publishableKey && (
+            <Elements 
+              stripe={loadStripe(stripeConfig.publishableKey)} 
+              options={{ 
+                clientSecret, 
+                appearance: { 
+                  theme: 'stripe',
+                  variables: { colorPrimary: '#0070f3', borderRadius: '8px' }
+                } 
+              }}
+            >
+              <CheckoutForm 
+                onSuccess={handlePaymentSuccess} 
+                onCancel={handleCheckoutCancel}
+                quantity={creditQuantity}
+                type={checkoutType || 'credit'}
+              />
+            </Elements>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!showSuccess} onOpenChange={() => setShowSuccess(null)}>
+        <DialogContent className="sm:max-w-md">
+          <div className="py-8 text-center">
+            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold mb-2">Payment Successful!</h3>
+            <p className="text-muted-foreground mb-6">{showSuccess}</p>
+            <Button onClick={() => setShowSuccess(null)} data-testid="button-payment-done">
+              Done
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

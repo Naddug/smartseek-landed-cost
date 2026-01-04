@@ -209,8 +209,8 @@ export async function registerRoutes(
     
     try {
       const profile = await storage.getUserProfile(userId);
-      if (profile?.plan !== "pro") {
-        return res.status(403).json({ error: "Pro subscription required" });
+      if (profile?.plan !== "monthly") {
+        return res.status(403).json({ error: "Monthly subscription required" });
       }
       
       const shortlist = await storage.getSupplierShortlist(parseInt(req.params.id));
@@ -300,7 +300,8 @@ export async function registerRoutes(
     try {
       // Check credits
       const profile = await storage.getUserProfile(userId);
-      if (!profile || profile.credits < 10) {
+      const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+      if (!profile || totalCredits < 10) {
         return res.status(402).json({ error: "Insufficient credits (10 required)" });
       }
       
