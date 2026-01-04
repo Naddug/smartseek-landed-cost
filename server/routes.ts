@@ -7,9 +7,7 @@ import { generateSmartFinderReport, type ReportFormData } from "./services/repor
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
-  if (!req.user) return null;
-  const user = req.user as any;
-  return user.claims?.sub || null;
+  return (req.session as any)?.userId || null;
 }
 
 export async function registerRoutes(

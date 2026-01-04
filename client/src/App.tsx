@@ -8,6 +8,8 @@ import { Loader2 } from "lucide-react";
 
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import Login from "@/pages/Login";
+import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import SmartFinder from "@/pages/SmartFinder";
 import Shortlists from "@/pages/Shortlists";
@@ -36,7 +38,7 @@ function ProtectedRoute({ component: Component, adminOnly = false }: { component
 
   if (error || !user) {
     // Redirect to login
-    window.location.href = '/api/login';
+    window.location.href = '/login';
     return null;
   }
 
@@ -55,6 +57,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
       <Route path="/sample-report" component={SampleReport} />
       
       {/* Protected Routes */}
