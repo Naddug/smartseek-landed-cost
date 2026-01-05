@@ -157,12 +157,12 @@ export default function Home() {
                 variants={fadeInUp}
                 className="flex flex-col sm:flex-row items-start gap-4 pt-2"
               >
-                <Link href="/signup">
+                <Link href="/signup" data-testid="link-hero-signup">
                   <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300" data-testid="button-hero-signup">
                     Start Sourcing For Free <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <Link href="/sample-report">
+                <Link href="/sample-report" data-testid="link-view-sample">
                   <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full bg-background/50 backdrop-blur border-border hover:bg-muted/50 hover:border-primary/30 transition-all duration-300" data-testid="button-view-sample">
                     View Sample Report
                   </Button>
@@ -195,6 +195,7 @@ export default function Home() {
                   src={dashboardScreenshot} 
                   alt="SmartSeek Dashboard" 
                   className="relative rounded-2xl shadow-2xl border border-border/50 w-full"
+                  data-testid="img-hero-dashboard"
                 />
               </motion.div>
               
@@ -261,10 +262,10 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <StatItem value="2,500+" label="Active Users" />
-            <StatItem value="90%" label="Time Saved" />
-            <StatItem value="30%" label="Avg. Cost Reduction" />
-            <StatItem value="50+" label="Countries Covered" />
+            <StatItem value="2,500+" label="Active Users" testId="stat-active-users" />
+            <StatItem value="90%" label="Time Saved" testId="stat-time-saved" />
+            <StatItem value="30%" label="Avg. Cost Reduction" testId="stat-cost-reduction" />
+            <StatItem value="50+" label="Countries Covered" testId="stat-countries-covered" />
           </motion.div>
         </div>
       </motion.section>
@@ -296,7 +297,7 @@ export default function Home() {
                   <TabsTrigger 
                     value="dashboard" 
                     className="rounded-full px-6 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-                    data-testid="tab-dashboard"
+                    data-testid="tab-preview-dashboard"
                   >
                     <BarChart3 className="w-4 h-4 mr-2" />
                     Analytics Dashboard
@@ -304,7 +305,7 @@ export default function Home() {
                   <TabsTrigger 
                     value="report" 
                     className="rounded-full px-6 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300"
-                    data-testid="tab-report"
+                    data-testid="tab-preview-report"
                   >
                     <Layers className="w-4 h-4 mr-2" />
                     Sourcing Report
@@ -329,6 +330,7 @@ export default function Home() {
                         src={dashboardScreenshot} 
                         alt="SmartSeek Analytics Dashboard" 
                         className="relative rounded-2xl shadow-2xl border border-border/50 w-full mx-auto max-w-5xl"
+                        data-testid="img-preview-dashboard"
                       />
                       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-border">
                         <p className="text-sm font-medium">Global supplier analytics with real-time data visualization</p>
@@ -349,6 +351,7 @@ export default function Home() {
                         src={reportScreenshot} 
                         alt="SmartSeek Sourcing Report" 
                         className="relative rounded-2xl shadow-2xl border border-border/50 w-full mx-auto max-w-5xl"
+                        data-testid="img-preview-report"
                       />
                       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-border">
                         <p className="text-sm font-medium">Comprehensive sourcing reports with risk assessment & cost breakdown</p>
@@ -402,8 +405,8 @@ export default function Home() {
                 />
               </div>
               
-              <Link href="/sample-report">
-                <Button size="lg" className="mt-4 group" data-testid="button-view-sample-2">
+              <Link href="/sample-report" data-testid="link-view-sample-feature">
+                <Button size="lg" className="mt-4 group" data-testid="button-view-sample-feature">
                   View Sample Report 
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -421,6 +424,7 @@ export default function Home() {
                 className="relative rounded-2xl shadow-2xl border border-border/50 w-full"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
+                data-testid="img-report-preview"
               />
               
               <motion.div 
@@ -616,7 +620,7 @@ export default function Home() {
                         transition={{ delay: 0.3 }}
                       >
                         <p className="text-muted-foreground">Ready to experience the difference?</p>
-                        <Link href="/signup">
+                        <Link href="/signup" data-testid="link-compare-cta">
                           <Button className="group" data-testid="button-compare-cta">
                             Get Started Free 
                             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -760,7 +764,7 @@ export default function Home() {
                 Join thousands of smart buyers who are saving time and boosting margins with SmartSeek.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                <Link href="/signup">
+                <Link href="/signup" data-testid="link-cta-signup">
                   <Button size="lg" className="h-14 px-10 text-lg rounded-full shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transition-all duration-300" data-testid="button-cta-signup">
                     Get Started with 10 Free Credits
                   </Button>
@@ -786,11 +790,11 @@ function TrustLogo({ icon, name }: { icon: React.ReactNode, name: string }) {
   );
 }
 
-function StatItem({ value, label }: { value: string, label: string }) {
+function StatItem({ value, label, testId }: { value: string, label: string, testId: string }) {
   return (
-    <motion.div className="p-6" variants={fadeInUp}>
-      <div className="text-4xl md:text-5xl font-bold text-primary mb-2">{value}</div>
-      <div className="text-sm md:text-base text-muted-foreground font-medium">{label}</div>
+    <motion.div className="p-6" variants={fadeInUp} data-testid={testId}>
+      <div className="text-4xl md:text-5xl font-bold text-primary mb-2" data-testid={`${testId}-value`}>{value}</div>
+      <div className="text-sm md:text-base text-muted-foreground font-medium" data-testid={`${testId}-label`}>{label}</div>
     </motion.div>
   );
 }
