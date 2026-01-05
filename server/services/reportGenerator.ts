@@ -323,7 +323,7 @@ IMPORTANT:
     console.log("Starting AI report generation for:", formData.productName || formData.category);
     
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1",
+      model: "gpt-5",
       messages: [
         {
           role: "system",
