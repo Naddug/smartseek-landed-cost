@@ -23,7 +23,9 @@ import {
   MapPin,
   Activity,
   Zap,
-  Crown
+  Crown,
+  BarChart3,
+  Shield
 } from "lucide-react";
 import { format } from "date-fns";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
@@ -40,12 +42,18 @@ export default function Dashboard() {
 
   const hasError = !profile && !profileLoading;
 
+  const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading your dashboard...</p>
+          <div className="relative">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center mx-auto mb-4 shadow-xl">
+              <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
+            </div>
+          </div>
+          <p className="text-slate-400 font-medium">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -55,18 +63,17 @@ export default function Dashboard() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
-            <Activity className="w-8 h-8 text-destructive" />
+          <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-4">
+            <Activity className="w-8 h-8 text-red-400" />
           </div>
-          <h2 className="text-xl font-bold mb-2">Unable to load dashboard</h2>
-          <p className="text-muted-foreground mb-4">Please try refreshing the page.</p>
-          <Button onClick={() => window.location.reload()}>Refresh Page</Button>
+          <h2 className="text-xl font-bold mb-2 text-slate-200">Unable to load dashboard</h2>
+          <p className="text-slate-400 mb-4">Please try refreshing the page.</p>
+          <Button onClick={() => window.location.reload()} className="bg-slate-800 hover:bg-slate-700 border border-slate-600">Refresh Page</Button>
         </div>
       </div>
     );
   }
 
-  // Generate activity data for chart
   const activityData = [
     { name: 'Mon', reports: 2, credits: 5 },
     { name: 'Tue', reports: 1, credits: 3 },
@@ -77,7 +84,6 @@ export default function Dashboard() {
     { name: 'Sun', reports: reports.length, credits: 6 },
   ];
 
-  // Category distribution
   const categoryData = shortlists.reduce((acc: any[], list) => {
     const existing = acc.find(c => c.name === list.category);
     if (existing) {
@@ -88,7 +94,6 @@ export default function Dashboard() {
     return acc;
   }, []).slice(0, 5);
 
-  // Top regions
   const regionData = [
     { name: 'China', value: 35, color: '#3b82f6' },
     { name: 'Vietnam', value: 25, color: '#10b981' },
@@ -99,26 +104,35 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 rounded-2xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8 rounded-2xl border border-slate-700/50 shadow-2xl">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              {profile?.plan === 'pro' && (
-                <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
-                  <Crown className="w-3 h-3 mr-1" />
-                  Pro
+            <div className="flex items-center gap-3 mb-4">
+              {profile?.plan === 'monthly' && (
+                <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 shadow-lg shadow-blue-500/25 px-3 py-1">
+                  <Crown className="w-3.5 h-3.5 mr-1.5" />
+                  Pro Member
                 </Badge>
               )}
-              <Badge variant="outline">{profile?.role || 'buyer'}</Badge>
+              <Badge variant="outline" className="border-slate-600 text-slate-300 bg-slate-800/50">
+                <Shield className="w-3 h-3 mr-1" />
+                {profile?.role || 'buyer'}
+              </Badge>
             </div>
-            <h1 className="text-3xl font-heading font-bold">Welcome to SmartSeek</h1>
-            <p className="text-muted-foreground mt-1">Your AI-powered sourcing command center.</p>
+            <h1 className="text-3xl md:text-4xl font-heading font-bold text-white mb-2">
+              Command Center
+            </h1>
+            <p className="text-slate-400 text-lg">
+              Enterprise sourcing intelligence at your fingertips.
+            </p>
           </div>
           <div className="flex gap-3">
             <Link href="/smart-finder">
-              <Button className="shadow-lg shadow-primary/20" data-testid="button-new-search">
-                <Sparkles className="mr-2 h-4 w-4" />
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-500/25 border-0 text-white font-semibold" data-testid="button-new-search">
+                <Sparkles className="mr-2 h-5 w-5" />
                 New AI Search
               </Button>
             </Link>
@@ -126,85 +140,91 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Key Metrics Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <MetricCard
-          icon={<CreditCard className="w-5 h-5 text-primary" />}
+          icon={<CreditCard className="w-5 h-5" />}
           label="Available Credits"
-          value={profile?.credits || 0}
-          change={profile?.plan === 'pro' ? '+30/mo' : undefined}
-          gradient="from-blue-500/10 to-indigo-500/10"
+          value={totalCredits}
+          change={profile?.plan === 'monthly' ? '+30/mo' : undefined}
+          iconBg="from-blue-500 to-blue-600"
+          cardBg="from-slate-800/80 to-slate-900/80"
         />
         <MetricCard
-          icon={<FileText className="w-5 h-5 text-green-500" />}
+          icon={<FileText className="w-5 h-5" />}
           label="Reports Generated"
           value={reports.length}
           change={reports.length > 0 ? `${reports.filter(r => r.status === 'completed').length} complete` : undefined}
-          gradient="from-green-500/10 to-emerald-500/10"
+          iconBg="from-emerald-500 to-emerald-600"
+          cardBg="from-slate-800/80 to-slate-900/80"
         />
         <MetricCard
-          icon={<Building2 className="w-5 h-5 text-purple-500" />}
+          icon={<Building2 className="w-5 h-5" />}
           label="Supplier Lists"
           value={shortlists.length}
-          change={`${shortlists.filter(s => !s.isPremium || profile?.plan === 'pro').length} available`}
-          gradient="from-purple-500/10 to-pink-500/10"
+          change={`${shortlists.filter(s => !s.isPremium || profile?.plan === 'monthly').length} available`}
+          iconBg="from-violet-500 to-violet-600"
+          cardBg="from-slate-800/80 to-slate-900/80"
         />
         <MetricCard
-          icon={<Globe2 className="w-5 h-5 text-orange-500" />}
+          icon={<Globe2 className="w-5 h-5" />}
           label="Regions Covered"
           value="50+"
           change="Global network"
-          gradient="from-orange-500/10 to-amber-500/10"
+          iconBg="from-amber-500 to-orange-500"
+          cardBg="from-slate-800/80 to-slate-900/80"
         />
       </div>
 
-      {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Activity Chart */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="w-5 h-5 text-primary" />
+        <Card className="lg:col-span-2 bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-700/50 pb-4">
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/30">
+                <BarChart3 className="w-4 h-4 text-blue-400" />
+              </div>
               Weekly Activity
             </CardTitle>
-            <Badge variant="outline">Last 7 days</Badge>
+            <Badge variant="outline" className="border-slate-600 text-slate-400 bg-slate-800/50">Last 7 days</Badge>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={activityData}>
                   <defs>
                     <linearGradient id="colorReports" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
                       <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
+                  <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke="#475569" />
+                  <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} stroke="#475569" />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
+                      backgroundColor: '#1e293b',
+                      border: '1px solid #334155',
+                      borderRadius: '12px',
+                      boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
+                      color: '#e2e8f0'
                     }}
                   />
-                  <Area type="monotone" dataKey="reports" stroke="#3b82f6" fill="url(#colorReports)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="reports" stroke="#3b82f6" fill="url(#colorReports)" strokeWidth={3} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
 
-        {/* Region Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-primary" />
+        <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
+          <CardHeader className="border-b border-slate-700/50 pb-4">
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/30">
+                <MapPin className="w-4 h-4 text-violet-400" />
+              </div>
               Top Sourcing Regions
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="h-48 mb-4">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -216,23 +236,31 @@ export default function Dashboard() {
                     outerRadius={70}
                     paddingAngle={3}
                     dataKey="value"
+                    stroke="none"
                   >
                     {regionData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: '#1e293b',
+                      border: '1px solid #334155',
+                      borderRadius: '8px',
+                      color: '#e2e8f0'
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
             <div className="space-y-2">
               {regionData.map((region, i) => (
-                <div key={i} className="flex items-center justify-between text-sm">
+                <div key={i} className="flex items-center justify-between text-sm group">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: region.color }}></div>
-                    <span>{region.name}</span>
+                    <div className="w-3 h-3 rounded-full shadow-lg" style={{ backgroundColor: region.color }}></div>
+                    <span className="text-slate-300 group-hover:text-white transition-colors">{region.name}</span>
                   </div>
-                  <span className="font-medium">{region.value}%</span>
+                  <span className="font-semibold text-slate-200">{region.value}%</span>
                 </div>
               ))}
             </div>
@@ -240,45 +268,47 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Recent Reports & Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Reports */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="w-5 h-5 text-primary" />
+        <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-700/50 pb-4">
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30">
+                <FileText className="w-4 h-4 text-emerald-400" />
+              </div>
               Recent Reports
             </CardTitle>
             <Link href="/reports">
-              <Button variant="ghost" size="sm">View All</Button>
+              <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white hover:bg-slate-700/50">View All</Button>
             </Link>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             {reports.length === 0 ? (
               <div className="text-center py-8">
-                <FileText className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
-                <p className="text-muted-foreground mb-4">No reports yet</p>
+                <div className="w-16 h-16 rounded-2xl bg-slate-700/50 flex items-center justify-center mx-auto mb-4 border border-slate-600/50">
+                  <FileText className="w-8 h-8 text-slate-500" />
+                </div>
+                <p className="text-slate-400 mb-4">No reports yet</p>
                 <Link href="/smart-finder">
-                  <Button size="sm">Generate First Report</Button>
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-500">Generate First Report</Button>
                 </Link>
               </div>
             ) : (
               <div className="space-y-3">
                 {reports.slice(0, 4).map((report) => (
                   <Link key={report.id} href="/reports">
-                    <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer" data-testid={`card-report-${report.id}`}>
+                    <div className="flex items-center justify-between p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 transition-all cursor-pointer group" data-testid={`card-report-${report.id}`}>
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${report.status === 'completed' ? 'bg-green-100 text-green-600' : report.status === 'generating' ? 'bg-blue-100 text-blue-600' : 'bg-red-100 text-red-600'}`}>
+                        <div className={`p-2.5 rounded-xl ${report.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : report.status === 'generating' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                           <FileText size={16} />
                         </div>
                         <div>
-                          <div className="font-medium text-sm">{report.title}</div>
-                          <div className="text-xs text-muted-foreground">
+                          <div className="font-medium text-sm text-slate-200 group-hover:text-white transition-colors">{report.title}</div>
+                          <div className="text-xs text-slate-500">
                             {format(new Date(report.createdAt), 'MMM d, yyyy')}
                           </div>
                         </div>
                       </div>
-                      <Badge variant={report.status === 'completed' ? 'outline' : 'secondary'} className="text-xs">
+                      <Badge variant="outline" className={`text-xs ${report.status === 'completed' ? 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10' : 'border-slate-500/50 text-slate-400 bg-slate-600/30'}`}>
                         {report.status}
                       </Badge>
                     </div>
@@ -289,72 +319,73 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-primary" />
+        <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
+          <CardHeader className="border-b border-slate-700/50 pb-4">
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30">
+                <Zap className="w-4 h-4 text-amber-400" />
+              </div>
               Quick Actions
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="pt-6 space-y-3">
             <Link href="/smart-finder">
-              <div className="p-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer">
+              <div className="p-4 rounded-xl border-2 border-dashed border-blue-500/40 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/60 transition-all cursor-pointer group">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                    <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-medium">AI Smart Finder</div>
-                    <div className="text-sm text-muted-foreground">Generate sourcing intelligence with AI</div>
+                    <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">AI Smart Finder</div>
+                    <div className="text-sm text-slate-400">Generate sourcing intelligence with AI</div>
                   </div>
-                  <Badge>1 Credit</Badge>
+                  <Badge className="bg-blue-600/30 text-blue-300 border-blue-500/50">1 Credit</Badge>
                 </div>
               </div>
             </Link>
 
             <Link href="/shortlists">
-              <div className="p-4 rounded-xl border hover:bg-muted/50 transition-colors cursor-pointer">
+              <div className="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 transition-all cursor-pointer group">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-purple-500" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/30 flex items-center justify-center">
+                    <Building2 className="w-6 h-6 text-violet-400" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-medium">Browse Supplier Lists</div>
-                    <div className="text-sm text-muted-foreground">{shortlists.length} curated lists available</div>
+                    <div className="font-medium text-slate-200 group-hover:text-white transition-colors">Browse Supplier Lists</div>
+                    <div className="text-sm text-slate-400">{shortlists.length} curated lists available</div>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                  <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors" />
                 </div>
               </div>
             </Link>
 
             <Link href="/tools">
-              <div className="p-4 rounded-xl border hover:bg-muted/50 transition-colors cursor-pointer">
+              <div className="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 transition-all cursor-pointer group">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                    <DollarSign className="w-6 h-6 text-green-500" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30 flex items-center justify-center">
+                    <DollarSign className="w-6 h-6 text-emerald-400" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-medium">Cost Calculator</div>
-                    <div className="text-sm text-muted-foreground">Estimate landed costs & margins</div>
+                    <div className="font-medium text-slate-200 group-hover:text-white transition-colors">Cost Calculator</div>
+                    <div className="text-sm text-slate-400">Estimate landed costs & margins</div>
                   </div>
-                  <ArrowRight className="w-5 h-5 text-muted-foreground" />
+                  <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors" />
                 </div>
               </div>
             </Link>
 
-            {profile?.plan !== 'pro' && (
+            {profile?.plan !== 'monthly' && (
               <Link href="/billing">
-                <div className="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 hover:from-amber-500/20 hover:to-orange-500/20 transition-colors cursor-pointer">
+                <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-violet-600/20 border border-blue-500/30 hover:from-blue-600/30 hover:via-indigo-600/30 hover:to-violet-600/30 hover:border-blue-400/50 transition-all cursor-pointer group">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
                       <Crown className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="font-medium">Upgrade to Pro</div>
-                      <div className="text-sm text-muted-foreground">Unlock all features + 30 credits/mo</div>
+                      <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">Upgrade to Pro</div>
+                      <div className="text-sm text-slate-400">Unlock all features + 30 credits/mo</div>
                     </div>
-                    <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">$10/mo</Badge>
+                    <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 shadow-lg">$10/mo</Badge>
                   </div>
                 </div>
               </Link>
@@ -363,39 +394,40 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Featured Shortlists */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Star className="w-5 h-5 text-primary" />
+      <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-700/50 pb-4">
+          <CardTitle className="flex items-center gap-2 text-slate-100">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30">
+              <Star className="w-4 h-4 text-amber-400" />
+            </div>
             Featured Supplier Lists
           </CardTitle>
           <Link href="/shortlists">
-            <Button variant="ghost" size="sm">View All ({shortlists.length})</Button>
+            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white hover:bg-slate-700/50">View All ({shortlists.length})</Button>
           </Link>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {shortlists.slice(0, 3).map((list) => {
               const suppliers = list.suppliers as any[];
-              const isLocked = list.isPremium && profile?.plan !== 'pro';
+              const isLocked = list.isPremium && profile?.plan !== 'monthly';
               
               return (
                 <Link key={list.id} href="/shortlists">
-                  <div className={`p-4 rounded-xl border hover:shadow-md transition-all cursor-pointer ${isLocked ? 'opacity-70' : ''}`}>
+                  <div className={`p-5 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 hover:shadow-lg transition-all cursor-pointer group ${isLocked ? 'opacity-70' : ''}`}>
                     <div className="flex items-start justify-between mb-3">
-                      <Badge variant={list.isPremium ? 'default' : 'secondary'}>
+                      <Badge className={list.isPremium ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0' : 'bg-slate-600/50 text-slate-300 border-slate-500/50'}>
                         {list.isPremium ? 'Premium' : 'Free'}
                       </Badge>
-                      {isLocked && <span className="text-xs text-muted-foreground">Pro only</span>}
+                      {isLocked && <span className="text-xs text-slate-500">Pro only</span>}
                     </div>
-                    <h4 className="font-medium mb-1 line-clamp-1">{list.title}</h4>
-                    <p className="text-sm text-muted-foreground mb-3">{list.category}</p>
+                    <h4 className="font-semibold mb-1 line-clamp-1 text-slate-200 group-hover:text-white transition-colors">{list.title}</h4>
+                    <p className="text-sm text-slate-400 mb-3">{list.category}</p>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">{suppliers?.length || 0} suppliers</span>
-                      <div className="flex items-center gap-1 text-amber-500">
+                      <span className="text-slate-500">{suppliers?.length || 0} suppliers</span>
+                      <div className="flex items-center gap-1 text-amber-400">
                         <Star className="w-4 h-4 fill-current" />
-                        <span>4.8</span>
+                        <span className="font-medium">4.8</span>
                       </div>
                     </div>
                   </div>
@@ -406,32 +438,33 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
-      {/* Credit Usage */}
       {transactions.length > 0 && (
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-primary" />
+        <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-700/50 pb-4">
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30">
+                <TrendingUp className="w-4 h-4 text-cyan-400" />
+              </div>
               Recent Credit Activity
             </CardTitle>
             <Link href="/billing">
-              <Button variant="ghost" size="sm">Manage Credits</Button>
+              <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white hover:bg-slate-700/50">Manage Credits</Button>
             </Link>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <div className="space-y-3">
               {transactions.slice(0, 5).map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                <div key={tx.id} className="flex items-center justify-between py-3 px-4 rounded-xl bg-slate-700/20 border border-slate-600/20 hover:bg-slate-700/30 transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${tx.amount > 0 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${tx.amount > 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
                       {tx.amount > 0 ? '+' : '-'}
                     </div>
                     <div>
-                      <div className="font-medium text-sm">{tx.description}</div>
-                      <div className="text-xs text-muted-foreground">{format(new Date(tx.createdAt), 'MMM d, h:mm a')}</div>
+                      <div className="font-medium text-sm text-slate-200">{tx.description}</div>
+                      <div className="text-xs text-slate-500">{format(new Date(tx.createdAt), 'MMM d, h:mm a')}</div>
                     </div>
                   </div>
-                  <span className={`font-bold ${tx.amount > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className={`font-bold text-lg ${tx.amount > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                     {tx.amount > 0 ? '+' : ''}{tx.amount}
                   </span>
                 </div>
@@ -444,25 +477,26 @@ export default function Dashboard() {
   );
 }
 
-function MetricCard({ icon, label, value, change, gradient }: { 
+function MetricCard({ icon, label, value, change, iconBg, cardBg }: { 
   icon: React.ReactNode; 
   label: string; 
   value: string | number; 
   change?: string;
-  gradient: string;
+  iconBg: string;
+  cardBg: string;
 }) {
   return (
-    <Card className={`bg-gradient-to-br ${gradient} border-0`}>
+    <Card className={`bg-gradient-to-br ${cardBg} border-slate-700/50 shadow-xl backdrop-blur-sm hover:border-slate-600/50 transition-all group`}>
       <CardContent className="p-5">
-        <div className="flex items-start justify-between mb-3">
-          <div className="w-10 h-10 rounded-xl bg-background/80 flex items-center justify-center shadow-sm">
+        <div className="flex items-start justify-between mb-4">
+          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${iconBg} flex items-center justify-center shadow-lg text-white`}>
             {icon}
           </div>
         </div>
-        <div className="text-2xl font-bold mb-1">{value}</div>
-        <div className="text-sm text-muted-foreground">{label}</div>
+        <div className="text-3xl font-bold mb-1 text-slate-100 group-hover:text-white transition-colors">{value}</div>
+        <div className="text-sm text-slate-400">{label}</div>
         {change && (
-          <div className="text-xs text-primary mt-2 font-medium">{change}</div>
+          <div className="text-xs text-blue-400 mt-2 font-semibold">{change}</div>
         )}
       </CardContent>
     </Card>
