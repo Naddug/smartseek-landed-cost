@@ -1,21 +1,28 @@
-import { useState, useEffect, useMemo } from "react";
-import { useProfile, useCreateReport, useCreateSourcingRequest } from "@/lib/hooks";
+import { useState, useEffect, useRef } from "react";
+import { useProfile, useCreateReport, useReport } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
 import { 
   Sparkles, Loader2, FileText, CheckCircle, ArrowRight, 
   Package, Globe, Ship, Plane, Truck, Shield, Hash, 
-  Building2, Calendar, Scale, FileCheck, Search
+  Building2, Calendar, Scale, FileCheck, Search, Download,
+  AlertTriangle, Star, MapPin, Users, DollarSign, Calculator,
+  Landmark, Receipt, Container, Percent, RefreshCw
 } from "lucide-react";
-import { useLocation } from "wouter";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { jsPDF } from "jspdf";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
 
 const HS_CODE_DATABASE: Record<string, { code: string; description: string }[]> = {
   "electronics": [
@@ -127,11 +134,26 @@ const CERTIFICATIONS = [
   { value: "ul", label: "UL Listed" },
 ];
 
+function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string }) {
+  if (!value) return null;
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex items-center gap-2 text-sm">
+        <span className="w-5 h-5">{icon}</span>
+        <span>{label}</span>
+      </div>
+      <span className="font-medium">{value}</span>
+    </div>
+  );
+}
+
 export default function SmartFinder() {
-  const [step, setStep] = useState(0);
+  const [view, setView] = useState<'form' | 'loading' | 'results'>('form');
+  const [reportId, setReportId] = useState<number | null>(null);
   const { data: profile } = useProfile();
   const createReport = useCreateReport();
-  const [_, setLocation] = useLocation();
+  const { data: report, refetch } = useReport(reportId || 0);
+  const [isExporting, setIsExporting] = useState(false);
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -153,6 +175,8 @@ export default function SmartFinder() {
 
   const [suggestedHsCodes, setSuggestedHsCodes] = useState<{ code: string; description: string }[]>([]);
   const [showHsSuggestions, setShowHsSuggestions] = useState(false);
+
+  const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
 
   useEffect(() => {
     const searchTerms = [formData.productName, formData.category, formData.productDescription]
@@ -178,6 +202,20 @@ export default function SmartFinder() {
     setSuggestedHsCodes(uniqueSuggestions.slice(0, 5));
   }, [formData.productName, formData.category, formData.productDescription]);
 
+  useEffect(() => {
+    if (view === 'loading' && reportId && report) {
+      if (report.status === 'completed') {
+        setView('results');
+      } else if (report.status === 'failed') {
+        toast.error("Report generation failed. Please try again.");
+        setView('form');
+      } else {
+        const timer = setTimeout(() => refetch(), 2000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [view, reportId, report, refetch]);
+
   const handleCertificationChange = (certValue: string, checked: boolean) => {
     if (checked) {
       setFormData({
@@ -193,7 +231,7 @@ export default function SmartFinder() {
   };
 
   const handleSubmit = () => {
-    if (!profile || profile.credits < 1) {
+    if (!profile || totalCredits < 1) {
       toast.error("Insufficient credits. You need at least 1 credit to generate a report.");
       return;
     }
@@ -203,75 +241,743 @@ export default function SmartFinder() {
       return;
     }
 
-    setStep(1);
+    setView('loading');
     
     createReport.mutate({
       title: `Sourcing Report: ${formData.productName || formData.category}`,
       category: formData.category || formData.productName,
       formData,
     }, {
-      onSuccess: () => {
-        setTimeout(() => {
-          setLocation('/reports');
-        }, 2000);
-        setStep(2);
+      onSuccess: (data) => {
+        setReportId(data.id);
       },
       onError: () => {
-        setStep(0);
+        setView('form');
       }
     });
   };
 
-  if (step === 1) {
+  const handleNewSearch = () => {
+    setView('form');
+    setReportId(null);
+    setFormData({
+      productName: "",
+      productDescription: "",
+      category: "",
+      hsCode: "",
+      quantity: "1000",
+      unitOfMeasure: "pieces",
+      originCountry: "Any",
+      destinationCountry: "United States",
+      preferredIncoterm: "FOB",
+      shippingMethod: "sea",
+      targetLeadTime: "",
+      certifications: [],
+      qualityRequirements: "",
+      packagingRequirements: "",
+      additionalRequirements: ""
+    });
+  };
+
+  const exportToPDF = async () => {
+    if (!report) return;
+    
+    setIsExporting(true);
+    try {
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+      
+      const reportData = report.reportData as any;
+      const savedFormData = report.formData as any;
+      const pageWidth = 210;
+      const margin = 20;
+      const contentWidth = pageWidth - (margin * 2);
+      let y = 20;
+      
+      const addText = (text: string, fontSize: number = 10, isBold: boolean = false) => {
+        pdf.setFontSize(fontSize);
+        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+        const lines = pdf.splitTextToSize(text, contentWidth);
+        lines.forEach((line: string) => {
+          if (y > 270) {
+            pdf.addPage();
+            y = 20;
+          }
+          pdf.text(line, margin, y);
+          y += fontSize * 0.5;
+        });
+        y += 3;
+      };
+      
+      const addSection = (title: string) => {
+        y += 5;
+        if (y > 260) {
+          pdf.addPage();
+          y = 20;
+        }
+        pdf.setDrawColor(59, 130, 246);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, y, margin + contentWidth, y);
+        y += 6;
+        addText(title, 14, true);
+        y += 2;
+      };
+      
+      pdf.setFillColor(59, 130, 246);
+      pdf.rect(0, 0, pageWidth, 35, 'F');
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('SmartSeek Sourcing Report', margin, 18);
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(report.title, margin, 28);
+      
+      pdf.setTextColor(0, 0, 0);
+      y = 45;
+      
+      addText(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')}`, 10);
+      addText(`Trade Route: ${savedFormData?.originCountry || 'China'} → ${savedFormData?.destinationCountry || 'United States'}`, 10);
+      if (reportData?.productClassification?.hsCode) {
+        addText(`HS Code: ${reportData.productClassification.hsCode}`, 10);
+      }
+      
+      if (reportData?.executiveSummary) {
+        addSection('EXECUTIVE SUMMARY');
+        addText(reportData.executiveSummary, 10);
+      }
+      
+      if (reportData?.productClassification) {
+        addSection('PRODUCT CLASSIFICATION');
+        addText(`HS Code: ${reportData.productClassification.hsCode || 'N/A'}`, 10);
+        addText(`Description: ${reportData.productClassification.hsCodeDescription || 'N/A'}`, 10);
+        addText(`Chapter: ${reportData.productClassification.tariffChapter || 'N/A'}`, 10);
+        addText(`Category: ${reportData.productClassification.productCategory || 'N/A'}`, 10);
+      }
+      
+      if (reportData?.customsAnalysis?.customsFees) {
+        addSection('CUSTOMS DUTIES & FEES');
+        const fees = reportData.customsAnalysis.customsFees;
+        addText(`Import Duty Rate: ${fees.importDutyRate || 'N/A'}`, 10);
+        addText(`Import Duty Amount: ${fees.importDutyAmount || 'N/A'}`, 10);
+        addText(`VAT Rate: ${fees.vatRate || 'N/A'}`, 10);
+        addText(`VAT Amount: ${fees.vatAmount || 'N/A'}`, 10);
+        addText(`Total Customs Fees: ${fees.totalCustomsFees || 'N/A'}`, 10, true);
+      }
+      
+      if (reportData?.landedCostBreakdown) {
+        addSection('LANDED COST BREAKDOWN');
+        const lc = reportData.landedCostBreakdown;
+        addText(`Product Cost: ${lc.productCost || 'N/A'}`, 10);
+        addText(`Freight Cost: ${lc.freightCost || 'N/A'}`, 10);
+        addText(`Insurance: ${lc.insuranceCost || 'N/A'}`, 10);
+        addText(`Customs Duties: ${lc.customsDuties || 'N/A'}`, 10);
+        addText(`VAT/Taxes: ${lc.vatTaxes || 'N/A'}`, 10);
+        addText(`Total Landed Cost: ${lc.totalLandedCost || 'N/A'}`, 10, true);
+        addText(`Cost Per Unit: ${lc.costPerUnit || 'N/A'}`, 10, true);
+      }
+      
+      if (reportData?.profitAnalysis) {
+        addSection('PROFIT ANALYSIS');
+        const pa = reportData.profitAnalysis;
+        addText(`Recommended Retail Price: ${pa.recommendedRetailPrice || 'N/A'}`, 10);
+        addText(`Estimated Profit: ${pa.estimatedProfit || 'N/A'}`, 10);
+        addText(`Profit Margin: ${pa.profitMargin || 'N/A'}`, 10, true);
+        addText(`Break-even Quantity: ${pa.breakEvenQuantity || 'N/A'}`, 10);
+      }
+      
+      if (reportData?.sellerComparison?.length > 0) {
+        addSection('SUPPLIER COMPARISON');
+        reportData.sellerComparison.forEach((seller: any, index: number) => {
+          addText(`${index + 1}. ${seller.sellerName || 'Supplier'}`, 11, true);
+          addText(`   Platform: ${seller.platform || 'N/A'} | Location: ${seller.location || 'N/A'}`, 9);
+          addText(`   Unit Price: ${seller.unitPrice || 'N/A'} | MOQ: ${seller.moq || 'N/A'}`, 9);
+          addText(`   Rating: ${seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
+          y += 2;
+        });
+      }
+      
+      if (reportData?.riskAssessment) {
+        addSection('RISK ASSESSMENT');
+        addText(`Overall Risk Level: ${reportData.riskAssessment.overallRisk || 'N/A'}`, 10, true);
+        if (reportData.riskAssessment.risks?.length > 0) {
+          reportData.riskAssessment.risks.forEach((risk: any) => {
+            addText(`• ${risk.category}: ${risk.level} - ${risk.mitigation}`, 9);
+          });
+        }
+      }
+      
+      if (reportData?.recommendations?.length > 0) {
+        addSection('RECOMMENDATIONS');
+        reportData.recommendations.forEach((rec: string) => {
+          addText(`• ${rec}`, 10);
+        });
+      }
+      
+      const pageCount = pdf.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(8);
+        pdf.setTextColor(128, 128, 128);
+        pdf.text('Generated by SmartSeek - AI-Powered Sourcing Intelligence', margin, 285);
+        pdf.text(`Page ${i} of ${pageCount}`, pageWidth - margin - 20, 285);
+      }
+      
+      const fileName = `SmartSeek_Report_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+      pdf.save(fileName);
+      toast.success("PDF report downloaded successfully!");
+    } catch (error) {
+      console.error('PDF export failed:', error);
+      toast.error("Failed to export PDF. Please try again.");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  if (view === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-        <div className="relative w-24 h-24">
-          <div className="absolute inset-0 border-4 border-muted rounded-full"></div>
-          <div className="absolute inset-0 border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
-          <Sparkles className="absolute inset-0 m-auto text-primary animate-pulse" />
-        </div>
-        <div>
-          <h2 className="text-2xl font-heading font-bold mb-2">Generating Intelligence Report...</h2>
-          <p className="text-muted-foreground">Analyzing markets, customs duties, and supplier data for "{formData.productName || formData.category}"</p>
-        </div>
-        <div className="w-full max-w-md space-y-3">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Hash className="w-4 h-4" />
-            <span>Classifying HS/GTIP codes...</span>
+      <div className="max-w-4xl mx-auto py-8">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
+          <div className="relative w-24 h-24">
+            <div className="absolute inset-0 border-4 border-muted rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+            <Sparkles className="absolute inset-0 m-auto text-primary animate-pulse" />
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Globe className="w-4 h-4" />
-            <span>Calculating customs duties and tariffs...</span>
+          <div>
+            <h2 className="text-2xl font-heading font-bold mb-2">Generating Intelligence Report...</h2>
+            <p className="text-muted-foreground">Analyzing markets, customs duties, and supplier data for "{formData.productName || formData.category}"</p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Building2 className="w-4 h-4" />
-            <span>Identifying qualified suppliers...</span>
+          <div className="w-full max-w-md space-y-3">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Hash className="w-4 h-4" />
+              <span>Classifying HS/GTIP codes...</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Globe className="w-4 h-4" />
+              <span>Calculating customs duties and tariffs...</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Building2 className="w-4 h-4" />
+              <span>Identifying qualified suppliers...</span>
+            </div>
           </div>
+          <p className="text-sm text-muted-foreground">This usually takes 20-40 seconds</p>
         </div>
       </div>
     );
   }
 
-  if (step === 2) {
+  if (view === 'results' && report) {
+    const reportData = report.reportData as any;
+    const savedFormData = report.formData as any;
+    const customsData = reportData?.customsAnalysis;
+    const landedCost = reportData?.landedCostBreakdown;
+    const sellers = reportData?.sellerComparison || [];
+    const profitAnalysis = reportData?.profitAnalysis;
+    const productClass = reportData?.productClassification;
+
+    const costBreakdownData = landedCost ? [
+      { name: 'Product', value: parseFloat(landedCost.productCost?.replace(/[^0-9.]/g, '') || '0'), color: '#3b82f6' },
+      { name: 'Freight', value: parseFloat(landedCost.freightCost?.replace(/[^0-9.]/g, '') || '0'), color: '#10b981' },
+      { name: 'Duties', value: parseFloat(landedCost.customsDuties?.replace(/[^0-9.]/g, '') || '0'), color: '#f59e0b' },
+      { name: 'VAT/Tax', value: parseFloat(landedCost.vatTaxes?.replace(/[^0-9.]/g, '') || '0'), color: '#ef4444' },
+      { name: 'Fees', value: parseFloat(landedCost.handlingFees?.replace(/[^0-9.]/g, '') || '0') + parseFloat(landedCost.brokerageFees?.replace(/[^0-9.]/g, '') || '0'), color: '#8b5cf6' },
+    ].filter(d => d.value > 0) : [];
+
+    const sellerComparisonData = sellers.map((s: any) => ({
+      name: s.sellerName?.split(' ')[0] || 'Seller',
+      price: parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0'),
+      margin: parseFloat(s.profitMargin?.replace(/[^0-9.]/g, '') || '0'),
+      rating: s.rating || 4.0
+    }));
+
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-          <CheckCircle className="w-10 h-10 text-green-600" />
+      <div className="max-w-7xl mx-auto py-8 space-y-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <Badge variant="outline" className="mb-2">
+              <CheckCircle className="w-3 h-3 mr-1 text-green-500" />
+              Report Complete
+            </Badge>
+            <h1 className="text-2xl md:text-3xl font-heading font-bold">{report.title}</h1>
+            <p className="text-muted-foreground text-sm mt-1">
+              Generated on {format(new Date(report.createdAt), 'MMMM d, yyyy')}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={handleNewSearch} data-testid="button-new-search">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              New Search
+            </Button>
+            <Button onClick={exportToPDF} disabled={isExporting} data-testid="button-download-pdf">
+              {isExporting ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              {isExporting ? 'Generating...' : 'Download PDF'}
+            </Button>
+          </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-heading font-bold mb-2">Report Generated Successfully</h2>
-          <p className="text-muted-foreground">Your comprehensive sourcing intelligence report is ready for review.</p>
-          <p className="text-sm text-muted-foreground mt-2">Redirecting to Reports...</p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card className="p-4 text-center">
+            <Hash className="w-5 h-5 text-primary mx-auto mb-1" />
+            <div className="text-lg font-bold font-mono">{productClass?.hsCode || 'N/A'}</div>
+            <div className="text-xs text-muted-foreground">HS Code</div>
+          </Card>
+          <Card className="p-4 text-center">
+            <DollarSign className="w-5 h-5 text-green-500 mx-auto mb-1" />
+            <div className="text-lg font-bold">{landedCost?.costPerUnit || 'N/A'}</div>
+            <div className="text-xs text-muted-foreground">Landed Cost/Unit</div>
+          </Card>
+          <Card className="p-4 text-center">
+            <Percent className="w-5 h-5 text-blue-500 mx-auto mb-1" />
+            <div className="text-lg font-bold">{profitAnalysis?.profitMargin || 'N/A'}</div>
+            <div className="text-xs text-muted-foreground">Est. Margin</div>
+          </Card>
+          <Card className="p-4 text-center">
+            <Users className="w-5 h-5 text-purple-500 mx-auto mb-1" />
+            <div className="text-lg font-bold">{sellers.length}</div>
+            <div className="text-xs text-muted-foreground">Suppliers Found</div>
+          </Card>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={() => setStep(0)}>
-            New Analysis
-          </Button>
-          <Button onClick={() => setLocation('/reports')}>
-            <FileText className="w-4 h-4 mr-2" />
-            View Report
-          </Button>
-        </div>
+
+        <Tabs defaultValue="suppliers" className="w-full">
+          <TabsList className="grid w-full grid-cols-5 mb-6">
+            <TabsTrigger value="suppliers" data-testid="tab-suppliers">Suppliers</TabsTrigger>
+            <TabsTrigger value="summary" data-testid="tab-summary">Summary</TabsTrigger>
+            <TabsTrigger value="costs" data-testid="tab-costs">Landed Cost</TabsTrigger>
+            <TabsTrigger value="customs" data-testid="tab-customs">Customs</TabsTrigger>
+            <TabsTrigger value="risks" data-testid="tab-risks">Risk</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="suppliers" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-primary" />
+                  Supplier Comparison
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">Compare suppliers with pricing, MOQ, and ratings</p>
+              </CardHeader>
+              <CardContent>
+                {sellerComparisonData.length > 0 && (
+                  <div className="h-64 mb-8">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={sellerComparisonData}>
+                        <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
+                        <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
+                        <Tooltip />
+                        <Legend />
+                        <Bar yAxisId="left" dataKey="price" name="Unit Price ($)" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                        <Bar yAxisId="right" dataKey="margin" name="Profit Margin (%)" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+
+                <div className="space-y-4">
+                  {sellers.map((seller: any, i: number) => (
+                    <div key={i} className={`p-6 rounded-xl border-2 ${i === 0 ? 'border-green-500 bg-green-50/50 dark:bg-green-950/20' : 'border-border'}`}>
+                      {i === 0 && (
+                        <Badge className="bg-green-500 mb-3">
+                          <Star className="w-3 h-3 mr-1 fill-current" />
+                          Recommended
+                        </Badge>
+                      )}
+                      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                              <Building2 className="w-6 h-6 text-primary" />
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-lg">{seller.sellerName}</h4>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <MapPin className="w-3 h-3" />
+                                {seller.location}
+                                <span className="mx-1">|</span>
+                                <Badge variant="outline" className="text-xs">{seller.platform}</Badge>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                            <div>
+                              <div className="text-xs text-muted-foreground">Unit Price</div>
+                              <div className="text-lg font-bold text-primary">{seller.unitPrice}</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-muted-foreground">MOQ</div>
+                              <div className="font-medium">{seller.moq}</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-muted-foreground">Lead Time</div>
+                              <div className="font-medium">{seller.leadTime}</div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-muted-foreground">Rating</div>
+                              <div className="flex items-center gap-1">
+                                <Star className="w-4 h-4 text-amber-500 fill-current" />
+                                <span className="font-medium">{seller.rating}</span>
+                                {seller.yearsInBusiness && (
+                                  <span className="text-xs text-muted-foreground">({seller.yearsInBusiness}y)</span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          {seller.certifications && (
+                            <div className="flex flex-wrap gap-1 mt-3">
+                              {seller.certifications.map((cert: string, j: number) => (
+                                <Badge key={j} variant="secondary" className="text-xs">
+                                  <Shield className="w-3 h-3 mr-1" />
+                                  {cert}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="lg:w-64 space-y-3 p-4 bg-muted/50 rounded-xl">
+                          <div className="flex justify-between">
+                            <span className="text-sm text-muted-foreground">Platform Fees</span>
+                            <span className="font-medium">{seller.platformFees || 'N/A'}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-muted-foreground">Total Cost</span>
+                            <span className="font-medium">{seller.totalCostWithFees || 'N/A'}</span>
+                          </div>
+                          <Separator />
+                          <div className="flex justify-between">
+                            <span className="text-sm font-medium">Est. Profit/Unit</span>
+                            <span className="font-bold text-green-600">{seller.estimatedProfit || 'N/A'}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm font-medium">Profit Margin</span>
+                            <span className="font-bold text-green-600">{seller.profitMargin || 'N/A'}</span>
+                          </div>
+                        </div>
+                      </div>
+                      {seller.recommendation && (
+                        <p className="text-sm text-muted-foreground mt-4 p-3 bg-muted/30 rounded-lg">
+                          <Sparkles className="w-4 h-4 inline mr-1 text-primary" />
+                          {seller.recommendation}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                  {sellers.length === 0 && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No suppliers found for this product.
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="summary" className="space-y-4">
+            <Card className="border-l-4 border-l-primary">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-primary" />
+                  Executive Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground leading-relaxed text-lg">{reportData?.executiveSummary || 'No summary available.'}</p>
+              </CardContent>
+            </Card>
+
+            {productClass && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Hash className="w-5 h-5 text-primary" />
+                    Product Classification
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="p-4 bg-primary/5 rounded-xl border border-primary/20">
+                      <div className="text-xs text-muted-foreground mb-1">HS Code</div>
+                      <div className="text-2xl font-mono font-bold text-primary">{productClass.hsCode}</div>
+                    </div>
+                    <div className="p-4 bg-muted/50 rounded-xl">
+                      <div className="text-xs text-muted-foreground mb-1">Tariff Chapter</div>
+                      <div className="font-medium">{productClass.tariffChapter}</div>
+                    </div>
+                    <div className="p-4 bg-muted/50 rounded-xl">
+                      <div className="text-xs text-muted-foreground mb-1">Category</div>
+                      <div className="font-medium">{productClass.productCategory}</div>
+                    </div>
+                    <div className="p-4 bg-muted/50 rounded-xl">
+                      <div className="text-xs text-muted-foreground mb-1">Classification</div>
+                      <div className="font-medium text-sm">{productClass.hsCodeDescription?.slice(0, 50)}...</div>
+                    </div>
+                  </div>
+                  {productClass.regulatoryRequirements && (
+                    <div>
+                      <div className="text-sm font-medium mb-2">Regulatory Requirements</div>
+                      <div className="flex flex-wrap gap-2">
+                        {productClass.regulatoryRequirements.map((req: string, i: number) => (
+                          <Badge key={i} variant="outline" className="text-xs">
+                            <Shield className="w-3 h-3 mr-1" />
+                            {req}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {reportData?.recommendations && reportData.recommendations.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                    Recommendations
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2">
+                    {reportData.recommendations.map((rec: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-500 mt-1 shrink-0" />
+                        <span>{rec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="costs" className="space-y-4">
+            {landedCost && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calculator className="w-5 h-5 text-primary" />
+                    Landed Cost Breakdown
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">Complete cost from factory to your door</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {costBreakdownData.length > 0 && (
+                      <div className="h-72">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={costBreakdownData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={100}
+                              paddingAngle={3}
+                              dataKey="value"
+                              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            >
+                              {costBreakdownData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Pie>
+                            <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      <CostRow icon={<Package className="text-blue-500" />} label="Product Cost (FOB)" value={landedCost.productCost} />
+                      <CostRow icon={<Ship className="text-cyan-500" />} label="Freight Cost" value={landedCost.freightCost} />
+                      <CostRow icon={<Shield className="text-green-500" />} label="Insurance" value={landedCost.insuranceCost} />
+                      <Separator />
+                      <CostRow icon={<Landmark className="text-amber-500" />} label="Customs Duties" value={landedCost.customsDuties} />
+                      <CostRow icon={<Receipt className="text-red-500" />} label="VAT/Taxes" value={landedCost.vatTaxes} />
+                      <CostRow icon={<Container className="text-purple-500" />} label="Handling Fees" value={landedCost.handlingFees} />
+                      <CostRow icon={<FileText className="text-indigo-500" />} label="Brokerage Fees" value={landedCost.brokerageFees} />
+                      <CostRow icon={<Truck className="text-orange-500" />} label="Inland Transport" value={landedCost.inlandTransport} />
+                      <Separator className="border-2" />
+                      <div className="flex justify-between items-center p-4 bg-primary/10 rounded-xl">
+                        <span className="font-bold text-lg">Total Landed Cost</span>
+                        <span className="text-2xl font-bold text-primary">{landedCost.totalLandedCost}</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-900">
+                        <span className="font-medium">Cost Per Unit</span>
+                        <span className="text-xl font-bold text-green-600">{landedCost.costPerUnit}</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {profitAnalysis && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <DollarSign className="w-5 h-5 text-primary" />
+                    Profit Analysis
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-xl border border-green-200 dark:border-green-900 text-center">
+                      <div className="text-sm text-muted-foreground">Recommended Retail Price</div>
+                      <div className="text-2xl font-bold text-green-600">{profitAnalysis.recommendedRetailPrice}</div>
+                    </div>
+                    <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-xl border border-blue-200 dark:border-blue-900 text-center">
+                      <div className="text-sm text-muted-foreground">Est. Profit/Unit</div>
+                      <div className="text-2xl font-bold text-blue-600">{profitAnalysis.estimatedProfit}</div>
+                    </div>
+                    <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-xl border border-purple-200 dark:border-purple-900 text-center">
+                      <div className="text-sm text-muted-foreground">Break-Even Qty</div>
+                      <div className="text-2xl font-bold text-purple-600">{profitAnalysis.breakEvenQuantity}</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="customs" className="space-y-4">
+            {customsData?.customsFees && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Landmark className="w-5 h-5 text-primary" />
+                    Customs Duties & Fees
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Import from {customsData.originCountry || savedFormData?.originCountry} to {customsData.destinationCountry || savedFormData?.destinationCountry}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Fee Type</TableHead>
+                        <TableHead className="text-right">Rate</TableHead>
+                        <TableHead className="text-right">Amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Import Duty</TableCell>
+                        <TableCell className="text-right">{customsData.customsFees.importDutyRate}</TableCell>
+                        <TableCell className="text-right font-medium">{customsData.customsFees.importDutyAmount}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">VAT/GST</TableCell>
+                        <TableCell className="text-right">{customsData.customsFees.vatRate}</TableCell>
+                        <TableCell className="text-right font-medium">{customsData.customsFees.vatAmount}</TableCell>
+                      </TableRow>
+                      {customsData.customsFees.additionalDuties?.map((duty: any, i: number) => (
+                        <TableRow key={i}>
+                          <TableCell className="font-medium">{duty.name}</TableCell>
+                          <TableCell className="text-right">{duty.rate}</TableCell>
+                          <TableCell className="text-right font-medium">{duty.amount}</TableCell>
+                        </TableRow>
+                      ))}
+                      <TableRow className="bg-primary/5 font-bold">
+                        <TableCell colSpan={2}>Total Customs Fees</TableCell>
+                        <TableCell className="text-right text-primary text-lg">{customsData.customsFees.totalCustomsFees}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+
+                  {customsData.tradeAgreements && (
+                    <div className="mt-6">
+                      <div className="text-sm font-medium mb-2 flex items-center gap-2">
+                        <FileCheck className="w-4 h-4 text-green-500" />
+                        Applicable Trade Agreements
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {customsData.tradeAgreements.map((agreement: string, i: number) => (
+                          <Badge key={i} variant="secondary">{agreement}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {customsData.requiredDocuments && (
+                    <div className="mt-4">
+                      <div className="text-sm font-medium mb-2 flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-blue-500" />
+                        Required Documents
+                      </div>
+                      <ul className="space-y-1">
+                        {customsData.requiredDocuments.map((doc: string, i: number) => (
+                          <li key={i} className="text-sm flex items-center gap-2">
+                            <CheckCircle className="w-3 h-3 text-green-500" />
+                            {doc}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="risks" className="space-y-4">
+            {reportData?.riskAssessment && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-primary" />
+                    Risk Assessment
+                  </CardTitle>
+                  <Badge variant={reportData.riskAssessment.overallRisk === 'Low' ? 'outline' : 'destructive'}>
+                    Overall Risk: {reportData.riskAssessment.overallRisk}
+                  </Badge>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {reportData.riskAssessment.risks?.map((risk: any, i: number) => (
+                      <div key={i} className="p-4 border rounded-xl">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-medium">{risk.category}</span>
+                          <Badge variant={risk.level === 'Low' ? 'outline' : risk.level === 'Medium' ? 'secondary' : 'destructive'}>
+                            {risk.level}
+                          </Badge>
+                        </div>
+                        <Progress value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75} className="h-2 mb-2" />
+                        <p className="text-sm text-muted-foreground">{risk.mitigation}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {reportData?.marketOverview && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe className="w-5 h-5 text-primary" />
+                    Market Overview
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground leading-relaxed">{reportData.marketOverview}</p>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
     );
   }
@@ -621,7 +1327,7 @@ export default function SmartFinder() {
               </div>
               {profile && (
                 <Badge variant="outline" className="text-xs">
-                  Balance: {profile.credits} Credits
+                  Balance: {totalCredits} Credits
                 </Badge>
               )}
             </div>
@@ -630,6 +1336,7 @@ export default function SmartFinder() {
               className="px-8" 
               onClick={handleSubmit} 
               disabled={(!formData.productName && !formData.category) || createReport.isPending}
+              data-testid="button-generate-report"
             >
               {createReport.isPending ? (
                 <>
@@ -638,8 +1345,8 @@ export default function SmartFinder() {
                 </>
               ) : (
                 <>
-                  Generate Intelligence Report
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <Search className="w-4 h-4 mr-2" />
+                  Search
                 </>
               )}
             </Button>
