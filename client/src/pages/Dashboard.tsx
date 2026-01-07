@@ -1,4 +1,4 @@
-import { useProfile, useReports, useShortlists, useCreditTransactions } from "@/lib/hooks";
+import { useProfile, useReports, useCreditTransactions } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,20 +6,13 @@ import { Progress } from "@/components/ui/progress";
 import { Link } from "wouter";
 import { 
   ArrowRight, 
-  Search, 
   FileText, 
-  ShoppingBag, 
   TrendingUp,
-  Calendar,
   Loader2,
   Sparkles,
   CreditCard,
   Globe2,
-  Building2,
-  Star,
-  Users,
   DollarSign,
-  Package,
   MapPin,
   Activity,
   Zap,
@@ -35,10 +28,9 @@ const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 export default function Dashboard() {
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: reports = [], isLoading: reportsLoading } = useReports();
-  const { data: shortlists = [], isLoading: shortlistsLoading } = useShortlists();
   const { data: transactions = [] } = useCreditTransactions();
 
-  const isLoading = profileLoading || reportsLoading || shortlistsLoading;
+  const isLoading = profileLoading || reportsLoading;
 
   const hasError = !profile && !profileLoading;
 
@@ -83,16 +75,6 @@ export default function Dashboard() {
     { name: 'Sat', reports: 1, credits: 2 },
     { name: 'Sun', reports: reports.length, credits: 6 },
   ];
-
-  const categoryData = shortlists.reduce((acc: any[], list) => {
-    const existing = acc.find(c => c.name === list.category);
-    if (existing) {
-      existing.value++;
-    } else {
-      acc.push({ name: list.category, value: 1 });
-    }
-    return acc;
-  }, []).slice(0, 5);
 
   const regionData = [
     { name: 'China', value: 35, color: '#3b82f6' },
@@ -155,14 +137,6 @@ export default function Dashboard() {
           value={reports.length}
           change={reports.length > 0 ? `${reports.filter(r => r.status === 'completed').length} complete` : undefined}
           iconBg="from-emerald-500 to-emerald-600"
-          cardBg="from-slate-800/80 to-slate-900/80"
-        />
-        <MetricCard
-          icon={<Building2 className="w-5 h-5" />}
-          label="Supplier Lists"
-          value={shortlists.length}
-          change={`${shortlists.filter(s => !s.isPremium || profile?.plan === 'monthly').length} available`}
-          iconBg="from-violet-500 to-violet-600"
           cardBg="from-slate-800/80 to-slate-900/80"
         />
         <MetricCard
@@ -344,21 +318,6 @@ export default function Dashboard() {
               </div>
             </Link>
 
-            <Link href="/shortlists">
-              <div className="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 transition-all cursor-pointer group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/30 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-violet-400" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-slate-200 group-hover:text-white transition-colors">Browse Supplier Lists</div>
-                    <div className="text-sm text-slate-400">{shortlists.length} curated lists available</div>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors" />
-                </div>
-              </div>
-            </Link>
-
             <Link href="/tools">
               <div className="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 transition-all cursor-pointer group">
                 <div className="flex items-center gap-4">
@@ -393,50 +352,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
-
-      <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-700/50 pb-4">
-          <CardTitle className="flex items-center gap-2 text-slate-100">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30">
-              <Star className="w-4 h-4 text-amber-400" />
-            </div>
-            Featured Supplier Lists
-          </CardTitle>
-          <Link href="/shortlists">
-            <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white hover:bg-slate-700/50">View All ({shortlists.length})</Button>
-          </Link>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {shortlists.slice(0, 3).map((list) => {
-              const suppliers = list.suppliers as any[];
-              const isLocked = list.isPremium && profile?.plan !== 'monthly';
-              
-              return (
-                <Link key={list.id} href="/shortlists">
-                  <div className={`p-5 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:bg-slate-700/50 hover:border-slate-500/50 hover:shadow-lg transition-all cursor-pointer group ${isLocked ? 'opacity-70' : ''}`}>
-                    <div className="flex items-start justify-between mb-3">
-                      <Badge className={list.isPremium ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0' : 'bg-slate-600/50 text-slate-300 border-slate-500/50'}>
-                        {list.isPremium ? 'Premium' : 'Free'}
-                      </Badge>
-                      {isLocked && <span className="text-xs text-slate-500">Pro only</span>}
-                    </div>
-                    <h4 className="font-semibold mb-1 line-clamp-1 text-slate-200 group-hover:text-white transition-colors">{list.title}</h4>
-                    <p className="text-sm text-slate-400 mb-3">{list.category}</p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-500">{suppliers?.length || 0} suppliers</span>
-                      <div className="flex items-center gap-1 text-amber-400">
-                        <Star className="w-4 h-4 fill-current" />
-                        <span className="font-medium">4.8</span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
 
       {transactions.length > 0 && (
         <Card className="bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-slate-700/50 shadow-xl backdrop-blur-sm">

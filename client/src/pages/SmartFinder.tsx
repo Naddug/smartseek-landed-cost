@@ -293,142 +293,732 @@ export default function SmartFinder() {
       const reportData = report.reportData as any;
       const savedFormData = report.formData as any;
       const pageWidth = 210;
-      const margin = 20;
+      const pageHeight = 297;
+      const margin = 15;
       const contentWidth = pageWidth - (margin * 2);
       let y = 20;
+      let currentPage = 1;
       
-      const addText = (text: string, fontSize: number = 10, isBold: boolean = false) => {
-        pdf.setFontSize(fontSize);
-        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
-        const lines = pdf.splitTextToSize(text, contentWidth);
-        lines.forEach((line: string) => {
-          if (y > 270) {
-            pdf.addPage();
-            y = 20;
-          }
-          pdf.text(line, margin, y);
-          y += fontSize * 0.5;
-        });
-        y += 3;
+      const primaryColor = { r: 59, g: 130, b: 246 };
+      const secondaryColor = { r: 16, g: 185, b: 129 };
+      const accentColor = { r: 245, g: 158, b: 11 };
+      const dangerColor = { r: 239, g: 68, b: 68 };
+      const grayColor = { r: 107, g: 114, b: 128 };
+      const lightGray = { r: 243, g: 244, b: 246 };
+      
+      const checkPageBreak = (requiredSpace: number = 30) => {
+        if (y > pageHeight - requiredSpace - 20) {
+          pdf.addPage();
+          currentPage++;
+          y = 20;
+          return true;
+        }
+        return false;
       };
       
-      const addSection = (title: string) => {
-        y += 5;
-        if (y > 260) {
-          pdf.addPage();
-          y = 20;
+      const addText = (text: string, fontSize: number = 10, isBold: boolean = false, color?: {r: number, g: number, b: number}, maxWidth?: number) => {
+        if (!text) return;
+        pdf.setFontSize(fontSize);
+        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+        if (color) {
+          pdf.setTextColor(color.r, color.g, color.b);
+        } else {
+          pdf.setTextColor(0, 0, 0);
         }
-        pdf.setDrawColor(59, 130, 246);
-        pdf.setLineWidth(0.5);
-        pdf.line(margin, y, margin + contentWidth, y);
-        y += 6;
-        addText(title, 14, true);
+        const lines = pdf.splitTextToSize(text, maxWidth || contentWidth);
+        lines.forEach((line: string) => {
+          checkPageBreak();
+          pdf.text(line, margin, y);
+          y += fontSize * 0.4 + 1;
+        });
         y += 2;
       };
       
-      pdf.setFillColor(59, 130, 246);
-      pdf.rect(0, 0, pageWidth, 35, 'F');
-      pdf.setTextColor(255, 255, 255);
-      pdf.setFontSize(20);
+      const addSectionHeader = (icon: string, title: string, bgColor?: {r: number, g: number, b: number}) => {
+        checkPageBreak(40);
+        y += 6;
+        
+        if (bgColor) {
+          pdf.setFillColor(bgColor.r, bgColor.g, bgColor.b);
+          pdf.roundedRect(margin, y - 5, contentWidth, 10, 2, 2, 'F');
+          pdf.setTextColor(255, 255, 255);
+        } else {
+          pdf.setDrawColor(primaryColor.r, primaryColor.g, primaryColor.b);
+          pdf.setLineWidth(0.5);
+          pdf.line(margin, y, margin + contentWidth, y);
+          pdf.setTextColor(primaryColor.r, primaryColor.g, primaryColor.b);
+        }
+        
+        y += 3;
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(`${icon} ${title}`, margin + 3, y);
+        y += 8;
+        pdf.setTextColor(0, 0, 0);
+      };
+      
+      const addKeyMetricBox = (label: string, value: string, x: number, width: number, color: {r: number, g: number, b: number}) => {
+        pdf.setFillColor(color.r, color.g, color.b);
+        pdf.roundedRect(x, y, width, 18, 2, 2, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(8);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(label, x + width/2, y + 5, { align: 'center' });
+        pdf.setFontSize(11);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(value || 'N/A', x + width/2, y + 13, { align: 'center' });
+      };
+      
+      const addInfoRow = (label: string, value: string, indent: number = 0) => {
+        if (!value) return;
+        checkPageBreak();
+        pdf.setFontSize(9);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+        pdf.text(label + ':', margin + indent, y);
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFont('helvetica', 'bold');
+        const labelWidth = pdf.getTextWidth(label + ': ');
+        pdf.text(value, margin + indent + labelWidth, y);
+        y += 5;
+      };
+      
+      const addBulletPoint = (text: string, bulletColor?: {r: number, g: number, b: number}) => {
+        if (!text) return;
+        checkPageBreak();
+        pdf.setFontSize(9);
+        if (bulletColor) {
+          pdf.setFillColor(bulletColor.r, bulletColor.g, bulletColor.b);
+          pdf.circle(margin + 2, y - 1.5, 1.5, 'F');
+        } else {
+          pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+          pdf.text('•', margin, y);
+        }
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(0, 0, 0);
+        const lines = pdf.splitTextToSize(text, contentWidth - 8);
+        lines.forEach((line: string, idx: number) => {
+          pdf.text(line, margin + 6, y);
+          y += 4;
+        });
+        y += 1;
+      };
+      
+      pdf.setFillColor(primaryColor.r, primaryColor.g, primaryColor.b);
+      pdf.rect(0, 0, pageWidth, 45, 'F');
+      
+      pdf.setFillColor(255, 255, 255);
+      pdf.roundedRect(margin, 8, 35, 12, 2, 2, 'F');
+      pdf.setTextColor(primaryColor.r, primaryColor.g, primaryColor.b);
+      pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
-      pdf.text('SmartSeek Sourcing Report', margin, 18);
+      pdf.text('SmartSeek', margin + 17.5, 16, { align: 'center' });
+      
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(18);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('SOURCING INTELLIGENCE REPORT', margin + 40, 16);
+      
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
-      pdf.text(report.title, margin, 28);
+      pdf.text(report.title, margin, 32);
+      pdf.setFontSize(9);
+      pdf.text(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')} | Trade Route: ${savedFormData?.originCountry || 'China'} → ${savedFormData?.destinationCountry || 'United States'}`, margin, 40);
       
+      y = 55;
+      
+      const productClass = reportData?.productClassification;
+      const landedCost = reportData?.landedCostBreakdown;
+      const profitAnalysis = reportData?.profitAnalysis;
+      const sellers = reportData?.sellerComparison || [];
+      
+      pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+      pdf.roundedRect(margin, y, contentWidth, 28, 3, 3, 'F');
+      
+      y += 5;
+      pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('KEY METRICS AT A GLANCE', margin + 5, y);
+      y += 5;
+      
+      const boxWidth = (contentWidth - 20) / 4;
+      addKeyMetricBox('HS CODE', productClass?.hsCode || 'N/A', margin + 2, boxWidth, primaryColor);
+      addKeyMetricBox('LANDED COST/UNIT', landedCost?.costPerUnit || 'N/A', margin + 4 + boxWidth, boxWidth, secondaryColor);
+      addKeyMetricBox('PROFIT MARGIN', profitAnalysis?.profitMargin || 'N/A', margin + 6 + boxWidth * 2, boxWidth, accentColor);
+      addKeyMetricBox('SUPPLIERS FOUND', String(sellers.length), margin + 8 + boxWidth * 3, boxWidth, { r: 139, g: 92, b: 246 });
+      
+      y += 26;
+      
+      pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+      pdf.roundedRect(margin, y, contentWidth, 45, 3, 3, 'F');
+      y += 5;
+      pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('TABLE OF CONTENTS', margin + 5, y);
+      y += 6;
+      
+      const tocItems = [
+        '1. Executive Summary',
+        '2. Product Classification',
+        '3. Market Overview',
+        '4. Customs Analysis & Trade Agreements',
+        '5. Landed Cost Breakdown',
+        '6. Supplier Comparison Table',
+        '7. Supplier Regions Analysis',
+        '8. Profit Analysis',
+        '9. Timeline & Lead Times',
+        '10. Risk Assessment',
+        '11. Recommendations & Next Steps'
+      ];
+      
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(0, 0, 0);
-      y = 45;
-      
-      addText(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')}`, 10);
-      addText(`Trade Route: ${savedFormData?.originCountry || 'China'} → ${savedFormData?.destinationCountry || 'United States'}`, 10);
-      if (reportData?.productClassification?.hsCode) {
-        addText(`HS Code: ${reportData.productClassification.hsCode}`, 10);
-      }
+      const tocColWidth = contentWidth / 2 - 5;
+      tocItems.forEach((item, idx) => {
+        const col = idx < 6 ? 0 : 1;
+        const row = idx < 6 ? idx : idx - 6;
+        pdf.text(item, margin + 5 + col * tocColWidth, y + row * 5);
+      });
+      y += 38;
       
       if (reportData?.executiveSummary) {
-        addSection('EXECUTIVE SUMMARY');
-        addText(reportData.executiveSummary, 10);
-      }
-      
-      if (reportData?.productClassification) {
-        addSection('PRODUCT CLASSIFICATION');
-        addText(`HS Code: ${reportData.productClassification.hsCode || 'N/A'}`, 10);
-        addText(`Description: ${reportData.productClassification.hsCodeDescription || 'N/A'}`, 10);
-        addText(`Chapter: ${reportData.productClassification.tariffChapter || 'N/A'}`, 10);
-        addText(`Category: ${reportData.productClassification.productCategory || 'N/A'}`, 10);
-      }
-      
-      if (reportData?.customsAnalysis?.customsFees) {
-        addSection('CUSTOMS DUTIES & FEES');
-        const fees = reportData.customsAnalysis.customsFees;
-        addText(`Import Duty Rate: ${fees.importDutyRate || 'N/A'}`, 10);
-        addText(`Import Duty Amount: ${fees.importDutyAmount || 'N/A'}`, 10);
-        addText(`VAT Rate: ${fees.vatRate || 'N/A'}`, 10);
-        addText(`VAT Amount: ${fees.vatAmount || 'N/A'}`, 10);
-        addText(`Total Customs Fees: ${fees.totalCustomsFees || 'N/A'}`, 10, true);
-      }
-      
-      if (reportData?.landedCostBreakdown) {
-        addSection('LANDED COST BREAKDOWN');
-        const lc = reportData.landedCostBreakdown;
-        addText(`Product Cost: ${lc.productCost || 'N/A'}`, 10);
-        addText(`Freight Cost: ${lc.freightCost || 'N/A'}`, 10);
-        addText(`Insurance: ${lc.insuranceCost || 'N/A'}`, 10);
-        addText(`Customs Duties: ${lc.customsDuties || 'N/A'}`, 10);
-        addText(`VAT/Taxes: ${lc.vatTaxes || 'N/A'}`, 10);
-        addText(`Total Landed Cost: ${lc.totalLandedCost || 'N/A'}`, 10, true);
-        addText(`Cost Per Unit: ${lc.costPerUnit || 'N/A'}`, 10, true);
-      }
-      
-      if (reportData?.profitAnalysis) {
-        addSection('PROFIT ANALYSIS');
-        const pa = reportData.profitAnalysis;
-        addText(`Recommended Retail Price: ${pa.recommendedRetailPrice || 'N/A'}`, 10);
-        addText(`Estimated Profit: ${pa.estimatedProfit || 'N/A'}`, 10);
-        addText(`Profit Margin: ${pa.profitMargin || 'N/A'}`, 10, true);
-        addText(`Break-even Quantity: ${pa.breakEvenQuantity || 'N/A'}`, 10);
-      }
-      
-      if (reportData?.sellerComparison?.length > 0) {
-        addSection('SUPPLIER COMPARISON');
-        reportData.sellerComparison.forEach((seller: any, index: number) => {
-          addText(`${index + 1}. ${seller.sellerName || 'Supplier'}`, 11, true);
-          addText(`   Platform: ${seller.platform || 'N/A'} | Location: ${seller.location || 'N/A'}`, 9);
-          addText(`   Unit Price: ${seller.unitPrice || 'N/A'} | MOQ: ${seller.moq || 'N/A'}`, 9);
-          addText(`   Rating: ${seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
-          y += 2;
+        addSectionHeader('📋', 'EXECUTIVE SUMMARY', primaryColor);
+        pdf.setFillColor(240, 249, 255);
+        const summaryLines = pdf.splitTextToSize(reportData.executiveSummary, contentWidth - 10);
+        const summaryHeight = summaryLines.length * 5 + 10;
+        pdf.roundedRect(margin, y - 3, contentWidth, summaryHeight, 2, 2, 'F');
+        pdf.setFontSize(10);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(0, 0, 0);
+        summaryLines.forEach((line: string) => {
+          pdf.text(line, margin + 5, y + 3);
+          y += 5;
         });
+        y += 8;
+      }
+      
+      if (productClass) {
+        addSectionHeader('🏷️', 'PRODUCT CLASSIFICATION');
+        
+        pdf.setFillColor(primaryColor.r, primaryColor.g, primaryColor.b);
+        pdf.roundedRect(margin, y, 50, 12, 2, 2, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(8);
+        pdf.text('HS CODE', margin + 25, y + 4, { align: 'center' });
+        pdf.setFontSize(11);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(productClass.hsCode || 'N/A', margin + 25, y + 10, { align: 'center' });
+        
+        const classX = margin + 55;
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(9);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`Description: ${productClass.hsCodeDescription || 'N/A'}`, classX, y + 3);
+        pdf.text(`Tariff Chapter: ${productClass.tariffChapter || 'N/A'}`, classX, y + 8);
+        pdf.text(`Category: ${productClass.productCategory || 'N/A'}`, classX, y + 13);
+        y += 18;
+        
+        if (productClass.regulatoryRequirements?.length > 0) {
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('Regulatory Requirements:', margin, y);
+          y += 5;
+          productClass.regulatoryRequirements.forEach((req: string) => {
+            addBulletPoint(req, secondaryColor);
+          });
+        }
+        y += 3;
+      }
+      
+      const marketOverview = reportData?.marketOverview;
+      if (marketOverview) {
+        addSectionHeader('🌍', 'MARKET OVERVIEW');
+        
+        pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+        pdf.roundedRect(margin, y, contentWidth, 20, 2, 2, 'F');
+        
+        const moColWidth = contentWidth / 2 - 5;
+        pdf.setFontSize(9);
+        addInfoRow('Market Size', marketOverview.marketSize, 3);
+        const tempY = y - 5;
+        pdf.text('Growth Rate:', margin + moColWidth + 3, tempY);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(marketOverview.growthRate || 'N/A', margin + moColWidth + 35, tempY);
+        y += 10;
+        
+        if (marketOverview.keyTrends?.length > 0) {
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(9);
+          pdf.text('Key Market Trends:', margin, y);
+          y += 5;
+          marketOverview.keyTrends.forEach((trend: string) => {
+            addBulletPoint(trend, accentColor);
+          });
+        }
+        
+        if (marketOverview.majorExporters?.length > 0 || marketOverview.majorImporters?.length > 0) {
+          y += 3;
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          if (marketOverview.majorExporters?.length > 0) {
+            pdf.text('Major Exporters: ', margin, y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(marketOverview.majorExporters.join(', '), margin + 32, y);
+            y += 5;
+          }
+          if (marketOverview.majorImporters?.length > 0) {
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('Major Importers: ', margin, y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(marketOverview.majorImporters.join(', '), margin + 32, y);
+            y += 5;
+          }
+        }
+        y += 3;
+      }
+      
+      const customsAnalysis = reportData?.customsAnalysis;
+      if (customsAnalysis) {
+        addSectionHeader('🏛️', 'CUSTOMS ANALYSIS & FEES');
+        
+        if (customsAnalysis.tradeAgreements?.length > 0) {
+          pdf.setFillColor(220, 252, 231);
+          pdf.roundedRect(margin, y, contentWidth, 12, 2, 2, 'F');
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(22, 101, 52);
+          pdf.text('Applicable Trade Agreements:', margin + 3, y + 5);
+          pdf.setFont('helvetica', 'normal');
+          pdf.text(customsAnalysis.tradeAgreements.join(' | '), margin + 50, y + 5);
+          y += 15;
+          pdf.setTextColor(0, 0, 0);
+        }
+        
+        if (customsAnalysis.customsFees) {
+          const fees = customsAnalysis.customsFees;
+          
+          pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+          pdf.roundedRect(margin, y, contentWidth, 7, 1, 1, 'F');
+          pdf.setFontSize(8);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('Fee Type', margin + 3, y + 5);
+          pdf.text('Rate', margin + 70, y + 5);
+          pdf.text('Amount', margin + 110, y + 5);
+          y += 9;
+          
+          const feeRows = [
+            ['Import Duty', fees.importDutyRate, fees.importDutyAmount],
+            ['VAT/GST', fees.vatRate, fees.vatAmount],
+          ];
+          
+          if (fees.additionalDuties?.length > 0) {
+            fees.additionalDuties.forEach((duty: any) => {
+              feeRows.push([duty.name, duty.rate, duty.amount]);
+            });
+          }
+          
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'normal');
+          feeRows.forEach((row, idx) => {
+            if (idx % 2 === 1) {
+              pdf.setFillColor(250, 250, 250);
+              pdf.rect(margin, y - 3, contentWidth, 6, 'F');
+            }
+            pdf.text(row[0] || '', margin + 3, y);
+            pdf.text(row[1] || 'N/A', margin + 70, y);
+            pdf.text(row[2] || 'N/A', margin + 110, y);
+            y += 6;
+          });
+          
+          pdf.setFillColor(primaryColor.r, primaryColor.g, primaryColor.b);
+          pdf.roundedRect(margin, y, contentWidth, 8, 1, 1, 'F');
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('TOTAL CUSTOMS FEES', margin + 3, y + 5);
+          pdf.text(fees.totalCustomsFees || 'N/A', margin + 110, y + 5);
+          y += 12;
+          pdf.setTextColor(0, 0, 0);
+        }
+        
+        if (customsAnalysis.requiredDocuments?.length > 0) {
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('Required Documents:', margin, y);
+          y += 5;
+          customsAnalysis.requiredDocuments.forEach((doc: string) => {
+            addBulletPoint(doc, primaryColor);
+          });
+        }
+        
+        if (customsAnalysis.complianceNotes?.length > 0) {
+          y += 3;
+          pdf.setFillColor(254, 243, 199);
+          pdf.roundedRect(margin, y, contentWidth, 5 + customsAnalysis.complianceNotes.length * 5, 2, 2, 'F');
+          y += 4;
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(146, 64, 14);
+          pdf.text('⚠ Compliance Notes:', margin + 3, y);
+          y += 5;
+          pdf.setFont('helvetica', 'normal');
+          customsAnalysis.complianceNotes.forEach((note: string) => {
+            pdf.text('• ' + note, margin + 5, y);
+            y += 5;
+          });
+          pdf.setTextColor(0, 0, 0);
+        }
+        y += 5;
+      }
+      
+      if (landedCost) {
+        addSectionHeader('💰', 'LANDED COST BREAKDOWN');
+        
+        const costItems = [
+          { label: 'Product Cost (FOB)', value: landedCost.productCost, color: primaryColor },
+          { label: 'Freight Cost', value: landedCost.freightCost, color: { r: 6, g: 182, b: 212 } },
+          { label: 'Insurance', value: landedCost.insuranceCost, color: secondaryColor },
+          { label: 'Customs Duties', value: landedCost.customsDuties, color: accentColor },
+          { label: 'VAT/Taxes', value: landedCost.vatTaxes, color: dangerColor },
+          { label: 'Handling Fees', value: landedCost.handlingFees, color: { r: 139, g: 92, b: 246 } },
+          { label: 'Brokerage Fees', value: landedCost.brokerageFees, color: { r: 99, g: 102, b: 241 } },
+          { label: 'Port Charges', value: landedCost.portCharges, color: { r: 236, g: 72, b: 153 } },
+          { label: 'Inland Transport', value: landedCost.inlandTransport, color: { r: 249, g: 115, b: 22 } },
+        ].filter(item => item.value);
+        
+        costItems.forEach((item, idx) => {
+          if (idx % 2 === 0) {
+            pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+            pdf.rect(margin, y - 2, contentWidth, 6, 'F');
+          }
+          pdf.setFillColor(item.color.r, item.color.g, item.color.b);
+          pdf.circle(margin + 3, y, 2, 'F');
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'normal');
+          pdf.text(item.label, margin + 8, y + 1);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text(item.value, margin + contentWidth - 40, y + 1);
+          y += 6;
+        });
+        
+        y += 2;
+        pdf.setFillColor(secondaryColor.r, secondaryColor.g, secondaryColor.b);
+        pdf.roundedRect(margin, y, contentWidth, 10, 2, 2, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(10);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('TOTAL LANDED COST', margin + 5, y + 7);
+        pdf.text(landedCost.totalLandedCost || 'N/A', margin + contentWidth - 40, y + 7);
+        y += 13;
+        
+        pdf.setFillColor(16, 185, 129);
+        pdf.roundedRect(margin, y, contentWidth / 2 - 2, 10, 2, 2, 'F');
+        pdf.text('Cost Per Unit: ' + (landedCost.costPerUnit || 'N/A'), margin + 5, y + 7);
+        y += 15;
+        pdf.setTextColor(0, 0, 0);
+      }
+      
+      if (sellers.length > 0) {
+        addSectionHeader('👥', 'SUPPLIER COMPARISON', primaryColor);
+        
+        const colWidths = [35, 22, 30, 20, 18, 15, 20, 30];
+        const headers = ['Supplier', 'Platform', 'Location', 'Price', 'MOQ', 'Rating', 'Lead Time', 'Certifications'];
+        
+        pdf.setFillColor(59, 130, 246);
+        pdf.rect(margin, y, contentWidth, 7, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(7);
+        pdf.setFont('helvetica', 'bold');
+        let xPos = margin + 1;
+        headers.forEach((header, idx) => {
+          pdf.text(header, xPos, y + 5);
+          xPos += colWidths[idx];
+        });
+        y += 9;
+        
+        sellers.forEach((seller: any, index: number) => {
+          checkPageBreak(25);
+          
+          if (index === 0) {
+            pdf.setFillColor(220, 252, 231);
+          } else if (index % 2 === 1) {
+            pdf.setFillColor(250, 250, 250);
+          } else {
+            pdf.setFillColor(255, 255, 255);
+          }
+          pdf.rect(margin, y - 3, contentWidth, 8, 'F');
+          
+          if (index === 0) {
+            pdf.setFillColor(22, 163, 74);
+            pdf.circle(margin + 2, y, 2, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(5);
+            pdf.text('★', margin + 0.8, y + 1);
+          }
+          
+          pdf.setTextColor(0, 0, 0);
+          pdf.setFontSize(7);
+          pdf.setFont('helvetica', 'normal');
+          
+          xPos = margin + 1;
+          const rowData = [
+            (seller.sellerName || 'N/A').substring(0, 18),
+            seller.platform || 'N/A',
+            (seller.location || 'N/A').substring(0, 15),
+            seller.unitPrice || 'N/A',
+            seller.moq || 'N/A',
+            seller.rating ? String(seller.rating) : 'N/A',
+            seller.leadTime || 'N/A',
+            (seller.certifications?.slice(0, 2).join(', ') || 'N/A').substring(0, 18)
+          ];
+          
+          rowData.forEach((data, idx) => {
+            if (idx === 0) pdf.setFont('helvetica', 'bold');
+            else pdf.setFont('helvetica', 'normal');
+            pdf.text(data, xPos, y + 1);
+            xPos += colWidths[idx];
+          });
+          y += 8;
+          
+          if (seller.recommendation && index === 0) {
+            pdf.setFillColor(240, 253, 244);
+            pdf.roundedRect(margin + 2, y - 1, contentWidth - 4, 6, 1, 1, 'F');
+            pdf.setFontSize(6);
+            pdf.setTextColor(22, 101, 52);
+            pdf.setFont('helvetica', 'italic');
+            pdf.text('★ TOP PICK: ' + (seller.recommendation || '').substring(0, 100), margin + 4, y + 3);
+            y += 8;
+            pdf.setTextColor(0, 0, 0);
+          }
+        });
+        y += 5;
+      }
+      
+      const supplierAnalysis = reportData?.supplierAnalysis;
+      if (supplierAnalysis?.topRegions?.length > 0) {
+        addSectionHeader('🗺️', 'SUPPLIER REGIONS ANALYSIS');
+        
+        supplierAnalysis.topRegions.forEach((region: any) => {
+          checkPageBreak(25);
+          pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+          pdf.roundedRect(margin, y, contentWidth, 20, 2, 2, 'F');
+          
+          pdf.setFontSize(10);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text(region.region || 'N/A', margin + 3, y + 6);
+          pdf.setFontSize(8);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(secondaryColor.r, secondaryColor.g, secondaryColor.b);
+          pdf.text('Price Range: ' + (region.avgPriceRange || 'N/A'), margin + 100, y + 6);
+          pdf.setTextColor(0, 0, 0);
+          
+          pdf.setFontSize(7);
+          if (region.advantages?.length > 0) {
+            pdf.setTextColor(22, 163, 74);
+            pdf.text('✓ ' + region.advantages.slice(0, 3).join(' | '), margin + 3, y + 12);
+          }
+          if (region.considerations?.length > 0) {
+            pdf.setTextColor(202, 138, 4);
+            pdf.text('⚠ ' + region.considerations.slice(0, 2).join(' | '), margin + 3, y + 17);
+          }
+          pdf.setTextColor(0, 0, 0);
+          y += 24;
+        });
+      }
+      
+      if (profitAnalysis) {
+        addSectionHeader('📊', 'PROFIT ANALYSIS');
+        
+        const profitBoxWidth = (contentWidth - 10) / 3;
+        
+        pdf.setFillColor(220, 252, 231);
+        pdf.roundedRect(margin, y, profitBoxWidth, 20, 2, 2, 'F');
+        pdf.setFontSize(8);
+        pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+        pdf.text('Retail Price', margin + profitBoxWidth/2, y + 5, { align: 'center' });
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(22, 163, 74);
+        pdf.text(profitAnalysis.recommendedRetailPrice || 'N/A', margin + profitBoxWidth/2, y + 14, { align: 'center' });
+        
+        pdf.setFillColor(219, 234, 254);
+        pdf.roundedRect(margin + profitBoxWidth + 5, y, profitBoxWidth, 20, 2, 2, 'F');
+        pdf.setFontSize(8);
+        pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+        pdf.text('Est. Profit/Unit', margin + profitBoxWidth * 1.5 + 5, y + 5, { align: 'center' });
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(37, 99, 235);
+        pdf.text(profitAnalysis.estimatedProfit || 'N/A', margin + profitBoxWidth * 1.5 + 5, y + 14, { align: 'center' });
+        
+        pdf.setFillColor(243, 232, 255);
+        pdf.roundedRect(margin + (profitBoxWidth + 5) * 2, y, profitBoxWidth, 20, 2, 2, 'F');
+        pdf.setFontSize(8);
+        pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+        pdf.text('Profit Margin', margin + profitBoxWidth * 2.5 + 10, y + 5, { align: 'center' });
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(147, 51, 234);
+        pdf.text(profitAnalysis.profitMargin || 'N/A', margin + profitBoxWidth * 2.5 + 10, y + 14, { align: 'center' });
+        
+        y += 25;
+        pdf.setTextColor(0, 0, 0);
+        addInfoRow('Break-Even Quantity', profitAnalysis.breakEvenQuantity);
+        
+        if (profitAnalysis.platformFees?.length > 0) {
+          y += 3;
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('Platform Fee Comparison:', margin, y);
+          y += 5;
+          profitAnalysis.platformFees.forEach((platform: any) => {
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(8);
+            pdf.text(`${platform.platform}: ${platform.feeStructure} - ${platform.estimatedFees}`, margin + 3, y);
+            y += 4;
+          });
+        }
+        y += 5;
+      }
+      
+      const timeline = reportData?.timeline;
+      if (timeline) {
+        addSectionHeader('📅', 'TIMELINE & LEAD TIMES');
+        
+        const timelineItems = [
+          { label: 'Sampling', value: timeline.sampling, color: primaryColor },
+          { label: 'Tooling', value: timeline.tooling, color: { r: 99, g: 102, b: 241 } },
+          { label: 'Production', value: timeline.production, color: accentColor },
+          { label: 'Shipping', value: timeline.shipping, color: { r: 6, g: 182, b: 212 } },
+          { label: 'Customs', value: timeline.customsClearance, color: dangerColor },
+        ].filter(item => item.value);
+        
+        const timelineWidth = (contentWidth - 10) / timelineItems.length;
+        timelineItems.forEach((item, idx) => {
+          const x = margin + idx * timelineWidth + idx * 2;
+          pdf.setFillColor(item.color.r, item.color.g, item.color.b);
+          pdf.roundedRect(x, y, timelineWidth, 15, 2, 2, 'F');
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(7);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text(item.label, x + timelineWidth/2, y + 5, { align: 'center' });
+          pdf.setFontSize(9);
+          pdf.text(item.value, x + timelineWidth/2, y + 12, { align: 'center' });
+        });
+        y += 20;
+        
+        if (timeline.total) {
+          pdf.setFillColor(secondaryColor.r, secondaryColor.g, secondaryColor.b);
+          pdf.roundedRect(margin + contentWidth/3, y, contentWidth/3, 10, 2, 2, 'F');
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('TOTAL: ' + timeline.total, margin + contentWidth/2, y + 7, { align: 'center' });
+          y += 15;
+        }
+        pdf.setTextColor(0, 0, 0);
       }
       
       if (reportData?.riskAssessment) {
-        addSection('RISK ASSESSMENT');
-        addText(`Overall Risk Level: ${reportData.riskAssessment.overallRisk || 'N/A'}`, 10, true);
+        addSectionHeader('⚠️', 'RISK ASSESSMENT');
+        
+        const riskLevel = reportData.riskAssessment.overallRisk || 'Medium';
+        const riskColor = riskLevel === 'Low' ? secondaryColor : riskLevel === 'High' ? dangerColor : accentColor;
+        
+        pdf.setFillColor(riskColor.r, riskColor.g, riskColor.b);
+        pdf.roundedRect(margin, y, 50, 10, 2, 2, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(9);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Overall: ' + riskLevel, margin + 25, y + 7, { align: 'center' });
+        y += 15;
+        pdf.setTextColor(0, 0, 0);
+        
         if (reportData.riskAssessment.risks?.length > 0) {
           reportData.riskAssessment.risks.forEach((risk: any) => {
-            addText(`• ${risk.category}: ${risk.level} - ${risk.mitigation}`, 9);
+            checkPageBreak(12);
+            const rLevel = risk.level || 'Medium';
+            const rColor = rLevel === 'Low' ? secondaryColor : rLevel === 'High' ? dangerColor : accentColor;
+            
+            pdf.setFontSize(9);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(risk.category || 'Risk', margin, y);
+            
+            pdf.setFillColor(rColor.r, rColor.g, rColor.b);
+            pdf.roundedRect(margin + 40, y - 3, 18, 5, 1, 1, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(6);
+            pdf.text(rLevel, margin + 49, y, { align: 'center' });
+            
+            pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+            pdf.setFontSize(8);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Mitigation: ' + (risk.mitigation || 'N/A'), margin + 62, y);
+            y += 7;
+            pdf.setTextColor(0, 0, 0);
           });
         }
+        y += 5;
       }
       
-      if (reportData?.recommendations?.length > 0) {
-        addSection('RECOMMENDATIONS');
-        reportData.recommendations.forEach((rec: string) => {
-          addText(`• ${rec}`, 10);
-        });
+      if (reportData?.recommendations?.length > 0 || reportData?.nextSteps?.length > 0) {
+        addSectionHeader('✅', 'RECOMMENDATIONS & NEXT STEPS', secondaryColor);
+        
+        if (reportData.recommendations?.length > 0) {
+          pdf.setFontSize(10);
+          pdf.setFont('helvetica', 'bold');
+          pdf.text('Key Recommendations:', margin, y);
+          y += 5;
+          reportData.recommendations.forEach((rec: string, idx: number) => {
+            addBulletPoint(`${idx + 1}. ${rec}`, primaryColor);
+          });
+        }
+        
+        if (reportData.nextSteps?.length > 0) {
+          y += 5;
+          pdf.setFillColor(240, 253, 244);
+          const stepsHeight = 8 + reportData.nextSteps.length * 5;
+          pdf.roundedRect(margin, y, contentWidth, stepsHeight, 2, 2, 'F');
+          y += 5;
+          pdf.setFontSize(10);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(22, 101, 52);
+          pdf.text('Next Steps:', margin + 3, y);
+          y += 5;
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9);
+          reportData.nextSteps.forEach((step: string, idx: number) => {
+            pdf.text(`${idx + 1}. ${step}`, margin + 5, y);
+            y += 5;
+          });
+          pdf.setTextColor(0, 0, 0);
+        }
       }
       
       const pageCount = pdf.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
         pdf.setPage(i);
-        pdf.setFontSize(8);
-        pdf.setTextColor(128, 128, 128);
-        pdf.text('Generated by SmartSeek - AI-Powered Sourcing Intelligence', margin, 285);
-        pdf.text(`Page ${i} of ${pageCount}`, pageWidth - margin - 20, 285);
+        
+        pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
+        pdf.rect(0, pageHeight - 15, pageWidth, 15, 'F');
+        
+        pdf.setDrawColor(grayColor.r, grayColor.g, grayColor.b);
+        pdf.setLineWidth(0.2);
+        pdf.line(0, pageHeight - 15, pageWidth, pageHeight - 15);
+        
+        pdf.setFontSize(7);
+        pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text('SmartSeek - AI-Powered Sourcing Intelligence | Confidential Report', margin, pageHeight - 7);
+        pdf.text(`Generated: ${format(new Date(), 'MMM d, yyyy')}`, pageWidth/2, pageHeight - 7, { align: 'center' });
+        pdf.text(`Page ${i} of ${pageCount}`, pageWidth - margin, pageHeight - 7, { align: 'right' });
       }
       
       const fileName = `SmartSeek_Report_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
       pdf.save(fileName);
-      toast.success("PDF report downloaded successfully!");
+      toast.success("Professional PDF report downloaded successfully!");
     } catch (error) {
       console.error('PDF export failed:', error);
       toast.error("Failed to export PDF. Please try again.");

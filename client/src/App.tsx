@@ -12,7 +12,6 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import SmartFinder from "@/pages/SmartFinder";
-import Shortlists from "@/pages/Shortlists";
 import Admin from "@/pages/Admin";
 import Reports from "@/pages/Reports";
 import Tools from "@/pages/Tools";
@@ -21,7 +20,6 @@ import SampleReport from "@/pages/SampleReport";
 import CustomsCalculator from "@/pages/CustomsCalculator";
 import ShippingEstimator from "@/pages/ShippingEstimator";
 import TradeData from "@/pages/TradeData";
-import UniversalSearch from "@/pages/UniversalSearch";
 import AppLayout from "@/components/layout/AppLayout";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
@@ -71,9 +69,6 @@ function Router() {
       <Route path="/reports">
         <ProtectedRoute component={Reports} />
       </Route>
-      <Route path="/shortlists">
-        <ProtectedRoute component={Shortlists} />
-      </Route>
       <Route path="/tools">
         <ProtectedRoute component={Tools} />
       </Route>
@@ -85,9 +80,6 @@ function Router() {
       </Route>
       <Route path="/trade-data">
         <ProtectedRoute component={TradeData} />
-      </Route>
-      <Route path="/search">
-        <ProtectedRoute component={UniversalSearch} />
       </Route>
       <Route path="/billing">
         <ProtectedRoute component={Billing} />
