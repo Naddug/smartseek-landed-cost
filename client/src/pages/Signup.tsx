@@ -53,6 +53,7 @@ export default function Signup() {
           firstName: formData.firstName,
           lastName: formData.lastName,
         }),
+        credentials: "include",
       });
 
       const data = await response.json();
