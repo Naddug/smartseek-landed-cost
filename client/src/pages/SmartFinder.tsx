@@ -1348,32 +1348,8 @@ export default function SmartFinder() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-80px)] bg-gray-50/50">
-      <div 
-        ref={chatContainerRef}
-        className="flex-1 overflow-y-auto p-4 md:p-8"
-      >
-        <div className="flex items-center justify-center min-h-full">
-          {view === 'empty' && renderEmpty()}
-          {view === 'loading' && renderLoading()}
-          {view === 'results' && renderResults()}
-        </div>
-      </div>
-
-      <div className="border-t bg-white p-4">
+      <div className="border-b bg-white p-4">
         <div className="max-w-3xl mx-auto">
-          {view === 'results' && (
-            <div className="flex justify-center mb-3">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleNewSearch}
-                data-testid="button-new-search"
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                New Search
-              </Button>
-            </div>
-          )}
           <div className="relative flex items-end gap-2">
             <div className="flex-1 relative">
               <Textarea
@@ -1404,6 +1380,30 @@ export default function SmartFinder() {
           <p className="text-xs text-center text-muted-foreground mt-2">
             Press Enter to search • Uses 1 credit per report
           </p>
+        </div>
+      </div>
+
+      <div 
+        ref={chatContainerRef}
+        className="flex-1 overflow-y-auto p-4 md:p-8"
+      >
+        <div className="flex flex-col items-center min-h-full">
+          {view === 'results' && (
+            <div className="flex justify-center mb-4">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleNewSearch}
+                data-testid="button-new-search"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                New Search
+              </Button>
+            </div>
+          )}
+          {view === 'empty' && renderEmpty()}
+          {view === 'loading' && renderLoading()}
+          {view === 'results' && renderResults()}
         </div>
       </div>
     </div>

@@ -323,7 +323,7 @@ IMPORTANT:
     console.log("Starting AI report generation for:", formData.productName || formData.category);
     
     const completion = await openai.chat.completions.create({
-      model: "gpt-5",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -334,7 +334,7 @@ IMPORTANT:
           content: prompt
         }
       ],
-      max_completion_tokens: 8000,
+      max_tokens: 8000,
     });
 
     const responseText = completion.choices[0]?.message?.content || "";
