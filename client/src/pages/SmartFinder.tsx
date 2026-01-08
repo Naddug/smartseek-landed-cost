@@ -52,7 +52,8 @@ export default function SmartFinder() {
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
-  const canGenerateReport = totalCredits >= 1 || (profile && !profile.hasUsedFreeTrial);
+  const isAdmin = profile?.role === 'admin';
+  const canGenerateReport = isAdmin || totalCredits >= 1 || (profile && !profile.hasUsedFreeTrial);
 
   useEffect(() => {
     if (view === 'loading' && reportId && report) {
