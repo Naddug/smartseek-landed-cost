@@ -196,6 +196,8 @@ export async function registerRoutes(
       if (!report || report.userId !== userId) {
         return res.status(404).json({ error: "Report not found" });
       }
+      // Disable caching to ensure polling gets fresh data
+      res.set('Cache-Control', 'no-store, max-age=0');
       res.json(report);
     } catch (error) {
       console.error("Error fetching report:", error);
