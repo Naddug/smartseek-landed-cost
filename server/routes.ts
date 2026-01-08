@@ -109,17 +109,25 @@ export async function registerRoutes(
     try {
       const validatedData = insertReportSchema.parse(req.body);
       
-      // Check credits (monthly + topup)
+      // Check credits (monthly + topup) or free trial availability
       const profile = await storage.getUserProfile(userId);
       const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
-      if (!profile || totalCredits < 1) {
+      const hasFreeTrial = profile && !profile.hasUsedFreeTrial;
+      
+      if (!profile || (totalCredits < 1 && !hasFreeTrial)) {
         return res.status(402).json({ error: "Insufficient credits" });
       }
       
-      // Deduct credits
-      const spent = await storage.spendCredits(userId, 1, "Smart Finder Report");
-      if (!spent) {
-        return res.status(402).json({ error: "Failed to deduct credits" });
+      // Deduct credits or use free trial
+      if (hasFreeTrial && totalCredits < 1) {
+        // Use free trial - mark it as used
+        await storage.updateUserProfile(userId, { hasUsedFreeTrial: true });
+      } else {
+        // Deduct from credits
+        const spent = await storage.spendCredits(userId, 1, "Smart Finder Report");
+        if (!spent) {
+          return res.status(402).json({ error: "Failed to deduct credits" });
+        }
       }
       
       // Create initial report

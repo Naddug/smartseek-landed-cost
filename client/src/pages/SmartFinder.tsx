@@ -52,6 +52,7 @@ export default function SmartFinder() {
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+  const canGenerateReport = totalCredits >= 1 || (profile && !profile.hasUsedFreeTrial);
 
   useEffect(() => {
     if (view === 'loading' && reportId && report) {
@@ -74,8 +75,8 @@ export default function SmartFinder() {
       return;
     }
 
-    if (!profile || totalCredits < 1) {
-      toast.error("Insufficient credits. You need at least 1 credit to generate a report.");
+    if (!profile || !canGenerateReport) {
+      toast.error("Insufficient credits. Please purchase credits to generate a report.");
       return;
     }
 
