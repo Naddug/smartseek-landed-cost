@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useProfile, useCreateReport, useReport } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -55,19 +55,32 @@ export default function SmartFinder() {
   const isAdmin = profile?.role === 'admin';
   const canGenerateReport = isAdmin || totalCredits >= 1 || (profile && !profile.hasUsedFreeTrial);
 
+  // Poll for report status when loading
   useEffect(() => {
-    if (view === 'loading' && reportId && report) {
-      if (report.status === 'completed') {
-        setView('results');
-      } else if (report.status === 'failed') {
-        toast.error("Report generation failed. Please try again.");
-        setView('empty');
-      } else {
-        const timer = setTimeout(() => refetch(), 2000);
-        return () => clearTimeout(timer);
+    if (view !== 'loading' || !reportId) return;
+
+    const pollReport = async () => {
+      try {
+        const { data: latestReport } = await refetch();
+        if (latestReport?.status === 'completed') {
+          setView('results');
+        } else if (latestReport?.status === 'failed') {
+          toast.error("Report generation failed. Please try again.");
+          setView('empty');
+        }
+      } catch (error) {
+        console.error("Error polling report:", error);
       }
-    }
-  }, [view, reportId, report, refetch]);
+    };
+
+    // Initial poll
+    pollReport();
+
+    // Set up interval polling
+    const intervalId = setInterval(pollReport, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [view, reportId, refetch]);
 
   const handleSubmit = (inputQuery?: string) => {
     const searchQuery = inputQuery || query;
