@@ -54,6 +54,9 @@ export function useReport(id: number) {
     queryKey: ["reports", id],
     queryFn: () => reportsAPI.getById(id),
     enabled: !!id,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: false,
   });
 }
 

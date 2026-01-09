@@ -54,7 +54,7 @@ export const reportsAPI = {
       body: JSON.stringify(data),
     }),
   getAll: () => fetchAPI<Report[]>("/reports"),
-  getById: (id: number) => fetchAPI<Report>(`/reports/${id}`),
+  getById: (id: number) => fetchAPI<Report>(`/reports/${id}?_t=${Date.now()}`),
 };
 
 // Supplier Shortlists
