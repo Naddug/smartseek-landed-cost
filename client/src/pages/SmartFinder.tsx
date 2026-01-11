@@ -1311,34 +1311,122 @@ export default function SmartFinder() {
     );
   };
 
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingStep, setLoadingStep] = useState(0);
+  
+  const loadingSteps = [
+    { icon: <Hash className="w-5 h-5" />, label: "Classifying HS/GTIP codes", duration: 3000 },
+    { icon: <Globe className="w-5 h-5" />, label: "Analyzing market trends", duration: 4000 },
+    { icon: <DollarSign className="w-5 h-5" />, label: "Calculating customs duties", duration: 5000 },
+    { icon: <Ship className="w-5 h-5" />, label: "Estimating shipping costs", duration: 4000 },
+    { icon: <Building2 className="w-5 h-5" />, label: "Identifying qualified suppliers", duration: 6000 },
+    { icon: <Calculator className="w-5 h-5" />, label: "Computing landed costs", duration: 4000 },
+    { icon: <FileText className="w-5 h-5" />, label: "Compiling final report", duration: 3000 },
+  ];
+
+  useEffect(() => {
+    if (view !== 'loading') {
+      setLoadingProgress(0);
+      setLoadingStep(0);
+      return;
+    }
+
+    // Animate progress bar
+    const progressInterval = setInterval(() => {
+      setLoadingProgress(prev => {
+        if (prev >= 95) return 95;
+        return Math.min(prev + Math.random() * 3 + 1, 95);
+      });
+    }, 500);
+
+    // Animate steps
+    let stepTimer: ReturnType<typeof setTimeout>;
+    const animateSteps = (index: number) => {
+      if (index >= loadingSteps.length || view !== 'loading') return;
+      setLoadingStep(index);
+      stepTimer = setTimeout(() => animateSteps(index + 1), loadingSteps[index].duration);
+    };
+    animateSteps(0);
+
+    return () => {
+      clearInterval(progressInterval);
+      clearTimeout(stepTimer);
+    };
+  }, [view]);
+
   const renderLoading = () => (
     <div className="w-full max-w-2xl mx-auto">
-      <Card className="border-0 shadow-lg bg-white">
+      <Card className="border-0 shadow-xl bg-white overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-primary via-blue-400 to-primary bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite]" 
+             style={{ width: `${loadingProgress}%`, transition: 'width 0.5s ease-out' }} />
         <CardContent className="p-8">
           <div className="flex flex-col items-center text-center space-y-6">
-            <div className="relative w-16 h-16">
+            <div className="relative w-20 h-20">
               <div className="absolute inset-0 border-4 border-muted rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
-              <Sparkles className="absolute inset-0 m-auto text-primary animate-pulse w-6 h-6" />
+              <div className="absolute inset-0 border-4 border-t-primary border-r-primary/30 border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+              <div className="absolute inset-2 border-4 border-t-transparent border-r-transparent border-b-blue-400 border-l-blue-400/30 rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+              <Sparkles className="absolute inset-0 m-auto text-primary w-7 h-7 animate-pulse" />
             </div>
+            
             <div>
-              <h3 className="text-lg font-semibold mb-1">Generating Intelligence Report...</h3>
-              <p className="text-sm text-muted-foreground">Analyzing markets, customs duties, and supplier data</p>
+              <h3 className="text-xl font-semibold mb-1">Generating Intelligence Report</h3>
+              <p className="text-sm text-muted-foreground">AI is analyzing markets, customs duties, and supplier data</p>
             </div>
-            <div className="w-full space-y-2 text-left">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Hash className="w-4 h-4" />
-                <span>Classifying HS/GTIP codes...</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Globe className="w-4 h-4" />
-                <span>Calculating customs duties and tariffs...</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Building2 className="w-4 h-4" />
-                <span>Identifying qualified suppliers...</span>
-              </div>
+            
+            <div className="w-full space-y-3">
+              {loadingSteps.map((step, index) => {
+                const isActive = index === loadingStep;
+                const isCompleted = index < loadingStep;
+                const isPending = index > loadingStep;
+                
+                return (
+                  <div 
+                    key={index}
+                    className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-500 ${
+                      isActive ? 'bg-primary/10 border border-primary/30 scale-[1.02]' :
+                      isCompleted ? 'bg-green-50 border border-green-200' :
+                      'bg-muted/30 border border-transparent opacity-50'
+                    }`}
+                  >
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      isActive ? 'bg-primary text-white animate-pulse' :
+                      isCompleted ? 'bg-green-500 text-white' :
+                      'bg-muted text-muted-foreground'
+                    }`}>
+                      {isCompleted ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : isActive ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        step.icon
+                      )}
+                    </div>
+                    <span className={`text-sm font-medium transition-colors duration-300 ${
+                      isActive ? 'text-primary' :
+                      isCompleted ? 'text-green-700' :
+                      'text-muted-foreground'
+                    }`}>
+                      {step.label}
+                      {isActive && <span className="animate-pulse">...</span>}
+                    </span>
+                    {isCompleted && (
+                      <Badge variant="outline" className="ml-auto bg-green-50 text-green-700 border-green-200 text-xs">
+                        Done
+                      </Badge>
+                    )}
+                  </div>
+                );
+              })}
             </div>
+            
+            <div className="w-full">
+              <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                <span>Progress</span>
+                <span>{Math.round(loadingProgress)}%</span>
+              </div>
+              <Progress value={loadingProgress} className="h-2" />
+            </div>
+            
             <p className="text-xs text-muted-foreground">This usually takes 20-40 seconds</p>
           </div>
         </CardContent>
