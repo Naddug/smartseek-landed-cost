@@ -27,17 +27,24 @@ const EXAMPLE_PROMPTS = [
   "Compare suppliers for medical equipment"
 ];
 
-function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string }) {
-  if (!value) return null;
+function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string | number }) {
+  if (value === undefined || value === null) return null;
+  const displayValue = typeof value === 'number' ? `$${value.toLocaleString()}` : value;
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-2 text-sm">
         <span className="w-5 h-5">{icon}</span>
         <span>{label}</span>
       </div>
-      <span className="font-medium">{value}</span>
+      <span className="font-medium">{displayValue}</span>
     </div>
   );
+}
+
+function parseNumericValue(val: string | number | undefined | null): number {
+  if (val === undefined || val === null) return 0;
+  if (typeof val === 'number') return val;
+  return parseFloat(val.replace(/[^0-9.]/g, '')) || 0;
 }
 
 export default function SmartFinder() {
@@ -898,17 +905,17 @@ export default function SmartFinder() {
     const productClass = reportData?.productClassification;
 
     const costBreakdownData = landedCost ? [
-      { name: 'Product', value: parseFloat(landedCost.productCost?.replace(/[^0-9.]/g, '') || '0'), color: '#3b82f6' },
-      { name: 'Freight', value: parseFloat(landedCost.freightCost?.replace(/[^0-9.]/g, '') || '0'), color: '#10b981' },
-      { name: 'Duties', value: parseFloat(landedCost.customsDuties?.replace(/[^0-9.]/g, '') || '0'), color: '#f59e0b' },
-      { name: 'VAT/Tax', value: parseFloat(landedCost.vatTaxes?.replace(/[^0-9.]/g, '') || '0'), color: '#ef4444' },
-      { name: 'Fees', value: parseFloat(landedCost.handlingFees?.replace(/[^0-9.]/g, '') || '0') + parseFloat(landedCost.brokerageFees?.replace(/[^0-9.]/g, '') || '0'), color: '#8b5cf6' },
+      { name: 'Product', value: parseNumericValue(landedCost.productCost), color: '#3b82f6' },
+      { name: 'Freight', value: parseNumericValue(landedCost.freightCost), color: '#10b981' },
+      { name: 'Duties', value: parseNumericValue(landedCost.customsDuties), color: '#f59e0b' },
+      { name: 'VAT/Tax', value: parseNumericValue(landedCost.vatTaxes), color: '#ef4444' },
+      { name: 'Fees', value: parseNumericValue(landedCost.handlingFees) + parseNumericValue(landedCost.brokerageFees), color: '#8b5cf6' },
     ].filter(d => d.value > 0) : [];
 
     const sellerComparisonData = sellers.map((s: any) => ({
       name: s.sellerName?.split(' ')[0] || 'Seller',
-      price: parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0'),
-      margin: parseFloat(s.profitMargin?.replace(/[^0-9.]/g, '') || '0'),
+      price: parseNumericValue(s.unitPrice),
+      margin: parseNumericValue(s.profitMargin),
       rating: s.rating || 4.0
     }));
 
