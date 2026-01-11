@@ -6,6 +6,7 @@ SmartSeek is an AI-powered B2B sourcing intelligence platform that helps buyers 
 
 Key features include:
 - **Smart Finder**: AI-powered sourcing report generation using OpenAI
+- **Image Search**: Upload product images for GPT-4o vision analysis to identify and source products
 - **Supplier Shortlists**: Curated, verified supplier lists by category
 - **Sourcing Tools**: Landed cost and margin calculators
 - **Credit System**: Freemium model with credits for report generation
