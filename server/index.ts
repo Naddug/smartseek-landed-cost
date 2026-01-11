@@ -87,15 +87,17 @@ app.post(
 );
 
 // Now apply JSON middleware for all other routes
+// Increased limit to 15mb to support image uploads (base64 encoding adds ~33% overhead)
 app.use(
   express.json({
+    limit: '15mb',
     verify: (req, _res, buf) => {
       req.rawBody = buf;
     },
   }),
 );
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
