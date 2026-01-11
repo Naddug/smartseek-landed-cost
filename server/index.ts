@@ -26,7 +26,8 @@ async function initStripe() {
 
   try {
     console.log('Initializing Stripe schema...');
-    await runMigrations({ databaseUrl, schema: 'stripe' });
+    // @ts-ignore - schema option is supported by stripe-replit-sync
+    await runMigrations({ databaseUrl, schema: 'stripe' } as any);
     console.log('Stripe schema ready');
 
     const stripeSync = await getStripeSync();
