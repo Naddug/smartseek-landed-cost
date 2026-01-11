@@ -60,9 +60,6 @@ async function initStripe() {
   }
 }
 
-// Initialize Stripe on startup
-await initStripe();
-
 // Register Stripe webhook route BEFORE express.json()
 app.post(
   '/api/stripe/webhook',
@@ -138,6 +135,9 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Initialize Stripe on startup
+  await initStripe();
+  
   await setupAuth(app);
   await registerRoutes(httpServer, app);
 
