@@ -8,17 +8,19 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   Sparkles, Loader2, FileText, CheckCircle,
   Package, Globe, Ship, Plane, Truck, Shield, Hash, 
   Building2, Download,
   AlertTriangle, Star, MapPin, Users, DollarSign, Calculator,
-  Landmark, Receipt, Container, Percent, Send
+  Landmark, Receipt, Container, Percent, Send, CreditCard, Zap
 } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
+import { useLocation } from "wouter";
 
 const EXAMPLE_PROMPTS = [
   "Find suppliers for wireless headphones",
@@ -51,6 +53,8 @@ export default function SmartFinder() {
   const [view, setView] = useState<'empty' | 'loading' | 'results'>('empty');
   const [reportId, setReportId] = useState<number | null>(null);
   const [query, setQuery] = useState("");
+  const [showCreditsPopup, setShowCreditsPopup] = useState(false);
+  const [, navigate] = useLocation();
   const { data: profile } = useProfile();
   const createReport = useCreateReport();
   const { data: report, refetch } = useReport(reportId || 0);
@@ -97,7 +101,7 @@ export default function SmartFinder() {
     }
 
     if (!profile || !canGenerateReport) {
-      toast.error("Insufficient credits. Please purchase credits to generate a report.");
+      setShowCreditsPopup(true);
       return;
     }
 
@@ -1426,6 +1430,66 @@ export default function SmartFinder() {
           {view === 'results' && renderResults()}
         </div>
       </div>
+
+      <Dialog open={showCreditsPopup} onOpenChange={setShowCreditsPopup}>
+        <DialogContent className="sm:max-w-md" data-testid="credits-exhausted-popup">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-xl">
+              <AlertTriangle className="w-6 h-6 text-amber-500" />
+              Credits Exhausted
+            </DialogTitle>
+            <DialogDescription className="pt-2">
+              {profile?.hasUsedFreeTrial 
+                ? "You've used all your credits. Subscribe to our Monthly Plan or purchase credits to continue generating reports."
+                : "Your free trial has ended. Subscribe to continue using SmartSeek's powerful sourcing tools."}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-4 rounded-lg border border-primary/20">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                  <CreditCard className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Monthly Plan - $80/month</h4>
+                  <p className="text-sm text-muted-foreground">10 credits refreshed every month</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-muted/30 p-4 rounded-lg">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-amber-500" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Pay-as-you-go</h4>
+                  <p className="text-sm text-muted-foreground">$10 per credit - never expires</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-3 pt-2">
+              <Button 
+                variant="outline" 
+                className="flex-1"
+                onClick={() => setShowCreditsPopup(false)}
+                data-testid="button-cancel-credits-popup"
+              >
+                Cancel
+              </Button>
+              <Button 
+                className="flex-1"
+                onClick={() => {
+                  setShowCreditsPopup(false);
+                  navigate('/billing');
+                }}
+                data-testid="button-subscribe-credits-popup"
+              >
+                View Plans
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

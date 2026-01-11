@@ -17,7 +17,13 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 const COUNTRIES = [
   "China", "United States", "Germany", "United Kingdom", "France", "Japan", 
   "South Korea", "India", "Vietnam", "Thailand", "Indonesia", "Mexico", 
-  "Turkey", "Canada", "Australia", "Netherlands", "Italy", "Spain"
+  "Turkey", "Canada", "Australia", "Netherlands", "Italy", "Spain",
+  "Brazil", "Poland", "Belgium", "Switzerland", "Sweden", "Austria",
+  "Malaysia", "Singapore", "Taiwan", "Hong Kong", "United Arab Emirates",
+  "Saudi Arabia", "Russia", "South Africa", "Ireland", "Denmark",
+  "Norway", "Czech Republic", "Portugal", "Philippines", "Bangladesh",
+  "Pakistan", "Egypt", "Israel", "Argentina", "Chile", "Colombia",
+  "New Zealand", "Finland", "Greece", "Romania", "Hungary"
 ];
 
 const INCOTERMS = [
@@ -170,7 +176,7 @@ export default function CustomsCalculator() {
                   <SelectTrigger data-testid="select-origin">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-[300px] overflow-y-auto">
                     {COUNTRIES.map((country) => (
                       <SelectItem key={country} value={country}>{country}</SelectItem>
                     ))}
@@ -183,7 +189,7 @@ export default function CustomsCalculator() {
                   <SelectTrigger data-testid="select-destination">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-[300px] overflow-y-auto">
                     {COUNTRIES.map((country) => (
                       <SelectItem key={country} value={country}>{country}</SelectItem>
                     ))}
