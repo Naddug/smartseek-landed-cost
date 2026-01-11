@@ -14,7 +14,8 @@ import {
   Package, Globe, Ship, Plane, Truck, Shield, Hash, 
   Building2, Download,
   AlertTriangle, Star, MapPin, Users, DollarSign, Calculator,
-  Landmark, Receipt, Container, Percent, Send, CreditCard, Zap
+  Landmark, Receipt, Container, Percent, Send, CreditCard, Zap,
+  Camera, X
 } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -54,6 +55,9 @@ export default function SmartFinder() {
   const [reportId, setReportId] = useState<number | null>(null);
   const [query, setQuery] = useState("");
   const [showCreditsPopup, setShowCreditsPopup] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const [, navigate] = useLocation();
   const { data: profile } = useProfile();
   const createReport = useCreateReport();
@@ -61,10 +65,35 @@ export default function SmartFinder() {
   const [isExporting, setIsExporting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isAdmin = profile?.role === 'admin';
   const canGenerateReport = isAdmin || totalCredits >= 1 || (profile && !profile.hasUsedFreeTrial);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("Image size must be less than 10MB");
+        return;
+      }
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   // Poll for report status when loading
   useEffect(() => {
@@ -93,15 +122,45 @@ export default function SmartFinder() {
     return () => clearInterval(intervalId);
   }, [view, reportId, refetch]);
 
-  const handleSubmit = (inputQuery?: string) => {
-    const searchQuery = inputQuery || query;
-    if (!searchQuery.trim()) {
-      toast.error("Please enter a product or sourcing query.");
+  const handleSubmit = async (inputQuery?: string) => {
+    let searchQuery = inputQuery || query;
+    
+    if (!profile || !canGenerateReport) {
+      setShowCreditsPopup(true);
       return;
     }
 
-    if (!profile || !canGenerateReport) {
-      setShowCreditsPopup(true);
+    if (selectedImage && imagePreview) {
+      setIsAnalyzingImage(true);
+      setView('loading');
+      try {
+        const response = await fetch('/api/analyze-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ imageData: imagePreview })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to analyze image');
+        }
+        
+        const result = await response.json();
+        searchQuery = result.productName || result.description || 'Unknown product';
+        toast.success(`Identified: ${searchQuery}`);
+        removeImage();
+      } catch (error) {
+        console.error('Image analysis error:', error);
+        toast.error('Failed to analyze image. Please try again or enter product name manually.');
+        setView('empty');
+        setIsAnalyzingImage(false);
+        return;
+      }
+      setIsAnalyzingImage(false);
+    }
+
+    if (!searchQuery.trim()) {
+      toast.error("Please enter a product or sourcing query.");
       return;
     }
 
@@ -1462,26 +1521,62 @@ export default function SmartFinder() {
     <div className="flex flex-col h-[calc(100vh-80px)] bg-gray-50/50">
       <div className="border-b bg-white p-4">
         <div className="max-w-3xl mx-auto">
+          {imagePreview && (
+            <div className="mb-3 relative inline-block">
+              <img 
+                src={imagePreview} 
+                alt="Selected product" 
+                className="h-20 w-20 object-cover rounded-lg border shadow-sm"
+                data-testid="image-preview"
+              />
+              <button
+                onClick={removeImage}
+                className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                data-testid="button-remove-image"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          )}
           <div className="relative flex items-end gap-2">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageSelect}
+              accept="image/*"
+              className="hidden"
+              data-testid="input-image-upload"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => fileInputRef.current?.click()}
+              className="h-[52px] w-12 rounded-xl border-gray-300 shadow-sm hover:border-primary"
+              disabled={view === 'loading'}
+              data-testid="button-upload-image"
+            >
+              <Camera className="w-5 h-5 text-muted-foreground" />
+            </Button>
             <div className="flex-1 relative">
               <Textarea
                 ref={textareaRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="What product are you sourcing?"
+                placeholder={selectedImage ? "Analyzing image..." : "What product are you sourcing?"}
                 className="min-h-[52px] max-h-32 resize-none pr-12 rounded-xl border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
                 rows={1}
                 data-testid="input-search-query"
               />
               <Button
                 onClick={() => handleSubmit()}
-                disabled={!query.trim() || view === 'loading'}
+                disabled={(!query.trim() && !selectedImage) || view === 'loading'}
                 size="icon"
                 className="absolute right-2 bottom-2 h-8 w-8 rounded-lg"
                 data-testid="button-submit-search"
               >
-                {view === 'loading' ? (
+                {view === 'loading' || isAnalyzingImage ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <Sparkles className="w-4 h-4" />
@@ -1490,7 +1585,7 @@ export default function SmartFinder() {
             </div>
           </div>
           <p className="text-xs text-center text-muted-foreground mt-2">
-            Press Enter to search • Uses 1 credit per report
+            {selectedImage ? "Click the sparkle button to analyze image" : "Press Enter to search • Upload an image or type • Uses 1 credit per report"}
           </p>
         </div>
       </div>
