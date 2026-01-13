@@ -109,7 +109,7 @@ export default function Dashboard() {
               Command Center
             </h1>
             <p className="text-slate-400 text-lg">
-              Enterprise sourcing intelligence at your fingertips.
+              AI-powered sourcing intelligence at your fingertips.
             </p>
           </div>
           <div className="flex gap-3">
@@ -327,7 +327,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex-1">
                     <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">Find Buyer Leads</div>
-                    <div className="text-sm text-slate-400">Discover qualified procurement contacts</div>
+                    <div className="text-sm text-slate-400">Discover qualified buyer contacts</div>
                   </div>
                   <Badge className="bg-emerald-600/30 text-emerald-300 border-emerald-500/50">1 Credit</Badge>
                 </div>

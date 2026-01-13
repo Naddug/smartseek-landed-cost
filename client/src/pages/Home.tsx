@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
-import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, Building2, FileCheck, MapPin, Lock, Users, Target, Briefcase, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, BadgeCheck, Database, Award, UserSearch } from "lucide-react";
+import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, Building2, FileCheck, MapPin, Lock, Users, Target, Briefcase, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, BadgeCheck, Database, Award, UserSearch, Sparkles, Brain, Rocket } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -36,31 +36,31 @@ const scaleIn = {
 export default function Home() {
   const [activeDashboardTab, setActiveDashboardTab] = useState("dashboard");
 
-  const enterpriseFeatures = [
+  const platformFeatures = [
     {
       icon: <Shield className="w-6 h-6" />,
-      title: "Supply Chain Risk Mitigation",
-      description: "Proactive identification of geopolitical, financial, and operational risks across your supplier network with AI-powered monitoring."
+      title: "Risk Intelligence",
+      description: "Identify geopolitical, financial, and operational risks before they impact your business with AI-powered monitoring and alerts."
     },
     {
       icon: <DollarSign className="w-6 h-6" />,
-      title: "Cost Optimization & Landed Cost Analysis",
-      description: "Comprehensive total cost modeling including duties, freight, insurance, and currency fluctuations for accurate procurement decisions."
+      title: "Landed Cost Calculator",
+      description: "Get the true cost including duties, freight, insurance, and currency fluctuations. No more surprise fees or hidden charges."
     },
     {
       icon: <UserSearch className="w-6 h-6" />,
       title: "Find Buyer Leads",
-      description: "AI-powered B2B lead generation to discover qualified procurement contacts with company insights, intent signals, and contact details."
+      description: "AI-powered B2B lead generation to discover qualified contacts with company insights, intent signals, and verified details."
     },
     {
       icon: <FileCheck className="w-6 h-6" />,
-      title: "Compliance & Due Diligence",
-      description: "Automated compliance checks, certification verification, and supplier qualification workflows to meet regulatory requirements."
+      title: "Compliance Made Simple",
+      description: "Automated compliance checks, certification verification, and qualification workflows so you can focus on what matters."
     },
     {
       icon: <MapPin className="w-6 h-6" />,
-      title: "Multi-Region Supplier Intelligence",
-      description: "Access to verified supplier data across 50+ countries with localized market insights and regional benchmarking."
+      title: "Global Supplier Data",
+      description: "Access verified supplier information across 50+ countries with localized insights and regional benchmarking."
     }
   ];
 
@@ -107,7 +107,7 @@ export default function Home() {
 
   return (
     <PublicLayout>
-      {/* Hero Section - Light Theme */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden pt-20 pb-32 min-h-[90vh] flex items-center bg-gradient-to-b from-white via-slate-50 to-blue-50">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/60 via-transparent to-transparent" />
@@ -145,7 +145,7 @@ export default function Home() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                   </span>
-                  Enterprise Procurement Platform
+                  AI-Powered Sourcing Intelligence
                 </div>
               </motion.div>
               
@@ -153,10 +153,10 @@ export default function Home() {
                 variants={fadeInUp}
                 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold tracking-tight text-slate-900 leading-[1.1]"
               >
-                Enterprise Sourcing
+                Find Suppliers.
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600">
-                  Intelligence
+                  Know Costs. Move Fast.
                 </span>
               </motion.h1>
               
@@ -164,8 +164,8 @@ export default function Home() {
                 variants={fadeInUp}
                 className="text-xl text-slate-700 leading-relaxed max-w-xl"
               >
-                Data-driven procurement decisions for enterprise buyers. Reduce supply chain risk, 
-                optimize costs, and build resilient supplier networks with AI-powered intelligence.
+                Make smarter sourcing decisions in minutes, not weeks. AI-generated reports, 
+                verified suppliers, and accurate landed costs — everything you need to act with confidence.
               </motion.p>
 
               <motion.div 
@@ -203,7 +203,7 @@ export default function Home() {
               >
                 <img 
                   src={dashboardScreenshot} 
-                  alt="SmartSeek Enterprise Dashboard" 
+                  alt="SmartSeek Dashboard" 
                   className="relative rounded-2xl shadow-2xl border border-slate-200 w-full"
                   data-testid="img-hero-dashboard"
                 />
@@ -244,7 +244,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section - Light Theme */}
+      {/* Stats Section */}
       <motion.section 
         className="py-16 border-y border-slate-200 bg-white"
         initial="hidden"
@@ -254,7 +254,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-sm font-medium text-slate-600 uppercase tracking-wider">Trusted by Enterprise Procurement Teams Worldwide</p>
+            <p className="text-sm font-medium text-slate-600 uppercase tracking-wider">Trusted by Decision Makers Worldwide</p>
           </div>
 
           <motion.div 
@@ -264,7 +264,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <StatItem value="150+" label="Fortune 500 Companies" icon={<Building2 className="w-6 h-6" />} testId="stat-fortune-500" />
+            <StatItem value="10K+" label="Active Users" icon={<Users className="w-6 h-6" />} testId="stat-users" />
             <StatItem value="$12B+" label="Sourcing Volume Analyzed" icon={<DollarSign className="w-6 h-6" />} testId="stat-sourcing-volume" />
             <StatItem value="50+" label="Countries Covered" icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
             <StatItem value="99.9%" label="Platform Uptime" icon={<Zap className="w-6 h-6" />} testId="stat-uptime" />
@@ -283,8 +283,8 @@ export default function Home() {
             variants={fadeInUp}
           >
             <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200">Global Supplier Network</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Access 100,000+ Verified Suppliers</h2>
-            <p className="text-lg text-slate-600">Connect with pre-qualified suppliers across every major manufacturing region with comprehensive verification and quality metrics.</p>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">100,000+ Verified Suppliers at Your Fingertips</h2>
+            <p className="text-lg text-slate-600">Connect with pre-qualified suppliers across every major region. Verified, rated, and ready to work with you.</p>
           </motion.div>
 
           <motion.div 
@@ -373,8 +373,8 @@ export default function Home() {
             variants={fadeInUp}
           >
             <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">Industries We Serve</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Sourcing Solutions for Every Industry</h2>
-            <p className="text-lg text-slate-600">From manufacturing to healthcare, our platform connects you with verified suppliers tailored to your industry's unique requirements.</p>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Your Industry. Your Suppliers. Solved.</h2>
+            <p className="text-lg text-slate-600">From manufacturing to healthcare, find verified suppliers tailored to your industry's unique needs.</p>
           </motion.div>
 
           <motion.div 
@@ -401,7 +401,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Enterprise Value Propositions */}
+      {/* Platform Features */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -411,9 +411,9 @@ export default function Home() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">Enterprise Capabilities</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Built for Enterprise Procurement</h2>
-            <p className="text-lg text-slate-600">Comprehensive sourcing intelligence designed for complex supply chain requirements.</p>
+            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">Platform Capabilities</Badge>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Everything You Need to Source Smarter</h2>
+            <p className="text-lg text-slate-600">Powerful tools designed to save you time and money on every sourcing decision.</p>
           </motion.div>
 
           <motion.div 
@@ -423,8 +423,8 @@ export default function Home() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            {enterpriseFeatures.map((feature, index) => (
-              <motion.div key={`enterprise-feature-${index}`} variants={fadeInUp}>
+            {platformFeatures.map((feature, index) => (
+              <motion.div key={`platform-feature-${index}`} variants={fadeInUp}>
                 <Card className="h-full bg-white border-slate-200 shadow-md hover:shadow-xl hover:border-blue-300 transition-all duration-300 group">
                   <CardContent className="p-8">
                     <div className="flex gap-5">
@@ -454,9 +454,9 @@ export default function Home() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <Badge className="mb-4 bg-purple-100 text-purple-700 border-purple-200">Enterprise Platform</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Powerful Analytics for Procurement Leaders</h2>
-            <p className="text-lg text-slate-600">Gain visibility into your entire supplier ecosystem with comprehensive dashboards and detailed reports.</p>
+            <Badge className="mb-4 bg-purple-100 text-purple-700 border-purple-200">See It In Action</Badge>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Insights That Drive Results</h2>
+            <p className="text-lg text-slate-600">Get full visibility into suppliers, costs, and risks with beautiful dashboards and detailed reports.</p>
           </motion.div>
 
           <motion.div
@@ -499,12 +499,12 @@ export default function Home() {
                   >
                     <img 
                       src={dashboardScreenshot} 
-                      alt="SmartSeek Enterprise Analytics Dashboard" 
+                      alt="SmartSeek Analytics Dashboard" 
                       className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl"
                       data-testid="img-preview-dashboard"
                     />
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
-                      <p className="text-sm font-medium text-slate-700">Real-time supplier performance monitoring and spend analytics</p>
+                      <p className="text-sm font-medium text-slate-700">Real-time supplier performance and spend analytics</p>
                     </div>
                   </motion.div>
                 </TabsContent>
@@ -518,12 +518,12 @@ export default function Home() {
                   >
                     <img 
                       src={reportScreenshot} 
-                      alt="SmartSeek Enterprise Intelligence Report" 
+                      alt="SmartSeek Intelligence Report" 
                       className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl"
                       data-testid="img-preview-report"
                     />
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
-                      <p className="text-sm font-medium text-slate-700">Comprehensive sourcing reports with risk assessment & cost breakdown</p>
+                      <p className="text-sm font-medium text-slate-700">Comprehensive reports with risk assessment & cost breakdown</p>
                     </div>
                   </motion.div>
                 </TabsContent>
@@ -543,9 +543,9 @@ export default function Home() {
             viewport={{ once: true }}
             variants={fadeInUp}
           >
-            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">Streamlined Process</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Enterprise-Grade Intelligence in Minutes</h2>
-            <p className="text-lg text-slate-600">Transform your procurement process with data-driven supplier intelligence.</p>
+            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">How It Works</Badge>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">From Search to Decision in Minutes</h2>
+            <p className="text-lg text-slate-600">Three simple steps to smarter sourcing. No complexity. Just results.</p>
           </motion.div>
 
           <motion.div 
@@ -560,26 +560,26 @@ export default function Home() {
             <StepCard 
               step="01"
               icon={<Search className="w-8 h-8 text-blue-600" />}
-              title="Define Requirements"
-              desc="Input your sourcing criteria including product specifications, compliance needs, volume requirements, and target regions."
+              title="Tell Us What You Need"
+              desc="Enter your product, specifications, volume, and target regions. Our AI understands exactly what you're looking for."
             />
             <StepCard 
               step="02"
-              icon={<Zap className="w-8 h-8 text-purple-600" />}
-              title="AI Analysis"
-              desc="Our intelligence engine analyzes global supplier databases, calculates total costs, and evaluates risk factors across 50+ countries."
+              icon={<Brain className="w-8 h-8 text-purple-600" />}
+              title="AI Does the Heavy Lifting"
+              desc="We analyze global supplier databases, calculate true costs, and evaluate risks — all in real-time."
             />
             <StepCard 
               step="03"
-              icon={<CheckCircle2 className="w-8 h-8 text-emerald-600" />}
-              title="Strategic Insights"
-              desc="Receive comprehensive reports with qualified supplier shortlists, risk assessments, and cost optimization recommendations."
+              icon={<Rocket className="w-8 h-8 text-emerald-600" />}
+              title="Make Confident Decisions"
+              desc="Get a complete report with qualified suppliers, cost breakdowns, and actionable recommendations."
             />
           </motion.div>
         </div>
       </section>
 
-      {/* Enterprise Benefits */}
+      {/* Benefits */}
       <section className="py-24 bg-slate-50">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -592,16 +592,16 @@ export default function Home() {
             <motion.div variants={fadeInUp}>
               <Card className="bg-white border-slate-200 shadow-lg">
                 <CardContent className="p-8 space-y-6">
-                  <Badge className="bg-blue-100 text-blue-700 border-blue-200">ROI-Driven Platform</Badge>
-                  <h3 className="text-2xl font-bold text-slate-900">Measurable Procurement Impact</h3>
+                  <Badge className="bg-blue-100 text-blue-700 border-blue-200">Real Results</Badge>
+                  <h3 className="text-2xl font-bold text-slate-900">Save Time & Money on Every Decision</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Enterprise procurement teams using SmartSeek report significant improvements in cost savings, 
-                    risk reduction, and sourcing efficiency. Our platform delivers quantifiable ROI within the first quarter.
+                    SmartSeek users report significant improvements in cost savings, 
+                    risk reduction, and sourcing speed. See the difference in your first report.
                   </p>
                   <ul className="space-y-4">
-                    <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> 23% average reduction in supplier costs</li>
-                    <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> 75% faster supplier qualification process</li>
-                    <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> 40% improvement in supply chain resilience</li>
+                    <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> 23% average cost reduction</li>
+                    <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> 75% faster supplier qualification</li>
+                    <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> 40% better supply chain resilience</li>
                     <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> Real-time compliance monitoring</li>
                   </ul>
                 </CardContent>
@@ -611,10 +611,10 @@ export default function Home() {
             <motion.div variants={fadeInUp}>
               <Card className="bg-white border-slate-200 shadow-lg">
                 <CardContent className="p-8 space-y-6">
-                  <Badge className="bg-purple-100 text-purple-700 border-purple-200">Enterprise Security</Badge>
-                  <h3 className="text-2xl font-bold text-slate-900">Built for Enterprise Requirements</h3>
+                  <Badge className="bg-purple-100 text-purple-700 border-purple-200">Your Data, Protected</Badge>
+                  <h3 className="text-2xl font-bold text-slate-900">Security You Can Trust</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    SmartSeek meets the stringent security and compliance requirements of enterprise organizations, 
+                    SmartSeek meets the highest security and compliance standards, 
                     with SOC 2 compliance, data encryption, and role-based access controls.
                   </p>
                   <ul className="space-y-4">
@@ -662,22 +662,22 @@ export default function Home() {
                   <div className="space-y-6">
                     <Badge className="bg-white/20 text-white border-white/30">Try Free</Badge>
                     <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">
-                      Start Your Free Trial Today
+                      Ready to Source Smarter?
                     </h2>
                     <p className="text-xl text-blue-100">
-                      Experience the full power of enterprise sourcing intelligence with no commitment required.
+                      Start making better sourcing decisions today. No credit card required.
                     </p>
                     <Link href="/signup" data-testid="link-free-trial-cta">
                       <Button size="lg" className="h-14 px-10 text-lg rounded-full bg-white text-blue-700 hover:bg-blue-50 shadow-xl hover:scale-105 transition-all duration-300" data-testid="button-free-trial-cta">
-                        Start Free Trial - No Credit Card Required
+                        Start Your Free Trial
                       </Button>
                     </Link>
                   </div>
                   
                   <div className="space-y-6">
-                    <h3 className="text-lg font-semibold text-white uppercase tracking-wider">What's Included in Your Free Trial</h3>
+                    <h3 className="text-lg font-semibold text-white uppercase tracking-wider">Your Free Trial Includes</h3>
                     <div className="space-y-4">
-                      <TrialFeature icon={<Target className="w-5 h-5" />} text="2 Full Intelligence Reports" />
+                      <TrialFeature icon={<Sparkles className="w-5 h-5" />} text="2 Full AI-Generated Reports" />
                       <TrialFeature icon={<BarChart3 className="w-5 h-5" />} text="Complete Platform Access" />
                       <TrialFeature icon={<Globe className="w-5 h-5" />} text="50+ Country Supplier Database" />
                       <TrialFeature icon={<Shield className="w-5 h-5" />} text="Risk Assessment & Scoring" />
@@ -727,12 +727,12 @@ export default function Home() {
                 transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-6 border border-blue-200">
-                  <Briefcase className="w-8 h-8 text-blue-600" />
+                  <Sparkles className="w-8 h-8 text-blue-600" />
                 </div>
               </motion.div>
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-slate-900">Transform Your Procurement Strategy</h2>
+              <h2 className="text-4xl md:text-5xl font-heading font-bold text-slate-900">Smart Decisions Start Here</h2>
               <p className="text-xl text-slate-600">
-                Join leading enterprises who trust SmartSeek for strategic sourcing decisions.
+                Join thousands of decision makers who trust SmartSeek for smarter sourcing.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
                 <Link href="/signup" data-testid="link-cta-signup">
@@ -742,7 +742,7 @@ export default function Home() {
                 </Link>
               </div>
               <p className="text-sm text-slate-500">
-                No credit card required • Enterprise-ready • Full platform access
+                No credit card required • Full platform access • Cancel anytime
               </p>
             </div>
           </motion.div>
