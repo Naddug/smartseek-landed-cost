@@ -19,6 +19,8 @@ export function getSession() {
     ttl: sessionTtl,
     tableName: "sessions",
   });
+  // Always use secure cookies on Replit (HTTPS is always enabled)
+  const isReplit = !!process.env.REPLIT_DOMAINS;
   return session({
     secret: process.env.SESSION_SECRET!,
     store: sessionStore,
@@ -26,7 +28,7 @@ export function getSession() {
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isReplit || process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: sessionTtl,
     },
