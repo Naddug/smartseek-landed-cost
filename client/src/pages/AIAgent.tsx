@@ -4,10 +4,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
   Bot, 
-  Sparkles, 
+  Sparkles,
   Building2, 
   BarChart3, 
   Calculator, 
@@ -16,11 +15,7 @@ import {
   Copy,
   Save,
   CheckCircle,
-  AlertCircle,
-  TrendingUp,
-  DollarSign,
-  Globe,
-  Package
+  AlertCircle
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -37,13 +32,8 @@ interface AIResult {
   task: string;
   query: string;
   timestamp: Date;
-  data: {
-    summary?: string;
-    stats?: { label: string; value: string; trend?: string }[];
-    table?: { headers: string[]; rows: string[][] };
-    list?: string[];
-    images?: string[];
-  };
+  content: string;
+  summary: string;
 }
 
 const taskCategories: TaskCategory[] = [
@@ -137,7 +127,8 @@ export default function AIAgent() {
         task: selectedTask || "general",
         query: query,
         timestamp: new Date(),
-        data: data
+        content: data.response?.content || "",
+        summary: data.response?.summary || ""
       };
 
       setResults(prev => [newResult, ...prev]);
@@ -156,17 +147,16 @@ export default function AIAgent() {
   };
 
   const handleCopy = async (result: AIResult) => {
-    const text = JSON.stringify(result.data, null, 2);
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(result.content);
     toast.success("Copied to clipboard");
   };
 
   const handleSave = (result: AIResult) => {
-    const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: "application/json" });
+    const blob = new Blob([result.content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `ai-agent-result-${result.id}.json`;
+    a.download = `ai-agent-result-${result.id}.txt`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Result saved");
@@ -323,85 +313,12 @@ export default function AIAgent() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-6 space-y-6">
-                {result.data.summary && (
-                  <div className="bg-slate-700/40 rounded-lg p-4 border border-slate-500/30">
-                    <p className="text-slate-200 leading-relaxed">{result.data.summary}</p>
+              <CardContent className="p-6">
+                <div className="bg-slate-700/40 rounded-lg p-5 border border-slate-500/30">
+                  <div className="text-slate-200 leading-relaxed whitespace-pre-wrap">
+                    {result.content}
                   </div>
-                )}
-
-                {result.data.stats && result.data.stats.length > 0 && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {result.data.stats.map((stat, idx) => (
-                      <div key={idx} className="bg-slate-700/40 rounded-lg p-4 border border-slate-500/30">
-                        <p className="text-sm text-slate-400 mb-1">{stat.label}</p>
-                        <p className="text-2xl font-bold text-slate-100">{stat.value}</p>
-                        {stat.trend && (
-                          <div className="flex items-center gap-1 mt-1">
-                            <TrendingUp className="w-4 h-4 text-green-400" />
-                            <span className="text-sm text-green-400">{stat.trend}</span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {result.data.table && (
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow className="border-slate-500/30">
-                          {result.data.table.headers.map((header, idx) => (
-                            <TableHead key={idx} className="text-slate-300 font-semibold">
-                              {header}
-                            </TableHead>
-                          ))}
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {result.data.table.rows.map((row, rowIdx) => (
-                          <TableRow key={rowIdx} className="border-slate-500/30 hover:bg-slate-600/30">
-                            {row.map((cell, cellIdx) => (
-                              <TableCell key={cellIdx} className="text-slate-200">
-                                {cell}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )}
-
-                {result.data.list && result.data.list.length > 0 && (
-                  <ul className="space-y-2">
-                    {result.data.list.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-slate-200">
-                        <div className="w-2 h-2 rounded-full bg-slate-400 mt-2 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {result.data.images && result.data.images.length > 0 && (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {result.data.images.map((image, idx) => (
-                      <div key={idx} className="rounded-lg overflow-hidden border border-slate-500/30">
-                        <img src={image} alt={`Result ${idx + 1}`} className="w-full h-auto" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {!result.data.summary && !result.data.stats && !result.data.table && !result.data.list && !result.data.images && (
-                  <div className="bg-slate-700/40 rounded-lg p-4 border border-slate-500/30">
-                    <pre className="text-slate-200 whitespace-pre-wrap text-sm overflow-x-auto">
-                      {JSON.stringify(result.data, null, 2)}
-                    </pre>
-                  </div>
-                )}
+                </div>
               </CardContent>
             </Card>
           ))}
