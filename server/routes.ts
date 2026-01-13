@@ -9,22 +9,10 @@ import { generateSmartFinderReport, type ReportFormData } from "./services/repor
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
 import OpenAI from "openai";
-import Anthropic from "@anthropic-ai/sdk";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
-
-const anthropic = new Anthropic({
-  apiKey: process.env.AI_INTEGRATIONS_ANTHROPIC_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_ANTHROPIC_BASE_URL,
-});
-
-// Use OpenAI-compatible client for Gemini via Replit AI Integrations
-const geminiClient = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
 });
 
 // Helper to get user ID from session
@@ -162,125 +150,133 @@ export async function registerRoutes(
     }
   });
   
-  // ===== AI Chat (SmartSeek Chat) =====
+  // ===== AI Agent =====
   
-  app.post("/api/ai-chat", async (req: Request, res: Response) => {
+  app.post("/api/ai-agent", async (req: Request, res: Response) => {
     const userId = getUserId(req);
     if (!userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
     
     try {
-      const { message, model, category } = req.body;
+      const { task, query, context } = req.body;
       
-      if (!message) {
-        return res.status(400).json({ error: "Message is required" });
+      if (!query) {
+        return res.status(400).json({ error: "Query is required" });
       }
       
-      const systemPrompt = `You are SmartSeek Chat, an AI-powered trade intelligence assistant. You specialize in:
-- Finding and evaluating suppliers globally
-- Trade data analysis and market insights
-- Import/export regulations and compliance
-- Shipping and logistics optimization
-- Customs duties and tariff calculations
-- Product sourcing strategies
-
-${category === 'sourcing' ? 'Focus on supplier sourcing, procurement, and vendor evaluation.' : ''}
-${category === 'analysis' ? 'Focus on data analysis, market trends, and trade statistics.' : ''}
-${category === 'research' ? 'Focus on market research, industry insights, and competitive analysis.' : ''}
-
-Provide helpful, accurate, and actionable information. Be concise but thorough.`;
-
-      let responseContent: string | null = null;
+      // Build task-specific system prompts
+      const taskPrompts: Record<string, string> = {
+        supplier: `You are an expert trade intelligence AI agent specializing in supplier discovery and evaluation. 
+Your task is to provide detailed, actionable supplier recommendations.
+Always structure your response with:
+- A brief summary of findings
+- Key statistics (estimated number of suppliers, typical pricing ranges, lead times)
+- Top recommended suppliers with details
+- Risk factors to consider
+- Next steps for the buyer`,
+        
+        analysis: `You are an expert trade data analyst AI agent.
+Your task is to analyze trade patterns, market trends, and provide data-driven insights.
+Always structure your response with:
+- Executive summary
+- Key statistics and metrics
+- Trend analysis
+- Market opportunities
+- Recommendations`,
+        
+        costs: `You are an expert in international trade costs, customs duties, and logistics.
+Your task is to help calculate and estimate landed costs, duties, and shipping expenses.
+Always structure your response with:
+- Cost breakdown summary
+- Duty/tariff estimates
+- Shipping cost estimates
+- Total landed cost estimate
+- Cost optimization suggestions`,
+        
+        reports: `You are an expert report generator for trade intelligence.
+Your task is to create professional, comprehensive sourcing reports.
+Always structure your response with:
+- Executive summary
+- Market overview
+- Supplier analysis
+- Cost analysis
+- Risk assessment
+- Recommendations`,
+        
+        general: `You are SmartSeek AI Agent, an autonomous trade intelligence assistant.
+You help business decision makers with:
+- Supplier discovery and evaluation
+- Trade data analysis
+- Cost calculations
+- Market research
+Provide helpful, accurate, and actionable information.`
+      };
       
-      // Route to the appropriate AI provider based on model selection
-      if (model === 'claude') {
-        // Use Anthropic Claude
-        const claudeResponse = await anthropic.messages.create({
-          model: "claude-sonnet-4-5",
-          max_tokens: 2000,
-          system: systemPrompt,
-          messages: [
-            { role: "user", content: message }
-          ]
-        });
-        responseContent = claudeResponse.content[0].type === 'text' 
-          ? claudeResponse.content[0].text 
-          : null;
-      } else if (model === 'gemini') {
-        // Use Google Gemini via OpenAI-compatible API
-        const geminiResponse = await geminiClient.chat.completions.create({
-          model: "gemini-2.5-flash",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: message }
-          ],
-          max_tokens: 2000
-        });
-        responseContent = geminiResponse.choices[0]?.message?.content || null;
-      } else {
-        // Default to OpenAI GPT-4o
-        const openaiResponse = await openai.chat.completions.create({
-          model: "gpt-4o",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: message }
-          ],
-          max_tokens: 2000
-        });
-        responseContent = openaiResponse.choices[0]?.message?.content || null;
-      }
+      const systemPrompt = taskPrompts[task] || taskPrompts.general;
       
-      if (!responseContent) {
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: query }
+        ],
+        max_tokens: 4000
+      });
+      
+      const content = response.choices[0]?.message?.content;
+      if (!content) {
         return res.status(500).json({ error: "Failed to get AI response" });
       }
       
-      res.json({ response: responseContent, model });
+      // Return structured response
+      res.json({
+        success: true,
+        task,
+        query,
+        response: {
+          summary: content.split('\n')[0] || 'Analysis complete',
+          content,
+          generatedAt: new Date().toISOString()
+        }
+      });
     } catch (error: any) {
-      console.error("Error in AI chat:", error);
-      res.status(500).json({ error: "Failed to process chat request" });
+      console.error("Error in AI agent:", error);
+      res.status(500).json({ error: "Failed to process request" });
     }
   });
   
-  app.post("/api/ai-chat/save", async (req: Request, res: Response) => {
+  app.post("/api/ai-agent/save", async (req: Request, res: Response) => {
     const userId = getUserId(req);
     if (!userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
     
     try {
-      const { messages, model, category } = req.body;
+      const { task, query, response } = req.body;
       
-      if (!messages || messages.length === 0) {
-        return res.status(400).json({ error: "No messages to save" });
+      if (!response) {
+        return res.status(400).json({ error: "No response to save" });
       }
       
-      const conversationSummary = messages
-        .filter((m: any) => m.role === 'user')
-        .map((m: any) => m.content)
-        .slice(0, 3)
-        .join(' | ');
+      const title = `AI Agent: ${query.slice(0, 50)}${query.length > 50 ? '...' : ''}`;
       
-      const title = `AI Chat: ${conversationSummary.slice(0, 50)}${conversationSummary.length > 50 ? '...' : ''}`;
-      
-      // Create report with minimal metadata in formData
       const report = await storage.createReport({
         userId,
         title,
-        category: category || 'ai-chat',
+        category: 'ai-agent',
         status: 'completed',
-        formData: { model, category, messageCount: messages.length },
+        formData: { task, query },
       });
       
-      // Store full conversation in reportData via update
       await storage.updateReport(report.id, {
-        reportData: { messages, savedAt: new Date().toISOString() },
+        reportData: { response, savedAt: new Date().toISOString() },
       });
       
       res.json({ success: true, reportId: report.id });
     } catch (error: any) {
-      console.error("Error saving AI chat:", error);
-      res.status(500).json({ error: "Failed to save conversation" });
+      console.error("Error saving AI agent result:", error);
+      res.status(500).json({ error: "Failed to save result" });
     }
   });
   

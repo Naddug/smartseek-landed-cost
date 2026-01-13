@@ -57,7 +57,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <nav className="flex-1 px-4 space-y-2">
           <NavItem href="/dashboard" icon={<LayoutDashboard size={20} />} label="Dashboard" active={isActive('/dashboard')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/smart-finder" icon={<Sparkles size={20} />} label="SmartSeek AI" active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/ai-chat" icon={<Bot size={20} />} label="SmartSeek Chat" active={isActive('/ai-chat')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/ai-agent" icon={<Bot size={20} />} label="AI Agent" active={isActive('/ai-agent')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/find-leads" icon={<Target size={20} />} label="Find Leads" active={isActive('/find-leads')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/reports" icon={<FileText size={20} />} label="My Reports" active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/billing" icon={<CreditCard size={20} />} label="Billing" active={isActive('/billing')} onClick={() => setMobileOpen(false)} />
@@ -112,7 +112,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
-        <header className="h-16 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
+        <header className="h-16 border-b border-slate-600/60 bg-slate-700/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
           <div className="md:hidden w-10"></div>
           <h1 className="font-heading font-semibold text-lg capitalize">{location.split('/')[1]?.replace('-', ' ') || 'Dashboard'}</h1>
           <div className="flex items-center gap-4">

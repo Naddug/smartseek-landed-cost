@@ -42,7 +42,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="relative">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center mx-auto mb-4 shadow-xl">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center mx-auto mb-4 shadow-xl">
               <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 rounded-2xl border border-slate-800/60 shadow-2xl">
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-700 via-slate-600 to-slate-700 p-8 rounded-2xl border border-slate-500/40 shadow-2xl">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         
@@ -130,7 +130,7 @@ export default function Dashboard() {
           value={totalCredits}
           change={profile?.plan === 'monthly' ? '+30/mo' : undefined}
           iconBg="from-blue-500 to-blue-600"
-          cardBg="from-slate-900/90 to-slate-950/90"
+          cardBg="from-slate-700/90 to-slate-600/90"
         />
         <MetricCard
           icon={<FileText className="w-5 h-5" />}
@@ -138,7 +138,7 @@ export default function Dashboard() {
           value={reports.length}
           change={reports.length > 0 ? `${reports.filter(r => r.status === 'completed').length} complete` : undefined}
           iconBg="from-emerald-500 to-emerald-600"
-          cardBg="from-slate-900/90 to-slate-950/90"
+          cardBg="from-slate-700/90 to-slate-600/90"
         />
         <MetricCard
           icon={<Globe2 className="w-5 h-5" />}
@@ -146,20 +146,20 @@ export default function Dashboard() {
           value="50+"
           change="Global network"
           iconBg="from-amber-500 to-orange-500"
-          cardBg="from-slate-900/90 to-slate-950/90"
+          cardBg="from-slate-700/90 to-slate-600/90"
         />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 bg-gradient-to-br from-slate-900/95 to-slate-950/95 border-slate-800/60 shadow-xl backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/60 pb-4">
+        <Card className="lg:col-span-2 bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-500/40 pb-4">
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/30">
                 <BarChart3 className="w-4 h-4 text-blue-400" />
               </div>
               Weekly Activity
             </CardTitle>
-            <Badge variant="outline" className="border-slate-700 text-slate-400 bg-slate-900/50">Last 7 days</Badge>
+            <Badge variant="outline" className="border-slate-500 text-slate-300 bg-slate-600/50">Last 7 days</Badge>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="h-64">
@@ -190,8 +190,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-slate-900/95 to-slate-950/95 border-slate-800/60 shadow-xl backdrop-blur-sm">
-          <CardHeader className="border-b border-slate-800/60 pb-4">
+        <Card className="bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm">
+          <CardHeader className="border-b border-slate-500/40 pb-4">
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <div className="p-2 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/30">
                 <MapPin className="w-4 h-4 text-violet-400" />
@@ -244,8 +244,8 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-gradient-to-br from-slate-900/95 to-slate-950/95 border-slate-800/60 shadow-xl backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/60 pb-4">
+        <Card className="bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-500/40 pb-4">
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30">
                 <FileText className="w-4 h-4 text-emerald-400" />
@@ -294,8 +294,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-slate-900/95 to-slate-950/95 border-slate-800/60 shadow-xl backdrop-blur-sm">
-          <CardHeader className="border-b border-slate-800/60 pb-4">
+        <Card className="bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm">
+          <CardHeader className="border-b border-slate-500/40 pb-4">
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <div className="p-2 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30">
                 <Zap className="w-4 h-4 text-amber-400" />
@@ -370,8 +370,8 @@ export default function Dashboard() {
       </div>
 
       {transactions.length > 0 && (
-        <Card className="bg-gradient-to-br from-slate-900/95 to-slate-950/95 border-slate-800/60 shadow-xl backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-800/60 pb-4">
+        <Card className="bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-slate-500/40 pb-4">
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30">
                 <TrendingUp className="w-4 h-4 text-cyan-400" />
@@ -417,7 +417,7 @@ function MetricCard({ icon, label, value, change, iconBg, cardBg }: {
   cardBg: string;
 }) {
   return (
-    <Card className={`bg-gradient-to-br ${cardBg} border-slate-800/60 shadow-xl backdrop-blur-sm hover:border-slate-700/60 transition-all group`}>
+    <Card className={`bg-gradient-to-br ${cardBg} border-slate-500/40 shadow-xl backdrop-blur-sm hover:border-slate-400/50 transition-all group`}>
       <CardContent className="p-5">
         <div className="flex items-start justify-between mb-4">
           <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${iconBg} flex items-center justify-center shadow-lg text-white`}>

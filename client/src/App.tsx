@@ -12,7 +12,7 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import SmartFinder from "@/pages/SmartFinder";
-import AIChatbot from "@/pages/AIChatbot";
+import AIAgent from "@/pages/AIAgent";
 import Admin from "@/pages/Admin";
 import Reports from "@/pages/Reports";
 import Tools from "@/pages/Tools";
@@ -68,8 +68,8 @@ function Router() {
       <Route path="/smart-finder">
         <ProtectedRoute component={SmartFinder} />
       </Route>
-      <Route path="/ai-chat">
-        <ProtectedRoute component={AIChatbot} />
+      <Route path="/ai-agent">
+        <ProtectedRoute component={AIAgent} />
       </Route>
       <Route path="/find-leads">
         <ProtectedRoute component={FindLeads} />
