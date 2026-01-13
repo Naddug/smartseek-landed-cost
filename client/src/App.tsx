@@ -20,6 +20,7 @@ import SampleReport from "@/pages/SampleReport";
 import CustomsCalculator from "@/pages/CustomsCalculator";
 import ShippingEstimator from "@/pages/ShippingEstimator";
 import TradeData from "@/pages/TradeData";
+import FindLeads from "@/pages/FindLeads";
 import AppLayout from "@/components/layout/AppLayout";
 
 function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
@@ -65,6 +66,9 @@ function Router() {
       </Route>
       <Route path="/smart-finder">
         <ProtectedRoute component={SmartFinder} />
+      </Route>
+      <Route path="/find-leads">
+        <ProtectedRoute component={FindLeads} />
       </Route>
       <Route path="/reports">
         <ProtectedRoute component={Reports} />

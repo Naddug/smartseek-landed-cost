@@ -7,6 +7,8 @@ import {
   supplierShortlists,
   sourcingRequests,
   appSettings,
+  leads,
+  leadSearchQueries,
   type UserProfile,
   type InsertUserProfile,
   type CreditTransaction,
@@ -20,6 +22,10 @@ import {
   type InsertSourcingRequest,
   type AppSetting,
   type InsertAppSetting,
+  type Lead,
+  type InsertLead,
+  type LeadSearchQuery,
+  type InsertLeadSearchQuery,
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
 
@@ -64,6 +70,12 @@ export interface IStorage {
   // App Settings
   getSetting(key: string): Promise<AppSetting | undefined>;
   setSetting(key: string, value: any): Promise<AppSetting>;
+  
+  // Leads
+  createLeadSearchQuery(query: InsertLeadSearchQuery): Promise<LeadSearchQuery>;
+  getUserLeadSearchQueries(userId: string, limit?: number): Promise<LeadSearchQuery[]>;
+  createLeads(leadsData: InsertLead[]): Promise<Lead[]>;
+  getUserLeads(userId: string): Promise<Lead[]>;
 }
 
 export const storage: IStorage = {
@@ -350,5 +362,34 @@ export const storage: IStorage = {
       console.error("Error fetching subscription:", error);
       return null;
     }
+  },
+
+  // Leads
+  async createLeadSearchQuery(query: InsertLeadSearchQuery) {
+    const [newQuery] = await db.insert(leadSearchQueries).values(query).returning();
+    return newQuery;
+  },
+
+  async getUserLeadSearchQueries(userId: string, limit = 50) {
+    return db
+      .select()
+      .from(leadSearchQueries)
+      .where(eq(leadSearchQueries.userId, userId))
+      .orderBy(desc(leadSearchQueries.createdAt))
+      .limit(limit);
+  },
+
+  async createLeads(leadsData: InsertLead[]) {
+    if (leadsData.length === 0) return [];
+    const newLeads = await db.insert(leads).values(leadsData).returning();
+    return newLeads;
+  },
+
+  async getUserLeads(userId: string) {
+    return db
+      .select()
+      .from(leads)
+      .where(eq(leads.userId, userId))
+      .orderBy(desc(leads.createdAt));
   },
 };

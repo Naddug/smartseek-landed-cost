@@ -454,6 +454,123 @@ export async function registerRoutes(
     }
   });
 
+  // ===== Find Leads =====
+  
+  app.post("/api/leads/search", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { industry, location, companySize, keywords } = req.body;
+      
+      if (!industry || !location) {
+        return res.status(400).json({ error: "Industry and location are required" });
+      }
+      
+      const profile = await storage.getUserProfile(userId);
+      const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+      const isAdmin = profile?.role === 'admin';
+      
+      if (!isAdmin && (!profile || totalCredits < 1)) {
+        return res.status(402).json({ error: "Insufficient credits" });
+      }
+      
+      const searchCriteria = { industry, location, companySize, keywords };
+      
+      const prompt = `Generate 10-15 realistic B2B buyer leads for sourcing/import purposes based on these criteria:
+- Industry: ${industry}
+- Location: ${location}
+${companySize ? `- Company Size: ${companySize}` : ''}
+${keywords ? `- Keywords/Focus: ${keywords}` : ''}
+
+Return a JSON object with a "leads" array. Each lead should have:
+- companyName: string (realistic company name)
+- industry: string (specific industry)
+- location: string (city, state/country)
+- employeeRange: string (e.g., "50-100", "100-500", "500-1000")
+- revenueRange: string (e.g., "$5M-$10M", "$10M-$50M", "$50M-$100M")
+- website: string (realistic domain)
+- contactName: string (realistic full name)
+- contactTitle: string (procurement/sourcing title)
+- contactEmail: string (professional email)
+- sourcingFocus: array of strings (what they typically source/import)
+- aiSummary: string (2-3 sentences on why they're a good lead for sourcing)
+- intentSignals: object with keys like recentActivity, importTrends, expansionPlans (string values describing buying signals)
+
+Make the leads realistic and varied. Focus on companies that would be active importers or have significant sourcing needs.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [{ role: "user", content: prompt }],
+        response_format: { type: "json_object" },
+        max_tokens: 4000
+      });
+      
+      const content = response.choices[0]?.message?.content;
+      if (!content) {
+        return res.status(500).json({ error: "Failed to generate leads" });
+      }
+      
+      const result = JSON.parse(content);
+      const generatedLeads = result.leads || [];
+      
+      const leadsToStore = generatedLeads.map((lead: any) => ({
+        userId,
+        companyName: lead.companyName,
+        industry: lead.industry,
+        location: lead.location,
+        employeeRange: lead.employeeRange,
+        revenueRange: lead.revenueRange,
+        website: lead.website,
+        contactName: lead.contactName,
+        contactTitle: lead.contactTitle,
+        contactEmail: lead.contactEmail,
+        sourcingFocus: lead.sourcingFocus,
+        aiSummary: lead.aiSummary,
+        intentSignals: lead.intentSignals,
+      }));
+      
+      const savedLeads = await storage.createLeads(leadsToStore);
+      
+      // Only deduct credits after successful lead generation
+      if (!isAdmin) {
+        const spent = await storage.spendCredits(userId, 1, "Find Leads Search");
+        if (!spent) {
+          console.error("Failed to deduct credits after lead generation");
+        }
+      }
+      
+      await storage.createLeadSearchQuery({
+        userId,
+        searchCriteria,
+        resultsCount: savedLeads.length,
+        creditsUsed: isAdmin ? 0 : 1,
+      });
+      
+      res.json({ leads: savedLeads });
+    } catch (error: any) {
+      console.error("Error searching leads:", error);
+      res.status(500).json({ error: "Failed to search leads" });
+    }
+  });
+  
+  app.get("/api/leads/history", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const searches = await storage.getUserLeadSearchQueries(userId);
+      res.json(searches);
+    } catch (error) {
+      console.error("Error fetching lead search history:", error);
+      res.status(500).json({ error: "Failed to fetch lead search history" });
+    }
+  });
+
   // ===== Stripe Billing Routes =====
   
   // Get Stripe publishable key for frontend

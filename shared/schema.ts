@@ -129,6 +129,37 @@ export const savedProducts = pgTable("saved_products", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// B2B Leads for Find Lead feature
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  companyName: text("company_name").notNull(),
+  industry: text("industry").notNull(),
+  location: text("location").notNull(),
+  employeeRange: varchar("employee_range", { length: 50 }),
+  revenueRange: varchar("revenue_range", { length: 50 }),
+  website: text("website"),
+  contactName: text("contact_name"),
+  contactTitle: text("contact_title"),
+  contactEmail: text("contact_email"),
+  contactPhone: text("contact_phone"),
+  sourcingFocus: text("sourcing_focus").array(),
+  aiSummary: text("ai_summary"),
+  intentSignals: jsonb("intent_signals"),
+  verifiedAt: timestamp("verified_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Lead Search Queries history
+export const leadSearchQueries = pgTable("lead_search_queries", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  searchCriteria: jsonb("search_criteria").notNull(),
+  resultsCount: integer("results_count").default(0).notNull(),
+  creditsUsed: integer("credits_used").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Customs Calculations
 export const customsCalculations = pgTable("customs_calculations", {
   id: serial("id").primaryKey(),
@@ -231,6 +262,9 @@ export const insertSavedProductSchema = createInsertSchema(savedProducts).omit({
   updatedAt: true,
 });
 
+export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, createdAt: true });
+export const insertLeadSearchQuerySchema = createInsertSchema(leadSearchQueries).omit({ id: true, createdAt: true });
+
 export const insertCustomsCalculationSchema = createInsertSchema(customsCalculations).omit({
   id: true,
   createdAt: true,
@@ -274,6 +308,12 @@ export type InsertSearchHistory = z.infer<typeof insertSearchHistorySchema>;
 
 export type SavedProduct = typeof savedProducts.$inferSelect;
 export type InsertSavedProduct = z.infer<typeof insertSavedProductSchema>;
+
+export type InsertLead = z.infer<typeof insertLeadSchema>;
+export type Lead = typeof leads.$inferSelect;
+
+export type InsertLeadSearchQuery = z.infer<typeof insertLeadSearchQuerySchema>;
+export type LeadSearchQuery = typeof leadSearchQueries.$inferSelect;
 
 export type CustomsCalculation = typeof customsCalculations.$inferSelect;
 export type InsertCustomsCalculation = z.infer<typeof insertCustomsCalculationSchema>;

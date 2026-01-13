@@ -15,7 +15,8 @@ import {
   Ship,
   BarChart3,
   Sparkles,
-  CreditCard
+  CreditCard,
+  Target
 } from "lucide-react";
 import { useState } from "react";
 
@@ -55,6 +56,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <nav className="flex-1 px-4 space-y-2">
           <NavItem href="/dashboard" icon={<LayoutDashboard size={20} />} label="Dashboard" active={isActive('/dashboard')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/smart-finder" icon={<Sparkles size={20} />} label="Smart Finder" active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/find-leads" icon={<Target size={20} />} label="Find Leads" active={isActive('/find-leads')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/reports" icon={<FileText size={20} />} label="My Reports" active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/billing" icon={<CreditCard size={20} />} label="Billing" active={isActive('/billing')} onClick={() => setMobileOpen(false)} />
           

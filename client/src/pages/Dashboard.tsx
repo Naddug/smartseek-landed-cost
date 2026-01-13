@@ -18,7 +18,8 @@ import {
   Zap,
   Crown,
   BarChart3,
-  Shield
+  Shield,
+  Target
 } from "lucide-react";
 import { format } from "date-fns";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
@@ -314,6 +315,21 @@ export default function Dashboard() {
                     <div className="text-sm text-slate-400">Generate sourcing intelligence with AI</div>
                   </div>
                   <Badge className="bg-blue-600/30 text-blue-300 border-blue-500/50">1 Credit</Badge>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/find-leads">
+              <div className="p-4 rounded-xl border-2 border-dashed border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 hover:border-emerald-400/60 transition-all cursor-pointer group">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                    <Target className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">Find Buyer Leads</div>
+                    <div className="text-sm text-slate-400">Discover qualified procurement contacts</div>
+                  </div>
+                  <Badge className="bg-emerald-600/30 text-emerald-300 border-emerald-500/50">1 Credit</Badge>
                 </div>
               </div>
             </Link>

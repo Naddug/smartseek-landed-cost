@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
-import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, Building2, FileCheck, MapPin, Lock, Users, Target, Briefcase, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, BadgeCheck, Database, Award } from "lucide-react";
+import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, Building2, FileCheck, MapPin, Lock, Users, Target, Briefcase, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, BadgeCheck, Database, Award, UserSearch } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -46,6 +46,11 @@ export default function Home() {
       icon: <DollarSign className="w-6 h-6" />,
       title: "Cost Optimization & Landed Cost Analysis",
       description: "Comprehensive total cost modeling including duties, freight, insurance, and currency fluctuations for accurate procurement decisions."
+    },
+    {
+      icon: <UserSearch className="w-6 h-6" />,
+      title: "Find Buyer Leads",
+      description: "AI-powered B2B lead generation to discover qualified procurement contacts with company insights, intent signals, and contact details."
     },
     {
       icon: <FileCheck className="w-6 h-6" />,
