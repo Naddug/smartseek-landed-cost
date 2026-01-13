@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { userAPI, creditsAPI, reportsAPI, shortlistsAPI, sourcingRequestsAPI, leadsAPI } from "./api";
+import { userAPI, creditsAPI, reportsAPI, shortlistsAPI, sourcingRequestsAPI, leadsAPI, calculationsAPI } from "./api";
 import { toast } from "sonner";
 
 // User & Profile
@@ -144,5 +144,20 @@ export function useLeadReport(id: number) {
     queryKey: ["leads", "report", id],
     queryFn: () => leadsAPI.getReport(id),
     enabled: !!id,
+  });
+}
+
+// Calculations
+export function useCustomsCalculations() {
+  return useQuery({
+    queryKey: ["calculations", "customs"],
+    queryFn: calculationsAPI.getCustoms,
+  });
+}
+
+export function useShippingEstimates() {
+  return useQuery({
+    queryKey: ["calculations", "shipping"],
+    queryFn: calculationsAPI.getShipping,
   });
 }

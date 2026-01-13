@@ -1,4 +1,4 @@
-import { useReports, useReport, useLeadHistory, useLeadReport } from "@/lib/hooks";
+import { useReports, useReport, useLeadHistory, useLeadReport, useCustomsCalculations, useShippingEstimates } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,11 +25,15 @@ const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'
 export default function Reports() {
   const { data: reports = [], isLoading, error } = useReports();
   const { data: leadHistory = [], isLoading: leadsLoading } = useLeadHistory();
+  const { data: customsCalcs = [], isLoading: customsLoading } = useCustomsCalculations();
+  const { data: shippingEsts = [], isLoading: shippingLoading } = useShippingEstimates();
   const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
   const [selectedLeadReportId, setSelectedLeadReportId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("sourcing");
 
-  if (isLoading || leadsLoading) {
+  const totalCalculations = customsCalcs.length + shippingEsts.length;
+
+  if (isLoading || leadsLoading || customsLoading || shippingLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -82,14 +86,18 @@ export default function Reports() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full max-w-md grid-cols-2">
+        <TabsList className="grid w-full max-w-xl grid-cols-3">
           <TabsTrigger value="sourcing" className="flex items-center gap-2">
             <FileText className="w-4 h-4" />
-            Sourcing Reports ({reports.length})
+            Sourcing ({reports.length})
           </TabsTrigger>
           <TabsTrigger value="leads" className="flex items-center gap-2">
             <UserSearch className="w-4 h-4" />
-            Lead Reports ({leadHistory.length})
+            Leads ({leadHistory.length})
+          </TabsTrigger>
+          <TabsTrigger value="calculations" className="flex items-center gap-2">
+            <Calculator className="w-4 h-4" />
+            Calculations ({totalCalculations})
           </TabsTrigger>
         </TabsList>
 
@@ -194,6 +202,126 @@ export default function Reports() {
                   </Card>
                 );
               })}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="calculations" className="mt-6">
+          {totalCalculations === 0 ? (
+            <Card className="py-12">
+              <CardContent className="text-center">
+                <Calculator className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-lg font-medium mb-2">No saved calculations yet</h3>
+                <p className="text-muted-foreground mb-4">Use our calculators to estimate customs duties and shipping costs.</p>
+                <div className="flex gap-2 justify-center">
+                  <Link href="/customs-calculator">
+                    <Button variant="outline">Customs Calculator</Button>
+                  </Link>
+                  <Link href="/shipping-estimator">
+                    <Button variant="outline">Shipping Estimator</Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-8">
+              {customsCalcs.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <Landmark className="w-5 h-5 text-primary" />
+                    Customs Calculations ({customsCalcs.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {customsCalcs.map((calc: any) => (
+                      <Card key={calc.id} className="hover:shadow-lg transition-shadow" data-testid={`card-customs-${calc.id}`}>
+                        <CardHeader className="pb-2">
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
+                              <Landmark className="w-3 h-3 mr-1" />
+                              Customs
+                            </Badge>
+                            <span className="text-xs text-muted-foreground">
+                              {format(new Date(calc.createdAt), 'MMM d, yyyy')}
+                            </span>
+                          </div>
+                          <CardTitle className="text-base">{calc.productName}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Globe className="w-4 h-4" />
+                              {calc.originCountry} → {calc.destinationCountry}
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Product Value:</span>
+                              <span className="font-medium">${calc.productValue?.toLocaleString() || 0}</span>
+                            </div>
+                            {calc.result?.landedCost && (
+                              <div className="flex justify-between">
+                                <span className="text-muted-foreground">Landed Cost:</span>
+                                <span className="font-bold text-green-600">${calc.result.landedCost.toLocaleString()}</span>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {shippingEsts.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <Ship className="w-5 h-5 text-primary" />
+                    Shipping Estimates ({shippingEsts.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {shippingEsts.map((est: any) => (
+                      <Card key={est.id} className="hover:shadow-lg transition-shadow" data-testid={`card-shipping-${est.id}`}>
+                        <CardHeader className="pb-2">
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge className="bg-teal-100 text-teal-700 hover:bg-teal-100">
+                              <Ship className="w-3 h-3 mr-1" />
+                              Shipping
+                            </Badge>
+                            <span className="text-xs text-muted-foreground">
+                              {format(new Date(est.createdAt), 'MMM d, yyyy')}
+                            </span>
+                          </div>
+                          <CardTitle className="text-base">
+                            {est.originCountry} → {est.destinationCountry}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Weight:</span>
+                              <span className="font-medium">{est.weight || '-'} kg</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Method:</span>
+                              <span className="font-medium capitalize">{est.shippingMethod || 'Sea'}</span>
+                            </div>
+                            {est.result?.seaFreight?.options?.[0]?.cost && (
+                              <div className="flex justify-between">
+                                <span className="text-muted-foreground">Lowest Rate:</span>
+                                <span className="font-bold text-green-600">
+                                  ${Math.min(
+                                    est.result.seaFreight?.options?.[0]?.cost || Infinity,
+                                    est.result.airFreight?.options?.[0]?.cost || Infinity,
+                                    est.result.express?.options?.[0]?.cost || Infinity
+                                  ).toLocaleString()}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </TabsContent>

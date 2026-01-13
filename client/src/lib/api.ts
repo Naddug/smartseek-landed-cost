@@ -83,6 +83,12 @@ export const leadsAPI = {
   getReport: (id: number) => fetchAPI<{ searchQuery: any; leads: any[] }>(`/leads/report/${id}`),
 };
 
+// Calculations
+export const calculationsAPI = {
+  getCustoms: () => fetchAPI<any[]>("/calculations/customs"),
+  getShipping: () => fetchAPI<any[]>("/calculations/shipping"),
+};
+
 // Admin APIs
 export const adminAPI = {
   shortlists: {
