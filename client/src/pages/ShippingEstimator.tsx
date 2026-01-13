@@ -9,8 +9,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Ship, Plane, Truck, Package, Clock, DollarSign, Loader2, 
   ArrowRight, Globe, MapPin, Calendar, Info, CheckCircle,
-  Container, Weight, Ruler
+  Container, Weight, Ruler, Save, Download
 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import jsPDF from "jspdf";
 
 const COUNTRIES = [
   "China", "United States", "Germany", "United Kingdom", "France", "Japan", 
@@ -26,6 +29,7 @@ const PORTS = {
 };
 
 export default function ShippingEstimator() {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     originCountry: "China",
     destinationCountry: "United States",
@@ -37,7 +41,105 @@ export default function ShippingEstimator() {
     cargoType: "general",
   });
   const [isCalculating, setIsCalculating] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState<string>("sea");
   const [results, setResults] = useState<any>(null);
+
+  const saveEstimate = async () => {
+    if (!results) return;
+    
+    setIsSaving(true);
+    try {
+      await apiRequest("POST", "/api/calculations/shipping", {
+        originCountry: formData.originCountry,
+        destinationCountry: formData.destinationCountry,
+        weight: parseFloat(formData.weight) || null,
+        volume: results.volume,
+        shippingMethod: selectedMethod,
+        result: results,
+      });
+      toast({
+        title: "Saved!",
+        description: "Shipping estimate saved to your reports.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save estimate. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const downloadPDF = () => {
+    if (!results) return;
+    
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    
+    doc.setFontSize(20);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Shipping Cost Estimate", pageWidth / 2, 20, { align: "center" });
+    
+    doc.setFontSize(12);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generated: ${new Date().toLocaleDateString()}`, pageWidth / 2, 28, { align: "center" });
+    
+    doc.setLineWidth(0.5);
+    doc.line(20, 32, pageWidth - 20, 32);
+    
+    let y = 45;
+    const leftCol = 25;
+    const rightCol = pageWidth - 25;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Shipment Details", leftCol, y);
+    y += 10;
+    
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`Route: ${formData.originCountry} → ${formData.destinationCountry}`, leftCol, y);
+    y += 7;
+    doc.text(`Weight: ${results.weight} kg`, leftCol, y);
+    y += 7;
+    doc.text(`Volume: ${results.volume.toFixed(2)} CBM`, leftCol, y);
+    y += 7;
+    doc.text(`Chargeable Weight: ${results.chargeableWeight.toFixed(2)} kg`, leftCol, y);
+    y += 15;
+    
+    const addMethodSection = (title: string, options: any[]) => {
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text(title, leftCol, y);
+      y += 10;
+      
+      options.forEach((option: any) => {
+        doc.setFontSize(11);
+        doc.setTextColor(80, 80, 80);
+        doc.text(`${option.carrier} - ${option.type}`, leftCol, y);
+        doc.text(`$${option.cost.toLocaleString()}`, rightCol, y, { align: "right" });
+        y += 6;
+        doc.setFontSize(9);
+        doc.text(`Transit: ${option.transitTime} | ${option.frequency}`, leftCol + 5, y);
+        y += 8;
+      });
+      y += 5;
+    };
+    
+    addMethodSection("Sea Freight Options", results.seaFreight.options);
+    addMethodSection("Air Freight Options", results.airFreight.options);
+    addMethodSection("Express Courier Options", results.express.options);
+    
+    doc.save(`shipping-estimate-${Date.now()}.pdf`);
+    
+    toast({
+      title: "Downloaded!",
+      description: "PDF saved to your downloads folder.",
+    });
+  };
 
   const calculateVolume = () => {
     const l = parseFloat(formData.length) || 0;
@@ -319,7 +421,34 @@ export default function ShippingEstimator() {
                 </CardContent>
               </Card>
 
-              <Tabs defaultValue="sea" className="w-full">
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Button 
+                  variant="outline" 
+                  className="flex-1" 
+                  onClick={saveEstimate}
+                  disabled={isSaving}
+                  data-testid="button-save"
+                >
+                  {isSaving ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )}
+                  Save to Reports
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex-1" 
+                  onClick={downloadPDF}
+                  data-testid="button-download"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download PDF
+                </Button>
+              </div>
+
+              <Tabs defaultValue="sea" className="w-full" onValueChange={setSelectedMethod}>
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="sea" className="flex items-center gap-2">
                     <Ship className="w-4 h-4" />
