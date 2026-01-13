@@ -479,13 +479,13 @@ export async function registerRoutes(
       
       const searchCriteria = { industry, location, companySize, keywords };
       
-      const prompt = `Generate 10-15 realistic B2B buyer leads for sourcing/import purposes based on these criteria:
+      const prompt = `Generate at least 12-15 realistic B2B buyer leads for sourcing/import purposes based on these criteria:
 - Industry: ${industry}
 - Location: ${location}
 ${companySize ? `- Company Size: ${companySize}` : ''}
 ${keywords ? `- Keywords/Focus: ${keywords}` : ''}
 
-Return a JSON object with a "leads" array. Each lead should have:
+Return a JSON object with a "leads" array. You MUST return at least 12 leads. Each lead should have:
 - companyName: string (realistic company name)
 - industry: string (specific industry)
 - location: string (city, state/country)

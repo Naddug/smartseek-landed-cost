@@ -110,17 +110,22 @@ export default function FindLeads() {
       const response = await apiRequest("POST", "/api/leads/search", {
         industry,
         location,
-        companySize: companySize || undefined,
+        companySize: companySize === "any" ? undefined : companySize,
         keywords: keywords || undefined
       });
 
       const data = await response.json();
+      console.log("Search response:", data);
       
       if (data.leads && Array.isArray(data.leads)) {
         setLeads(data.leads);
-        toast.success(`Found ${data.leads.length} leads`);
+        if (data.leads.length > 0) {
+          toast.success(`Found ${data.leads.length} leads`);
+        } else {
+          toast.info("No leads matched your criteria. Try broadening your search.");
+        }
       } else {
-        toast.error("No leads found");
+        toast.error("Invalid response from server");
       }
     } catch (error: any) {
       console.error("Lead search error:", error);
