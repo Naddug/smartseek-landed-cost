@@ -42,7 +42,7 @@ export const creditsAPI = {
   getTransactions: () => fetchAPI<CreditTransaction[]>("/credits/transactions"),
 };
 
-// Reports (Smart Finder)
+// Reports (SmartSeek AI)
 export const reportsAPI = {
   create: (data: {
     title: string;

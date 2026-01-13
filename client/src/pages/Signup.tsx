@@ -162,7 +162,7 @@ export default function Signup() {
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>Access to Smart Finder reports</span>
+                <span>Access to SmartSeek AI reports</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />

@@ -107,7 +107,7 @@ export default function Reports() {
               <CardContent className="text-center">
                 <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                 <h3 className="text-lg font-medium mb-2">No sourcing reports yet</h3>
-                <p className="text-muted-foreground mb-4">Use Smart Finder to generate your first AI sourcing report.</p>
+                <p className="text-muted-foreground mb-4">Use SmartSeek AI to generate your first AI sourcing report.</p>
                 <Link href="/smart-finder">
                   <Button>Get Started</Button>
                 </Link>

@@ -56,7 +56,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <h4 className="font-semibold mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="/pricing">Pricing</Link></li>
-              <li><Link href="/smart-finder">Smart Finder</Link></li>
+              <li><Link href="/smart-finder">SmartSeek AI</Link></li>
             </ul>
           </div>
           <div>

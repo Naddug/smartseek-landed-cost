@@ -311,7 +311,7 @@ export default function Dashboard() {
                     <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">AI Smart Finder</div>
+                    <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">SmartSeek AI</div>
                     <div className="text-sm text-slate-400">Generate sourcing intelligence with AI</div>
                   </div>
                   <Badge className="bg-blue-600/30 text-blue-300 border-blue-500/50">1 Credit</Badge>

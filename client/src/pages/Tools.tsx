@@ -43,7 +43,7 @@ const tools = [
     features: ["Sea freight", "Air freight", "Express courier", "Transit times"],
   },
   {
-    title: "Smart Finder AI",
+    title: "SmartSeek AI",
     description: "Get AI-powered sourcing reports with supplier recommendations",
     icon: Search,
     href: "/smart-finder",
