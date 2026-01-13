@@ -620,6 +620,154 @@ Make the leads realistic and varied. Focus on companies that would be active imp
     }
   });
 
+  // ===== Calculator History =====
+  
+  // Save customs calculation
+  app.post("/api/calculations/customs", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { productName, hsCode, originCountry, destinationCountry, productValue, quantity, incoterm, result } = req.body;
+      
+      const calc = await storage.createCustomsCalculation({
+        userId,
+        productName: productName || "Untitled Product",
+        hsCode: hsCode || null,
+        originCountry,
+        destinationCountry,
+        productValue: Math.round(productValue),
+        quantity: quantity || 1,
+        incoterm: incoterm || null,
+        result,
+      });
+      
+      res.json(calc);
+    } catch (error) {
+      console.error("Error saving customs calculation:", error);
+      res.status(500).json({ error: "Failed to save calculation" });
+    }
+  });
+  
+  // Get user's customs calculations
+  app.get("/api/calculations/customs", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const calculations = await storage.getUserCustomsCalculations(userId);
+      res.json(calculations);
+    } catch (error) {
+      console.error("Error fetching customs calculations:", error);
+      res.status(500).json({ error: "Failed to fetch calculations" });
+    }
+  });
+  
+  // Get single customs calculation
+  app.get("/api/calculations/customs/:id", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+      
+      const calc = await storage.getCustomsCalculation(id);
+      if (!calc) {
+        return res.status(404).json({ error: "Calculation not found" });
+      }
+      
+      if (calc.userId !== userId) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      
+      res.json(calc);
+    } catch (error) {
+      console.error("Error fetching customs calculation:", error);
+      res.status(500).json({ error: "Failed to fetch calculation" });
+    }
+  });
+  
+  // Save shipping estimate
+  app.post("/api/calculations/shipping", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { originCountry, destinationCountry, weight, volume, shippingMethod, result } = req.body;
+      
+      const estimate = await storage.createShippingEstimate({
+        userId,
+        originCountry,
+        destinationCountry,
+        weight: weight ? Math.round(weight) : null,
+        volume: volume ? Math.round(volume * 1000) : null, // Store as integer (x1000)
+        shippingMethod: shippingMethod || "sea",
+        result,
+      });
+      
+      res.json(estimate);
+    } catch (error) {
+      console.error("Error saving shipping estimate:", error);
+      res.status(500).json({ error: "Failed to save estimate" });
+    }
+  });
+  
+  // Get user's shipping estimates
+  app.get("/api/calculations/shipping", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const estimates = await storage.getUserShippingEstimates(userId);
+      res.json(estimates);
+    } catch (error) {
+      console.error("Error fetching shipping estimates:", error);
+      res.status(500).json({ error: "Failed to fetch estimates" });
+    }
+  });
+  
+  // Get single shipping estimate
+  app.get("/api/calculations/shipping/:id", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+      
+      const estimate = await storage.getShippingEstimate(id);
+      if (!estimate) {
+        return res.status(404).json({ error: "Estimate not found" });
+      }
+      
+      if (estimate.userId !== userId) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      
+      res.json(estimate);
+    } catch (error) {
+      console.error("Error fetching shipping estimate:", error);
+      res.status(500).json({ error: "Failed to fetch estimate" });
+    }
+  });
+
   // ===== Stripe Billing Routes =====
   
   // Get Stripe publishable key for frontend

@@ -9,6 +9,8 @@ import {
   appSettings,
   leads,
   leadSearchQueries,
+  customsCalculations,
+  shippingEstimates,
   type UserProfile,
   type InsertUserProfile,
   type CreditTransaction,
@@ -26,6 +28,10 @@ import {
   type InsertLead,
   type LeadSearchQuery,
   type InsertLeadSearchQuery,
+  type CustomsCalculation,
+  type InsertCustomsCalculation,
+  type ShippingEstimate,
+  type InsertShippingEstimate,
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
 
@@ -79,6 +85,16 @@ export interface IStorage {
   createLeads(leadsData: InsertLead[]): Promise<Lead[]>;
   getUserLeads(userId: string): Promise<Lead[]>;
   getLeadsBySearchQueryId(searchQueryId: number): Promise<Lead[]>;
+  
+  // Customs Calculations
+  createCustomsCalculation(calc: InsertCustomsCalculation): Promise<CustomsCalculation>;
+  getUserCustomsCalculations(userId: string, limit?: number): Promise<CustomsCalculation[]>;
+  getCustomsCalculation(id: number): Promise<CustomsCalculation | undefined>;
+  
+  // Shipping Estimates
+  createShippingEstimate(estimate: InsertShippingEstimate): Promise<ShippingEstimate>;
+  getUserShippingEstimates(userId: string, limit?: number): Promise<ShippingEstimate[]>;
+  getShippingEstimate(id: number): Promise<ShippingEstimate | undefined>;
 }
 
 export const storage: IStorage = {
@@ -412,5 +428,45 @@ export const storage: IStorage = {
       .from(leads)
       .where(eq(leads.searchQueryId, searchQueryId))
       .orderBy(desc(leads.createdAt));
+  },
+
+  // Customs Calculations
+  async createCustomsCalculation(calc: InsertCustomsCalculation) {
+    const [newCalc] = await db.insert(customsCalculations).values(calc).returning();
+    return newCalc;
+  },
+
+  async getUserCustomsCalculations(userId: string, limit = 50) {
+    return db
+      .select()
+      .from(customsCalculations)
+      .where(eq(customsCalculations.userId, userId))
+      .orderBy(desc(customsCalculations.createdAt))
+      .limit(limit);
+  },
+
+  async getCustomsCalculation(id: number) {
+    const [calc] = await db.select().from(customsCalculations).where(eq(customsCalculations.id, id));
+    return calc;
+  },
+
+  // Shipping Estimates
+  async createShippingEstimate(estimate: InsertShippingEstimate) {
+    const [newEstimate] = await db.insert(shippingEstimates).values(estimate).returning();
+    return newEstimate;
+  },
+
+  async getUserShippingEstimates(userId: string, limit = 50) {
+    return db
+      .select()
+      .from(shippingEstimates)
+      .where(eq(shippingEstimates.userId, userId))
+      .orderBy(desc(shippingEstimates.createdAt))
+      .limit(limit);
+  },
+
+  async getShippingEstimate(id: number) {
+    const [estimate] = await db.select().from(shippingEstimates).where(eq(shippingEstimates.id, id));
+    return estimate;
   },
 };
