@@ -9,10 +9,22 @@ import { generateSmartFinderReport, type ReportFormData } from "./services/repor
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
 import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
+
+const anthropic = new Anthropic({
+  apiKey: process.env.AI_INTEGRATIONS_ANTHROPIC_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_ANTHROPIC_BASE_URL,
+});
+
+// Use OpenAI-compatible client for Gemini via Replit AI Integrations
+const geminiClient = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
 });
 
 // Helper to get user ID from session
@@ -179,21 +191,51 @@ ${category === 'research' ? 'Focus on market research, industry insights, and co
 
 Provide helpful, accurate, and actionable information. Be concise but thorough.`;
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: message }
-        ],
-        max_tokens: 2000
-      });
+      let responseContent: string | null = null;
       
-      const content = response.choices[0]?.message?.content;
-      if (!content) {
+      // Route to the appropriate AI provider based on model selection
+      if (model === 'claude') {
+        // Use Anthropic Claude
+        const claudeResponse = await anthropic.messages.create({
+          model: "claude-sonnet-4-5",
+          max_tokens: 2000,
+          system: systemPrompt,
+          messages: [
+            { role: "user", content: message }
+          ]
+        });
+        responseContent = claudeResponse.content[0].type === 'text' 
+          ? claudeResponse.content[0].text 
+          : null;
+      } else if (model === 'gemini') {
+        // Use Google Gemini via OpenAI-compatible API
+        const geminiResponse = await geminiClient.chat.completions.create({
+          model: "gemini-2.5-flash",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: message }
+          ],
+          max_tokens: 2000
+        });
+        responseContent = geminiResponse.choices[0]?.message?.content || null;
+      } else {
+        // Default to OpenAI GPT-4o
+        const openaiResponse = await openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: message }
+          ],
+          max_tokens: 2000
+        });
+        responseContent = openaiResponse.choices[0]?.message?.content || null;
+      }
+      
+      if (!responseContent) {
         return res.status(500).json({ error: "Failed to get AI response" });
       }
       
-      res.json({ response: content, model });
+      res.json({ response: responseContent, model });
     } catch (error: any) {
       console.error("Error in AI chat:", error);
       res.status(500).json({ error: "Failed to process chat request" });
@@ -221,12 +263,18 @@ Provide helpful, accurate, and actionable information. Be concise but thorough.`
       
       const title = `AI Chat: ${conversationSummary.slice(0, 50)}${conversationSummary.length > 50 ? '...' : ''}`;
       
+      // Create report with minimal metadata in formData
       const report = await storage.createReport({
         userId,
         title,
         category: category || 'ai-chat',
         status: 'completed',
-        formData: { model, category, messageCount: messages.length, messages, savedAt: new Date().toISOString() },
+        formData: { model, category, messageCount: messages.length },
+      });
+      
+      // Store full conversation in reportData via update
+      await storage.updateReport(report.id, {
+        reportData: { messages, savedAt: new Date().toISOString() },
       });
       
       res.json({ success: true, reportId: report.id });

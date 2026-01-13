@@ -34,7 +34,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location === path;
 
   return (
-    <div className="min-h-screen bg-muted/10 flex">
+    <div className="min-h-screen bg-background flex">
       {/* Mobile menu button */}
       <button 
         className="md:hidden fixed top-4 left-4 z-50 p-2 bg-background border rounded-lg shadow-sm"
@@ -112,7 +112,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
-        <header className="h-16 border-b bg-background/50 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
+        <header className="h-16 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
           <div className="md:hidden w-10"></div>
           <h1 className="font-heading font-semibold text-lg capitalize">{location.split('/')[1]?.replace('-', ' ') || 'Dashboard'}</h1>
           <div className="flex items-center gap-4">

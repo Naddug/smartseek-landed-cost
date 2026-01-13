@@ -58,27 +58,27 @@
 }
 
 :root {
-  /* Slate-based light mode - Professional, Clean */
-  --background: 210 40% 98%;
-  --foreground: 222 47% 11%;
+  /* Dark slate theme - Professional, Modern */
+  --background: 222 47% 5%;
+  --foreground: 210 40% 96%;
 
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
+  --card: 222 47% 8%;
+  --card-foreground: 210 40% 96%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
+  --popover: 222 47% 8%;
+  --popover-foreground: 210 40% 96%;
 
   /* Primary: Deep Tech Blue */
   --primary: 221 83% 53%;
   --primary-foreground: 210 40% 98%;
 
-  /* Secondary: Soft Slate */
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222 47% 11.2%;
+  /* Secondary: Dark Slate */
+  --secondary: 217 33% 12%;
+  --secondary-foreground: 210 40% 96%;
 
   /* Muted: Subtle text */
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 217 33% 10%;
+  --muted-foreground: 215 20% 55%;
 
   /* Accent: Electric Teal (for AI/Premium features) */
   --accent: 170 100% 35%; 
@@ -87,20 +87,20 @@
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
+  --border: 217 33% 15%;
+  --input: 217 33% 15%;
   --ring: 221 83% 53%;
 
   --radius: 0.5rem;
 
   /* Sidebar */
-  --sidebar: 222 47% 11%;
+  --sidebar: 222 47% 6%;
   --sidebar-foreground: 210 40% 98%;
   --sidebar-primary: 221 83% 53%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 217 33% 17%;
+  --sidebar-accent: 217 33% 10%;
   --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 217 33% 20%;
+  --sidebar-border: 217 33% 12%;
   --sidebar-ring: 221 83% 53%;
 
   --chart-1: 12 76% 61%;

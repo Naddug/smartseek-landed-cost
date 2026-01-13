@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { 
   Search, 
   Bot, 
@@ -21,9 +22,20 @@ import {
   FlaskConical,
   CheckCircle,
   Copy,
-  RefreshCw
+  RefreshCw,
+  Building2,
+  MapPin,
+  Shield,
+  Clock,
+  Star,
+  Globe,
+  Users,
+  TrendingUp,
+  Award,
+  Package
 } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 type AIModel = 'chatgpt' | 'claude' | 'gemini' | 'video' | 'voice';
 type FilterTab = 'all' | 'sourcing' | 'analysis' | 'research';
@@ -36,13 +48,239 @@ interface Message {
   timestamp: Date;
 }
 
+interface ParsedContent {
+  type: 'text' | 'supplier' | 'structured';
+  text?: string;
+  supplier?: {
+    name?: string;
+    location?: string;
+    verified?: boolean;
+    experience?: string;
+    certifications?: string[];
+    rating?: string;
+    employees?: string;
+    products?: string;
+    minOrder?: string;
+    responseTime?: string;
+  };
+  sections?: { title: string; content: string }[];
+}
+
 const MODEL_CONFIG = {
-  chatgpt: { name: 'ChatGPT', subtitle: 'GPT-4o', icon: Sparkles, color: 'from-emerald-500 to-green-600' },
-  claude: { name: 'Claude', subtitle: 'Anthropic', icon: Bot, color: 'from-orange-500 to-amber-600' },
-  gemini: { name: 'Gemini', subtitle: 'Google', icon: Sparkles, color: 'from-blue-500 to-indigo-600' },
-  video: { name: 'Video AI', subtitle: 'Coming Soon', icon: Video, color: 'from-purple-500 to-violet-600' },
-  voice: { name: 'Voice AI', subtitle: 'Coming Soon', icon: Mic, color: 'from-pink-500 to-rose-600' },
+  chatgpt: { name: 'ChatGPT', subtitle: 'GPT-4o', icon: Sparkles, color: 'from-emerald-500 to-green-600', bgColor: 'bg-emerald-500/10', borderColor: 'border-emerald-500/30' },
+  claude: { name: 'Claude', subtitle: 'Anthropic', icon: Bot, color: 'from-orange-500 to-amber-600', bgColor: 'bg-orange-500/10', borderColor: 'border-orange-500/30' },
+  gemini: { name: 'Gemini', subtitle: 'Google', icon: Sparkles, color: 'from-blue-500 to-indigo-600', bgColor: 'bg-blue-500/10', borderColor: 'border-blue-500/30' },
+  video: { name: 'Video AI', subtitle: 'Coming Soon', icon: Video, color: 'from-purple-500 to-violet-600', bgColor: 'bg-purple-500/10', borderColor: 'border-purple-500/30' },
+  voice: { name: 'Voice AI', subtitle: 'Coming Soon', icon: Mic, color: 'from-pink-500 to-rose-600', bgColor: 'bg-pink-500/10', borderColor: 'border-pink-500/30' },
 };
+
+function parseResponseContent(content: string): ParsedContent {
+  const supplierPatterns = [
+    /company\s*name[:\s]+([^\n]+)/i,
+    /supplier[:\s]+([^\n]+)/i,
+    /manufacturer[:\s]+([^\n]+)/i,
+  ];
+  
+  let supplierName = '';
+  for (const pattern of supplierPatterns) {
+    const match = content.match(pattern);
+    if (match) {
+      supplierName = match[1].trim();
+      break;
+    }
+  }
+  
+  if (supplierName || content.toLowerCase().includes('supplier') || content.toLowerCase().includes('manufacturer')) {
+    const locationMatch = content.match(/location[:\s]+([^\n]+)/i) || content.match(/based in[:\s]+([^\n]+)/i);
+    const experienceMatch = content.match(/(\d+\+?\s*years?)/i);
+    const certMatch = content.match(/certifications?[:\s]+([^\n]+)/i) || content.match(/certified[:\s]+([^\n]+)/i);
+    const ratingMatch = content.match(/rating[:\s]+([^\n]+)/i) || content.match(/(\d\.?\d?\s*\/\s*5)/i);
+    const employeesMatch = content.match(/employees?[:\s]+([^\n]+)/i) || content.match(/(\d+[\+]?\s*employees)/i);
+    
+    const certifications: string[] = [];
+    if (certMatch) {
+      const certs = certMatch[1].split(/[,;]/);
+      certs.forEach(c => {
+        const cleaned = c.trim();
+        if (cleaned && cleaned.length < 30) certifications.push(cleaned);
+      });
+    }
+    if (content.match(/iso\s*\d+/i)) certifications.push('ISO Certified');
+    if (content.match(/verified/i) && !certifications.includes('Verified')) certifications.push('Verified');
+    
+    if (supplierName || certifications.length > 0 || experienceMatch || locationMatch) {
+      return {
+        type: 'supplier',
+        text: content,
+        supplier: {
+          name: supplierName || 'Supplier Information',
+          location: locationMatch?.[1]?.trim(),
+          verified: content.toLowerCase().includes('verified'),
+          experience: experienceMatch?.[1],
+          certifications: [...new Set(certifications)],
+          rating: ratingMatch?.[1]?.trim(),
+          employees: employeesMatch?.[1]?.trim(),
+        }
+      };
+    }
+  }
+  
+  return { type: 'text', text: content };
+}
+
+function SupplierCard({ supplier, fullContent }: { supplier: ParsedContent['supplier']; fullContent: string }) {
+  if (!supplier) return null;
+  
+  return (
+    <div className="space-y-4">
+      <div className="flex items-start gap-3">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+          <Building2 className="w-6 h-6 text-blue-400" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h4 className="text-lg font-semibold text-white truncate">{supplier.name}</h4>
+          {supplier.location && (
+            <div className="flex items-center gap-1 text-slate-400 text-sm mt-0.5">
+              <MapPin className="w-3.5 h-3.5" />
+              <span>{supplier.location}</span>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {(supplier.verified || (supplier.certifications && supplier.certifications.length > 0) || supplier.experience) && (
+        <div className="flex flex-wrap gap-2">
+          {supplier.verified && (
+            <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30">
+              <CheckCircle className="w-3 h-3 mr-1" />
+              Verified
+            </Badge>
+          )}
+          {supplier.experience && (
+            <Badge className="bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30">
+              <Clock className="w-3 h-3 mr-1" />
+              {supplier.experience}
+            </Badge>
+          )}
+          {supplier.certifications?.map((cert, idx) => (
+            cert !== 'Verified' && (
+              <Badge key={idx} className="bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30">
+                <Award className="w-3 h-3 mr-1" />
+                {cert}
+              </Badge>
+            )
+          ))}
+        </div>
+      )}
+      
+      {(supplier.rating || supplier.employees) && (
+        <div className="grid grid-cols-2 gap-3">
+          {supplier.rating && (
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+              <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+                <Star className="w-3.5 h-3.5 text-amber-400" />
+                <span>Rating</span>
+              </div>
+              <p className="text-white font-medium">{supplier.rating}</p>
+            </div>
+          )}
+          {supplier.employees && (
+            <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
+              <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+                <Users className="w-3.5 h-3.5 text-blue-400" />
+                <span>Team Size</span>
+              </div>
+              <p className="text-white font-medium">{supplier.employees}</p>
+            </div>
+          )}
+        </div>
+      )}
+      
+      <Separator className="bg-slate-700/50" />
+      
+      <div className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+        {fullContent}
+      </div>
+    </div>
+  );
+}
+
+function AssistantMessage({ message, onCopy }: { message: Message; onCopy: (content: string) => void }) {
+  const config = MODEL_CONFIG[message.model];
+  const Icon = config.icon;
+  const parsed = parseResponseContent(message.content);
+  
+  return (
+    <div className="flex justify-start" data-testid={`message-${message.id}`}>
+      <div className="max-w-[85%] w-full">
+        <Card className={`bg-gradient-to-br from-slate-800/80 to-slate-900/80 border ${config.borderColor} shadow-lg shadow-black/20 overflow-hidden`}>
+          <div className={`${config.bgColor} px-4 py-3 border-b ${config.borderColor}`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${config.color} flex items-center justify-center shadow-md`}>
+                  <Icon className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <Badge className={`bg-gradient-to-r ${config.color} text-white border-0 text-xs font-medium shadow-sm`}>
+                    {config.name}
+                  </Badge>
+                  <span className="text-[10px] text-slate-500 ml-2">{config.subtitle}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-slate-500">
+                <Clock className="w-3 h-3" />
+                <span>{format(message.timestamp, 'h:mm a')}</span>
+              </div>
+            </div>
+          </div>
+          
+          <CardContent className="p-4">
+            {parsed.type === 'supplier' && parsed.supplier ? (
+              <SupplierCard supplier={parsed.supplier} fullContent={message.content} />
+            ) : (
+              <div className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">
+                {message.content}
+              </div>
+            )}
+          </CardContent>
+          
+          <div className={`${config.bgColor} px-4 py-2 border-t ${config.borderColor}`}>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] text-slate-500">
+                {format(message.timestamp, 'MMM d, yyyy')}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onCopy(message.content)}
+                className="h-7 px-3 text-xs text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-md transition-colors"
+                data-testid={`button-copy-${message.id}`}
+              >
+                <Copy className="w-3.5 h-3.5 mr-1.5" />
+                Copy Response
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function UserMessage({ message }: { message: Message }) {
+  return (
+    <div className="flex justify-end" data-testid={`message-${message.id}`}>
+      <div className="max-w-[75%]">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-lg shadow-blue-500/20">
+          <p className="text-sm leading-relaxed">{message.content}</p>
+        </div>
+        <div className="text-right mt-1">
+          <span className="text-[10px] text-slate-500">{format(message.timestamp, 'h:mm a')}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function AIChatbot() {
   const [selectedModel, setSelectedModel] = useState<AIModel>('chatgpt');
@@ -271,7 +509,7 @@ export default function AIChatbot() {
         <CardContent className="p-6">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center mb-6 border border-slate-600">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center mb-6 border border-slate-600 shadow-lg">
                 <Bot className="w-10 h-10 text-slate-400" />
               </div>
               <h3 className="text-xl font-semibold text-slate-200 mb-2">Start a Conversation</h3>
@@ -288,9 +526,10 @@ export default function AIChatbot() {
                       setQuery(suggestion);
                       inputRef.current?.focus();
                     }}
-                    className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                    className="border-slate-600 text-slate-300 hover:bg-slate-700 transition-colors"
                     data-testid={`button-suggestion-${suggestion.slice(0, 10)}`}
                   >
+                    <Sparkles className="w-3.5 h-3.5 mr-2 text-blue-400" />
                     {suggestion}
                   </Button>
                 ))}
@@ -300,52 +539,27 @@ export default function AIChatbot() {
             <ScrollArea className="h-[500px] pr-4">
               <div className="space-y-6">
                 {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] ${
-                        message.role === 'user'
-                          ? 'bg-blue-600 text-white rounded-2xl rounded-br-md'
-                          : 'bg-slate-700/50 border border-slate-600 text-slate-100 rounded-2xl rounded-bl-md'
-                      } p-4`}
-                    >
-                      {message.role === 'assistant' && (
-                        <div className="flex items-center gap-2 mb-2 pb-2 border-b border-slate-600">
-                          <Badge className={`bg-gradient-to-r ${MODEL_CONFIG[message.model].color} text-white border-0 text-xs`}>
-                            {MODEL_CONFIG[message.model].name}
-                          </Badge>
-                          <span className="text-xs text-slate-400">
-                            {message.timestamp.toLocaleTimeString()}
-                          </span>
-                        </div>
-                      )}
-                      <p className="whitespace-pre-wrap">{message.content}</p>
-                      {message.role === 'assistant' && (
-                        <div className="flex items-center gap-2 mt-3 pt-2 border-t border-slate-600">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleCopy(message.content)}
-                            className="h-7 text-xs text-slate-400 hover:text-white"
-                          >
-                            <Copy className="w-3 h-3 mr-1" />
-                            Copy
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  message.role === 'user' ? (
+                    <UserMessage key={message.id} message={message} />
+                  ) : (
+                    <AssistantMessage key={message.id} message={message} onCopy={handleCopy} />
+                  )
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-slate-700/50 border border-slate-600 rounded-2xl rounded-bl-md p-4">
-                      <div className="flex items-center gap-2">
-                        <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
-                        <span className="text-slate-400">Thinking...</span>
-                      </div>
-                    </div>
+                    <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-600 shadow-lg max-w-[85%]">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${MODEL_CONFIG[selectedModel].color} flex items-center justify-center shadow-md`}>
+                            <Loader2 className="w-4 h-4 animate-spin text-white" />
+                          </div>
+                          <div>
+                            <p className="text-slate-300 text-sm font-medium">Generating response...</p>
+                            <p className="text-slate-500 text-xs">This may take a moment</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
                 )}
               </div>
