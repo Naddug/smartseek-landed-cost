@@ -10,9 +10,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { 
   Calculator, Globe, ArrowRight, DollarSign, Percent, FileText, 
   Landmark, Receipt, Shield, Info, Loader2, Download, Hash,
-  Ship, Plane, Package, AlertTriangle, CheckCircle
+  Ship, Plane, Package, AlertTriangle, CheckCircle, Save
 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import jsPDF from "jspdf";
 
 const COUNTRIES = [
   "China", "United States", "Germany", "United Kingdom", "France", "Japan", 
@@ -37,6 +40,7 @@ const INCOTERMS = [
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function CustomsCalculator() {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     productName: "",
     hsCode: "",
@@ -49,7 +53,145 @@ export default function CustomsCalculator() {
     insuranceCost: "",
   });
   const [isCalculating, setIsCalculating] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [result, setResult] = useState<any>(null);
+
+  const saveCalculation = async () => {
+    if (!result) return;
+    
+    setIsSaving(true);
+    try {
+      await apiRequest("POST", "/api/calculations/customs", {
+        productName: formData.productName || "Untitled Product",
+        hsCode: formData.hsCode,
+        originCountry: formData.originCountry,
+        destinationCountry: formData.destinationCountry,
+        productValue: parseFloat(formData.productValue) * parseInt(formData.quantity),
+        quantity: parseInt(formData.quantity),
+        incoterm: formData.incoterm,
+        result,
+      });
+      toast({
+        title: "Saved!",
+        description: "Calculation saved to your reports.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save calculation. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const downloadPDF = () => {
+    if (!result) return;
+    
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    
+    doc.setFontSize(20);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Customs Duty Calculation", pageWidth / 2, 20, { align: "center" });
+    
+    doc.setFontSize(12);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generated: ${new Date().toLocaleDateString()}`, pageWidth / 2, 28, { align: "center" });
+    
+    doc.setLineWidth(0.5);
+    doc.line(20, 32, pageWidth - 20, 32);
+    
+    let y = 45;
+    const leftCol = 25;
+    const rightCol = pageWidth - 25;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Trade Route", leftCol, y);
+    y += 8;
+    
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`${formData.originCountry} → ${formData.destinationCountry}`, leftCol, y);
+    y += 6;
+    doc.text(`Product: ${formData.productName || "N/A"}`, leftCol, y);
+    y += 6;
+    doc.text(`HS Code: ${result.hsCode}`, leftCol, y);
+    y += 6;
+    doc.text(`Incoterm: ${formData.incoterm}`, leftCol, y);
+    y += 12;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Cost Breakdown", leftCol, y);
+    y += 10;
+    
+    const addRow = (label: string, value: string, bold = false) => {
+      doc.setFontSize(11);
+      doc.setTextColor(80, 80, 80);
+      if (bold) {
+        doc.setTextColor(0, 0, 0);
+      }
+      doc.text(label, leftCol, y);
+      doc.text(value, rightCol, y, { align: "right" });
+      y += 7;
+    };
+    
+    addRow("Product Value (FOB)", `$${result.productValue.toLocaleString()}`);
+    addRow("Freight Cost", `$${result.freightCost.toLocaleString()}`);
+    addRow("Insurance", `$${result.insuranceCost.toLocaleString()}`);
+    
+    y += 2;
+    doc.setLineWidth(0.2);
+    doc.line(leftCol, y, rightCol, y);
+    y += 6;
+    
+    addRow("CIF Value", `$${result.cifValue.toLocaleString()}`, true);
+    y += 2;
+    
+    addRow(`Import Duty (${result.dutyRate}%)`, `$${result.importDuty.toLocaleString()}`);
+    if (result.vat > 0) {
+      addRow(`VAT/GST (${result.vatRate}%)`, `$${result.vat.toLocaleString()}`);
+    }
+    if (result.mpf > 0) {
+      addRow("Merchandise Processing Fee", `$${result.mpf.toFixed(2)}`);
+    }
+    if (result.hmf > 0) {
+      addRow("Harbor Maintenance Fee", `$${result.hmf.toFixed(2)}`);
+    }
+    addRow("Customs Brokerage", `$${result.brokerageFee}`);
+    
+    y += 4;
+    doc.setLineWidth(0.5);
+    doc.line(leftCol, y, rightCol, y);
+    y += 10;
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 100, 0);
+    doc.text("Total Landed Cost", leftCol, y);
+    doc.text(`$${result.landedCost.toLocaleString()}`, rightCol, y, { align: "right" });
+    y += 8;
+    
+    doc.setFontSize(11);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`Cost per unit: $${result.costPerUnit.toFixed(2)} (${formData.quantity} units)`, leftCol, y);
+    
+    y += 20;
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120);
+    const disclaimer = "Disclaimer: These calculations are estimates based on standard tariff rates. Actual duties may vary based on specific HS code classification, trade agreements, and current regulations.";
+    const splitDisclaimer = doc.splitTextToSize(disclaimer, pageWidth - 50);
+    doc.text(splitDisclaimer, leftCol, y);
+    
+    doc.save(`customs-calculation-${Date.now()}.pdf`);
+    
+    toast({
+      title: "Downloaded!",
+      description: "PDF saved to your downloads folder.",
+    });
+  };
 
   const calculateDuties = async () => {
     if (!formData.productValue || !formData.originCountry || !formData.destinationCountry) {
@@ -307,6 +449,33 @@ export default function CustomsCalculator() {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <Button 
+                  variant="outline" 
+                  className="flex-1" 
+                  onClick={saveCalculation}
+                  disabled={isSaving}
+                  data-testid="button-save"
+                >
+                  {isSaving ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )}
+                  Save to Reports
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="flex-1" 
+                  onClick={downloadPDF}
+                  data-testid="button-download"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download PDF
+                </Button>
+              </div>
 
               {/* Landed Cost Summary */}
               <Card>
