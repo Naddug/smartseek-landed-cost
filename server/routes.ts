@@ -516,8 +516,17 @@ Make the leads realistic and varied. Focus on companies that would be active imp
       const result = JSON.parse(content);
       const generatedLeads = result.leads || [];
       
+      // Create search query first to get the ID (with resultsCount = 0 initially)
+      const searchQuery = await storage.createLeadSearchQuery({
+        userId,
+        searchCriteria,
+        resultsCount: 0,
+        creditsUsed: isAdmin ? 0 : 1,
+      });
+      
       const leadsToStore = generatedLeads.map((lead: any) => ({
         userId,
+        searchQueryId: searchQuery.id,
         companyName: lead.companyName,
         industry: lead.industry,
         location: lead.location,
@@ -534,6 +543,9 @@ Make the leads realistic and varied. Focus on companies that would be active imp
       
       const savedLeads = await storage.createLeads(leadsToStore);
       
+      // Update the search query with the actual number of saved leads
+      await storage.updateLeadSearchQuery(searchQuery.id, { resultsCount: savedLeads.length });
+      
       // Only deduct credits after successful lead generation
       if (!isAdmin) {
         const spent = await storage.spendCredits(userId, 1, "Find Leads Search");
@@ -542,14 +554,7 @@ Make the leads realistic and varied. Focus on companies that would be active imp
         }
       }
       
-      await storage.createLeadSearchQuery({
-        userId,
-        searchCriteria,
-        resultsCount: savedLeads.length,
-        creditsUsed: isAdmin ? 0 : 1,
-      });
-      
-      res.json({ leads: savedLeads });
+      res.json({ leads: savedLeads, searchQueryId: searchQuery.id });
     } catch (error: any) {
       console.error("Error searching leads:", error);
       res.status(500).json({ error: "Failed to search leads" });
@@ -568,6 +573,50 @@ Make the leads realistic and varied. Focus on companies that would be active imp
     } catch (error) {
       console.error("Error fetching lead search history:", error);
       res.status(500).json({ error: "Failed to fetch lead search history" });
+    }
+  });
+  
+  app.get("/api/leads", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const leads = await storage.getUserLeads(userId);
+      res.json(leads);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+  
+  app.get("/api/leads/report/:id", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const searchQueryId = parseInt(req.params.id);
+      if (isNaN(searchQueryId)) {
+        return res.status(400).json({ error: "Invalid search query ID" });
+      }
+      
+      const searchQuery = await storage.getLeadSearchQuery(searchQueryId);
+      if (!searchQuery) {
+        return res.status(404).json({ error: "Lead report not found" });
+      }
+      
+      if (searchQuery.userId !== userId) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+      
+      const leads = await storage.getLeadsBySearchQueryId(searchQueryId);
+      res.json({ searchQuery, leads });
+    } catch (error) {
+      console.error("Error fetching lead report:", error);
+      res.status(500).json({ error: "Failed to fetch lead report" });
     }
   });
 

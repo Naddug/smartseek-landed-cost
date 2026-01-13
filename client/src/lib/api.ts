@@ -76,6 +76,13 @@ export const sourcingRequestsAPI = {
   getAll: () => fetchAPI<SourcingRequest[]>("/sourcing-requests"),
 };
 
+// Leads
+export const leadsAPI = {
+  getAll: () => fetchAPI<any[]>("/leads"),
+  getHistory: () => fetchAPI<any[]>("/leads/history"),
+  getReport: (id: number) => fetchAPI<{ searchQuery: any; leads: any[] }>(`/leads/report/${id}`),
+};
+
 // Admin APIs
 export const adminAPI = {
   shortlists: {

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { userAPI, creditsAPI, reportsAPI, shortlistsAPI, sourcingRequestsAPI } from "./api";
+import { userAPI, creditsAPI, reportsAPI, shortlistsAPI, sourcingRequestsAPI, leadsAPI } from "./api";
 import { toast } from "sonner";
 
 // User & Profile
@@ -121,5 +121,28 @@ export function useCreateSourcingRequest() {
         toast.error(error.message || "Failed to submit sourcing request");
       }
     },
+  });
+}
+
+// Leads
+export function useLeads() {
+  return useQuery({
+    queryKey: ["leads"],
+    queryFn: leadsAPI.getAll,
+  });
+}
+
+export function useLeadHistory() {
+  return useQuery({
+    queryKey: ["leads", "history"],
+    queryFn: leadsAPI.getHistory,
+  });
+}
+
+export function useLeadReport(id: number) {
+  return useQuery({
+    queryKey: ["leads", "report", id],
+    queryFn: () => leadsAPI.getReport(id),
+    enabled: !!id,
   });
 }

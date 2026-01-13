@@ -129,10 +129,21 @@ export const savedProducts = pgTable("saved_products", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Lead Search Queries history
+export const leadSearchQueries = pgTable("lead_search_queries", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  searchCriteria: jsonb("search_criteria").notNull(),
+  resultsCount: integer("results_count").default(0).notNull(),
+  creditsUsed: integer("credits_used").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // B2B Leads for Find Lead feature
 export const leads = pgTable("leads", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  searchQueryId: integer("search_query_id").references(() => leadSearchQueries.id, { onDelete: "cascade" }),
   companyName: text("company_name").notNull(),
   industry: text("industry").notNull(),
   location: text("location").notNull(),
@@ -147,16 +158,6 @@ export const leads = pgTable("leads", {
   aiSummary: text("ai_summary"),
   intentSignals: jsonb("intent_signals"),
   verifiedAt: timestamp("verified_at"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-// Lead Search Queries history
-export const leadSearchQueries = pgTable("lead_search_queries", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  searchCriteria: jsonb("search_criteria").notNull(),
-  resultsCount: integer("results_count").default(0).notNull(),
-  creditsUsed: integer("credits_used").default(1).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

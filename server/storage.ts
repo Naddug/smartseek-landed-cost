@@ -74,8 +74,11 @@ export interface IStorage {
   // Leads
   createLeadSearchQuery(query: InsertLeadSearchQuery): Promise<LeadSearchQuery>;
   getUserLeadSearchQueries(userId: string, limit?: number): Promise<LeadSearchQuery[]>;
+  getLeadSearchQuery(id: number): Promise<LeadSearchQuery | undefined>;
+  updateLeadSearchQuery(id: number, data: Partial<LeadSearchQuery>): Promise<LeadSearchQuery>;
   createLeads(leadsData: InsertLead[]): Promise<Lead[]>;
   getUserLeads(userId: string): Promise<Lead[]>;
+  getLeadsBySearchQueryId(searchQueryId: number): Promise<Lead[]>;
 }
 
 export const storage: IStorage = {
@@ -390,6 +393,24 @@ export const storage: IStorage = {
       .select()
       .from(leads)
       .where(eq(leads.userId, userId))
+      .orderBy(desc(leads.createdAt));
+  },
+
+  async getLeadSearchQuery(id: number) {
+    const [query] = await db.select().from(leadSearchQueries).where(eq(leadSearchQueries.id, id));
+    return query;
+  },
+
+  async updateLeadSearchQuery(id: number, data: Partial<LeadSearchQuery>) {
+    const [updated] = await db.update(leadSearchQueries).set(data).where(eq(leadSearchQueries.id, id)).returning();
+    return updated;
+  },
+
+  async getLeadsBySearchQueryId(searchQueryId: number) {
+    return db
+      .select()
+      .from(leads)
+      .where(eq(leads.searchQueryId, searchQueryId))
       .orderBy(desc(leads.createdAt));
   },
 };

@@ -1,17 +1,18 @@
-import { useReports, useReport } from "@/lib/hooks";
+import { useReports, useReport, useLeadHistory, useLeadReport } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "wouter";
 import { 
   FileText, Download, Loader2, CheckCircle, Clock, AlertCircle, ArrowLeft, Sparkles, 
   Building2, MapPin, Star, Shield, Calendar, TrendingUp, Users, DollarSign, Package, 
   Truck, AlertTriangle, Target, Globe, Ship, Plane, FileCheck, Calculator, 
   BarChart3, PieChart as PieChartIcon, Percent, CreditCard, ArrowRight, ExternalLink,
-  Hash, Scale, Receipt, Landmark, Container, ClipboardCheck
+  Hash, Scale, Receipt, Landmark, Container, ClipboardCheck, UserSearch
 } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useRef } from "react";
@@ -23,9 +24,12 @@ const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'
 
 export default function Reports() {
   const { data: reports = [], isLoading, error } = useReports();
+  const { data: leadHistory = [], isLoading: leadsLoading } = useLeadHistory();
   const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
+  const [selectedLeadReportId, setSelectedLeadReportId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState("sourcing");
 
-  if (isLoading) {
+  if (isLoading || leadsLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -50,57 +54,150 @@ export default function Reports() {
     return <ProfessionalReportView reportId={selectedReportId} onBack={() => setSelectedReportId(null)} />;
   }
 
+  if (selectedLeadReportId) {
+    return <LeadReportView reportId={selectedLeadReportId} onBack={() => setSelectedLeadReportId(null)} />;
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-heading font-bold">My Reports</h1>
-          <p className="text-muted-foreground">Professional AI-generated sourcing intelligence.</p>
+          <p className="text-muted-foreground">Professional AI-generated sourcing and lead intelligence.</p>
         </div>
-        <Link href="/smart-finder">
-          <Button data-testid="button-new-report">
-            <Sparkles className="w-4 h-4 mr-2" />
-            Generate New Report
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/find-leads">
+            <Button variant="outline" data-testid="button-new-lead-report">
+              <UserSearch className="w-4 h-4 mr-2" />
+              Find Leads
+            </Button>
+          </Link>
+          <Link href="/smart-finder">
+            <Button data-testid="button-new-report">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Generate Report
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      {reports.length === 0 ? (
-        <Card className="py-12">
-          <CardContent className="text-center">
-            <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-medium mb-2">No reports yet</h3>
-            <p className="text-muted-foreground mb-4">Use Smart Finder to generate your first AI sourcing report.</p>
-            <Link href="/smart-finder">
-              <Button>Get Started</Button>
-            </Link>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reports.map((report) => (
-            <Card key={report.id} className="hover:shadow-lg transition-shadow cursor-pointer group" onClick={() => setSelectedReportId(report.id)} data-testid={`card-report-${report.id}`}>
-              <CardHeader className="pb-2">
-                <div className="flex justify-between items-start mb-2">
-                  <StatusBadge status={report.status} />
-                  <span className="text-xs text-muted-foreground">
-                    {format(new Date(report.createdAt), 'MMM d, yyyy')}
-                  </span>
-                </div>
-                <CardTitle className="text-lg group-hover:text-primary transition-colors">{report.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                  <Badge variant="outline">{report.category}</Badge>
-                </div>
-                <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  View Full Report
-                </Button>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsTrigger value="sourcing" className="flex items-center gap-2">
+            <FileText className="w-4 h-4" />
+            Sourcing Reports ({reports.length})
+          </TabsTrigger>
+          <TabsTrigger value="leads" className="flex items-center gap-2">
+            <UserSearch className="w-4 h-4" />
+            Lead Reports ({leadHistory.length})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="sourcing" className="mt-6">
+          {reports.length === 0 ? (
+            <Card className="py-12">
+              <CardContent className="text-center">
+                <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-lg font-medium mb-2">No sourcing reports yet</h3>
+                <p className="text-muted-foreground mb-4">Use Smart Finder to generate your first AI sourcing report.</p>
+                <Link href="/smart-finder">
+                  <Button>Get Started</Button>
+                </Link>
               </CardContent>
             </Card>
-          ))}
-        </div>
-      )}
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {reports.map((report) => (
+                <Card key={report.id} className="hover:shadow-lg transition-shadow cursor-pointer group" onClick={() => setSelectedReportId(report.id)} data-testid={`card-report-${report.id}`}>
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start mb-2">
+                      <StatusBadge status={report.status} />
+                      <span className="text-xs text-muted-foreground">
+                        {format(new Date(report.createdAt), 'MMM d, yyyy')}
+                      </span>
+                    </div>
+                    <CardTitle className="text-lg group-hover:text-primary transition-colors">{report.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                      <Badge variant="outline">{report.category}</Badge>
+                    </div>
+                    <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      View Full Report
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="leads" className="mt-6">
+          {leadHistory.length === 0 ? (
+            <Card className="py-12">
+              <CardContent className="text-center">
+                <UserSearch className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-lg font-medium mb-2">No lead reports yet</h3>
+                <p className="text-muted-foreground mb-4">Use Find Leads to discover qualified buyer contacts.</p>
+                <Link href="/find-leads">
+                  <Button>Find Leads</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {leadHistory.map((search: any) => {
+                const criteria = search.searchCriteria || {};
+                return (
+                  <Card 
+                    key={search.id} 
+                    className="hover:shadow-lg transition-shadow cursor-pointer group" 
+                    onClick={() => setSelectedLeadReportId(search.id)}
+                    data-testid={`card-lead-report-${search.id}`}
+                  >
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start mb-2">
+                        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+                          <CheckCircle className="w-3 h-3 mr-1" />
+                          {search.resultsCount} Leads
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">
+                          {format(new Date(search.createdAt), 'MMM d, yyyy')}
+                        </span>
+                      </div>
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                        {criteria.industry || 'Lead Search'}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-4">
+                        <Badge variant="outline" className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          {criteria.location || 'Global'}
+                        </Badge>
+                        {criteria.companySize && (
+                          <Badge variant="outline" className="flex items-center gap-1">
+                            <Users className="w-3 h-3" />
+                            {criteria.companySize}
+                          </Badge>
+                        )}
+                      </div>
+                      {criteria.keywords && (
+                        <p className="text-xs text-muted-foreground mb-3 line-clamp-1">
+                          Keywords: {criteria.keywords}
+                        </p>
+                      )}
+                      <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        View Lead Report
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
@@ -985,6 +1082,194 @@ function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string;
         <span className="text-sm">{label}</span>
       </div>
       <span className="font-medium">{value}</span>
+    </div>
+  );
+}
+
+function LeadReportView({ reportId, onBack }: { reportId: number; onBack: () => void }) {
+  const { data, isLoading, error } = useLeadReport(reportId);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="text-center">
+          <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
+          <h2 className="text-xl font-bold mb-2">Unable to load lead report</h2>
+          <p className="text-muted-foreground mb-4">Please try again.</p>
+          <Button onClick={onBack}>Go Back</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const { searchQuery, leads } = data;
+  const criteria = searchQuery?.searchCriteria || {};
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" size="icon" onClick={onBack} data-testid="button-back-lead-report">
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+        <div className="flex-1">
+          <h1 className="text-2xl font-heading font-bold">{criteria.industry || 'Lead Report'}</h1>
+          <p className="text-muted-foreground">
+            Generated on {format(new Date(searchQuery.createdAt), 'MMMM d, yyyy')}
+          </p>
+        </div>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="w-5 h-5 text-primary" />
+            Search Criteria
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-3">
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Building2 className="w-3 h-3" />
+              {criteria.industry || 'All Industries'}
+            </Badge>
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              {criteria.location || 'Global'}
+            </Badge>
+            {criteria.companySize && (
+              <Badge variant="secondary" className="flex items-center gap-1">
+                <Users className="w-3 h-3" />
+                {criteria.companySize}
+              </Badge>
+            )}
+            {criteria.keywords && (
+              <Badge variant="secondary" className="flex items-center gap-1">
+                <Target className="w-3 h-3" />
+                {criteria.keywords}
+              </Badge>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle className="flex items-center gap-2">
+              <UserSearch className="w-5 h-5 text-primary" />
+              Qualified Leads ({leads.length})
+            </CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {leads.length === 0 ? (
+            <p className="text-muted-foreground text-center py-8">No leads found for this search.</p>
+          ) : (
+            <div className="space-y-4">
+              {leads.map((lead: any) => (
+                <Card key={lead.id} className="border shadow-sm" data-testid={`lead-card-${lead.id}`}>
+                  <CardContent className="pt-4">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 className="font-semibold text-lg">{lead.companyName}</h3>
+                        <p className="text-sm text-muted-foreground flex items-center gap-1">
+                          <Building2 className="w-3 h-3" />
+                          {lead.industry}
+                          <span className="mx-1">•</span>
+                          <MapPin className="w-3 h-3" />
+                          {lead.location}
+                        </p>
+                      </div>
+                      {lead.website && (
+                        <a href={lead.website.startsWith('http') ? lead.website : `https://${lead.website}`} target="_blank" rel="noopener noreferrer">
+                          <Button variant="outline" size="sm">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            Website
+                          </Button>
+                        </a>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                      <div className="space-y-2">
+                        {lead.employeeRange && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <Users className="w-4 h-4 text-muted-foreground" />
+                            <span>{lead.employeeRange} employees</span>
+                          </div>
+                        )}
+                        {lead.revenueRange && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <DollarSign className="w-4 h-4 text-muted-foreground" />
+                            <span>{lead.revenueRange} revenue</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        {lead.contactName && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <Users className="w-4 h-4 text-muted-foreground" />
+                            <span>{lead.contactName}{lead.contactTitle ? ` - ${lead.contactTitle}` : ''}</span>
+                          </div>
+                        )}
+                        {lead.contactEmail && (
+                          <div className="flex items-center gap-2 text-sm">
+                            <span className="text-primary">{lead.contactEmail}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {lead.aiSummary && (
+                      <div className="bg-muted/50 rounded-lg p-3 mb-3">
+                        <p className="text-sm">{lead.aiSummary}</p>
+                      </div>
+                    )}
+
+                    {lead.sourcingFocus && lead.sourcingFocus.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {lead.sourcingFocus.map((focus: string, idx: number) => (
+                          <Badge key={idx} variant="outline" className="text-xs">
+                            {focus}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+
+                    {lead.intentSignals && Object.keys(lead.intentSignals).length > 0 && (
+                      <div className="mt-3 pt-3 border-t">
+                        <p className="text-xs font-medium text-muted-foreground mb-2">Intent Signals</p>
+                        <div className="flex flex-wrap gap-2">
+                          {Object.entries(lead.intentSignals).map(([key, value]: [string, any]) => (
+                            <Badge key={key} className="bg-emerald-100 text-emerald-700 text-xs">
+                              {key}: {String(value)}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <div className="flex justify-end">
+        <Button variant="outline" onClick={onBack}>
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Reports
+        </Button>
+      </div>
     </div>
   );
 }
