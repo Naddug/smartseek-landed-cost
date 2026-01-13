@@ -25,11 +25,20 @@ export default function Login() {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email.trim().toLowerCase(),
+          password: formData.password,
+        }),
         credentials: "include",
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Invalid server response");
+      }
 
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
@@ -42,9 +51,10 @@ export default function Login() {
 
       setLocation("/dashboard");
     } catch (error: any) {
+      console.error("Login error:", error);
       toast({
         title: "Login failed",
-        description: error.message,
+        description: error.message || "Please check your credentials and try again.",
         variant: "destructive",
       });
     } finally {
