@@ -150,6 +150,92 @@ export async function registerRoutes(
     }
   });
   
+  // ===== AI Chat (SmartSeek Chat) =====
+  
+  app.post("/api/ai-chat", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { message, model, category } = req.body;
+      
+      if (!message) {
+        return res.status(400).json({ error: "Message is required" });
+      }
+      
+      const systemPrompt = `You are SmartSeek Chat, an AI-powered trade intelligence assistant. You specialize in:
+- Finding and evaluating suppliers globally
+- Trade data analysis and market insights
+- Import/export regulations and compliance
+- Shipping and logistics optimization
+- Customs duties and tariff calculations
+- Product sourcing strategies
+
+${category === 'sourcing' ? 'Focus on supplier sourcing, procurement, and vendor evaluation.' : ''}
+${category === 'analysis' ? 'Focus on data analysis, market trends, and trade statistics.' : ''}
+${category === 'research' ? 'Focus on market research, industry insights, and competitive analysis.' : ''}
+
+Provide helpful, accurate, and actionable information. Be concise but thorough.`;
+
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message }
+        ],
+        max_tokens: 2000
+      });
+      
+      const content = response.choices[0]?.message?.content;
+      if (!content) {
+        return res.status(500).json({ error: "Failed to get AI response" });
+      }
+      
+      res.json({ response: content, model });
+    } catch (error: any) {
+      console.error("Error in AI chat:", error);
+      res.status(500).json({ error: "Failed to process chat request" });
+    }
+  });
+  
+  app.post("/api/ai-chat/save", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { messages, model, category } = req.body;
+      
+      if (!messages || messages.length === 0) {
+        return res.status(400).json({ error: "No messages to save" });
+      }
+      
+      const conversationSummary = messages
+        .filter((m: any) => m.role === 'user')
+        .map((m: any) => m.content)
+        .slice(0, 3)
+        .join(' | ');
+      
+      const title = `AI Chat: ${conversationSummary.slice(0, 50)}${conversationSummary.length > 50 ? '...' : ''}`;
+      
+      const report = await storage.createReport({
+        userId,
+        title,
+        category: category || 'ai-chat',
+        status: 'completed',
+        formData: { model, category, messageCount: messages.length, messages, savedAt: new Date().toISOString() },
+      });
+      
+      res.json({ success: true, reportId: report.id });
+    } catch (error: any) {
+      console.error("Error saving AI chat:", error);
+      res.status(500).json({ error: "Failed to save conversation" });
+    }
+  });
+  
   // ===== Reports (Smart Finder) =====
   
   app.post("/api/reports", async (req: Request, res: Response) => {
