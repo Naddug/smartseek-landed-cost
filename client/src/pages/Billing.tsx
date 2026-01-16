@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Check, CreditCard, Zap, Loader2, ExternalLink, Gift, Calendar, Plus, Minus, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -183,13 +183,18 @@ export default function Billing() {
     queryKey: ['/api/credits/transactions'],
   });
 
-  const { data: products } = useQuery<{ products: any[] }>({
+  const { data: products, isLoading: productsLoading } = useQuery<{ products: any[] }>({
     queryKey: ['/api/stripe/products'],
   });
 
-  const { data: stripeConfig } = useQuery<{ publishableKey: string }>({
+  const { data: stripeConfig, isLoading: stripeConfigLoading } = useQuery<{ publishableKey: string }>({
     queryKey: ['/api/stripe/config'],
   });
+
+  const stripePromise = useMemo(() => {
+    if (!stripeConfig?.publishableKey) return null;
+    return loadStripe(stripeConfig.publishableKey);
+  }, [stripeConfig?.publishableKey]);
 
   const portalMutation = useMutation({
     mutationFn: async () => {
@@ -208,18 +213,34 @@ export default function Billing() {
 
   const monthlyPrice = products?.products?.find(p => p.metadata?.type === 'subscription')?.prices?.[0];
   const creditPrice = products?.products?.find(p => p.metadata?.type === 'credit')?.prices?.[0];
+  
+  const checkoutReady = !productsLoading && !stripeConfigLoading && stripePromise !== null;
 
   const startCreditCheckout = async () => {
+    if (!checkoutReady) {
+      toast({
+        title: "Loading",
+        description: "Please wait while we load the checkout...",
+        variant: "default",
+      });
+      return;
+    }
     setLoadingCheckout(true);
     try {
       const res = await apiRequest('POST', '/api/stripe/create-payment-intent', { quantity: creditQuantity });
       const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      if (!data.clientSecret) {
+        throw new Error("Failed to initialize payment. Please try again.");
+      }
       setClientSecret(data.clientSecret);
       setCheckoutType('credit');
-    } catch (err) {
+    } catch (err: any) {
       toast({
-        title: "Error",
-        description: "Failed to start checkout. Please try again.",
+        title: "Checkout Error",
+        description: err.message || "Failed to start checkout. Please try again.",
         variant: "destructive",
       });
     }
@@ -227,10 +248,18 @@ export default function Billing() {
   };
 
   const startSubscriptionCheckout = async () => {
+    if (!checkoutReady) {
+      toast({
+        title: "Loading",
+        description: "Please wait while we load the checkout...",
+        variant: "default",
+      });
+      return;
+    }
     if (!monthlyPrice?.id) {
       toast({
         title: "Products Not Available",
-        description: "Subscription product hasn't been set up yet. Please contact support.",
+        description: "Subscription product hasn't been set up yet. Please try refreshing the page.",
         variant: "destructive",
       });
       return;
@@ -241,13 +270,19 @@ export default function Billing() {
         priceId: monthlyPrice.id 
       });
       const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      if (!data.clientSecret) {
+        throw new Error("Failed to initialize subscription. Please try again.");
+      }
       setClientSecret(data.clientSecret);
       setSubscriptionId(data.subscriptionId);
       setCheckoutType('subscription');
-    } catch (err) {
+    } catch (err: any) {
       toast({
-        title: "Error",
-        description: "Failed to start checkout. Please try again.",
+        title: "Subscription Error",
+        description: err.message || "Failed to start checkout. Please try again.",
         variant: "destructive",
       });
     }
@@ -379,10 +414,10 @@ export default function Billing() {
                   </div>
                   <Button 
                     onClick={startSubscriptionCheckout}
-                    disabled={loadingCheckout}
+                    disabled={loadingCheckout || !checkoutReady}
                     data-testid="button-subscribe"
                   >
-                    {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {(loadingCheckout || !checkoutReady) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Subscribe Now
                   </Button>
                 </div>
@@ -448,10 +483,10 @@ export default function Billing() {
                 <Button 
                   className="w-full" 
                   onClick={startCreditCheckout}
-                  disabled={loadingCheckout}
+                  disabled={loadingCheckout || !checkoutReady}
                   data-testid="button-buy-credits"
                 >
-                  {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {(loadingCheckout || !checkoutReady) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <CreditCard className="mr-2 h-4 w-4" />
                   Buy {creditQuantity} Credit{creditQuantity > 1 ? 's' : ''} - ${(10 * creditQuantity).toFixed(0)}
                 </Button>
@@ -553,9 +588,9 @@ export default function Billing() {
                 : 'Subscribe to Monthly Plan'}
             </DialogTitle>
           </DialogHeader>
-          {clientSecret && stripeConfig?.publishableKey && (
+          {clientSecret && stripePromise && (
             <Elements 
-              stripe={loadStripe(stripeConfig.publishableKey)} 
+              stripe={stripePromise} 
               options={{ 
                 clientSecret, 
                 appearance: { 
