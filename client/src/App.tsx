@@ -22,9 +22,13 @@ import CustomsCalculator from "@/pages/CustomsCalculator";
 import ShippingEstimator from "@/pages/ShippingEstimator";
 import TradeData from "@/pages/TradeData";
 import FindLeads from "@/pages/FindLeads";
+import VerifyEmail from "@/pages/VerifyEmail";
+import ForgotPassword from "@/pages/ForgotPassword";
+import ResetPassword from "@/pages/ResetPassword";
+import EmailVerificationRequired from "@/pages/EmailVerificationRequired";
 import AppLayout from "@/components/layout/AppLayout";
 
-function ProtectedRoute({ component: Component, adminOnly = false }: { component: React.ComponentType, adminOnly?: boolean }) {
+function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
 
@@ -37,9 +41,13 @@ function ProtectedRoute({ component: Component, adminOnly = false }: { component
   }
 
   if (error || !user) {
-    // Redirect to login
     window.location.href = '/login';
     return null;
+  }
+
+  // Check email verification (unless requireVerified is false)
+  if (requireVerified && user.emailVerified === false) {
+    return <EmailVerificationRequired />;
   }
 
   if (adminOnly && profile?.role !== 'admin') {
@@ -60,6 +68,9 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/sample-report" component={SampleReport} />
+      <Route path="/verify-email" component={VerifyEmail} />
+      <Route path="/forgot-password" component={ForgotPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
       
       {/* Protected Routes */}
       <Route path="/dashboard">

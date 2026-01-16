@@ -28,7 +28,7 @@ async function fetchAPI<T>(url: string, options?: RequestInit): Promise<T> {
 
 // User & Profile
 export const userAPI = {
-  getUser: () => fetchAPI<{ id: string; email: string; firstName?: string; lastName?: string }>("/auth/user"),
+  getUser: () => fetchAPI<{ id: string; email: string; firstName?: string; lastName?: string; emailVerified?: boolean }>("/auth/user"),
   getProfile: () => fetchAPI<UserProfile>("/profile"),
   updateProfile: (data: { region?: string; currency?: string }) =>
     fetchAPI<UserProfile>("/profile", {
