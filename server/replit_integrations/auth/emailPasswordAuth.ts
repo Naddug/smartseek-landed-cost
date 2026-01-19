@@ -260,9 +260,14 @@ export async function setupAuth(app: Express) {
       const baseUrl = `${req.protocol}://${req.get('host')}`;
       
       try {
+        console.log(`Sending password reset email to ${user.email}...`);
         await sendPasswordResetEmail(user.email, resetToken, baseUrl);
-      } catch (emailError) {
-        console.error("Failed to send password reset email:", emailError);
+        console.log(`Password reset email sent successfully to ${user.email}`);
+      } catch (emailError: any) {
+        console.error("Failed to send password reset email:", emailError?.message || emailError);
+        if (emailError?.response?.body) {
+          console.error("SendGrid error details:", JSON.stringify(emailError.response.body));
+        }
       }
 
       res.json({ success: true, message: "If an account exists with that email, a reset link has been sent." });
