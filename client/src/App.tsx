@@ -29,6 +29,7 @@ import ResetPassword from "@/pages/ResetPassword";
 import EmailVerificationRequired from "@/pages/EmailVerificationRequired";
 import AppLayout from "@/components/layout/AppLayout";
 import SupplierDiscovery from "@/pages/SupplierDiscovery";
+import RequestQuote from "@/pages/RequestQuote";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -71,6 +72,7 @@ function Router() {
       <Route path="/sample-report" component={SampleReport} />
       <Route path="/landed-cost" component={LandedCostCalculator} />
       <Route path="/suppliers" component={SupplierDiscovery} />
+      <Route path="/rfq" component={RequestQuote} />
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />

@@ -19,6 +19,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
           <nav className="hidden md:flex items-center gap-8">
             <a href="#how-it-works" className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">How It Works</a>
+            <Link href="/suppliers" className="text-sm font-medium hover:text-primary transition-colors">Suppliers</Link>
+            <Link href="/rfq" className="text-sm font-medium hover:text-primary transition-colors">Request Quote</Link>
             <Link href="/pricing" className="text-sm font-medium hover:text-primary transition-colors">Pricing</Link>
             <Link href="/faq" className="text-sm font-medium hover:text-primary transition-colors">FAQ</Link>
           </nav>
@@ -56,6 +58,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <h4 className="font-semibold mb-4">Platform</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="/pricing">Pricing</Link></li>
+              <li><Link href="/suppliers">Supplier Directory</Link></li>
               <li><Link href="/smart-finder">SmartSeek AI</Link></li>
             </ul>
           </div>
