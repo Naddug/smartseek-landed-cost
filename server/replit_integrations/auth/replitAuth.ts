@@ -6,7 +6,13 @@ import session from "express-session";
 import type { Express, RequestHandler } from "express";
 import memoize from "memoizee";
 import connectPg from "connect-pg-simple";
+import createMemoryStore from "memorystore";
 import { authStorage } from "./storage";
+
+function isDummyOrSqliteDb(): boolean {
+  const url = process.env.DATABASE_URL || "";
+  return url.includes("localhost:5432/dummy") || url.startsWith("file:");
+}
 
 // Retry helper for network operations
 async function withRetry<T>(
@@ -43,13 +49,21 @@ const getOidcConfig = memoize(
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const pgStore = connectPg(session);
-  const sessionStore = new pgStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
-    ttl: sessionTtl,
-    tableName: "sessions",
-  });
+  const useMemoryStore = isDummyOrSqliteDb();
+  const sessionStore = useMemoryStore
+    ? new (createMemoryStore(session))({
+        checkPeriod: 24 * 60 * 60 * 1000,
+        ttl: sessionTtl,
+      })
+    : (() => {
+        const pgStore = connectPg(session);
+        return new pgStore({
+          conString: process.env.DATABASE_URL,
+          createTableIfMissing: false,
+          ttl: sessionTtl,
+          tableName: "sessions",
+        });
+      })();
   return session({
     secret: process.env.SESSION_SECRET!,
     store: sessionStore,

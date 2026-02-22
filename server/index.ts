@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
@@ -21,6 +22,11 @@ async function initStripe() {
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
     console.log('DATABASE_URL not set, skipping Stripe initialization');
+    return;
+  }
+  // Skip if using dummy/local SQLite (Prisma) — Stripe needs PostgreSQL
+  if (databaseUrl.includes('localhost:5432/dummy') || databaseUrl.startsWith('file:')) {
+    console.log('Using local/dummy database, skipping Stripe initialization');
     return;
   }
 
@@ -56,7 +62,8 @@ async function initStripe() {
       .then(() => console.log('Stripe data synced'))
       .catch((err: any) => console.error('Error syncing Stripe data:', err));
   } catch (error) {
-    console.error('Failed to initialize Stripe:', error);
+    console.error('Failed to initialize Stripe (server will continue):', error);
+    // Don't rethrow — server must start even without Stripe/PostgreSQL
   }
 }
 
@@ -166,14 +173,7 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  httpServer.listen(port, "127.0.0.1", () => {
+    log(`serving on port ${port}`);
+  });
 })();

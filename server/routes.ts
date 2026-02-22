@@ -1665,5 +1665,275 @@ Make the leads realistic and varied. Focus on companies that would be active imp
     }
   });
 
+  // ============================================================================
+  // Supplier Discovery API
+  // ============================================================================
+
+  // GET /api/suppliers — Search, filter, paginate
+  app.get("/api/suppliers", async (req: Request, res: Response) => {
+    try {
+      const {
+        q,
+        country,
+        industry,
+        verified,
+        minRating,
+        sortBy = "rating",
+        sortOrder = "desc",
+        page = "1",
+        limit = "20",
+      } = req.query;
+
+      const pageNum = Math.max(1, parseInt(page as string, 10) || 1);
+      const limitNum = Math.min(50, Math.max(1, parseInt(limit as string, 10) || 20));
+      const skip = (pageNum - 1) * limitNum;
+
+      // Build where clause
+      const where: any = {};
+
+      if (q && typeof q === "string" && q.trim()) {
+        const search = q.trim();
+        where.OR = [
+          { companyName: { contains: search } },
+          { products: { contains: search } },
+          { industry: { contains: search } },
+          { description: { contains: search } },
+          { city: { contains: search } },
+        ];
+      }
+
+      if (country && typeof country === "string") {
+        where.country = country;
+      }
+
+      if (industry && typeof industry === "string") {
+        where.industry = industry;
+      }
+
+      if (verified === "true") {
+        where.verified = true;
+      }
+
+      if (minRating && typeof minRating === "string") {
+        const rating = parseFloat(minRating);
+        if (!isNaN(rating)) {
+          where.rating = { gte: rating };
+        }
+      }
+
+      // Build orderBy
+      const validSortFields = ["rating", "reviewCount", "yearEstablished", "companyName", "createdAt"];
+      const sortField = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
+      const order = sortOrder === "asc" ? "asc" : "desc";
+
+      const [suppliers, total] = await Promise.all([
+        prisma.supplier.findMany({
+          where,
+          orderBy: { [sortField]: order },
+          skip,
+          take: limitNum,
+          select: {
+            id: true,
+            companyName: true,
+            slug: true,
+            country: true,
+            countryCode: true,
+            city: true,
+            industry: true,
+            subIndustry: true,
+            products: true,
+            certifications: true,
+            description: true,
+            verified: true,
+            rating: true,
+            reviewCount: true,
+            responseTime: true,
+            minOrderValue: true,
+            yearEstablished: true,
+            employeeCount: true,
+            annualRevenue: true,
+          },
+        }),
+        prisma.supplier.count({ where }),
+      ]);
+
+      // Parse JSON string fields for response
+      const parsed = suppliers.map((s: { products: string; certifications: string | null } & Record<string, unknown>) => ({
+        ...s,
+        products: JSON.parse(s.products),
+        certifications: s.certifications ? JSON.parse(s.certifications) : [],
+      }));
+
+      res.json({
+        suppliers: parsed,
+        pagination: {
+          page: pageNum,
+          limit: limitNum,
+          total,
+          totalPages: Math.ceil(total / limitNum),
+        },
+      });
+    } catch (error) {
+      console.error("GET /api/suppliers error:", error);
+      res.status(500).json({ error: "Failed to fetch suppliers" });
+    }
+  });
+
+  // GET /api/suppliers/filters — Get available filter options
+  app.get("/api/suppliers/filters", async (_req: Request, res: Response) => {
+    try {
+      const [countries, industries] = await Promise.all([
+        prisma.supplier.groupBy({
+          by: ["country"],
+          _count: { id: true },
+          orderBy: { _count: { id: "desc" } },
+        }),
+        prisma.supplier.groupBy({
+          by: ["industry"],
+          _count: { id: true },
+          orderBy: { _count: { id: "desc" } },
+        }),
+      ]);
+
+      res.json({
+        countries: countries.map((c: { country: string; _count: { id: number } }) => ({ name: c.country, count: c._count.id })),
+        industries: industries.map((i: { industry: string; _count: { id: number } }) => ({ name: i.industry, count: i._count.id })),
+      });
+    } catch (error) {
+      console.error("GET /api/suppliers/filters error:", error);
+      res.status(500).json({ error: "Failed to fetch filters" });
+    }
+  });
+
+  // GET /api/suppliers/:slug — Supplier detail
+  app.get("/api/suppliers/:slug", async (req: Request, res: Response) => {
+    try {
+      const supplier = await prisma.supplier.findUnique({
+        where: { slug: req.params.slug },
+      });
+
+      if (!supplier) {
+        return res.status(404).json({ error: "Supplier not found" });
+      }
+
+      res.json({
+        ...supplier,
+        products: JSON.parse(supplier.products),
+        certifications: supplier.certifications ? JSON.parse(supplier.certifications) : [],
+        paymentTerms: supplier.paymentTerms ? JSON.parse(supplier.paymentTerms) : [],
+        exportMarkets: supplier.exportMarkets ? JSON.parse(supplier.exportMarkets) : [],
+      });
+    } catch (error) {
+      console.error("GET /api/suppliers/:slug error:", error);
+      res.status(500).json({ error: "Failed to fetch supplier" });
+    }
+  });
+
+  // ============================================================================
+  // Lead Generation API
+  // ============================================================================
+
+  // POST /api/leads — Submit a lead/contact request
+  app.post("/api/leads", async (req: Request, res: Response) => {
+    try {
+      const { supplierId, buyerName, buyerEmail, buyerPhone, buyerCompany, message, productInterest, source } = req.body;
+
+      if (!supplierId || !buyerName || !buyerEmail || !message) {
+        return res.status(400).json({ error: "Missing required fields: supplierId, buyerName, buyerEmail, message" });
+      }
+
+      // Verify supplier exists
+      const supplier = await prisma.supplier.findUnique({ where: { id: supplierId } });
+      if (!supplier) {
+        return res.status(404).json({ error: "Supplier not found" });
+      }
+
+      const lead = await prisma.lead.create({
+        data: {
+          supplierId,
+          buyerName,
+          buyerEmail,
+          buyerPhone: buyerPhone || null,
+          buyerCompany: buyerCompany || null,
+          message,
+          productInterest: productInterest || null,
+          source: source || "supplier_page",
+        },
+      });
+
+      res.status(201).json(lead);
+    } catch (error) {
+      console.error("POST /api/leads error:", error);
+      res.status(500).json({ error: "Failed to submit lead" });
+    }
+  });
+
+  // ============================================================================
+  // RFQ API
+  // ============================================================================
+
+  // POST /api/rfqs — Submit an RFQ
+  app.post("/api/rfqs", async (req: Request, res: Response) => {
+    try {
+      const {
+        supplierId, buyerName, buyerEmail, buyerPhone, buyerCompany, buyerCountry,
+        productName, productCategory, quantity, unit, targetPrice, currency,
+        specifications, incoterm, destinationPort, deliveryDate, notes,
+      } = req.body;
+
+      if (!buyerName || !buyerEmail || !productName || !quantity) {
+        return res.status(400).json({ error: "Missing required fields: buyerName, buyerEmail, productName, quantity" });
+      }
+
+      const rfq = await prisma.rFQ.create({
+        data: {
+          supplierId: supplierId || null,
+          buyerName,
+          buyerEmail,
+          buyerPhone: buyerPhone || null,
+          buyerCompany: buyerCompany || null,
+          buyerCountry: buyerCountry || null,
+          productName,
+          productCategory: productCategory || null,
+          quantity: parseInt(quantity, 10),
+          unit: unit || "pcs",
+          targetPrice: targetPrice ? parseFloat(targetPrice) : null,
+          currency: currency || "USD",
+          specifications: specifications || null,
+          incoterm: incoterm || null,
+          destinationPort: destinationPort || null,
+          deliveryDate: deliveryDate || null,
+          notes: notes || null,
+        },
+      });
+
+      res.status(201).json(rfq);
+    } catch (error) {
+      console.error("POST /api/rfqs error:", error);
+      res.status(500).json({ error: "Failed to submit RFQ" });
+    }
+  });
+
+  // GET /api/rfqs — Get RFQs by buyer email
+  app.get("/api/rfqs", async (req: Request, res: Response) => {
+    try {
+      const { email } = req.query;
+      if (!email || typeof email !== "string") {
+        return res.status(400).json({ error: "Email query parameter required" });
+      }
+
+      const rfqs = await prisma.rFQ.findMany({
+        where: { buyerEmail: email },
+        include: { supplier: { select: { companyName: true, slug: true, country: true } } },
+        orderBy: { createdAt: "desc" },
+      });
+
+      res.json(rfqs);
+    } catch (error) {
+      console.error("GET /api/rfqs error:", error);
+      res.status(500).json({ error: "Failed to fetch RFQs" });
+    }
+  });
+
   return httpServer;
 }
