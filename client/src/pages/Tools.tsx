@@ -24,6 +24,16 @@ const tools = [
     badge: "New",
   },
   {
+    title: "Landed Cost Calculator",
+    description: "Full landed cost: freight, insurance, customs, inland transport",
+    icon: Calculator,
+    href: "/landed-cost",
+    color: "text-emerald-500",
+    bgColor: "bg-emerald-500/10",
+    features: ["Sea/Air/Express", "Customs & VAT", "Insurance", "Cost breakdown"],
+    badge: "New",
+  },
+  {
     title: "Customs Fee Calculator",
     description: "Calculate import duties, VAT, and total landed cost for any product",
     icon: Landmark,

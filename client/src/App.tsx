@@ -20,6 +20,7 @@ import Billing from "@/pages/Billing";
 import SampleReport from "@/pages/SampleReport";
 import CustomsCalculator from "@/pages/CustomsCalculator";
 import ShippingEstimator from "@/pages/ShippingEstimator";
+import LandedCostCalculator from "@/pages/LandedCostCalculator";
 import TradeData from "@/pages/TradeData";
 import FindLeads from "@/pages/FindLeads";
 import VerifyEmail from "@/pages/VerifyEmail";
@@ -68,6 +69,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/sample-report" component={SampleReport} />
+      <Route path="/landed-cost" component={LandedCostCalculator} />
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />

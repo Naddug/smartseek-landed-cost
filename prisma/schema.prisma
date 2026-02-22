@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// ============================================================================
+// Landed Cost Engine Models
+// ============================================================================
+
+// Primary storage for unified landed cost calculations
+model LandedCostCalculation {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  title     String?
+  description String?
+  
+  // Input fields
+  productName     String   @map("product_name")
+  hsCode          String?  @map("hs_code")
+  category        String?
+  originCountry   String   @map("origin_country")
+  destinationCountry String @map("destination_country")
+  originPort      String?  @map("origin_port")
+  destinationPort String?  @map("destination_port")
+  
+  // Cost inputs
+  productCost     Decimal  @map("product_cost")
+  quantity        Int      @default(1)
+  currency        String   @default("USD")
+  incoterm        String?  // FOB, EXW, CIF, DDP
+  
+  // Shipping method
+  shippingMethod  String   @map("shipping_method") // sea_fcl, sea_lcl, air, express
+  containerType   String?  @map("container_type") // 20ft, 40ft, lcl
+  
+  // Dimensions/Weight
+  weight          Decimal? // kg
+  volume          Decimal? // CBM
+  dimensions      Json?    // { length, width, height }
+  
+  // Calculation results (JSONB for flexibility)
+  calculationInputs Json?  @map("calculation_inputs") // All input parameters
+  calculationResult Json?  @map("calculation_result") // Complete breakdown per contract
+  calculationNotes  Json?  @map("calculation_notes") // Transparent notes per contract
+  benchmarkData     Json?  @map("benchmark_data") // P25/Median/P75 per contract
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@index([userId])
+  @@index([hsCode])
+  @@index([originCountry, destinationCountry])
+  @@index([createdAt])
+  @@map("landed_cost_calculations")
+}
+
+// Preset and custom scenarios
+model LandedCostScenario {
+  id            Int      @id @default(autoincrement())
+  userId        String   @map("user_id")
+  name          String
+  description   String?
+  scenarioType  String   @map("scenario_type") // origin_preset, volume_preset, custom
+  inputs        Json     // Scenario parameters (JSONB for flexibility)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@index([userId])
+  @@index([scenarioType])
+  @@map("landed_cost_scenarios")
+}
+
+// Pre-calculated benchmark data for market comparison
+model MarketBenchmark {
+  id                Int      @id @default(autoincrement())
+  hsCode            String   @map("hs_code")
+  originCountry     String   @map("origin_country")
+  destinationCountry String  @map("destination_country")
+  shippingMethod    String   @map("shipping_method") // sea_fcl, sea_lcl, air, express
+  containerType     String?  @map("container_type") // 20ft, 40ft, lcl
+  
+  // Benchmark statistics
+  percentile25      Decimal  @map("percentile_25")
+  median            Decimal
+  percentile75      Decimal  @map("percentile_75")
+  sampleSize        Int      @map("sample_size") @default(0)
+  
+  dataSource        String?  @map("data_source")
+  lastUpdated       DateTime @default(now()) @map("last_updated")
+  
+  @@unique([hsCode, originCountry, destinationCountry, shippingMethod, containerType])
+  @@index([hsCode])
+  @@index([originCountry, destinationCountry])
+  @@index([lastUpdated])
+  @@map("market_benchmarks")
+}
+
+// Country-specific customs configuration
+model CountryCustomsConfig {
+  id                      Int      @id @default(autoincrement())
+  countryCode             String   @unique @map("country_code") // ISO 3166-1 alpha-3
+  countryName             String   @map("country_name")
+  customsValuationMethod  String   @map("customs_valuation_method") // FOB, CIF
+  defaultVATRate          Decimal? @map("default_vat_rate") // e.g., 0.2000 for 20%
+  deMinimisThreshold      Decimal? @map("de_minimis_threshold") // USD equivalent
+  additionalConfig        Json?    @map("additional_config") // Country-specific settings
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@index([countryCode])
+  @@map("country_customs_configs")
+}

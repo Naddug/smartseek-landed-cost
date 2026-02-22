@@ -4,8 +4,8 @@ import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, Trendi
 import { Link } from "wouter";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import dashboardScreenshot from "@assets/generated_images/sourcing_dashboard_analytics_interface.png";
-import reportScreenshot from "@assets/generated_images/sourcing_report_document_preview.png";
+// import dashboardScreenshot from "@assets/generated_images/sourcing_dashboard_analytics_interface.png";
+// import reportScreenshot from "@assets/generated_images/sourcing_report_document_preview.png";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -201,12 +201,12 @@ export default function Home() {
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
-                <img 
-                  src={dashboardScreenshot} 
-                  alt="SmartSeek Dashboard" 
-                  className="relative rounded-2xl shadow-2xl border border-slate-200 w-full"
+                <div 
+                  className="relative rounded-2xl shadow-2xl border border-slate-200 w-full h-64 bg-slate-100 flex items-center justify-center text-slate-400"
                   data-testid="img-hero-dashboard"
-                />
+                >
+                  Dashboard Preview
+                </div>
               </motion.div>
               
               <motion.div 
@@ -497,12 +497,12 @@ export default function Home() {
                     transition={{ duration: 0.4 }}
                     className="relative"
                   >
-                    <img 
-                      src={dashboardScreenshot} 
-                      alt="SmartSeek Analytics Dashboard" 
-                      className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl"
+                    <div 
+                      className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl h-80 bg-slate-100 flex items-center justify-center text-slate-400"
                       data-testid="img-preview-dashboard"
-                    />
+                    >
+                      Supplier Analytics Dashboard
+                    </div>
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
                       <p className="text-sm font-medium text-slate-700">Real-time supplier performance and spend analytics</p>
                     </div>
@@ -516,12 +516,12 @@ export default function Home() {
                     transition={{ duration: 0.4 }}
                     className="relative"
                   >
-                    <img 
-                      src={reportScreenshot} 
-                      alt="SmartSeek Intelligence Report" 
-                      className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl"
+                    <div 
+                      className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl h-80 bg-slate-100 flex items-center justify-center text-slate-400"
                       data-testid="img-preview-report"
-                    />
+                    >
+                      Intelligence Report Preview
+                    </div>
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
                       <p className="text-sm font-medium text-slate-700">Comprehensive reports with risk assessment & cost breakdown</p>
                     </div>

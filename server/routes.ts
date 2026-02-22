@@ -3,12 +3,15 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { db } from "./db";
 import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema, creditTransactions, processedStripeEvents, userProfiles } from "@shared/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, desc } from "drizzle-orm";
 import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
 import OpenAI from "openai";
+import { calculateLandedCost } from "./services/landedCost";
+import type { LandedCostInput, LandedCostResult } from "./services/landedCost";
+import { prisma } from "../lib/prisma";
 
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
@@ -1412,6 +1415,253 @@ Make the leads realistic and varied. Focus on companies that would be active imp
     } catch (error) {
       console.error("Error syncing subscription:", error);
       res.status(500).json({ error: "Failed to sync subscription" });
+    }
+  });
+
+  // ===== Landed Cost Engine Routes =====
+  
+  // Calculate landed cost
+  app.post("/api/landed-cost/calculate", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      // Check credits
+      const profile = await storage.getUserProfile(userId);
+      const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+      const isAdmin = profile?.role === 'admin';
+      
+      if (!isAdmin && (!profile || totalCredits < 1)) {
+        return res.status(402).json({ error: "Insufficient credits" });
+      }
+      
+      // Validate input
+      const input: LandedCostInput = req.body;
+      
+      if (!input.productName || !input.originCountry || !input.destinationCountry) {
+        return res.status(400).json({ error: "Missing required fields: productName, originCountry, destinationCountry" });
+      }
+      
+      if (!input.baseCost || input.baseCost <= 0) {
+        return res.status(400).json({ error: "baseCost must be greater than 0" });
+      }
+      
+      if (!input.quantity || input.quantity <= 0) {
+        return res.status(400).json({ error: "quantity must be greater than 0" });
+      }
+      
+      // Calculate landed cost
+      const result: LandedCostResult = await calculateLandedCost(input);
+      
+      // Deduct credits (skip for admins)
+      if (!isAdmin) {
+        const spent = await storage.spendCredits(userId, 1, "Landed Cost Calculation");
+        if (!spent) {
+          return res.status(402).json({ error: "Failed to deduct credits" });
+        }
+      }
+      
+      // Save calculation to database (using Prisma)
+      try {
+        await prisma.landedCostCalculation.create({
+          data: {
+            userId,
+            title: input.productName || "Untitled Calculation",
+            description: `Landed cost calculation for ${input.productName}`,
+            productName: input.productName,
+            hsCode: input.hsCode || null,
+            category: input.category || null,
+            originCountry: input.originCountry,
+            destinationCountry: input.destinationCountry,
+            originPort: input.originPort || null,
+            destinationPort: input.destinationPort || null,
+            productCost: input.baseCost,
+            quantity: input.quantity,
+            currency: input.currency || "USD",
+            incoterm: input.incoterm || null,
+            shippingMethod: input.shippingMethod,
+            containerType: input.containerType || null,
+            weight: input.weight ? parseFloat(input.weight.toString()) : null,
+            volume: input.volume ? parseFloat(input.volume.toString()) : null,
+            dimensions: input.dimensions || null,
+            calculationInputs: input as any,
+            calculationResult: result as any,
+            calculationNotes: result.notes as any,
+            benchmarkData: null, // Can be populated later
+          },
+        });
+      } catch (dbError: any) {
+        // If database error (e.g., migrations not run), log but don't fail the request
+        console.warn("Failed to save calculation to database:", dbError.message);
+        // Continue and return result anyway
+      }
+      
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error calculating landed cost:", error);
+      if (error.message) {
+        return res.status(400).json({ error: error.message });
+      }
+      res.status(500).json({ error: "Failed to calculate landed cost" });
+    }
+  });
+  
+  // Get user's landed cost calculation history
+  app.get("/api/landed-cost/history", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 20;
+      const offset = (page - 1) * limit;
+      
+      // Query using Prisma
+      const [calculations, total] = await Promise.all([
+        prisma.landedCostCalculation.findMany({
+          where: { userId },
+          orderBy: { createdAt: 'desc' },
+          skip: offset,
+          take: limit,
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            productName: true,
+            hsCode: true,
+            originCountry: true,
+            destinationCountry: true,
+            productCost: true,
+            quantity: true,
+            currency: true,
+            shippingMethod: true,
+            createdAt: true,
+            updatedAt: true,
+            // Include summary from calculationResult if available
+            calculationResult: true,
+          },
+        }),
+        prisma.landedCostCalculation.count({
+          where: { userId },
+        }),
+      ]);
+      
+      res.json({
+        calculations,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      });
+    } catch (error: any) {
+      // If table doesn't exist (migrations not run), return helpful error
+      if (error.code === 'P2021' || error.message?.includes('does not exist')) {
+        return res.status(503).json({
+          error: "Database migrations not run",
+          message: "Please run 'npm run prisma:migrate:init' to set up the database tables.",
+          calculations: [],
+          pagination: {
+            page: 1,
+            limit: 20,
+            total: 0,
+            totalPages: 0,
+          },
+        });
+      }
+      console.error("Error fetching landed cost history:", error);
+      res.status(500).json({ error: "Failed to fetch calculation history" });
+    }
+  });
+  
+  // Get user's credit balance
+  app.get("/api/landed-cost/credits", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const profile = await storage.getUserProfile(userId);
+      if (!profile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+      
+      const totalCredits = (profile.monthlyCredits || 0) + (profile.topupCredits || 0);
+      const isAdmin = profile.role === 'admin';
+      
+      res.json({
+        monthlyCredits: profile.monthlyCredits || 0,
+        topupCredits: profile.topupCredits || 0,
+        totalCredits,
+        isAdmin,
+        hasUnlimitedAccess: isAdmin,
+      });
+    } catch (error) {
+      console.error("Error fetching credits:", error);
+      res.status(500).json({ error: "Failed to fetch credit balance" });
+    }
+  });
+  
+  // Export calculation as PDF
+  app.post("/api/landed-cost/export-pdf", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    try {
+      const { calculationId } = req.body;
+      
+      if (!calculationId) {
+        return res.status(400).json({ error: "calculationId is required" });
+      }
+      
+      // Query calculation from database
+      const calculation = await prisma.landedCostCalculation.findFirst({
+        where: {
+          id: parseInt(calculationId),
+          userId,
+        },
+      });
+      
+      if (!calculation) {
+        return res.status(404).json({ error: "Calculation not found" });
+      }
+      
+      // Return calculation data for client-side PDF generation
+      // Note: Server-side PDF generation can be implemented later using:
+      // - pdfkit (lightweight, good for simple PDFs)
+      // - puppeteer (full HTML/CSS rendering, more powerful)
+      // - @react-pdf/renderer (if using React components)
+      // For now, frontend can use jsPDF with this data
+      
+      res.json({
+        success: true,
+        calculation: {
+          id: calculation.id,
+          title: calculation.title,
+          productName: calculation.productName,
+          createdAt: calculation.createdAt,
+          result: calculation.calculationResult,
+          notes: calculation.calculationNotes,
+        },
+        message: "Use calculation data for client-side PDF generation with jsPDF",
+      });
+    } catch (error: any) {
+      if (error.code === 'P2021' || error.message?.includes('does not exist')) {
+        return res.status(503).json({
+          error: "Database migrations not run",
+          message: "Please run 'npm run prisma:migrate:init' to set up the database tables.",
+        });
+      }
+      console.error("Error exporting PDF:", error);
+      res.status(500).json({ error: "Failed to export PDF" });
     }
   });
 
