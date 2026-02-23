@@ -96,20 +96,28 @@ export default function RequestQuote() {
     }
   };
 
+  const headerBlock = (
+    <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <div className="max-w-3xl mx-auto px-4 py-12">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold text-xl">S</div>
+          <span className="text-white/80 text-sm font-medium">SmartSeek Request for Quotation</span>
+        </div>
+        <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
+        <p className="text-blue-100">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
+      </div>
+    </div>
+  );
+
   if (submitted) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-          <div className="max-w-3xl mx-auto px-4 py-12">
-            <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
-            <p className="text-blue-100">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
-          </div>
-        </div>
+        {headerBlock}
         <div className="max-w-2xl mx-auto px-4 py-12">
-          <div className="bg-white border border-gray-200 rounded-lg p-8 shadow-sm text-center">
+          <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-lg text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">Request Submitted Successfully</h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-700 mb-6">
               Thank you for your inquiry. Our team will share your RFQ with relevant suppliers, and you can expect to receive quotes within 1–3 business days at <strong>{form.buyerEmail}</strong>.
             </p>
             <button
@@ -145,25 +153,23 @@ export default function RequestQuote() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="max-w-3xl mx-auto px-4 py-12">
-          <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
-          <p className="text-blue-100">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
-        </div>
-      </div>
+      {headerBlock}
 
       {/* Form */}
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-sm text-gray-700">
+              <p className="font-medium text-gray-900 mb-1">How it works</p>
+              <p>Submit your product requirements below. Our team will share your RFQ with relevant verified suppliers. You&apos;ll receive competitive quotes via email within 1–3 business days—no account required.</p>
+            </div>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
                 {error}
               </div>
             )}
 
-            <div>
+            <div className="border-t border-gray-200 pt-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Your Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -174,7 +180,7 @@ export default function RequestQuote() {
                     value={form.buyerName}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your full name"
                   />
                 </div>
@@ -186,7 +192,7 @@ export default function RequestQuote() {
                     value={form.buyerEmail}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="you@company.com"
                   />
                 </div>
@@ -197,7 +203,7 @@ export default function RequestQuote() {
                     name="buyerPhone"
                     value={form.buyerPhone}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="+1 234 567 8900"
                   />
                 </div>
@@ -208,7 +214,7 @@ export default function RequestQuote() {
                     name="buyerCompany"
                     value={form.buyerCompany}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your company name"
                   />
                 </div>
@@ -219,14 +225,14 @@ export default function RequestQuote() {
                     name="buyerCountry"
                     value={form.buyerCountry}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="e.g. United States"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-gray-100 pt-5">
+            <div className="border-t border-gray-200 pt-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Product Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
@@ -237,7 +243,7 @@ export default function RequestQuote() {
                     value={form.productName}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="e.g. LED strip lights"
                   />
                 </div>
@@ -247,7 +253,7 @@ export default function RequestQuote() {
                     name="productCategory"
                     value={form.productCategory}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Select category</option>
                     {PRODUCT_CATEGORIES.map((c) => (
@@ -264,7 +270,7 @@ export default function RequestQuote() {
                     onChange={handleChange}
                     required
                     min={1}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="e.g. 1000"
                   />
                 </div>
@@ -274,7 +280,7 @@ export default function RequestQuote() {
                     name="unit"
                     value={form.unit}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     {UNITS.map((u) => (
                       <option key={u} value={u}>{u}</option>
@@ -290,7 +296,7 @@ export default function RequestQuote() {
                     onChange={handleChange}
                     min={0}
                     step="0.01"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Optional"
                   />
                 </div>
@@ -300,7 +306,7 @@ export default function RequestQuote() {
                     name="currency"
                     value={form.currency}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     {CURRENCIES.map((c) => (
                       <option key={c} value={c}>{c}</option>
@@ -314,14 +320,14 @@ export default function RequestQuote() {
                     value={form.specifications}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                     placeholder="Describe your product requirements, dimensions, materials, certifications, etc."
                   />
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-gray-100 pt-5">
+            <div className="border-t border-gray-200 pt-6">
               <h3 className="text-sm font-semibold text-gray-900 mb-3">Logistics</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -330,7 +336,7 @@ export default function RequestQuote() {
                     name="incoterm"
                     value={form.incoterm}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Select incoterm</option>
                     {INCOTERMS.map((i) => (
@@ -345,7 +351,7 @@ export default function RequestQuote() {
                     name="destinationPort"
                     value={form.destinationPort}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="e.g. Los Angeles"
                   />
                 </div>
@@ -356,7 +362,7 @@ export default function RequestQuote() {
                     name="deliveryDate"
                     value={form.deliveryDate}
                     onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="e.g. Q2 2025 or specific date"
                   />
                 </div>
@@ -367,7 +373,7 @@ export default function RequestQuote() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 text-base font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>Submitting...</>

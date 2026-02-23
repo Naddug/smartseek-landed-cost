@@ -83,31 +83,45 @@ function useFilters() {
   });
 }
 
+// ─── Industry border color ────────────────────────────────────────────
+
+function getIndustryBorderColor(industry: string): string {
+  if (industry.includes("Electronics")) return "border-l-blue-500";
+  if (industry.includes("Textiles")) return "border-l-purple-500";
+  if (industry.includes("Machinery")) return "border-l-orange-500";
+  if (industry.includes("Chemicals")) return "border-l-green-500";
+  if (industry.includes("Food") || industry.includes("Agriculture")) return "border-l-amber-500";
+  return "border-l-gray-300";
+}
+
 // ─── Supplier Card ───────────────────────────────────────────────────
 
 function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () => void }) {
+  const borderColor = getIndustryBorderColor(supplier.industry);
   return (
     <div
       onClick={onClick}
-      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
+      className={`bg-white border border-gray-200 border-l-4 ${borderColor} rounded-lg p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <h3 className="text-lg font-semibold text-gray-900 truncate">{supplier.companyName}</h3>
             {supplier.verified && (
-              <Shield className="w-4 h-4 text-blue-600 flex-shrink-0" />
+              <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                <Shield className="w-3 h-3" />Verified
+              </span>
             )}
           </div>
-          <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
+          <div className="flex items-center gap-2 mt-1 text-sm text-gray-700">
             <MapPin className="w-3.5 h-3.5" />
             <span>{supplier.city}, {supplier.country}</span>
           </div>
         </div>
         <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded text-sm">
-          <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
           <span className="font-medium text-yellow-700">{supplier.rating.toFixed(1)}</span>
-          <span className="text-gray-400">({supplier.reviewCount})</span>
+          <span className="text-gray-600">({supplier.reviewCount})</span>
         </div>
       </div>
 
@@ -116,26 +130,26 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
           {supplier.industry}
         </span>
         {supplier.subIndustry && (
-          <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded">
+          <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">
             {supplier.subIndustry}
           </span>
         )}
       </div>
 
-      <p className="text-sm text-gray-600 line-clamp-2 mb-3">{supplier.description}</p>
+      <p className="text-sm text-gray-700 line-clamp-2 mb-3">{supplier.description}</p>
 
       <div className="flex flex-wrap gap-1.5 mb-3">
         {supplier.products.slice(0, 3).map((p) => (
-          <span key={p} className="text-xs bg-gray-50 text-gray-600 border border-gray-200 px-2 py-0.5 rounded">
+          <span key={p} className="text-xs bg-gray-50 text-gray-700 border border-gray-200 px-2 py-0.5 rounded">
             {p}
           </span>
         ))}
         {supplier.products.length > 3 && (
-          <span className="text-xs text-gray-400">+{supplier.products.length - 3} more</span>
+          <span className="text-xs text-gray-600">+{supplier.products.length - 3} more</span>
         )}
       </div>
 
-      <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100">
+      <div className="flex items-center justify-between text-xs text-gray-600 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-3">
           {supplier.responseTime && (
             <span className="flex items-center gap-1">
@@ -218,7 +232,7 @@ function SupplierDetail({
         onClick={(e) => e.stopPropagation()}
       >
         {isLoading ? (
-          <div className="p-12 text-center text-gray-400">Loading...</div>
+          <div className="p-12 text-center text-gray-600">Loading...</div>
         ) : supplier ? (
           <>
             {/* Header */}
@@ -229,9 +243,9 @@ function SupplierDetail({
                     <h2 className="text-xl font-bold text-gray-900">{supplier.companyName}</h2>
                     {supplier.verified && <Shield className="w-5 h-5 text-blue-600" />}
                   </div>
-                  <p className="text-gray-500 mt-1">{supplier.city}, {supplier.country} · Est. {supplier.yearEstablished}</p>
+                  <p className="text-gray-700 mt-1">{supplier.city}, {supplier.country} · Est. {supplier.yearEstablished}</p>
                 </div>
-                <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1">
+                <button onClick={onClose} className="text-gray-600 hover:text-gray-900 p-1">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -239,7 +253,7 @@ function SupplierDetail({
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                   <span className="font-medium">{supplier.rating.toFixed(1)}</span>
-                  <span className="text-gray-400 text-sm">({supplier.reviewCount} reviews)</span>
+                  <span className="text-gray-600 text-sm">({supplier.reviewCount} reviews)</span>
                 </div>
                 <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded">{supplier.industry}</span>
               </div>
@@ -271,22 +285,22 @@ function SupplierDetail({
 
               <div className="grid grid-cols-2 gap-4 text-sm">
                 {supplier.employeeCount && (
-                  <div><span className="text-gray-400">Employees:</span> <span className="font-medium">{supplier.employeeCount.toLocaleString()}</span></div>
+                  <div><span className="text-gray-600">Employees:</span> <span className="font-medium text-gray-900">{supplier.employeeCount.toLocaleString()}</span></div>
                 )}
                 {supplier.annualRevenue && (
-                  <div><span className="text-gray-400">Revenue:</span> <span className="font-medium">{supplier.annualRevenue}</span></div>
+                  <div><span className="text-gray-600">Revenue:</span> <span className="font-medium text-gray-900">{supplier.annualRevenue}</span></div>
                 )}
                 {supplier.responseTime && (
-                  <div><span className="text-gray-400">Response Time:</span> <span className="font-medium">{supplier.responseTime}</span></div>
+                  <div><span className="text-gray-600">Response Time:</span> <span className="font-medium text-gray-900">{supplier.responseTime}</span></div>
                 )}
                 {supplier.minOrderValue && (
-                  <div><span className="text-gray-400">Min Order:</span> <span className="font-medium">${supplier.minOrderValue.toLocaleString()}</span></div>
+                  <div><span className="text-gray-600">Min Order:</span> <span className="font-medium text-gray-900">${supplier.minOrderValue.toLocaleString()}</span></div>
                 )}
                 {supplier.paymentTerms.length > 0 && (
-                  <div><span className="text-gray-400">Payment:</span> <span className="font-medium">{supplier.paymentTerms.join(", ")}</span></div>
+                  <div><span className="text-gray-600">Payment:</span> <span className="font-medium text-gray-900">{supplier.paymentTerms.join(", ")}</span></div>
                 )}
                 {supplier.exportMarkets.length > 0 && (
-                  <div><span className="text-gray-400">Markets:</span> <span className="font-medium">{supplier.exportMarkets.join(", ")}</span></div>
+                  <div><span className="text-gray-600">Markets:</span> <span className="font-medium text-gray-900">{supplier.exportMarkets.join(", ")}</span></div>
                 )}
               </div>
 
@@ -310,28 +324,28 @@ function SupplierDetail({
                     placeholder="Your Name *"
                     value={contactForm.buyerName}
                     onChange={(e) => setContactForm((f) => ({ ...f, buyerName: e.target.value }))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <input
                     type="email"
                     placeholder="Your Email *"
                     value={contactForm.buyerEmail}
                     onChange={(e) => setContactForm((f) => ({ ...f, buyerEmail: e.target.value }))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <input
                     type="text"
                     placeholder="Company Name"
                     value={contactForm.buyerCompany}
                     onChange={(e) => setContactForm((f) => ({ ...f, buyerCompany: e.target.value }))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <textarea
                     placeholder="Your message to the supplier... *"
                     value={contactForm.message}
                     onChange={(e) => setContactForm((f) => ({ ...f, message: e.target.value }))}
                     rows={3}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   />
                   <div className="flex gap-2">
                     <button
@@ -356,7 +370,7 @@ function SupplierDetail({
             </div>
           </>
         ) : (
-          <div className="p-12 text-center text-gray-400">Supplier not found</div>
+          <div className="p-12 text-center text-gray-600">Supplier not found</div>
         )}
       </div>
     </div>
@@ -418,11 +432,15 @@ export default function SupplierDiscovery() {
       {/* Hero / Search Bar */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold text-xl">S</div>
+            <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
+          </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
           <p className="text-blue-100 mb-6">AI-powered search across 500+ verified manufacturers in 14 countries</p>
           <div className="flex gap-2">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <div className="flex-1 relative group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-white group-focus-within:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-200" />
               <input
                 type="text"
                 placeholder="Search suppliers, products, or industries..."
@@ -455,7 +473,7 @@ export default function SupplierDiscovery() {
               <select
                 value={selectedCountry}
                 onChange={(e) => setSelectedCountry(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Countries</option>
                 {filters?.countries.map((c) => (
@@ -466,7 +484,7 @@ export default function SupplierDiscovery() {
               <select
                 value={selectedIndustry}
                 onChange={(e) => setSelectedIndustry(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Industries</option>
                 {filters?.industries.map((i) => (
@@ -474,7 +492,7 @@ export default function SupplierDiscovery() {
                 ))}
               </select>
 
-              <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={verifiedOnly}
@@ -488,7 +506,7 @@ export default function SupplierDiscovery() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="rating">Top Rated</option>
                 <option value="reviewCount">Most Reviewed</option>
@@ -510,7 +528,7 @@ export default function SupplierDiscovery() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-700">
             {data ? `${data.pagination.total} suppliers found` : "Loading..."}
             {debouncedQuery && ` for "${debouncedQuery}"`}
           </p>
@@ -553,7 +571,7 @@ export default function SupplierDiscovery() {
                 >
                   Previous
                 </button>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-700">
                   Page {data.pagination.page} of {data.pagination.totalPages}
                 </span>
                 <button
@@ -568,9 +586,9 @@ export default function SupplierDiscovery() {
           </>
         ) : (
           <div className="text-center py-16">
-            <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-600 mb-1">No suppliers found</h3>
-            <p className="text-gray-400 mb-4">Try adjusting your search or filters</p>
+            <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-700 mb-1">No suppliers found</h3>
+            <p className="text-gray-600 mb-4">Try adjusting your search or filters</p>
             <button onClick={clearFilters} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
               Clear all filters
             </button>
