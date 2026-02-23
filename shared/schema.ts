@@ -5,6 +5,7 @@ import { z } from "zod";
 
 // Export all auth models
 export * from "./models/auth";
+export * from "./models/chat";
 
 // SmartSeek Application Models
 

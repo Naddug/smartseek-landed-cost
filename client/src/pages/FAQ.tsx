@@ -176,10 +176,11 @@ export default function FAQ() {
 
             <div className="mt-12 text-center">
               <p className="text-slate-600 mb-4">Still have questions?</p>
-              <Link href="/contact">
-                <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
-                  Contact Us
-                </button>
+              <Link
+                href="/contact"
+                className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+              >
+                Contact Us
               </Link>
             </div>
           </div>

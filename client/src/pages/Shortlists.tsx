@@ -24,7 +24,7 @@ interface Supplier {
 export default function Shortlists() {
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: shortlists = [], isLoading: shortlistsLoading } = useShortlists();
-  const isPro = profile?.plan === 'pro';
+  const isPro = profile?.plan === 'monthly';
   
   const [selectedListId, setSelectedListId] = useState<number | null>(null);
   const [selectedList, setSelectedList] = useState<SupplierShortlist | null>(null);

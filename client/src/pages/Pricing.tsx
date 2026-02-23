@@ -124,16 +124,15 @@ export default function Pricing() {
                         </li>
                       ))}
                     </ul>
-                    <Link href={tier.ctaHref}>
-                      <button
-                        className={`w-full py-3 rounded-lg font-semibold transition-colors ${
-                          tier.popular
-                            ? "bg-blue-600 hover:bg-blue-700 text-white"
-                            : "bg-slate-100 hover:bg-slate-200 text-slate-900"
-                        }`}
-                      >
-                        {tier.cta}
-                      </button>
+                    <Link
+                      href={tier.ctaHref}
+                      className={`block w-full py-3 rounded-lg font-semibold transition-colors text-center ${
+                        tier.popular
+                          ? "bg-blue-600 hover:bg-blue-700 text-white"
+                          : "bg-slate-100 hover:bg-slate-200 text-slate-900"
+                      }`}
+                    >
+                      {tier.cta}
                     </Link>
                   </div>
                 </div>

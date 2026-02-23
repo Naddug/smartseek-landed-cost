@@ -33,6 +33,10 @@ import SupplierDiscovery from "@/pages/SupplierDiscovery";
 import RequestQuote from "@/pages/RequestQuote";
 import FAQ from "@/pages/FAQ";
 import Pricing from "@/pages/Pricing";
+import Contact from "@/pages/Contact";
+import About from "@/pages/About";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -85,6 +89,18 @@ function Router() {
       </Route>
       <Route path="/pricing">
         <PublicLayout><Pricing /></PublicLayout>
+      </Route>
+      <Route path="/contact">
+        <PublicLayout><Contact /></PublicLayout>
+      </Route>
+      <Route path="/about">
+        <PublicLayout><About /></PublicLayout>
+      </Route>
+      <Route path="/privacy">
+        <PublicLayout><Privacy /></PublicLayout>
+      </Route>
+      <Route path="/terms">
+        <PublicLayout><Terms /></PublicLayout>
       </Route>
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/forgot-password" component={ForgotPassword} />
