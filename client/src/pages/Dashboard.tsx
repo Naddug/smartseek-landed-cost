@@ -6,8 +6,10 @@ import { Progress } from "@/components/ui/progress";
 import { Link } from "wouter";
 import { 
   ArrowRight, 
+  FileQuestion,
   FileText, 
   TrendingUp,
+  Users,
   Loader2,
   Sparkles,
   CreditCard,
@@ -404,6 +406,53 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        {/* Supplier Discovery Quick Access */}
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <Users className="w-5 h-5 text-blue-400" />
+              Supplier Discovery
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-slate-400 text-sm mb-4">Search and connect with 500+ verified global suppliers across 14 countries.</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
+              {["Electronics", "Textiles", "Machinery", "Chemicals", "Food & Agriculture"].map((industry) => (
+                <Link key={industry} href={`/suppliers?industry=${encodeURIComponent(industry)}`}>
+                  <div className="bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg p-3 text-center cursor-pointer transition">
+                    <span className="text-sm text-slate-300">{industry}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <Link href="/suppliers">
+              <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                Browse All Suppliers <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        {/* Quick RFQ */}
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-slate-100">
+              <FileQuestion className="w-5 h-5 text-green-400" />
+              Request for Quotation
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-slate-400 text-sm mb-4">Submit an RFQ and get competitive quotes from verified suppliers worldwide.</p>
+            <Link href="/rfq">
+              <Button className="w-full bg-green-600 hover:bg-green-700">
+                Submit New RFQ <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
