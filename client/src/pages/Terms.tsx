@@ -27,7 +27,7 @@ export default function Terms() {
             </p>
             <h2 className="font-semibold text-slate-900">Contact</h2>
             <p>
-              For questions about these terms, contact us at contact@smartseek.io.
+              For questions about these terms, contact us at contact@smartseek.com.
             </p>
           </div>
         </div>

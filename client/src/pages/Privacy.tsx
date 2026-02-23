@@ -27,7 +27,7 @@ export default function Privacy() {
             </p>
             <h2 className="font-semibold text-slate-900">Contact</h2>
             <p>
-              For privacy inquiries, contact us at contact@smartseek.io.
+              For privacy inquiries, contact us at contact@smartseek.com.
             </p>
           </div>
         </div>

@@ -20,11 +20,11 @@ export default function Contact() {
               For sales inquiries, support, or partnership opportunities, reach out via email.
             </p>
             <a
-              href="mailto:contact@smartseek.io"
+              href="mailto:contact@smartseek.com"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
             >
               <Mail className="w-5 h-5" />
-              contact@smartseek.io
+              contact@smartseek.com
             </a>
             <p className="text-slate-500 text-sm mt-6">
               Prefer to browse first? Check our <Link href="/faq" className="text-blue-600 hover:underline">FAQ</Link> or <Link href="/pricing" className="text-blue-600 hover:underline">Pricing</Link>.
