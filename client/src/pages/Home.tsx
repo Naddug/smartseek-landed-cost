@@ -1,3 +1,4 @@
+import { HeroDashboardMock, DashboardPreviewMock, ReportPreviewMock } from "@/components/home/DashboardMocks";
 import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, Building2, FileCheck, MapPin, Lock, Users, Target, Briefcase, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, BadgeCheck, Database, Award, UserSearch, Sparkles, Brain, Rocket } from "lucide-react";
@@ -201,12 +202,7 @@ export default function Home() {
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
-                <div 
-                  className="relative rounded-2xl shadow-2xl border border-slate-200 w-full h-64 bg-slate-100 flex items-center justify-center text-slate-400"
-                  data-testid="img-hero-dashboard"
-                >
-                  Dashboard Preview
-                </div>
+                <HeroDashboardMock />
               </motion.div>
               
               <motion.div 
@@ -497,15 +493,7 @@ export default function Home() {
                     transition={{ duration: 0.4 }}
                     className="relative"
                   >
-                    <div 
-                      className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl h-80 bg-slate-100 flex items-center justify-center text-slate-400"
-                      data-testid="img-preview-dashboard"
-                    >
-                      Supplier Analytics Dashboard
-                    </div>
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
-                      <p className="text-sm font-medium text-slate-700">Real-time supplier performance and spend analytics</p>
-                    </div>
+                    <DashboardPreviewMock />
                   </motion.div>
                 </TabsContent>
 
@@ -516,15 +504,7 @@ export default function Home() {
                     transition={{ duration: 0.4 }}
                     className="relative"
                   >
-                    <div 
-                      className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl h-80 bg-slate-100 flex items-center justify-center text-slate-400"
-                      data-testid="img-preview-report"
-                    >
-                      Intelligence Report Preview
-                    </div>
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-3 rounded-full shadow-lg border border-slate-200">
-                      <p className="text-sm font-medium text-slate-700">Comprehensive reports with risk assessment & cost breakdown</p>
-                    </div>
+                    <ReportPreviewMock />
                   </motion.div>
                 </TabsContent>
               </div>
