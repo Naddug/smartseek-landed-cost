@@ -417,7 +417,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-400 text-sm mb-4">Search and connect with 500+ verified global suppliers across 14 countries.</p>
+            <p className="text-slate-400 text-sm mb-4">Search and connect with 2,000+ verified global suppliers across 24+ countries.</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
               {["Electronics", "Textiles", "Machinery", "Chemicals", "Food & Agriculture"].map((industry) => (
                 <Link key={industry} href={`/suppliers?industry=${encodeURIComponent(industry)}`}>

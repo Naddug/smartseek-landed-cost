@@ -437,7 +437,7 @@ export default function SupplierDiscovery() {
             <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
-          <p className="text-blue-100 mb-6">AI-powered search across 500+ verified manufacturers in 14 countries</p>
+          <p className="text-blue-100 mb-6">AI-powered search across 2,000+ verified manufacturers in 24+ countries</p>
           <div className="flex gap-2">
             <div className="flex-1 relative group">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-white group-focus-within:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-200" />

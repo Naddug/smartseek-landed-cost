@@ -65,7 +65,7 @@ export default function Home() {
     {
       icon: <Globe className="w-6 h-6" />,
       title: "Global Supplier Data",
-      description: "Access 100,000+ verified suppliers across 50+ countries. Filter by industry, region, certifications, and more.",
+      description: "Access 2,000+ verified suppliers across 24+ countries. Filter by industry, region, certifications, and more.",
       href: "/suppliers"
     },
     {
@@ -273,7 +273,7 @@ export default function Home() {
           >
             <StatItem value="10K+" label="Active Users" icon={<Users className="w-6 h-6" />} testId="stat-users" />
             <StatItem value="$12B+" label="Sourcing Volume Analyzed" icon={<DollarSign className="w-6 h-6" />} testId="stat-sourcing-volume" />
-            <StatItem value="50+" label="Countries Covered" icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
+            <StatItem value="24+" label="Countries Covered" icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
             <StatItem value="99.9%" label="Platform Uptime" icon={<Zap className="w-6 h-6" />} testId="stat-uptime" />
           </motion.div>
         </div>
@@ -305,7 +305,7 @@ export default function Home() {
             variants={fadeInUp}
           >
             <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200">Global Supplier Network</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">100,000+ Verified Suppliers at Your Fingertips</h2>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">2,000+ Verified Suppliers at Your Fingertips</h2>
             <p className="text-lg text-slate-600">Connect with pre-qualified suppliers across every major region. Verified, rated, and ready to work with you.</p>
           </motion.div>
 
@@ -690,7 +690,7 @@ export default function Home() {
                     <div className="space-y-4">
                       <TrialFeature icon={<Sparkles className="w-5 h-5" />} text="2 Full AI-Generated Reports" />
                       <TrialFeature icon={<BarChart3 className="w-5 h-5" />} text="Complete Platform Access" />
-                      <TrialFeature icon={<Globe className="w-5 h-5" />} text="50+ Country Supplier Database" />
+                      <TrialFeature icon={<Globe className="w-5 h-5" />} text="24+ Country Supplier Database" />
                       <TrialFeature icon={<Shield className="w-5 h-5" />} text="Risk Assessment & Scoring" />
                       <TrialFeature icon={<DollarSign className="w-5 h-5" />} text="Landed Cost Calculator" />
                       <TrialFeature icon={<Users className="w-5 h-5" />} text="Priority Support Access" />

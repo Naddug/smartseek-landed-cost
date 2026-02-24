@@ -39,7 +39,7 @@ const faqSections: FAQSection[] = [
       },
       {
         question: "How many suppliers are in the database?",
-        answer: "We have 500+ verified suppliers across 14 countries, with coverage expanding regularly. Our database spans Electronics, Textiles, Machinery, Chemicals, Food & Agriculture, and more."
+        answer: "We have 2,000+ verified suppliers across 24+ countries, with coverage expanding regularly. Our database spans Electronics, Textiles, Machinery, Chemicals, Food & Agriculture, and more."
       },
       {
         question: "What countries do you cover?",

@@ -126,9 +126,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div className="text-sm text-muted-foreground hidden md:block">
               {user?.firstName || user?.email?.split('@')[0] || 'User'}
             </div>
-            <Badge variant="outline" className="text-xs uppercase">
-              {profile?.plan || 'free'}
-            </Badge>
+            {profile?.plan === 'monthly' ? (
+              <Badge variant="outline" className="text-xs uppercase">
+                Pro
+              </Badge>
+            ) : (
+              <span className="bg-slate-700 text-slate-300 text-[10px] px-2 py-0.5 rounded uppercase font-medium">Free Plan</span>
+            )}
           </div>
         </header>
         <main className="flex-1 p-4 md:p-8">
