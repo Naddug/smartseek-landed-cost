@@ -1,13 +1,37 @@
 import type { LandedCostInput, LandedCostResult } from './types';
 import { CALCULATION_VERSION, DATA_SNAPSHOT_TIMESTAMP } from './constants';
 
-// Import all service functions
 import { validateBaseCost, calculateBaseCost } from './baseCostService';
 import { calculateFreight } from './freightService';
-import { calculateCustoms } from './customsService';
-import { calculateInlandTransport } from './inlandTransportService';
 import { calculateInsurance, calculateCIFValue } from './insuranceService';
-import { aggregateTotal, calculateTotalLandedCost, calculateCostPerUnit } from './aggregationService';
+import { calculateCustoms } from './customsService';
+
+// Import types and functions explicitly
+import type { BaseCostResult } from './baseCostService';
+import type { FreightResult } from './freightService';
+import type { CustomsResult } from './customsService';
+import type { InsuranceResult } from './insuranceService';
+
+// Define InlandTransportResult locally to avoid import issues
+interface InlandTransportResult {
+  origin: {
+    cost: number;
+    distance?: number;
+    method?: string;
+    notes: string[];
+  };
+  destination: {
+    cost: number;
+    distance?: number;
+    method?: string;
+    notes: string[];
+  };
+  total: number;
+}
+
+// Import individual functions from services
+import { calculateInlandTransport } from './inlandTransportService';
+import { calculateTotalLandedCost, calculateCostPerUnit } from './aggregationService';
 import { generateBreakdown } from './breakdownService';
 import { generateNotes } from './notesService';
 
@@ -17,14 +41,13 @@ import { generateNotes } from './notesService';
  * Execution order:
  * 1. Input validation (blocking)
  * 2. Base cost calculation (blocking)
- * 3. Sequential: Freight calculation
- * 4. Sequential: CIF value calculation (depends on freight)
- * 5. Sequential: Insurance calculation (depends on CIF)
- * 6. Sequential: Customs calculation (depends on updated CIF)
- * 7. Sequential: Inland transport (depends on freight method)
- * 8. Sequential: Aggregation (blocking)
- * 9. Sequential: Breakdown generation
- * 10. Sequential: Notes generation
+ * 3. Freight calculation
+ * 4. Insurance calculation (depends on CIF value)
+ * 5. Customs calculation (depends on CIF value)
+ * 6. Inland transport calculation
+ * 7. Aggregation (blocking)
+ * 8. Breakdown generation
+ * 9. Notes generation
  * 
  * Reference: Calculation Specification Section 1 - Execution Order
  * 
@@ -39,34 +62,24 @@ export async function calculateLandedCost(input: LandedCostInput): Promise<Lande
   // Step 2: Base Cost Calculation (BLOCKING)
   const baseCost = calculateBaseCost(input);
   
-  // Step 3: Freight Calculation (SEQUENTIAL)
+  // Step 3: Freight Calculation
   const freight = calculateFreight(input);
   
   // Step 4: Calculate CIF value for insurance and customs
-  // CIF = Cost + Insurance + Freight
-  // Initial CIF = base cost + freight (insurance not yet calculated)
-  const initialCIFValue = calculateCIFValue(baseCost.normalizedCost, freight.selectedCost);
+  const cifValue = calculateCIFValue(baseCost.normalizedCost, freight.selectedCost);
   
-  // Step 5: Insurance Calculation (SEQUENTIAL - depends on initial CIF)
-  const insurance = calculateInsurance(input, initialCIFValue);
+  // Step 5: Insurance Calculation
+  const insurance = calculateInsurance(input, cifValue);
   
-  // Step 6: Customs Calculation (SEQUENTIAL - depends on final CIF)
-  // Final CIF = base cost + freight + insurance
-  const finalCIFValue = baseCost.normalizedCost + freight.selectedCost + insurance.amount;
-  const customs = calculateCustoms(input, finalCIFValue);
+  // Step 6: Customs Calculation
+  // CIF value includes: base cost + freight + insurance
+  const updatedCIFValue = baseCost.normalizedCost + freight.selectedCost + insurance.amount;
+  const customs = calculateCustoms(input, updatedCIFValue);
   
-  // Step 7: Inland Transport (SEQUENTIAL - depends on freight method)
+  // Step 7: Inland Transport
   const inlandTransport = calculateInlandTransport(input);
   
   // Step 8: Aggregation (BLOCKING)
-  const totals = aggregateTotal(input, {
-    baseCost,
-    freight,
-    customs,
-    inlandTransport,
-    insurance,
-  });
-  
   const totalLandedCost = calculateTotalLandedCost({
     baseCost,
     freight,
