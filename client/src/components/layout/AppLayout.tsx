@@ -7,6 +7,8 @@ import {
   FileText, 
   LogOut,
   ShieldCheck,
+  Shield,
+  ClipboardCheck,
   Calculator,
   Crown,
   Menu,
@@ -69,6 +71,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <NavItem href="/landed-cost" icon={<Calculator size={20} />} label="Landed Cost" active={isActive('/landed-cost')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/customs-calculator" icon={<Landmark size={20} />} label="Customs Calculator" active={isActive('/customs-calculator')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/shipping-estimator" icon={<Ship size={20} />} label="Shipping Estimator" active={isActive('/shipping-estimator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/risk-intelligence" icon={<Shield size={20} />} label="Risk Intelligence" active={isActive('/risk-intelligence')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/compliance" icon={<ClipboardCheck size={20} />} label="Compliance" active={isActive('/compliance')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/tools" icon={<Calculator size={20} />} label="All Tools" active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
           
           {profile?.role === 'admin' && (

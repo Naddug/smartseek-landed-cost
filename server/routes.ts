@@ -11,6 +11,7 @@ import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClie
 import OpenAI from "openai";
 import { calculateLandedCost } from "./services/landedCost";
 import type { LandedCostInput, LandedCostResult } from "./services/landedCost";
+import { generateRiskAnalysis, generateComplianceCheck } from "./services/riskIntelligence";
 import { prisma } from "../lib/prisma";
 
 const openai = new OpenAI({
@@ -1415,6 +1416,38 @@ Make the leads realistic and varied. Focus on companies that would be active imp
     } catch (error) {
       console.error("Error syncing subscription:", error);
       res.status(500).json({ error: "Failed to sync subscription" });
+    }
+  });
+
+  // ===== Risk Intelligence =====
+  app.post("/api/risk/analyze", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    try {
+      const { supplierName, country, industry, products } = req.body;
+      if (!country) return res.status(400).json({ error: "Country is required" });
+      const result = await generateRiskAnalysis({ supplierName, country, industry, products });
+      res.json(result);
+    } catch (error: any) {
+      console.error("Risk analysis error:", error);
+      res.status(500).json({ error: "Failed to generate risk analysis" });
+    }
+  });
+
+  // ===== Compliance Check =====
+  app.post("/api/compliance/check", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    try {
+      const { supplierName, country, industry, targetMarkets, products } = req.body;
+      if (!supplierName || !country || !industry) {
+        return res.status(400).json({ error: "Supplier name, country, and industry are required" });
+      }
+      const result = await generateComplianceCheck({ supplierName, country, industry, targetMarkets, products });
+      res.json(result);
+    } catch (error: any) {
+      console.error("Compliance check error:", error);
+      res.status(500).json({ error: "Failed to generate compliance check" });
     }
   });
 

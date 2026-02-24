@@ -21,6 +21,8 @@ import SampleReport from "@/pages/SampleReport";
 import CustomsCalculator from "@/pages/CustomsCalculator";
 import ShippingEstimator from "@/pages/ShippingEstimator";
 import LandedCostCalculator from "@/pages/LandedCostCalculator";
+import RiskIntelligence from "@/pages/RiskIntelligence";
+import ComplianceCheck from "@/pages/ComplianceCheck";
 import TradeData from "@/pages/TradeData";
 import FindLeads from "@/pages/FindLeads";
 import VerifyEmail from "@/pages/VerifyEmail";
@@ -133,6 +135,12 @@ function Router() {
       </Route>
       <Route path="/trade-data">
         <ProtectedRoute component={TradeData} />
+      </Route>
+      <Route path="/risk-intelligence">
+        <ProtectedRoute component={RiskIntelligence} />
+      </Route>
+      <Route path="/compliance">
+        <ProtectedRoute component={ComplianceCheck} />
       </Route>
       <Route path="/billing">
         <ProtectedRoute component={Billing} />
