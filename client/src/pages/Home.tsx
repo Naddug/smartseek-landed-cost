@@ -41,28 +41,39 @@ export default function Home() {
     {
       icon: <Shield className="w-6 h-6" />,
       title: "Risk Intelligence",
-      description: "Identify geopolitical, financial, and operational risks before they impact your business with AI-powered monitoring and alerts."
+      description: "Identify geopolitical, financial, and operational risks before they impact your business with AI-powered monitoring and alerts.",
+      href: "/risk-intelligence"
     },
     {
       icon: <DollarSign className="w-6 h-6" />,
       title: "Landed Cost Calculator",
-      description: "Get the true cost including duties, freight, insurance, and currency fluctuations. No more surprise fees or hidden charges."
+      description: "Get the true cost including duties, freight, insurance, and currency fluctuations. No more surprise fees or hidden charges.",
+      href: "/landed-cost"
     },
     {
       icon: <UserSearch className="w-6 h-6" />,
       title: "Find Buyer Leads",
-      description: "AI-powered B2B lead generation to discover qualified contacts with company insights, intent signals, and verified details."
+      description: "AI-powered B2B lead generation to discover qualified contacts with company insights, intent signals, and verified details.",
+      href: "/find-leads"
     },
     {
       icon: <FileCheck className="w-6 h-6" />,
       title: "Compliance Made Simple",
-      description: "Automated compliance checks, certification verification, and qualification workflows so you can focus on what matters."
+      description: "Automated compliance checks, certification verification, and qualification workflows so you can focus on what matters.",
+      href: "/compliance"
     },
     {
-      icon: <MapPin className="w-6 h-6" />,
+      icon: <Globe className="w-6 h-6" />,
       title: "Global Supplier Data",
-      description: "Access verified supplier information across 50+ countries with localized insights and regional benchmarking."
-    }
+      description: "Access 100,000+ verified suppliers across 50+ countries. Filter by industry, region, certifications, and more.",
+      href: "/suppliers"
+    },
+    {
+      icon: <Brain className="w-6 h-6" />,
+      title: "AI-Powered Reports",
+      description: "Generate comprehensive sourcing reports with market analysis, supplier comparisons, and actionable recommendations.",
+      href: "/smart-finder"
+    },
   ];
 
   const industries = [
@@ -268,6 +279,21 @@ export default function Home() {
         </div>
       </motion.section>
 
+      {/* Trusted By / Integrations */}
+      <section className="py-12 bg-white border-b border-slate-100">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-sm text-slate-400 mb-8 uppercase tracking-wider font-medium">Integrates With Your Existing Tools</p>
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-60">
+            {["SAP Ariba", "Oracle", "Salesforce", "Microsoft Dynamics", "Coupa", "Jaggaer"].map((name, i) => (
+              <div key={i} className="flex items-center gap-2 text-slate-400 font-semibold text-lg tracking-tight">
+                <div className="w-8 h-8 rounded bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500">{name[0]}</div>
+                {name}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Supplier Database Showcase */}
       <section className="py-24 bg-gradient-to-b from-white to-slate-50">
         <div className="container mx-auto px-4">
@@ -421,19 +447,24 @@ export default function Home() {
           >
             {platformFeatures.map((feature, index) => (
               <motion.div key={`platform-feature-${index}`} variants={fadeInUp}>
-                <Card className="h-full bg-white border-slate-200 shadow-md hover:shadow-xl hover:border-blue-300 transition-all duration-300 group">
-                  <CardContent className="p-8">
-                    <div className="flex gap-5">
-                      <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors h-fit">
-                        {feature.icon}
+                <Link href={feature.href}>
+                  <Card className="h-full bg-white border-slate-200 shadow-md hover:shadow-xl hover:border-blue-300 transition-all duration-300 group cursor-pointer">
+                    <CardContent className="p-8">
+                      <div className="flex gap-5">
+                        <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors h-fit">
+                          {feature.icon}
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{feature.title}</h3>
+                          <p className="text-slate-600 leading-relaxed">{feature.description}</p>
+                          <span className="text-blue-600 text-sm font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            Learn more <ArrowRight className="w-4 h-4" />
+                          </span>
+                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-bold text-slate-900">{feature.title}</h3>
-                        <p className="text-slate-600 leading-relaxed">{feature.description}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
@@ -668,6 +699,61 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div className="text-center max-w-3xl mx-auto mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">Customer Stories</Badge>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">Trusted by Sourcing Teams Worldwide</h2>
+            <p className="text-lg text-slate-600">See how companies are transforming their sourcing operations with SmartSeek.</p>
+          </motion.div>
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8" variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+            {[
+              {
+                quote: "SmartSeek cut our supplier qualification time by 60%. The AI-powered risk assessments give us confidence in every sourcing decision we make.",
+                name: "Sarah Chen",
+                title: "VP of Procurement",
+                company: "Global Manufacturing Corp",
+              },
+              {
+                quote: "The landed cost calculator alone saved us from three costly surprises last quarter. It's become an essential tool for our international sourcing team.",
+                name: "Marcus Weber",
+                title: "Supply Chain Director",
+                company: "EuroTech Industries",
+              },
+              {
+                quote: "We discovered verified suppliers in regions we hadn't considered before. SmartSeek's AI reports provided the data we needed to diversify our supply chain.",
+                name: "Priya Sharma",
+                title: "Head of Strategic Sourcing",
+                company: "Atlas Retail Group",
+              },
+            ].map((testimonial, i) => (
+              <motion.div key={i} variants={fadeInUp}>
+                <Card className="h-full bg-slate-50 border-slate-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-8">
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(5)].map((_, j) => (
+                        <svg key={j} className="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                      ))}
+                    </div>
+                    <p className="text-slate-700 leading-relaxed mb-6 italic">"{testimonial.quote}"</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
+                        {testimonial.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900 text-sm">{testimonial.name}</p>
+                        <p className="text-slate-500 text-xs">{testimonial.title}, {testimonial.company}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
