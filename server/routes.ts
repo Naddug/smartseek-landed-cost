@@ -123,7 +123,7 @@ export async function registerRoutes(
       }
       
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [{
           role: "user",
           content: [
@@ -266,7 +266,7 @@ Provide helpful, accurate, and actionable information.`
       const systemPrompt = taskPrompts[task] || taskPrompts.general;
       
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: query }
@@ -682,7 +682,7 @@ Return a JSON object with a "leads" array. You MUST return at least 12 leads. Ea
 Make the leads realistic and varied. Focus on companies that would be active importers or have significant sourcing needs.`;
 
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
         response_format: { type: "json_object" },
         max_tokens: 4000

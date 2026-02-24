@@ -72,7 +72,7 @@ Return ONLY a valid JSON object with this exact structure:
 Be specific and data-driven. Reference real geopolitical situations, trade policies, and industry conditions.`;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
     response_format: { type: "json_object" },
     max_tokens: 2000,
@@ -124,7 +124,7 @@ Return ONLY a valid JSON object with this exact structure:
 Be specific about certifications relevant to the industry and target markets. Reference real regulations (REACH, RoHS, FDA, CE marking, etc).`;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
     response_format: { type: "json_object" },
     max_tokens: 2000,
