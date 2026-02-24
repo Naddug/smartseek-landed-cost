@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Loader2, CheckCircle, RefreshCw } from "lucide-react";
@@ -98,11 +97,16 @@ export default function EmailVerificationRequired() {
           </div>
 
           <div className="text-center pt-4 border-t border-slate-700">
-            <Link href="/api/auth/logout">
-              <Button variant="link" className="text-slate-400 hover:text-white">
-                Sign out
-              </Button>
-            </Link>
+            <Button
+              variant="link"
+              className="text-slate-400 hover:text-white"
+              onClick={async () => {
+                await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+                window.location.href = "/";
+              }}
+            >
+              Sign out
+            </Button>
           </div>
         </CardContent>
       </Card>

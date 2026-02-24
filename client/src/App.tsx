@@ -39,6 +39,7 @@ import Contact from "@/pages/Contact";
 import About from "@/pages/About";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
+import Integrations from "@/pages/Integrations";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -103,6 +104,9 @@ function Router() {
       </Route>
       <Route path="/terms">
         <PublicLayout><Terms /></PublicLayout>
+      </Route>
+      <Route path="/integrations">
+        <PublicLayout><Integrations /></PublicLayout>
       </Route>
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/forgot-password" component={ForgotPassword} />

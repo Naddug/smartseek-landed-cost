@@ -8,16 +8,19 @@ import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
-import OpenAI from "openai";
+import { getOpenAIClient } from "./services/openaiClient";
 import { calculateLandedCost } from "./services/landedCost";
 import type { LandedCostInput, LandedCostResult } from "./services/landedCost";
 import { generateRiskAnalysis, generateComplianceCheck } from "./services/riskIntelligence";
+import {
+  getAuthorizationUrl,
+  exchangeCodeForTokens,
+  getUserIntegrations,
+  disconnectIntegration,
+  SLUG_TO_PROVIDER,
+  type IntegrationProvider,
+} from "./services/integrations";
 import { prisma } from "../lib/prisma";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -122,7 +125,7 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Image data is required" });
       }
       
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAIClient().chat.completions.create({
         model: "gpt-4o-mini",
         messages: [{
           role: "user",
@@ -265,7 +268,7 @@ Provide helpful, accurate, and actionable information.`
       
       const systemPrompt = taskPrompts[task] || taskPrompts.general;
       
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAIClient().chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
@@ -681,7 +684,7 @@ Return a JSON object with a "leads" array. You MUST return at least 12 leads. Ea
 
 Make the leads realistic and varied. Focus on companies that would be active importers or have significant sourcing needs.`;
 
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAIClient().chat.completions.create({
         model: "gpt-4o-mini",
         messages: [{ role: "user", content: prompt }],
         response_format: { type: "json_object" },
@@ -1965,6 +1968,87 @@ Make the leads realistic and varied. Focus on companies that would be active imp
     } catch (error) {
       console.error("GET /api/rfqs error:", error);
       res.status(500).json({ error: "Failed to fetch RFQs" });
+    }
+  });
+
+  // ============================================================================
+  // Integrations API (OAuth for SAP Ariba, Oracle, Salesforce, etc.)
+  // ============================================================================
+
+  app.get("/api/integrations", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    try {
+      const integrations = await getUserIntegrations(userId);
+      res.json(integrations);
+    } catch (error) {
+      console.error("GET /api/integrations error:", error);
+      res.status(500).json({ error: "Failed to fetch integrations" });
+    }
+  });
+
+  app.post("/api/integrations/:slug/connect", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    const provider = SLUG_TO_PROVIDER[req.params.slug];
+    if (!provider) {
+      return res.status(400).json({ error: "Unknown integration" });
+    }
+    try {
+      const baseUrl = `${req.protocol}://${req.get("host") || ""}`;
+      const result = await getAuthorizationUrl(provider, userId, baseUrl);
+      if ("error" in result) {
+        return res.status(400).json({ error: result.error });
+      }
+      res.json({ url: result.url, state: result.state });
+    } catch (error) {
+      console.error("POST /api/integrations/connect error:", error);
+      res.status(500).json({ error: "Failed to start OAuth" });
+    }
+  });
+
+  app.get("/api/integrations/oauth/callback", async (req: Request, res: Response) => {
+    const { code, state } = req.query;
+    if (!code || !state || typeof code !== "string" || typeof state !== "string") {
+      return res.redirect("/integrations?error=missing_params");
+    }
+    try {
+      const stateRecord = await prisma.integrationOAuthState.findUnique({ where: { state } });
+      const provider = stateRecord?.provider as IntegrationProvider | undefined;
+      if (!provider) {
+        return res.redirect("/integrations?error=invalid_state");
+      }
+      const result = await exchangeCodeForTokens(provider, code, state);
+      if (!result.success) {
+        return res.redirect(`/integrations?error=${encodeURIComponent(result.error || "unknown")}`);
+      }
+      // Redirect to dashboard or integrations page with success
+      res.redirect("/integrations?connected=1");
+    } catch (error) {
+      console.error("OAuth callback error:", error);
+      res.redirect("/integrations?error=callback_failed");
+    }
+  });
+
+  app.delete("/api/integrations/:slug", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    const provider = SLUG_TO_PROVIDER[req.params.slug];
+    if (!provider) {
+      return res.status(400).json({ error: "Unknown integration" });
+    }
+    try {
+      await disconnectIntegration(userId, provider);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("DELETE /api/integrations error:", error);
+      res.status(500).json({ error: "Failed to disconnect" });
     }
   });
 

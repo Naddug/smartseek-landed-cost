@@ -104,7 +104,8 @@ export default function RequestQuote() {
           <span className="text-white/80 text-sm font-medium">SmartSeek Request for Quotation</span>
         </div>
         <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
-        <p className="text-blue-100">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
+        <p className="text-blue-100 mb-2">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
+        <p className="text-blue-200/90 text-sm">No account required • Quotes within 1–3 business days • 100,000+ verified suppliers</p>
       </div>
     </div>
   );
@@ -161,7 +162,7 @@ export default function RequestQuote() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-sm text-gray-700">
               <p className="font-medium text-gray-900 mb-1">How it works</p>
-              <p>Submit your product requirements below. Our team will share your RFQ with relevant verified suppliers. You&apos;ll receive competitive quotes via email within 1–3 business days—no account required.</p>
+              <p>Submit your product requirements below. Our team will share your RFQ with relevant verified suppliers. You&apos;ll receive competitive quotes via email within 1–3 business days—no account required. Your data is never shared with third parties.</p>
             </div>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">

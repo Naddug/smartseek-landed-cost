@@ -152,6 +152,30 @@ const industries: IndustryDef[] = [
     companyPrefixes: ["Green", "Fresh", "Golden", "Natural", "Agro", "Farm", "Harvest", "Sun", "Ocean", "Pure", "Organic", "Royal", "Fine", "Premium"],
     companySuffixes: ["Foods", "Agro", "Agriculture", "Trading", "Exports", "Enterprises", "Products", "International", "Global", "Industries"],
   },
+  {
+    name: "Mining & Minerals",
+    subIndustries: ["Base Metals", "Precious Metals", "Rare Earth & Critical Minerals", "Industrial Minerals", "Coal & Energy Minerals", "Mineral Processing"],
+    products: [
+      ["antimony", "antimony trioxide", "antimony ingots", "antimony concentrate", "antimony metal"],
+      ["tin", "tin ingots", "tin concentrate", "tin solder", "tin chemicals"],
+      ["lithium", "lithium carbonate", "lithium hydroxide", "lithium concentrate", "spodumene"],
+      ["cobalt", "cobalt sulfate", "cobalt metal", "cobalt concentrate", "cobalt hydroxide"],
+      ["copper", "copper cathode", "copper concentrate", "copper wire", "copper rod"],
+      ["zinc", "zinc ingots", "zinc concentrate", "zinc oxide", "zinc alloy"],
+      ["nickel", "nickel sulfate", "nickel metal", "nickel matte", "ferronickel"],
+      ["manganese", "manganese ore", "manganese metal", "electrolytic manganese", "ferromanganese"],
+      ["tungsten", "tungsten concentrate", "tungsten carbide", "tungsten oxide", "APT"],
+      ["rare earth elements", "neodymium", "dysprosium", "praseodymium", "cerium oxide"],
+      ["graphite", "flake graphite", "spherical graphite", "graphite anode", "natural graphite"],
+      ["silica sand", "quartz", "feldspar", "kaolin", "bentonite"],
+      ["bauxite", "alumina", "aluminum ingots", "aluminum alloy", "aluminum scrap"],
+      ["iron ore", "iron concentrate", "pig iron", "DRI", "HBI"],
+      ["coal", "thermal coal", "coking coal", "anthracite", "metallurgical coal"],
+    ],
+    certifications: ["ISO 9001", "ISO 14001", "OHSAS 18001", "Responsible Mining", "IRMA", "RMI", "SEDEX", "EcoVadis"],
+    companyPrefixes: ["Global", "Pacific", "Asia", "Euro", "Sino", "Indo", "Metro", "Prime", "Royal", "United", "Pacific", "Atlantic", "Continental", "International", "World"],
+    companySuffixes: ["Mining", "Minerals", "Metals", "Resources", "Commodities", "Trading", "Exports", "Industries", "Group", "Corp"],
+  },
 ];
 
 function generatePhone(country: CountryDef): string {
@@ -273,9 +297,16 @@ function generateSuppliers(count: number) {
   const suppliers: any[] = [];
   const usedSlugs = new Set<string>();
 
+  // Mining gets 25% weight (key differentiator - antimony, tin, minerals)
+  const industryPool = [...industries];
+  const miningIndustry = industries.find((i) => i.name === "Mining & Minerals");
+  if (miningIndustry) {
+    for (let w = 0; w < 4; w++) industryPool.push(miningIndustry);
+  }
+
   for (let i = 0; i < count; i++) {
     const country = pool[i % pool.length];
-    const industry = pick(industries);
+    const industry = pick(industryPool);
     const subIndustry = pick(industry.subIndustries);
     const companyName = generateCompanyName(industry, country);
     const city = pick(country.cities);
@@ -339,7 +370,8 @@ async function main() {
   await prisma.lead.deleteMany();
   await prisma.supplier.deleteMany();
 
-  const suppliers = generateSuppliers(500);
+  const count = parseInt(process.env.SUPPLIER_COUNT || "100000", 10);
+  const suppliers = generateSuppliers(count);
   const BATCH_SIZE = 50;
   let inserted = 0;
 
@@ -364,13 +396,13 @@ async function main() {
 
   console.log("\n--- Country Distribution ---");
   for (const row of byCountry) {
-    const pct = ((row._count.id / 500) * 100).toFixed(1);
+    const pct = ((row._count.id / suppliers.length) * 100).toFixed(1);
     console.log(`  ${row.country}: ${row._count.id} (${pct}%)`);
   }
 
   console.log("\n--- Industry Distribution ---");
   for (const row of byIndustry) {
-    const pct = ((row._count.id / 500) * 100).toFixed(1);
+    const pct = ((row._count.id / suppliers.length) * 100).toFixed(1);
     console.log(`  ${row.industry}: ${row._count.id} (${pct}%)`);
   }
 

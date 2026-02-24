@@ -1,9 +1,4 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
-});
+import { getOpenAIClient } from "./openaiClient";
 
 export interface ReportFormData {
   productName: string;
@@ -148,9 +143,12 @@ export interface GeneratedReport {
 export async function generateSmartFinderReport(
   formData: ReportFormData
 ): Promise<GeneratedReport> {
-  const originCountry = formData.originCountry && formData.originCountry !== "Any" ? formData.originCountry : "any suitable global sourcing location";
+  const originCountry =
+    formData.originCountry && formData.originCountry !== "Any"
+      ? formData.originCountry
+      : "any suitable global sourcing location";
   const destinationCountry = formData.destinationCountry || "United States";
-  
+
   const prompt = `You are a professional international trade and sourcing consultant with expertise in customs, tariffs, and global supply chains. Generate a comprehensive professional sourcing report in JSON format.
 
 Product: ${formData.productName || formData.category}
@@ -165,7 +163,6 @@ Generate a detailed professional report with the following structure (return ONL
 
 {
   "executiveSummary": "3-4 sentence professional summary highlighting key findings, cost analysis, and recommended action. If origin was 'any', specify which regions were selected as most competitive.",
-  
   "productClassification": {
     "hsCode": "6-digit HS code for this product (e.g., 8471.30)",
     "hsCodeDescription": "Official HS code description",
@@ -173,7 +170,6 @@ Generate a detailed professional report with the following structure (return ONL
     "productCategory": "Product category classification",
     "regulatoryRequirements": ["FDA approval", "CE marking", etc.]
   },
-  
   "marketOverview": {
     "marketSize": "Global market size in USD",
     "growthRate": "Annual growth rate",
@@ -181,7 +177,6 @@ Generate a detailed professional report with the following structure (return ONL
     "majorExporters": ["country 1", "country 2"],
     "majorImporters": ["country 1", "country 2"]
   },
-  
   "customsAnalysis": {
     "originCountry": "${originCountry}",
     "destinationCountry": "${destinationCountry}",
@@ -202,7 +197,6 @@ Generate a detailed professional report with the following structure (return ONL
     "requiredDocuments": ["Commercial Invoice", "Packing List", "Bill of Lading", etc.],
     "complianceNotes": ["Important compliance requirements"]
   },
-  
   "landedCostBreakdown": {
     "productCost": "FOB cost for total quantity",
     "freightCost": "Sea/Air freight cost",
@@ -216,7 +210,6 @@ Generate a detailed professional report with the following structure (return ONL
     "totalLandedCost": "Total landed cost",
     "costPerUnit": "Landed cost per unit"
   },
-  
   "sellerComparison": [
     {
       "sellerName": "Realistic supplier name",
@@ -237,7 +230,6 @@ Generate a detailed professional report with the following structure (return ONL
       "recommendation": "Why choose or avoid this seller"
     }
   ],
-  
   "supplierAnalysis": {
     "topRegions": [
       {
@@ -259,7 +251,6 @@ Generate a detailed professional report with the following structure (return ONL
       }
     ]
   },
-  
   "profitAnalysis": {
     "recommendedRetailPrice": "Suggested retail price",
     "estimatedProfit": "Profit per unit",
@@ -271,7 +262,6 @@ Generate a detailed professional report with the following structure (return ONL
       {"platform": "eBay", "feeStructure": "Final value fee", "estimatedFees": "$X per unit"}
     ]
   },
-  
   "costBreakdown": {
     "unitCost": "Manufacturing cost per unit",
     "toolingCost": "One-time tooling/mold cost",
@@ -279,7 +269,6 @@ Generate a detailed professional report with the following structure (return ONL
     "totalEstimate": "Total project investment",
     "factors": ["Material costs", "Labor rates", "Exchange rates"]
   },
-  
   "riskAssessment": {
     "overallRisk": "Low/Medium/High",
     "risks": [
@@ -289,7 +278,6 @@ Generate a detailed professional report with the following structure (return ONL
       {"category": "Regulatory", "level": "Low", "mitigation": "Obtain proper certifications"}
     ]
   },
-  
   "timeline": {
     "sampling": "7-14 days",
     "tooling": "15-30 days",
@@ -298,13 +286,11 @@ Generate a detailed professional report with the following structure (return ONL
     "customsClearance": "3-7 days",
     "total": "60-120 days"
   },
-  
   "recommendations": [
     "Specific actionable recommendation 1",
     "Specific actionable recommendation 2",
     "Specific actionable recommendation 3"
   ],
-  
   "nextSteps": [
     "Request samples from top 3 suppliers",
     "Verify certifications and compliance",
@@ -312,7 +298,7 @@ Generate a detailed professional report with the following structure (return ONL
   ]
 }
 
-IMPORTANT: 
+IMPORTANT:
 - Use realistic HS codes for this product category
 - Calculate realistic customs duties based on current tariff rates
 - Include 4-5 seller comparisons with different price points
@@ -320,55 +306,57 @@ IMPORTANT:
 - Be specific with all numbers and percentages`;
 
   try {
-    console.log("Starting AI report generation for:", formData.productName || formData.category);
-    
-    const completion = await openai.chat.completions.create({
+    console.log(
+      "Starting AI report generation for:",
+      formData.productName || formData.category
+    );
+
+    const completion = await getOpenAIClient().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations. Always return valid JSON."
+          content:
+            "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations. Always return valid JSON.",
         },
-        {
-          role: "user",
-          content: prompt
-        }
+        { role: "user", content: prompt },
       ],
       max_tokens: 8000,
     });
 
     const responseText = completion.choices[0]?.message?.content || "";
-    
     console.log("AI response received, length:", responseText.length);
-    
+
     if (!responseText || responseText.length < 100) {
       console.error("AI returned empty or too short response");
       throw new Error("AI returned insufficient data");
     }
-    
+
     // Clean response - remove markdown if present
     let cleanJson = responseText.trim();
     if (cleanJson.includes("```json")) {
-      cleanJson = cleanJson.replace(/```json\n?/g, "").replace(/```\n?/g, "");
+      cleanJson = cleanJson
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "");
     } else if (cleanJson.includes("```")) {
       cleanJson = cleanJson.replace(/```\n?/g, "");
     }
-    
+
     // Find JSON object boundaries
-    const startIndex = cleanJson.indexOf('{');
-    const endIndex = cleanJson.lastIndexOf('}');
+    const startIndex = cleanJson.indexOf("{");
+    const endIndex = cleanJson.lastIndexOf("}");
     if (startIndex !== -1 && endIndex !== -1) {
       cleanJson = cleanJson.substring(startIndex, endIndex + 1);
     }
-    
+
     const report = JSON.parse(cleanJson) as GeneratedReport;
-    
+
     // Validate that essential fields exist
     if (!report.executiveSummary || !report.productClassification) {
       console.error("AI response missing essential fields");
       throw new Error("AI response missing required data");
     }
-    
+
     console.log("Report generated successfully");
     return report;
   } catch (error) {

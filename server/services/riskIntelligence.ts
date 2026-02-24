@@ -1,9 +1,4 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL || undefined,
-});
+import { getOpenAIClient } from "./openaiClient";
 
 export interface RiskAnalysisInput {
   supplierName?: string;
@@ -71,7 +66,7 @@ Return ONLY a valid JSON object with this exact structure:
 
 Be specific and data-driven. Reference real geopolitical situations, trade policies, and industry conditions.`;
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
     response_format: { type: "json_object" },
@@ -80,6 +75,7 @@ Be specific and data-driven. Reference real geopolitical situations, trade polic
 
   const content = response.choices[0]?.message?.content;
   if (!content) throw new Error("Failed to generate risk analysis");
+
   return JSON.parse(content);
 }
 
@@ -123,7 +119,7 @@ Return ONLY a valid JSON object with this exact structure:
 
 Be specific about certifications relevant to the industry and target markets. Reference real regulations (REACH, RoHS, FDA, CE marking, etc).`;
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
     response_format: { type: "json_object" },
@@ -132,5 +128,6 @@ Be specific about certifications relevant to the industry and target markets. Re
 
   const content = response.choices[0]?.message?.content;
   if (!content) throw new Error("Failed to generate compliance check");
+
   return JSON.parse(content);
 }

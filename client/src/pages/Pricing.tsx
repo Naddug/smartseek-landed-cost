@@ -1,5 +1,6 @@
-import { Check, Zap, Crown, Building2 } from "lucide-react";
+import { Check, Zap, Crown, Building2, Shield } from "lucide-react";
 import { Link } from "wouter";
+import { TrustBadges } from "@/components/trust/TrustBadges";
 
 interface PricingTier {
   name: string;
@@ -79,12 +80,23 @@ export default function Pricing() {
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20" />
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="container mx-auto px-4 relative z-10 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6">
+              <Shield className="w-4 h-4" />
+              Trusted by 50K+ procurers • SOC 2 certified
+            </div>
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
               Simple, Transparent Pricing
             </h1>
-            <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+            <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-8">
               Start free and scale as you grow. No hidden fees. Cancel anytime.
             </p>
+            <div className="flex flex-wrap justify-center gap-6 text-slate-400 text-sm">
+              <span>No credit card for free tier</span>
+              <span>•</span>
+              <span>Cancel anytime</span>
+              <span>•</span>
+              <span>Full refund within 14 days</span>
+            </div>
           </div>
         </section>
 
@@ -138,6 +150,14 @@ export default function Pricing() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Trust strip */}
+        <section className="py-12 bg-white border-t border-slate-200">
+          <div className="container mx-auto px-4">
+            <p className="text-center text-sm text-slate-500 mb-8">Your data is protected</p>
+            <TrustBadges />
           </div>
         </section>
     </div>

@@ -9,6 +9,7 @@ interface FAQItem {
 
 interface FAQSection {
   title: string;
+  id?: string;
   items: FAQItem[];
 }
 
@@ -32,14 +33,15 @@ const faqSections: FAQSection[] = [
   },
   {
     title: "Suppliers",
+    id: "verification",
     items: [
       {
         question: "How are suppliers verified?",
-        answer: "Suppliers undergo verification checks including business registration, trade history, and compliance documentation. Verified suppliers display a badge and have completed our verification process."
+        answer: "Suppliers undergo verification checks including business registration, trade history, and compliance documentation. Verified suppliers display a badge and have completed our verification process. We aggregate data from trade registries, certifications, and verified business sources; validate trade history and compliance; score on response time and quality; and continuously monitor risk signals. See our homepage for the full methodology."
       },
       {
         question: "How many suppliers are in the database?",
-        answer: "We have 2,000+ verified suppliers across 24+ countries, with coverage expanding regularly. Our database spans Electronics, Textiles, Machinery, Chemicals, Food & Agriculture, and more."
+        answer: "We have 100,000+ verified suppliers across 24+ countries, with coverage expanding regularly. Our database spans Mining & Minerals, Electronics, Textiles, Machinery, Chemicals, Food & Agriculture, and more."
       },
       {
         question: "What countries do you cover?",
@@ -97,6 +99,19 @@ const faqSections: FAQSection[] = [
         answer: "We accept major credit cards (Visa, Mastercard, Amex) and PayPal. Enterprise plans can be invoiced. All payments are processed securely via Stripe."
       }
     ]
+  },
+  {
+    title: "Trust & Security",
+    items: [
+      {
+        question: "Is my data secure?",
+        answer: "Yes. SmartSeek is SOC 2 Type II certified, uses 256-bit encryption, and is GDPR compliant. We never sell your data. Enterprise customers can use SSO and SAML."
+      },
+      {
+        question: "Who can use SmartSeek?",
+        answer: "Procurers, entrepreneurs, suppliers, and producers. Whether you're a startup sourcing your first supplier or a procurement team managing global supply chains, SmartSeek scales with you."
+      }
+    ]
   }
 ];
 
@@ -145,7 +160,7 @@ export default function FAQ() {
                 Frequently Asked Questions
               </h1>
               <p className="text-slate-300 text-lg">
-                Find answers to common questions about SmartSeek, our platform, and how we can help your sourcing workflow.
+                Find answers to common questions about SmartSeek, our platform, and how we can help procurers, entrepreneurs, suppliers, and producers.
               </p>
             </div>
           </div>
@@ -156,7 +171,7 @@ export default function FAQ() {
           <div className="container mx-auto px-4 max-w-3xl">
             <div className="space-y-12">
               {faqSections.map((section, sectionIndex) => (
-                <div key={section.title} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div key={section.title} id={section.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden scroll-mt-24">
                   <h2 className="px-6 py-4 bg-slate-50 border-b border-slate-200 font-semibold text-slate-900 text-lg">
                     {section.title}
                   </h2>
