@@ -14,7 +14,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:init": "prisma migrate dev --name init",
     "prisma:studio": "prisma studio",
-    "seed:100k": "SUPPLIER_COUNT=100000 npx prisma db seed"
+    "seed:100k": "SUPPLIER_COUNT=100000 npx prisma db seed",
+    "seed:prod": "npx prisma db seed"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -108,6 +109,7 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@railway/cli": "^4.30.5",
     "@replit/vite-plugin-cartographer": "^0.4.4",
     "@replit/vite-plugin-dev-banner": "^0.1.1",
     "@replit/vite-plugin-runtime-error-modal": "^0.0.4",

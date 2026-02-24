@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -7,18 +8,19 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   const { user } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = (
     <>
-      <a href="/#how-it-works" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">How It Works</a>
-      <Link href="/suppliers" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Suppliers</Link>
-      <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Request Quote</Link>
-      <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Pricing</Link>
-      <Link href="/faq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">FAQ</Link>
-      <Link href="/integrations" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Integrations</Link>
+      <a href="/#how-it-works" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.howItWorks")}</a>
+      <Link href="/suppliers" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.suppliers")}</Link>
+      <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.rfq")}</Link>
+      <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.pricing")}</Link>
+      <Link href="/faq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.faq")}</Link>
+      <Link href="/integrations" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.integrations")}</Link>
     </>
   );
 
@@ -63,17 +65,17 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </SheetContent>
           </Sheet>
 
-          <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
+            <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
             <LanguageSwitcher />
             {user ? (
-              <Button onClick={() => setLocation('/dashboard')} className="font-medium">Go to Dashboard</Button>
+              <Button onClick={() => setLocation('/dashboard')} className="font-medium">{t("nav.dashboard")}</Button>
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="ghost" className="font-medium">Log in</Button>
+                  <Button variant="ghost" className="font-medium">{t("nav.login")}</Button>
                 </Link>
                 <Link href="/signup">
-                  <Button className="font-medium shadow-lg shadow-primary/25">Try for Free</Button>
+                  <Button className="font-medium shadow-lg shadow-primary/25">{t("nav.tryFree")}</Button>
                 </Link>
               </>
             )}
@@ -94,9 +96,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <span className="text-xl font-heading font-bold">SmartSeek</span>
               </div>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-6">
-                The AI-powered sourcing platform for professional buyers. Save time, reduce risk, and boost margins with verified suppliers and accurate landed costs.
+                {t("footer.tagline")}
               </p>
-              <p className="text-xs text-muted-foreground/80 mb-6">Designed for professional sourcing teams</p>
+              <p className="text-xs text-muted-foreground/80 mb-6">{t("footer.designedFor")}</p>
               <div className="flex gap-2 max-w-xs">
                 <input
                   type="email"

@@ -181,9 +181,9 @@ export default function FindLeads() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="industry">Industry *</Label>
+              <Label htmlFor="industry" className="text-slate-700 font-medium">Industry *</Label>
               <Select value={industry} onValueChange={setIndustry}>
-                <SelectTrigger id="industry" data-testid="select-industry">
+                <SelectTrigger id="industry" data-testid="select-industry" className="text-slate-800 placeholder:text-slate-500 data-[placeholder]:text-slate-500">
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
                 <SelectContent>
@@ -209,9 +209,9 @@ export default function FindLeads() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="companySize">Company Size</Label>
+              <Label htmlFor="companySize" className="text-slate-700 font-medium">Company Size</Label>
               <Select value={companySize} onValueChange={setCompanySize}>
-                <SelectTrigger id="companySize" data-testid="select-company-size">
+                <SelectTrigger id="companySize" data-testid="select-company-size" className="text-slate-800 placeholder:text-slate-500 data-[placeholder]:text-slate-500">
                   <SelectValue placeholder="Any size" />
                 </SelectTrigger>
                 <SelectContent>
@@ -224,23 +224,24 @@ export default function FindLeads() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="keywords">Keywords</Label>
+              <Label htmlFor="keywords" className="text-slate-700 font-medium">Keywords</Label>
               <Input 
                 id="keywords" 
                 placeholder="e.g., automotive parts, packaging"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
                 data-testid="input-keywords"
+                className="text-slate-800 placeholder:text-slate-500"
               />
             </div>
           </div>
 
           <div className="flex items-center justify-between mt-6">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-700">
               {isAdmin ? (
-                <span className="text-emerald-600 font-medium">Admin: Unlimited searches</span>
+                <span className="text-emerald-700 font-semibold">Admin: Unlimited searches</span>
               ) : (
-                <>Uses 1 credit • You have <span className="font-semibold">{totalCredits}</span> credits</>
+                <>Uses 1 credit • You have <span className="font-semibold text-slate-900">{totalCredits}</span> credits</>
               )}
             </p>
             <Button 
@@ -367,31 +368,42 @@ export default function FindLeads() {
               <div className="space-y-6 mt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                    <MapPin className="w-5 h-5 text-slate-400" />
+                    <MapPin className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs text-slate-500">Location</p>
-                      <p className="font-medium">{selectedLead.location}</p>
+                      <p className="text-xs font-medium text-slate-700">Location</p>
+                      <p className="font-medium text-slate-900">{selectedLead.location}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                    <Users className="w-5 h-5 text-slate-400" />
+                    <Users className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs text-slate-500">Company Size</p>
-                      <p className="font-medium">{selectedLead.employeeRange}</p>
+                      <p className="text-xs font-medium text-slate-700">Company Size</p>
+                      <p className="font-medium text-slate-900">{selectedLead.employeeRange}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                    <TrendingUp className="w-5 h-5 text-slate-400" />
+                    <TrendingUp className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs text-slate-500">Revenue</p>
-                      <p className="font-medium">{selectedLead.revenueRange}</p>
+                      <p className="text-xs font-medium text-slate-700">Revenue</p>
+                      <p className="font-medium text-slate-900">{selectedLead.revenueRange}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                    <Globe className="w-5 h-5 text-slate-400" />
+                    <Globe className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs text-slate-500">Website</p>
-                      <p className="font-medium text-blue-600">{selectedLead.website}</p>
+                      <p className="text-xs font-medium text-slate-700">Website</p>
+                      {selectedLead.website ? (
+                        <a
+                          href={selectedLead.website.startsWith("http") ? selectedLead.website : `https://${selectedLead.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-blue-600 hover:text-blue-700 hover:underline break-all"
+                        >
+                          {selectedLead.website}
+                        </a>
+                      ) : (
+                        <span className="font-medium text-slate-500">—</span>
+                      )}
                     </div>
                   </div>
                 </div>

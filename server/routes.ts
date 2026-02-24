@@ -669,20 +669,20 @@ ${companySize ? `- Company Size: ${companySize}` : ''}
 ${keywords ? `- Keywords/Focus: ${keywords}` : ''}
 
 Return a JSON object with a "leads" array. You MUST return at least 12 leads. Each lead should have:
-- companyName: string (realistic company name)
+- companyName: string (realistic company name - use real companies when possible)
 - industry: string (specific industry)
 - location: string (city, state/country)
 - employeeRange: string (e.g., "50-100", "100-500", "500-1000")
 - revenueRange: string (e.g., "$5M-$10M", "$10M-$50M", "$50M-$100M")
-- website: string (realistic domain)
+- website: string (MUST be a real, working company website - use actual domains like companyname.com, no fake domains. Prefer real Fortune 500, FTSE 100, or well-known companies in the industry/location)
 - contactName: string (realistic full name)
 - contactTitle: string (procurement/sourcing title)
-- contactEmail: string (professional email)
+- contactEmail: string (professional email matching the company domain when possible)
 - sourcingFocus: array of strings (what they typically source/import)
 - aiSummary: string (2-3 sentences on why they're a good lead for sourcing)
 - intentSignals: object with keys like recentActivity, importTrends, expansionPlans (string values describing buying signals)
 
-Make the leads realistic and varied. Focus on companies that would be active importers or have significant sourcing needs.`;
+CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com, bmwgroup.com, johnsoncontrols.com, caterpillar.com). No invented domains.`;
 
       const response = await getOpenAIClient().chat.completions.create({
         model: "gpt-4o-mini",

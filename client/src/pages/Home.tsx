@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { HeroDashboardMock, DashboardPreviewMock, ReportPreviewMock } from "@/components/home/DashboardMocks";
 import { Button } from "@/components/ui/button";
 import PublicLayout from "@/components/layout/PublicLayout";
@@ -39,6 +40,7 @@ const scaleIn = {
 };
 
 export default function Home() {
+  const { t } = useTranslation();
   const [activeDashboardTab, setActiveDashboardTab] = useState("dashboard");
   const [activePersona, setActivePersona] = useState<Persona>("procurer");
 
@@ -166,10 +168,10 @@ export default function Home() {
                 variants={fadeInUp}
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-heading font-bold tracking-tight text-slate-900 leading-[1.08]"
               >
-                Find Suppliers.
+                {t("hero.title1")}
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600">
-                  Know Costs. Move Fast.
+                  {t("hero.title2")}
                 </span>
               </motion.h1>
               
@@ -190,12 +192,12 @@ export default function Home() {
                       className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-semibold" 
                       data-testid="button-hero-signup"
                     >
-                      Start Free Trial <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
+                      {t("hero.cta")} <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
                     </Button>
                   </Link>
                   <Link href="/landed-cost" className="order-2">
                     <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 text-base rounded-xl border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 font-medium">
-                      Try Free Calculator
+                      {t("hero.calculator")}
                     </Button>
                   </Link>
                 </div>

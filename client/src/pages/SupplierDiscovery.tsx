@@ -286,22 +286,34 @@ function SupplierDetail({
 
               <div className="grid grid-cols-2 gap-4 text-sm">
                 {supplier.employeeCount && (
-                  <div><span className="text-gray-600">Employees:</span> <span className="font-medium text-gray-900">{supplier.employeeCount.toLocaleString()}</span></div>
+                  <div><span className="text-gray-700 font-medium">Employees:</span> <span className="font-medium text-gray-900">{supplier.employeeCount.toLocaleString()}</span></div>
                 )}
                 {supplier.annualRevenue && (
-                  <div><span className="text-gray-600">Revenue:</span> <span className="font-medium text-gray-900">{supplier.annualRevenue}</span></div>
+                  <div><span className="text-gray-700 font-medium">Revenue:</span> <span className="font-medium text-gray-900">{supplier.annualRevenue}</span></div>
                 )}
                 {supplier.responseTime && (
-                  <div><span className="text-gray-600">Response Time:</span> <span className="font-medium text-gray-900">{supplier.responseTime}</span></div>
+                  <div><span className="text-gray-700 font-medium">Response Time:</span> <span className="font-medium text-gray-900">{supplier.responseTime}</span></div>
                 )}
                 {supplier.minOrderValue && (
-                  <div><span className="text-gray-600">Min Order:</span> <span className="font-medium text-gray-900">${supplier.minOrderValue.toLocaleString()}</span></div>
+                  <div><span className="text-gray-700 font-medium">Min Order:</span> <span className="font-medium text-gray-900">${supplier.minOrderValue.toLocaleString()}</span></div>
                 )}
                 {supplier.paymentTerms.length > 0 && (
-                  <div><span className="text-gray-600">Payment:</span> <span className="font-medium text-gray-900">{supplier.paymentTerms.join(", ")}</span></div>
+                  <div><span className="text-gray-700 font-medium">Payment:</span> <span className="font-medium text-gray-900">{supplier.paymentTerms.join(", ")}</span></div>
                 )}
                 {supplier.exportMarkets.length > 0 && (
-                  <div><span className="text-gray-600">Markets:</span> <span className="font-medium text-gray-900">{supplier.exportMarkets.join(", ")}</span></div>
+                  <div><span className="text-gray-700 font-medium">Markets:</span> <span className="font-medium text-gray-900">{supplier.exportMarkets.join(", ")}</span></div>
+                )}
+                {supplier.website && (
+                  <div className="col-span-2"><span className="text-gray-700 font-medium">Website:</span>{" "}
+                    <a
+                      href={supplier.website.startsWith("http") ? supplier.website : `https://${supplier.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-blue-600 hover:text-blue-700 hover:underline break-all"
+                    >
+                      {supplier.website}
+                    </a>
+                  </div>
                 )}
               </div>
 
