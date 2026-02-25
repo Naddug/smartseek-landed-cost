@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -7,11 +7,25 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
+function formatStat(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}K+`;
+  return `${n}+`;
+}
+
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   const { user } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [stats, setStats] = useState<{ suppliers: number; countries: number } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((r) => r.json())
+      .then((d) => setStats({ suppliers: d.suppliers, countries: d.countries }))
+      .catch(() => setStats(null));
+  }, []);
 
   const navLinks = (
     <>
@@ -34,11 +48,15 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="container mx-auto px-4 flex items-center justify-center gap-8 text-xs text-slate-400">
           <span className="hidden sm:inline">{t("trust.strip1")}</span>
           <span className="hidden md:inline">•</span>
-          <span className="hidden md:inline">{t("trust.strip2")}</span>
+          <span className="hidden md:inline">
+            {stats ? `${formatStat(stats.suppliers)} verified suppliers` : t("trust.strip2")}
+          </span>
           <span className="hidden lg:inline">•</span>
           <span className="hidden lg:inline">{t("trust.strip3")}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">{t("trust.strip4")}</span>
+          <span className="hidden lg:inline">
+            {stats ? `${formatStat(stats.countries)} countries` : t("trust.strip4")}
+          </span>
         </div>
       </div>
       )}

@@ -41,7 +41,17 @@ npm run db:push       # Adds dataSource to Drizzle leads table
 | `npm run import:opencorporates` | OpenCorporates API | 5-10K from DE, FR, IN, etc. | Requires API token |
 | `npm run import:trade-gov` | Trade.gov ITA | US exporters | Requires API key (free signup) |
 | `npm run import:generate-leads` | Derived from suppliers | 100K+ B2B leads | Run after supplier imports |
+| `npm run import:pdl` | People Data Labs (Kaggle) | 50-200K global suppliers | **50+ countries, 170+ in dataset** |
 | `npm run import:all` | All of the above | Full pipeline | Deletes non-user-submitted, then imports |
+
+## People Data Labs (PDL) — 50+ Countries
+
+1. Go to https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset
+2. Download the CSV (free, requires Kaggle account)
+3. Place it at `scripts/data-import/pdl-companies.csv`
+4. Run: `npm run import:pdl`
+
+This gives 50-200K manufacturing/industrial companies across 50+ countries (CC BY 4.0).
 
 ## Run Order
 

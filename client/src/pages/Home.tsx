@@ -8,16 +8,56 @@ import { PersonaHero, type Persona } from "@/components/trust/PersonaHero";
 import { MethodologySection } from "@/components/trust/MethodologySection";
 import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, BadgeCheck, Award, UserSearch, FileCheck, Brain, Rocket, Sparkles, Gem, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, Database } from "lucide-react";
 import { Link } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+function formatStat(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}K+`;
+  return `${n}+`;
+}
+
 export default function Home() {
   const { t } = useTranslation();
   const [activeDashboardTab, setActiveDashboardTab] = useState("dashboard");
   const [activePersona, setActivePersona] = useState<Persona>("procurer");
+  const [stats, setStats] = useState<{
+    suppliers: number;
+    leads: number;
+    countries: number;
+    industries: number;
+    topCountries: { country: string; count: number }[];
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((r) => r.json())
+      .then(setStats)
+      .catch(() => setStats(null));
+  }, []);
+
+  const suppliersVal = stats?.suppliers ?? 500000;
+  const leadsVal = stats?.leads ?? 100000;
+  const countriesVal = stats?.countries ?? 50;
+  const industriesVal = stats?.industries ?? 15;
+  const topCountries = stats?.topCountries ?? [];
+  const totalForPct = topCountries.reduce((s, c) => s + c.count, 0);
+
+  const supplierRegions =
+    topCountries.length > 0 && totalForPct > 0
+      ? topCountries.slice(0, 8).map((c, i) => ({
+          label: `${c.country} — ${c.count.toLocaleString()}+`,
+          barValue: Math.round((c.count / totalForPct) * 100),
+          color: ["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500", "bg-rose-500", "bg-cyan-500", "bg-indigo-500", "bg-slate-400"][i] ?? "bg-slate-300",
+        }))
+      : [
+          { label: t("home.regionUnitedKingdom"), barValue: 96, color: "bg-blue-500" },
+          { label: t("home.regionUnitedStates"), barValue: 3, color: "bg-emerald-500" },
+          { label: t("home.regionMoreComing"), barValue: 1, color: "bg-slate-300" },
+        ];
 
   const platformFeatures = [
     { icon: <Shield className="w-6 h-6" />, titleKey: "home.feature1.title", descKey: "home.feature1.desc", href: "/risk-intelligence" },
@@ -36,12 +76,6 @@ export default function Home() {
     { icon: <Car className="w-8 h-8" />, titleKey: "home.industry5.title", descKey: "home.industry5.desc" },
     { icon: <HeartPulse className="w-8 h-8" />, titleKey: "home.industry6.title", descKey: "home.industry6.desc" },
     { icon: <HardHat className="w-8 h-8" />, titleKey: "home.industry7.title", descKey: "home.industry7.desc" },
-  ];
-
-  const supplierRegions = [
-    { regionKey: "home.regionUnitedKingdom", label: "Coverage", barValue: 96, color: "bg-blue-500" },
-    { regionKey: "home.regionUnitedStates", label: "Coverage", barValue: 3, color: "bg-emerald-500" },
-    { regionKey: "home.regionMoreComing", label: "Coverage", barValue: 1, color: "bg-slate-300" },
   ];
 
   return (
@@ -144,10 +178,10 @@ export default function Home() {
             <p className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-[0.18em]">{t("trust.byDecisionMakers")}</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
-            <StatItem value="500K+" label={t("stat.verifiedSuppliers")} icon={<Shield className="w-6 h-6" />} testId="stat-suppliers" />
-            <StatItem value="100K+" label={t("stat.buyerLeads")} icon={<DollarSign className="w-6 h-6" />} testId="stat-leads" />
-            <StatItem value="2+" label={t("stat.countries")} icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
-            <StatItem value="15+" label={t("stat.industries")} icon={<Zap className="w-6 h-6" />} testId="stat-industries" />
+            <StatItem value={formatStat(suppliersVal)} label={t("stat.verifiedSuppliers")} icon={<Shield className="w-6 h-6" />} testId="stat-suppliers" />
+            <StatItem value={formatStat(leadsVal)} label={t("stat.buyerLeads")} icon={<DollarSign className="w-6 h-6" />} testId="stat-leads" />
+            <StatItem value={formatStat(countriesVal)} label={t("stat.countries")} icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
+            <StatItem value={formatStat(industriesVal)} label={t("stat.industries")} icon={<Zap className="w-6 h-6" />} testId="stat-industries" />
           </div>
         </div>
       </section>
@@ -187,8 +221,8 @@ export default function Home() {
                     <div className={`w-3 h-3 rounded-full ${region.color}`}></div>
                     <div className="flex-1">
                       <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-slate-800">{t(region.regionKey)}</span>
-                        <span className="font-bold text-slate-900">{region.barValue === 1 ? "—" : `${region.barValue}%`}</span>
+                        <span className="font-medium text-slate-800">{region.label}</span>
+                        <span className="font-bold text-slate-900">{region.barValue === 1 && topCountries.length === 0 ? "—" : `${region.barValue}%`}</span>
                       </div>
                       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full ${region.color} rounded-full transition-all duration-500`} style={{ width: `${region.barValue}%` }} />

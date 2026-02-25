@@ -4,6 +4,7 @@ dist
 *.zip
 scripts/data-import/*.zip
 scripts/data-import/downloads/*.zip
+*.csv
 scripts/data-import/*.csv
 server/public
 vite.config.ts.*
