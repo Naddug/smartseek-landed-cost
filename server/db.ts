@@ -4,18 +4,10 @@ import * as schema from "@shared/schema";
 
 const { Pool } = pg;
 
-// Allow server to start without PostgreSQL (e.g. when using Prisma/SQLite).
-// Pool connects lazily; Drizzle routes will fail at query time if DB is unavailable.
-const connectionString =
-  process.env.DATABASE_URL || "postgresql://dummy:dummy@localhost:5432/dummy";
-const isDummy =
-  connectionString.includes("localhost:5432/dummy") ||
-  connectionString.startsWith("file:");
-
-if (isDummy) {
-  console.warn(
-    "Drizzle using dummy/local DB — Drizzle routes may fail. Using Prisma/SQLite for Supplier/Lead/RFQ."
-  );
+// DATABASE_URL must be set (e.g. via Railway env vars or .env) — never hardcode credentials.
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is required. Set it in .env or your deployment environment.");
 }
 
 export const pool = new Pool({ connectionString });
