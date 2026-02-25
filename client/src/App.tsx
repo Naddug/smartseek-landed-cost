@@ -80,7 +80,6 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/sample-report" component={SampleReport} />
-      <Route path="/landed-cost" component={LandedCostCalculator} />
       <Route path="/suppliers">
         <PublicLayout><SupplierDiscovery /></PublicLayout>
       </Route>
@@ -130,6 +129,9 @@ function Router() {
       </Route>
       <Route path="/tools">
         <ProtectedRoute component={Tools} />
+      </Route>
+      <Route path="/landed-cost">
+        <ProtectedRoute component={LandedCostCalculator} />
       </Route>
       <Route path="/customs-calculator">
         <ProtectedRoute component={CustomsCalculator} />

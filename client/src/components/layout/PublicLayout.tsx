@@ -39,25 +39,25 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-lg group-hover:scale-105 transition-transform shadow-lg shadow-primary/20">
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm pt-[env(safe-area-inset-top)]">
+        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-base sm:text-lg group-hover:scale-105 transition-transform shadow-lg shadow-primary/20 shrink-0">
               S
             </div>
-            <span className="text-xl font-heading font-bold tracking-tight">SmartSeek</span>
+            <span className="text-lg sm:text-xl font-heading font-bold tracking-tight truncate">SmartSeek</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks}
           </nav>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild className="lg:hidden">
-              <Button variant="ghost" size="icon">
+            <SheetTrigger asChild className="lg:hidden shrink-0">
+              <Button variant="ghost" size="icon" aria-label="Open menu">
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72 flex flex-col gap-4 pt-8">
+            <SheetContent side="right" className="w-[min(85vw,320px)] flex flex-col gap-4 pt-8 pb-[env(safe-area-inset-bottom)]">
               <div className="flex flex-col gap-1">{navLinks}</div>
               <div className="pt-4 border-t border-border">
                 <LanguageSwitcher />
@@ -65,17 +65,17 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </SheetContent>
           </Sheet>
 
-            <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-end">
-            <LanguageSwitcher />
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <div className="hidden sm:block"><LanguageSwitcher /></div>
             {user ? (
-              <Button onClick={() => setLocation('/dashboard')} className="font-medium">{t("nav.dashboard")}</Button>
+              <Button onClick={() => setLocation('/dashboard')} size="sm" className="font-medium text-sm sm:text-base">{t("nav.dashboard")}</Button>
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="ghost" className="font-medium">{t("nav.login")}</Button>
+                  <Button variant="ghost" size="sm" className="font-medium text-sm sm:text-base px-2 sm:px-3">{t("nav.login")}</Button>
                 </Link>
                 <Link href="/signup">
-                  <Button className="font-medium shadow-lg shadow-primary/25">{t("nav.tryFree")}</Button>
+                  <Button size="sm" className="font-medium text-sm sm:text-base shadow-lg shadow-primary/25 px-3 sm:px-4">{t("nav.tryFree")}</Button>
                 </Link>
               </>
             )}
@@ -83,7 +83,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </div>
       </header>
 
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-hidden min-w-0">
         {children}
       </main>
 
@@ -99,13 +99,13 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 {t("footer.tagline")}
               </p>
               <p className="text-xs text-muted-foreground/80 mb-6">{t("footer.designedFor")}</p>
-              <div className="flex gap-2 max-w-xs">
+              <div className="flex flex-col sm:flex-row gap-2 max-w-xs">
                 <input
                   type="email"
                   placeholder={t("footer.newsletterPlaceholder")}
-                  className="flex-1 h-10 px-3 rounded-lg border border-input bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="flex-1 min-w-0 h-10 px-3 rounded-lg border border-input bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 />
-                <Button size="sm" className="shrink-0">{t("footer.subscribe")}</Button>
+                <Button size="sm" className="shrink-0 w-full sm:w-auto">{t("footer.subscribe")}</Button>
               </div>
             </div>
             <div className="md:col-span-2">

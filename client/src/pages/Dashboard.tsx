@@ -88,8 +88,8 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-700 via-slate-600 to-slate-700 p-8 rounded-2xl border border-slate-500/40 shadow-2xl">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-700 via-slate-600 to-slate-700 p-4 sm:p-6 md:p-8 rounded-2xl border border-slate-500/40 shadow-2xl">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         
@@ -107,7 +107,7 @@ export default function Dashboard() {
                 {profile?.role || 'buyer'}
               </Badge>
             </div>
-            <h1 className="text-3xl md:text-4xl font-heading font-bold text-white mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mb-2">
               Command Center
             </h1>
             <p className="text-slate-400 text-lg">

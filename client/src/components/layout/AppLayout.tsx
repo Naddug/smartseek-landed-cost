@@ -37,11 +37,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location === path;
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Mobile menu button */}
+    <div className="min-h-screen bg-background flex min-w-0">
+      {/* Mobile menu button - safe area aware */}
       <button 
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-background border rounded-lg shadow-sm"
+        className="md:hidden fixed z-50 p-2.5 bg-background border rounded-lg shadow-sm top-[max(0.5rem,env(safe-area-inset-top))] left-[max(0.5rem,env(safe-area-inset-left))]"
         onClick={() => setMobileOpen(!mobileOpen)}
+        aria-label={mobileOpen ? "Close menu" : "Open menu"}
       >
         {mobileOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
@@ -118,12 +119,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
-        <header className="h-16 border-b border-slate-600/60 bg-slate-700/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
-          <div className="md:hidden w-10"></div>
-          <h1 className="font-heading font-semibold text-lg capitalize">{location.split('/')[1]?.replace('-', ' ') || 'Dashboard'}</h1>
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-muted-foreground hidden md:block">
+      <div className="flex-1 md:ml-64 flex flex-col min-h-screen min-w-0 w-full">
+        <header className="h-14 sm:h-16 border-b border-slate-600/60 bg-slate-700/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between pt-[env(safe-area-inset-top)]">
+          <div className="md:hidden w-10 shrink-0"></div>
+          <h1 className="font-heading font-semibold text-base sm:text-lg capitalize truncate flex-1 min-w-0 mx-2">{location.split('/')[1]?.replace(/-/g, ' ') || 'Dashboard'}</h1>
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            <div className="text-sm text-muted-foreground hidden md:block truncate max-w-[120px]">
               {user?.firstName || user?.email?.split('@')[0] || 'User'}
             </div>
             {profile?.plan === 'monthly' ? (
@@ -135,7 +136,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             )}
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-8">
+        <main className="flex-1 p-4 md:p-8 overflow-x-hidden min-w-0">
           {children}
         </main>
       </div>

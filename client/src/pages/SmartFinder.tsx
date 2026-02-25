@@ -15,8 +15,18 @@ import {
   Building2, Download,
   AlertTriangle, Star, MapPin, Users, DollarSign, Calculator,
   Landmark, Receipt, Container, Percent, Send, CreditCard, Zap,
-  Camera, X
+  Camera, X, ChevronDown, ChevronUp
 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+const COUNTRIES = [
+  "Any", "China", "United States", "Germany", "United Kingdom", "France", "Japan",
+  "South Korea", "India", "Vietnam", "Thailand", "Indonesia", "Mexico", "Turkey",
+  "Canada", "Australia", "Italy", "Spain", "Brazil", "Poland", "Malaysia", "Singapore",
+  "Taiwan", "United Arab Emirates", "Bangladesh", "Pakistan", "Egypt", "Philippines",
+];
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
@@ -54,6 +64,12 @@ export default function SmartFinder() {
   const [view, setView] = useState<'empty' | 'loading' | 'results'>('empty');
   const [reportId, setReportId] = useState<number | null>(null);
   const [query, setQuery] = useState("");
+  const [originCountry, setOriginCountry] = useState("Any");
+  const [destinationCountry, setDestinationCountry] = useState("United States");
+  const [quantity, setQuantity] = useState("1000");
+  const [budget, setBudget] = useState("");
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [additionalRequirements, setAdditionalRequirements] = useState("");
   const [showCreditsPopup, setShowCreditsPopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -169,19 +185,13 @@ export default function SmartFinder() {
     const formData = {
       productName: searchQuery,
       productDescription: searchQuery,
-      category: "",
-      hsCode: "",
-      quantity: "1000",
-      unitOfMeasure: "pieces",
-      originCountry: "Any",
-      destinationCountry: "United States",
-      preferredIncoterm: "FOB",
-      shippingMethod: "sea",
-      targetLeadTime: "",
-      certifications: [],
-      qualityRequirements: "",
-      packagingRequirements: "",
-      additionalRequirements: ""
+      category: searchQuery,
+      targetRegion: originCountry === "Any" ? "Global" : originCountry,
+      budget: budget || "competitive",
+      quantity: quantity,
+      originCountry,
+      destinationCountry,
+      additionalRequirements: additionalRequirements.trim()
     };
     
     createReport.mutate({
@@ -215,6 +225,11 @@ export default function SmartFinder() {
     setView('empty');
     setReportId(null);
     setQuery("");
+    setOriginCountry("Any");
+    setDestinationCountry("United States");
+    setQuantity("1000");
+    setBudget("");
+    setAdditionalRequirements("");
   };
 
   const exportToPDF = async () => {
@@ -812,7 +827,9 @@ export default function SmartFinder() {
           pdf.text('Platform Fee Comparison:', margin, y);
           y += 5;
           profitAnalysis.platformFees.forEach((platform: any) => {
-            addBulletPoint(`${platform.platform}: ${platform.fee} (Net Profit: ${platform.netProfit})`, primaryColor);
+            const fee = platform.fee || platform.feeStructure || platform.estimatedFees || 'N/A';
+            const net = platform.netProfit || 'N/A';
+            addBulletPoint(`${platform.platform}: ${fee} (Net Profit: ${net})`, primaryColor);
           });
         }
         y += 5;
@@ -823,10 +840,10 @@ export default function SmartFinder() {
         addSectionHeader('📅', 'TIMELINE & LEAD TIMES');
         
         const timelineItems = [
-          { label: 'Production Time', value: timeline.productionTime },
-          { label: 'Shipping Transit', value: timeline.shippingTime },
+          { label: 'Production Time', value: timeline.productionTime ?? timeline.production },
+          { label: 'Shipping Transit', value: timeline.shippingTime ?? timeline.shipping },
           { label: 'Customs Clearance', value: timeline.customsClearance },
-          { label: 'Total Lead Time', value: timeline.totalLeadTime, highlight: true },
+          { label: 'Total Lead Time', value: timeline.totalLeadTime ?? timeline.total, highlight: true },
         ].filter(item => item.value);
         
         timelineItems.forEach((item) => {
@@ -983,7 +1000,7 @@ export default function SmartFinder() {
     }));
 
     return (
-      <Card className="w-full max-w-4xl mx-auto shadow-lg border-0 bg-white">
+      <Card className="w-full max-w-4xl mx-auto shadow-lg border-0 bg-white overflow-hidden">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
@@ -992,7 +1009,7 @@ export default function SmartFinder() {
                 Report Complete
               </Badge>
               <CardTitle className="text-xl">{report.title}</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-slate-600 mt-1">
                 Generated on {format(new Date(report.createdAt), 'MMMM d, yyyy')}
               </p>
             </div>
@@ -1032,12 +1049,13 @@ export default function SmartFinder() {
 
         <CardContent className="pt-0">
           <Tabs defaultValue="summary" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 mb-4">
-              <TabsTrigger value="summary" data-testid="tab-summary">Summary</TabsTrigger>
-              <TabsTrigger value="suppliers" data-testid="tab-suppliers">Suppliers</TabsTrigger>
-              <TabsTrigger value="costs" data-testid="tab-costs">Costs</TabsTrigger>
-              <TabsTrigger value="customs" data-testid="tab-customs">Customs</TabsTrigger>
-              <TabsTrigger value="risks" data-testid="tab-risks">Risk</TabsTrigger>
+            <TabsList className="flex w-full overflow-x-auto flex-nowrap gap-1 p-1 mb-4 h-auto [&::-webkit-scrollbar]:hidden">
+              <TabsTrigger value="summary" data-testid="tab-summary" className="shrink-0">Summary</TabsTrigger>
+              <TabsTrigger value="countries" data-testid="tab-countries" className="shrink-0">Countries</TabsTrigger>
+              <TabsTrigger value="suppliers" data-testid="tab-suppliers" className="shrink-0">Suppliers</TabsTrigger>
+              <TabsTrigger value="costs" data-testid="tab-costs" className="shrink-0">Costs</TabsTrigger>
+              <TabsTrigger value="customs" data-testid="tab-customs" className="shrink-0">Customs</TabsTrigger>
+              <TabsTrigger value="risks" data-testid="tab-risks" className="shrink-0">Risk</TabsTrigger>
             </TabsList>
 
             <TabsContent value="summary" className="space-y-4">
@@ -1046,7 +1064,7 @@ export default function SmartFinder() {
                   <FileText className="w-4 h-4 text-blue-600" />
                   Executive Summary
                 </h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{reportData?.executiveSummary || 'No summary available.'}</p>
+                <p className="text-sm text-slate-700 leading-relaxed">{reportData?.executiveSummary || 'No summary available.'}</p>
               </div>
 
               {productClass && (
@@ -1057,20 +1075,20 @@ export default function SmartFinder() {
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div>
-                      <div className="text-xs text-muted-foreground">HS Code</div>
+                      <div className="text-xs text-slate-600">HS Code</div>
                       <div className="font-mono font-bold text-primary">{productClass.hsCode}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-muted-foreground">Tariff Chapter</div>
-                      <div className="font-medium text-sm">{productClass.tariffChapter}</div>
+                      <div className="text-xs text-slate-600">Tariff Chapter</div>
+                      <div className="font-medium text-sm text-slate-800">{productClass.tariffChapter}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-muted-foreground">Category</div>
-                      <div className="font-medium text-sm">{productClass.productCategory}</div>
+                      <div className="text-xs text-slate-600">Category</div>
+                      <div className="font-medium text-sm text-slate-800">{productClass.productCategory}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-muted-foreground">Description</div>
-                      <div className="font-medium text-sm truncate">{productClass.hsCodeDescription?.slice(0, 40)}...</div>
+                      <div className="text-xs text-slate-600">Description</div>
+                      <div className="font-medium text-sm text-slate-800 truncate">{productClass.hsCodeDescription?.slice(0, 40)}...</div>
                     </div>
                   </div>
                 </div>
@@ -1091,6 +1109,102 @@ export default function SmartFinder() {
                     ))}
                   </ul>
                 </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="countries" className="space-y-4">
+              {reportData?.marketOverview && typeof reportData.marketOverview === 'object' && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                  <h4 className="font-semibold flex items-center gap-2 mb-3 text-slate-800">
+                    <Globe className="w-4 h-4 text-blue-600" />
+                    Market Overview
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700">
+                    <div>
+                      <span className="text-xs font-medium text-slate-600">Market Size</span>
+                      <p className="text-sm font-medium">{reportData.marketOverview.marketSize || 'N/A'}</p>
+                    </div>
+                    <div>
+                      <span className="text-xs font-medium text-slate-600">Growth Rate</span>
+                      <p className="text-sm font-medium">{reportData.marketOverview.growthRate || 'N/A'}</p>
+                    </div>
+                    {reportData.marketOverview.keyTrends?.length > 0 && (
+                      <div className="md:col-span-2">
+                        <span className="text-xs font-medium text-slate-600">Key Trends</span>
+                        <ul className="mt-1 space-y-1">
+                          {reportData.marketOverview.keyTrends.map((t: string, i: number) => (
+                            <li key={i} className="text-sm flex items-center gap-2">
+                              <CheckCircle className="w-3 h-3 text-green-500 shrink-0" />
+                              {t}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {reportData.marketOverview.majorExporters?.length > 0 && (
+                      <div>
+                        <span className="text-xs font-medium text-slate-600">Major Exporters</span>
+                        <p className="text-sm">{reportData.marketOverview.majorExporters.join(', ')}</p>
+                      </div>
+                    )}
+                    {reportData.marketOverview.majorImporters?.length > 0 && (
+                      <div>
+                        <span className="text-xs font-medium text-slate-600">Major Importers</span>
+                        <p className="text-sm">{reportData.marketOverview.majorImporters.join(', ')}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {reportData?.supplierAnalysis?.topRegions?.length > 0 ? (
+                <div className="space-y-3">
+                  <h4 className="font-semibold flex items-center gap-2 text-slate-800">
+                    <MapPin className="w-4 h-4 text-primary" />
+                    Country & Region Analysis
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {reportData.supplierAnalysis.topRegions.map((region: any, i: number) => (
+                      <div key={i} className="p-4 rounded-lg border border-gray-200 bg-white">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-bold text-slate-800">{region.region}</span>
+                          <Badge variant="outline" className="text-xs text-slate-700">{region.avgPriceRange || 'N/A'}</Badge>
+                        </div>
+                        {region.advantages?.length > 0 && (
+                          <div className="mb-2">
+                            <span className="text-xs font-medium text-slate-600">Advantages</span>
+                            <ul className="mt-1 space-y-0.5">
+                              {region.advantages.map((a: string, j: number) => (
+                                <li key={j} className="text-sm text-slate-700 flex items-start gap-1">
+                                  <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 shrink-0" />
+                                  {a}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {region.considerations?.length > 0 && (
+                          <div>
+                            <span className="text-xs font-medium text-slate-600">Considerations</span>
+                            <ul className="mt-1 space-y-0.5">
+                              {region.considerations.map((c: string, j: number) => (
+                                <li key={j} className="text-sm text-slate-700 flex items-start gap-1">
+                                  <AlertTriangle className="w-3 h-3 text-amber-500 mt-0.5 shrink-0" />
+                                  {c}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                !reportData?.marketOverview || typeof reportData.marketOverview !== 'object' ? (
+                  <div className="text-center py-6 text-slate-600">
+                    No country or region analysis available for this report.
+                  </div>
+                ) : null
               )}
             </TabsContent>
 
@@ -1127,7 +1241,7 @@ export default function SmartFinder() {
                           <Building2 className="w-5 h-5 text-primary" />
                           <div>
                             <h4 className="font-bold">{seller.sellerName}</h4>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-2 text-xs text-slate-600">
                               <MapPin className="w-3 h-3" />
                               {seller.location}
                               <Badge variant="outline" className="text-xs">{seller.platform}</Badge>
@@ -1137,19 +1251,19 @@ export default function SmartFinder() {
                         
                         <div className="grid grid-cols-4 gap-3 mt-3">
                           <div>
-                            <div className="text-xs text-muted-foreground">Unit Price</div>
+                            <div className="text-xs text-slate-600">Unit Price</div>
                             <div className="font-bold text-primary">{seller.unitPrice}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-muted-foreground">MOQ</div>
+                            <div className="text-xs text-slate-600">MOQ</div>
                             <div className="font-medium text-sm">{seller.moq}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-muted-foreground">Lead Time</div>
+                            <div className="text-xs text-slate-600">Lead Time</div>
                             <div className="font-medium text-sm">{seller.leadTime}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-muted-foreground">Rating</div>
+                            <div className="text-xs text-slate-600">Rating</div>
                             <div className="flex items-center gap-1">
                               <Star className="w-3 h-3 text-amber-500 fill-current" />
                               <span className="font-medium text-sm">{seller.rating}</span>
@@ -1171,11 +1285,11 @@ export default function SmartFinder() {
 
                       <div className="lg:w-48 space-y-2 p-3 bg-gray-100 rounded-lg text-sm">
                         <div className="flex justify-between">
-                          <span className="text-muted-foreground">Est. Profit</span>
+                          <span className="text-slate-600">Est. Profit</span>
                           <span className="font-bold text-green-600">{seller.estimatedProfit || 'N/A'}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-muted-foreground">Margin</span>
+                          <span className="text-slate-600">Margin</span>
                           <span className="font-bold text-green-600">{seller.profitMargin || 'N/A'}</span>
                         </div>
                       </div>
@@ -1183,7 +1297,7 @@ export default function SmartFinder() {
                   </div>
                 ))}
                 {sellers.length === 0 && (
-                  <div className="text-center py-6 text-muted-foreground">
+                  <div className="text-center py-6 text-slate-600">
                     No suppliers found for this product.
                   </div>
                 )}
@@ -1242,15 +1356,15 @@ export default function SmartFinder() {
               {profitAnalysis && (
                 <div className="grid grid-cols-3 gap-3 mt-4">
                   <div className="p-3 bg-green-50 rounded-lg text-center border border-green-100">
-                    <div className="text-xs text-muted-foreground">Retail Price</div>
+                    <div className="text-xs text-slate-600">Retail Price</div>
                     <div className="text-lg font-bold text-green-600">{profitAnalysis.recommendedRetailPrice}</div>
                   </div>
                   <div className="p-3 bg-blue-50 rounded-lg text-center border border-blue-100">
-                    <div className="text-xs text-muted-foreground">Est. Profit/Unit</div>
+                    <div className="text-xs text-slate-600">Est. Profit/Unit</div>
                     <div className="text-lg font-bold text-blue-600">{profitAnalysis.estimatedProfit}</div>
                   </div>
                   <div className="p-3 bg-purple-50 rounded-lg text-center border border-purple-100">
-                    <div className="text-xs text-muted-foreground">Break-Even Qty</div>
+                    <div className="text-xs text-slate-600">Break-Even Qty</div>
                     <div className="text-lg font-bold text-purple-600">{profitAnalysis.breakEvenQuantity}</div>
                   </div>
                 </div>
@@ -1260,6 +1374,7 @@ export default function SmartFinder() {
             <TabsContent value="customs" className="space-y-4">
               {customsData?.customsFees && (
                 <>
+                  <div className="overflow-x-auto -mx-2 sm:mx-0">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -1292,6 +1407,7 @@ export default function SmartFinder() {
                       </TableRow>
                     </TableBody>
                   </Table>
+                  </div>
 
                   {customsData.tradeAgreements && (
                     <div className="p-3 bg-green-50 rounded-lg border border-green-100">
@@ -1347,7 +1463,7 @@ export default function SmartFinder() {
                           </Badge>
                         </div>
                         <Progress value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75} className="h-1.5 mb-2" />
-                        <p className="text-xs text-muted-foreground">{risk.mitigation}</p>
+                        <p className="text-xs text-slate-600">{risk.mitigation}</p>
                       </div>
                     ))}
                   </div>
@@ -1360,7 +1476,7 @@ export default function SmartFinder() {
                     <Globe className="w-4 h-4 text-primary" />
                     Market Overview
                   </h4>
-                  <p className="text-sm text-muted-foreground">{reportData.marketOverview}</p>
+                  <p className="text-sm text-slate-600">{reportData.marketOverview}</p>
                 </div>
               )}
             </TabsContent>
@@ -1429,7 +1545,7 @@ export default function SmartFinder() {
             
             <div>
               <h3 className="text-xl font-semibold mb-1">Generating Intelligence Report</h3>
-              <p className="text-sm text-muted-foreground">AI is analyzing markets, customs duties, and supplier data</p>
+              <p className="text-sm text-slate-600">AI is analyzing markets, customs duties, and supplier data</p>
             </div>
             
             <div className="w-full space-y-3">
@@ -1450,7 +1566,7 @@ export default function SmartFinder() {
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                       isActive ? 'bg-primary text-white animate-pulse' :
                       isCompleted ? 'bg-green-500 text-white' :
-                      'bg-muted text-muted-foreground'
+                      'bg-muted text-slate-600'
                     }`}>
                       {isCompleted ? (
                         <CheckCircle className="w-5 h-5" />
@@ -1463,7 +1579,7 @@ export default function SmartFinder() {
                     <span className={`text-sm font-medium transition-colors duration-300 ${
                       isActive ? 'text-primary' :
                       isCompleted ? 'text-green-700' :
-                      'text-muted-foreground'
+                      'text-slate-600'
                     }`}>
                       {step.label}
                       {isActive && <span className="animate-pulse">...</span>}
@@ -1479,14 +1595,14 @@ export default function SmartFinder() {
             </div>
             
             <div className="w-full">
-              <div className="flex justify-between text-xs text-muted-foreground mb-2">
+              <div className="flex justify-between text-xs text-slate-600 mb-2">
                 <span>Progress</span>
                 <span>{Math.round(loadingProgress)}%</span>
               </div>
               <Progress value={loadingProgress} className="h-2" />
             </div>
             
-            <p className="text-xs text-muted-foreground">This usually takes 20-40 seconds</p>
+            <p className="text-xs text-slate-600">This usually takes 20-40 seconds</p>
           </div>
         </CardContent>
       </Card>
@@ -1499,7 +1615,7 @@ export default function SmartFinder() {
       <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
         What are you sourcing today?
       </h1>
-      <p className="text-muted-foreground mb-8 max-w-md">
+      <p className="text-slate-600 mb-8 max-w-md">
         Describe the product you want to source and get a comprehensive report with suppliers, costs, and customs analysis.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl">
@@ -1518,9 +1634,9 @@ export default function SmartFinder() {
   );
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] bg-gray-50/50">
-      <div className="border-b bg-white p-4">
-        <div className="max-w-3xl mx-auto">
+    <div className="flex flex-col min-h-[calc(100vh-80px)] bg-gray-50/50 min-w-0">
+      <div className="border-b bg-white p-3 sm:p-4 shrink-0">
+        <div className="max-w-3xl mx-auto w-full min-w-0">
           {imagePreview && (
             <div className="mb-3 relative inline-block">
               <img 
@@ -1538,53 +1654,123 @@ export default function SmartFinder() {
               </button>
             </div>
           )}
-          <div className="relative flex items-end gap-2">
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageSelect}
-              accept="image/*"
-              className="hidden"
-              data-testid="input-image-upload"
-            />
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={() => fileInputRef.current?.click()}
-              className="h-[52px] w-12 rounded-xl border-gray-300 shadow-sm hover:border-primary"
-              disabled={view === 'loading'}
-              data-testid="button-upload-image"
-            >
-              <Camera className="w-5 h-5 text-muted-foreground" />
-            </Button>
-            <div className="flex-1 relative">
-              <Textarea
-                ref={textareaRef}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={selectedImage ? "Analyzing image..." : "What product are you sourcing?"}
-                className="min-h-[52px] max-h-32 resize-none pr-12 rounded-xl border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
-                rows={1}
-                data-testid="input-search-query"
+          <div className="space-y-3">
+            <div className="relative flex items-end gap-2">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+                accept="image/*"
+                className="hidden"
+                data-testid="input-image-upload"
               />
               <Button
-                onClick={() => handleSubmit()}
-                disabled={(!query.trim() && !selectedImage) || view === 'loading'}
+                type="button"
+                variant="outline"
                 size="icon"
-                className="absolute right-2 bottom-2 h-8 w-8 rounded-lg"
-                data-testid="button-submit-search"
+                onClick={() => fileInputRef.current?.click()}
+                className="h-[52px] w-12 rounded-xl border-gray-300 shadow-sm hover:border-primary"
+                disabled={view === 'loading'}
+                data-testid="button-upload-image"
               >
-                {view === 'loading' || isAnalyzingImage ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Sparkles className="w-4 h-4" />
-                )}
+                <Camera className="w-5 h-5 text-slate-600" />
               </Button>
+              <div className="flex-1 relative">
+                <Textarea
+                  ref={textareaRef}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={selectedImage ? "Analyzing image..." : "What product are you sourcing?"}
+                  className="min-h-[52px] max-h-32 resize-none pr-12 rounded-xl border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+                  rows={1}
+                  data-testid="input-search-query"
+                />
+                <Button
+                  onClick={() => handleSubmit()}
+                  disabled={(!query.trim() && !selectedImage) || view === 'loading'}
+                  size="icon"
+                  className="absolute right-2 bottom-2 h-8 w-8 rounded-lg"
+                  data-testid="button-submit-search"
+                >
+                  {view === 'loading' || isAnalyzingImage ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="w-4 h-4" />
+                  )}
+                </Button>
+              </div>
             </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full min-w-0">
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-slate-700">Origin</Label>
+                <Select value={originCountry} onValueChange={setOriginCountry}>
+                  <SelectTrigger className="h-9 text-sm text-slate-800">
+                    <SelectValue placeholder="Origin country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COUNTRIES.map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-slate-700">Destination</Label>
+                <Select value={destinationCountry} onValueChange={setDestinationCountry}>
+                  <SelectTrigger className="h-9 text-sm text-slate-800">
+                    <SelectValue placeholder="Destination" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COUNTRIES.filter((c) => c !== "Any").map((c) => (
+                      <SelectItem key={c} value={c}>{c}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-slate-700">Quantity</Label>
+                <Input
+                  type="text"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  placeholder="e.g. 1000"
+                  className="h-9 text-sm text-slate-800"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs font-medium text-slate-700">Budget (optional)</Label>
+                <Input
+                  type="text"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  placeholder="e.g. $5/unit"
+                  className="h-9 text-sm text-slate-800"
+                />
+              </div>
+            </div>
+            {showAdvanced && (
+              <div className="space-y-1 pt-2 border-t">
+                <Label className="text-xs font-medium text-slate-700">Additional requirements</Label>
+                <Textarea
+                  value={additionalRequirements}
+                  onChange={(e) => setAdditionalRequirements(e.target.value)}
+                  placeholder="e.g. ISO certified, MOQ under 500, FOB terms..."
+                  className="min-h-[60px] text-sm text-slate-800"
+                  rows={2}
+                />
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="flex items-center gap-1 text-xs text-slate-600 hover:text-slate-800"
+            >
+              {showAdvanced ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {showAdvanced ? "Hide" : "Show"} advanced filters
+            </button>
           </div>
-          <p className="text-xs text-center text-muted-foreground mt-2">
+          <p className="text-xs text-center text-slate-600 mt-2">
             {selectedImage ? "Click the sparkle button to analyze image" : "Press Enter to search • Upload an image or type • Uses 1 credit per report"}
           </p>
         </div>
@@ -1635,7 +1821,7 @@ export default function SmartFinder() {
                 </div>
                 <div>
                   <h4 className="font-semibold">Monthly Plan - $80/month</h4>
-                  <p className="text-sm text-muted-foreground">10 credits refreshed every month</p>
+                  <p className="text-sm text-slate-600">10 credits refreshed every month</p>
                 </div>
               </div>
             </div>
@@ -1646,7 +1832,7 @@ export default function SmartFinder() {
                 </div>
                 <div>
                   <h4 className="font-semibold">Pay-as-you-go</h4>
-                  <p className="text-sm text-muted-foreground">$10 per credit - never expires</p>
+                  <p className="text-sm text-slate-600">$10 per credit - never expires</p>
                 </div>
               </div>
             </div>

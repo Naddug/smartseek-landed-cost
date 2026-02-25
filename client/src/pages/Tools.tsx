@@ -66,16 +66,16 @@ const tools = [
 
 export default function Tools() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 min-w-0">
       <div>
         <h1 className="text-3xl font-heading font-bold mb-2">Trade Tools & Calculators</h1>
-        <p className="text-muted-foreground">
+        <p className="text-slate-600">
           Professional tools to help you make smarter sourcing and trading decisions
         </p>
       </div>
 
       {/* Featured Tools */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {tools.map((tool) => (
           <Link key={tool.href + tool.title} href={tool.href}>
             <Card className="h-full hover:shadow-lg transition-all cursor-pointer group border-2 hover:border-primary/50" data-testid={`card-tool-${tool.title.toLowerCase().replace(/\s+/g, '-')}`}>
@@ -137,19 +137,19 @@ export default function Tools() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
               <div className="text-3xl font-bold text-primary">200+</div>
-              <div className="text-sm text-muted-foreground">Countries Covered</div>
+              <div className="text-sm text-slate-600">Countries Covered</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-primary">10,000+</div>
-              <div className="text-sm text-muted-foreground">HS Codes</div>
+              <div className="text-sm text-slate-600">HS Codes</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-primary">50+</div>
-              <div className="text-sm text-muted-foreground">Shipping Routes</div>
+              <div className="text-sm text-slate-600">Shipping Routes</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-primary">Real-time</div>
-              <div className="text-sm text-muted-foreground">Rate Updates</div>
+              <div className="text-sm text-slate-600">Rate Updates</div>
             </div>
           </div>
         </CardContent>
@@ -197,11 +197,11 @@ function LandedCostCalculator() {
 
         <div className="bg-muted p-6 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <div className="text-sm text-muted-foreground mb-1">Total Landed Cost</div>
+            <div className="text-sm text-slate-600 mb-1">Total Landed Cost</div>
             <div className="text-3xl font-bold" data-testid="text-total-cost">${totalCost.toFixed(2)}</div>
           </div>
           <div>
-            <div className="text-sm text-muted-foreground mb-1">Cost Per Unit</div>
+            <div className="text-sm text-slate-600 mb-1">Cost Per Unit</div>
             <div className="text-3xl font-bold text-primary" data-testid="text-cost-per-unit">${costPerUnit.toFixed(2)}</div>
           </div>
         </div>
@@ -245,11 +245,11 @@ function MarginCalculator() {
 
         <div className="bg-muted p-6 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <div className="text-sm text-muted-foreground mb-1">Profit Per Unit</div>
+            <div className="text-sm text-slate-600 mb-1">Profit Per Unit</div>
             <div className="text-3xl font-bold text-green-600" data-testid="text-profit">${profit.toFixed(2)}</div>
           </div>
           <div>
-            <div className="text-sm text-muted-foreground mb-1">Gross Margin</div>
+            <div className="text-sm text-slate-600 mb-1">Gross Margin</div>
             <div className="text-3xl font-bold" data-testid="text-margin">{margin.toFixed(1)}%</div>
           </div>
         </div>

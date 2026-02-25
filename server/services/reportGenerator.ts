@@ -148,16 +148,19 @@ export async function generateSmartFinderReport(
       ? formData.originCountry
       : "any suitable global sourcing location";
   const destinationCountry = formData.destinationCountry || "United States";
+  const budgetStr = formData.budget && !/^(competitive|any|flexible)$/i.test(formData.budget)
+    ? `Target Budget: ${formData.budget} per unit`
+    : "Target Budget: Competitive / flexible";
 
-  const prompt = `You are a professional international trade and sourcing consultant with expertise in customs, tariffs, and global supply chains. Generate a comprehensive professional sourcing report in JSON format.
+  const prompt = `You are a professional international trade and sourcing consultant with expertise in customs, tariffs, and global supply chains. Generate a comprehensive, data-rich sourcing report in JSON format that provides maximum actionable intelligence for procurers and sellers.
 
 Product: ${formData.productName || formData.category}
 Category: ${formData.category}
 Origin Country: ${originCountry} (If 'any suitable global sourcing location' is specified, identify and recommend the top 3-5 most competitive global regions/countries for this specific product)
 Destination Country: ${destinationCountry}
-Target Budget: $${formData.budget} per unit
+${budgetStr}
 Quantity: ${formData.quantity} units
-${formData.additionalRequirements ? `Requirements: ${formData.additionalRequirements}` : ''}
+${formData.additionalRequirements ? `Additional Requirements: ${formData.additionalRequirements}` : ''}
 
 Generate a detailed professional report with the following structure (return ONLY valid JSON):
 
@@ -171,11 +174,11 @@ Generate a detailed professional report with the following structure (return ONL
     "regulatoryRequirements": ["FDA approval", "CE marking", etc.]
   },
   "marketOverview": {
-    "marketSize": "Global market size in USD",
-    "growthRate": "Annual growth rate",
-    "keyTrends": ["trend 1", "trend 2", "trend 3"],
-    "majorExporters": ["country 1", "country 2"],
-    "majorImporters": ["country 1", "country 2"]
+    "marketSize": "Specific global market size in USD (e.g. $45B in 2024)",
+    "growthRate": "Annual growth rate with timeframe (e.g. 8.2% CAGR 2024-2030)",
+    "keyTrends": ["5-6 specific trends: sustainability, nearshoring, automation, tariffs, demand shifts"],
+    "majorExporters": ["Top 5 exporting countries with approximate share if known"],
+    "majorImporters": ["Top 5 importing countries with approximate share if known"]
   },
   "customsAnalysis": {
     "originCountry": "${originCountry}",
@@ -233,10 +236,10 @@ Generate a detailed professional report with the following structure (return ONL
   "supplierAnalysis": {
     "topRegions": [
       {
-        "region": "Region, Country",
-        "advantages": ["Lower labor costs", "Specialized manufacturing"],
-        "considerations": ["Longer lead times", "Communication barriers"],
-        "avgPriceRange": "$X - $Y per unit"
+        "region": "Specific region/country (e.g. Guangdong, China or Vietnam)",
+        "advantages": ["3-4 concrete advantages: labor cost, specialization, infrastructure, trade agreements"],
+        "considerations": ["2-3 considerations: lead time, quality variance, payment terms, logistics"],
+        "avgPriceRange": "Specific price range per unit (e.g. $2.50 - $4.20)"
       }
     ],
     "recommendedSuppliers": [
@@ -298,12 +301,15 @@ Generate a detailed professional report with the following structure (return ONL
   ]
 }
 
-IMPORTANT:
-- Use realistic HS codes for this product category
-- Calculate realistic customs duties based on current tariff rates
-- Include 4-5 seller comparisons with different price points
-- Show actual profit calculations
-- Be specific with all numbers and percentages`;
+IMPORTANT - Provide maximum value for procurers and sellers:
+- Use realistic 6-digit HS codes for this exact product category
+- Calculate customs duties based on current tariff rates for origin→destination
+- Include 4-5 seller comparisons with varied price points, MOQs, and lead times
+- topRegions: ALWAYS provide 3-5 regions when origin is "any"; include specific price ranges and trade-offs
+- marketOverview: Include concrete market size, growth rate, and 5+ key trends
+- All monetary values: use realistic numbers (e.g. $X.XX, $X,XXX)
+- Be specific with percentages, lead times (days), and quantities
+- recommendations and nextSteps: 4-5 actionable items each`;
 
   try {
     console.log(
