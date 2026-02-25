@@ -29,13 +29,13 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       {/* Top bar - Trust strip (IndexBox-style) */}
       <div className="bg-slate-900/95 border-b border-slate-700/50 py-2">
         <div className="container mx-auto px-4 flex items-center justify-center gap-8 text-xs text-slate-400">
-          <span className="hidden sm:inline">Trusted by sourcing teams worldwide</span>
+          <span className="hidden sm:inline">{t("trust.strip1")}</span>
           <span className="hidden md:inline">•</span>
-          <span className="hidden md:inline">100,000+ verified suppliers</span>
+          <span className="hidden md:inline">{t("trust.strip2")}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">Mining & minerals</span>
+          <span className="hidden lg:inline">{t("trust.strip3")}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">24+ countries</span>
+          <span className="hidden lg:inline">{t("trust.strip4")}</span>
         </div>
       </div>
 
@@ -102,40 +102,40 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <div className="flex gap-2 max-w-xs">
                 <input
                   type="email"
-                  placeholder="Get sourcing insights"
+                  placeholder={t("footer.newsletterPlaceholder")}
                   className="flex-1 h-10 px-3 rounded-lg border border-input bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 />
-                <Button size="sm" className="shrink-0">Subscribe</Button>
+                <Button size="sm" className="shrink-0">{t("footer.subscribe")}</Button>
               </div>
             </div>
             <div className="md:col-span-2">
-              <h4 className="font-semibold text-sm mb-4">Platform</h4>
+              <h4 className="font-semibold text-sm mb-4">{t("footer.platform")}</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
-                <li><Link href="/faq" className="hover:text-foreground transition-colors">FAQ</Link></li>
-                <li><Link href="/suppliers" className="hover:text-foreground transition-colors">Supplier Directory</Link></li>
-                <li><Link href="/smart-finder" className="hover:text-foreground transition-colors">SmartSeek AI</Link></li>
-                <li><Link href="/landed-cost" className="hover:text-foreground transition-colors">Landed Cost</Link></li>
-                <li><Link href="/integrations" className="hover:text-foreground transition-colors">Integrations</Link></li>
+                <li><Link href="/pricing" className="hover:text-foreground transition-colors">{t("footer.pricing")}</Link></li>
+                <li><Link href="/faq" className="hover:text-foreground transition-colors">{t("footer.faq")}</Link></li>
+                <li><Link href="/suppliers" className="hover:text-foreground transition-colors">{t("footer.supplierDirectory")}</Link></li>
+                <li><Link href="/smart-finder" className="hover:text-foreground transition-colors">{t("footer.smartSeekAI")}</Link></li>
+                <li><Link href="/landed-cost" className="hover:text-foreground transition-colors">{t("footer.landedCost")}</Link></li>
+                <li><Link href="/integrations" className="hover:text-foreground transition-colors">{t("footer.integrations")}</Link></li>
               </ul>
             </div>
             <div className="md:col-span-2">
-              <h4 className="font-semibold text-sm mb-4">Company</h4>
+              <h4 className="font-semibold text-sm mb-4">{t("footer.company")}</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/about" className="hover:text-foreground transition-colors">About</Link></li>
-                <li><Link href="/contact" className="hover:text-foreground transition-colors">Contact</Link></li>
+                <li><Link href="/about" className="hover:text-foreground transition-colors">{t("footer.about")}</Link></li>
+                <li><Link href="/contact" className="hover:text-foreground transition-colors">{t("footer.contact")}</Link></li>
               </ul>
             </div>
             <div className="md:col-span-2">
-              <h4 className="font-semibold text-sm mb-4">Legal</h4>
+              <h4 className="font-semibold text-sm mb-4">{t("footer.legal")}</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link></li>
-                <li><Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link></li>
+                <li><Link href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</Link></li>
+                <li><Link href="/terms" className="hover:text-foreground transition-colors">{t("footer.terms")}</Link></li>
               </ul>
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} SmartSeek. All rights reserved.
+            © {new Date().getFullYear()} SmartSeek. {t("footer.copyright")}.
           </div>
         </div>
       </footer>

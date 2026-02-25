@@ -32,8 +32,13 @@ const allowlist = [
   "zod-validation-error",
 ];
 
+import { execSync } from "child_process";
+
 async function buildAll() {
   await rm("dist", { recursive: true, force: true });
+
+  console.log("generating Prisma client...");
+  execSync("npx prisma generate", { stdio: "inherit" });
 
   console.log("building client...");
   await viteBuild();

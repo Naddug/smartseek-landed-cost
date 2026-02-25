@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
 import { IntegrationLogos, INTEGRATIONS } from "@/components/integrations/IntegrationLogos";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ const SLUG_TO_PROVIDER: Record<string, string> = {
 };
 
 export default function Integrations() {
+  const { t } = useTranslation();
   const [location] = useLocation();
   const { user } = useStore();
   const [connections, setConnections] = useState<{ provider: string; connected: boolean; configured: boolean }[]>([]);
@@ -67,13 +69,13 @@ export default function Integrations() {
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
                 <Plug className="w-6 h-6 text-white" />
               </div>
-              <span className="text-white/80 font-medium">Integrations</span>
+              <span className="text-white/80 font-medium">{t("nav.integrations")}</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-              Connect SmartSeek with Your Stack
+              {t("integrationsPage.title")}
             </h1>
             <p className="text-slate-300 text-lg max-w-2xl">
-              Sync suppliers, RFQs, and landed costs with your procurement and ERP systems. One-click OAuth, secure API, and pre-built connectors.
+              {t("integrationsPage.subtitle")}
             </p>
           </div>
         </section>
@@ -81,16 +83,16 @@ export default function Integrations() {
         {showConnected && (
           <div className="container mx-auto px-4 -mt-4 relative z-10">
             <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 text-emerald-800 text-sm font-medium">
-              ✓ Integration connected successfully.
+              ✓ {t("integrationsPage.connectedSuccess")}
             </div>
           </div>
         )}
 
         <section className="py-16 bg-slate-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-heading font-bold text-slate-900 mb-2 text-center">Supported Integrations</h2>
+            <h2 className="text-2xl font-heading font-bold text-slate-900 mb-2 text-center">{t("integrationsPage.supported")}</h2>
             <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
-              Connect your existing procurement tools. Data stays in sync automatically.
+              {t("integrationsPage.supportedDesc")}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {INTEGRATIONS.map((int) => (
@@ -105,7 +107,7 @@ export default function Integrations() {
                   {user ? (
                     isConnected(int.slug) ? (
                       <span className="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                        <Check className="w-3 h-3" /> Connected
+                        <Check className="w-3 h-3" /> {t("integrationsPage.connected")}
                       </span>
                     ) : (
                       <div className="w-full space-y-1">
@@ -119,18 +121,18 @@ export default function Integrations() {
                           {connecting === int.slug ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
                           ) : (
-                            "Connect"
+                            t("integrationsPage.connect")
                           )}
                         </Button>
                         {!isConfigured(int.slug) && (
-                          <p className="text-[10px] text-slate-500 text-center">OAuth credentials required</p>
+                          <p className="text-[10px] text-slate-500 text-center">{t("integrationsPage.oauthRequired")}</p>
                         )}
                       </div>
                     )
                   ) : (
                     <Link href="/signup">
                       <Button size="sm" variant="outline" className="w-full">
-                        Sign in to connect
+                        {t("integrationsPage.signInToConnect")}
                       </Button>
                     </Link>
                   )}
@@ -147,27 +149,27 @@ export default function Integrations() {
 
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 max-w-4xl">
-            <h2 className="text-2xl font-heading font-bold text-slate-900 mb-8">How it works</h2>
+            <h2 className="text-2xl font-heading font-bold text-slate-900 mb-8">{t("integrationsPage.howItWorks")}</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0">1</div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">Choose your platform</h3>
-                  <p className="text-slate-600 text-sm">Select SAP Ariba, Oracle, Salesforce, or others from the list.</p>
+                  <h3 className="font-semibold text-slate-900 mb-1">{t("integrationsPage.step1Title")}</h3>
+                  <p className="text-slate-600 text-sm">{t("integrationsPage.step1Desc")}</p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0">2</div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">Authorize securely</h3>
-                  <p className="text-slate-600 text-sm">OAuth 2.0 flow—no passwords shared. Enterprise SSO supported.</p>
+                  <h3 className="font-semibold text-slate-900 mb-1">{t("integrationsPage.step2Title")}</h3>
+                  <p className="text-slate-600 text-sm">{t("integrationsPage.step2Desc")}</p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0">3</div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">Sync automatically</h3>
-                  <p className="text-slate-600 text-sm">Suppliers, RFQs, and cost data flow between systems in real time.</p>
+                  <h3 className="font-semibold text-slate-900 mb-1">{t("integrationsPage.step3Title")}</h3>
+                  <p className="text-slate-600 text-sm">{t("integrationsPage.step3Desc")}</p>
                 </div>
               </div>
             </div>
@@ -182,13 +184,13 @@ export default function Integrations() {
                   <Shield className="w-6 h-6 text-emerald-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900">Enterprise-grade security</h3>
-                  <p className="text-slate-600 text-sm">SOC 2 certified. Data encrypted in transit and at rest. No credentials stored.</p>
+                  <h3 className="font-semibold text-slate-900">{t("integrationsPage.securityTitle")}</h3>
+                  <p className="text-slate-600 text-sm">{t("integrationsPage.securityDesc")}</p>
                 </div>
               </div>
               <Link href="/signup">
                 <Button size="lg" className="gap-2">
-                  Get Started <ArrowRight className="w-4 h-4" />
+                  {t("integrationsPage.getStarted")} <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
             </div>
@@ -197,7 +199,7 @@ export default function Integrations() {
 
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl font-heading font-bold text-slate-900 mb-6 text-center">All supported platforms</h2>
+            <h2 className="text-2xl font-heading font-bold text-slate-900 mb-6 text-center">{t("integrationsPage.allPlatforms")}</h2>
             <div className="flex flex-wrap justify-center gap-6">
               {INTEGRATIONS.map((int) => (
                 <div key={int.slug} className="flex items-center gap-3 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200">
