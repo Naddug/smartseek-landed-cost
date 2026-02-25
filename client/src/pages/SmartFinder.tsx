@@ -1787,10 +1787,11 @@ export default function SmartFinder() {
                 variant="outline" 
                 size="sm" 
                 onClick={handleNewSearch}
+                className="shrink-0"
                 data-testid="button-new-search"
               >
-                <Sparkles className="w-4 h-4 mr-2" />
-                New Search
+                <Sparkles className="w-4 h-4 mr-2 shrink-0" />
+                <span className="whitespace-nowrap">New Search</span>
               </Button>
             </div>
           )}

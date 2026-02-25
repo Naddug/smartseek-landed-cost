@@ -1788,17 +1788,38 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
             yearEstablished: true,
             employeeCount: true,
             annualRevenue: true,
+            dataSource: true,
+            registryUrl: true,
+            registryId: true,
+            sicCode: true,
+            contactVerified: true,
           },
         }),
         prisma.supplier.count({ where }),
       ]);
 
-      // Parse JSON string fields for response
-      const parsed = suppliers.map((s: { products: string; certifications: string | null } & Record<string, unknown>) => ({
-        ...s,
-        products: JSON.parse(s.products),
-        certifications: s.certifications ? JSON.parse(s.certifications) : [],
-      }));
+      // Parse JSON string fields for response (defensive: handle invalid/missing data)
+      const parsed = suppliers.map((s: { products: string | null; certifications: string | null } & Record<string, unknown>) => {
+        let products: string[] = [];
+        let certifications: string[] = [];
+        try {
+          if (s.products && typeof s.products === "string") {
+            products = JSON.parse(s.products);
+            if (!Array.isArray(products)) products = [];
+          }
+        } catch {
+          products = [];
+        }
+        try {
+          if (s.certifications && typeof s.certifications === "string") {
+            certifications = JSON.parse(s.certifications);
+            if (!Array.isArray(certifications)) certifications = [];
+          }
+        } catch {
+          certifications = [];
+        }
+        return { ...s, products, certifications };
+      });
 
       res.json({
         suppliers: parsed,
@@ -1852,12 +1873,22 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         return res.status(404).json({ error: "Supplier not found" });
       }
 
+      const safeParse = (val: string | null, fallback: unknown) => {
+        if (!val || typeof val !== "string") return fallback;
+        try {
+          const parsed = JSON.parse(val);
+          return Array.isArray(parsed) ? parsed : fallback;
+        } catch {
+          return fallback;
+        }
+      };
+
       res.json({
         ...supplier,
-        products: JSON.parse(supplier.products),
-        certifications: supplier.certifications ? JSON.parse(supplier.certifications) : [],
-        paymentTerms: supplier.paymentTerms ? JSON.parse(supplier.paymentTerms) : [],
-        exportMarkets: supplier.exportMarkets ? JSON.parse(supplier.exportMarkets) : [],
+        products: safeParse(supplier.products, []),
+        certifications: safeParse(supplier.certifications, []),
+        paymentTerms: safeParse(supplier.paymentTerms, []),
+        exportMarkets: safeParse(supplier.exportMarkets, []),
       });
     } catch (error) {
       console.error("GET /api/suppliers/:slug error:", error);

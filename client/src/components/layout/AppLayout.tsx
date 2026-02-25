@@ -36,6 +36,28 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const isActive = (path: string) => location === path;
 
+  const getPageTitle = (path: string) => {
+    const slug = path.split('/')[1] || 'dashboard';
+    const titles: Record<string, string> = {
+      dashboard: 'Dashboard',
+      'smart-finder': 'SmartSeek AI',
+      'ai-agent': 'AI Agent',
+      'find-leads': 'Find Leads',
+      suppliers: 'Suppliers',
+      reports: 'Reports',
+      billing: 'Billing',
+      'trade-data': 'Trade Data',
+      'landed-cost': 'Landed Cost',
+      'customs-calculator': 'Customs',
+      'shipping-estimator': 'Shipping',
+      'risk-intelligence': 'Risk',
+      compliance: 'Compliance',
+      tools: 'Tools',
+      admin: 'Admin',
+    };
+    return titles[slug] || slug.replace(/-/g, ' ');
+  };
+
   return (
     <div className="min-h-screen bg-background flex min-w-0">
       {/* Mobile menu button - safe area aware */}
@@ -122,7 +144,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen min-w-0 w-full">
         <header className="h-14 sm:h-16 border-b border-slate-600/60 bg-slate-700/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between pt-[env(safe-area-inset-top)]">
           <div className="md:hidden w-10 shrink-0"></div>
-          <h1 className="font-heading font-semibold text-base sm:text-lg capitalize truncate flex-1 min-w-0 mx-2">{location.split('/')[1]?.replace(/-/g, ' ') || 'Dashboard'}</h1>
+          <h1 className="font-heading font-semibold text-base sm:text-lg capitalize flex-1 min-w-0 mx-2 overflow-hidden text-ellipsis whitespace-nowrap">{getPageTitle(location)}</h1>
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <div className="text-sm text-muted-foreground hidden md:block truncate max-w-[120px]">
               {user?.firstName || user?.email?.split('@')[0] || 'User'}

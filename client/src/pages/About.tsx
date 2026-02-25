@@ -87,7 +87,7 @@ export default function About() {
 
       <section className="py-16 bg-white border-t border-slate-200">
         <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-slate-500 mb-8">Trusted by 10,000+ users worldwide</p>
+          <p className="text-center text-sm text-slate-500 mb-8">Trusted by sourcing teams worldwide</p>
           <TrustBadges />
         </div>
       </section>

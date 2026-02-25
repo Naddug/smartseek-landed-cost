@@ -45,9 +45,9 @@ export function PersonaHero({ active, onSelect }: PersonaHeroProps) {
           </button>
         ))}
       </div>
-      <div className="space-y-2">
-        <h3 className="text-xl md:text-2xl font-bold text-slate-900">{t(keys.headlineKey)}</h3>
-        <p className="text-slate-600 max-w-xl">{t(keys.sublineKey)}</p>
+      <div className="space-y-2 min-w-0">
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 break-words">{t(keys.headlineKey)}</h3>
+        <p className="text-slate-600 max-w-xl break-words">{t(keys.sublineKey)}</p>
       </div>
     </div>
   );

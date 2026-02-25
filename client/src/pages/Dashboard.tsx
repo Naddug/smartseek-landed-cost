@@ -116,9 +116,9 @@ export default function Dashboard() {
           </div>
           <div className="flex gap-3">
             <Link href="/smart-finder">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-500/25 border-0 text-white font-semibold" data-testid="button-new-search">
-                <Sparkles className="mr-2 h-5 w-5" />
-                New AI Search
+              <Button size="lg" className="shrink-0 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-500/25 border-0 text-white font-semibold" data-testid="button-new-search">
+                <Sparkles className="mr-2 h-5 w-5 shrink-0" />
+                <span className="whitespace-nowrap">New AI Search</span>
               </Button>
             </Link>
           </div>
@@ -417,7 +417,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-slate-400 text-sm mb-4">Search and connect with 100,000+ verified global suppliers across 24+ countries.</p>
+            <p className="text-slate-400 text-sm mb-4">Search and connect with verified global suppliers across 24+ countries.</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
               {["Electronics", "Textiles", "Machinery", "Chemicals", "Food & Agriculture"].map((industry) => (
                 <Link key={industry} href={`/suppliers?industry=${encodeURIComponent(industry)}`}>

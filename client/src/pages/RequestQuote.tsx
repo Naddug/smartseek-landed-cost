@@ -105,7 +105,7 @@ export default function RequestQuote() {
         </div>
         <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
         <p className="text-blue-100 mb-2">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
-        <p className="text-blue-200/90 text-sm">No account required • Quotes within 1–3 business days • 100,000+ verified suppliers</p>
+        <p className="text-blue-200/90 text-sm">No account required • Quotes within 1–3 business days • Verified suppliers across 24+ countries</p>
       </div>
     </div>
   );

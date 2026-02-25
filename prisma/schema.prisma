@@ -153,6 +153,11 @@ model Supplier {
   paymentTerms    String?
   exportMarkets   String?
   logoUrl         String?
+  dataSource      String?  @map("data_source") @default("SmartSeek Directory")
+  registryUrl     String?  @map("registry_url")
+  registryId      String?  @map("registry_id")
+  sicCode         String?  @map("sic_code")
+  contactVerified Boolean  @default(false) @map("contact_verified")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

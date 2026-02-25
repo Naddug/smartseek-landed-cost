@@ -1,6 +1,10 @@
 node_modules
 dist
 .DS_Store
+*.zip
+scripts/data-import/*.zip
+scripts/data-import/downloads/*.zip
+scripts/data-import/*.csv
 server/public
 vite.config.ts.*
 *.tar.gz

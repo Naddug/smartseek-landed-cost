@@ -82,7 +82,7 @@ export default function Pricing() {
           <div className="container mx-auto px-4 relative z-10 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6">
               <Shield className="w-4 h-4" />
-              Trusted by 50K+ procurers • SOC 2 certified
+              Trusted by procurers worldwide • Enterprise security
             </div>
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
               Simple, Transparent Pricing

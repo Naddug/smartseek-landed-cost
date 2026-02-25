@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+set timeout 300
+spawn npx drizzle-kit push --force
+# Match "Is X table" prompts and send Enter to accept default (create table)
+expect {
+    -re "Is .+ table created or renamed" {
+        send "\r"
+        exp_continue
+    }
+    "Changes applied" {
+        exit 0
+    }
+    eof {
+        exit 0
+    }
+    timeout {
+        exit 0
+    }
+}

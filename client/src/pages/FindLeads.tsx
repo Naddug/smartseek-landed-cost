@@ -166,7 +166,7 @@ export default function FindLeads() {
           </div>
           <div>
             <h1 className="text-2xl font-heading font-bold text-white">Find Buyer Leads</h1>
-            <p className="text-slate-400">Discover qualified buyer contacts with AI-powered lead intelligence</p>
+            <p className="text-slate-400 break-words">Discover qualified buyer contacts with AI-powered lead intelligence</p>
           </div>
         </div>
       </div>

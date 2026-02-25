@@ -4,7 +4,6 @@ import { Link, useLocation } from "wouter";
 import { IntegrationLogos, INTEGRATIONS } from "@/components/integrations/IntegrationLogos";
 import { Button } from "@/components/ui/button";
 import { Plug, Check, ArrowRight, Shield, Loader2 } from "lucide-react";
-import PublicLayout from "@/components/layout/PublicLayout";
 import { useStore } from "@/lib/store";
 
 const SLUG_TO_PROVIDER: Record<string, string> = {
@@ -60,8 +59,7 @@ export default function Integrations() {
   const showConnected = location.includes("connected=1");
 
   return (
-    <PublicLayout>
-      <div className="min-h-screen">
+    <div className="min-h-screen">
         <section className="relative overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-blue-900 py-20">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px] opacity-20" />
           <div className="container mx-auto px-4 relative z-10">
@@ -212,6 +210,5 @@ export default function Integrations() {
           </div>
         </section>
       </div>
-    </PublicLayout>
   );
 }

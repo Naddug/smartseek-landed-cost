@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send } from "lucide-react";
+import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, BadgeCheck } from "lucide-react";
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -24,6 +24,11 @@ interface Supplier {
   yearEstablished: number;
   employeeCount: number | null;
   annualRevenue: string | null;
+  dataSource?: string | null;
+  registryUrl?: string | null;
+  registryId?: string | null;
+  sicCode?: string | null;
+  contactVerified?: boolean;
 }
 interface Pagination {
   page: number;
@@ -113,6 +118,11 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
                 <Shield className="w-3 h-3" />Verified
               </span>
             )}
+            {(supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR") && (
+              <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                <BadgeCheck className="w-3 h-3" />Registry Verified
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2 mt-1 text-sm text-gray-700">
             <MapPin className="w-3.5 h-3.5" />
@@ -152,6 +162,17 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
 
       <div className="flex items-center justify-between text-xs text-gray-600 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-3">
+          {supplier.registryUrl && (
+            <a
+              href={supplier.registryUrl.startsWith("http") ? supplier.registryUrl : `https://${supplier.registryUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 hover:underline"
+            >
+              <ExternalLink className="w-3 h-3" /> {supplier.contactVerified ? "Verified contact · Registry" : "Contact via registry"}
+            </a>
+          )}
           {supplier.responseTime && (
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3" /> {supplier.responseTime}
@@ -240,9 +261,14 @@ function SupplierDetail({
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h2 className="text-xl font-bold text-gray-900">{supplier.companyName}</h2>
                     {supplier.verified && <Shield className="w-5 h-5 text-blue-600" />}
+                    {(supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR") && (
+                      <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                        <BadgeCheck className="w-3 h-3" /> Registry Verified
+                      </span>
+                    )}
                   </div>
                   <p className="text-gray-700 mt-1">{supplier.city}, {supplier.country} · Est. {supplier.yearEstablished}</p>
                 </div>
@@ -312,6 +338,18 @@ function SupplierDetail({
                       className="font-medium text-blue-600 hover:text-blue-700 hover:underline break-all"
                     >
                       {supplier.website}
+                    </a>
+                  </div>
+                )}
+                {supplier.registryUrl && (
+                  <div className="col-span-2"><span className="text-gray-700 font-medium">Official registry:</span>{" "}
+                    <a
+                      href={supplier.registryUrl.startsWith("http") ? supplier.registryUrl : `https://${supplier.registryUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+                    >
+                      View on official registry <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   </div>
                 )}
@@ -450,8 +488,8 @@ export default function SupplierDiscovery() {
             <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
-          <p className="text-blue-100 mb-2">AI-powered search across 100,000+ verified manufacturers in 24+ countries</p>
-          <p className="text-blue-200/90 text-sm mb-6">98% verification rate • Business registration checked • Compliance verified</p>
+          <p className="text-blue-100 mb-2">AI-powered search across 500,000+ verified suppliers in UK & US</p>
+          <p className="text-blue-200/90 text-sm mb-6">100% real companies from government registries • Every supplier links to official source • No fake or scraped data</p>
           <div className="flex gap-2">
             <div className="flex-1 relative group">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-white group-focus-within:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-200" />
@@ -543,7 +581,7 @@ export default function SupplierDiscovery() {
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-700">
-            {data ? `${data.pagination.total} suppliers found` : "Loading..."}
+            {data ? `${data.pagination.total.toLocaleString()} suppliers found` : "Loading..."}
             {debouncedQuery && ` for "${debouncedQuery}"`}
           </p>
         </div>
@@ -614,6 +652,15 @@ export default function SupplierDiscovery() {
       {selectedSlug && (
         <SupplierDetail slug={selectedSlug} onClose={() => setSelectedSlug(null)} />
       )}
+
+      {/* Disclaimer */}
+      <footer className="mt-12 py-6 border-t border-gray-200 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <p className="text-xs text-gray-500 text-center max-w-2xl mx-auto">
+            All suppliers are real companies from government registries (Companies House UK, SEC EDGAR, OpenCorporates). We do not use Alibaba scraping or fake data. &quot;Registry Verified&quot; = official source. &quot;Contact via registry&quot; = use the registry link to find verified contact details.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

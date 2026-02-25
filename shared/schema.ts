@@ -159,6 +159,7 @@ export const leads = pgTable("leads", {
   aiSummary: text("ai_summary"),
   intentSignals: jsonb("intent_signals"),
   verifiedAt: timestamp("verified_at"),
+  dataSource: text("data_source").default("SmartSeek Directory"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
