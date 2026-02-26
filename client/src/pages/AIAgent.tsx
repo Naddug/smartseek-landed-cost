@@ -183,7 +183,7 @@ export default function AIAgent() {
         credentials: "include",
         body: JSON.stringify({
           task: "prepare_call",
-          query: `Generate a ${settings.phoneScriptTone} phone call script for reaching out to ${lead.name}, ${lead.title} at ${lead.company} in the ${lead.industry} industry. Include talking points, objection handling, and a clear call-to-action.`,
+          query: `Generate a ${settings.phoneScriptTone || "professional"} phone call script for reaching out to ${lead.name}, ${lead.title} at ${lead.company} in the ${lead.industry} industry. Include talking points, objection handling, and a clear call-to-action.`,
           context: { settings, lead },
         }),
       });
@@ -222,7 +222,7 @@ export default function AIAgent() {
         credentials: "include",
         body: JSON.stringify({
           task: "prepare_email",
-          query: `Draft a ${settings.emailTemplate} outreach email for ${lead.name}, ${lead.title} at ${lead.company} in the ${lead.industry} industry. Use signature: ${settings.emailSignature}`,
+          query: `Draft a ${settings.emailTemplate || "formal"} outreach email for ${lead.name}, ${lead.title} at ${lead.company} in the ${lead.industry} industry. Use signature: ${settings.emailSignature || "Best regards"}`,
           context: { settings, lead },
         }),
       });
@@ -308,9 +308,9 @@ export default function AIAgent() {
           targetIndustries: settings.targetIndustries,
           topN: 3,
           settings: {
-            phoneScriptTone: settings.phoneScriptTone,
-            emailTemplate: settings.emailTemplate,
-            emailSignature: settings.emailSignature,
+            phoneScriptTone: settings.phoneScriptTone || "professional",
+            emailTemplate: settings.emailTemplate || "formal",
+            emailSignature: settings.emailSignature || "Best regards",
           },
         }),
       });

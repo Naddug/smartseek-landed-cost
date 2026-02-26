@@ -126,9 +126,14 @@ export default function SmartFinder() {
           setView('results');
         } else if (latestReport?.status === 'failed') {
           const errData = (latestReport?.reportData as any)?.error;
-          const msg = errData?.includes("API key") 
-            ? "AI service not configured. Please contact support." 
-            : "Report generation failed. Please try again.";
+          let msg = "Report generation failed. Please try again.";
+          if (typeof errData === "string") {
+            if (errData.includes("API key") || errData.includes("OPENAI")) {
+              msg = "AI service not configured. Set OPENAI_API_KEY in your environment.";
+            } else if (errData.length < 120) {
+              msg = errData;
+            }
+          }
           toast.error(msg);
           setView('empty');
           setReportId(null);
@@ -1068,6 +1073,15 @@ export default function SmartFinder() {
               <TabsTrigger value="customs" data-testid="tab-customs" className="shrink-0">Customs</TabsTrigger>
               <TabsTrigger value="risks" data-testid="tab-risks" className="shrink-0">Risk</TabsTrigger>
             </TabsList>
+
+            {reportData?.metadata?.warnings?.length > 0 && (
+              <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                <div className="text-sm text-amber-800">
+                  <span className="font-medium">Note:</span> {reportData.metadata.warnings.join(" ")}
+                </div>
+              </div>
+            )}
 
             <TabsContent value="summary" className="space-y-4">
               <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">

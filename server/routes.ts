@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { db } from "./db";
-import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema, creditTransactions, processedStripeEvents, userProfiles, leads } from "@shared/schema";
+import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlistSchema, creditTransactions, processedStripeEvents, userProfiles, leads, reports } from "@shared/schema";
 import { eq, sql, desc } from "drizzle-orm";
 import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
@@ -71,6 +71,43 @@ export async function registerRoutes(
       console.error("Freight rates error:", error);
       res.status(500).json({ error: "Failed to fetch freight rates" });
     }
+  });
+
+  // Diagnostic: verify OpenAI + report setup (for debugging report failures)
+  app.get("/api/health/report-setup", async (_req: Request, res: Response) => {
+    const checks: Record<string, { ok: boolean; message: string }> = {};
+    try {
+      const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
+      checks.openaiKey = apiKey
+        ? { ok: true, message: "Configured" }
+        : { ok: false, message: "Missing OPENAI_API_KEY" };
+
+      if (apiKey) {
+        try {
+          const client = getOpenAIClient();
+          const r = await client.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [{ role: "user", content: "Say OK" }],
+            max_tokens: 5,
+          });
+          checks.openaiCall = r.choices[0]?.message?.content
+            ? { ok: true, message: "API responds" }
+            : { ok: false, message: "Empty response" };
+        } catch (e: any) {
+          checks.openaiCall = { ok: false, message: e?.message || String(e) };
+        }
+      }
+
+      try {
+        await db.select().from(reports).limit(1);
+        checks.reportsTable = { ok: true, message: "Exists" };
+      } catch (e: any) {
+        checks.reportsTable = { ok: false, message: e?.message || "Run npm run db:push" };
+      }
+    } catch (e: any) {
+      checks.error = { ok: false, message: e?.message || String(e) };
+    }
+    res.json(checks);
   });
 
   // User info endpoint
@@ -235,6 +272,7 @@ IMPORTANT: Return your response as a JSON object with this exact structure:
 Generate 10-15 realistic leads matching the criteria. Include realistic contact details.`,
         
         prepare_call: `You are an expert B2B sales call preparation specialist with 15+ years of experience.
+IMPORTANT: Use the exact tone specified in the user's message (e.g. professional, friendly, or direct).
 Create a highly effective, conversational phone call script tailored to the specific lead and industry.
 Structure your response clearly with these sections:
 1. OPENING HOOK - A brief, relevant attention-grabber (reference their company, industry trend, or recent news if applicable)
@@ -247,13 +285,14 @@ Structure your response clearly with these sections:
 Keep it natural and conversational. Adapt tone to the lead's seniority and industry.`,
         
         prepare_email: `You are an expert B2B email copywriter specializing in cold outreach that gets replies.
+IMPORTANT: Use the exact email template style (formal/casual/sales) and signature provided in the user's message.
 Draft a compelling, highly personalized outreach email. Use this structure:
 1. SUBJECT LINE - Create 2 options: one curiosity-driven, one value-driven (max 50 chars each)
 2. OPENING - Personalized hook (reference their role, company, or industry—show you've researched)
 3. VALUE PROPOSITION - One clear benefit in 1-2 sentences (outcome-focused, not feature-focused)
 4. SOCIAL PROOF - One credible stat or proof point
 5. CALL TO ACTION - Single, specific ask (one meeting, one call—not multiple options)
-6. SIGN-OFF - Brief, professional closing
+6. SIGN-OFF - Use the exact signature the user provided (e.g. "Best regards, Your Name")
 Keep total email under 150 words. Avoid buzzwords. Sound human, not salesy.`,
         
         research_company: `You are a business intelligence research analyst.
@@ -465,12 +504,16 @@ Provide helpful, accurate, and actionable information.`
           });
         })
         .catch(async (error) => {
-          const errMsg = error?.message || "Unknown error";
-          console.error("Report generation failed:", errMsg);
-          await storage.updateReport(report.id, {
-            status: "failed",
-            reportData: { error: errMsg, failedAt: new Date().toISOString() },
-          });
+          const errMsg = error?.message || String(error) || "Unknown error";
+          console.error("Report generation failed:", errMsg, error);
+          try {
+            await storage.updateReport(report.id, {
+              status: "failed",
+              reportData: { error: errMsg, failedAt: new Date().toISOString() },
+            });
+          } catch (updateErr) {
+            console.error("Failed to update report status:", updateErr);
+          }
         });
       
       res.status(201).json(report);
