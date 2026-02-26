@@ -26,6 +26,30 @@ async function runDrizzlePush() {
     console.log("Drizzle schema push completed");
   } catch (e) {
     console.warn("Drizzle push failed (non-fatal):", (e as Error)?.message ?? e);
+    // Fallback: create reports table directly if drizzle-kit failed
+    await ensureReportsTable();
+  }
+}
+
+/** Create reports table if missing (fallback when drizzle-kit push fails) */
+async function ensureReportsTable() {
+  try {
+    const { pool } = await import("./db");
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS reports (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR NOT NULL,
+        title TEXT NOT NULL,
+        category TEXT NOT NULL,
+        status VARCHAR DEFAULT 'completed' NOT NULL,
+        form_data JSONB NOT NULL,
+        report_data JSONB,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      )
+    `);
+    console.log("Reports table ensured");
+  } catch (e) {
+    console.warn("ensureReportsTable failed:", (e as Error)?.message ?? e);
   }
 }
 const httpServer = createServer(app);
@@ -184,6 +208,10 @@ app.use((req, res, next) => {
 (async () => {
   // Run Drizzle migrations on Railway (fixes ECONNRESET — runs from Railway network)
   await runDrizzlePush();
+  // Ensure reports table exists (fallback when drizzle-kit push fails or is skipped)
+  if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("localhost")) {
+    await ensureReportsTable();
+  }
   // Initialize Stripe on startup
   await initStripe();
   
