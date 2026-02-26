@@ -46,9 +46,8 @@ Ensure these are set in your deployment environment:
 ### ECONNRESET (DB connection reset)
 If deploy logs show `read ECONNRESET` from session store or Stripe:
 1. **STRIPE_SKIP_INIT=true** — skips Stripe init (billing disabled)
-2. **USE_MEMORY_SESSION=true** — uses in-memory sessions instead of PostgreSQL (sessions reset on deploy; fixes session store ECONNRESET)
+2. **Railway:** Memory session is used automatically when DATABASE_URL contains `railway` or `rlwy.net` — no env var needed. Remove USE_MEMORY_SESSION if it causes "secret not found" build error.
 3. **DATABASE_URL** — add `?connection_limit=5` to reduce pool size
-4. **Railway:** Ensure app and Postgres are in same project; try internal URL `postgres.railway.internal` if available
 
 ### Health check
 - `GET /api/health` returns `{ ok: true }` — use for deploy verification (no DB required)

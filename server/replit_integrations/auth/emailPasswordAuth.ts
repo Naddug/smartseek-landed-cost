@@ -20,11 +20,18 @@ function isDummyOrSqliteDb(): boolean {
   );
 }
 
+function useMemorySessionStore(): boolean {
+  if (isDummyOrSqliteDb()) return true;
+  if (process.env.USE_MEMORY_SESSION === "true") return true;
+  // Railway Postgres often has ECONNRESET with pg session store — use memory by default
+  const url = process.env.DATABASE_URL || "";
+  if (url.includes("railway") || url.includes("rlwy.net")) return true;
+  return false;
+}
+
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  // USE_MEMORY_SESSION=true bypasses PostgreSQL for sessions (fixes ECONNRESET when DB unreachable)
-  const useMemoryStore =
-    process.env.USE_MEMORY_SESSION === "true" || isDummyOrSqliteDb();
+  const useMemoryStore = useMemorySessionStore();
   const isDev = process.env.NODE_ENV !== "production";
 
   const sessionStore = useMemoryStore
