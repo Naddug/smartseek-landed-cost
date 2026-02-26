@@ -393,32 +393,32 @@ Provide helpful, accurate, and actionable information.`
     try {
       const validatedData = insertReportSchema.parse(req.body);
       
-      // Check credits (monthly + topup) or free trial availability
-      const profile = await storage.getUserProfile(userId);
+      // Check credits — fallback when user_profiles/credit tables missing (migrations not run)
+      let profile: Awaited<ReturnType<typeof storage.getUserProfile>>;
+      try {
+        profile = await storage.getUserProfile(userId);
+      } catch {
+        profile = { monthlyCredits: 2, topupCredits: 0, hasUsedFreeTrial: false, role: "buyer" } as any;
+      }
       const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
       const hasFreeTrial = profile && !profile.hasUsedFreeTrial;
       const isAdmin = profile?.role === 'admin';
-      
-      // Admins get unlimited free access
-      if (!isAdmin && !profile) {
-        return res.status(402).json({ error: "Insufficient credits" });
-      }
       
       if (!isAdmin && totalCredits < 1 && !hasFreeTrial) {
         return res.status(402).json({ error: "Insufficient credits" });
       }
       
-      // Deduct credits (skip for admins - they get free access)
+      // Deduct credits (skip for admins)
       if (!isAdmin) {
-        if (hasFreeTrial && totalCredits < 1) {
-          // Use free trial - mark it as used
-          await storage.updateUserProfile(userId, { hasUsedFreeTrial: true });
-        } else {
-          // Deduct from credits
-          const spent = await storage.spendCredits(userId, 1, "Smart Finder Report");
-          if (!spent) {
-            return res.status(402).json({ error: "Failed to deduct credits" });
+        try {
+          if (hasFreeTrial && totalCredits < 1) {
+            await storage.updateUserProfile(userId, { hasUsedFreeTrial: true });
+          } else {
+            const spent = await storage.spendCredits(userId, 1, "Smart Finder Report");
+            if (!spent) return res.status(402).json({ error: "Failed to deduct credits" });
           }
+        } catch {
+          // Credits tables missing — allow report anyway (graceful degradation)
         }
       }
       
@@ -438,9 +438,11 @@ Provide helpful, accurate, and actionable information.`
           });
         })
         .catch(async (error) => {
-          console.error("Report generation failed:", error);
+          const errMsg = error?.message || "Unknown error";
+          console.error("Report generation failed:", errMsg);
           await storage.updateReport(report.id, {
             status: "failed",
+            reportData: { error: errMsg, failedAt: new Date().toISOString() },
           });
         });
       

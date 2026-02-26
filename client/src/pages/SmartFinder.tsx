@@ -125,8 +125,13 @@ export default function SmartFinder() {
         if (latestReport?.status === 'completed') {
           setView('results');
         } else if (latestReport?.status === 'failed') {
-          toast.error("Report generation failed. Please try again.");
+          const errData = (latestReport?.reportData as any)?.error;
+          const msg = errData?.includes("API key") 
+            ? "AI service not configured. Please contact support." 
+            : "Report generation failed. Please try again.";
+          toast.error(msg);
           setView('empty');
+          setReportId(null);
         }
       } catch (error) {
         console.error("Error polling report:", error);
@@ -207,8 +212,10 @@ export default function SmartFinder() {
         setReportId(data.id);
         setQuery("");
       },
-      onError: () => {
+      onError: (err: Error) => {
         setView('empty');
+        const msg = err?.message || "Failed to start report";
+        toast.error(msg.includes("402") ? "Insufficient credits. Please upgrade or buy more credits." : msg);
       }
     });
   };

@@ -423,7 +423,7 @@ export default function AIAgent() {
                 <h1 className="text-2xl font-bold text-slate-100" data-testid="text-page-title">
                   {settings.agentName}
                 </h1>
-                <p className="text-slate-400 text-sm">AI-powered sales assistant</p>
+                <p className="text-slate-400 text-sm">Multi-agent: Prospector → Enricher → Outreach</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -432,6 +432,16 @@ export default function AIAgent() {
                 {isLoading ? "Processing..." : "Ready"}
               </span>
             </div>
+          </div>
+
+          {/* Workflow steps - simple visual */}
+          <div className="flex items-center gap-2 py-2 px-4 rounded-lg bg-slate-700/30 border border-slate-600/50">
+            <span className="text-xs font-medium text-slate-400">Workflow:</span>
+            <span className="text-xs text-slate-300">1. Search leads</span>
+            <span className="text-slate-500">→</span>
+            <span className="text-xs text-slate-300">2. Prepare call or email</span>
+            <span className="text-slate-500">→</span>
+            <span className="text-xs text-slate-300">3. Research company</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -445,8 +455,8 @@ export default function AIAgent() {
                   <div className="p-3 rounded-xl bg-slate-500/30 border border-slate-400/30">
                     <Search className="w-6 h-6 text-slate-200" />
                   </div>
-                  <h3 className="font-semibold text-slate-100">Search Leads</h3>
-                  <p className="text-sm text-slate-400">Find business owners & decision makers</p>
+                  <h3 className="font-semibold text-slate-100">1. Prospector</h3>
+                  <p className="text-sm text-slate-400">Find leads by criteria</p>
                 </div>
               </CardContent>
             </Card>
@@ -455,7 +465,7 @@ export default function AIAgent() {
               className={`bg-slate-600/40 border-slate-500/40 hover:bg-slate-600/60 hover:border-slate-400/50 transition-all cursor-pointer`}
               onClick={() => {
                 if (leads.length === 0) {
-                  toast.error("Search for leads first, then use Prepare Phone Call or Prepare Email from the results table.");
+                  toast.error("Search for leads first.");
                   document.getElementById("search-input")?.focus();
                 } else {
                   handlePrepareCall(leads[0]);
@@ -468,8 +478,8 @@ export default function AIAgent() {
                   <div className="p-3 rounded-xl bg-slate-500/30 border border-slate-400/30">
                     <Phone className="w-6 h-6 text-slate-200" />
                   </div>
-                  <h3 className="font-semibold text-slate-100">Prepare Phone Call</h3>
-                  <p className="text-sm text-slate-400">Generate call scripts with talking points</p>
+                  <h3 className="font-semibold text-slate-100">2. Prepare Call</h3>
+                  <p className="text-sm text-slate-400">Script + talking points</p>
                 </div>
               </CardContent>
             </Card>
@@ -478,7 +488,7 @@ export default function AIAgent() {
               className={`bg-slate-600/40 border-slate-500/40 hover:bg-slate-600/60 hover:border-slate-400/50 transition-all cursor-pointer`}
               onClick={() => {
                 if (leads.length === 0) {
-                  toast.error("Search for leads first, then use Prepare Phone Call or Prepare Email from the results table.");
+                  toast.error("Search for leads first.");
                   document.getElementById("search-input")?.focus();
                 } else {
                   handlePrepareEmail(leads[0]);
@@ -491,8 +501,8 @@ export default function AIAgent() {
                   <div className="p-3 rounded-xl bg-slate-500/30 border border-slate-400/30">
                     <Mail className="w-6 h-6 text-slate-200" />
                   </div>
-                  <h3 className="font-semibold text-slate-100">Prepare Email</h3>
-                  <p className="text-sm text-slate-400">Draft professional outreach emails</p>
+                  <h3 className="font-semibold text-slate-100">2. Prepare Email</h3>
+                  <p className="text-sm text-slate-400">Personalized outreach draft</p>
                 </div>
               </CardContent>
             </Card>
@@ -507,8 +517,8 @@ export default function AIAgent() {
                   <div className="p-3 rounded-xl bg-slate-500/30 border border-slate-400/30">
                     <Building2 className="w-6 h-6 text-slate-200" />
                   </div>
-                  <h3 className="font-semibold text-slate-100">Research Company</h3>
-                  <p className="text-sm text-slate-400">Deep dive on a specific company</p>
+                  <h3 className="font-semibold text-slate-100">3. Enricher</h3>
+                  <p className="text-sm text-slate-400">Company research & insights</p>
                 </div>
               </CardContent>
             </Card>
