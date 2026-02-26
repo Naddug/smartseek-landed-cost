@@ -7,7 +7,7 @@
     "dev:client": "vite dev --port 5000",
     "dev": "NODE_ENV=development tsx server/index.ts",
     "build": "tsx script/build.ts",
-    "start": "NODE_ENV=production node dist/index.cjs",
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
     "db:push": "drizzle-kit push",
     "db:push:auto": "expect scripts/drizzle-push.exp",
@@ -26,8 +26,11 @@
     "import:generate-leads": "tsx scripts/data-import/generate-leads-from-suppliers.ts",
     "import:fix-sic": "tsx scripts/data-import/fix-sic-mapping.ts",
     "import:pdl": "tsx scripts/data-import/import-pdl-dataset.ts",
+    "import:all-suppliers": "tsx scripts/data-import/import-all-suppliers.ts",
+    "import:all-suppliers-29m": "PDL_IMPORT_ALL=true PDL_TARGET_COUNT=50000000 NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts",
     "import:check-db": "tsx scripts/data-import/check-db-size.ts",
-    "import:all": "tsx scripts/data-import/run-all.ts"
+    "import:all": "tsx scripts/data-import/run-all.ts",
+    "create-test-user": "tsx scripts/create-test-user.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
