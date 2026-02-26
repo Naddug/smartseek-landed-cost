@@ -208,8 +208,12 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200">{t("home.supplierNetwork.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.supplierNetwork.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.supplierNetwork.subtitle")}</p>
+            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">
+              {formatStat(suppliersVal)} {t("home.supplierNetwork.titleSuffix")}
+            </h2>
+            <p className="text-lg text-slate-600">
+              {t("home.supplierNetwork.subtitlePrefix")} {formatStat(countriesVal)} {t("home.supplierNetwork.subtitleSuffix")}
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -318,7 +322,11 @@ export default function Home() {
                       </div>
                       <div className="space-y-2">
                         <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{t(feature.titleKey)}</h3>
-                        <p className="text-slate-600 leading-relaxed">{t(feature.descKey)}</p>
+                        <p className="text-slate-600 leading-relaxed">
+                          {feature.descKey === "home.feature5.desc"
+                            ? t(feature.descKey, { suppliers: formatStat(suppliersVal), countries: countriesVal })
+                            : t(feature.descKey)}
+                        </p>
                         <span className="text-blue-600 text-sm font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           {t("common.learnMore")} <ArrowRight className="w-4 h-4" />
                         </span>
