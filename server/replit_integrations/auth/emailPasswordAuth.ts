@@ -22,7 +22,9 @@ function isDummyOrSqliteDb(): boolean {
 
 export function getSession() {
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const useMemoryStore = isDummyOrSqliteDb();
+  // USE_MEMORY_SESSION=true bypasses PostgreSQL for sessions (fixes ECONNRESET when DB unreachable)
+  const useMemoryStore =
+    process.env.USE_MEMORY_SESSION === "true" || isDummyOrSqliteDb();
   const isDev = process.env.NODE_ENV !== "production";
 
   const sessionStore = useMemoryStore
@@ -41,7 +43,7 @@ export function getSession() {
       })();
 
   if (useMemoryStore) {
-    console.warn("Using in-memory session store (MemoryStore). Sessions will not persist across restarts.");
+    console.log("Using in-memory session store (sessions reset on deploy).");
   }
 
   return session({

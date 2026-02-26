@@ -43,11 +43,12 @@ Ensure these are set in your deployment environment:
 
 ## Troubleshooting
 
-### ECONNRESET at startup
-If deploy logs show `Failed to initialize Stripe: read ECONNRESET`:
-1. **Railway:** Add `STRIPE_SKIP_INIT=true` to Variables — app will start without Stripe (billing disabled)
-2. **Or** add `?connection_limit=5` to `DATABASE_URL` to reduce pool size
-3. The app retries Stripe init once after 5s; if DB is temporarily unavailable, it may recover
+### ECONNRESET (DB connection reset)
+If deploy logs show `read ECONNRESET` from session store or Stripe:
+1. **STRIPE_SKIP_INIT=true** — skips Stripe init (billing disabled)
+2. **USE_MEMORY_SESSION=true** — uses in-memory sessions instead of PostgreSQL (sessions reset on deploy; fixes session store ECONNRESET)
+3. **DATABASE_URL** — add `?connection_limit=5` to reduce pool size
+4. **Railway:** Ensure app and Postgres are in same project; try internal URL `postgres.railway.internal` if available
 
 ### Health check
 - `GET /api/health` returns `{ ok: true }` — use for deploy verification (no DB required)
