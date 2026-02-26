@@ -81,7 +81,7 @@ function Router() {
       <Route path="/signup" component={Signup} />
       <Route path="/sample-report" component={SampleReport} />
       <Route path="/suppliers">
-        <PublicLayout><SupplierDiscovery /></PublicLayout>
+        <ProtectedRoute component={SupplierDiscovery} />
       </Route>
       <Route path="/rfq">
         <PublicLayout><RequestQuote /></PublicLayout>

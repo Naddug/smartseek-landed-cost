@@ -11,5 +11,12 @@ if (!connectionString) {
 }
 
 // Limit connections to avoid exhausting Railway Postgres (prevents ECONNRESET)
-export const pool = new Pool({ connectionString, max: 5 });
+// Railway uses self-signed certs; rejectUnauthorized: false allows connection
+export const pool = new Pool({
+  connectionString,
+  max: 5,
+  ssl: connectionString?.includes("railway") || connectionString?.includes("rlwy.net")
+    ? { rejectUnauthorized: false }
+    : undefined,
+});
 export const db = drizzle(pool, { schema });

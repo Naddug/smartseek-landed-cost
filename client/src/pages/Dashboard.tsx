@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useProfile, useReports, useCreditTransactions } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "wouter";
+import SupplierDiscovery from "@/pages/SupplierDiscovery";
 import { 
   ArrowRight, 
   FileQuestion,
@@ -29,11 +31,25 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function Dashboard() {
-  const { data: profile, isLoading: profileLoading } = useProfile();
+  const [showSuppliers, setShowSuppliers] = useState(false);
+  const [embeddedIndustry, setEmbeddedIndustry] = useState("");
+  const { data: profile, isLoading: profileLoading, error: profileError, refetch: refetchProfile } = useProfile();
   const { data: reports = [], isLoading: reportsLoading } = useReports();
   const { data: transactions = [] } = useCreditTransactions();
 
   const isLoading = profileLoading || reportsLoading;
+
+  // Embedded supplier search — stays in dashboard context
+  if (showSuppliers) {
+    return (
+      <div className="space-y-4">
+        <Button variant="ghost" onClick={() => { setShowSuppliers(false); setEmbeddedIndustry(""); }} className="text-slate-400 hover:text-slate-200">
+          ← Back to Dashboard
+        </Button>
+        <SupplierDiscovery embedded initialIndustry={embeddedIndustry} />
+      </div>
+    );
+  }
 
   const hasError = !profile && !profileLoading;
 
@@ -55,6 +71,7 @@ export default function Dashboard() {
   }
 
   if (hasError) {
+    const isAuthError = profileError?.message?.includes("401") || profileError?.message?.toLowerCase().includes("not authenticated");
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
@@ -62,8 +79,22 @@ export default function Dashboard() {
             <Activity className="w-8 h-8 text-red-400" />
           </div>
           <h2 className="text-xl font-bold mb-2 text-slate-200">Unable to load dashboard</h2>
-          <p className="text-slate-400 mb-4">Please try refreshing the page.</p>
-          <Button onClick={() => window.location.reload()} className="bg-slate-800 hover:bg-slate-700 border border-slate-600">Refresh Page</Button>
+          <p className="text-slate-400 mb-4">
+            {isAuthError ? "Your session may have expired." : "Please try refreshing the page."}
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Button onClick={() => refetchProfile()} variant="outline" className="bg-slate-800 hover:bg-slate-700 border border-slate-600">
+              Retry
+            </Button>
+            {isAuthError && (
+              <Link href="/login">
+                <Button className="bg-slate-800 hover:bg-slate-700 border border-slate-600">Log in again</Button>
+              </Link>
+            )}
+            {!isAuthError && (
+              <Button onClick={() => window.location.reload()} className="bg-slate-800 hover:bg-slate-700 border border-slate-600">Refresh Page</Button>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -145,7 +176,7 @@ export default function Dashboard() {
         <MetricCard
           icon={<Globe2 className="w-5 h-5" />}
           label="Regions Covered"
-          value="217+"
+          value="220+"
           change="Global network"
           iconBg="from-amber-500 to-orange-500"
           cardBg="from-slate-700/90 to-slate-600/90"
@@ -420,18 +451,18 @@ export default function Dashboard() {
             <p className="text-slate-400 text-sm mb-4">Search and connect with verified global suppliers across 24+ countries.</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
               {["Electronics", "Textiles", "Machinery", "Chemicals", "Food & Agriculture"].map((industry) => (
-                <Link key={industry} href={`/suppliers?industry=${encodeURIComponent(industry)}`}>
-                  <div className="bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg p-3 text-center cursor-pointer transition">
-                    <span className="text-sm text-slate-300">{industry}</span>
-                  </div>
-                </Link>
+                <div
+                  key={industry}
+                  onClick={() => { setEmbeddedIndustry(industry); setShowSuppliers(true); }}
+                  className="bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg p-3 text-center cursor-pointer transition"
+                >
+                  <span className="text-sm text-slate-300">{industry}</span>
+                </div>
               ))}
             </div>
-            <Link href="/suppliers">
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                Browse All Suppliers <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+            <Button onClick={() => { setEmbeddedIndustry(""); setShowSuppliers(true); }} className="w-full bg-blue-600 hover:bg-blue-700">
+              Browse All Suppliers <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
           </CardContent>
         </Card>
 

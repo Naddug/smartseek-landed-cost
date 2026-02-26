@@ -221,9 +221,11 @@ async function main() {
   let skipped = 0;
   let batch: Record<string, unknown>[] = [];
   const BATCH_SIZE = 500;
-  // Railway Hobby: 5GB DB limit. ~1–2KB per supplier. Override with PDL_TARGET_COUNT env.
-  const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "350000", 10) || 350_000;
-  console.log(`   Target: ${TARGET_COUNT.toLocaleString()} suppliers (set PDL_TARGET_COUNT to override)\n`);
+  // Target 4.3M registry-verified suppliers (quality layer from ~29M raw). Override with PDL_TARGET_COUNT env.
+  const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "4300000", 10) || 4_300_000;
+  const IMPORT_ALL = process.env.PDL_IMPORT_ALL === "true"; // Skip industry filter, import all companies
+  console.log(`   Target: ${TARGET_COUNT.toLocaleString()} suppliers (set PDL_TARGET_COUNT to override)`);
+  console.log(`   Mode: ${IMPORT_ALL ? "Import ALL industries" : "Filter by target industries only"}\n`);
 
   for await (const row of parser) {
     processed++;
@@ -241,8 +243,14 @@ async function main() {
       }
     }
     if (!mappedIndustry) {
-      skipped++;
-      continue;
+      if (IMPORT_ALL && industryRaw) {
+        mappedIndustry = industryRaw.charAt(0).toUpperCase() + industryRaw.slice(1);
+      } else if (IMPORT_ALL) {
+        mappedIndustry = "General";
+      } else {
+        skipped++;
+        continue;
+      }
     }
 
     const country = getRowVal(row, "country");

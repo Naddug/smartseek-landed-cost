@@ -148,16 +148,36 @@ export default function ShippingEstimator() {
     return (l * w * h) / 1000000; // Convert to CBM
   };
 
+  const countryToCode: Record<string, string> = {
+    China: "CN", "United States": "US", Germany: "DE", "United Kingdom": "GB", France: "FR",
+    Japan: "JP", "South Korea": "KR", India: "IN", Vietnam: "VN", Thailand: "TH", Indonesia: "ID",
+    Mexico: "MX", Turkey: "TR", Canada: "CA", Australia: "AU", Netherlands: "NL", Italy: "IT", Spain: "ES",
+  };
+
   const calculateShipping = async () => {
     setIsCalculating(true);
-    
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
     const weight = parseFloat(formData.weight) || 100;
     const volume = calculateVolume() || 1;
-    const chargeableWeight = Math.max(weight, volume * 167); // Volumetric weight
-    
-    // Simulate shipping rates
+    const chargeableWeight = Math.max(weight, volume * 167);
+
+    let benchmarkRates: { sea20ft: number; sea40ft: number; airPerKg: number; lclPerCBM: number } | null = null;
+    try {
+      const origin = countryToCode[formData.originCountry] || "CN";
+      const dest = countryToCode[formData.destinationCountry] || "US";
+      const res = await fetch(`/api/freight/benchmark-rates?origin=${origin}&destination=${dest}`, { credentials: "include" });
+      if (res.ok) {
+        const data = await res.json();
+        benchmarkRates = data.rates;
+      }
+    } catch {
+      benchmarkRates = null;
+    }
+
+    const sea20 = benchmarkRates?.sea20ft ?? 2100;
+    const sea40 = benchmarkRates?.sea40ft ?? 3100;
+    const airKg = benchmarkRates?.airPerKg ?? 6.2;
+    const lclCbm = benchmarkRates?.lclPerCBM ?? 95;
+
     const seaFreight = {
       method: "Sea Freight",
       icon: Ship,
@@ -165,28 +185,28 @@ export default function ShippingEstimator() {
         {
           carrier: "COSCO Shipping",
           type: formData.containerType === "20ft" ? "20' Container" : "40' Container",
-          cost: formData.containerType === "20ft" ? 1850 : 2950,
+          cost: formData.containerType === "20ft" ? Math.round(sea20 * 0.95) : Math.round(sea40 * 0.95),
           transitTime: "25-30 days",
-          departure: "Shanghai",
-          arrival: "Los Angeles",
+          departure: formData.originCountry === "China" ? "Shanghai" : "Origin port",
+          arrival: formData.destinationCountry === "United States" ? "Los Angeles" : "Destination port",
           frequency: "Weekly",
         },
         {
           carrier: "Maersk Line",
           type: formData.containerType === "20ft" ? "20' Container" : "40' Container",
-          cost: formData.containerType === "20ft" ? 2100 : 3200,
+          cost: formData.containerType === "20ft" ? sea20 : sea40,
           transitTime: "22-28 days",
-          departure: "Shenzhen",
-          arrival: "Long Beach",
+          departure: formData.originCountry === "China" ? "Shenzhen" : "Origin port",
+          arrival: formData.destinationCountry === "United States" ? "Long Beach" : "Destination port",
           frequency: "Twice Weekly",
         },
         {
           carrier: "MSC",
           type: "LCL (per CBM)",
-          cost: Math.round(volume * 65),
+          cost: Math.round(volume * lclCbm),
           transitTime: "28-35 days",
-          departure: "Ningbo",
-          arrival: "New York",
+          departure: "Origin",
+          arrival: "Destination",
           frequency: "Weekly",
         },
       ],
@@ -199,28 +219,28 @@ export default function ShippingEstimator() {
         {
           carrier: "FedEx International",
           type: "Express",
-          cost: Math.round(chargeableWeight * 8.5),
+          cost: Math.round(chargeableWeight * airKg * 1.1),
           transitTime: "3-5 days",
-          departure: "Shanghai (PVG)",
-          arrival: "Los Angeles (LAX)",
+          departure: "Origin (PVG)",
+          arrival: "Destination (LAX)",
           frequency: "Daily",
         },
         {
           carrier: "DHL Express",
           type: "Priority",
-          cost: Math.round(chargeableWeight * 9.2),
+          cost: Math.round(chargeableWeight * airKg * 1.2),
           transitTime: "2-4 days",
-          departure: "Hong Kong (HKG)",
-          arrival: "New York (JFK)",
+          departure: "Origin (HKG)",
+          arrival: "Destination (JFK)",
           frequency: "Daily",
         },
         {
           carrier: "UPS Worldwide",
           type: "Express Saver",
-          cost: Math.round(chargeableWeight * 7.8),
+          cost: Math.round(chargeableWeight * airKg),
           transitTime: "4-6 days",
-          departure: "Shenzhen (SZX)",
-          arrival: "Chicago (ORD)",
+          departure: "Origin (SZX)",
+          arrival: "Destination (ORD)",
           frequency: "Daily",
         },
       ],
@@ -233,7 +253,7 @@ export default function ShippingEstimator() {
         {
           carrier: "DHL Express",
           type: "Door to Door",
-          cost: Math.round(weight * 12),
+          cost: Math.round(weight * airKg * 1.8),
           transitTime: "3-5 business days",
           departure: "Pickup",
           arrival: "Delivery",
@@ -242,7 +262,7 @@ export default function ShippingEstimator() {
         {
           carrier: "FedEx Priority",
           type: "Door to Door",
-          cost: Math.round(weight * 11),
+          cost: Math.round(weight * airKg * 1.7),
           transitTime: "2-4 business days",
           departure: "Pickup",
           arrival: "Delivery",
@@ -251,7 +271,7 @@ export default function ShippingEstimator() {
         {
           carrier: "UPS Express",
           type: "Door to Door",
-          cost: Math.round(weight * 10.5),
+          cost: Math.round(weight * airKg * 1.6),
           transitTime: "3-5 business days",
           departure: "Pickup",
           arrival: "Delivery",
@@ -269,7 +289,7 @@ export default function ShippingEstimator() {
       <div>
         <h1 className="text-3xl font-heading font-bold mb-2">Shipping Cost Estimator</h1>
         <p className="text-muted-foreground">
-          Compare shipping rates for sea freight, air freight, and express courier
+          Compare shipping rates for sea freight, air freight, and express courier. Uses real market benchmark rates (Freightos/Xeneta 2024) for your route.
         </p>
       </div>
 

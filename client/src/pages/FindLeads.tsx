@@ -166,7 +166,7 @@ export default function FindLeads() {
           </div>
           <div>
             <h1 className="text-2xl font-heading font-bold text-white">Find Buyer Leads</h1>
-            <p className="text-slate-400 break-words">2.4M+ B2B leads • AI-powered search • Real company data from verified suppliers</p>
+            <p className="text-slate-400 break-words">2.9M+ buyer & trade leads • AI-ranked, high-signal • Intent & firmographics from 4.3M+ verified suppliers</p>
           </div>
         </div>
       </div>

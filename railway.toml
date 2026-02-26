@@ -1,0 +1,4 @@
+# Railway deployment config — migrations run on deploy (fixes ECONNRESET from local)
+[deploy]
+# Run Drizzle schema push before app starts (creates user_profiles, reports, etc.)
+preDeployCommand = ["npm run db:push -- --force"]

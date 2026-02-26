@@ -18,6 +18,13 @@ export interface LandedCostInput {
   insuranceRate?: number;
   inlandTransportOrigin?: number;
   inlandTransportDestination?: number;
+  /** Optional real market rates from API — when provided, overrides default estimates */
+  freightOverrides?: {
+    sea20ft?: number;
+    sea40ft?: number;
+    airPerKg?: number;
+    lclPerCBM?: number;
+  };
 }
 
 export interface LandedCostResult {

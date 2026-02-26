@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -106,6 +106,25 @@ export default function LandedCostCalculator() {
   });
   const [result, setResult] = useState<LandedCostResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [freightRates, setFreightRates] = useState<{ sea20ft: number; sea40ft: number; airPerKg: number; lclPerCBM: number } | null>(null);
+
+  // Fetch real benchmark rates when origin/destination change
+  useEffect(() => {
+    const fetchRates = async () => {
+      try {
+        const res = await fetch(`/api/freight/benchmark-rates?origin=${formData.originCountry}&destination=${formData.destinationCountry}`, { credentials: "include" });
+        if (res.ok) {
+          const data = await res.json();
+          setFreightRates(data.rates);
+        } else {
+          setFreightRates(null);
+        }
+      } catch {
+        setFreightRates(null);
+      }
+    };
+    fetchRates();
+  }, [formData.originCountry, formData.destinationCountry]);
 
   const handleCalculate = () => {
     setError(null);
@@ -140,6 +159,7 @@ export default function LandedCostCalculator() {
         insuranceRate: formData.insuranceRate ? parseFloat(formData.insuranceRate) / 100 : undefined,
         inlandTransportOrigin: formData.inlandTransportOrigin ? parseFloat(formData.inlandTransportOrigin) : undefined,
         inlandTransportDestination: formData.inlandTransportDestination ? parseFloat(formData.inlandTransportDestination) : undefined,
+        freightOverrides: freightRates ? { sea20ft: freightRates.sea20ft, sea40ft: freightRates.sea40ft, airPerKg: freightRates.airPerKg, lclPerCBM: freightRates.lclPerCBM } : undefined,
       };
 
       const res = calculateLandedCost(input);
@@ -171,7 +191,7 @@ export default function LandedCostCalculator() {
           Landed Cost Calculator
         </h1>
         <p className="text-muted-foreground">
-          Calculate total landed cost including freight, insurance, customs, and inland transport. Client-side only — no API calls.
+          Calculate total landed cost including freight, insurance, customs, and inland transport. Uses real market benchmark rates (Freightos/Xeneta 2024) for your route.
         </p>
       </div>
 

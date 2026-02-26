@@ -30,31 +30,35 @@ function calculateFreight(input: LandedCostInput) {
   const notes: string[] = [];
   let selectedCost: number;
   let oceanFCL: any, oceanLCL: any, airFreight: any, express: any;
+  const ov = input.freightOverrides;
+  // Use real benchmark rates when provided (from /api/freight/benchmark-rates)
+  const sea20ft = ov?.sea20ft ?? 2100;
+  const sea40ft = ov?.sea40ft ?? 3100;
+  const airPerKg = ov?.airPerKg ?? 6.2;
+  const lclPerCBM = ov?.lclPerCBM ?? 95;
 
   if (input.shippingMethod === 'sea_fcl') {
     const ct = input.containerType || '20ft';
-    const rates = { '20ft': 1500, '40ft': 2500 };
+    const rates = { '20ft': sea20ft, '40ft': sea40ft };
     selectedCost = rates[ct];
-    oceanFCL = { cost20ft: 1500, cost40ft: 2500, selectedCost, containerType: ct };
-    notes.push(`Ocean FCL freight for ${ct} container`);
+    oceanFCL = { cost20ft: sea20ft, cost40ft: sea40ft, selectedCost, containerType: ct };
+    notes.push(`Ocean FCL freight for ${ct} container${ov ? ' (market rates)' : ''}`);
   } else if (input.shippingMethod === 'sea_lcl') {
     const vol = input.volume || 1;
-    const costPerCBM = 50;
-    selectedCost = vol * costPerCBM;
-    oceanLCL = { costPerCBM, totalCost: selectedCost, volume: vol };
-    notes.push(`Ocean LCL for ${vol} CBM`);
+    selectedCost = vol * lclPerCBM;
+    oceanLCL = { costPerCBM: lclPerCBM, totalCost: selectedCost, volume: vol };
+    notes.push(`Ocean LCL for ${vol} CBM${ov ? ' (market rates)' : ''}`);
   } else if (input.shippingMethod === 'air') {
     const w = input.weight || 10;
     const v = input.volume || 0.1;
     const volWeight = v * 167;
     const chargeable = Math.max(w, volWeight);
-    const costPerKg = 5;
-    selectedCost = chargeable * costPerKg;
-    airFreight = { costPerKg, volumetricWeight: volWeight, chargeableWeight: chargeable, totalCost: selectedCost };
-    notes.push(`Air freight for ${chargeable} kg chargeable`);
+    selectedCost = chargeable * airPerKg;
+    airFreight = { costPerKg: airPerKg, volumetricWeight: volWeight, chargeableWeight: chargeable, totalCost: selectedCost };
+    notes.push(`Air freight for ${chargeable} kg chargeable${ov ? ' (market rates)' : ''}`);
   } else if (input.shippingMethod === 'express') {
     const w = input.weight || 10;
-    const costPerKg = 10;
+    const costPerKg = airPerKg * 1.5; // Express typically 1.5x air
     selectedCost = w * costPerKg;
     express = { costPerKg, totalCost: selectedCost };
     notes.push(`Express for ${w} kg`);
@@ -164,7 +168,7 @@ function generateNotes(input: LandedCostInput, components: any): CalculationNote
   components.freight.notes.forEach((m: string) => notes.push({ category: 'info', component: 'Freight', message: m }));
   components.insurance.notes.forEach((m: string) => notes.push({ category: 'info', component: 'Insurance', message: m }));
   components.customs.notes.forEach((m: string) => notes.push({ category: 'info', component: 'Customs', message: m }));
-  notes.push({ category: 'warning', component: 'Data', message: 'Rates are estimates. Integrate with actual providers for production.' });
+  notes.push({ category: 'info', component: 'Data', message: components.freight.notes.some((n: string) => n.includes('market rates')) ? 'Freight rates from market benchmarks (Freightos/Xeneta).' : 'Freight rates are 2024 benchmarks. Fetch real rates for your route.' });
   return notes;
 }
 

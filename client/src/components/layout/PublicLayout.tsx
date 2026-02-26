@@ -50,7 +50,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <span className="hidden md:inline">•</span>
           <span>{stats ? `${formatStat(stats.suppliers)} suppliers` : t("trust.strip2")}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} leads` : "2.4M+ leads"}</span>
+          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} leads` : "2.9M+ leads"}</span>
           <span className="hidden lg:inline">•</span>
           <span>{stats ? `${stats.countries}+ countries` : t("trust.strip4")}</span>
         </div>

@@ -143,30 +143,25 @@ export default function AIAgent() {
       const content = data.response?.content || "";
       
       try {
-        const jsonMatch = content.match(/\[[\s\S]*\]/);
+        let parsedLeads: any[] = [];
+        const jsonMatch = content.match(/\{[\s\S]*"leads"[\s\S]*\}/) || content.match(/\[[\s\S]*\]/);
         if (jsonMatch) {
-          const parsedLeads = JSON.parse(jsonMatch[0]);
+          const parsed = JSON.parse(jsonMatch[0]);
+          parsedLeads = Array.isArray(parsed) ? parsed : (parsed.leads || []);
+        }
+        if (parsedLeads.length > 0) {
           setLeads(parsedLeads.map((l: any, i: number) => ({ ...l, id: `lead-${i}` })));
         } else {
-          const mockLeads: Lead[] = [
-            { id: "1", name: "John Smith", title: "CEO", company: "Tech Corp", industry: "Technology" },
-            { id: "2", name: "Sarah Johnson", title: "VP Sales", company: "Sales Inc", industry: "Technology" },
-            { id: "3", name: "Michael Brown", title: "Director", company: "Growth Co", industry: "Finance" },
-          ];
-          setLeads(mockLeads);
+          setLeads([]);
         }
       } catch {
-        const mockLeads: Lead[] = [
-          { id: "1", name: "John Smith", title: "CEO", company: "Tech Corp", industry: "Technology" },
-          { id: "2", name: "Sarah Johnson", title: "VP Sales", company: "Sales Inc", industry: "Technology" },
-          { id: "3", name: "Michael Brown", title: "Director", company: "Growth Co", industry: "Finance" },
-        ];
-        setLeads(mockLeads);
+        setLeads([]);
       }
       
       toast.success("Leads found successfully");
-    } catch (error) {
-      toast.error("Failed to search leads");
+    } catch (error: any) {
+      const msg = error?.message || "Failed to search leads";
+      toast.error(msg.includes("401") ? "Please log in again" : msg);
     } finally {
       setIsLoading(false);
       setActiveTask(null);
@@ -203,8 +198,8 @@ export default function AIAgent() {
       };
       setOutputs((prev) => [newOutput, ...prev]);
       toast.success("Call script prepared");
-    } catch (error) {
-      toast.error("Failed to prepare call script");
+    } catch (error: any) {
+      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to prepare call script");
     } finally {
       setIsLoading(false);
       setActiveTask(null);
@@ -242,8 +237,8 @@ export default function AIAgent() {
       };
       setOutputs((prev) => [newOutput, ...prev]);
       toast.success("Email draft prepared");
-    } catch (error) {
-      toast.error("Failed to prepare email");
+    } catch (error: any) {
+      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to prepare email");
     } finally {
       setIsLoading(false);
       setActiveTask(null);
@@ -277,8 +272,8 @@ export default function AIAgent() {
       const data = await response.json();
       setResearchResult(data.response?.content || "No research data available");
       toast.success("Company research complete");
-    } catch (error) {
-      toast.error("Failed to research company");
+    } catch (error: any) {
+      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to research company");
     } finally {
       setIsLoading(false);
       setActiveTask(null);

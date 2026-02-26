@@ -64,7 +64,10 @@ Return ONLY a valid JSON object with this exact structure:
   "alternativeRegions": ["<region1>", "<region2>"]
 }
 
-Be specific and data-driven. Reference real geopolitical situations, trade policies, and industry conditions.`;
+Be specific and data-driven. Reference real geopolitical situations, trade policies, and industry conditions.
+Include proprietary insights: recent sanctions, trade disputes, supply chain disruptions, regulatory changes, currency risks.
+Avoid generic info easily found on Google. Add depth: specific tariffs, embargo dates, political risk indices, corruption indices.
+For alternative regions, include rationale (e.g. "Vietnam: US tariff diversification, low labor cost").`;
 
   const response = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o-mini",
@@ -117,7 +120,9 @@ Return ONLY a valid JSON object with this exact structure:
   "requiredDocuments": ["<doc1>", "<doc2>", "<doc3>"]
 }
 
-Be specific about certifications relevant to the industry and target markets. Reference real regulations (REACH, RoHS, FDA, CE marking, etc).`;
+Be specific about certifications relevant to the industry and target markets. Reference real regulations (REACH, RoHS, FDA, CE marking, CBAM, USMCA, etc).
+Include actual HS code requirements, customs documentation requirements, and any recent regulatory changes.
+For sanctions screening, reference OFAC, EU sanctions, UN lists. Provide actionable recommendations with specific document names.`;
 
   const response = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o-mini",

@@ -95,7 +95,7 @@ function useStats() {
       const res = await fetch("/api/stats");
       if (!res.ok) throw new Error("Failed to fetch stats");
       const data = await res.json();
-      return { suppliers: data.suppliers ?? 2860000, countries: data.countries ?? 231 };
+      return { suppliers: data.suppliers ?? 4300000, countries: data.countries ?? 220 };
     },
     staleTime: 60000,
   });
@@ -105,6 +105,29 @@ function formatStat(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
   if (n >= 1_000) return `${Math.round(n / 1_000)}K+`;
   return `${n}+`;
+}
+
+const ABBREVIATIONS = new Set(["pt", "tbk", "gmbh", "llc", "ltd", "inc", "co", "lp", "llp", "plc", "sa", "ag", "nv", "bv", "corp", "pl", "spa", "srl", "ltda", "sl", "ab", "oy", "as", "uk", "us"]);
+
+function toTitleCase(str: string): string {
+  if (!str || typeof str !== "string") return str;
+  return str.replace(/\w\S*/g, (w) => {
+    const lower = w.toLowerCase();
+    if (ABBREVIATIONS.has(lower)) {
+      return lower === "gmbh" ? "GmbH" : lower.toUpperCase();
+    }
+    return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+  });
+}
+
+function formatLocation(str: string): string {
+  if (!str || typeof str !== "string") return str;
+  return str.split(",").map((part) => toTitleCase(part.trim())).join(", ");
+}
+
+function formatList(items: string[]): string {
+  if (!Array.isArray(items) || items.length === 0) return "";
+  return items.map((item) => toTitleCase(String(item).trim())).join(", ");
 }
 
 // ─── Industry border color ────────────────────────────────────────────
@@ -131,7 +154,7 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="text-lg font-semibold text-gray-900 truncate">{supplier.companyName}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 truncate">{toTitleCase(supplier.companyName)}</h3>
             {supplier.verified && (
               <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
                 <Shield className="w-3 h-3" />Verified
@@ -145,39 +168,49 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
           </div>
           <div className="flex items-center gap-2 mt-1 text-sm text-gray-700">
             <MapPin className="w-3.5 h-3.5" />
-            <span>{supplier.city}, {supplier.country}</span>
+            <span>{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
           </div>
         </div>
-        <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded text-sm">
-          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-          <span className="font-medium text-yellow-700">{supplier.rating.toFixed(1)}</span>
-          <span className="text-gray-600">({supplier.reviewCount})</span>
-        </div>
+        {supplier.reviewCount > 0 ? (
+          <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded text-sm">
+            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+            <span className="font-medium text-yellow-700">{supplier.rating.toFixed(1)}</span>
+            <span className="text-gray-600">({supplier.reviewCount})</span>
+          </div>
+        ) : (
+          <span className="text-xs text-gray-500 px-2 py-1">No reviews yet</span>
+        )}
       </div>
 
       <div className="mb-3">
         <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded mr-2">
-          {supplier.industry}
+          {toTitleCase(supplier.industry)}
         </span>
         {supplier.subIndustry && (
           <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">
-            {supplier.subIndustry}
+            {toTitleCase(supplier.subIndustry)}
           </span>
         )}
       </div>
 
-      <p className="text-sm text-gray-700 line-clamp-2 mb-3">{supplier.description}</p>
+      <p className="text-sm text-gray-700 line-clamp-2 mb-3">
+        {supplier.description
+          ? (() => {
+              let d = supplier.description;
+              d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
+              d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
+              d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
+              return d.charAt(0).toUpperCase() + d.slice(1);
+            })()
+          : ""}
+      </p>
 
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {supplier.products.slice(0, 3).map((p) => (
-          <span key={p} className="text-xs bg-gray-50 text-gray-700 border border-gray-200 px-2 py-0.5 rounded">
-            {p}
-          </span>
-        ))}
-        {supplier.products.length > 3 && (
-          <span className="text-xs text-gray-600">+{supplier.products.length - 3} more</span>
-        )}
-      </div>
+      {Array.isArray(supplier.products) && supplier.products.length > 0 && (
+        <p className="text-sm text-gray-700 mb-3 line-clamp-2">
+          {formatList(supplier.products.slice(0, 4))}
+          {supplier.products.length > 4 && ` +${supplier.products.length - 4} more`}
+        </p>
+      )}
 
       <div className="flex items-center justify-between text-xs text-gray-600 pt-3 border-t border-gray-100">
         <div className="flex items-center gap-3">
@@ -281,7 +314,7 @@ function SupplierDetail({
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-xl font-bold text-gray-900">{supplier.companyName}</h2>
+                    <h2 className="text-xl font-bold text-gray-900">{toTitleCase(supplier.companyName)}</h2>
                     {supplier.verified && <Shield className="w-5 h-5 text-blue-600" />}
                     {(supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR") && (
                       <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-medium px-2 py-0.5 rounded-full">
@@ -289,33 +322,47 @@ function SupplierDetail({
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-700 mt-1">{supplier.city}, {supplier.country} · Est. {supplier.yearEstablished}</p>
+                  <p className="text-gray-700 mt-1">{formatLocation(supplier.city)}, {formatLocation(supplier.country)} · Est. {supplier.yearEstablished}</p>
                 </div>
                 <button onClick={onClose} className="text-gray-600 hover:text-gray-900 p-1">
                   <X className="w-5 h-5" />
                 </button>
               </div>
               <div className="flex items-center gap-4 mt-3">
-                <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                  <span className="font-medium">{supplier.rating.toFixed(1)}</span>
-                  <span className="text-gray-600 text-sm">({supplier.reviewCount} reviews)</span>
-                </div>
-                <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded">{supplier.industry}</span>
+                {supplier.reviewCount > 0 ? (
+                  <div className="flex items-center gap-1">
+                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                    <span className="font-medium">{supplier.rating.toFixed(1)}</span>
+                    <span className="text-gray-600 text-sm">({supplier.reviewCount} reviews)</span>
+                  </div>
+                ) : (
+                  <span className="text-sm text-gray-500">No reviews yet</span>
+                )}
+                <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded">{toTitleCase(supplier.industry)}</span>
               </div>
             </div>
 
             {/* Body */}
             <div className="p-6 space-y-5">
-              <p className="text-gray-700">{supplier.description}</p>
+              <p className="text-gray-700">
+                {supplier.description
+                  ? (() => {
+                      let d = supplier.description;
+                      d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
+                      d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
+                      d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
+                      return d.charAt(0).toUpperCase() + d.slice(1);
+                    })()
+                  : ""}
+              </p>
 
               <div>
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">Products</h4>
-                <div className="flex flex-wrap gap-2">
-                  {supplier.products.map((p) => (
-                    <span key={p} className="text-sm bg-gray-50 border border-gray-200 px-2.5 py-1 rounded">{p}</span>
-                  ))}
-                </div>
+                <p className="text-sm text-gray-700">
+                  {Array.isArray(supplier.products) && supplier.products.length > 0
+                    ? formatList(supplier.products)
+                    : toTitleCase(supplier.industry || "—")}
+                </p>
               </div>
 
               {supplier.certifications.length > 0 && (
@@ -323,7 +370,7 @@ function SupplierDetail({
                   <h4 className="text-sm font-semibold text-gray-900 mb-2">Certifications</h4>
                   <div className="flex flex-wrap gap-2">
                     {supplier.certifications.map((c) => (
-                      <span key={c} className="text-sm bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded">{c}</span>
+                      <span key={c} className="text-sm bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded">{toTitleCase(c)}</span>
                     ))}
                   </div>
                 </div>
@@ -343,10 +390,10 @@ function SupplierDetail({
                   <div><span className="text-gray-700 font-medium">Min Order:</span> <span className="font-medium text-gray-900">${supplier.minOrderValue.toLocaleString()}</span></div>
                 )}
                 {supplier.paymentTerms.length > 0 && (
-                  <div><span className="text-gray-700 font-medium">Payment:</span> <span className="font-medium text-gray-900">{supplier.paymentTerms.join(", ")}</span></div>
+                  <div><span className="text-gray-700 font-medium">Payment:</span> <span className="font-medium text-gray-900">{formatList(supplier.paymentTerms)}</span></div>
                 )}
                 {supplier.exportMarkets.length > 0 && (
-                  <div><span className="text-gray-700 font-medium">Markets:</span> <span className="font-medium text-gray-900">{supplier.exportMarkets.join(", ")}</span></div>
+                  <div><span className="text-gray-700 font-medium">Markets:</span> <span className="font-medium text-gray-900">{formatList(supplier.exportMarkets)}</span></div>
                 )}
                 {supplier.website && (
                   <div className="col-span-2"><span className="text-gray-700 font-medium">Website:</span>{" "}
@@ -449,16 +496,37 @@ function SupplierDetail({
 
 // ─── Main Page ───────────────────────────────────────────────────────
 
-export default function SupplierDiscovery() {
+interface SupplierDiscoveryProps {
+  embedded?: boolean;
+  initialIndustry?: string;
+}
+
+export default function SupplierDiscovery({ embedded, initialIndustry }: SupplierDiscoveryProps = {}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedIndustry, setSelectedIndustry] = useState("");
+  const [selectedIndustry, setSelectedIndustry] = useState(initialIndustry || "");
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("rating");
   const [page, setPage] = useState(1);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+
+  // Read URL params or initialIndustry prop on mount
+  useEffect(() => {
+    if (initialIndustry) {
+      setSelectedIndustry(initialIndustry);
+    }
+    if (embedded) return;
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+    const industry = params.get("industry");
+    if (q) {
+      setSearchQuery(q);
+      setDebouncedQuery(q);
+    }
+    if (industry) setSelectedIndustry(industry);
+  }, [initialIndustry, embedded]);
 
   // Debounce search
   useEffect(() => {
@@ -474,7 +542,7 @@ export default function SupplierDiscovery() {
     setPage(1);
   }, [selectedCountry, selectedIndustry, verifiedOnly, sortBy]);
 
-  const { data, isLoading } = useSuppliers({
+  const { data, isLoading, isError, error } = useSuppliers({
     q: debouncedQuery,
     country: selectedCountry,
     industry: selectedIndustry,
@@ -497,13 +565,13 @@ export default function SupplierDiscovery() {
 
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery;
   const { data: stats } = useStats();
-  const supplierCount = stats?.suppliers ?? 2860000;
-  const countryCount = stats?.countries ?? 231;
+  const supplierCount = stats?.suppliers ?? 4300000;
+  const countryCount = stats?.countries ?? 220;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`bg-gray-50 ${embedded ? "min-h-0 rounded-xl" : "min-h-screen"}`}>
       {/* Hero / Search Bar */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <div className={`bg-gradient-to-r from-blue-600 to-blue-800 text-white ${embedded ? "rounded-t-xl" : ""}`}>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold text-xl">S</div>
@@ -520,7 +588,7 @@ export default function SupplierDiscovery() {
                 placeholder="Search suppliers, products, or industries..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
             <button
@@ -551,7 +619,7 @@ export default function SupplierDiscovery() {
               >
                 <option value="">All Countries</option>
                 {filters?.countries.map((c) => (
-                  <option key={c.name} value={c.name}>{c.name} ({c.count})</option>
+                  <option key={c.name} value={c.name}>{formatLocation(c.name)} ({c.count.toLocaleString()})</option>
                 ))}
               </select>
 
@@ -562,7 +630,7 @@ export default function SupplierDiscovery() {
               >
                 <option value="">All Industries</option>
                 {filters?.industries.map((i) => (
-                  <option key={i.name} value={i.name}>{i.name} ({i.count})</option>
+                  <option key={i.name} value={i.name}>{toTitleCase(i.name)} ({i.count.toLocaleString()})</option>
                 ))}
               </select>
 
@@ -637,27 +705,39 @@ export default function SupplierDiscovery() {
 
             {/* Pagination */}
             {data.pagination.totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-8">
+              <div className="flex items-center justify-center gap-3 mt-8 pb-4">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-800 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
                 >
                   Previous
                 </button>
-                <span className="text-sm text-gray-700">
-                  Page {data.pagination.page} of {data.pagination.totalPages}
+                <span className="text-sm text-gray-700 font-medium">
+                  Page {data.pagination.page.toLocaleString()} of {data.pagination.totalPages.toLocaleString()}
                 </span>
                 <button
                   onClick={() => setPage((p) => Math.min(data.pagination.totalPages, p + 1))}
                   disabled={page === data.pagination.totalPages}
-                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-800 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
                 >
                   Next
                 </button>
               </div>
             )}
           </>
+        ) : isError ? (
+          <div className="text-center py-16">
+            <Search className="w-12 h-12 text-red-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-700 mb-1">Failed to load suppliers</h3>
+            <p className="text-gray-600 mb-4">
+              {error instanceof Error ? error.message : "Check that the server is running on the same port (e.g. http://localhost:3000)"}
+            </p>
+            <p className="text-sm text-gray-500 mb-4">Visit http://localhost:3000/suppliers if using port 3000</p>
+            <button onClick={() => window.location.reload()} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+              Retry
+            </button>
+          </div>
         ) : (
           <div className="text-center py-16">
             <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />

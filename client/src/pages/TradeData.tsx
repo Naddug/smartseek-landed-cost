@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area,
@@ -10,9 +11,10 @@ import {
 } from "recharts";
 import { 
   TrendingUp, TrendingDown, Globe, Package, Ship, DollarSign,
-  ArrowUpRight, ArrowDownRight, Calendar, Download
+  ArrowUpRight, ArrowDownRight, Calendar, Download, Search, Sparkles, ExternalLink
 } from "lucide-react";
 import { toast } from "sonner";
+import { Link } from "wouter";
 
 // Region-specific data - each region has distinct datasets
 const REGION_DATA: Record<string, {
@@ -44,6 +46,8 @@ const REGION_DATA: Record<string, {
       { category: "Electronics", imports: 89, exports: 45 }, { category: "Machinery", imports: 67, exports: 78 },
       { category: "Textiles", imports: 56, exports: 34 }, { category: "Chemicals", imports: 45, exports: 56 },
       { category: "Auto Parts", imports: 78, exports: 67 }, { category: "Food & Bev", imports: 34, exports: 23 },
+      { category: "Minerals & Ores", imports: 52, exports: 41 }, { category: "Steel & Metals", imports: 61, exports: 58 },
+      { category: "Plastics", imports: 38, exports: 29 },
     ],
     priceIndex: [
       { month: "Jan", steel: 100, copper: 100, aluminum: 100, plastic: 100 },
@@ -98,6 +102,8 @@ const REGION_DATA: Record<string, {
       { category: "Electronics", imports: 112, exports: 78 }, { category: "Textiles", imports: 78, exports: 56 },
       { category: "Machinery", imports: 56, exports: 89 }, { category: "Auto Parts", imports: 67, exports: 72 },
       { category: "Chemicals", imports: 45, exports: 52 }, { category: "Food & Bev", imports: 34, exports: 28 },
+      { category: "Tin & Antimony Ore", imports: 42, exports: 38 }, { category: "Rare Earth & Lithium", imports: 28, exports: 22 },
+      { category: "Steel & Aluminum", imports: 58, exports: 51 },
     ],
     priceIndex: [
       { month: "Jan", steel: 98, copper: 102, aluminum: 95, plastic: 98 },
@@ -152,6 +158,7 @@ const REGION_DATA: Record<string, {
       { category: "Machinery", imports: 89, exports: 112 }, { category: "Auto Parts", imports: 78, exports: 95 },
       { category: "Chemicals", imports: 67, exports: 82 }, { category: "Electronics", imports: 56, exports: 45 },
       { category: "Textiles", imports: 34, exports: 28 }, { category: "Food & Bev", imports: 45, exports: 52 },
+      { category: "Steel & Metals", imports: 72, exports: 68 }, { category: "Minerals & Ores", imports: 38, exports: 42 },
     ],
     priceIndex: [
       { month: "Jan", steel: 102, copper: 98, aluminum: 101, plastic: 102 },
@@ -206,6 +213,7 @@ const REGION_DATA: Record<string, {
       { category: "Auto Parts", imports: 95, exports: 82 }, { category: "Electronics", imports: 78, exports: 45 },
       { category: "Machinery", imports: 56, exports: 72 }, { category: "Chemicals", imports: 52, exports: 58 },
       { category: "Textiles", imports: 45, exports: 32 }, { category: "Food & Bev", imports: 62, exports: 48 },
+      { category: "Copper & Lithium", imports: 35, exports: 28 }, { category: "Agricultural", imports: 48, exports: 52 },
     ],
     priceIndex: [
       { month: "Jan", steel: 100, copper: 100, aluminum: 100, plastic: 100 },
@@ -254,9 +262,17 @@ function getMonthsForRange(timeRange: string): string[] {
 export default function TradeData() {
   const [timeRange, setTimeRange] = useState("12m");
   const [region, setRegion] = useState("global");
+  const [categorySearch, setCategorySearch] = useState("");
 
   const regionData = REGION_DATA[region] || REGION_DATA.global;
   const monthFilter = getMonthsForRange(timeRange);
+
+  const filteredCategories = useMemo(() => {
+    const cats = regionData.productCategories;
+    if (!categorySearch.trim()) return cats;
+    const q = categorySearch.toLowerCase();
+    return cats.filter((c) => c.category.toLowerCase().includes(q));
+  }, [regionData.productCategories, categorySearch]);
 
   const filteredData = useMemo(() => {
     const base = regionData.importExport;
@@ -324,6 +340,44 @@ export default function TradeData() {
           </Button>
         </div>
       </div>
+
+      {/* Quick Actions - prominent CTA */}
+      <Card className="bg-gradient-to-r from-blue-50 via-indigo-50 to-transparent border-blue-200">
+        <CardContent className="pt-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-slate-900 flex items-center gap-2 text-lg">
+                <Sparkles className="w-5 h-5 text-blue-600" />
+                Turn insights into action
+              </h3>
+              <p className="text-sm text-slate-600 mt-1">
+                Get AI sourcing reports, find verified suppliers, or analyze landed costs for any product.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/smart-finder">
+                <Button className="gap-2 bg-blue-600 hover:bg-blue-700">
+                  <Sparkles className="w-4 h-4" />
+                  Get AI Sourcing Report
+                </Button>
+              </Link>
+              <Link href="/suppliers">
+                <Button variant="outline" className="gap-2 border-blue-300 text-blue-700 hover:bg-blue-50">
+                  <Search className="w-4 h-4" />
+                  Search Suppliers
+                  <ExternalLink className="w-3 h-3" />
+                </Button>
+              </Link>
+              <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="gap-2">
+                  UN Comtrade
+                  <ExternalLink className="w-3 h-3" />
+                </Button>
+              </a>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -457,12 +511,32 @@ export default function TradeData() {
         <TabsContent value="categories" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Trade by Product Category</CardTitle>
-              <CardDescription>Import/Export comparison by category (billions USD) — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <CardTitle>Trade by Product Category</CardTitle>
+                  <CardDescription>Import/Export comparison by category (billions USD) — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+                </div>
+                <div className="relative w-full sm:w-64">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <Input
+                    placeholder="Search categories (e.g. ore, steel, textile)"
+                    value={categorySearch}
+                    onChange={(e) => setCategorySearch(e.target.value)}
+                    className="pl-9 bg-white text-slate-900 placeholder:text-slate-500"
+                  />
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
+              {filteredCategories.length === 0 ? (
+                <div className="py-12 text-center text-slate-600">
+                  <Search className="w-12 h-12 mx-auto mb-2 text-slate-400" />
+                  <p>No categories match &quot;{categorySearch}&quot;</p>
+                  <Button variant="outline" size="sm" className="mt-2" onClick={() => setCategorySearch("")}>Clear search</Button>
+                </div>
+              ) : (
               <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={regionData.productCategories} layout="vertical">
+                <BarChart data={filteredCategories} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
                   <XAxis type="number" className="text-xs" tick={{ fill: "#64748b" }} />
                   <YAxis dataKey="category" type="category" width={100} className="text-xs" tick={{ fill: "#64748b" }} />
@@ -478,6 +552,7 @@ export default function TradeData() {
                   <Bar dataKey="exports" fill="#10b981" name="Exports" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -555,40 +630,68 @@ export default function TradeData() {
           <CardContent>
             <div className="space-y-3">
               {regionData.topSuppliers.map((supplier) => (
-                <div key={supplier.rank} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
-                    #{supplier.rank}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-slate-800 truncate">{supplier.name}</div>
-                    <div className="text-sm text-slate-600 flex items-center gap-2">
-                      <span>{supplier.country}</span>
-                      <span>•</span>
-                      <span>{supplier.category}</span>
+                <Link key={supplier.rank} href={`/suppliers?q=${encodeURIComponent(supplier.category)}&industry=${encodeURIComponent(supplier.category)}`}>
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer group">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
+                      #{supplier.rank}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-slate-800 truncate group-hover:text-primary">{supplier.name}</div>
+                      <div className="text-sm text-slate-600 flex items-center gap-2">
+                        <span>{supplier.country}</span>
+                        <span>•</span>
+                        <span>{supplier.category}</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant="secondary">{supplier.rating} ★</Badge>
+                      <div className="text-xs text-slate-600 mt-1">{supplier.orders} orders</div>
+                      <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-primary mt-1 ml-auto" />
                     </div>
                   </div>
-                  <div className="text-right">
-                    <Badge variant="secondary">{supplier.rating} ★</Badge>
-                    <div className="text-xs text-slate-600 mt-1">{supplier.orders} orders</div>
-                  </div>
-                </div>
+                </Link>
               ))}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Market Insights */}
-      <Card className="bg-gradient-to-br from-primary/5 via-primary/10 to-transparent">
+      {/* Market Insights - high contrast for readability */}
+      <Card className="bg-white border-slate-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900">Market Insights</CardTitle>
-          <CardDescription>Trade intelligence updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+          <CardTitle className="text-slate-900 text-xl">Market Insights</CardTitle>
+          <CardDescription className="text-slate-600">
+            Trade intelligence updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {regionData.insights.map((insight, i) => (
               <InsightCard key={i} title={insight.title} content={insight.content} type={insight.type} />
             ))}
+          </div>
+          <div className="mt-6 pt-6 border-t border-slate-200">
+            <p className="text-sm font-medium text-slate-700 mb-2">External data sources</p>
+            <div className="flex flex-wrap gap-2">
+              <a href="https://www.trade.gov/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium transition-colors">
+                <ExternalLink className="w-3.5 h-3.5" />
+                Trade.gov
+              </a>
+              <a href="https://data.worldbank.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium transition-colors">
+                <ExternalLink className="w-3.5 h-3.5" />
+                World Bank Data
+              </a>
+              <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium transition-colors">
+                <ExternalLink className="w-3.5 h-3.5" />
+                UN Comtrade
+              </a>
+              <Link href="/smart-finder">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium transition-colors cursor-pointer">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  AI Sourcing Report
+                </span>
+              </Link>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -624,15 +727,20 @@ function MetricCard({ title, value, change, trend, icon }: {
 
 function InsightCard({ title, content, type }: { title: string; content: string; type: "warning" | "info" | "success" }) {
   const colors = {
-    warning: "border-amber-500/50 bg-amber-500/5",
-    info: "border-blue-500/50 bg-blue-500/5",
-    success: "border-green-500/50 bg-green-500/5",
+    warning: "border-amber-400 bg-amber-50",
+    info: "border-blue-400 bg-blue-50",
+    success: "border-emerald-400 bg-emerald-50",
+  };
+  const titleColors = {
+    warning: "text-amber-900",
+    info: "text-blue-900",
+    success: "text-emerald-900",
   };
 
   return (
-    <div className={`p-4 rounded-lg border ${colors[type]}`}>
-      <div className="font-medium mb-1 text-slate-800">{title}</div>
-      <p className="text-sm text-slate-600">{content}</p>
+    <div className={`p-4 rounded-lg border-2 ${colors[type]}`}>
+      <div className={`font-semibold mb-2 text-base ${titleColors[type]}`}>{title}</div>
+      <p className="text-sm text-slate-800 leading-relaxed">{content}</p>
     </div>
   );
 }

@@ -37,7 +37,11 @@ const EXAMPLE_PROMPTS = [
   "Find suppliers for wireless headphones",
   "Source industrial valves from China",
   "Analyze landed cost for textiles from India",
-  "Compare suppliers for medical equipment"
+  "Compare suppliers for medical equipment",
+  "Tin ore suppliers from Indonesia",
+  "Antimony ore and concentrates",
+  "Lithium and rare earth minerals",
+  "Steel and aluminum from Vietnam"
 ];
 
 function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string | number }) {
@@ -1682,7 +1686,7 @@ export default function SmartFinder() {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={selectedImage ? "Analyzing image..." : "What product are you sourcing?"}
-                  className="min-h-[52px] max-h-32 resize-none pr-12 rounded-xl border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+                  className="min-h-[52px] max-h-32 resize-none pr-12 rounded-xl border-gray-300 shadow-sm focus:border-primary focus:ring-primary text-gray-900 placeholder:text-gray-500"
                   rows={1}
                   data-testid="input-search-query"
                 />
@@ -1735,7 +1739,7 @@ export default function SmartFinder() {
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="e.g. 1000"
-                  className="h-9 text-sm text-slate-800"
+                  className="h-9 text-sm text-slate-900 placeholder:text-slate-500 bg-white"
                 />
               </div>
               <div className="space-y-1">
@@ -1745,7 +1749,7 @@ export default function SmartFinder() {
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
                   placeholder="e.g. $5/unit"
-                  className="h-9 text-sm text-slate-800"
+                  className="h-9 text-sm text-slate-900 placeholder:text-slate-500 bg-white"
                 />
               </div>
             </div>
@@ -1756,7 +1760,7 @@ export default function SmartFinder() {
                   value={additionalRequirements}
                   onChange={(e) => setAdditionalRequirements(e.target.value)}
                   placeholder="e.g. ISO certified, MOQ under 500, FOB terms..."
-                  className="min-h-[60px] text-sm text-slate-800"
+                  className="min-h-[60px] text-sm text-slate-900 placeholder:text-slate-500 bg-white"
                   rows={2}
                 />
               </div>

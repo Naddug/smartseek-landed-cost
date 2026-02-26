@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { execSync } from "child_process";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
@@ -9,6 +10,24 @@ import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 
 const app = express();
+
+/** Run Drizzle schema push on Railway deploy — fixes ECONNRESET (migrations run from Railway, not local) */
+async function runDrizzlePush() {
+  const url = process.env.DATABASE_URL;
+  const onRailway = !!process.env.RAILWAY_ENVIRONMENT_ID || !!process.env.RAILWAY_ENVIRONMENT_NAME;
+  if (!url || process.env.NODE_ENV !== "production") return;
+  if (url.includes("localhost") || url.includes("dummy")) return;
+  if (!onRailway) return; // Skip when running locally (avoids blocking on Railway DB from local)
+  try {
+    execSync("npx drizzle-kit push --force", {
+      stdio: "inherit",
+      env: { ...process.env, NODE_TLS_REJECT_UNAUTHORIZED: "0" },
+    });
+    console.log("Drizzle schema push completed");
+  } catch (e) {
+    console.warn("Drizzle push failed (non-fatal):", (e as Error)?.message ?? e);
+  }
+}
 const httpServer = createServer(app);
 
 declare module "http" {
@@ -163,6 +182,8 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Run Drizzle migrations on Railway (fixes ECONNRESET — runs from Railway network)
+  await runDrizzlePush();
   // Initialize Stripe on startup
   await initStripe();
   
@@ -187,11 +208,8 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
+  // Serve on PORT env or 3000 (avoids macOS AirPlay on 5000)
+  const port = parseInt(process.env.PORT || "3000", 10);
   httpServer.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });

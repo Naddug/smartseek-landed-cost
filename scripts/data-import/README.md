@@ -41,11 +41,13 @@ npm run db:push       # Adds dataSource to Drizzle leads table
 | `npm run import:opencorporates` | OpenCorporates API | 5-10K from DE, FR, IN, etc. | Requires API token |
 | `npm run import:trade-gov` | Trade.gov ITA | US exporters | Requires API key (free signup) |
 | `npm run import:generate-leads` | Derived from suppliers | Up to 3M B2B leads | Real company data only; run after supplier imports |
-| `npm run import:pdl` | People Data Labs (Kaggle) | Up to 3.5M global suppliers | **217+ countries**; set `PDL_TARGET_COUNT` to override |
+| `npm run import:pdl` | People Data Labs (Kaggle) | Up to 4.3M registry-verified suppliers | **220+ countries**; set `PDL_TARGET_COUNT` to override |
 | `npm run import:check-db` | — | — | Check DB size (Railway Hobby: 5GB limit) |
 | `npm run import:all` | All of the above | Full pipeline | Deletes non-user-submitted, then imports |
+| `npm run import:all-suppliers` | companies.csv + pdl-companies.csv | Up to 29M+ suppliers | Default target 29M; set `PDL_TARGET_COUNT` to override |
+| `npm run import:all-suppliers-29m` | Same as above | 30M suppliers | Full import with `PDL_IMPORT_ALL=true` for all industries |
 
-## People Data Labs (PDL) — 217+ Countries
+## People Data Labs (PDL) — 220+ Countries & Territories
 
 **Important: Only ONE CSV file is used at a time.** You choose either:
 - **Option A (7M):** [Kaggle](https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset) — subset
@@ -55,7 +57,7 @@ Using the 23.8M file gives you everything; no need to run both.
 
 1. Download ONE CSV (Kaggle 7M or PDL 23.8M)
 2. Place it at `scripts/data-import/pdl-companies.csv` (or set `PDL_CSV_PATH`)
-3. Run: `PDL_TARGET_COUNT=3500000 npm run import:pdl`
+3. Run: `PDL_TARGET_COUNT=4300000 npm run import:pdl`
 
 **Note:** If the live site shows `ECONNRESET` during import, the DB is overloaded. Stop the import (Ctrl+C). The script now includes a 150ms delay between batches to reduce DB load. Run import during low-traffic hours.
 
@@ -70,11 +72,21 @@ Using the 23.8M file gives you everything; no need to run both.
 - **OpenCorporates**: `verified: true`, `registryUrl` when available
 - **user-submitted**: Preserved during `import:all` (not deleted)
 
+## Full 29M+ Supplier Import (companies.csv + pdl-companies.csv)
+
+For broad search coverage (e.g. tin ore, antimony ore, minerals):
+
+1. **companies.csv**: Place at `/Users/harunkaya/Downloads/companies.csv` or set `COMPANIES_CSV_PATH`
+2. **pdl-companies.csv**: Download [PDL 23.8M](https://www.peopledatalabs.com/company-dataset) or [Kaggle 7M](https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset), place at `scripts/data-import/pdl-companies.csv` or set `PDL_CSV_PATH`
+3. Run: `npm run import:all-suppliers-29m`
+
+This imports up to 30M suppliers with `PDL_IMPORT_ALL=true` (all industries). Expect long runtime for large CSVs. Railway DB: ensure sufficient storage.
+
 ## Railway Hobby (5GB Limit)
 
 - **DB size**: Run `npm run import:check-db` to see current usage.
-- **Suppliers**: Default PDL import cap is 350K. Set `PDL_TARGET_COUNT=3500000` for up to 3.5M (fits within 5GB).
-- **Leads**: Generated from real suppliers. Default cap 3M. Set `LEADS_TARGET=3000000` if you have the suppliers.
+- **Suppliers**: Default target 29M. Set `PDL_TARGET_COUNT` to override.
+- **Leads**: Generated from real suppliers. Default cap 2.9M. Set `LEADS_TARGET=2900000` to match.
 
 ## Leads — Real Data Only
 

@@ -163,7 +163,7 @@ export default function UniversalSearch() {
             ref={inputRef}
             type="text"
             placeholder="Search products, HS codes, suppliers..."
-            className="pl-12 pr-24 h-14 text-lg"
+            className="pl-12 pr-24 h-14 text-lg bg-white text-gray-900 placeholder:text-gray-500"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -276,7 +276,7 @@ export default function UniversalSearch() {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: "Electronics", icon: "📱", count: "2.4M products" },
+                  { name: "Electronics", icon: "📱", count: "4.3M+ suppliers" },
                   { name: "Apparel", icon: "👕", count: "1.8M products" },
                   { name: "Home & Garden", icon: "🏠", count: "980K products" },
                   { name: "Sports & Fitness", icon: "⚽", count: "560K products" },

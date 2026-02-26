@@ -15,7 +15,7 @@ import { eq, sql } from "drizzle-orm";
 const prisma = new PrismaClient();
 const BATCH_SIZE = 500;
 // Generate 1 lead per supplier (all real company data). Override with LEADS_TARGET env.
-const TARGET_LEADS = parseInt(process.env.LEADS_TARGET || "3000000", 10) || 3_000_000;
+const TARGET_LEADS = parseInt(process.env.LEADS_TARGET || "2900000", 10) || 2_900_000;
 
 const DEPARTMENTS = [
   "Procurement Department",

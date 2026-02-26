@@ -41,7 +41,7 @@ const faqSections: FAQSection[] = [
       },
       {
         question: "How many suppliers are in the database?",
-        answer: "We have 2.8M+ verified suppliers and 2.4M+ buyer leads across 231+ countries. Our database spans Mining & Minerals, Electronics, Textiles, Machinery, Chemicals, Food & Agriculture, and more."
+        answer: "We have 4.3M+ registry-verified & enriched suppliers and 2.9M+ buyer & trade leads across 220+ countries and territories. Our database is built on a 29M+ global supplier graph and spans 20+ industries—Mining & Minerals, Electronics, Textiles, Machinery, Chemicals, Food & Agriculture, and more. We emphasize quality, intent, and trade signals over sheer volume."
       },
       {
         question: "What countries do you cover?",

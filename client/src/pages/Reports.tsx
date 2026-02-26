@@ -23,7 +23,7 @@ import { jsPDF } from "jspdf";
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
 export default function Reports() {
-  const { data: reports = [], isLoading, error } = useReports();
+  const { data: reports = [], isLoading, error, refetch: refetchReports } = useReports();
   const { data: leadHistory = [], isLoading: leadsLoading } = useLeadHistory();
   const { data: customsCalcs = [], isLoading: customsLoading } = useCustomsCalculations();
   const { data: shippingEsts = [], isLoading: shippingLoading } = useShippingEstimates();
@@ -42,13 +42,26 @@ export default function Reports() {
   }
 
   if (error) {
+    const isAuthError = error?.message?.includes("401") || error?.message?.toLowerCase().includes("not authenticated");
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
           <h2 className="text-xl font-bold mb-2">Unable to load reports</h2>
-          <p className="text-muted-foreground mb-4">Please try refreshing the page.</p>
-          <Button onClick={() => window.location.reload()}>Refresh Page</Button>
+          <p className="text-muted-foreground mb-4">
+            {isAuthError ? "Your session may have expired." : "Please try refreshing the page."}
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Button variant="outline" onClick={() => refetchReports()}>Retry</Button>
+            {isAuthError && (
+              <Link href="/login">
+                <Button>Log in again</Button>
+              </Link>
+            )}
+            {!isAuthError && (
+              <Button onClick={() => window.location.reload()}>Refresh Page</Button>
+            )}
+          </div>
         </div>
       </div>
     );
