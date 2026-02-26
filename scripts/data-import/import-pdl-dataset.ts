@@ -293,6 +293,8 @@ async function main() {
       try {
         await prisma.supplier.createMany({ data: batch as never[], skipDuplicates: true });
         imported += batch.length;
+        // Small delay to avoid exhausting Railway DB connections (prevents ECONNRESET on live site)
+        await new Promise((r) => setTimeout(r, 150));
         if (imported % 5000 === 0) {
           console.log(`   ✅ ${imported.toLocaleString()} suppliers imported (${processed.toLocaleString()} rows processed)`);
         }

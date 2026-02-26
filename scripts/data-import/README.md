@@ -47,12 +47,17 @@ npm run db:push       # Adds dataSource to Drizzle leads table
 
 ## People Data Labs (PDL) — 217+ Countries
 
-1. Go to https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset
-2. Download the CSV (free, requires Kaggle account)
-3. Place it at `scripts/data-import/pdl-companies.csv` (or set `PDL_CSV_PATH` to your file path)
-4. Run: `PDL_TARGET_COUNT=3500000 npm run import:pdl`
+**Important: Only ONE CSV file is used at a time.** You choose either:
+- **Option A (7M):** [Kaggle](https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset) — subset
+- **Option B (23.8M):** [PDL](https://www.peopledatalabs.com/company-dataset) — full dataset (includes 7M and more)
 
-This gives up to 3.5M manufacturing/industrial companies across 217+ countries (CC BY 4.0).
+Using the 23.8M file gives you everything; no need to run both.
+
+1. Download ONE CSV (Kaggle 7M or PDL 23.8M)
+2. Place it at `scripts/data-import/pdl-companies.csv` (or set `PDL_CSV_PATH`)
+3. Run: `PDL_TARGET_COUNT=3500000 npm run import:pdl`
+
+**Note:** If the live site shows `ECONNRESET` during import, the DB is overloaded. Stop the import (Ctrl+C). The script now includes a 150ms delay between batches to reduce DB load. Run import during low-traffic hours.
 
 ## Run Order
 
