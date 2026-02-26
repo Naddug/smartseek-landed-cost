@@ -83,6 +83,7 @@ export default function SmartFinder() {
   const createReport = useCreateReport();
   const { data: report, refetch } = useReport(reportId || 0);
   const [isExporting, setIsExporting] = useState(false);
+  const [isTestingReport, setIsTestingReport] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -228,6 +229,29 @@ export default function SmartFinder() {
   const handleExampleClick = (prompt: string) => {
     setQuery(prompt);
     handleSubmit(prompt);
+  };
+
+  const handleTestReport = async () => {
+    setIsTestingReport(true);
+    try {
+      const res = await fetch("/api/health/test-report", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Report generation works! Try a real search above.");
+      } else {
+        toast.error(data.error || "Report test failed");
+        console.error("Test report error:", data);
+      }
+    } catch (e) {
+      toast.error("Test failed: " + (e as Error)?.message);
+      console.error(e);
+    } finally {
+      setIsTestingReport(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -1798,6 +1822,14 @@ export default function SmartFinder() {
           <p className="text-xs text-center text-slate-600 mt-2">
             {selectedImage ? "Click the sparkle button to analyze image" : "Press Enter to search • Upload an image or type • Uses 1 credit per report"}
           </p>
+          <button
+            type="button"
+            onClick={handleTestReport}
+            disabled={isTestingReport}
+            className="text-xs text-slate-500 hover:text-slate-700 mt-1 underline disabled:opacity-50"
+          >
+            {isTestingReport ? "Testing…" : "Test report generation (debug)"}
+          </button>
         </div>
       </div>
 

@@ -110,6 +110,35 @@ export async function registerRoutes(
     res.json(checks);
   });
 
+  // Diagnostic: test report generation (returns error details for debugging)
+  app.post("/api/health/test-report", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    try {
+      const formData: ReportFormData = {
+        productName: "wireless headphones",
+        category: "electronics",
+        targetRegion: "China",
+        budget: "competitive",
+        quantity: "1000",
+        originCountry: "China",
+        destinationCountry: "United States",
+        additionalRequirements: "",
+      };
+      const report = await generateSmartFinderReport(formData);
+      res.json({ success: true, hasSummary: !!report.executiveSummary });
+    } catch (e: any) {
+      console.error("Test report failed:", e);
+      res.status(500).json({
+        success: false,
+        error: e?.message || String(e),
+        stack: process.env.NODE_ENV === "development" ? e?.stack : undefined,
+      });
+    }
+  });
+
   // User info endpoint
   app.get("/api/user", async (req: Request, res: Response) => {
     const userId = getUserId(req);
