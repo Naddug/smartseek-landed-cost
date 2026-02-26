@@ -258,6 +258,7 @@ export async function generateSmartFinderReport(
       orderBy: { rating: "desc" },
       select: {
         companyName: true,
+        slug: true,
         country: true,
         city: true,
         industry: true,
@@ -530,8 +531,9 @@ IMPORTANT - Provide maximum value for procurers and sellers:
       report.landedCostBreakdown = landedCostData;
     }
     if (realSuppliers.length > 0) {
-      report.sellerComparison = realSuppliers.map((s) => ({
+      report.sellerComparison = realSuppliers.map((s: any) => ({
         sellerName: s.companyName,
+        slug: s.slug,
         platform: "SmartSeek Directory",
         location: `${s.city}, ${s.country}`,
         unitPrice: s.minOrderValue ? `$${s.minOrderValue.toLocaleString()}` : "Contact for quote",

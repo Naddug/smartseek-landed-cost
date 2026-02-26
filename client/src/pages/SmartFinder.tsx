@@ -31,7 +31,7 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 
 const EXAMPLE_PROMPTS = [
   "Find suppliers for wireless headphones",
@@ -49,11 +49,11 @@ function CostRow({ icon, label, value }: { icon: React.ReactNode; label: string;
   const displayValue = typeof value === 'number' ? `$${value.toLocaleString()}` : value;
   return (
     <div className="flex justify-between items-center">
-      <div className="flex items-center gap-2 text-sm">
+      <div className="flex items-center gap-2 text-sm text-slate-800">
         <span className="w-5 h-5">{icon}</span>
         <span>{label}</span>
       </div>
-      <span className="font-medium">{displayValue}</span>
+      <span className="font-medium text-slate-900">{displayValue}</span>
     </div>
   );
 }
@@ -62,6 +62,26 @@ function parseNumericValue(val: string | number | undefined | null): number {
   if (val === undefined || val === null) return 0;
   if (typeof val === 'number') return val;
   return parseFloat(val.replace(/[^0-9.]/g, '')) || 0;
+}
+
+function toTitleCase(str: string | null | undefined): string {
+  if (!str || typeof str !== "string") return str || "";
+  const abbr = new Set(["pt", "tbk", "gmbh", "llc", "ltd", "inc", "co", "lp", "plc", "sa", "ag", "nv", "bv", "corp", "pvt", "uk", "us"]);
+  return str
+    .split(/\s+/)
+    .map((w) => (abbr.has(w.toLowerCase()) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()))
+    .join(" ");
+}
+
+/** Infer unit from HS code / product category: tonnes for minerals, pieces for electronics, etc. */
+function inferUnit(hsCode?: string, category?: string): string {
+  const cat = (category || "").toLowerCase();
+  const hs = (hsCode || "").replace(/\D/g, "").slice(0, 2);
+  if (/mineral|ore|metal|copper|iron|steel|coal|oil|gas/.test(cat) || ["26", "27", "72", "73", "74", "75", "76", "78", "79"].includes(hs)) return "tonnes";
+  if (/electronic|device|phone|computer|headphone/.test(cat) || ["84", "85"].includes(hs)) return "pieces";
+  if (/textile|fabric|cloth|garment/.test(cat) || ["61", "62", "63"].includes(hs)) return "pieces";
+  if (/liquid|beverage|chemical/.test(cat)) return "liters";
+  return "units";
 }
 
 export default function SmartFinder() {
@@ -1033,6 +1053,7 @@ export default function SmartFinder() {
     const sellers = reportData?.sellerComparison || [];
     const profitAnalysis = reportData?.profitAnalysis;
     const productClass = reportData?.productClassification;
+    const unit = inferUnit(productClass?.hsCode, productClass?.productCategory);
 
     const costBreakdownData = landedCost ? [
       { name: 'Product', value: parseNumericValue(landedCost.productCost), color: '#3b82f6' },
@@ -1082,7 +1103,7 @@ export default function SmartFinder() {
             <div className="p-3 bg-green-50 rounded-lg text-center">
               <DollarSign className="w-4 h-4 text-green-600 mx-auto mb-1" />
               <div className="text-sm font-bold text-green-900">{landedCost?.costPerUnit || 'N/A'}</div>
-              <div className="text-xs text-green-600">Landed Cost/Unit</div>
+              <div className="text-xs font-medium text-green-800">Landed Cost/{unit}</div>
             </div>
             <div className="p-3 bg-purple-50 rounded-lg text-center">
               <Percent className="w-4 h-4 text-purple-600 mx-auto mb-1" />
@@ -1134,20 +1155,20 @@ export default function SmartFinder() {
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div>
-                      <div className="text-xs text-slate-600">HS Code</div>
+                      <div className="text-xs font-medium text-slate-800">HS Code</div>
                       <div className="font-mono font-bold text-primary">{productClass.hsCode}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-slate-600">Tariff Chapter</div>
-                      <div className="font-medium text-sm text-slate-800">{productClass.tariffChapter}</div>
+                      <div className="text-xs font-medium text-slate-800">Tariff Chapter</div>
+                      <div className="font-medium text-sm text-slate-900">{productClass.tariffChapter}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-slate-600">Category</div>
-                      <div className="font-medium text-sm text-slate-800">{productClass.productCategory}</div>
+                      <div className="text-xs font-medium text-slate-800">Category</div>
+                      <div className="font-medium text-sm text-slate-900">{productClass.productCategory}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-slate-600">Description</div>
-                      <div className="font-medium text-sm text-slate-800 truncate">{productClass.hsCodeDescription?.slice(0, 40)}...</div>
+                      <div className="text-xs font-medium text-slate-800">Description</div>
+                      <div className="font-medium text-sm text-slate-900" title={productClass.hsCodeDescription}>{productClass.hsCodeDescription || "—"}</div>
                     </div>
                   </div>
                 </div>
@@ -1155,13 +1176,13 @@ export default function SmartFinder() {
 
               {reportData?.recommendations && reportData.recommendations.length > 0 && (
                 <div className="p-4 bg-green-50 rounded-lg border border-green-100">
-                  <h4 className="font-semibold flex items-center gap-2 mb-2">
+                  <h4 className="font-semibold flex items-center gap-2 mb-2 text-slate-900">
                     <Sparkles className="w-4 h-4 text-green-600" />
                     Recommendations
                   </h4>
                   <ul className="space-y-1">
                     {reportData.recommendations.slice(0, 4).map((rec: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2 text-sm">
+                      <li key={i} className="flex items-start gap-2 text-sm text-slate-800">
                         <CheckCircle className="w-3 h-3 text-green-500 mt-1 shrink-0" />
                         <span>{rec}</span>
                       </li>
@@ -1299,10 +1320,18 @@ export default function SmartFinder() {
                         <div className="flex items-center gap-2 mb-2">
                           <Building2 className="w-5 h-5 text-primary" />
                           <div>
-                            <h4 className="font-bold">{seller.sellerName}</h4>
-                            <div className="flex items-center gap-2 text-xs text-slate-600">
+                            <h4 className="font-bold text-slate-900">
+                              {seller.slug ? (
+                                <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-primary hover:underline">
+                                  {toTitleCase(seller.sellerName)}
+                                </Link>
+                              ) : (
+                                toTitleCase(seller.sellerName)
+                              )}
+                            </h4>
+                            <div className="flex items-center gap-2 text-xs text-slate-700">
                               <MapPin className="w-3 h-3" />
-                              {seller.location}
+                              {toTitleCase(seller.location)}
                               <Badge variant="outline" className="text-xs">{seller.platform}</Badge>
                             </div>
                           </div>
@@ -1310,22 +1339,22 @@ export default function SmartFinder() {
                         
                         <div className="grid grid-cols-4 gap-3 mt-3">
                           <div>
-                            <div className="text-xs text-slate-600">Unit Price</div>
-                            <div className="font-bold text-primary">{seller.unitPrice}</div>
+                            <div className="text-xs font-medium text-slate-800">Unit Price</div>
+                            <div className="font-bold text-primary text-slate-900">{seller.unitPrice}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-slate-600">MOQ</div>
-                            <div className="font-medium text-sm">{seller.moq}</div>
+                            <div className="text-xs font-medium text-slate-800">MOQ</div>
+                            <div className="font-medium text-sm text-slate-800">{seller.moq}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-slate-600">Lead Time</div>
-                            <div className="font-medium text-sm">{seller.leadTime}</div>
+                            <div className="text-xs font-medium text-slate-800">Lead Time</div>
+                            <div className="font-medium text-sm text-slate-800">{seller.leadTime}</div>
                           </div>
                           <div>
-                            <div className="text-xs text-slate-600">Rating</div>
+                            <div className="text-xs font-medium text-slate-800">Rating</div>
                             <div className="flex items-center gap-1">
                               <Star className="w-3 h-3 text-amber-500 fill-current" />
-                              <span className="font-medium text-sm">{seller.rating}</span>
+                              <span className="font-medium text-sm text-slate-800">{seller.rating}</span>
                             </div>
                           </div>
                         </div>
@@ -1340,15 +1369,27 @@ export default function SmartFinder() {
                             ))}
                           </div>
                         )}
+
+                        {seller.slug ? (
+                          <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`}>
+                            <Button variant="default" size="sm" className="mt-3">
+                              Contact for quote
+                            </Button>
+                          </Link>
+                        ) : (
+                          <Button variant="outline" size="sm" className="mt-3" asChild>
+                            <a href="/suppliers" target="_blank" rel="noopener noreferrer">View suppliers</a>
+                          </Button>
+                        )}
                       </div>
 
                       <div className="lg:w-48 space-y-2 p-3 bg-gray-100 rounded-lg text-sm">
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Est. Profit</span>
+                          <span className="font-medium text-slate-800">Est. Profit</span>
                           <span className="font-bold text-green-600">{seller.estimatedProfit || 'N/A'}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-600">Margin</span>
+                          <span className="font-medium text-slate-800">Margin</span>
                           <span className="font-bold text-green-600">{seller.profitMargin || 'N/A'}</span>
                         </div>
                       </div>
@@ -1405,7 +1446,7 @@ export default function SmartFinder() {
                       <span className="text-xl font-bold text-primary">{landedCost.totalLandedCost}</span>
                     </div>
                     <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg border border-green-200">
-                      <span className="font-medium text-sm">Cost Per Unit</span>
+                      <span className="font-medium text-sm text-slate-800">Cost Per {unit.charAt(0).toUpperCase() + unit.slice(1)}</span>
                       <span className="font-bold text-green-600">{landedCost.costPerUnit}</span>
                     </div>
                   </div>
@@ -1415,16 +1456,22 @@ export default function SmartFinder() {
               {profitAnalysis && (
                 <div className="grid grid-cols-3 gap-3 mt-4">
                   <div className="p-3 bg-green-50 rounded-lg text-center border border-green-100">
-                    <div className="text-xs text-slate-600">Retail Price</div>
+                    <div className="text-xs font-medium text-slate-800">Retail Price</div>
                     <div className="text-lg font-bold text-green-600">{profitAnalysis.recommendedRetailPrice}</div>
                   </div>
                   <div className="p-3 bg-blue-50 rounded-lg text-center border border-blue-100">
-                    <div className="text-xs text-slate-600">Est. Profit/Unit</div>
+                    <div className="text-xs font-medium text-slate-800">Est. Profit/{unit.slice(0, -1)}</div>
                     <div className="text-lg font-bold text-blue-600">{profitAnalysis.estimatedProfit}</div>
                   </div>
                   <div className="p-3 bg-purple-50 rounded-lg text-center border border-purple-100">
-                    <div className="text-xs text-slate-600">Break-Even Qty</div>
-                    <div className="text-lg font-bold text-purple-600">{profitAnalysis.breakEvenQuantity}</div>
+                    <div className="text-xs font-medium text-slate-800">Break-Even ({unit})</div>
+                    <div className="text-lg font-bold text-purple-600">
+                      {(() => {
+                        const qty = profitAnalysis.breakEvenQuantity || "";
+                        const num = qty.replace(/[^0-9.,]/g, "").replace(/,/g, "");
+                        return num ? `${parseFloat(num).toLocaleString()} ${unit}` : qty || "—";
+                      })()}
+                    </div>
                   </div>
                 </div>
               )}

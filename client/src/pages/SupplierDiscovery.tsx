@@ -509,7 +509,10 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("rating");
   const [page, setPage] = useState(1);
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("slug");
+  });
   const [showFilters, setShowFilters] = useState(false);
 
   // Read URL params or initialIndustry prop on mount
