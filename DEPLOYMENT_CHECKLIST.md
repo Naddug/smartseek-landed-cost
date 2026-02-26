@@ -41,6 +41,17 @@ Ensure these are set in your deployment environment:
 - Use `npm run build` then `npm start`
 - Ensure PostgreSQL is provisioned and `DATABASE_URL` is set
 
+## Troubleshooting
+
+### ECONNRESET at startup
+If deploy logs show `Failed to initialize Stripe: read ECONNRESET`:
+1. **Railway:** Add `STRIPE_SKIP_INIT=true` to Variables — app will start without Stripe (billing disabled)
+2. **Or** add `?connection_limit=5` to `DATABASE_URL` to reduce pool size
+3. The app retries Stripe init once after 5s; if DB is temporarily unavailable, it may recover
+
+### Health check
+- `GET /api/health` returns `{ ok: true }` — use for deploy verification (no DB required)
+
 ## Post-Deployment
 - [ ] Verify login/signup flow
 - [ ] Test SmartSeek AI report generation

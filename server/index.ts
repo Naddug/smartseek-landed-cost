@@ -19,6 +19,10 @@ declare module "http" {
 
 // Initialize Stripe schema and sync data
 async function initStripe() {
+  if (process.env.STRIPE_SKIP_INIT === 'true') {
+    console.log('STRIPE_SKIP_INIT set, skipping Stripe initialization');
+    return;
+  }
   const databaseUrl = process.env.DATABASE_URL;
   if (!databaseUrl) {
     console.log('DATABASE_URL not set, skipping Stripe initialization');
@@ -30,10 +34,14 @@ async function initStripe() {
     return;
   }
 
-  try {
+  const doInit = async () => {
     console.log('Initializing Stripe schema...');
     // @ts-ignore - schema option is supported by stripe-replit-sync
     await runMigrations({ databaseUrl, schema: 'stripe' } as any);
+  };
+
+  try {
+    await doInit();
     console.log('Stripe schema ready');
 
     const stripeSync = await getStripeSync();
@@ -61,9 +69,20 @@ async function initStripe() {
     stripeSync.syncBackfill()
       .then(() => console.log('Stripe data synced'))
       .catch((err: any) => console.error('Error syncing Stripe data:', err));
-  } catch (error) {
-    console.error('Failed to initialize Stripe (server will continue):', error);
-    // Don't rethrow — server must start even without Stripe/PostgreSQL
+  } catch (error: any) {
+    if (error?.code === 'ECONNRESET' || error?.message?.includes('ECONNRESET')) {
+      console.log('Stripe init ECONNRESET, retrying in 5s...');
+      await new Promise((r) => setTimeout(r, 5000));
+      try {
+        await doInit();
+        console.log('Stripe schema ready (retry succeeded)');
+        return;
+      } catch (retryErr) {
+        console.error('Stripe init retry failed (server will continue):', retryErr);
+      }
+    } else {
+      console.error('Failed to initialize Stripe (server will continue):', error);
+    }
   }
 }
 

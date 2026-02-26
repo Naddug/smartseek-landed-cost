@@ -10,5 +10,6 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is required. Set it in .env or your deployment environment.");
 }
 
-export const pool = new Pool({ connectionString });
+// Limit connections to avoid exhausting Railway Postgres (prevents ECONNRESET)
+export const pool = new Pool({ connectionString, max: 5 });
 export const db = drizzle(pool, { schema });

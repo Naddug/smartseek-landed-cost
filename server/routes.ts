@@ -31,7 +31,12 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+
+  // Health check (no DB) — for Railway/deploy verification
+  app.get("/api/health", (_req: Request, res: Response) => {
+    res.status(200).json({ ok: true });
+  });
+
   // User info endpoint
   app.get("/api/user", async (req: Request, res: Response) => {
     const userId = getUserId(req);
