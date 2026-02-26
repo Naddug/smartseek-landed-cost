@@ -452,9 +452,15 @@ export default function AIAgent() {
             </Card>
 
             <Card
-              className={`bg-slate-600/40 border-slate-500/40 hover:bg-slate-600/60 hover:border-slate-400/50 transition-all ${
-                leads.length === 0 ? "opacity-50" : "cursor-pointer"
-              }`}
+              className={`bg-slate-600/40 border-slate-500/40 hover:bg-slate-600/60 hover:border-slate-400/50 transition-all cursor-pointer`}
+              onClick={() => {
+                if (leads.length === 0) {
+                  toast.error("Search for leads first, then use Prepare Phone Call or Prepare Email from the results table.");
+                  document.getElementById("search-input")?.focus();
+                } else {
+                  handlePrepareCall(leads[0]);
+                }
+              }}
               data-testid="card-action-call"
             >
               <CardContent className="p-6">
@@ -469,9 +475,15 @@ export default function AIAgent() {
             </Card>
 
             <Card
-              className={`bg-slate-600/40 border-slate-500/40 hover:bg-slate-600/60 hover:border-slate-400/50 transition-all ${
-                leads.length === 0 ? "opacity-50" : "cursor-pointer"
-              }`}
+              className={`bg-slate-600/40 border-slate-500/40 hover:bg-slate-600/60 hover:border-slate-400/50 transition-all cursor-pointer`}
+              onClick={() => {
+                if (leads.length === 0) {
+                  toast.error("Search for leads first, then use Prepare Phone Call or Prepare Email from the results table.");
+                  document.getElementById("search-input")?.focus();
+                } else {
+                  handlePrepareEmail(leads[0]);
+                }
+              }}
               data-testid="card-action-email"
             >
               <CardContent className="p-6">

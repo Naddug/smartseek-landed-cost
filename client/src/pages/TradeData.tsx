@@ -369,7 +369,7 @@ export default function TradeData() {
                 </Button>
               </Link>
               <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2">
+                <Button variant="outline" className="gap-2 border-slate-400 text-slate-800 hover:bg-slate-100 hover:text-slate-900">
                   UN Comtrade
                   <ExternalLink className="w-3 h-3" />
                 </Button>

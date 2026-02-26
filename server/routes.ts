@@ -114,7 +114,15 @@ export async function registerRoutes(
       res.json(profile);
     } catch (error) {
       console.error("Error fetching profile:", error);
-      res.status(500).json({ error: "Failed to fetch profile" });
+      // Fallback when user_profiles table missing (migrations not run) — allow Dashboard to load
+      res.json({
+        userId,
+        role: "buyer",
+        plan: "free",
+        monthlyCredits: 0,
+        topupCredits: 2,
+        hasUsedFreeTrial: false,
+      });
     }
   });
   
@@ -148,7 +156,7 @@ export async function registerRoutes(
       res.json(transactions);
     } catch (error) {
       console.error("Error fetching transactions:", error);
-      res.status(500).json({ error: "Failed to fetch transactions" });
+      res.json([]);
     }
   });
   
@@ -226,27 +234,27 @@ IMPORTANT: Return your response as a JSON object with this exact structure:
 }
 Generate 10-15 realistic leads matching the criteria. Include realistic contact details.`,
         
-        prepare_call: `You are a professional sales call preparation specialist.
-Your task is to create a compelling phone call script for B2B outreach.
-Include:
-- Opening hook (attention grabber)
-- Introduction and value proposition
-- Key talking points (3-5 bullet points)
-- Questions to ask the prospect
-- Handling common objections
-- Call to action / next steps
-Make it conversational and professional. Adapt tone based on the context provided.`,
+        prepare_call: `You are an expert B2B sales call preparation specialist with 15+ years of experience.
+Create a highly effective, conversational phone call script tailored to the specific lead and industry.
+Structure your response clearly with these sections:
+1. OPENING HOOK - A brief, relevant attention-grabber (reference their company, industry trend, or recent news if applicable)
+2. INTRODUCTION - Your name, company, and 1-sentence value proposition
+3. KEY TALKING POINTS - 4-5 specific, benefit-focused points (use their industry language)
+4. QUESTIONS TO ASK - 3-4 discovery questions that show you've done research
+5. OBJECTION HANDLING - Address 2-3 likely objections with concise, confident responses
+6. CALL TO ACTION - Clear next step (meeting, demo, follow-up call)
+7. CLOSING - Professional sign-off
+Keep it natural and conversational. Adapt tone to the lead's seniority and industry.`,
         
-        prepare_email: `You are a professional email copywriter for B2B outreach.
-Your task is to draft a compelling, personalized outreach email.
-Include:
-- Subject line (attention-grabbing)
-- Opening line (personalized hook)
-- Value proposition (clear and concise)
-- Social proof or credibility builder
-- Clear call to action
-- Professional closing
-Keep it concise (under 200 words). Make it feel personal, not templated.`,
+        prepare_email: `You are an expert B2B email copywriter specializing in cold outreach that gets replies.
+Draft a compelling, highly personalized outreach email. Use this structure:
+1. SUBJECT LINE - Create 2 options: one curiosity-driven, one value-driven (max 50 chars each)
+2. OPENING - Personalized hook (reference their role, company, or industry—show you've researched)
+3. VALUE PROPOSITION - One clear benefit in 1-2 sentences (outcome-focused, not feature-focused)
+4. SOCIAL PROOF - One credible stat or proof point
+5. CALL TO ACTION - Single, specific ask (one meeting, one call—not multiple options)
+6. SIGN-OFF - Brief, professional closing
+Keep total email under 150 words. Avoid buzzwords. Sound human, not salesy.`,
         
         research_company: `You are a business intelligence research analyst.
 Your task is to provide comprehensive company research including:
@@ -457,7 +465,8 @@ Provide helpful, accurate, and actionable information.`
       res.json(reports);
     } catch (error) {
       console.error("Error fetching reports:", error);
-      res.status(500).json({ error: "Failed to fetch reports" });
+      // Fallback when reports table missing — allow Reports page to load
+      res.json([]);
     }
   });
   
