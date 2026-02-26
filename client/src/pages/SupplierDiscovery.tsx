@@ -88,6 +88,25 @@ function useFilters() {
   });
 }
 
+function useStats() {
+  return useQuery<{ suppliers: number; countries: number }>({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const res = await fetch("/api/stats");
+      if (!res.ok) throw new Error("Failed to fetch stats");
+      const data = await res.json();
+      return { suppliers: data.suppliers ?? 2860000, countries: data.countries ?? 231 };
+    },
+    staleTime: 60000,
+  });
+}
+
+function formatStat(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}K+`;
+  return `${n}+`;
+}
+
 // ─── Industry border color ────────────────────────────────────────────
 
 function getIndustryBorderColor(industry: string): string {
@@ -477,6 +496,9 @@ export default function SupplierDiscovery() {
   };
 
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery;
+  const { data: stats } = useStats();
+  const supplierCount = stats?.suppliers ?? 2860000;
+  const countryCount = stats?.countries ?? 231;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -488,7 +510,7 @@ export default function SupplierDiscovery() {
             <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
-          <p className="text-blue-100 mb-2">AI-powered search across 500,000+ verified suppliers in UK & US</p>
+          <p className="text-blue-100 mb-2">AI-powered search across {formatStat(supplierCount)} verified suppliers in {countryCount}+ countries</p>
           <p className="text-blue-200/90 text-sm mb-6">100% real companies from government registries • Every supplier links to official source • No fake or scraped data</p>
           <div className="flex gap-2">
             <div className="flex-1 relative group">

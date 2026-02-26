@@ -7,6 +7,7 @@ import { Plug, Check, ArrowRight, Shield, Loader2 } from "lucide-react";
 import { useStore } from "@/lib/store";
 
 const SLUG_TO_PROVIDER: Record<string, string> = {
+  google: "google",
   sap: "sap_ariba",
   oracle: "oracle",
   salesforce: "salesforce",

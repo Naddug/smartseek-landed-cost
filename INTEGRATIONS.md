@@ -2,10 +2,26 @@
 
 SmartSeek supports **real OAuth 2.0** connections to major procurement and ERP platforms. Configure these environment variables to enable live integrations.
 
+**→ Platform owner? See [PLATFORM_OWNER_CHECKLIST.md](./PLATFORM_OWNER_CHECKLIST.md) for step-by-step setup.**
+
+## Quick Start: Google (Works in 5 Minutes)
+
+Google Workspace is **free** to set up and works immediately:
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials
+2. Create a project (or select existing) → Create Credentials → OAuth client ID
+3. Application type: **Web application**
+4. Authorized redirect URIs: `https://your-railway-domain.up.railway.app/api/integrations/oauth/callback`
+5. Copy Client ID and Client Secret → Add to Railway env vars:
+   - `INTEGRATION_GOOGLE_CLIENT_ID`
+   - `INTEGRATION_GOOGLE_CLIENT_SECRET`
+6. Restart. Signed-in users can now click **Connect** on Google Workspace.
+
 ## Supported Platforms
 
 | Platform | OAuth Docs | Env Variables |
 |----------|------------|---------------|
+| **Google Workspace** | [Google Cloud Console](https://console.cloud.google.com/) (free) | `INTEGRATION_GOOGLE_CLIENT_ID`, `INTEGRATION_GOOGLE_CLIENT_SECRET` |
 | **SAP Ariba** | [SAP Ariba Developer](https://developer.ariba.com/) | `INTEGRATION_SAP_ARIBA_CLIENT_ID`, `INTEGRATION_SAP_ARIBA_CLIENT_SECRET` |
 | **Oracle** | [Oracle Cloud OAuth](https://docs.oracle.com/en/cloud/saas/applications-common/20b/oagrm/implementing-oauth2.html) | `INTEGRATION_ORACLE_CLIENT_ID`, `INTEGRATION_ORACLE_CLIENT_SECRET` |
 | **Salesforce** | [Salesforce Connected Apps](https://help.salesforce.com/s/articleView?id=sf.connected_app_create.htm) | `INTEGRATION_SALESFORCE_CLIENT_ID`, `INTEGRATION_SALESFORCE_CLIENT_SECRET` |

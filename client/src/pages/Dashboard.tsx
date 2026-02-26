@@ -145,7 +145,7 @@ export default function Dashboard() {
         <MetricCard
           icon={<Globe2 className="w-5 h-5" />}
           label="Regions Covered"
-          value="50+"
+          value="217+"
           change="Global network"
           iconBg="from-amber-500 to-orange-500"
           cardBg="from-slate-700/90 to-slate-600/90"

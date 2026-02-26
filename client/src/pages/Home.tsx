@@ -39,9 +39,9 @@ export default function Home() {
       .catch(() => setStats(null));
   }, []);
 
-  const suppliersVal = stats?.suppliers ?? 500000;
-  const leadsVal = stats?.leads ?? 100000;
-  const countriesVal = stats?.countries ?? 50;
+  const suppliersVal = stats?.suppliers ?? 2860000;
+  const leadsVal = stats?.leads ?? 2380000;
+  const countriesVal = stats?.countries ?? 217;
   const industriesVal = stats?.industries ?? 15;
   const topCountries = stats?.topCountries ?? [];
   const totalForPct = topCountries.reduce((s, c) => s + c.count, 0);
@@ -257,7 +257,7 @@ export default function Home() {
                   <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
                     <Database className="w-7 h-7 text-purple-600" />
                   </div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">2M+</div>
+                  <div className="text-3xl font-bold text-slate-900 mb-1">{formatStat(suppliersVal)}</div>
                   <div className="text-sm text-slate-600">{t("home.productListings")}</div>
                 </CardContent>
               </Card>

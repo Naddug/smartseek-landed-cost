@@ -18,12 +18,12 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const [location, setLocation] = useLocation();
   const { user } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [stats, setStats] = useState<{ suppliers: number; countries: number } | null>(null);
+  const [stats, setStats] = useState<{ suppliers: number; countries: number; leads: number } | null>(null);
 
   useEffect(() => {
     fetch("/api/stats")
       .then((r) => r.json())
-      .then((d) => setStats({ suppliers: d.suppliers, countries: d.countries }))
+      .then((d) => setStats({ suppliers: d.suppliers, countries: d.countries, leads: d.leads }))
       .catch(() => setStats(null));
   }, []);
 
@@ -45,18 +45,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       {/* Top bar - Trust strip (hidden on Integrations to avoid double header) */}
       {!isIntegrationsPage && (
       <div className="bg-slate-900/95 border-b border-slate-700/50 py-2">
-        <div className="container mx-auto px-4 flex items-center justify-center gap-8 text-xs text-slate-400">
+        <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-400">
           <span className="hidden sm:inline">{t("trust.strip1")}</span>
           <span className="hidden md:inline">•</span>
-          <span className="hidden md:inline">
-            {stats ? `${formatStat(stats.suppliers)} verified suppliers` : t("trust.strip2")}
-          </span>
+          <span>{stats ? `${formatStat(stats.suppliers)} suppliers` : t("trust.strip2")}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">{t("trust.strip3")}</span>
+          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} leads` : "2.4M+ leads"}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">
-            {stats ? `${formatStat(stats.countries)} countries` : t("trust.strip4")}
-          </span>
+          <span>{stats ? `${stats.countries}+ countries` : t("trust.strip4")}</span>
         </div>
       </div>
       )}

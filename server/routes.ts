@@ -1733,10 +1733,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       });
     } catch {
       res.json({
-        suppliers: 500000,
-        countries: 50,
+        suppliers: 2860000,
+        countries: 231,
         industries: 15,
-        leads: 100000,
+        leads: 2380000,
         topCountries: [],
       });
     }
@@ -2071,7 +2071,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       return res.status(400).json({ error: "Unknown integration" });
     }
     try {
-      const baseUrl = `${req.protocol}://${req.get("host") || ""}`;
+      // Use PUBLIC_APP_URL if set (fixes redirect_uri_mismatch when behind proxy or multiple domains)
+      const baseUrl =
+        process.env.PUBLIC_APP_URL?.replace(/\/$/, "") ||
+        `${req.protocol}://${req.get("host") || ""}`;
       const result = await getAuthorizationUrl(provider, userId, baseUrl);
       if ("error" in result) {
         return res.status(400).json({ error: result.error });

@@ -18,7 +18,10 @@
 import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import { parse } from "csv-parse";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const prisma = new PrismaClient();
 
@@ -71,6 +74,33 @@ const TARGET_INDUSTRIES: Record<string, string> = {
   "aviation & aerospace": "Aerospace & Defense",
   maritime: "Maritime & Shipping",
   shipbuilding: "Maritime & Shipping",
+  "computer software": "Electronics & Semiconductors",
+  "information technology": "Electronics & Semiconductors",
+  "information technology and services": "Electronics & Semiconductors",
+  "computer & network security": "Electronics & Semiconductors",
+  "computer hardware": "Electronics & Semiconductors",
+  // Extra industries to reach 3.5M (still B2B-relevant)
+  "industrial": "Machinery & Industrial Equipment",
+  "engineering": "Machinery & Industrial Equipment",
+  "professional services": "Wholesale & Distribution",
+  "business services": "Wholesale & Distribution",
+  "financial services": "Wholesale & Distribution",
+  "insurance": "Wholesale & Distribution",
+  "real estate": "Construction & Building Materials",
+  "legal services": "Wholesale & Distribution",
+  "accounting": "Wholesale & Distribution",
+  "marketing": "Consumer Goods & Retail",
+  "advertising": "Consumer Goods & Retail",
+  "design": "Manufacturing (General)",
+  "research": "Healthcare & Medical Devices",
+  "environmental": "Energy & Renewables",
+  "waste": "Energy & Renewables",
+  "telecommunications": "Electronics & Semiconductors",
+  "printing": "Paper & Packaging",
+  "metal": "Mining & Minerals",
+  "steel": "Mining & Minerals",
+  "rubber": "Chemicals & Petrochemicals",
+  "leather": "Textiles & Apparel",
 };
 
 function getCountryCode(country: string): string {
@@ -134,15 +164,49 @@ function getCountryCode(country: string): string {
 }
 
 async function main() {
-  const csvPath = path.join(__dirname, "pdl-companies.csv");
+  // PDL_CSV_PATH env overrides default (e.g. if you kept Kaggle filename)
+  const defaultCsv = path.join(__dirname, "pdl-companies.csv");
+  const csvPath = process.env.PDL_CSV_PATH
+    ? path.resolve(process.env.PDL_CSV_PATH)
+    : defaultCsv;
 
   if (!fs.existsSync(csvPath)) {
     console.error(`\n❌ CSV file not found at: ${csvPath}`);
     console.error(`\nDownload the free dataset from:`);
     console.error(`  Option A (22M): https://www.peopledatalabs.com/company-dataset`);
     console.error(`  Option B (7M):  https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset`);
-    console.error(`\nPlace the CSV file at: ${csvPath}`);
+    console.error(`\nPlace the CSV at: ${csvPath}`);
+    console.error(`   Or set PDL_CSV_PATH to your file path (e.g. ./scripts/data-import/companies.csv)`);
     process.exit(1);
+  }
+
+  const stat = fs.statSync(csvPath);
+  if (stat.size < 100) {
+    console.error(`\n❌ CSV file is empty or too small (${stat.size} bytes) at: ${csvPath}`);
+    console.error(`\nPlease add your company data. Supported formats:`);
+    console.error(`  - PDL/Kaggle: name, country, locality, industry, founded, size, website, linkedin_url`);
+    console.error(`  - Alternative: name, country, city/locality, industry, year_founded, domain, size_range`);
+    console.error(`\nDownload from: https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset`);
+    process.exit(1);
+  }
+
+  // Flexible column mapping (PDL uses: name, country, locality, industry, founded, size, website, linkedin_url)
+  function getRowVal(row: Record<string, unknown>, ...keys: string[]): string {
+    for (const k of keys) {
+      const v = row[k];
+      if (v != null && String(v).trim()) return String(v).trim();
+    }
+    return "";
+  }
+  function getDomain(row: Record<string, unknown>): string {
+    const w = getRowVal(row, "website", "domain");
+    if (!w) return "";
+    try {
+      const url = w.startsWith("http") ? w : `https://${w}`;
+      return new URL(url).hostname.replace(/^www\./, "");
+    } catch {
+      return w.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] || "";
+    }
   }
 
   console.log("🚀 Starting People Data Labs import...");
@@ -157,33 +221,45 @@ async function main() {
   let skipped = 0;
   let batch: Record<string, unknown>[] = [];
   const BATCH_SIZE = 500;
-  const TARGET_COUNT = 200_000;
+  // Railway Hobby: 5GB DB limit. ~1–2KB per supplier. Override with PDL_TARGET_COUNT env.
+  const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "350000", 10) || 350_000;
+  console.log(`   Target: ${TARGET_COUNT.toLocaleString()} suppliers (set PDL_TARGET_COUNT to override)\n`);
 
   for await (const row of parser) {
     processed++;
 
     if (imported >= TARGET_COUNT) break;
 
-    const industry = (row.industry || "").toLowerCase().trim();
-    const mappedIndustry = TARGET_INDUSTRIES[industry];
-
+    const industryRaw = (getRowVal(row, "industry") || "").toLowerCase().trim();
+    let mappedIndustry = TARGET_INDUSTRIES[industryRaw];
+    if (!mappedIndustry) {
+      for (const [key, val] of Object.entries(TARGET_INDUSTRIES)) {
+        if (industryRaw.includes(key) || key.includes(industryRaw)) {
+          mappedIndustry = val;
+          break;
+        }
+      }
+    }
     if (!mappedIndustry) {
       skipped++;
       continue;
     }
 
-    const country = (row.country || "").trim();
-    const name = (row.name || "").trim();
+    const country = getRowVal(row, "country");
+    const name = getRowVal(row, "name", "company_name", "companyName");
     if (!name || !country) {
       skipped++;
       continue;
     }
 
-    const locality = (row.locality || "").trim() || country;
-    const domain = (row.domain || "").trim();
+    const locality = getRowVal(row, "locality", "city", "region") || country;
+    const domain = getDomain(row) || getRowVal(row, "domain"); // CSV has "domain" column
     const slugBase = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").substring(0, 70);
     const slug = `${slugBase}-${imported}`;
     const contactEmail = domain ? `info@${domain}` : `contact-${slugBase}@pdl.local`;
+    const yearVal = getRowVal(row, "founded", "year_founded", "yearFounded", "year founded");
+    const sizeVal = getRowVal(row, "size", "size_range", "sizeRange", "size range");
+    const empVal = getRowVal(row, "current employee estimate", "total employee estimate", "current_employee_estimate", "total_employee_estimate", "employee_count");
 
     batch.push({
       companyName: name,
@@ -192,21 +268,25 @@ async function main() {
       countryCode: getCountryCode(country),
       city: locality,
       industry: mappedIndustry,
-      subIndustry: (row.industry || "").trim(),
+      subIndustry: getRowVal(row, "industry"),
       products: JSON.stringify(mappedIndustry.split(" & ")),
-      description: `${name} is a ${(row.industry || "").trim()} company based in ${locality}.${row.size_range ? ` Company size: ${row.size_range}.` : ""}${row.year_founded ? ` Founded: ${row.year_founded}.` : ""}`,
-      website: domain ? `https://${domain}` : null,
+      description: `${name} is a ${getRowVal(row, "industry")} company based in ${locality}.${sizeVal ? ` Company size: ${sizeVal}.` : ""}${yearVal ? ` Founded: ${yearVal}.` : ""}`,
+      website: (() => {
+        const w = getRowVal(row, "website", "domain");
+        if (!w) return domain ? `https://${domain}` : null;
+        return w.startsWith("http") ? w : `https://${w}`;
+      })(),
       contactEmail,
       contactPhone: null,
       verified: true,
       rating: 4.0 + Math.random() * 0.9,
-      yearEstablished: row.year_founded ? parseInt(row.year_founded, 10) || 2000 : 2000,
-      employeeCount: row.current_employee_estimate ? parseInt(row.current_employee_estimate, 10) || null : null,
+      yearEstablished: yearVal ? parseInt(yearVal, 10) || 2000 : 2000,
+      employeeCount: empVal ? parseInt(empVal, 10) || null : null,
       certifications: JSON.stringify([]),
       paymentTerms: JSON.stringify(["Net 30", "Wire Transfer"]),
       exportMarkets: JSON.stringify([country]),
       dataSource: "People Data Labs (CC BY 4.0)",
-      registryUrl: row.linkedin_url || null,
+      registryUrl: getRowVal(row, "linkedin_url", "linkedin url", "linkedin") || null,
     });
 
     if (batch.length >= BATCH_SIZE) {
@@ -217,7 +297,9 @@ async function main() {
           console.log(`   ✅ ${imported.toLocaleString()} suppliers imported (${processed.toLocaleString()} rows processed)`);
         }
       } catch (e: unknown) {
-        console.error(`   ⚠️ Batch error (continuing): ${(e as Error).message?.substring(0, 100)}`);
+        const err = e as Error;
+        if (imported === 0) console.error(`   ⚠️ First batch error: ${err.message}`);
+        else if (imported % 25000 === 0) console.error(`   ⚠️ Batch error at ${imported}: ${err.message?.substring(0, 150)}`);
       }
       batch = [];
     }
@@ -228,7 +310,7 @@ async function main() {
       await prisma.supplier.createMany({ data: batch as never[], skipDuplicates: true });
       imported += batch.length;
     } catch (e: unknown) {
-      console.error(`   ⚠️ Final batch error: ${(e as Error).message?.substring(0, 100)}`);
+      console.error(`   ⚠️ Final batch error: ${(e as Error).message}`);
     }
   }
 

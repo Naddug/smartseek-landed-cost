@@ -7,6 +7,7 @@ import { prisma } from "../../lib/prisma";
 import crypto from "crypto";
 
 export const INTEGRATION_PROVIDERS = [
+  "google",
   "sap_ariba",
   "oracle",
   "salesforce",
@@ -16,6 +17,7 @@ export const INTEGRATION_PROVIDERS = [
 ] as const;
 
 export const SLUG_TO_PROVIDER: Record<string, IntegrationProvider> = {
+  google: "google",
   sap: "sap_ariba",
   oracle: "oracle",
   salesforce: "salesforce",
@@ -35,6 +37,13 @@ interface OAuthConfig {
 }
 
 const OAUTH_CONFIGS: Record<IntegrationProvider, OAuthConfig> = {
+  google: {
+    authUrl: "https://accounts.google.com/o/oauth2/v2/auth",
+    tokenUrl: "https://oauth2.googleapis.com/token",
+    scope: "openid email profile",
+    clientIdEnv: "INTEGRATION_GOOGLE_CLIENT_ID",
+    clientSecretEnv: "INTEGRATION_GOOGLE_CLIENT_SECRET",
+  },
   sap_ariba: {
     authUrl: "https://auth.ariba.com/oauth/authorize",
     tokenUrl: "https://auth.ariba.com/oauth/token",

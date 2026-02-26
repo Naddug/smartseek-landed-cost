@@ -26,6 +26,7 @@
     "import:generate-leads": "tsx scripts/data-import/generate-leads-from-suppliers.ts",
     "import:fix-sic": "tsx scripts/data-import/fix-sic-mapping.ts",
     "import:pdl": "tsx scripts/data-import/import-pdl-dataset.ts",
+    "import:check-db": "tsx scripts/data-import/check-db-size.ts",
     "import:all": "tsx scripts/data-import/run-all.ts"
   },
   "prisma": {
