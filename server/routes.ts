@@ -347,6 +347,33 @@ Provide helpful, accurate, and actionable information.`
       res.status(500).json({ error: "Failed to process request" });
     }
   });
+
+  // Pipeline: Prospector → Enricher → Qualifier → Outreach
+  app.post("/api/ai-agent/pipeline", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    try {
+      const { searchCriteria, targetIndustries, topN, settings } = req.body;
+      if (!searchCriteria || typeof searchCriteria !== "string" || !searchCriteria.trim()) {
+        return res.status(400).json({ error: "searchCriteria is required" });
+      }
+      const { runAIAgentPipeline } = await import("./services/aiAgentPipeline");
+      const result = await runAIAgentPipeline(
+        {
+          searchCriteria: searchCriteria.trim(),
+          targetIndustries: Array.isArray(targetIndustries) ? targetIndustries : undefined,
+          topN: typeof topN === "number" ? topN : 3,
+        },
+        settings
+      );
+      res.json({ success: true, ...result });
+    } catch (error: any) {
+      console.error("AI agent pipeline error:", error);
+      res.status(500).json({ error: error?.message || "Pipeline failed" });
+    }
+  });
   
   app.post("/api/ai-agent/save", async (req: Request, res: Response) => {
     const userId = getUserId(req);

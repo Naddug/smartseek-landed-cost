@@ -60,6 +60,8 @@ interface Lead {
   industry: string;
   email?: string;
   phone?: string;
+  score?: number;
+  research?: string;
 }
 
 interface OutputContent {
@@ -106,6 +108,7 @@ export default function AIAgent() {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [companyToResearch, setCompanyToResearch] = useState("");
   const [researchResult, setResearchResult] = useState<string | null>(null);
+  const [pipelineStep, setPipelineStep] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem("aiAgentSettings", JSON.stringify(settings));
@@ -274,6 +277,78 @@ export default function AIAgent() {
       toast.success("Company research complete");
     } catch (error: any) {
       toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to research company");
+    } finally {
+      setIsLoading(false);
+      setActiveTask(null);
+    }
+  };
+
+  const handleRunPipeline = async () => {
+    if (!searchQuery.trim()) {
+      toast.error("Enter search criteria first.");
+      document.getElementById("search-input")?.focus();
+      return;
+    }
+    setIsLoading(true);
+    setActiveTask("pipeline");
+    setPipelineStep("Prospector");
+    try {
+      const steps = ["Prospector", "Enricher", "Qualifier", "Outreach"];
+      let stepIdx = 0;
+      const stepInterval = setInterval(() => {
+        stepIdx = Math.min(stepIdx + 1, steps.length - 1);
+        setPipelineStep(steps[stepIdx]);
+      }, 8000);
+      const response = await fetch("/api/ai-agent/pipeline", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          searchCriteria: searchQuery.trim(),
+          targetIndustries: settings.targetIndustries,
+          topN: 3,
+          settings: {
+            phoneScriptTone: settings.phoneScriptTone,
+            emailTemplate: settings.emailTemplate,
+            emailSignature: settings.emailSignature,
+          },
+        }),
+      });
+      clearInterval(stepInterval);
+      setPipelineStep(null);
+      if (!response.ok) throw new Error("Pipeline failed");
+      const data = await response.json();
+      const pipelineLeads = (data.leads || []).map((l: any, i: number) => ({ ...l, id: `lead-${i}` }));
+      setLeads(pipelineLeads);
+      const ts = Date.now();
+      const newOutputs: OutputContent[] = [];
+      if (data.callScript && data.topLead) {
+        newOutputs.push({
+          id: `output-${ts}-call`,
+          type: "call",
+          leadName: data.topLead.name,
+          content: data.callScript,
+          status: "draft",
+          createdAt: new Date(),
+        });
+      }
+      if (data.emailDraft && data.topLead) {
+        newOutputs.push({
+          id: `output-${ts}-email`,
+          type: "email",
+          leadName: data.topLead.name,
+          content: data.emailDraft,
+          status: "draft",
+          createdAt: new Date(),
+        });
+      }
+      if (newOutputs.length > 0) {
+        setOutputs((prev) => [...newOutputs, ...prev]);
+      }
+      toast.success(data.summary || "Pipeline complete.");
+    } catch (error: any) {
+      setPipelineStep(null);
+      toast.error(error?.message?.includes("401") ? "Please log in again" : "Pipeline failed. Try again.");
     } finally {
       setIsLoading(false);
       setActiveTask(null);
@@ -535,28 +610,48 @@ export default function AIAgent() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-3">
-                <Input
-                  id="search-input"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="e.g., SaaS company CEOs in San Francisco, Manufacturing directors in Texas..."
-                  className="flex-1 bg-slate-700/50 border-slate-500/50 text-slate-100 placeholder:text-slate-400"
-                  onKeyDown={(e) => e.key === "Enter" && handleSearchLeads()}
-                  data-testid="input-search-leads"
-                />
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-3">
+                  <Input
+                    id="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="e.g., SaaS company CEOs in San Francisco, Manufacturing directors in Texas..."
+                    className="flex-1 bg-slate-700/50 border-slate-500/50 text-slate-100 placeholder:text-slate-400"
+                    onKeyDown={(e) => e.key === "Enter" && handleSearchLeads()}
+                    data-testid="input-search-leads"
+                  />
+                  <Button
+                    onClick={handleSearchLeads}
+                    disabled={isLoading}
+                    className="bg-slate-500 hover:bg-slate-400 text-white"
+                    data-testid="button-search-leads"
+                  >
+                    {isLoading && activeTask === "search_leads" ? (
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    ) : (
+                      <Search className="w-4 h-4 mr-2" />
+                    )}
+                    Search
+                  </Button>
+                </div>
                 <Button
-                  onClick={handleSearchLeads}
-                  disabled={isLoading && activeTask === "search_leads"}
-                  className="bg-slate-500 hover:bg-slate-400 text-white"
-                  data-testid="button-search-leads"
+                  onClick={handleRunPipeline}
+                  disabled={isLoading || !searchQuery.trim()}
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium"
+                  data-testid="button-run-pipeline"
                 >
-                  {isLoading && activeTask === "search_leads" ? (
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  {isLoading && activeTask === "pipeline" ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      {pipelineStep || "Running"}...
+                    </>
                   ) : (
-                    <Search className="w-4 h-4 mr-2" />
+                    <>
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Run Full Pipeline (Prospector → Enricher → Qualifier → Outreach)
+                    </>
                   )}
-                  Search
                 </Button>
               </div>
             </CardContent>
@@ -582,6 +677,9 @@ export default function AIAgent() {
                         <TableHead className="text-slate-300">Title</TableHead>
                         <TableHead className="text-slate-300">Company</TableHead>
                         <TableHead className="text-slate-300">Industry</TableHead>
+                        {leads.some((l) => l.score != null) && (
+                          <TableHead className="text-slate-300">Score</TableHead>
+                        )}
                         <TableHead className="text-slate-300 text-right">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -615,6 +713,17 @@ export default function AIAgent() {
                               {lead.industry}
                             </Badge>
                           </TableCell>
+                          {leads.some((l) => l.score != null) && (
+                            <TableCell>
+                              {lead.score != null ? (
+                                <Badge className="bg-blue-500/30 text-blue-200 border-blue-400/50">
+                                  {lead.score}
+                                </Badge>
+                              ) : (
+                                "—"
+                              )}
+                            </TableCell>
+                          )}
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
                               <Button
