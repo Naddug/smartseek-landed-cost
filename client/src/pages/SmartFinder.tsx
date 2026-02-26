@@ -233,9 +233,9 @@ export default function SmartFinder() {
 
   const handleTestReport = async () => {
     setIsTestingReport(true);
-    toast.info("Testing report generation… this may take 30–60 seconds");
+    toast.info("Testing… (~10 seconds)");
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 120000); // 2 min
+    const timeout = setTimeout(() => controller.abort(), 30000); // 30 sec
     try {
       const res = await fetch("/api/health/test-report", {
         method: "POST",
@@ -1840,7 +1840,7 @@ export default function SmartFinder() {
             disabled={isTestingReport}
             className="mt-2 text-xs text-slate-500"
           >
-            {isTestingReport ? "Testing… (wait 30–60 sec)" : "Test report generation (debug)"}
+            {isTestingReport ? "Testing…" : "Test report generation (debug)"}
           </Button>
         </div>
       </div>

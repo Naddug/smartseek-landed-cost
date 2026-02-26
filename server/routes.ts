@@ -110,31 +110,51 @@ export async function registerRoutes(
     res.json(checks);
   });
 
-  // Diagnostic: test report generation (returns error details for debugging)
+  // Diagnostic: quick test (~10 sec) - just Phase 1 LLM, avoids request timeout
+  // GET version: open in browser tab to test (no auth required for quick check)
+  app.get("/api/health/test-report", async (_req: Request, res: Response) => {
+    try {
+      const client = getOpenAIClient();
+      const r = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: 'Return JSON: { "ok": true }' }],
+        response_format: { type: "json_object" },
+        max_tokens: 20,
+      });
+      const text = r.choices[0]?.message?.content || "";
+      res.json({ success: true, message: "Report pipeline ready", raw: text });
+    } catch (e: any) {
+      res.status(500).json({ success: false, error: e?.message || String(e) });
+    }
+  });
   app.post("/api/health/test-report", async (req: Request, res: Response) => {
     const userId = getUserId(req);
     if (!userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
     try {
-      const formData: ReportFormData = {
-        productName: "wireless headphones",
-        category: "electronics",
-        targetRegion: "China",
-        budget: "competitive",
-        quantity: "1000",
-        originCountry: "China",
-        destinationCountry: "United States",
-        additionalRequirements: "",
-      };
-      const report = await generateSmartFinderReport(formData);
-      res.json({ success: true, hasSummary: !!report.executiveSummary });
+      const client = getOpenAIClient();
+      const r = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [{
+          role: "user",
+          content: 'Product: wireless headphones. Return JSON: { "hsCode": "8518.12", "estimatedFobCostPerUnit": 5 }',
+        }],
+        response_format: { type: "json_object" },
+        max_tokens: 100,
+      });
+      const text = r.choices[0]?.message?.content || "";
+      const parsed = JSON.parse(text || "{}");
+      if (parsed.hsCode) {
+        res.json({ success: true, message: "Report pipeline ready", hsCode: parsed.hsCode });
+      } else {
+        res.status(500).json({ success: false, error: "Unexpected AI response", raw: text });
+      }
     } catch (e: any) {
       console.error("Test report failed:", e);
       res.status(500).json({
         success: false,
         error: e?.message || String(e),
-        stack: process.env.NODE_ENV === "development" ? e?.stack : undefined,
       });
     }
   });
