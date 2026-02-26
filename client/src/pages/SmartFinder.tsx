@@ -233,21 +233,31 @@ export default function SmartFinder() {
 
   const handleTestReport = async () => {
     setIsTestingReport(true);
+    toast.info("Testing report generation… this may take 30–60 seconds");
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 120000); // 2 min
     try {
       const res = await fetch("/api/health/test-report", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
       });
-      const data = await res.json();
+      clearTimeout(timeout);
+      const data = await res.json().catch(() => ({ error: "Invalid response" }));
       if (data.success) {
         toast.success("Report generation works! Try a real search above.");
       } else {
-        toast.error(data.error || "Report test failed");
-        console.error("Test report error:", data);
+        let errMsg = data.error || (res.ok ? "Unknown error" : `HTTP ${res.status}`);
+        if (res.status === 401) errMsg = "Please log in first, then try again.";
+        toast.error(errMsg);
+        alert("Report test failed:\n\n" + errMsg);
       }
     } catch (e) {
-      toast.error("Test failed: " + (e as Error)?.message);
+      clearTimeout(timeout);
+      const msg = (e as Error)?.message || String(e);
+      toast.error("Test failed: " + msg);
+      alert("Test failed:\n\n" + msg);
       console.error(e);
     } finally {
       setIsTestingReport(false);
@@ -1822,14 +1832,16 @@ export default function SmartFinder() {
           <p className="text-xs text-center text-slate-600 mt-2">
             {selectedImage ? "Click the sparkle button to analyze image" : "Press Enter to search • Upload an image or type • Uses 1 credit per report"}
           </p>
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
             onClick={handleTestReport}
             disabled={isTestingReport}
-            className="text-xs text-slate-500 hover:text-slate-700 mt-1 underline disabled:opacity-50"
+            className="mt-2 text-xs text-slate-500"
           >
-            {isTestingReport ? "Testing…" : "Test report generation (debug)"}
-          </button>
+            {isTestingReport ? "Testing… (wait 30–60 sec)" : "Test report generation (debug)"}
+          </Button>
         </div>
       </div>
 
