@@ -1,4 +1,4 @@
-# Railway deployment config — migrations run on deploy (fixes ECONNRESET from local)
+# Railway deployment config
 [deploy]
-# Run Drizzle schema push before app starts (creates user_profiles, reports, etc.)
-preDeployCommand = ["npm run db:push -- --force"]
+# preDeployCommand removed — db:push fails with Railway Postgres SSL and blocks on prompts.
+# Reports table is created at runtime via ensureReportsTable() in server/index.ts.

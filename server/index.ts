@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { execSync } from "child_process";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
@@ -11,24 +10,14 @@ import { WebhookHandlers } from "./webhookHandlers";
 
 const app = express();
 
-/** Run Drizzle schema push on Railway deploy — fixes ECONNRESET (migrations run from Railway, not local) */
+/** Ensure required tables exist on Railway deploy. Skips drizzle-kit push (blocks on interactive prompts with Prisma tables). */
 async function runDrizzlePush() {
   const url = process.env.DATABASE_URL;
   const onRailway = !!process.env.RAILWAY_ENVIRONMENT_ID || !!process.env.RAILWAY_ENVIRONMENT_NAME;
   if (!url || process.env.NODE_ENV !== "production") return;
   if (url.includes("localhost") || url.includes("dummy")) return;
-  if (!onRailway) return; // Skip when running locally (avoids blocking on Railway DB from local)
-  try {
-    execSync("npx drizzle-kit push --force", {
-      stdio: "inherit",
-      env: { ...process.env, NODE_TLS_REJECT_UNAUTHORIZED: "0" },
-    });
-    console.log("Drizzle schema push completed");
-  } catch (e) {
-    console.warn("Drizzle push failed (non-fatal):", (e as Error)?.message ?? e);
-    // Fallback: create reports table directly if drizzle-kit failed
-    await ensureReportsTable();
-  }
+  if (!onRailway) return;
+  await ensureReportsTable();
 }
 
 /** Create reports table if missing (fallback when drizzle-kit push fails) */
