@@ -572,7 +572,7 @@ Generate a detailed professional report with the following structure (return ONL
   "sellerComparison": [
     {
       "sellerName": "Realistic supplier name",
-      "platform": "Alibaba/Made-in-China/Direct",
+      "platform": "Direct / B2B Marketplace",
       "location": "City, Country",
       "unitPrice": "$X.XX",
       "moq": "Minimum order quantity",

@@ -121,7 +121,7 @@ const en: Record<string, string> = {
   "home.feature5.title": "Global Supplier Data",
   "home.feature5.desc": "Access {{suppliers}} registry-verified suppliers across {{countries}} countries—powered by a 42M+ global supplier graph. Filter by industry, region, certifications. Find your match in seconds.",
   "home.feature6.title": "AI-Powered Reports",
-  "home.feature6.desc": "Comprehensive sourcing reports with market analysis, supplier comparisons, and actionable recommendations. IndexBox-style depth for procurement teams.",
+  "home.feature6.desc": "Comprehensive sourcing reports with market analysis, supplier comparisons, and actionable recommendations. Enterprise-grade depth for procurement teams.",
   "home.industry1.title": "Mining & Minerals",
   "home.industry1.desc": "Antimony, tin, lithium, cobalt, copper, and rare earths. Verified mineral suppliers for critical supply chains.",
   "home.industry2.title": "Manufacturing & Industrial",

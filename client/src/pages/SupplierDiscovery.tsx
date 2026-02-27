@@ -771,7 +771,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
       <footer className="mt-12 py-6 border-t border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <p className="text-xs text-gray-500 text-center max-w-2xl mx-auto">
-            All suppliers are real companies from government registries (Companies House UK, SEC EDGAR, OpenCorporates). We do not use Alibaba scraping or fake data. &quot;Registry Verified&quot; = official source. &quot;Contact via registry&quot; = use the registry link to find verified contact details.
+            Registry-verified suppliers link to official sources (Companies House, SEC EDGAR, OpenCorporates). AI-generated report examples may include illustrative supplier names for comparison. &quot;Registry Verified&quot; = official source.
           </p>
         </div>
       </footer>

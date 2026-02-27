@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { 
   FileText, Download, Loader2, CheckCircle, Clock, AlertCircle, ArrowLeft, Sparkles, 
   Building2, MapPin, Star, Shield, Calendar, TrendingUp, Users, DollarSign, Package, 
@@ -371,6 +371,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack: () => void }) {
+  const [, setLocation] = useLocation();
   const { data: report, isLoading, refetch } = useReport(reportId);
   const [activeSection, setActiveSection] = useState('overview');
   const [isExporting, setIsExporting] = useState(false);
@@ -506,6 +507,8 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           if (seller.contactEmail || seller.contactPhone || seller.website) {
             addText(`   Contact: ${seller.contactEmail || 'N/A'} | Phone: ${seller.contactPhone || 'N/A'}`, 9);
             if (seller.website) addText(`   Website: ${seller.website}`, 9);
+          } else {
+            addText(`   Contact: Find verified suppliers at SmartSeek /suppliers`, 9);
           }
           y += 2;
         });
@@ -994,7 +997,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                             </div>
                           </div>
 
-                          {seller.slug && (
+                          {seller.slug ? (
                             <Button
                               size="sm"
                               className="mt-3"
@@ -1006,12 +1009,25 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                               <Send className="w-3 h-3 mr-1" />
                               Contact for quote
                             </Button>
-                          )}
-                          {(seller.contactEmail || seller.website) && !seller.slug && (
-                            <div className="mt-3 text-sm">
-                              {seller.contactEmail && <a href={`mailto:${seller.contactEmail}`} className="text-primary hover:underline">{seller.contactEmail}</a>}
-                              {seller.website && <a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer" className="ml-2 text-primary hover:underline">Website</a>}
+                          ) : (seller.contactEmail || seller.website) ? (
+                            <div className="mt-3 flex flex-wrap gap-2">
+                              {seller.contactEmail && (
+                                <Button variant="outline" size="sm" asChild>
+                                  <a href={`mailto:${seller.contactEmail}`}>Email</a>
+                                </Button>
+                              )}
+                              {seller.website && (
+                                <Button variant="outline" size="sm" asChild>
+                                  <a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer">Website</a>
+                                </Button>
+                              )}
                             </div>
+                          ) : (
+                            <Button variant="outline" size="sm" className="mt-3" asChild>
+                              <Link href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
+                                Find verified suppliers
+                              </Link>
+                            </Button>
                           )}
 
                           <div className="flex flex-wrap gap-1 mt-3">
@@ -1212,8 +1228,23 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                   <Target className="w-5 h-5 text-primary" />
                   Next Steps
                 </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">Create an AI pipeline from these steps</p>
               </CardHeader>
               <CardContent>
+                <Button
+                  className="w-full mb-4"
+                  onClick={() => {
+                    sessionStorage.setItem('aiAgentPipelineContext', JSON.stringify({
+                      type: 'pipeline',
+                      steps: reportData.nextSteps,
+                      reportTitle: report?.title,
+                    }));
+                    setLocation('/ai-agent');
+                  }}
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Create pipeline with AI Agent
+                </Button>
                 <div className="space-y-3">
                   {reportData.nextSteps.map((step: string, i: number) => (
                     <div

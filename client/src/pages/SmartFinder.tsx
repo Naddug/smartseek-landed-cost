@@ -964,6 +964,14 @@ export default function SmartFinder() {
               y += 6;
             }
             pdf.setTextColor(0, 0, 0);
+          } else {
+            checkPageBreak(10);
+            pdf.setFontSize(6);
+            pdf.setTextColor(107, 114, 128);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Contact: Find verified suppliers at SmartSeek /suppliers', margin + 2, y + 4);
+            y += 6;
+            pdf.setTextColor(0, 0, 0);
           }
         });
         y += 5;
@@ -1605,7 +1613,9 @@ export default function SmartFinder() {
                           </div>
                         ) : (
                           <Button variant="outline" size="sm" className="mt-3" asChild>
-                            <a href="/suppliers" target="_blank" rel="noopener noreferrer">View suppliers</a>
+                            <Link href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || report?.title || '')}`}>
+                              Find verified suppliers
+                            </Link>
                           </Button>
                         )}
                       </div>

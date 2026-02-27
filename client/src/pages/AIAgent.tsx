@@ -178,6 +178,23 @@ export default function AIAgent() {
   }, [settings]);
 
   useEffect(() => {
+    const ctx = sessionStorage.getItem("aiAgentPipelineContext");
+    if (ctx) {
+      try {
+        const { type, steps, reportTitle } = JSON.parse(ctx);
+        sessionStorage.removeItem("aiAgentPipelineContext");
+        if (type === "pipeline" && Array.isArray(steps) && steps.length > 0) {
+          const prompt = `Create a sourcing pipeline from this report's next steps:\n\n${steps.map((s: string, i: number) => `${i + 1}. ${s}`).join("\n")}\n\n${reportTitle ? `Report: ${reportTitle}` : ""}`;
+          setChatInput(prompt);
+          toast.success("Next steps loaded. Hit send to create a pipeline with AI Agent.");
+        }
+      } catch {
+        sessionStorage.removeItem("aiAgentPipelineContext");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
