@@ -101,7 +101,7 @@ export default function RequestQuote() {
     <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="flex items-center gap-3 mb-4">
-          <Logo size="lg" variant="light" className="w-14 h-14" />
+          <Logo size="lg" variant="light" className="w-28 h-28" />
           <span className="text-white/80 text-sm font-medium">SmartSeek Request for Quotation</span>
         </div>
         <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>

@@ -7,7 +7,7 @@ interface LogoProps {
   className?: string;
 }
 
-const sizeMap = { sm: "w-12 h-12", md: "w-14 h-14", lg: "w-16 h-16" };
+const sizeMap = { sm: "w-24 h-24", md: "w-28 h-28", lg: "w-32 h-32" };
 
 export function Logo({ size = "md", variant = "default", className = "" }: LogoProps) {
   const sizeClass = sizeMap[size];

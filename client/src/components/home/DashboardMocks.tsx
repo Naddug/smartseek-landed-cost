@@ -92,7 +92,7 @@ export function DashboardPreviewMock() {
       <div className="flex h-72">
         <div className="w-40 bg-slate-900 p-3 flex flex-col gap-1 shrink-0">
           <div className="flex items-center gap-2 mb-3">
-            <Logo size="sm" className="rounded-md w-10 h-10" />
+            <Logo size="sm" className="rounded-md w-20 h-20" />
             <span className="text-[10px] text-white font-semibold">SmartSeek</span>
           </div>
           {[
@@ -184,7 +184,7 @@ export function ReportPreviewMock() {
       <div className="flex h-72">
         <div className="w-44 bg-white border-r border-slate-200 p-3 shrink-0">
           <div className="flex items-center gap-2 mb-4">
-            <Logo size="sm" className="rounded-md w-10 h-10" />
+            <Logo size="sm" className="rounded-md w-20 h-20" />
             <span className="text-[10px] text-slate-800 font-semibold">Intelligence Report</span>
           </div>
           <div className="space-y-1">

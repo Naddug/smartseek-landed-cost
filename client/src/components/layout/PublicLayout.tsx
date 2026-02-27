@@ -59,9 +59,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       )}
 
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm pt-[env(safe-area-inset-top)]">
-        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
+        <div className="container mx-auto px-3 sm:px-6 h-28 sm:h-32 flex items-center justify-between gap-2 min-w-0">
           <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0 min-w-0">
-            <Logo size="md" className="group-hover:scale-105 transition-transform sm:w-14 sm:h-14" />
+            <Logo size="md" className="group-hover:scale-105 transition-transform w-24 h-24 sm:w-28 sm:h-28" />
             <span className="text-lg sm:text-xl font-heading font-bold tracking-tight truncate">SmartSeek</span>
           </Link>
 
@@ -142,7 +142,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
             <div className="lg:col-span-5">
               <div className="flex items-center gap-2.5 mb-5">
-                <Logo size="md" className="w-14 h-14" />
+                <Logo size="md" className="w-28 h-28" />
                 <span className="text-xl font-heading font-bold">SmartSeek</span>
               </div>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-4">
