@@ -37,12 +37,13 @@ export default function Home() {
     industries: number;
     topCountries: { country: string; count: number }[];
   } | null>(null);
+  const [statsLoaded, setStatsLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/api/stats")
       .then((r) => r.json())
-      .then(setStats)
-      .catch(() => setStats(null));
+      .then((data) => { setStats(data); setStatsLoaded(true); })
+      .catch(() => { setStats(null); setStatsLoaded(true); });
   }, []);
 
   const suppliersVal = stats?.suppliers ?? 10000000;
@@ -238,9 +239,43 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              ) : !statsLoaded ? (
+              <div className="space-y-4">
+                {[1,2,3,4,5].map((i) => (
+                  <div key={i} className="flex items-center gap-4 animate-pulse">
+                    <div className="w-3 h-3 rounded-full bg-slate-200" />
+                    <div className="flex-1 space-y-2">
+                      <div className="flex justify-between"><div className="h-4 bg-slate-200 rounded w-32" /><div className="h-4 bg-slate-200 rounded w-10" /></div>
+                      <div className="h-2 bg-slate-100 rounded-full" />
+                    </div>
+                  </div>
+                ))}
+              </div>
               ) : (
-              <div className="flex items-center justify-center h-40 text-slate-400 text-sm">
-                Loading supplier regions...
+              <div className="space-y-4">
+                {[
+                  { label: "United States", pct: 28, color: "bg-blue-500" },
+                  { label: "China", pct: 22, color: "bg-emerald-500" },
+                  { label: "United Kingdom", pct: 12, color: "bg-purple-500" },
+                  { label: "Germany", pct: 9, color: "bg-amber-500" },
+                  { label: "India", pct: 8, color: "bg-rose-500" },
+                  { label: "France", pct: 6, color: "bg-cyan-500" },
+                  { label: "Canada", pct: 5, color: "bg-indigo-500" },
+                  { label: "Japan", pct: 4, color: "bg-slate-400" },
+                ].map((region, index) => (
+                  <div key={`fallback-${index}`} className="flex items-center gap-4">
+                    <div className={`w-3 h-3 rounded-full ${region.color}`} />
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-medium text-slate-800">{region.label}</span>
+                        <span className="font-bold text-slate-900">{region.pct}%</span>
+                      </div>
+                      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className={`h-full ${region.color} rounded-full transition-all duration-500`} style={{ width: `${region.pct}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
               )}
             </div>

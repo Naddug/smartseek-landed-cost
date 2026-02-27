@@ -1988,13 +1988,36 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // Stats API (for homepage dynamic stats)
   // ============================================================================
 
+  let statsCache: { data: any; ts: number } | null = null;
+  const STATS_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
   app.get("/api/stats", async (_req: Request, res: Response) => {
+    if (statsCache && Date.now() - statsCache.ts < STATS_CACHE_TTL) {
+      res.setHeader("Cache-Control", "public, max-age=300");
+      return res.json(statsCache.data);
+    }
+
     try {
       const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
+
+      const timeoutMs = 8000;
+      const withTimeout = <T>(p: Promise<T>, fallback: T): Promise<T> =>
+        Promise.race([p, new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))]);
+
       const [supplierCount, countryResult, industryResult] = await Promise.all([
-        prisma.supplier.count(),
-        prisma.supplier.groupBy({ by: ["country"], _count: { id: true } }),
-        prisma.supplier.groupBy({ by: ["industry"], _count: { id: true } }),
+        withTimeout(prisma.supplier.count(), 0),
+        withTimeout(
+          prisma.$queryRaw<{ country: string; cnt: number }[]>`
+            SELECT country, COUNT(*)::int as cnt FROM "Supplier" GROUP BY country ORDER BY cnt DESC LIMIT 50
+          `,
+          []
+        ),
+        withTimeout(
+          prisma.$queryRaw<{ industry: string; cnt: number }[]>`
+            SELECT industry, COUNT(*)::int as cnt FROM "Supplier" GROUP BY industry ORDER BY cnt DESC LIMIT 30
+          `,
+          []
+        ),
       ]);
 
       let leadCount = 0;
@@ -2008,13 +2031,13 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const mergedByCode = new Map<string, { display: string; count: number }>();
       for (const row of countryResult) {
         const code = getCountryCode(row.country);
-        if (code === "SKIP" || code === "XX") continue; // skip useless / unknown
+        if (code === "SKIP" || code === "XX") continue;
         const display = getDisplayForCode(code);
         const existing = mergedByCode.get(code);
         if (existing) {
-          existing.count += row._count.id;
+          existing.count += row.cnt;
         } else {
-          mergedByCode.set(code, { display, count: row._count.id });
+          mergedByCode.set(code, { display, count: row.cnt });
         }
       }
       const topCountries = Array.from(mergedByCode.values())
@@ -2022,14 +2045,19 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         .slice(0, 10)
         .map((c) => ({ country: c.display, count: c.count }));
 
-      res.json({
-        suppliers: supplierCount,
+      const result = {
+        suppliers: supplierCount || topCountries.reduce((s, c) => s + c.count, 0),
         countries: mergedByCode.size,
         industries: industryResult.length,
         leads: leadCount > 0 ? leadCount : 7000000,
         topCountries,
-      });
-    } catch {
+      };
+
+      statsCache = { data: result, ts: Date.now() };
+      res.setHeader("Cache-Control", "public, max-age=300");
+      res.json(result);
+    } catch (err) {
+      console.error("Stats endpoint error:", err);
       res.json({
         suppliers: 10000000,
         countries: 220,
