@@ -305,8 +305,8 @@ export default function TradeData() {
     <div className="space-y-4 sm:space-y-6 min-w-0">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 truncate">Trade Data Dashboard</h1>
-          <p className="text-slate-600 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-slate-100 truncate">Trade Data Dashboard</h1>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
             {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "European" : "Americas"} trade insights, market trends, and pricing intelligence
           </p>
         </div>
@@ -384,7 +384,7 @@ export default function TradeData() {
         </TabsList>
 
         <TabsContent value="volume" className="mt-4 sm:mt-6">
-          <Card className="overflow-hidden bg-white border-slate-200">
+          <Card className="overflow-hidden bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
             <CardHeader>
               <CardTitle>Import/Export Trends</CardTitle>
               <CardDescription>Monthly trade volume in billions USD — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
@@ -415,9 +415,9 @@ export default function TradeData() {
 
         <TabsContent value="countries" className="mt-4 sm:mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card className="bg-white border-slate-200">
+            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle>Top Import Origins</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-slate-100">Top Import Origins</CardTitle>
                 <CardDescription>Share of total imports by country — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
               </CardHeader>
               <CardContent>
@@ -442,9 +442,9 @@ export default function TradeData() {
                 </ResponsiveContainer>
               </CardContent>
             </Card>
-            <Card className="bg-white border-slate-200">
+            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle>Country Rankings</CardTitle>
+                <CardTitle className="text-slate-900 dark:text-slate-100">Country Rankings</CardTitle>
                 <CardDescription>Trade volume by country</CardDescription>
               </CardHeader>
               <CardContent>
@@ -456,10 +456,10 @@ export default function TradeData() {
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between mb-1">
-                          <span className="font-medium text-slate-800">{country.name}</span>
-                          <span className="text-slate-600">{country.value}%</span>
+                          <span className="font-medium text-slate-800 dark:text-slate-200">{country.name}</span>
+                          <span className="text-slate-600 dark:text-slate-400">{country.value}%</span>
                         </div>
-                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${country.value * 2.5}%`, backgroundColor: country.color }} />
                         </div>
                       </div>
@@ -472,7 +472,7 @@ export default function TradeData() {
         </TabsContent>
 
         <TabsContent value="categories" className="mt-6">
-          <Card className="bg-white border-slate-200">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
@@ -485,14 +485,14 @@ export default function TradeData() {
                     placeholder="Search categories (e.g. ore, steel, textile)"
                     value={categorySearch}
                     onChange={(e) => setCategorySearch(e.target.value)}
-                    className="pl-9 bg-white text-slate-900 placeholder:text-slate-500"
+                    className="pl-9 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400"
                   />
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               {filteredCategories.length === 0 ? (
-                <div className="py-12 text-center text-slate-600">
+                <div className="py-12 text-center text-slate-600 dark:text-slate-400">
                   <Search className="w-12 h-12 mx-auto mb-2 text-slate-400" />
                   <p>No categories match &quot;{categorySearch}&quot;</p>
                   <Button variant="outline" size="sm" className="mt-2" onClick={() => setCategorySearch("")}>Clear search</Button>
@@ -521,7 +521,7 @@ export default function TradeData() {
         </TabsContent>
 
         <TabsContent value="pricing" className="mt-6">
-          <Card className="bg-white border-slate-200">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
             <CardHeader>
               <CardTitle>Commodity Price Index</CardTitle>
               <CardDescription>Price trends relative to baseline (Jan = 100) — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
@@ -553,9 +553,9 @@ export default function TradeData() {
 
       {/* Shipping & Suppliers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-white border-slate-200">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-900">
+            <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
               <Ship className="w-5 h-5 text-blue-500" />
               Container Shipping Rates
             </CardTitle>
@@ -564,13 +564,13 @@ export default function TradeData() {
           <CardContent>
             <div className="space-y-4">
               {regionData.shippingRates.map((route) => (
-                <div key={route.route} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                <div key={route.route} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <div>
-                    <div className="font-medium text-slate-800">{route.route}</div>
-                    <div className="text-sm text-slate-600">40ft container</div>
+                    <div className="font-medium text-slate-800 dark:text-slate-200">{route.route}</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-400">40ft container</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold text-slate-900">${route.current.toLocaleString()}</div>
+                    <div className="font-bold text-slate-900 dark:text-slate-100">${route.current.toLocaleString()}</div>
                     <div className={`text-sm flex items-center gap-1 ${route.change >= 0 ? 'text-red-500' : 'text-green-500'}`}>
                       {route.change >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                       {Math.abs(route.change)}%
@@ -582,9 +582,9 @@ export default function TradeData() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-slate-200">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-900">
+            <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
               <Globe className="w-5 h-5 text-green-500" />
               Top Verified Suppliers
             </CardTitle>
@@ -594,13 +594,13 @@ export default function TradeData() {
             <div className="space-y-3">
               {regionData.topSuppliers.map((supplier) => (
                 <Link key={supplier.rank} href={`/suppliers?q=${encodeURIComponent(supplier.category)}&industry=${encodeURIComponent(supplier.category)}`}>
-                  <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer group">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
                       #{supplier.rank}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-slate-800 truncate group-hover:text-primary">{supplier.name}</div>
-                      <div className="text-sm text-slate-600 flex items-center gap-2">
+                      <div className="font-medium text-slate-800 dark:text-slate-200 truncate group-hover:text-primary">{supplier.name}</div>
+                      <div className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
                         <span>{supplier.country}</span>
                         <span>•</span>
                         <span>{supplier.category}</span>
@@ -608,7 +608,7 @@ export default function TradeData() {
                     </div>
                     <div className="text-right">
                       <Badge variant="secondary">{supplier.rating} ★</Badge>
-                      <div className="text-xs text-slate-600 mt-1">{supplier.orders} orders</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">{supplier.orders} orders</div>
                       <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-primary mt-1 ml-auto" />
                     </div>
                   </div>
@@ -621,13 +621,13 @@ export default function TradeData() {
 
       {/* AI-Powered Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-blue-200 bg-gradient-to-br from-blue-50/80 to-white">
+        <Card className="lg:col-span-2 border-blue-200 dark:border-blue-800 bg-gradient-to-br from-blue-50/80 to-white dark:from-slate-900 dark:to-slate-900">
           <CardHeader>
-            <CardTitle className="text-slate-900 text-xl flex items-center gap-2">
+            <CardTitle className="text-slate-900 dark:text-slate-100 text-xl flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-blue-600" />
               AI Trade Insights
             </CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardDescription className="text-slate-600 dark:text-slate-400">
               Actionable intelligence based on current market data
             </CardDescription>
           </CardHeader>
@@ -638,12 +638,12 @@ export default function TradeData() {
               { title: "Compliance Update", badge: "Regulatory", badgeColor: "bg-blue-100 text-blue-800 border-blue-300", icon: <Shield className="w-4 h-4 text-blue-600" />, text: "New EU Carbon Border Adjustment Mechanism (CBAM) affects steel, aluminum, and cement imports. Factor carbon costs into landed cost calculations." },
               { title: "Route Optimization", badge: "Cost Saving", badgeColor: "bg-purple-100 text-purple-800 border-purple-300", icon: <Zap className="w-4 h-4 text-purple-600" />, text: "Rail freight via China-Europe corridor is 40% cheaper than air and 60% faster than sea for mid-weight shipments. Consider for time-sensitive orders under 5 tonnes." },
             ].map((insight, i) => (
-              <div key={i} className="p-4 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+              <div key={i} className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5">{insight.icon}</div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-slate-900">{insight.title}</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">{insight.title}</span>
                       <Badge variant="outline" className={`text-xs ${insight.badgeColor}`}>{insight.badge}</Badge>
                     </div>
                     <p className="text-sm text-slate-700 leading-relaxed">{insight.text}</p>
@@ -715,10 +715,10 @@ export default function TradeData() {
       </div>
 
       {/* Market Insights */}
-      <Card className="bg-white border-slate-200 shadow-sm">
+      <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 text-xl">Market Intelligence</CardTitle>
-          <CardDescription className="text-slate-600">
+          <CardTitle className="text-slate-900 dark:text-slate-100 text-xl">Market Intelligence</CardTitle>
+          <CardDescription className="text-slate-600 dark:text-slate-400">
             Trade intelligence updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}
           </CardDescription>
         </CardHeader>
@@ -728,18 +728,18 @@ export default function TradeData() {
               <InsightCard key={i} title={insight.title} content={insight.content} type={insight.type} />
             ))}
           </div>
-          <div className="mt-6 pt-6 border-t border-slate-200">
-            <p className="text-sm font-medium text-slate-700 mb-2">External data sources</p>
+          <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">External data sources</p>
             <div className="flex flex-wrap gap-2">
-              <a href="https://www.trade.gov/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium transition-colors">
+              <a href="https://www.trade.gov/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" />
                 Trade.gov
               </a>
-              <a href="https://data.worldbank.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium transition-colors">
+              <a href="https://data.worldbank.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" />
                 World Bank Data
               </a>
-              <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium transition-colors">
+              <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" />
                 UN Comtrade
               </a>
@@ -796,15 +796,15 @@ function MetricCard({ title, value, change, trend, icon }: {
   icon: React.ReactNode;
 }) {
   return (
-    <Card className="bg-white border-slate-200" data-testid={`metric-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+    <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700" data-testid={`metric-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <CardContent className="pt-4 sm:pt-6 min-w-0">
         <div className="flex items-center justify-between mb-2 gap-2">
-          <span className="text-slate-600 text-xs sm:text-sm truncate">{title}</span>
+          <span className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm truncate">{title}</span>
           <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg text-primary shrink-0">
             {icon}
           </div>
         </div>
-        <div className="text-xl sm:text-2xl font-bold mb-1 text-slate-900 truncate">{value}</div>
+        <div className="text-xl sm:text-2xl font-bold mb-1 text-slate-900 dark:text-slate-100 truncate">{value}</div>
         <div className={`text-xs sm:text-sm flex items-center gap-1 ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
           {trend === 'up' ? <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" /> : <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />}
           <span className="truncate">{Math.abs(change)}% vs last period</span>
@@ -816,20 +816,20 @@ function MetricCard({ title, value, change, trend, icon }: {
 
 function InsightCard({ title, content, type }: { title: string; content: string; type: "warning" | "info" | "success" }) {
   const colors = {
-    warning: "border-amber-400 bg-amber-50",
-    info: "border-blue-400 bg-blue-50",
-    success: "border-emerald-400 bg-emerald-50",
+    warning: "border-amber-400 dark:border-amber-600 bg-amber-50 dark:bg-amber-950/50",
+    info: "border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-950/50",
+    success: "border-emerald-400 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-950/50",
   };
   const titleColors = {
-    warning: "text-amber-900",
-    info: "text-blue-900",
-    success: "text-emerald-900",
+    warning: "text-amber-900 dark:text-amber-200",
+    info: "text-blue-900 dark:text-blue-200",
+    success: "text-emerald-900 dark:text-emerald-200",
   };
 
   return (
     <div className={`p-4 rounded-lg border-2 ${colors[type]}`}>
       <div className={`font-semibold mb-2 text-base ${titleColors[type]}`}>{title}</div>
-      <p className="text-sm text-slate-800 leading-relaxed">{content}</p>
+      <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{content}</p>
     </div>
   );
 }
