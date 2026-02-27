@@ -580,7 +580,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
       <div className={`bg-gradient-to-r from-blue-600 to-blue-800 text-white ${embedded ? "rounded-t-xl" : ""}`}>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="flex items-center gap-3 mb-4">
-            <Logo size="lg" variant="light" className="w-10 h-10" />
+            <Logo size="lg" variant="light" className="w-12 h-12" />
             <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
