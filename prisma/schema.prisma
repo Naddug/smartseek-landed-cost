@@ -167,6 +167,8 @@ model Supplier {
   @@index([country])
   @@index([industry])
   @@index([companyName])
+  @@index([rating(sort: Desc)])
+  @@index([countryCode])
 }
 
 model Lead {

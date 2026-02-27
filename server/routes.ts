@@ -2144,41 +2144,51 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const sortField = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
       const order = sortOrder === "asc" ? "asc" : "desc";
 
-      const [suppliers, total] = await Promise.all([
-        prisma.supplier.findMany({
-          where,
-          orderBy: { [sortField]: order },
-          skip,
-          take: limitNum,
-          select: {
-            id: true,
-            companyName: true,
-            slug: true,
-            country: true,
-            countryCode: true,
-            city: true,
-            industry: true,
-            subIndustry: true,
-            products: true,
-            certifications: true,
-            description: true,
-            verified: true,
-            rating: true,
-            reviewCount: true,
-            responseTime: true,
-            minOrderValue: true,
-            yearEstablished: true,
-            employeeCount: true,
-            annualRevenue: true,
-            dataSource: true,
-            registryUrl: true,
-            registryId: true,
-            sicCode: true,
-            contactVerified: true,
-          },
-        }),
-        prisma.supplier.count({ where }),
-      ]);
+      const selectFields = {
+        id: true,
+        companyName: true,
+        slug: true,
+        country: true,
+        countryCode: true,
+        city: true,
+        industry: true,
+        subIndustry: true,
+        products: true,
+        certifications: true,
+        description: true,
+        verified: true,
+        rating: true,
+        reviewCount: true,
+        responseTime: true,
+        minOrderValue: true,
+        yearEstablished: true,
+        employeeCount: true,
+        annualRevenue: true,
+        dataSource: true,
+        registryUrl: true,
+        registryId: true,
+        sicCode: true,
+        contactVerified: true,
+      };
+
+      const suppliersPromise = prisma.supplier.findMany({
+        where,
+        orderBy: { [sortField]: order },
+        skip,
+        take: limitNum,
+        select: selectFields,
+      });
+
+      // Use estimated count for unfiltered queries (much faster on large tables)
+      const hasFilters = q || country || industry || verified === "true" || minRating;
+      const countPromise = hasFilters
+        ? prisma.supplier.count({ where })
+        : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'`
+            .then((rows) => Number(rows[0]?.cnt || 0))
+            .catch(() => prisma.supplier.count({ where }));
+
+      const [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
+      const total = typeof totalRaw === "number" ? totalRaw : totalRaw;
 
       // Format company names and locations for display (title case)
       function toTitleCase(str: string | null | undefined): string {
@@ -2247,43 +2257,61 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   });
 
   // GET /api/suppliers/filters — Get available filter options (proper-cased, deduplicated)
+  let filtersCache: { data: any; ts: number } | null = null;
+  const FILTERS_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
   app.get("/api/suppliers/filters", async (_req: Request, res: Response) => {
     res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=600");
+
+    if (filtersCache && Date.now() - filtersCache.ts < FILTERS_CACHE_TTL) {
+      return res.json(filtersCache.data);
+    }
+
     try {
       const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
+
+      const timeoutMs = 10000;
+      const withTimeout = <T>(p: Promise<T>, fallback: T): Promise<T> =>
+        Promise.race([p, new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))]);
+
       const [countries, industries] = await Promise.all([
-        prisma.supplier.groupBy({
-          by: ["country"],
-          _count: { id: true },
-          orderBy: { _count: { id: "desc" } },
-        }).catch(() => []),
-        prisma.supplier.groupBy({
-          by: ["industry"],
-          _count: { id: true },
-          orderBy: { _count: { id: "desc" } },
-        }).catch(() => []),
+        withTimeout(
+          prisma.$queryRaw<{ country: string; cnt: number }[]>`
+            SELECT country, COUNT(*)::int as cnt FROM "Supplier" WHERE country IS NOT NULL AND country != '' GROUP BY country ORDER BY cnt DESC LIMIT 60
+          `,
+          []
+        ),
+        withTimeout(
+          prisma.$queryRaw<{ industry: string; cnt: number }[]>`
+            SELECT industry, COUNT(*)::int as cnt FROM "Supplier" WHERE industry IS NOT NULL AND industry != '' GROUP BY industry ORDER BY cnt DESC LIMIT 40
+          `,
+          []
+        ),
       ]);
 
       const mergedByCode = new Map<string, { display: string; count: number }>();
-      for (const c of Array.isArray(countries) ? countries : []) {
+      for (const c of countries) {
         const code = getCountryCode(c.country);
         if (code === "SKIP" || code === "XX") continue;
         const display = getDisplayForCode(code);
         const existing = mergedByCode.get(code);
         if (existing) {
-          existing.count += c._count.id;
+          existing.count += c.cnt;
         } else {
-          mergedByCode.set(code, { display, count: c._count.id });
+          mergedByCode.set(code, { display, count: c.cnt });
         }
       }
       const countryList = Array.from(mergedByCode.values())
         .sort((a, b) => b.count - a.count)
         .map((c) => ({ name: c.display, count: c.count }));
 
-      res.json({
+      const result = {
         countries: countryList,
-        industries: (Array.isArray(industries) ? industries : []).map((i: { industry: string; _count: { id: number } }) => ({ name: i.industry, count: i._count.id })),
-      });
+        industries: industries.map((i) => ({ name: i.industry, count: i.cnt })),
+      };
+
+      filtersCache = { data: result, ts: Date.now() };
+      res.json(result);
     } catch (error) {
       console.error("GET /api/suppliers/filters error:", error);
       res.status(200).json({ countries: [], industries: [] });
