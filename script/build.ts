@@ -1,6 +1,7 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
 import { rm, readFile } from "fs/promises";
+import path from "path";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -51,6 +52,7 @@ async function buildAll() {
   ];
   const externals = allDeps.filter((dep) => !allowlist.includes(dep));
 
+  const sharedDir = path.resolve(process.cwd(), "shared");
   await esbuild({
     entryPoints: ["server/index.ts"],
     platform: "node",
@@ -63,6 +65,12 @@ async function buildAll() {
     minify: true,
     external: externals,
     logLevel: "info",
+    alias: {
+      "@shared/schema": path.join(sharedDir, "schema"),
+      "@shared/mineralConfig": path.join(sharedDir, "mineralConfig"),
+      "@shared/productFamilies": path.join(sharedDir, "productFamilies"),
+      "@shared/models/auth": path.join(sharedDir, "models", "auth"),
+    },
   });
 }
 
