@@ -1,4 +1,5 @@
 import { BarChart3, Globe2, Shield, DollarSign, Users, Package, AlertTriangle, CheckCircle2, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 function StatCard({ icon: Icon, label, value, change, positive, iconBg }: {
   icon: any; label: string; value: string; change: string; positive: boolean; iconBg: string;
@@ -91,7 +92,7 @@ export function DashboardPreviewMock() {
       <div className="flex h-72">
         <div className="w-40 bg-slate-900 p-3 flex flex-col gap-1 shrink-0">
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-[9px] text-white font-bold">S</div>
+            <Logo size="sm" className="rounded-md w-6 h-6" />
             <span className="text-[10px] text-white font-semibold">SmartSeek</span>
           </div>
           {[
@@ -183,7 +184,7 @@ export function ReportPreviewMock() {
       <div className="flex h-72">
         <div className="w-44 bg-white border-r border-slate-200 p-3 shrink-0">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center text-[9px] text-white font-bold">S</div>
+            <Logo size="sm" className="rounded-md w-6 h-6" />
             <span className="text-[10px] text-slate-800 font-semibold">Intelligence Report</span>
           </div>
           <div className="space-y-1">

@@ -23,6 +23,7 @@ import {
   Users
 } from "lucide-react";
 import { useState } from "react";
+import { Logo } from "@/components/Logo";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
@@ -74,7 +75,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="p-6">
           <Link href="/dashboard">
             <span className="flex items-center gap-2 text-sidebar-foreground cursor-pointer">
-              <div className="w-8 h-8 bg-sidebar-primary rounded-lg flex items-center justify-center text-sidebar-primary-foreground font-bold">S</div>
+              <Logo size="sm" className="rounded-lg w-8 h-8" />
               <span className="font-heading font-bold text-xl">SmartSeek</span>
             </span>
           </Link>

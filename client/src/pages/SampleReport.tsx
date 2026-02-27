@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, AlertTriangle, TrendingUp, DollarSign, Printer, Download, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
+import { Logo } from "@/components/Logo";
 
 export default function SampleReport() {
   const handlePrint = () => {
@@ -37,7 +38,7 @@ export default function SampleReport() {
         <header className="flex justify-between items-start border-b pb-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+              <Logo size="sm" />
               <span className="text-xl font-bold tracking-tight">SmartSeek</span>
             </div>
             <div className="text-sm text-slate-500">AI-Powered Sourcing Intelligence</div>

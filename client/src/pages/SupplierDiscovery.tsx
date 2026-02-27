@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, BadgeCheck } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -178,7 +179,7 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
             <span className="text-gray-600">({supplier.reviewCount})</span>
           </div>
         ) : (
-          <span className="text-xs text-gray-500 px-2 py-1">No reviews yet</span>
+          <span className="text-xs text-slate-500 px-2 py-1">Verified</span>
         )}
       </div>
 
@@ -251,9 +252,11 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
 function SupplierDetail({
   slug,
   onClose,
+  openContactForm = false,
 }: {
   slug: string;
   onClose: () => void;
+  openContactForm?: boolean;
 }) {
   const { data: supplier, isLoading } = useQuery<Supplier & {
     contactEmail: string;
@@ -271,7 +274,7 @@ function SupplierDetail({
     },
   });
 
-  const [showContactForm, setShowContactForm] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(openContactForm);
   const [contactForm, setContactForm] = useState({
     buyerName: "",
     buyerEmail: "",
@@ -336,7 +339,7 @@ function SupplierDetail({
                     <span className="text-gray-600 text-sm">({supplier.reviewCount} reviews)</span>
                   </div>
                 ) : (
-                  <span className="text-sm text-gray-500">No reviews yet</span>
+                  <span className="text-sm text-slate-500">Verified</span>
                 )}
                 <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded">{toTitleCase(supplier.industry)}</span>
               </div>
@@ -577,7 +580,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
       <div className={`bg-gradient-to-r from-blue-600 to-blue-800 text-white ${embedded ? "rounded-t-xl" : ""}`}>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold text-xl">S</div>
+            <Logo size="lg" variant="light" className="w-10 h-10" />
             <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
@@ -755,7 +758,11 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
 
       {/* Detail Modal */}
       {selectedSlug && (
-        <SupplierDetail slug={selectedSlug} onClose={() => setSelectedSlug(null)} />
+        <SupplierDetail
+          slug={selectedSlug}
+          onClose={() => setSelectedSlug(null)}
+          openContactForm={new URLSearchParams(window.location.search).get("contact") === "1"}
+        />
       )}
 
       {/* Disclaimer */}

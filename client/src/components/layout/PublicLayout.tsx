@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 function formatStat(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
@@ -60,9 +61,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm pt-[env(safe-area-inset-top)]">
         <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
           <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0 min-w-0">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-base sm:text-lg group-hover:scale-105 transition-transform shadow-lg shadow-primary/20 shrink-0">
-              S
-            </div>
+            <Logo size="md" className="group-hover:scale-105 transition-transform sm:w-9 sm:h-9" />
             <span className="text-lg sm:text-xl font-heading font-bold tracking-tight truncate">SmartSeek</span>
           </Link>
 
@@ -106,23 +105,35 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </main>
 
       <footer className="border-t border-border bg-slate-50/80 dark:bg-slate-900/30">
-        {/* CTA strip - IndexBox-style "Ready to Get Started?" */}
+        {/* Platform overview - IndexBox-style stats strip (no duplicate CTA) */}
         <div className="border-b border-border bg-slate-100/80 dark:bg-slate-800/50 py-10 sm:py-12">
-          <div className="container mx-auto px-4 text-center">
-            <div className="max-w-2xl mx-auto">
-              <h3 className="text-xl sm:text-2xl font-heading font-bold text-slate-900 dark:text-slate-100 mb-2">
-                {t("home.cta.title")}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                {t("home.cta.subtitle")}
-              </p>
-              {!user && (
-                <Link href="/signup">
-                  <Button size="lg" className="font-semibold shadow-lg">
-                    {t("home.cta.button")}
-                  </Button>
-                </Link>
-              )}
+          <div className="container mx-auto px-4">
+            <p className="text-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] mb-6">
+              {t("footer.platformOverview")}
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
+              <div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
+                  {stats ? formatStat(stats.suppliers) : "6.6M+"}
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
+                  {stats ? `${stats.countries}+` : "220+"}
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statCountries")}</div>
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
+                  {stats ? formatStat(stats.leads) : "2.9M+"}
+                </div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statLeads")}</div>
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">AI</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statReports")}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -131,7 +142,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
             <div className="lg:col-span-5">
               <div className="flex items-center gap-2.5 mb-5">
-                <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-lg">S</div>
+                <Logo size="md" />
                 <span className="text-xl font-heading font-bold">SmartSeek</span>
               </div>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-4">

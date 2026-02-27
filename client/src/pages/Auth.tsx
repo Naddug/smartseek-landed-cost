@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-muted/20 p-4">
       <Card className="w-full max-w-md border-primary/20 shadow-2xl">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-2xl mb-2">S</div>
+          <Logo size="lg" className="w-12 h-12 mx-auto mb-2" />
           <CardTitle className="text-2xl font-heading">Welcome to SmartSeek</CardTitle>
           <CardDescription>Enter your email to sign in or create an account</CardDescription>
         </CardHeader>

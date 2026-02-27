@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, CheckCircle2 } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function Signup() {
   const [, setLocation] = useLocation();
@@ -84,9 +85,7 @@ export default function Signup() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-xl">
-              S
-            </div>
+            <Logo size="lg" />
             <span className="text-2xl font-heading font-bold">SmartSeek</span>
           </Link>
           <CardTitle className="text-2xl">Create your account</CardTitle>

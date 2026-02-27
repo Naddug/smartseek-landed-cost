@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -16,10 +17,12 @@ export default function Login() {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrorMessage("");
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -33,11 +36,11 @@ export default function Login() {
       });
 
       const text = await response.text();
-      let data;
+      let data: { error?: string };
       try {
-        data = JSON.parse(text);
+        data = JSON.parse(text) || {};
       } catch {
-        throw new Error("Invalid server response");
+        throw new Error("Server error. Please try again or check if the server is running.");
       }
 
       if (!response.ok) {
@@ -52,9 +55,11 @@ export default function Login() {
       setLocation("/dashboard");
     } catch (error: any) {
       console.error("Login error:", error);
+      const msg = error?.message || "Please check your credentials and try again.";
+      setErrorMessage(msg);
       toast({
         title: "Login failed",
-        description: error.message || "Please check your credentials and try again.",
+        description: msg,
         variant: "destructive",
       });
     } finally {
@@ -67,9 +72,7 @@ export default function Login() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-xl">
-              S
-            </div>
+            <Logo size="lg" />
             <span className="text-2xl font-heading font-bold">SmartSeek</span>
           </Link>
           <CardTitle className="text-2xl">Welcome back</CardTitle>
@@ -79,6 +82,11 @@ export default function Login() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {errorMessage && (
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                {errorMessage}
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input

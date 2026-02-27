@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FileText, CheckCircle } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 const PRODUCT_CATEGORIES = [
   "Electronics",
@@ -100,7 +101,7 @@ export default function RequestQuote() {
     <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold text-xl">S</div>
+          <Logo size="lg" variant="light" className="w-10 h-10" />
           <span className="text-white/80 text-sm font-medium">SmartSeek Request for Quotation</span>
         </div>
         <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
