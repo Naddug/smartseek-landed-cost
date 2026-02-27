@@ -3,8 +3,8 @@
  * Extracts ALL data from both files (~42M rows; target cap 50M).
  *
  * Default paths:
- *   - companies.csv: /Users/harunkaya/Downloads/companies.csv
- *   - pdl-companies.csv: /Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv
+ *   - companies.csv: /Users/harunkaya/Downloads/companies.csv (~35M rows)
+ *   - pdl-companies.csv: /Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv (~7M rows)
  *
  * Run: NODE_TLS_REJECT_UNAUTHORIZED=0 npm run import:all-suppliers-29m
  * Or: PDL_IMPORT_ALL=true npm run import:all-suppliers
@@ -15,12 +15,13 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { parse } from "csv-parse";
+import { getCountryCode, getDisplayForCode } from "../../server/lib/countryCodes";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const prisma = new PrismaClient();
 
-const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "50000000", 10) || 50_000_000;
+const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "10000000", 10) || 10_000_000;
 const BATCH_SIZE = 500;
 const seen = new Set<string>(); // Dedupe by "name|country"
 
@@ -63,13 +64,23 @@ const TARGET_INDUSTRIES: Record<string, string> = {
   "mineral": "Mining & Minerals", "minerals": "Mining & Minerals", "quarry": "Mining & Minerals",
 };
 
-function getCountryCode(country: string): string {
-  const map: Record<string, string> = {
-    "united states": "US", "united kingdom": "GB", "uk": "GB", china: "CN", india: "IN", germany: "DE", france: "FR", japan: "JP",
-    "south korea": "KR", brazil: "BR", canada: "CA", australia: "AU", italy: "IT", spain: "ES", mexico: "MX", netherlands: "NL",
-    indonesia: "ID", turkey: "TR", vietnam: "VN", thailand: "TH", poland: "PL", malaysia: "MY", russia: "RU", taiwan: "TW",
-  };
-  return map[(country || "").toLowerCase()] || (country || "XX").substring(0, 2).toUpperCase();
+/** Normalize country to canonical display name using full ISO 3166-1 map — all countries. */
+function normalizeCountryToCanonical(raw: string): string {
+  if (!raw || typeof raw !== "string") return "";
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  const code = getCountryCode(trimmed);
+  if (code === "SKIP" || code === "XX" || code === "UD") return trimmed;
+  return getDisplayForCode(code);
+}
+
+/** Get ISO code for import (handles 2-char raw). */
+function getCountryCodeForImport(raw: string): string {
+  const code = getCountryCode(raw);
+  if (code === "SKIP" || code === "XX" || code === "UD") {
+    return (raw || "").trim().length === 2 ? (raw || "").toUpperCase().substring(0, 2) : "XX";
+  }
+  return code;
 }
 
 const ABBREVIATIONS = new Set(["pt", "tbk", "gmbh", "llc", "ltd", "inc", "co", "lp", "llp", "plc", "sa", "ag", "nv", "bv", "corp", "pl", "spa", "srl", "ltda", "sl", "ab", "oy", "as"]);
@@ -147,9 +158,10 @@ async function processFile(
     if (importedRef.count >= TARGET_COUNT) break;
 
     const name = format === "companies" ? getVal(row, "name") : getVal(row, "name", "company_name", "companyName");
-    const country = format === "companies" ? getVal(row, "country") : getVal(row, "country");
-    if (!name || !country) continue;
+    const countryRaw = format === "companies" ? getVal(row, "country") : getVal(row, "country");
+    if (!name || !countryRaw) continue;
 
+    const country = normalizeCountryToCanonical(countryRaw);
     const key = dedupeKey(name, country);
     if (seen.has(key)) continue;
     seen.add(key);
@@ -173,8 +185,8 @@ async function processFile(
     batch.push({
       companyName: toTitleCase(name),
       slug,
-      country: toTitleCase(country),
-      countryCode: getCountryCode(country),
+      country,
+      countryCode: getCountryCodeForImport(countryRaw),
       city: toTitleCase(locality || country),
       industry: industry || "General",
       subIndustry: rawSubIndustry ? toTitleCase(rawSubIndustry) : null,
@@ -221,14 +233,36 @@ async function processFile(
 }
 
 async function main() {
-  const companiesPath = process.env.COMPANIES_CSV_PATH || "/Users/harunkaya/Downloads/companies.csv";
-  const pdlPath = process.env.PDL_CSV_PATH || "/Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv";
+  const companiesPath =
+    process.env.COMPANIES_CSV_PATH || "/Users/harunkaya/Downloads/companies.csv";
+  const pdlPath =
+    process.env.PDL_CSV_PATH ||
+    "/Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv";
 
-  console.log("\n=== Import All Suppliers (target 29M+) ===\n");
+  console.log("\n=== Import All Suppliers (target 42M+) ===\n");
   console.log(`   Target: ${TARGET_COUNT.toLocaleString()} suppliers`);
   console.log(`   Files: ${companiesPath}, ${pdlPath}\n`);
 
   const importedRef = { count: 0 };
+
+  // Resume: pre-load existing (companyName, country) to skip duplicates
+  if (process.env.RESUME_IMPORT === "true") {
+    console.log("   📥 Loading existing suppliers for deduplication...");
+    let offset = 0;
+    const PAGE = 100_000;
+    while (true) {
+      const batch = await prisma.supplier.findMany({
+        select: { companyName: true, country: true },
+        skip: offset,
+        take: PAGE,
+      });
+      for (const r of batch) seen.add(dedupeKey(r.companyName, r.country));
+      if (batch.length < PAGE) break;
+      offset += PAGE;
+      process.stdout.write(`\r   Loaded ${offset.toLocaleString()} existing`);
+    }
+    console.log(`\n   ✓ ${seen.size.toLocaleString()} existing suppliers in dedupe set\n`);
+  }
 
   // 1. companies.csv (larger file first)
   if (fs.existsSync(companiesPath)) {

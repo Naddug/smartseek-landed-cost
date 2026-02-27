@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProfile } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,6 +92,13 @@ export default function FindLeads() {
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isAdmin = profile?.role === 'admin';
 
+  const [stats, setStats] = useState<{ suppliers: number; leads: number } | null>(null);
+  useEffect(() => {
+    fetch("/api/stats").then((r) => r.json()).then((d) => setStats({ suppliers: d.suppliers, leads: d.leads })).catch(() => setStats(null));
+  }, []);
+
+  const formatStat = (n: number) => (n >= 1_000_000 ? `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+` : n >= 1_000 ? `${Math.round(n / 1_000)}K+` : `${n}+`);
+
   const handleSearch = async () => {
     if (!industry || !location) {
       toast.error("Please select an industry and location");
@@ -166,7 +173,7 @@ export default function FindLeads() {
           </div>
           <div>
             <h1 className="text-2xl font-heading font-bold text-white">Find Buyer Leads</h1>
-            <p className="text-slate-400 break-words">2.9M+ buyer & trade leads • AI-ranked, high-signal • Intent & firmographics from 4.3M+ verified suppliers</p>
+            <p className="text-slate-400 break-words">{stats ? `${formatStat(stats.leads)} buyer & trade leads` : "7M+ buyer & trade leads"} • AI-ranked, high-signal • Intent & firmographics from {stats ? formatStat(stats.suppliers) : "10M+"} verified suppliers</p>
           </div>
         </div>
       </div>

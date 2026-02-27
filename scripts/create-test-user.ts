@@ -34,12 +34,12 @@ async function createOrResetTestUser() {
   if (!url) throw new Error("DATABASE_URL required in .env");
 
   // Use single connection + retries — Railway often ECONNRESET from external
-  // Railway Postgres uses self-signed certs; allow for local/CI runs
-  const useInsecureSsl = process.env.NODE_TLS_REJECT_UNAUTHORIZED === "0" || url.includes("railway") || url.includes("rlwy.net");
+  // Railway and cloud Postgres use self-signed certs; allow for local/CI runs
+  const isLocalhost = url.includes("localhost") || url.includes("127.0.0.1");
   const pool = new pg.Pool({
     connectionString: url,
     max: 1,
-    ssl: useInsecureSsl ? { rejectUnauthorized: false } : undefined,
+    ssl: isLocalhost ? undefined : { rejectUnauthorized: false },
   });
 
   const db = drizzle(pool, { schema });

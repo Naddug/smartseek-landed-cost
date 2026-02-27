@@ -45,8 +45,8 @@ export default function Home() {
       .catch(() => setStats(null));
   }, []);
 
-  const suppliersVal = stats?.suppliers ?? 4300000;
-  const leadsVal = stats?.leads ?? 2900000;
+  const suppliersVal = stats?.suppliers ?? 10000000;
+  const leadsVal = stats?.leads ?? 7000000;
   const countriesVal = stats?.countries ?? 220;
   const industriesVal = stats?.industries ?? 20;
   const topCountries = stats?.topCountries ?? [];

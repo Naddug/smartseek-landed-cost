@@ -1,3 +1,7 @@
+// Allow self-signed certs for Railway Postgres (local dev connecting to cloud DB)
+if (process.env.NODE_ENV !== "production") {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";

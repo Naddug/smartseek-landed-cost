@@ -20,10 +20,27 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { parse } from "csv-parse";
+import { getCountryCode, getDisplayForCode } from "../../server/lib/countryCodes";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const prisma = new PrismaClient();
+
+function normalizeCountryToCanonical(raw: string): string {
+  if (!raw || typeof raw !== "string") return "";
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  const code = getCountryCode(trimmed);
+  if (code === "SKIP" || code === "XX" || code === "UD") return trimmed;
+  return getDisplayForCode(code);
+}
+function getCountryCodeForImport(raw: string): string {
+  const code = getCountryCode(raw);
+  if (code === "SKIP" || code === "XX" || code === "UD") {
+    return (raw || "").trim().length === 2 ? (raw || "").toUpperCase().substring(0, 2) : "XX";
+  }
+  return code;
+}
 
 const TARGET_INDUSTRIES: Record<string, string> = {
   "mining & metals": "Mining & Minerals",
@@ -102,66 +119,6 @@ const TARGET_INDUSTRIES: Record<string, string> = {
   "rubber": "Chemicals & Petrochemicals",
   "leather": "Textiles & Apparel",
 };
-
-function getCountryCode(country: string): string {
-  const map: Record<string, string> = {
-    "united states": "US",
-    "united kingdom": "GB",
-    china: "CN",
-    india: "IN",
-    germany: "DE",
-    france: "FR",
-    japan: "JP",
-    "south korea": "KR",
-    brazil: "BR",
-    canada: "CA",
-    australia: "AU",
-    italy: "IT",
-    spain: "ES",
-    mexico: "MX",
-    indonesia: "ID",
-    netherlands: "NL",
-    turkey: "TR",
-    "saudi arabia": "SA",
-    switzerland: "CH",
-    poland: "PL",
-    sweden: "SE",
-    belgium: "BE",
-    austria: "AT",
-    norway: "NO",
-    denmark: "DK",
-    finland: "FI",
-    ireland: "IE",
-    portugal: "PT",
-    "czech republic": "CZ",
-    romania: "RO",
-    thailand: "TH",
-    vietnam: "VN",
-    malaysia: "MY",
-    philippines: "PH",
-    singapore: "SG",
-    pakistan: "PK",
-    bangladesh: "BD",
-    egypt: "EG",
-    "south africa": "ZA",
-    nigeria: "NG",
-    kenya: "KE",
-    morocco: "MA",
-    chile: "CL",
-    colombia: "CO",
-    argentina: "AR",
-    peru: "PE",
-    "united arab emirates": "AE",
-    israel: "IL",
-    "new zealand": "NZ",
-    hungary: "HU",
-    greece: "GR",
-    ukraine: "UA",
-    russia: "RU",
-    taiwan: "TW",
-  };
-  return map[country.toLowerCase()] || country.substring(0, 2).toUpperCase();
-}
 
 async function main() {
   // PDL_CSV_PATH env overrides default (e.g. if you kept Kaggle filename)
@@ -253,13 +210,14 @@ async function main() {
       }
     }
 
-    const country = getRowVal(row, "country");
+    const countryRaw = getRowVal(row, "country");
     const name = getRowVal(row, "name", "company_name", "companyName");
-    if (!name || !country) {
+    if (!name || !countryRaw) {
       skipped++;
       continue;
     }
 
+    const country = normalizeCountryToCanonical(countryRaw);
     const locality = getRowVal(row, "locality", "city", "region") || country;
     const domain = getDomain(row) || getRowVal(row, "domain"); // CSV has "domain" column
     const slugBase = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").substring(0, 70);
@@ -273,7 +231,7 @@ async function main() {
       companyName: name,
       slug,
       country,
-      countryCode: getCountryCode(country),
+      countryCode: getCountryCodeForImport(countryRaw),
       city: locality,
       industry: mappedIndustry,
       subIndustry: getRowVal(row, "industry"),

@@ -11,12 +11,17 @@ if (!connectionString) {
 }
 
 // Limit connections to avoid exhausting Railway Postgres (prevents ECONNRESET)
-// Railway uses self-signed certs; rejectUnauthorized: false allows connection
+// Railway and many cloud Postgres use self-signed certs; rejectUnauthorized: false allows connection
+const isLocalhost = connectionString?.includes("localhost") || connectionString?.includes("127.0.0.1");
+const useInsecureSsl =
+  !isLocalhost &&
+  (process.env.NODE_TLS_REJECT_UNAUTHORIZED === "0" ||
+    connectionString?.includes("railway") ||
+    connectionString?.includes("rlwy.net") ||
+    true); // default: allow self-signed for remote DBs
 export const pool = new Pool({
   connectionString,
   max: 5,
-  ssl: connectionString?.includes("railway") || connectionString?.includes("rlwy.net")
-    ? { rejectUnauthorized: false }
-    : undefined,
+  ssl: isLocalhost ? undefined : { rejectUnauthorized: false },
 });
 export const db = drizzle(pool, { schema });

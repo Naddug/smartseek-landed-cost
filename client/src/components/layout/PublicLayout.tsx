@@ -51,7 +51,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <span className="hidden md:inline">•</span>
           <span>{stats ? `${formatStat(stats.suppliers)} suppliers` : t("trust.strip2")}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} leads` : "2.9M+ leads"}</span>
+          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} leads` : "7M+ leads"}</span>
           <span className="hidden lg:inline">•</span>
           <span>{stats ? `${stats.countries}+ countries` : t("trust.strip4")}</span>
         </div>
@@ -60,8 +60,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm pt-[env(safe-area-inset-top)]">
         <div className="container mx-auto px-3 sm:px-6 h-28 sm:h-32 flex items-center justify-between gap-2 min-w-0">
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0 min-w-0">
-            <Logo size="md" className="group-hover:scale-105 transition-transform w-24 h-24 sm:w-28 sm:h-28" />
+          <Link href="/" className="flex items-center gap-0.5 group shrink-0 min-w-0">
+            <Logo size="md" className="group-hover:scale-105 transition-transform w-8 h-8 sm:w-9 sm:h-9 shrink-0 object-contain" />
             <span className="text-lg sm:text-xl font-heading font-bold tracking-tight truncate">SmartSeek</span>
           </Link>
 
@@ -114,7 +114,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats ? formatStat(stats.suppliers) : "6.6M+"}
+                  {stats ? formatStat(stats.suppliers) : "10M+"}
                 </div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
               </div>
@@ -126,7 +126,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats ? formatStat(stats.leads) : "2.9M+"}
+                  {stats ? formatStat(stats.leads) : "7M+"}
                 </div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statLeads")}</div>
               </div>

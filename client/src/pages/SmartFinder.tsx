@@ -32,6 +32,7 @@ import { format } from "date-fns";
 import { jsPDF } from "jspdf";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
 import { useLocation, Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 
 const EXAMPLE_PROMPTS = [
   "Find suppliers for wireless headphones",
@@ -64,13 +65,30 @@ function parseNumericValue(val: string | number | undefined | null): number {
   return parseFloat(val.replace(/[^0-9.]/g, '')) || 0;
 }
 
+/** Common proper nouns (countries, states, regions) to preserve correct casing */
+const PROPER_NOUNS = new Set([
+  "united states", "united kingdom", "united arab emirates", "south korea", "north korea",
+  "new zealand", "south africa", "saudi arabia", "costa rica", "el salvador", "puerto rico",
+  "texas", "california", "florida", "new york", "washington", "oregon", "nevada", "arizona",
+  "thailand", "vietnam", "indonesia", "malaysia", "singapore", "philippines", "taiwan",
+  "china", "japan", "india", "turkey", "germany", "france", "italy", "spain", "brazil",
+  "mexico", "canada", "australia", "russia", "ukraine", "poland", "netherlands", "belgium",
+  "switzerland", "austria", "sweden", "norway", "denmark", "finland", "ireland", "scotland",
+  "england", "wales", "austin", "dallas", "houston", "phoenix", "seattle", "portland",
+  "bangkok", "ho chi minh", "jakarta", "manila", "kuala lumpur", "hong kong", "seoul",
+  "tokyo", "osaka", "shanghai", "beijing", "shenzhen", "guangzhou", "mumbai", "delhi",
+]);
+
 function toTitleCase(str: string | null | undefined): string {
   if (!str || typeof str !== "string") return str || "";
   const abbr = new Set(["pt", "tbk", "gmbh", "llc", "ltd", "inc", "co", "lp", "plc", "sa", "ag", "nv", "bv", "corp", "pvt", "uk", "us"]);
-  return str
-    .split(/\s+/)
-    .map((w) => (abbr.has(w.toLowerCase()) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()))
-    .join(" ");
+  const cap = (w: string) => {
+    const lower = w.toLowerCase();
+    if (abbr.has(lower)) return w.toUpperCase();
+    if (PROPER_NOUNS.has(lower)) return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+  };
+  return str.split(",").map((part) => part.trim().split(/\s+/).map(cap).join(" ")).join(", ");
 }
 
 /** Infer unit from HS code / product category: tonnes for minerals, pieces for electronics, etc. */
@@ -84,9 +102,74 @@ function inferUnit(hsCode?: string, category?: string): string {
   return "units";
 }
 
+/** Contact-for-quote modal: stays on report page, no navigation */
+function ContactQuoteModal({ slug, supplierName, onClose }: { slug: string; supplierName: string; onClose: () => void }) {
+  const { data: supplier, isLoading } = useQuery({
+    queryKey: ["supplier", slug],
+    queryFn: async () => {
+      const res = await fetch(`/api/suppliers/${slug}`);
+      if (!res.ok) throw new Error("Supplier not found");
+      return res.json();
+    },
+  });
+  const [form, setForm] = useState({ buyerName: "", buyerEmail: "", buyerCompany: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  const handleSubmit = async () => {
+    if (!supplier?.id || !form.buyerName || !form.buyerEmail || !form.message) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ supplierId: supplier.id, ...form }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <Dialog open={!!slug} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="sm:max-w-md" onClick={(e) => e.stopPropagation()}>
+        <DialogHeader>
+          <DialogTitle>Request Quote from {toTitleCase(supplierName)}</DialogTitle>
+          <DialogDescription>Your inquiry will be sent directly to the supplier.</DialogDescription>
+        </DialogHeader>
+        {isLoading ? (
+          <div className="py-8 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-slate-400" /></div>
+        ) : status === "sent" ? (
+          <div className="py-4 bg-green-50 border border-green-200 rounded-lg text-green-800 text-center">
+            Your inquiry has been sent. The supplier typically responds within 1–3 business days.
+          </div>
+        ) : (
+          <div className="space-y-3 pt-2">
+            <Input placeholder="Your Name *" value={form.buyerName} onChange={(e) => setForm((f) => ({ ...f, buyerName: e.target.value }))} className="bg-white" />
+            <Input type="email" placeholder="Your Email *" value={form.buyerEmail} onChange={(e) => setForm((f) => ({ ...f, buyerEmail: e.target.value }))} className="bg-white" />
+            <Input placeholder="Company Name" value={form.buyerCompany} onChange={(e) => setForm((f) => ({ ...f, buyerCompany: e.target.value }))} className="bg-white" />
+            <Textarea placeholder="Your message / product requirements *" value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} rows={3} className="bg-white" />
+            {status === "error" && <p className="text-sm text-red-600">Failed to send. Please try again.</p>}
+            <div className="flex gap-2 pt-2">
+              <Button onClick={handleSubmit} disabled={status === "sending" || !form.buyerName || !form.buyerEmail || !form.message} className="flex-1">
+                {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                {status === "sending" ? "Sending..." : "Send Inquiry"}
+              </Button>
+              <Button variant="outline" onClick={onClose}>Cancel</Button>
+            </div>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function SmartFinder() {
   const [view, setView] = useState<'empty' | 'loading' | 'results'>('empty');
   const [reportId, setReportId] = useState<number | null>(null);
+  const [contactSlug, setContactSlug] = useState<string | null>(null);
+  const [contactSupplierName, setContactSupplierName] = useState("");
   const [query, setQuery] = useState("");
   const [originCountry, setOriginCountry] = useState("Any");
   const [destinationCountry, setDestinationCountry] = useState("United States");
@@ -96,6 +179,10 @@ export default function SmartFinder() {
   const [additionalRequirements, setAdditionalRequirements] = useState("");
   const [showCreditsPopup, setShowCreditsPopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [mineralOptions, setMineralOptions] = useState<{ product: { id: string; name: string; priceSource: string }; purityOptions: { id: string; label: string; description: string }[]; formOptions: { id: string; label: string; description?: string }[] } | null>(null);
+  const [mineralPurity, setMineralPurity] = useState<{ productId: string; purityId: string; formId?: string } | null>(null);
+  const [productFamilyOptions, setProductFamilyOptions] = useState<{ id: string; name: string; referenceIndex: string; unit?: string; parameters: { id: string; label: string; type: string; required?: boolean; placeholder?: string; options?: { id: string; label: string }[] }[] } | null>(null);
+  const [productFamilyParams, setProductFamilyParams] = useState<Record<string, string>>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const [, navigate] = useLocation();
@@ -103,7 +190,6 @@ export default function SmartFinder() {
   const createReport = useCreateReport();
   const { data: report, refetch } = useReport(reportId || 0);
   const [isExporting, setIsExporting] = useState(false);
-  const [isTestingReport, setIsTestingReport] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -135,6 +221,66 @@ export default function SmartFinder() {
       fileInputRef.current.value = "";
     }
   };
+
+  // Fetch mineral purity options when query suggests a mineral (copper, tin, antimony, etc.)
+  useEffect(() => {
+    const q = (query || "").trim().toLowerCase();
+    if (q.length < 3) {
+      setMineralOptions(null);
+      setMineralPurity(null);
+      return;
+    }
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/minerals/options?product=${encodeURIComponent(q)}`, { credentials: "include" });
+        const data = await res.json();
+        if (data.isMineral && (data.purityOptions?.length || data.options?.length)) {
+          const purityOpts = data.purityOptions ?? data.options ?? [];
+          const formOpts = data.formOptions ?? [];
+          setMineralOptions({ product: data.product, purityOptions: purityOpts, formOptions: formOpts });
+          setMineralPurity((prev) => {
+            if (prev && prev.productId === data.product.id) return prev;
+            const defaultPurity = purityOpts.find((o: { id: string }) => o.id === "99.9") ?? purityOpts[0];
+            return { productId: data.product.id, purityId: defaultPurity?.id ?? "99.9", formId: "ingot" };
+          });
+          setProductFamilyOptions(null);
+          setProductFamilyParams({});
+        } else {
+          setMineralOptions(null);
+          setMineralPurity(null);
+          try {
+            const pfRes = await fetch(`/api/product-families/detect?product=${encodeURIComponent(q)}`, { credentials: "include" });
+            const pfData = await pfRes.json();
+            if (pfData.isProductFamily && pfData.family) {
+              setProductFamilyOptions(pfData.family);
+              setProductFamilyParams((prev) => {
+                const next: Record<string, string> = {};
+                for (const p of pfData.family.parameters || []) {
+                  if (p.options?.length && !prev[p.id]) {
+                    const def = p.options[0];
+                    next[p.id] = def?.id ?? "";
+                  } else if (prev[p.id]) next[p.id] = prev[p.id];
+                }
+                return next;
+              });
+            } else {
+              setProductFamilyOptions(null);
+              setProductFamilyParams({});
+            }
+          } catch {
+            setProductFamilyOptions(null);
+            setProductFamilyParams({});
+          }
+        }
+      } catch {
+        setMineralOptions(null);
+        setMineralPurity(null);
+        setProductFamilyOptions(null);
+        setProductFamilyParams({});
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, [query]);
 
   // Poll for report status when loading
   useEffect(() => {
@@ -226,7 +372,11 @@ export default function SmartFinder() {
       quantity: quantity,
       originCountry,
       destinationCountry,
-      additionalRequirements: additionalRequirements.trim()
+      additionalRequirements: additionalRequirements.trim(),
+      ...(mineralPurity && { mineralPurity }),
+      ...(productFamilyOptions && Object.keys(productFamilyParams).length > 0 && {
+        productFamily: { familyId: productFamilyOptions.id, params: productFamilyParams },
+      }),
     };
     
     createReport.mutate({
@@ -251,39 +401,6 @@ export default function SmartFinder() {
     handleSubmit(prompt);
   };
 
-  const handleTestReport = async () => {
-    setIsTestingReport(true);
-    toast.info("Testing… (~10 seconds)");
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000); // 30 sec
-    try {
-      const res = await fetch("/api/health/test-report", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-      const data = await res.json().catch(() => ({ error: "Invalid response" }));
-      if (data.success) {
-        toast.success("Report generation works! Try a real search above.");
-      } else {
-        let errMsg = data.error || (res.ok ? "Unknown error" : `HTTP ${res.status}`);
-        if (res.status === 401) errMsg = "Please log in first, then try again.";
-        toast.error(errMsg);
-        alert("Report test failed:\n\n" + errMsg);
-      }
-    } catch (e) {
-      clearTimeout(timeout);
-      const msg = (e as Error)?.message || String(e);
-      toast.error("Test failed: " + msg);
-      alert("Test failed:\n\n" + msg);
-      console.error(e);
-    } finally {
-      setIsTestingReport(false);
-    }
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -300,6 +417,10 @@ export default function SmartFinder() {
     setQuantity("1000");
     setBudget("");
     setAdditionalRequirements("");
+    setMineralOptions(null);
+    setMineralPurity(null);
+    setProductFamilyOptions(null);
+    setProductFamilyParams({});
   };
 
   const exportToPDF = async () => {
@@ -375,7 +496,7 @@ export default function SmartFinder() {
         y += 3;
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'bold');
-        pdf.text(`${icon} ${title}`, margin + 3, y);
+        pdf.text(icon ? `${icon} ${title}` : title, margin + 3, y);
         y += 8;
         pdf.setTextColor(0, 0, 0);
       };
@@ -446,7 +567,9 @@ export default function SmartFinder() {
       pdf.setFont('helvetica', 'normal');
       pdf.text(report.title, margin, 32);
       pdf.setFontSize(9);
-      pdf.text(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')} | Trade Route: ${savedFormData?.originCountry || 'China'} → ${savedFormData?.destinationCountry || 'United States'}`, margin, 40);
+      const origin = savedFormData?.originCountry && savedFormData.originCountry !== "Any" ? toTitleCase(savedFormData.originCountry) : "Any";
+      const dest = toTitleCase(savedFormData?.destinationCountry || 'United States');
+      pdf.text(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')} | Trade Route: ${origin} → ${dest}`, margin, 40);
       
       y = 55;
       
@@ -508,7 +631,7 @@ export default function SmartFinder() {
       y += 38;
       
       if (reportData?.executiveSummary) {
-        addSectionHeader('📋', 'EXECUTIVE SUMMARY', primaryColor);
+        addSectionHeader('', 'EXECUTIVE SUMMARY', primaryColor);
         pdf.setFillColor(240, 249, 255);
         const summaryLines = pdf.splitTextToSize(reportData.executiveSummary, contentWidth - 10);
         const summaryHeight = summaryLines.length * 5 + 10;
@@ -524,7 +647,7 @@ export default function SmartFinder() {
       }
       
       if (productClass) {
-        addSectionHeader('🏷️', 'PRODUCT CLASSIFICATION');
+        addSectionHeader('', 'PRODUCT CLASSIFICATION');
         
         pdf.setFillColor(primaryColor.r, primaryColor.g, primaryColor.b);
         pdf.roundedRect(margin, y, 50, 12, 2, 2, 'F');
@@ -558,7 +681,7 @@ export default function SmartFinder() {
       
       const marketOverview = reportData?.marketOverview;
       if (marketOverview && typeof marketOverview === 'object') {
-        addSectionHeader('🌍', 'MARKET OVERVIEW');
+        addSectionHeader('', 'MARKET OVERVIEW');
         
         pdf.setFillColor(lightGray.r, lightGray.g, lightGray.b);
         pdf.roundedRect(margin, y, contentWidth, 20, 2, 2, 'F');
@@ -605,7 +728,7 @@ export default function SmartFinder() {
       
       const customsAnalysis = reportData?.customsAnalysis;
       if (customsAnalysis) {
-        addSectionHeader('🏛️', 'CUSTOMS ANALYSIS & FEES');
+        addSectionHeader('', 'CUSTOMS ANALYSIS & FEES');
         
         if (customsAnalysis.tradeAgreements?.length > 0) {
           pdf.setFillColor(220, 252, 231);
@@ -684,7 +807,7 @@ export default function SmartFinder() {
           pdf.setFontSize(9);
           pdf.setFont('helvetica', 'bold');
           pdf.setTextColor(146, 64, 14);
-          pdf.text('⚠ Compliance Notes:', margin + 3, y);
+          pdf.text('Compliance Notes:', margin + 3, y);
           y += 5;
           pdf.setFont('helvetica', 'normal');
           customsAnalysis.complianceNotes.forEach((note: string) => {
@@ -696,8 +819,19 @@ export default function SmartFinder() {
         y += 5;
       }
       
+      const pricingFormula = (reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }> | undefined)?.mineralPurity?.calculationFormula;
+      if (pricingFormula) {
+        addSectionHeader('', 'PRICING CALCULATION');
+        pdf.setFontSize(8);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(59, 130, 246);
+        pdf.text(pricingFormula, margin + 3, y + 4);
+        y += 12;
+        pdf.setTextColor(0, 0, 0);
+      }
+      
       if (landedCost) {
-        addSectionHeader('💰', 'LANDED COST BREAKDOWN');
+        addSectionHeader('', 'LANDED COST BREAKDOWN');
         
         const costItems = [
           { label: 'Product Cost (FOB)', value: landedCost.productCost, color: primaryColor },
@@ -744,9 +878,9 @@ export default function SmartFinder() {
       }
       
       if (sellers.length > 0) {
-        addSectionHeader('👥', 'SUPPLIER COMPARISON', primaryColor);
+        addSectionHeader('', 'SUPPLIER COMPARISON', primaryColor);
         
-        const colWidths = [35, 22, 30, 20, 18, 15, 20, 30];
+        const colWidths = [35, 22, 28, 20, 18, 12, 22, 28];
         const headers = ['Supplier', 'Platform', 'Location', 'Price', 'MOQ', 'Rating', 'Lead Time', 'Certifications'];
         
         pdf.setFillColor(59, 130, 246);
@@ -778,7 +912,7 @@ export default function SmartFinder() {
             pdf.circle(margin + 2, y, 2, 'F');
             pdf.setTextColor(255, 255, 255);
             pdf.setFontSize(5);
-            pdf.text('★', margin + 0.8, y + 1);
+            pdf.text('*', margin + 0.8, y + 1);
           }
           
           pdf.setTextColor(0, 0, 0);
@@ -787,12 +921,12 @@ export default function SmartFinder() {
           
           xPos = margin + 1;
           const rowData = [
-            (seller.sellerName || 'N/A').substring(0, 18),
+            toTitleCase(seller.sellerName || 'N/A').substring(0, 18),
             seller.platform || 'N/A',
-            (seller.location || 'N/A').substring(0, 15),
+            toTitleCase(seller.location || 'N/A').substring(0, 25),
             seller.unitPrice || 'N/A',
             seller.moq || 'N/A',
-            seller.rating ? String(seller.rating) : 'N/A',
+            seller.rating != null ? (typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (() => { const n = parseFloat(String(seller.rating)); return !isNaN(n) ? n.toFixed(1) : String(seller.rating).substring(0, 4); })()) : 'N/A',
             seller.leadTime || 'N/A',
             (seller.certifications?.slice(0, 2).join(', ') || 'N/A').substring(0, 18)
           ];
@@ -811,7 +945,7 @@ export default function SmartFinder() {
             pdf.setFontSize(6);
             pdf.setTextColor(22, 101, 52);
             pdf.setFont('helvetica', 'italic');
-            pdf.text('★ TOP PICK: ' + (seller.recommendation || '').substring(0, 100), margin + 4, y + 3);
+            pdf.text('TOP PICK: ' + (seller.recommendation || '').substring(0, 100), margin + 4, y + 3);
             y += 8;
             pdf.setTextColor(0, 0, 0);
           }
@@ -821,7 +955,7 @@ export default function SmartFinder() {
       
       const supplierAnalysis = reportData?.supplierAnalysis;
       if (supplierAnalysis?.topRegions?.length > 0) {
-        addSectionHeader('🗺️', 'SUPPLIER REGIONS ANALYSIS');
+        addSectionHeader('', 'SUPPLIER REGIONS ANALYSIS');
         
         supplierAnalysis.topRegions.forEach((region: any) => {
           checkPageBreak(25);
@@ -830,7 +964,7 @@ export default function SmartFinder() {
           
           pdf.setFontSize(10);
           pdf.setFont('helvetica', 'bold');
-          pdf.text(region.region || 'N/A', margin + 3, y + 6);
+          pdf.text(toTitleCase(region.region || 'N/A'), margin + 3, y + 6);
           pdf.setFontSize(8);
           pdf.setFont('helvetica', 'normal');
           pdf.setTextColor(secondaryColor.r, secondaryColor.g, secondaryColor.b);
@@ -840,11 +974,11 @@ export default function SmartFinder() {
           pdf.setFontSize(7);
           if (region.advantages?.length > 0) {
             pdf.setTextColor(22, 163, 74);
-            pdf.text('✓ ' + region.advantages.slice(0, 3).join(' | '), margin + 3, y + 12);
+            pdf.text('- ' + region.advantages.slice(0, 3).join(' | '), margin + 3, y + 12);
           }
           if (region.considerations?.length > 0) {
             pdf.setTextColor(202, 138, 4);
-            pdf.text('⚠ ' + region.considerations.slice(0, 2).join(' | '), margin + 3, y + 17);
+            pdf.text('! ' + region.considerations.slice(0, 2).join(' | '), margin + 3, y + 17);
           }
           pdf.setTextColor(0, 0, 0);
           y += 24;
@@ -852,7 +986,7 @@ export default function SmartFinder() {
       }
       
       if (profitAnalysis) {
-        addSectionHeader('📊', 'PROFIT ANALYSIS');
+        addSectionHeader('', 'PROFIT ANALYSIS');
         
         const profitBoxWidth = (contentWidth - 10) / 3;
         
@@ -907,7 +1041,7 @@ export default function SmartFinder() {
       
       const timeline = reportData?.timeline;
       if (timeline) {
-        addSectionHeader('📅', 'TIMELINE & LEAD TIMES');
+        addSectionHeader('', 'TIMELINE & LEAD TIMES');
         
         const timelineItems = [
           { label: 'Production Time', value: timeline.productionTime ?? timeline.production },
@@ -937,7 +1071,7 @@ export default function SmartFinder() {
       
       const riskAssessment = reportData?.riskAssessment;
       if (riskAssessment) {
-        addSectionHeader('⚠️', 'RISK ASSESSMENT');
+        addSectionHeader('', 'RISK ASSESSMENT');
         
         if (riskAssessment.overallRisk) {
           const riskColor = riskAssessment.overallRisk === 'Low' ? secondaryColor : 
@@ -980,7 +1114,7 @@ export default function SmartFinder() {
       }
       
       if (reportData?.recommendations?.length > 0 || reportData?.nextSteps?.length > 0) {
-        addSectionHeader('✅', 'RECOMMENDATIONS & NEXT STEPS');
+        addSectionHeader('', 'RECOMMENDATIONS & NEXT STEPS');
         
         if (reportData.recommendations?.length > 0) {
           pdf.setFontSize(9);
@@ -1071,7 +1205,7 @@ export default function SmartFinder() {
     }));
 
     return (
-      <Card className="w-full max-w-4xl mx-auto shadow-lg border-0 bg-white overflow-hidden">
+      <Card className="w-full max-w-4xl mx-auto shadow-md border border-slate-200/80 bg-white overflow-hidden">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
@@ -1080,18 +1214,55 @@ export default function SmartFinder() {
                 Report Complete
               </Badge>
               <CardTitle className="text-xl">{report.title}</CardTitle>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-slate-700 mt-1">
                 Generated on {format(new Date(report.createdAt), 'MMMM d, yyyy')}
               </p>
             </div>
-            <Button onClick={exportToPDF} disabled={isExporting} className="shrink-0" data-testid="button-download-pdf">
-              {isExporting ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4 mr-2" />
-              )}
-              {isExporting ? 'Generating...' : 'Download PDF'}
-            </Button>
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <Button onClick={exportToPDF} disabled={isExporting} className="shrink-0" data-testid="button-download-pdf">
+                {isExporting ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4 mr-2" />
+                )}
+                {isExporting ? 'Generating...' : 'PDF'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const sellers = reportData?.sellerComparison || [];
+                  if (sellers.length === 0) {
+                    toast.info('No supplier data to export');
+                    return;
+                  }
+                  const headers = ['Supplier', 'Platform', 'Location', 'Price', 'MOQ', 'Lead Time', 'Rating', 'Certifications'];
+                  const rows = sellers.map((s: any) => [
+                    s.sellerName || '',
+                    s.platform || '',
+                    s.location || '',
+                    s.unitPrice || '',
+                    s.moq || '',
+                    s.leadTime || '',
+                    s.rating ?? '',
+                    (s.certifications || []).join('; '),
+                  ]);
+                  const csv = [headers.join(','), ...rows.map((r: string[]) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(','))].join('\n');
+                  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `SmartSeek_Suppliers_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.csv`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                  toast.success('Supplier data exported');
+                }}
+                className="shrink-0"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Export CSV
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
@@ -1201,16 +1372,16 @@ export default function SmartFinder() {
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700">
                     <div>
-                      <span className="text-xs font-medium text-slate-600">Market Size</span>
+                      <span className="text-xs font-medium text-slate-700">Market Size</span>
                       <p className="text-sm font-medium">{reportData.marketOverview.marketSize || 'N/A'}</p>
                     </div>
                     <div>
-                      <span className="text-xs font-medium text-slate-600">Growth Rate</span>
+                      <span className="text-xs font-medium text-slate-700">Growth Rate</span>
                       <p className="text-sm font-medium">{reportData.marketOverview.growthRate || 'N/A'}</p>
                     </div>
                     {reportData.marketOverview.keyTrends?.length > 0 && (
                       <div className="md:col-span-2">
-                        <span className="text-xs font-medium text-slate-600">Key Trends</span>
+                        <span className="text-xs font-medium text-slate-700">Key Trends</span>
                         <ul className="mt-1 space-y-1">
                           {reportData.marketOverview.keyTrends.map((t: string, i: number) => (
                             <li key={i} className="text-sm flex items-center gap-2">
@@ -1223,13 +1394,13 @@ export default function SmartFinder() {
                     )}
                     {reportData.marketOverview.majorExporters?.length > 0 && (
                       <div>
-                        <span className="text-xs font-medium text-slate-600">Major Exporters</span>
+                        <span className="text-xs font-medium text-slate-700">Major Exporters</span>
                         <p className="text-sm">{reportData.marketOverview.majorExporters.join(', ')}</p>
                       </div>
                     )}
                     {reportData.marketOverview.majorImporters?.length > 0 && (
                       <div>
-                        <span className="text-xs font-medium text-slate-600">Major Importers</span>
+                        <span className="text-xs font-medium text-slate-700">Major Importers</span>
                         <p className="text-sm">{reportData.marketOverview.majorImporters.join(', ')}</p>
                       </div>
                     )}
@@ -1251,7 +1422,7 @@ export default function SmartFinder() {
                         </div>
                         {region.advantages?.length > 0 && (
                           <div className="mb-2">
-                            <span className="text-xs font-medium text-slate-600">Advantages</span>
+                            <span className="text-xs font-medium text-slate-700">Advantages</span>
                             <ul className="mt-1 space-y-0.5">
                               {region.advantages.map((a: string, j: number) => (
                                 <li key={j} className="text-sm text-slate-700 flex items-start gap-1">
@@ -1264,7 +1435,7 @@ export default function SmartFinder() {
                         )}
                         {region.considerations?.length > 0 && (
                           <div>
-                            <span className="text-xs font-medium text-slate-600">Considerations</span>
+                            <span className="text-xs font-medium text-slate-700">Considerations</span>
                             <ul className="mt-1 space-y-0.5">
                               {region.considerations.map((c: string, j: number) => (
                                 <li key={j} className="text-sm text-slate-700 flex items-start gap-1">
@@ -1281,7 +1452,7 @@ export default function SmartFinder() {
                 </div>
               ) : (
                 !reportData?.marketOverview || typeof reportData.marketOverview !== 'object' ? (
-                  <div className="text-center py-6 text-slate-600">
+                  <div className="text-center py-6 text-slate-700">
                     No country or region analysis available for this report.
                   </div>
                 ) : null
@@ -1354,7 +1525,9 @@ export default function SmartFinder() {
                             <div className="text-xs font-medium text-slate-800">Rating</div>
                             <div className="flex items-center gap-1">
                               <Star className="w-3 h-3 text-amber-500 fill-current" />
-                              <span className="font-medium text-sm text-slate-800">{seller.rating}</span>
+                              <span className="font-medium text-sm text-slate-800">
+                              {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : seller.rating}
+                            </span>
                             </div>
                           </div>
                         </div>
@@ -1371,11 +1544,18 @@ export default function SmartFinder() {
                         )}
 
                         {seller.slug ? (
-                          <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`}>
-                            <Button variant="default" size="sm" className="mt-3">
-                              Contact for quote
-                            </Button>
-                          </Link>
+                          <Button
+                            variant="default"
+                            size="sm"
+                            className="mt-3"
+                            onClick={() => {
+                              setContactSlug(seller.slug);
+                              setContactSupplierName(seller.sellerName || "");
+                            }}
+                          >
+                            <Send className="w-3 h-3 mr-1" />
+                            Contact for quote
+                          </Button>
                         ) : (
                           <Button variant="outline" size="sm" className="mt-3" asChild>
                             <a href="/suppliers" target="_blank" rel="noopener noreferrer">View suppliers</a>
@@ -1386,18 +1566,24 @@ export default function SmartFinder() {
                       <div className="lg:w-48 space-y-2 p-3 bg-gray-100 rounded-lg text-sm">
                         <div className="flex justify-between">
                           <span className="font-medium text-slate-800">Est. Profit</span>
-                          <span className="font-bold text-green-600">{seller.estimatedProfit || 'N/A'}</span>
+                          <span className="font-bold text-green-600">{seller.estimatedProfit || '—'}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="font-medium text-slate-800">Margin</span>
-                          <span className="font-bold text-green-600">{seller.profitMargin || 'N/A'}</span>
+                          <span className="font-bold text-green-600">
+                            {seller.profitMargin && String(seller.profitMargin) !== String(seller.estimatedProfit || '')
+                              ? seller.profitMargin
+                              : seller.profitMargin && String(seller.profitMargin) === String(seller.estimatedProfit || '')
+                                ? '—'
+                                : (seller.profitMargin || '—')}
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
                 {sellers.length === 0 && (
-                  <div className="text-center py-6 text-slate-600">
+                  <div className="text-center py-6 text-slate-700">
                     No suppliers found for this product.
                   </div>
                 )}
@@ -1405,6 +1591,17 @@ export default function SmartFinder() {
             </TabsContent>
 
             <TabsContent value="costs" className="space-y-4">
+              {(reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }> | undefined)?.mineralPurity?.calculationFormula && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                  <h4 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
+                    <Calculator className="w-4 h-4 text-blue-600" />
+                    Pricing Calculation
+                  </h4>
+                  <p className="text-sm text-slate-700 font-mono">
+                    {(reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }>)?.mineralPurity?.calculationFormula}
+                  </p>
+                </div>
+              )}
               {landedCost && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {costBreakdownData.length > 0 && (
@@ -1569,7 +1766,7 @@ export default function SmartFinder() {
                           </Badge>
                         </div>
                         <Progress value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75} className="h-1.5 mb-2" />
-                        <p className="text-xs text-slate-600">{risk.mitigation}</p>
+                        <p className="text-xs text-slate-700">{risk.mitigation}</p>
                       </div>
                     ))}
                   </div>
@@ -1582,7 +1779,7 @@ export default function SmartFinder() {
                     <Globe className="w-4 h-4 text-primary" />
                     Market Overview
                   </h4>
-                  <p className="text-sm text-slate-600">{reportData.marketOverview}</p>
+                  <p className="text-sm text-slate-700">{reportData.marketOverview}</p>
                 </div>
               )}
             </TabsContent>
@@ -1651,7 +1848,7 @@ export default function SmartFinder() {
             
             <div>
               <h3 className="text-xl font-semibold mb-1">Generating Intelligence Report</h3>
-              <p className="text-sm text-slate-600">AI is analyzing markets, customs duties, and supplier data</p>
+              <p className="text-sm text-slate-700">AI is analyzing markets, customs duties, and supplier data</p>
             </div>
             
             <div className="w-full space-y-3">
@@ -1672,7 +1869,7 @@ export default function SmartFinder() {
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                       isActive ? 'bg-primary text-white animate-pulse' :
                       isCompleted ? 'bg-green-500 text-white' :
-                      'bg-muted text-slate-600'
+                      'bg-muted text-slate-700'
                     }`}>
                       {isCompleted ? (
                         <CheckCircle className="w-5 h-5" />
@@ -1685,7 +1882,7 @@ export default function SmartFinder() {
                     <span className={`text-sm font-medium transition-colors duration-300 ${
                       isActive ? 'text-primary' :
                       isCompleted ? 'text-green-700' :
-                      'text-slate-600'
+                      'text-slate-700'
                     }`}>
                       {step.label}
                       {isActive && <span className="animate-pulse">...</span>}
@@ -1701,14 +1898,14 @@ export default function SmartFinder() {
             </div>
             
             <div className="w-full">
-              <div className="flex justify-between text-xs text-slate-600 mb-2">
+              <div className="flex justify-between text-xs text-slate-700 mb-2">
                 <span>Progress</span>
                 <span>{Math.round(loadingProgress)}%</span>
               </div>
               <Progress value={loadingProgress} className="h-2" />
             </div>
             
-            <p className="text-xs text-slate-600">This usually takes 20-40 seconds</p>
+            <p className="text-xs text-slate-700">This usually takes 20-40 seconds</p>
           </div>
         </CardContent>
       </Card>
@@ -1716,32 +1913,39 @@ export default function SmartFinder() {
   );
 
   const renderEmpty = () => (
-    <div className="flex flex-col items-center justify-center text-center px-4">
-      <Sparkles className="w-12 h-12 text-primary/60 mb-6" />
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+    <div className="flex flex-col items-center justify-center text-center px-4 w-full max-w-3xl">
+      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20">
+        <Sparkles className="w-7 h-7 text-white" />
+      </div>
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2 tracking-tight">
         What are you sourcing today?
       </h1>
-      <p className="text-slate-600 mb-8 max-w-md">
-        Describe the product you want to source and get a comprehensive report with suppliers, costs, and customs analysis.
+      <p className="text-slate-600 mb-8 max-w-lg text-base leading-relaxed">
+        Describe the product you want to source and get a comprehensive report with suppliers, landed costs, customs analysis, and risk assessment.
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-2xl">
         {EXAMPLE_PROMPTS.map((prompt, i) => (
           <button
             key={i}
             onClick={() => handleExampleClick(prompt)}
-            className="p-4 text-left border rounded-xl hover:bg-gray-50 hover:border-primary/30 transition-all group"
+            className="p-4 text-left rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-blue-300 hover:shadow-sm transition-all group text-slate-700"
             data-testid={`example-prompt-${i}`}
           >
-            <span className="text-sm text-gray-700 group-hover:text-primary">{prompt}</span>
+            <span className="text-sm font-medium group-hover:text-blue-600">{prompt}</span>
           </button>
         ))}
+      </div>
+      <div className="mt-10 flex flex-wrap justify-center gap-6 text-xs text-slate-500">
+        <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5 text-emerald-500" /> HS code classification</span>
+        <span className="flex items-center gap-1.5"><DollarSign className="w-3.5 h-3.5 text-emerald-500" /> Landed cost breakdown</span>
+        <span className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5 text-emerald-500" /> Supplier matching</span>
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-80px)] bg-gray-50/50 min-w-0">
-      <div className="border-b bg-white p-3 sm:p-4 shrink-0">
+    <div className="flex flex-col min-h-[calc(100vh-80px)] bg-slate-50 min-w-0">
+      <div className="border-b border-slate-200 bg-white shadow-sm p-4 sm:p-5 shrink-0">
         <div className="max-w-3xl mx-auto w-full min-w-0">
           {imagePreview && (
             <div className="mb-3 relative inline-block">
@@ -1779,7 +1983,7 @@ export default function SmartFinder() {
                 disabled={view === 'loading'}
                 data-testid="button-upload-image"
               >
-                <Camera className="w-5 h-5 text-slate-600" />
+                <Camera className="w-5 h-5 text-slate-700" />
               </Button>
               <div className="flex-1 relative">
                 <Textarea
@@ -1840,7 +2044,7 @@ export default function SmartFinder() {
                   type="text"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  placeholder="e.g. 1000"
+                  placeholder="e.g. 50 (tonnes) or 1000 (units)"
                   className="h-9 text-sm text-slate-900 placeholder:text-slate-500 bg-white"
                 />
               </div>
@@ -1855,6 +2059,83 @@ export default function SmartFinder() {
                 />
               </div>
             </div>
+            {mineralOptions && (
+              <div className="space-y-2 pt-2 border-t border-slate-200">
+                <Label className="text-xs font-medium text-slate-700 flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-amber-500" />
+                  Purity / Grade ({mineralOptions.product.name} — {mineralOptions.product.priceSource} basis)
+                </Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <Select
+                    value={mineralPurity?.purityId ?? mineralOptions.purityOptions[0]?.id}
+                    onValueChange={(v) => setMineralPurity((p) => p ? { ...p, purityId: v } : { productId: mineralOptions.product.id, purityId: v, formId: "ingot" })}
+                  >
+                    <SelectTrigger className="h-9 text-sm text-slate-800 bg-amber-50/50 border-amber-200">
+                      <SelectValue placeholder="Purity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mineralOptions.purityOptions.map((o) => (
+                        <SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {mineralOptions.formOptions?.length > 0 && (
+                    <Select
+                      value={mineralPurity?.formId ?? "ingot"}
+                      onValueChange={(v) => setMineralPurity((p) => p ? { ...p, formId: v } : { productId: mineralOptions.product.id, purityId: mineralOptions.purityOptions[0]?.id ?? "99.9", formId: v })}
+                    >
+                      <SelectTrigger className="h-9 text-sm text-slate-800 bg-amber-50/50 border-amber-200">
+                        <SelectValue placeholder="Form" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {mineralOptions.formOptions.map((o) => (
+                          <SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+                <p className="text-[10px] text-slate-500">Specify purity and form (ore/concentrate/ingot) for accurate quotes.</p>
+              </div>
+            )}
+            {productFamilyOptions && (
+              <div className="space-y-2 pt-2 border-t border-slate-200">
+                <Label className="text-xs font-medium text-slate-700 flex items-center gap-1.5">
+                  <Package className="w-3.5 h-3.5 text-blue-500" />
+                  Product Specs ({productFamilyOptions.name} — {productFamilyOptions.referenceIndex})
+                </Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {productFamilyOptions.parameters.map((p) => (
+                    <div key={p.id} className="space-y-1">
+                      <Label className="text-[10px] text-slate-600">{p.label}{p.required ? " *" : ""}</Label>
+                      {p.type === "select" && p.options?.length ? (
+                        <Select
+                          value={productFamilyParams[p.id] ?? p.options[0]?.id}
+                          onValueChange={(v) => setProductFamilyParams((prev) => ({ ...prev, [p.id]: v }))}
+                        >
+                          <SelectTrigger className="h-8 text-xs">
+                            <SelectValue placeholder={p.placeholder} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {p.options.map((o) => (
+                              <SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Input
+                          className="h-8 text-xs"
+                          placeholder={p.placeholder}
+                          value={productFamilyParams[p.id] ?? ""}
+                          onChange={(e) => setProductFamilyParams((prev) => ({ ...prev, [p.id]: e.target.value }))}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[10px] text-slate-500">Specify for accurate pricing. Uses {productFamilyOptions.referenceIndex} reference.</p>
+              </div>
+            )}
             {showAdvanced && (
               <div className="space-y-1 pt-2 border-t">
                 <Label className="text-xs font-medium text-slate-700">Additional requirements</Label>
@@ -1870,25 +2151,15 @@ export default function SmartFinder() {
             <button
               type="button"
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="flex items-center gap-1 text-xs text-slate-600 hover:text-slate-800"
+              className="flex items-center gap-1 text-xs text-slate-700 hover:text-slate-800"
             >
               {showAdvanced ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
               {showAdvanced ? "Hide" : "Show"} advanced filters
             </button>
           </div>
-          <p className="text-xs text-center text-slate-600 mt-2">
+          <p className="text-xs text-center text-slate-700 mt-2">
             {selectedImage ? "Click the sparkle button to analyze image" : "Press Enter to search • Upload an image or type • Uses 1 credit per report"}
           </p>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={handleTestReport}
-            disabled={isTestingReport}
-            className="mt-2 text-xs text-slate-500"
-          >
-            {isTestingReport ? "Testing…" : "Test report generation (debug)"}
-          </Button>
         </div>
       </div>
 
@@ -1938,7 +2209,7 @@ export default function SmartFinder() {
                 </div>
                 <div>
                   <h4 className="font-semibold">Monthly Plan - $80/month</h4>
-                  <p className="text-sm text-slate-600">10 credits refreshed every month</p>
+                  <p className="text-sm text-slate-700">10 credits refreshed every month</p>
                 </div>
               </div>
             </div>
@@ -1949,7 +2220,7 @@ export default function SmartFinder() {
                 </div>
                 <div>
                   <h4 className="font-semibold">Pay-as-you-go</h4>
-                  <p className="text-sm text-slate-600">$10 per credit - never expires</p>
+                  <p className="text-sm text-slate-700">$10 per credit - never expires</p>
                 </div>
               </div>
             </div>
@@ -1976,6 +2247,14 @@ export default function SmartFinder() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {contactSlug && (
+        <ContactQuoteModal
+          slug={contactSlug}
+          supplierName={contactSupplierName}
+          onClose={() => { setContactSlug(null); setContactSupplierName(""); }}
+        />
+      )}
     </div>
   );
 }

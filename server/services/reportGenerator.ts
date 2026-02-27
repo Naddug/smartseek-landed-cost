@@ -2,8 +2,11 @@ import { getOpenAIClient } from "./openaiClient";
 import { calculateLandedCost } from "./landedCost/orchestrator";
 import type { LandedCostInput, LandedCostResult } from "./landedCost/types";
 import { generateRiskAnalysis } from "./riskIntelligence";
+import { getMineralMarketPrice, getProductFamilyMarketPrice } from "./marketPrices";
 import { prisma } from "../../lib/prisma";
 import { getCountryCode } from "../lib/countryCodes";
+import { MINERAL_PRODUCTS, MINERAL_FORMS, getMineralPricePerTonne, getMineralPriceSource, detectMineralProduct } from "@shared/mineralConfig";
+import { PRODUCT_FAMILIES, detectProductFamily, getProductFamilyPrice } from "@shared/productFamilies";
 
 export interface ReportFormData {
   productName: string;
@@ -14,6 +17,10 @@ export interface ReportFormData {
   originCountry?: string;
   destinationCountry?: string;
   additionalRequirements?: string;
+  /** For minerals (copper, tin, antimony, etc.): product id + purity grade + form (ore/concentrate/ingot) */
+  mineralPurity?: { productId: string; purityId: string; formId?: string };
+  /** For product families (steel, agri, chemicals, etc.): family id + param values */
+  productFamily?: { familyId: string; params: Record<string, string> };
 }
 
 export interface CustomsFees {
@@ -160,6 +167,30 @@ function formatCurrency(value: number, currency = "USD"): string {
   }).format(value);
 }
 
+/** Fix common LLM typos in report text */
+function fixCommonTypos(text: string): string {
+  return text
+    .replace(/\bExperient\b/gi, "Experienced")
+    .replace(/\brastructure\b/gi, "infrastructure")
+    .replace(/\bDirectorý\b/gi, "Directory")
+    .replace(/\bUnite\b(?!d)/g, "United");
+}
+
+function applyTypoFixes(report: GeneratedReport): void {
+  report.supplierAnalysis?.topRegions?.forEach((r) => {
+    r.advantages = r.advantages?.map((a) => fixCommonTypos(a)) ?? [];
+    r.considerations = r.considerations?.map((c) => fixCommonTypos(c)) ?? [];
+  });
+  report.sellerComparison?.forEach((s) => {
+    if (s.location) s.location = fixCommonTypos(s.location);
+    if (s.platform) s.platform = fixCommonTypos(s.platform);
+    if (s.recommendation) s.recommendation = fixCommonTypos(s.recommendation);
+  });
+  report.supplierAnalysis?.recommendedSuppliers?.forEach((s) => {
+    if (s.location) s.location = fixCommonTypos(s.location);
+  });
+}
+
 function landedCostResultToBreakdown(result: LandedCostResult): LandedCost {
   const c = result.customs;
   const customsTotal = c.importDuty.amount + c.vat.amount + (c.mpf?.amount ?? 0) + (c.hmf?.amount ?? 0);
@@ -196,39 +227,147 @@ export async function generateSmartFinderReport(
   const quantity = parseInt(String(formData.quantity || "1000"), 10) || 1000;
   const productName = formData.productName || formData.category || "Product";
   const category = formData.category || productName;
+  const searchText = `${productName} ${category}`.toLowerCase();
 
-  // Phase 1: Quick LLM call for HS code + estimated FOB cost
-  let hsCode = "";
-  let estimatedFobPerUnit = 5;
-  try {
-    const miniRes = await getOpenAIClient().chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "user",
-          content: `Product: ${productName}. Category: ${category}. Quantity: ${quantity}. Return ONLY valid JSON: { "hsCode": "6-digit HS code (e.g. 8471.30)", "estimatedFobCostPerUnit": number }`,
-        },
-      ],
-      response_format: { type: "json_object" },
-      max_tokens: 150,
-    });
-    const mini = JSON.parse(miniRes.choices[0]?.message?.content || "{}");
-    hsCode = mini.hsCode || "8471.30";
-    estimatedFobPerUnit = typeof mini.estimatedFobCostPerUnit === "number" ? mini.estimatedFobCostPerUnit : 5;
-  } catch (e) {
-    warnings.push("Could not get HS code from AI; using default 8471.30");
-    hsCode = "8471.30";
+  // Mineral products (copper, tin, antimony, etc.): use LME/Argus-style pricing with purity grade
+  const mineralProduct = detectMineralProduct(searchText);
+  let estimatedFobPerUnit: number | null = null;
+  let mineralPurityUsed: { productId: string; purityId: string; formId: string; priceSource: string; calculationFormula: string } | null = null;
+
+  if (mineralProduct) {
+    const purityId = formData.mineralPurity?.productId === mineralProduct.id
+      ? formData.mineralPurity.purityId
+      : mineralProduct.purities.find((p) => p.id === "99.9")?.id ?? mineralProduct.purities[0]?.id ?? "99.9";
+    const formId = formData.mineralPurity?.formId ?? "ingot";
+    const { pricePerTonne: marketBase, source: priceSource } = await getMineralMarketPrice(mineralProduct.id, originCountry);
+    const pricePerTonne = getMineralPricePerTonne(mineralProduct.id, purityId, originCountry, formId, marketBase);
+    if (pricePerTonne != null) {
+      estimatedFobPerUnit = pricePerTonne;
+      const basePrice = marketBase;
+      const purity = mineralProduct.purities.find((p) => p.id === purityId);
+      const form = MINERAL_FORMS.find((f) => f.id === formId);
+      const sourceLabel = priceSource === "MetalpriceAPI" ? "LME (live)" : getMineralPriceSource(mineralProduct.id, originCountry);
+      const formula = `Base ${sourceLabel} $${basePrice.toLocaleString()}/ton x ${purity?.label ?? purityId} (${purity?.priceMultiplier ?? 1}) x ${form?.label ?? formId} (${form?.priceMultiplier ?? 1}) x ${quantity} tons = $${(pricePerTonne * quantity).toLocaleString()}`;
+      mineralPurityUsed = {
+        productId: mineralProduct.id,
+        purityId,
+        formId,
+        priceSource: priceSource === "MetalpriceAPI" ? "LME (live)" : getMineralPriceSource(mineralProduct.id, originCountry),
+        calculationFormula: formula,
+      };
+      if (!formData.mineralPurity) {
+        const purityLabel = mineralProduct.purities.find((p) => p.id === purityId)?.label ?? purityId;
+        warnings.push(`Purity not specified for ${mineralProduct.name}. Using ${purityLabel}. Specify purity for more accurate quotes.`);
+      }
+    }
   }
+
+  // Product families (steel, agri, chemicals, textiles, etc.): use params + market prices
+  let productFamilyUsed: { familyId: string; referenceIndex: string } | null = null;
+  if (estimatedFobPerUnit == null) {
+    const family = formData.productFamily?.familyId
+      ? PRODUCT_FAMILIES.find((f) => f.id === formData.productFamily!.familyId)
+      : detectProductFamily(searchText);
+    if (family && (formData.productFamily?.params || family.parameters.length > 0)) {
+      const params = formData.productFamily?.params ?? {};
+      const productParam =
+        family.id === "agri_bulk" ? params.product
+        : family.id === "food_beverage" ? params.product_type
+        : undefined;
+      const marketPrice = await getProductFamilyMarketPrice(family.id, productParam, originCountry);
+      const baseOverride = marketPrice?.pricePerTonne;
+      const pricePerUnit = getProductFamilyPrice(
+        family,
+        params,
+        originCountry,
+        baseOverride
+      );
+      if (pricePerUnit > 0) {
+        estimatedFobPerUnit = pricePerUnit;
+        productFamilyUsed = {
+          familyId: family.id,
+          referenceIndex: marketPrice?.source ?? family.referenceIndex,
+        };
+        if (!formData.productFamily) {
+          warnings.push(`Product specs not fully specified for ${family.name}. Using default params. Specify for accurate quotes.`);
+        }
+      }
+    }
+  }
+
+  // Fallback: non-mineral commodities (iron, steel, coal)
+  const COMMODITY_FALLBACK: Record<string, number> = {
+    iron: 120, "iron ore": 120, steel: 700, coal: 150, "crude oil": 550,
+  };
+  if (estimatedFobPerUnit == null) {
+    for (const [key, price] of Object.entries(COMMODITY_FALLBACK)) {
+      if (searchText.includes(key)) {
+        estimatedFobPerUnit = price;
+        break;
+      }
+    }
+  }
+
+  // Phase 1: Quick LLM call for HS code + estimated FOB cost (when not from mineral/commodity lookup)
+  let hsCode = "";
+  if (estimatedFobPerUnit == null) {
+    try {
+      const miniRes = await getOpenAIClient().chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "user",
+            content: `Product: ${productName}. Category: ${category}. Quantity: ${quantity} units. Return ONLY valid JSON: { "hsCode": "6-digit HS code (e.g. 8471.30)", "estimatedFobCostPerUnit": number }.
+For metals/minerals (copper, iron, steel, aluminum, etc.) use price PER TONNE in USD (e.g. copper ~13000 LME, steel ~700).
+For electronics use price per piece. For textiles use price per piece or per kg.`,
+          },
+        ],
+        response_format: { type: "json_object" },
+        max_tokens: 150,
+      });
+      const mini = JSON.parse(miniRes.choices[0]?.message?.content || "{}");
+      hsCode = mini.hsCode || "8471.30";
+      estimatedFobPerUnit = typeof mini.estimatedFobCostPerUnit === "number" ? mini.estimatedFobCostPerUnit : 5;
+    } catch (e) {
+      warnings.push("Could not get HS code from AI; using default 8471.30");
+      hsCode = "8471.30";
+      estimatedFobPerUnit = 5;
+    }
+  } else {
+    // HS code for mineral/commodity (no AI call needed)
+    hsCode = mineralProduct?.hsCode ?? (() => {
+      if (/copper/i.test(searchText)) return "7403.11";
+      if (/antimony/i.test(searchText)) return "8110.20";
+      if (/tin/i.test(searchText)) return "8001.20";
+      if (/zinc/i.test(searchText)) return "7901.11";
+      if (/lead/i.test(searchText)) return "7801.10";
+      if (/nickel/i.test(searchText)) return "7502.10";
+      if (/aluminum|aluminium/i.test(searchText)) return "7601.10";
+      return "8471.30";
+    })();
+  }
+
+  // For bulk commodities (tonnes/mt), quantity is in tonnes; otherwise pieces/cbm
+  const isBulkCommodity = /copper|iron|steel|aluminum|zinc|nickel|lead|tin|coal|ore|metal|mineral|wheat|corn|barley|rice|soybean|sugar|palm oil|grain|chemical|resin|plastic|petrochemical/i.test(searchText)
+    || productFamilyUsed?.familyId === "finished_metal_steel"
+    || productFamilyUsed?.familyId === "agri_bulk"
+    || productFamilyUsed?.familyId === "petrochemicals_chemicals"
+    || productFamilyUsed?.familyId === "plastics_packaging"
+    || productFamilyUsed?.familyId === "food_beverage";
+  const effectiveQuantity = isBulkCommodity ? quantity : quantity;
+  const effectivePricePerUnit = estimatedFobPerUnit ?? 5;
 
   // Phase 2: Fetch real data in parallel
   let landedCostData: LandedCost | null = null;
   let realSuppliers: Array<{ companyName: string; country: string; city: string; industry: string; products: string; certifications: string | null; rating: number; minOrderValue: number | null; yearEstablished: number }> = [];
   let riskData: Awaited<ReturnType<typeof generateRiskAnalysis>> | null = null;
 
-  const baseCost = Math.max(100, (Number(estimatedFobPerUnit) || 5) * quantity);
+  const baseCost = Math.max(100, effectivePricePerUnit * effectiveQuantity);
 
   const [landedResult, suppliersResult, riskResult] = await Promise.allSettled([
     (async () => {
+      const weightKg = isBulkCommodity ? quantity * 1000 : Math.max(1, quantity * 0.5);
+      const volumeCbm = isBulkCommodity ? quantity * 0.5 : Math.max(0.1, quantity * 0.001);
       const input: LandedCostInput = {
         productName,
         hsCode,
@@ -241,19 +380,30 @@ export async function generateSmartFinderReport(
         destinationCountry: destCode,
         shippingMethod: "sea_fcl",
         containerType: "40ft",
-        weight: Math.max(1, quantity * 0.5),
-        volume: Math.max(0.1, quantity * 0.001),
+        weight: weightKg,
+        volume: volumeCbm,
       };
       return calculateLandedCost(input);
     })(),
-    prisma.supplier.findMany({
-      where: {
-        OR: [
-          { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } },
-          { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } },
-          { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } },
-        ],
-      },
+    (() => {
+      const countryCode = originCountry !== "any suitable global sourcing location" ? getCountryCode(originCountry) : null;
+      const countryFilter =
+        originCountry !== "any suitable global sourcing location"
+          ? {
+              OR: [
+                { country: { contains: originCountry, mode: "insensitive" as const } },
+                ...(countryCode && countryCode !== "XX" && countryCode !== "SKIP"
+                  ? [{ countryCode: { equals: countryCode, mode: "insensitive" as const } }]
+                  : []),
+              ],
+            }
+          : {};
+      return prisma.supplier.findMany({
+        where: {
+          ...(Object.keys(countryFilter).length > 0
+            ? { AND: [countryFilter, { OR: [ { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } }, { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } }, { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } } ] }] }
+            : { OR: [ { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } }, { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } }, { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } } ] }),
+        },
       take: 5,
       orderBy: { rating: "desc" },
       select: {
@@ -268,7 +418,8 @@ export async function generateSmartFinderReport(
         minOrderValue: true,
         yearEstablished: true,
       },
-    }),
+    });
+    })(),
     generateRiskAnalysis({
       country: originCountry === "any suitable global sourcing location" ? "China" : originCountry,
       industry: category,
@@ -285,7 +436,11 @@ export async function generateSmartFinderReport(
   if (suppliersResult.status === "fulfilled" && suppliersResult.value.length > 0) {
     realSuppliers = suppliersResult.value;
   } else {
-    warnings.push("No matching suppliers found in database; report uses AI-generated supplier examples");
+    if (originCountry !== "any suitable global sourcing location") {
+      warnings.push(`No suppliers found in ${originCountry}. Supplier directory may have limited coverage. Try "Any" for global results.`);
+    } else {
+      warnings.push("No matching suppliers found in database; report uses AI-generated supplier examples");
+    }
   }
 
   if (riskResult.status === "fulfilled") {
@@ -296,6 +451,15 @@ export async function generateSmartFinderReport(
 
   // Build context for main LLM
   const structuredContext: string[] = [];
+  if (mineralPurityUsed) {
+    const product = MINERAL_PRODUCTS.find((m) => m.id === mineralPurityUsed!.productId);
+    const purityLabel = product?.purities.find((p) => p.id === mineralPurityUsed!.purityId)?.label ?? mineralPurityUsed.purityId;
+    structuredContext.push(`PRICING BASIS: ${product?.name ?? mineralPurityUsed.productId} at ${purityLabel} purity. Prices based on ${mineralPurityUsed.priceSource} reference (LME/Argus/SMM). Use these for landed cost and supplier comparison.`);
+  }
+  if (productFamilyUsed) {
+    const family = PRODUCT_FAMILIES.find((f) => f.id === productFamilyUsed!.familyId);
+    structuredContext.push(`PRICING BASIS: ${family?.name ?? productFamilyUsed.familyId}. Prices based on ${productFamilyUsed.referenceIndex} reference (LME/regional indices/mill lists). Use for landed cost and supplier comparison.`);
+  }
   if (landedCostData) {
     structuredContext.push(`REAL LANDED COST (use these exact numbers): ${JSON.stringify(landedCostData)}`);
   }
@@ -459,6 +623,7 @@ Generate a detailed professional report with the following structure (return ONL
 }
 
 IMPORTANT - Provide maximum value for procurers and sellers:
+- Use correct spelling: "Experienced" (not Experient), "infrastructure" (not rastructure), "United Kingdom" (not Unite)
 - Use realistic 6-digit HS codes for this exact product category
 - Calculate customs duties based on current tariff rates for origin→destination
 - Include 4-5 seller comparisons with varied price points, MOQs, and lead times
@@ -527,6 +692,10 @@ IMPORTANT - Provide maximum value for procurers and sellers:
         report.customsAnalysis.customsFees.hsCode = hsCode;
       }
     }
+    // Preserve user-selected origin country (LLM may return "Any" incorrectly)
+    if (originCountry !== "any suitable global sourcing location" && report.customsAnalysis) {
+      report.customsAnalysis.originCountry = originCountry;
+    }
     if (landedCostData) {
       report.landedCostBreakdown = landedCostData;
     }
@@ -541,7 +710,7 @@ IMPORTANT - Provide maximum value for procurers and sellers:
         leadTime: "14-45 days",
         rating: s.rating || 4,
         yearsInBusiness: s.yearEstablished ? new Date().getFullYear() - s.yearEstablished : 5,
-        certifications: s.certifications ? s.certifications.split(/[,;|]/).map((c) => c.trim()).filter(Boolean) : [],
+        certifications: s.certifications ? s.certifications.split(/[,;|]/).map((c: string) => c.trim()).filter(Boolean) : [],
         platformFees: "N/A",
         paymentTerms: "T/T, L/C",
         shippingOptions: ["Sea freight", "Air freight"],
@@ -558,7 +727,7 @@ IMPORTANT - Provide maximum value for procurers and sellers:
         estimatedCost: s.minOrderValue != null ? `$${s.minOrderValue.toLocaleString()} min` : "Contact for quote",
         moq: "Contact supplier",
         leadTime: "14-45 days",
-        certifications: s.certifications ? s.certifications.split(/[,;|]/).map((c) => c.trim()).filter(Boolean) : [],
+        certifications: s.certifications ? s.certifications.split(/[,;|]/).map((c: string) => c.trim()).filter(Boolean) : [],
       }));
     }
     if (riskData) {
@@ -572,8 +741,19 @@ IMPORTANT - Provide maximum value for procurers and sellers:
       };
     }
 
+    applyTypoFixes(report);
+
     report.metadata = {
-      inputs: { productName, category, originCountry, destinationCountry, quantity, budget: formData.budget },
+      inputs: {
+        productName,
+        category,
+        originCountry,
+        destinationCountry,
+        quantity,
+        budget: formData.budget,
+        ...(mineralPurityUsed && { mineralPurity: mineralPurityUsed }),
+        ...(productFamilyUsed && { productFamily: productFamilyUsed }),
+      },
       generatedAt: new Date().toISOString(),
       model: "gpt-4o",
       warnings,
@@ -636,6 +816,8 @@ Return ONLY valid JSON with: executiveSummary, productClassification (hsCode, hs
   if (!report.executiveSummary || !report.productClassification) {
     throw new Error("AI response missing required fields");
   }
+
+  applyTypoFixes(report);
 
   report.metadata = {
     inputs: { productName: formData.productName, category: formData.category },

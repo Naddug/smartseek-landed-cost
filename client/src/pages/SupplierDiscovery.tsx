@@ -96,7 +96,7 @@ function useStats() {
       const res = await fetch("/api/stats");
       if (!res.ok) throw new Error("Failed to fetch stats");
       const data = await res.json();
-      return { suppliers: data.suppliers ?? 4300000, countries: data.countries ?? 220 };
+      return { suppliers: data.suppliers ?? 10000000, countries: data.countries ?? 220 };
     },
     staleTime: 60000,
   });
@@ -571,7 +571,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
 
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery;
   const { data: stats } = useStats();
-  const supplierCount = stats?.suppliers ?? 4300000;
+  const supplierCount = stats?.suppliers ?? 10000000;
   const countryCount = stats?.countries ?? 220;
 
   return (

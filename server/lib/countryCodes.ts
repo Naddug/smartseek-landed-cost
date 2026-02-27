@@ -11,10 +11,17 @@ export const COUNTRY_NAME_TO_CODE = ISO_MAP;
 
 /** Typos and odd spellings → canonical country name for lookup */
 const TYPO_FIXES: Record<string, string> = {
-  // Typos
+  // China variants
   chine: "China",
   chinaa: "China",
   chinna: "China",
+  "people's republic of china": "China",
+  "people republic of china": "China",
+  prc: "China",
+  "p.r.c.": "China",
+  "hong kong": "Hong Kong",
+  "macau": "Macau",
+  macao: "Macau",
   unitedstatess: "United States",
   "united statess": "United States",
   unitedstates: "United States",

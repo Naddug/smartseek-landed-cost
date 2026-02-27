@@ -175,9 +175,10 @@ export async function setupAuth(app: Express) {
         }
         res.json({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName });
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
-      res.status(500).json({ error: "Failed to login" });
+      const msg = error?.message || "Failed to login";
+      return res.status(500).json({ error: msg });
     }
   });
 

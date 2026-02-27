@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev:client": "vite dev --port 5000",
-    "dev": "NODE_ENV=development tsx server/index.ts",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development tsx server/index.ts",
     "build": "tsx script/build.ts",
     "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
@@ -28,6 +28,9 @@
     "import:pdl": "tsx scripts/data-import/import-pdl-dataset.ts",
     "import:all-suppliers": "tsx scripts/data-import/import-all-suppliers.ts",
     "import:all-suppliers-29m": "PDL_IMPORT_ALL=true PDL_TARGET_COUNT=50000000 NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts",
+    "import:all-suppliers-42m": "PDL_IMPORT_ALL=true PDL_TARGET_COUNT=42000000 RESUME_IMPORT=true NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts",
+    "import:10m": "PDL_IMPORT_ALL=true PDL_TARGET_COUNT=10000000 NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts",
+    "import:all-suppliers-background": "bash scripts/data-import/run-import-background.sh",
     "import:check-db": "tsx scripts/data-import/check-db-size.ts",
     "import:all": "tsx scripts/data-import/run-all.ts",
     "create-test-user": "tsx scripts/create-test-user.ts"
@@ -148,6 +151,7 @@
     "esbuild": "^0.25.0",
     "postcss": "^8.5.6",
     "prisma": "^6.1.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.20.5",
     "typescript": "5.6.3",

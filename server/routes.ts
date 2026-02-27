@@ -1981,15 +1981,15 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         suppliers: supplierCount,
         countries: mergedByCode.size,
         industries: industryResult.length,
-        leads: leadCount > 0 ? leadCount : 2900000,
+        leads: leadCount > 0 ? leadCount : 7000000,
         topCountries,
       });
     } catch {
       res.json({
-        suppliers: 4300000,
+        suppliers: 10000000,
         countries: 220,
         industries: 20,
-        leads: 2900000,
+        leads: 7000000,
         topCountries: [],
       });
     }
@@ -2037,7 +2037,16 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         if (country === "Undefined") {
           where.AND = [...(Array.isArray(where.AND) ? where.AND : []), { OR: [{ country: "" }, { country: null }] }];
         } else {
-          where.country = { equals: country, mode: "insensitive" as const };
+          const { getCountryCode } = await import("./lib/countryCodes");
+          const countryCode = getCountryCode(country);
+          const countryConditions: object[] = [
+            { country: { equals: country, mode: "insensitive" as const } },
+            { country: { contains: country, mode: "insensitive" as const } },
+          ];
+          if (countryCode && countryCode !== "XX" && countryCode !== "SKIP") {
+            countryConditions.push({ countryCode: { equals: countryCode, mode: "insensitive" as const } });
+          }
+          where.AND = [...(Array.isArray(where.AND) ? where.AND : []), { OR: countryConditions }];
         }
       }
 
