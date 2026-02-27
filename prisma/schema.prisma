@@ -171,6 +171,10 @@ model Supplier {
   @@index([countryCode])
 }
 
+// WARNING: NEVER run `prisma db push --accept-data-loss` in production.
+// It will DROP all non-Prisma tables (users, sessions, user_profiles, etc.)
+// For schema changes, use `prisma migrate dev` or raw SQL instead.
+
 model Lead {
   id         String   @id @default(cuid())
   supplierId String
