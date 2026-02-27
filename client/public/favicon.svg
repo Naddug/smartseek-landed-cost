@@ -1,20 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <defs>
-    <!-- 3D hexagon: royal blue top, darker bottom -->
-    <linearGradient id="hexGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
       <stop stop-color="#3b82f6"/>
-      <stop offset="0.4" stop-color="#2563eb"/>
-      <stop offset="0.7" stop-color="#1d4ed8"/>
-      <stop offset="1" stop-color="#1e40af"/>
-    </linearGradient>
-    <!-- Recessed S: darker blue -->
-    <linearGradient id="sGrad" x1="8" y1="8" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1e40af"/>
-      <stop offset="1" stop-color="#1e3a8a"/>
+      <stop offset="0.5" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
     </linearGradient>
   </defs>
-  <!-- Hexagonal frame -->
-  <path d="M16 2 L26 9 L26 23 L16 30 L6 23 L6 9 Z" fill="url(#hexGrad)"/>
-  <!-- Stylized S: top bar, zigzag, bottom bar -->
-  <path d="M11 9 L21 9 L21 11 L11 16 L11 18 L21 18 L21 20 L11 15 L11 9 Z" fill="url(#sGrad)"/>
+  <rect width="32" height="32" rx="8" fill="url(#bg)"/>
+  <!-- Bold futuristic S: unmistakable letterform -->
+  <path d="M9 8 C 23 8 23 10 17 12 C 9 14 9 16 17 18 C 23 20 23 22 9 24" 
+        stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
