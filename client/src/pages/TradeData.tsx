@@ -342,44 +342,6 @@ export default function TradeData() {
         </div>
       </div>
 
-      {/* Quick Actions - prominent CTA */}
-      <Card className="bg-gradient-to-r from-blue-50 via-indigo-50 to-transparent border-blue-200">
-        <CardContent className="pt-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h3 className="font-semibold text-slate-900 flex items-center gap-2 text-lg">
-                <Sparkles className="w-5 h-5 text-blue-600" />
-                Turn insights into action
-              </h3>
-              <p className="text-sm text-slate-600 mt-1">
-                Get AI sourcing reports, find verified suppliers, or analyze landed costs for any product.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Link href="/smart-finder">
-                <Button className="gap-2 bg-blue-600 hover:bg-blue-700">
-                  <Sparkles className="w-4 h-4" />
-                  Get AI Sourcing Report
-                </Button>
-              </Link>
-              <Link href="/suppliers">
-                <Button variant="outline" className="gap-2 border-blue-300 text-blue-700 hover:bg-blue-50">
-                  <Search className="w-4 h-4" />
-                  Search Suppliers
-                  <ExternalLink className="w-3 h-3" />
-                </Button>
-              </Link>
-              <a href="https://comtradeplus.un.org/" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="gap-2 border-slate-400 text-slate-800 hover:bg-slate-100 hover:text-slate-900">
-                  UN Comtrade
-                  <ExternalLink className="w-3 h-3" />
-                </Button>
-              </a>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -786,6 +748,37 @@ export default function TradeData() {
                   <Sparkles className="w-3.5 h-3.5" />
                   AI Sourcing Report
                 </span>
+              </Link>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* CTA - Turn insights into action */}
+      <Card className="bg-gradient-to-r from-blue-600 to-indigo-700 border-0 shadow-lg">
+        <CardContent className="py-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h3 className="font-bold text-white flex items-center gap-2 text-xl">
+                <Sparkles className="w-6 h-6" />
+                Turn insights into action
+              </h3>
+              <p className="text-blue-100 mt-1">
+                Get AI sourcing reports, find verified suppliers, or analyze landed costs for any product.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/smart-finder">
+                <Button className="gap-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold">
+                  <Sparkles className="w-4 h-4" />
+                  Get AI Sourcing Report
+                </Button>
+              </Link>
+              <Link href="/suppliers">
+                <Button variant="outline" className="gap-2 border-white/30 text-white hover:bg-white/10">
+                  <Search className="w-4 h-4" />
+                  Search Suppliers
+                </Button>
               </Link>
             </div>
           </div>

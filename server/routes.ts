@@ -481,13 +481,15 @@ RESPONSE GUIDELINES:
       
       const systemPrompt = taskPrompts[task] || taskPrompts.general;
       
+      const tokenLimit = task === "search_leads" ? 3000 : 2500;
       const response = await getOpenAIClient().chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: query }
         ],
-        max_tokens: 4000
+        max_tokens: tokenLimit,
+        temperature: 0.7,
       });
       
       const content = response.choices[0]?.message?.content;
@@ -1701,8 +1703,42 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     }
   });
 
+  // ===== HS Code Lookup =====
+  app.get("/api/hs-codes/lookup", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    try {
+      const { product } = req.query;
+      if (!product || typeof product !== "string" || product.trim().length < 2) {
+        return res.status(400).json({ error: "Product name is required (min 2 chars)" });
+      }
+      const openai = getOpenAIClient();
+      const response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          { role: "system", content: `You are an HS code classification expert. Given a product name, return the most accurate 6-digit HS code with its description. Return ONLY valid JSON: { "hsCode": "XXXX.XX", "description": "Official description", "chapter": "XX", "chapterName": "Chapter name" }. Be precise - use the correct Harmonized System classification.` },
+          { role: "user", content: `Classify this product: ${product.trim()}` }
+        ],
+        max_tokens: 200,
+        temperature: 0.1,
+      });
+      const content = response.choices[0]?.message?.content || "";
+      try {
+        const jsonMatch = content.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          return res.json(parsed);
+        }
+      } catch {}
+      res.json({ hsCode: "", description: "Could not classify", chapter: "", chapterName: "" });
+    } catch (error: any) {
+      console.error("HS code lookup error:", error);
+      res.status(500).json({ error: "Failed to lookup HS code" });
+    }
+  });
+
   // ===== Landed Cost Engine Routes =====
-  
+
   // Calculate landed cost
   app.post("/api/landed-cost/calculate", async (req: Request, res: Response) => {
     const userId = getUserId(req);
@@ -2010,6 +2046,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
   // GET /api/suppliers — Search, filter, paginate
   app.get("/api/suppliers", async (req: Request, res: Response) => {
+    res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=60");
     try {
       const {
         q,
@@ -2183,6 +2220,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
   // GET /api/suppliers/filters — Get available filter options (proper-cased, deduplicated)
   app.get("/api/suppliers/filters", async (_req: Request, res: Response) => {
+    res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=600");
     try {
       const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
       const [countries, industries] = await Promise.all([

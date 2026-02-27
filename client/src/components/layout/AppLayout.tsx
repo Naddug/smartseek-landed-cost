@@ -20,7 +20,8 @@ import {
   CreditCard,
   Target,
   Bot,
-  Users
+  Users,
+  Home
 } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
@@ -73,7 +74,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside className={`w-64 bg-sidebar border-r border-sidebar-border flex flex-col fixed h-full z-40 transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="p-6">
-          <Link href="/dashboard">
+          <Link href="/">
             <span className="flex items-center gap-2 text-sidebar-foreground cursor-pointer">
               <Logo size="sm" className="rounded-lg w-8 h-8" />
               <span className="font-heading font-bold text-xl">SmartSeek</span>

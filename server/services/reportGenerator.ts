@@ -404,7 +404,7 @@ For electronics use price per piece. For textiles use price per piece or per kg.
             ? { AND: [countryFilter, { OR: [ { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } }, { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } }, { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } } ] }] }
             : { OR: [ { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } }, { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } }, { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } } ] }),
         },
-      take: 5,
+      take: 15,
       orderBy: { rating: "desc" },
       select: {
         companyName: true,
@@ -626,7 +626,7 @@ CRITICAL QUALITY REQUIREMENTS:
 - Use correct spelling: "Experienced" (not Experient), "infrastructure" (not rastructure), "United Kingdom" (not Unite)
 - Use realistic 6-digit HS codes for this exact product category
 - Calculate customs duties based on current tariff rates for origin→destination
-- Include 4-5 seller comparisons with varied price points, MOQs, and lead times
+- Include 8-12 seller comparisons with varied price points, MOQs, and lead times for comprehensive comparison
 - topRegions: ALWAYS provide 3-5 regions when origin is "any"; include specific price ranges and trade-offs
 - marketOverview: Include concrete market size, growth rate, and 5+ key trends
 - All monetary values: use realistic numbers (e.g. $X.XX, $X,XXX)
@@ -794,7 +794,7 @@ ${budgetStr}
 Quantity: ${formData.quantity} units
 ${formData.additionalRequirements ? `Additional: ${formData.additionalRequirements}` : ""}
 
-Return ONLY valid JSON with: executiveSummary, productClassification (hsCode, hsCodeDescription, tariffChapter, productCategory, regulatoryRequirements), marketOverview (marketSize, growthRate, keyTrends, majorExporters, majorImporters), customsAnalysis (originCountry, destinationCountry, tradeAgreements, customsFees, requiredDocuments, complianceNotes), landedCostBreakdown (productCost, freightCost, insuranceCost, customsDuties, vatTaxes, handlingFees, brokerageFees, portCharges, inlandTransport, totalLandedCost, costPerUnit), sellerComparison (array of 4-5 with sellerName, platform, location, unitPrice, moq, leadTime, rating, yearsInBusiness, certifications, platformFees, paymentTerms, shippingOptions, estimatedProfit, profitMargin, totalCostWithFees, recommendation), supplierAnalysis (topRegions, recommendedSuppliers), profitAnalysis, costBreakdown, riskAssessment (overallRisk, risks), timeline, recommendations, nextSteps.`;
+Return ONLY valid JSON with: executiveSummary, productClassification (hsCode, hsCodeDescription, tariffChapter, productCategory, regulatoryRequirements), marketOverview (marketSize, growthRate, keyTrends, majorExporters, majorImporters), customsAnalysis (originCountry, destinationCountry, tradeAgreements, customsFees, requiredDocuments, complianceNotes), landedCostBreakdown (productCost, freightCost, insuranceCost, customsDuties, vatTaxes, handlingFees, brokerageFees, portCharges, inlandTransport, totalLandedCost, costPerUnit), sellerComparison (array of 8-12 with sellerName, platform, location, unitPrice, moq, leadTime, rating, yearsInBusiness, certifications, platformFees, paymentTerms, shippingOptions, estimatedProfit, profitMargin, totalCostWithFees, recommendation), supplierAnalysis (topRegions with at least 4-6 regions, recommendedSuppliers), profitAnalysis, costBreakdown, riskAssessment (overallRisk, risks), timeline, recommendations, nextSteps.`;
 
   const completion = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o",

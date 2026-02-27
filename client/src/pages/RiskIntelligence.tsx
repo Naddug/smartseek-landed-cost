@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Shield, AlertTriangle, CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { Shield, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Globe, TrendingDown, TrendingUp, BarChart3, FileText, Zap } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 type RiskCategory = {
   name: string;
@@ -20,10 +22,20 @@ type RiskResult = {
   alternativeRegions: string[];
 };
 
+const categoryIcons: Record<string, React.ReactNode> = {
+  "Geopolitical Risk": <Globe className="w-4 h-4" />,
+  "Economic & Financial Stability": <TrendingDown className="w-4 h-4" />,
+  "Supply Chain & Logistics": <Zap className="w-4 h-4" />,
+  "Regulatory & Trade Policy": <FileText className="w-4 h-4" />,
+  "Quality & Compliance": <CheckCircle2 className="w-4 h-4" />,
+  "Currency & Payment Risk": <BarChart3 className="w-4 h-4" />,
+  "Environmental & ESG": <Shield className="w-4 h-4" />,
+};
+
 function ScoreBar({ score, size = "md" }: { score: number; size?: "sm" | "md" }) {
   const color = score >= 80 ? "bg-emerald-500" : score >= 60 ? "bg-amber-500" : score >= 40 ? "bg-orange-500" : "bg-red-500";
   return (
-    <div className={`w-full bg-slate-700 rounded-full ${size === "sm" ? "h-2" : "h-3"}`}>
+    <div className={`w-full bg-slate-200 rounded-full ${size === "sm" ? "h-2" : "h-3"}`}>
       <div className={`${color} rounded-full ${size === "sm" ? "h-2" : "h-3"} transition-all duration-700`} style={{ width: `${score}%` }} />
     </div>
   );
@@ -31,15 +43,26 @@ function ScoreBar({ score, size = "md" }: { score: number; size?: "sm" | "md" })
 
 function LevelBadge({ level }: { level: string }) {
   const styles: Record<string, string> = {
-    Low: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-    Medium: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-    High: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-    Critical: "bg-red-500/20 text-red-400 border-red-500/30",
+    Low: "bg-emerald-100 text-emerald-700 border-emerald-200",
+    Medium: "bg-amber-100 text-amber-700 border-amber-200",
+    High: "bg-orange-100 text-orange-700 border-orange-200",
+    Critical: "bg-red-100 text-red-700 border-red-200",
   };
   return (
-    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${styles[level] || styles.Medium}`}>
+    <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${styles[level] || styles.Medium}`}>
       {level} Risk
     </span>
+  );
+}
+
+function ScoreGauge({ score }: { score: number }) {
+  const color = score >= 80 ? "text-emerald-600" : score >= 60 ? "text-amber-600" : score >= 40 ? "text-orange-600" : "text-red-600";
+  const bg = score >= 80 ? "bg-emerald-50" : score >= 60 ? "bg-amber-50" : score >= 40 ? "bg-orange-50" : "bg-red-50";
+  return (
+    <div className={`${bg} rounded-2xl p-6 flex flex-col items-center justify-center`}>
+      <div className={`text-5xl font-bold ${color}`}>{score}</div>
+      <div className="text-sm text-slate-500 mt-1">/ 100</div>
+    </div>
   );
 }
 
@@ -57,115 +80,176 @@ export default function RiskIntelligence() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-slate-800 to-blue-900 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-2">
-          <Shield className="w-8 h-8 text-blue-400" />
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-white/10 rounded-lg">
+            <Shield className="w-7 h-7 text-white" />
+          </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Risk Intelligence</h1>
-            <p className="text-slate-400">AI-powered geopolitical, financial & supply chain risk analysis</p>
+            <p className="text-blue-100">AI-powered geopolitical, financial, supply chain & ESG risk analysis</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1 bg-slate-800 rounded-xl p-5 border border-slate-700 h-fit">
-          <h2 className="text-sm font-semibold text-slate-300 mb-4">Analysis Parameters</h2>
-          <div className="space-y-3">
+        <Card className="lg:col-span-1 h-fit">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base text-slate-900">Analysis Parameters</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
             <div>
-              <label className="text-xs text-slate-400 mb-1 block">Supplier Name (optional)</label>
-              <input className="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Supplier Name</label>
+              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1 block">Country *</label>
-              <input className="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Country <span className="text-red-500">*</span></label>
+              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1 block">Industry</label>
-              <input className="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Industry</label>
+              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
             </div>
             <div>
-              <label className="text-xs text-slate-400 mb-1 block">Products</label>
-              <input className="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Products</label>
+              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
             </div>
-            <button onClick={() => mutation.mutate()} disabled={!form.country || mutation.isPending} className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-2.5 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors">
+            <button onClick={() => mutation.mutate()} disabled={!form.country || mutation.isPending} className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors mt-2">
               {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</> : <><Shield className="w-4 h-4" /> Analyze Risk</>}
             </button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         <div className="lg:col-span-2 space-y-4">
           {mutation.isError && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-red-400 text-sm">Failed to generate analysis. Please try again.</div>
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">Failed to generate analysis. Please try again.</div>
           )}
           {!result && !mutation.isPending && (
-            <div className="bg-slate-800 rounded-xl p-12 border border-slate-700 text-center">
-              <Shield className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-400">Enter parameters and click Analyze to generate a risk report</p>
-            </div>
+            <Card className="border-dashed">
+              <CardContent className="py-16 text-center">
+                <Shield className="w-14 h-14 text-slate-300 mx-auto mb-4" />
+                <p className="text-slate-500 text-lg font-medium">Enter parameters and click Analyze</p>
+                <p className="text-slate-400 text-sm mt-1">Get comprehensive risk intelligence covering 7 risk categories</p>
+              </CardContent>
+            </Card>
           )}
           {mutation.isPending && (
-            <div className="bg-slate-800 rounded-xl p-12 border border-slate-700 text-center">
-              <Loader2 className="w-10 h-10 text-blue-500 mx-auto mb-3 animate-spin" />
-              <p className="text-slate-300 font-medium">Analyzing risk factors...</p>
-              <p className="text-slate-500 text-sm mt-1">This may take 10-15 seconds</p>
-            </div>
+            <Card>
+              <CardContent className="py-16 text-center">
+                <Loader2 className="w-12 h-12 text-blue-500 mx-auto mb-4 animate-spin" />
+                <p className="text-slate-900 font-semibold text-lg">Analyzing risk factors...</p>
+                <p className="text-slate-500 text-sm mt-1">Scanning geopolitical, financial, supply chain, and ESG data</p>
+              </CardContent>
+            </Card>
           )}
           {result && !mutation.isPending && (
             <>
-              <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-lg font-semibold text-white">Overall Risk Assessment</h2>
-                  <LevelBadge level={result.riskLevel} />
-                </div>
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="text-4xl font-bold text-white">{result.overallRiskScore}</div>
-                  <div className="flex-1"><ScoreBar score={result.overallRiskScore} /></div>
-                </div>
-                <p className="text-slate-400 text-sm">{result.summary}</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {result.categories.map((cat, i) => (
-                  <div key={i} className="bg-slate-800 rounded-xl p-4 border border-slate-700">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-semibold text-white">{cat.name}</h3>
-                      <span className="text-xs font-bold text-slate-300">{cat.score}/100</span>
-                    </div>
-                    <ScoreBar score={cat.score} size="sm" />
-                    <ul className="mt-2 space-y-1">
-                      {cat.factors.map((f, j) => (
-                        <li key={j} className="text-xs text-slate-400 flex items-start gap-1.5">
-                          <span className="mt-1 w-1 h-1 rounded-full bg-slate-500 shrink-0" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <h2 className="text-xl font-bold text-slate-900">Overall Risk Assessment</h2>
+                    <LevelBadge level={result.riskLevel} />
                   </div>
+                  <div className="flex items-start gap-6">
+                    <ScoreGauge score={result.overallRiskScore} />
+                    <div className="flex-1">
+                      <p className="text-slate-700 text-sm leading-relaxed">{result.summary}</p>
+                      <div className="mt-4">
+                        <ScoreBar score={result.overallRiskScore} />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {result.categories.map((cat, i) => (
+                  <Card key={i} className="hover:shadow-md transition-shadow">
+                    <CardContent className="pt-5">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 bg-slate-100 rounded-lg text-slate-600">
+                            {categoryIcons[cat.name] || <Shield className="w-4 h-4" />}
+                          </div>
+                          <h3 className="text-sm font-bold text-slate-900">{cat.name}</h3>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold text-slate-700">{cat.score}/100</span>
+                          <LevelBadge level={cat.level} />
+                        </div>
+                      </div>
+                      <ScoreBar score={cat.score} size="sm" />
+                      <ul className="mt-3 space-y-1.5">
+                        {cat.factors.map((f, j) => (
+                          <li key={j} className="text-xs text-slate-600 flex items-start gap-2 leading-relaxed">
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
 
               {result.recommendations.length > 0 && (
-                <div className="bg-slate-800 rounded-xl p-5 border border-slate-700">
-                  <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> Recommendations</h3>
-                  <div className="space-y-2">
-                    {result.recommendations.map((r, i) => (
-                      <div key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                        <ArrowRight className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />{r}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base flex items-center gap-2 text-slate-900">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Strategic Recommendations
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2.5">
+                      {result.recommendations.map((r, i) => (
+                        <div key={i} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                          <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</div>
+                          <span className="text-sm text-slate-700 leading-relaxed">{r}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
               )}
 
               {result.tradeRestrictions.length > 0 && (
-                <div className="bg-red-500/5 rounded-xl p-5 border border-red-500/20">
-                  <h3 className="text-sm font-semibold text-red-400 mb-2 flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> Trade Restrictions</h3>
-                  <ul className="space-y-1">
-                    {result.tradeRestrictions.map((t, i) => (
-                      <li key={i} className="text-sm text-slate-400">{t}</li>
-                    ))}
-                  </ul>
-                </div>
+                <Card className="border-red-200 bg-red-50/50">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base flex items-center gap-2 text-red-700">
+                      <AlertTriangle className="w-5 h-5" /> Trade Restrictions & Barriers
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {result.tradeRestrictions.map((t, i) => (
+                        <li key={i} className="text-sm text-red-800 flex items-start gap-2 bg-white/60 p-3 rounded-lg">
+                          <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {result.alternativeRegions && result.alternativeRegions.length > 0 && (
+                <Card className="border-emerald-200 bg-emerald-50/50">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base flex items-center gap-2 text-emerald-700">
+                      <Globe className="w-5 h-5" /> Alternative Sourcing Regions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {result.alternativeRegions.map((r, i) => (
+                        <div key={i} className="flex items-start gap-2 p-3 bg-white/60 rounded-lg">
+                          <TrendingUp className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                          <span className="text-sm text-emerald-800">{r}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
               )}
             </>
           )}

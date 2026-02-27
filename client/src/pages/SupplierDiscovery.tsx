@@ -74,6 +74,8 @@ function useSuppliers(params: {
       if (!res.ok) throw new Error("Failed to fetch suppliers");
       return res.json();
     },
+    staleTime: 30000,
+    placeholderData: (prev) => prev,
   });
 }
 

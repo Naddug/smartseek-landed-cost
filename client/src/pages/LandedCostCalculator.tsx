@@ -27,6 +27,8 @@ import {
   Globe,
   Hash,
   Shield,
+  Loader2,
+  Sparkles,
 } from "lucide-react";
 import { calculateLandedCost } from "@/lib/landedCost/calculator";
 import type { LandedCostInput, LandedCostResult } from "@/lib/landedCost/types";
@@ -107,6 +109,30 @@ export default function LandedCostCalculator() {
   const [result, setResult] = useState<LandedCostResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [freightRates, setFreightRates] = useState<{ sea20ft: number; sea40ft: number; airPerKg: number; lclPerCBM: number } | null>(null);
+  const [hsLookupLoading, setHsLookupLoading] = useState(false);
+  const [hsLookupResult, setHsLookupResult] = useState<{ hsCode: string; description: string; chapter: string; chapterName: string } | null>(null);
+
+  useEffect(() => {
+    const productName = formData.productName.trim();
+    if (productName.length < 3 || productName === "Sample Product") {
+      setHsLookupResult(null);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      setHsLookupLoading(true);
+      try {
+        const res = await fetch(`/api/hs-codes/lookup?product=${encodeURIComponent(productName)}`, { credentials: "include" });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.hsCode) {
+            setHsLookupResult(data);
+          }
+        }
+      } catch {}
+      setHsLookupLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [formData.productName]);
 
   // Fetch real benchmark rates when origin/destination change
   useEffect(() => {
@@ -214,23 +240,47 @@ export default function LandedCostCalculator() {
                 onChange={(e) => update("productName", e.target.value)}
               />
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="space-y-2">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
                 <Label>HS Code</Label>
+                {hsLookupLoading && (
+                  <span className="text-xs text-blue-600 flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin" /> Looking up HS code...</span>
+                )}
+              </div>
+              <div className="flex gap-2">
                 <Input
                   placeholder="e.g. 847130"
                   value={formData.hsCode}
                   onChange={(e) => update("hsCode", e.target.value)}
+                  className="flex-1"
                 />
+                {hsLookupResult && hsLookupResult.hsCode && formData.hsCode !== hsLookupResult.hsCode.replace(/\./g, "") && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="shrink-0 text-xs border-blue-300 text-blue-700 hover:bg-blue-50"
+                    onClick={() => {
+                      update("hsCode", hsLookupResult.hsCode.replace(/\./g, ""));
+                      if (hsLookupResult.chapterName) update("category", hsLookupResult.chapterName);
+                    }}
+                  >
+                    <Sparkles className="w-3 h-3 mr-1" />
+                    Use {hsLookupResult.hsCode}
+                  </Button>
+                )}
               </div>
-              <div className="space-y-2">
-                <Label>Category</Label>
-                <Input
-                  placeholder="Optional"
-                  value={formData.category}
-                  onChange={(e) => update("category", e.target.value)}
-                />
-              </div>
+              {hsLookupResult && hsLookupResult.description && (
+                <p className="text-xs text-slate-600">{hsLookupResult.description}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label>Category</Label>
+              <Input
+                placeholder="Optional"
+                value={formData.category}
+                onChange={(e) => update("category", e.target.value)}
+              />
             </div>
             <Separator />
             <div className="space-y-2">

@@ -200,26 +200,38 @@ export default function CustomsCalculator() {
 
     setIsCalculating(true);
     
-    // Simulate API call - In production, this would call a real customs API
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 800));
     
     const value = parseFloat(formData.productValue) * parseInt(formData.quantity);
     const freight = parseFloat(formData.freightCost) || value * 0.05;
     const insurance = parseFloat(formData.insuranceCost) || value * 0.01;
     const cifValue = value + freight + insurance;
     
-    // Simulate duty calculation based on origin/destination
-    const dutyRate = formData.originCountry === "China" ? 0.25 : 0.05;
-    const vatRate = formData.destinationCountry === "United Kingdom" ? 0.20 : 
-                    formData.destinationCountry === "Germany" ? 0.19 : 0.0;
+    const dutyRates: Record<string, Record<string, number>> = {
+      "United States": { "China": 0.25, "India": 0.05, "Vietnam": 0.035, "Mexico": 0.0, "Canada": 0.0, "default": 0.05 },
+      "United Kingdom": { "China": 0.12, "EU": 0.0, "India": 0.04, "default": 0.04 },
+      "Germany": { "China": 0.12, "India": 0.065, "Vietnam": 0.04, "default": 0.04 },
+      "France": { "China": 0.12, "India": 0.065, "default": 0.04 },
+      "Japan": { "China": 0.08, "default": 0.03 },
+      "Australia": { "China": 0.05, "default": 0.05 },
+    };
+    const vatRates: Record<string, number> = {
+      "United Kingdom": 0.20, "Germany": 0.19, "France": 0.20, "Italy": 0.22,
+      "Spain": 0.21, "Netherlands": 0.21, "Japan": 0.10, "Australia": 0.10,
+      "India": 0.18, "Canada": 0.05, "South Korea": 0.10, "Turkey": 0.20,
+    };
+
+    const destRates = dutyRates[formData.destinationCountry] || {};
+    const dutyRate = destRates[formData.originCountry] ?? destRates["default"] ?? 0.05;
+    const vatRate = vatRates[formData.destinationCountry] ?? 0.0;
     const mpfRate = formData.destinationCountry === "United States" ? 0.003464 : 0;
     const hmfRate = formData.destinationCountry === "United States" ? 0.00125 : 0;
     
     const importDuty = cifValue * dutyRate;
     const vat = (cifValue + importDuty) * vatRate;
-    const mpf = Math.min(Math.max(cifValue * mpfRate, 27.98), 538.40);
+    const mpf = mpfRate > 0 ? Math.min(Math.max(cifValue * mpfRate, 27.98), 538.40) : 0;
     const hmf = cifValue * hmfRate;
-    const brokerageFee = 150;
+    const brokerageFee = value > 50000 ? 250 : 150;
     
     const totalFees = importDuty + vat + mpf + hmf + brokerageFee;
     const landedCost = cifValue + totalFees;

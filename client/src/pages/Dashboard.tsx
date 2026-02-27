@@ -23,7 +23,8 @@ import {
   Crown,
   BarChart3,
   Shield,
-  Target
+  Target,
+  Home
 } from "lucide-react";
 import { format } from "date-fns";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
@@ -155,6 +156,12 @@ export default function Dashboard() {
             </p>
           </div>
           <div className="flex gap-3">
+            <Link href="/">
+              <Button size="lg" variant="outline" className="shrink-0 border-slate-500 text-slate-200 hover:bg-slate-600/50">
+                <Home className="mr-2 h-4 w-4 shrink-0" />
+                <span className="whitespace-nowrap">Homepage</span>
+              </Button>
+            </Link>
             <Link href="/smart-finder">
               <Button size="lg" className="shrink-0 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-500/25 border-0 text-white font-semibold" data-testid="button-new-search">
                 <Sparkles className="mr-2 h-5 w-5 shrink-0" />

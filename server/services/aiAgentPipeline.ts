@@ -31,14 +31,15 @@ export interface PipelineResult {
   summary?: string;
 }
 
-async function callLLM(systemPrompt: string, userContent: string): Promise<string> {
+async function callLLM(systemPrompt: string, userContent: string, maxTokens = 2500): Promise<string> {
   const response = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userContent },
     ],
-    max_tokens: 4000,
+    max_tokens: maxTokens,
+    temperature: 0.7,
   });
   return response.choices[0]?.message?.content || "";
 }
