@@ -8,7 +8,7 @@ export const foodFamily: ProductFamily = {
   basePricePerUnit: 2000,
   hsCodePrefix: "16",
   keywords: [
-    "canned food", "beverage", "snack", "edible oil", "olive oil", "evoo", "extra virgin olive oil",
+    "food", "canned food", "beverage", "snack", "edible oil", "olive oil", "evoo", "extra virgin olive oil",
     "dairy", "processed food", "packaged food", "bottled beverage", "tetra pack", "juice", "sauce",
     "vegetable oil", "sunflower oil", "palm oil", "coconut oil", "rapeseed oil", "canola oil",
   ],

@@ -8,7 +8,7 @@ export const steelFamily: ProductFamily = {
   basePricePerUnit: 650,
   hsCodePrefix: "72",
   keywords: [
-    "hrc", "crc", "hot rolled coil", "cold rolled coil", "steel plate", "wire rod", "rebar",
+    "steel", "hrc", "crc", "hot rolled coil", "cold rolled coil", "steel plate", "wire rod", "rebar",
     "reinforcement bar", "beams", "billets", "steel pipe", "stainless steel", "aluminum profiles",
     "galvanized steel", "coated steel", "structural steel", "carbon steel",
   ],

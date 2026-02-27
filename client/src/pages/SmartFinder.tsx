@@ -943,8 +943,8 @@ export default function SmartFinder() {
             pdf.setFillColor(240, 253, 244);
             pdf.roundedRect(margin + 2, y - 1, contentWidth - 4, 6, 1, 1, 'F');
             pdf.setFontSize(6);
-            pdf.setTextColor(22, 101, 52);
-            pdf.setFont('helvetica', 'italic');
+            pdf.setTextColor(0, 80, 40);
+            pdf.setFont('helvetica', 'bold');
             pdf.text('TOP PICK: ' + (seller.recommendation || '').substring(0, 100), margin + 4, y + 3);
             y += 8;
             pdf.setTextColor(0, 0, 0);
@@ -980,20 +980,20 @@ export default function SmartFinder() {
           
           pdf.setFontSize(10);
           pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(0, 0, 0);
           pdf.text(toTitleCase(region.region || 'N/A'), margin + 3, y + 6);
           pdf.setFontSize(8);
           pdf.setFont('helvetica', 'normal');
-          pdf.setTextColor(secondaryColor.r, secondaryColor.g, secondaryColor.b);
-          pdf.text('Price Range: ' + (region.avgPriceRange || 'N/A'), margin + 100, y + 6);
           pdf.setTextColor(0, 0, 0);
+          pdf.text('Price Range: ' + (region.avgPriceRange || 'N/A'), margin + 100, y + 6);
           
           pdf.setFontSize(7);
           if (region.advantages?.length > 0) {
-            pdf.setTextColor(22, 163, 74);
+            pdf.setTextColor(0, 80, 40);
             pdf.text('- ' + region.advantages.slice(0, 3).join(' | '), margin + 3, y + 12);
           }
           if (region.considerations?.length > 0) {
-            pdf.setTextColor(202, 138, 4);
+            pdf.setTextColor(120, 80, 0);
             pdf.text('! ' + region.considerations.slice(0, 2).join(' | '), margin + 3, y + 17);
           }
           pdf.setTextColor(0, 0, 0);
@@ -1227,16 +1227,16 @@ export default function SmartFinder() {
     const hasRealPricing = sellers.some((s: any) => parseNumericValue(s.unitPrice) > 0);
 
     return (
-      <Card className="w-full max-w-4xl mx-auto shadow-md border border-slate-200/80 bg-white overflow-hidden">
+      <Card className="w-full max-w-4xl mx-auto shadow-md border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden">
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <Badge variant="outline" className="mb-2 bg-green-50 text-green-700 border-green-200">
+              <Badge variant="outline" className="mb-2 bg-green-50 dark:bg-green-950/50 text-green-800 dark:text-green-200 border-green-300 dark:border-green-700">
                 <CheckCircle className="w-3 h-3 mr-1" />
                 Report Complete
               </Badge>
-              <CardTitle className="text-xl">{report.title}</CardTitle>
-              <p className="text-sm text-slate-700 mt-1">
+              <CardTitle className="text-xl text-slate-900 dark:text-slate-100">{report.title}</CardTitle>
+              <p className="text-sm text-slate-700 dark:text-slate-400 mt-1">
                 Generated on {format(new Date(report.createdAt), 'MMMM d, yyyy')}
               </p>
             </div>
@@ -1288,25 +1288,25 @@ export default function SmartFinder() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl text-center border border-blue-200 shadow-sm">
-              <Hash className="w-5 h-5 text-blue-600 mx-auto mb-1.5" />
-              <div className="text-base font-bold font-mono text-blue-900">{productClass?.hsCode || 'N/A'}</div>
+            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/50 dark:to-blue-900/50 rounded-xl text-center border border-blue-200 dark:border-blue-800 shadow-sm">
+              <Hash className="w-5 h-5 text-blue-600 dark:text-blue-400 mx-auto mb-1.5" />
+              <div className="text-base font-bold font-mono text-blue-900 dark:text-blue-100">{productClass?.hsCode || 'N/A'}</div>
               <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide">HS Code</div>
             </div>
-            <div className="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-xl text-center border border-emerald-200 shadow-sm">
-              <DollarSign className="w-5 h-5 text-emerald-600 mx-auto mb-1.5" />
-              <div className="text-base font-bold text-emerald-900">{landedCost?.costPerUnit || 'N/A'}</div>
+            <div className="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-950/50 dark:to-emerald-900/50 rounded-xl text-center border border-emerald-200 dark:border-emerald-800 shadow-sm">
+              <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mx-auto mb-1.5" />
+              <div className="text-base font-bold text-emerald-900 dark:text-emerald-100">{landedCost?.costPerUnit || 'N/A'}</div>
               <div className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Landed Cost/{unit}</div>
             </div>
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-xl text-center border border-purple-200 shadow-sm">
-              <Percent className="w-5 h-5 text-purple-600 mx-auto mb-1.5" />
-              <div className="text-base font-bold text-purple-900">{profitAnalysis?.profitMargin || 'N/A'}</div>
+            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-950/50 dark:to-purple-900/50 rounded-xl text-center border border-purple-200 dark:border-purple-800 shadow-sm">
+              <Percent className="w-5 h-5 text-purple-600 dark:text-purple-400 mx-auto mb-1.5" />
+              <div className="text-base font-bold text-purple-900 dark:text-purple-100">{profitAnalysis?.profitMargin || 'N/A'}</div>
               <div className="text-xs font-semibold text-purple-700 uppercase tracking-wide">Est. Margin</div>
             </div>
-            <div className="p-4 bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-xl text-center border border-amber-200 shadow-sm">
-              <Users className="w-5 h-5 text-amber-600 mx-auto mb-1.5" />
-              <div className="text-base font-bold text-amber-900">{sellers.length}</div>
-              <div className="text-xs font-semibold text-amber-700 uppercase tracking-wide">Suppliers Found</div>
+            <div className="p-4 bg-gradient-to-br from-amber-50 to-amber-100/50 dark:from-amber-950/50 dark:to-amber-900/50 rounded-xl text-center border border-amber-200 dark:border-amber-800 shadow-sm">
+              <Users className="w-5 h-5 text-amber-600 dark:text-amber-400 mx-auto mb-1.5" />
+              <div className="text-base font-bold text-amber-900 dark:text-amber-100">{sellers.length}</div>
+              <div className="text-xs font-semibold text-amber-800 dark:text-amber-200 uppercase tracking-wide">Suppliers Found</div>
             </div>
           </div>
         </CardHeader>
@@ -1322,14 +1322,21 @@ export default function SmartFinder() {
               <TabsTrigger value="risks" data-testid="tab-risks" className="shrink-0">Risk</TabsTrigger>
             </TabsList>
 
-            {reportData?.metadata?.warnings?.length > 0 && (
-              <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 flex items-start gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                <div className="text-sm text-amber-800">
-                  <span className="font-medium">Note:</span> {reportData.metadata.warnings.join(" ")}
+            {reportData?.metadata?.warnings?.length > 0 && (() => {
+              const sellers = reportData?.sellerComparison || [];
+              const filtered = reportData.metadata.warnings.filter((w: string) => {
+                if (sellers.length > 0 && /no suppliers found in .* supplier directory/i.test(w)) return false;
+                return true;
+              });
+              return filtered.length > 0 ? (
+                <div className="p-3 bg-amber-50 dark:bg-amber-950/50 rounded-lg border border-amber-200 dark:border-amber-800 flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                  <div className="text-sm text-amber-800 dark:text-amber-200">
+                    <span className="font-medium">Note:</span> {filtered.join(" ")}
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : null;
+            })()}
 
             <TabsContent value="summary" className="space-y-5">
               <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
