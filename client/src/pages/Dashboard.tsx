@@ -141,7 +141,7 @@ export default function Dashboard() {
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mb-2">
               Command Center
             </h1>
-            <p className="text-slate-400 text-lg">
+            <p className="text-slate-300 text-lg">
               AI-powered sourcing intelligence at your fingertips.
             </p>
           </div>
@@ -438,52 +438,66 @@ export default function Dashboard() {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        {/* Supplier Discovery Quick Access */}
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-100">
-              <Users className="w-5 h-5 text-blue-400" />
-              Supplier Discovery
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-slate-400 text-sm mb-4">Search and connect with verified global suppliers across 24+ countries.</p>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4">
-              {["Electronics", "Textiles", "Machinery", "Chemicals", "Food & Agriculture"].map((industry) => (
-                <div
-                  key={industry}
-                  onClick={() => { setEmbeddedIndustry(industry); setShowSuppliers(true); }}
-                  className="bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg p-3 text-center cursor-pointer transition"
-                >
-                  <span className="text-sm text-slate-300">{industry}</span>
+      {/* Bottom section - IndexBox-inspired: clear hierarchy, prominent CTAs */}
+      <section className="mt-8 pt-8 border-t border-slate-700/60">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-6">Quick access</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Supplier Discovery */}
+          <Card className="group overflow-hidden bg-gradient-to-br from-slate-800/80 to-slate-800/40 border-slate-600/60 hover:border-blue-500/40 shadow-xl transition-all duration-300">
+            <div className="flex flex-col sm:flex-row sm:items-stretch">
+              <div className="flex-1 p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/40 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Users className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-100">Supplier Discovery</h3>
+                    <p className="text-sm text-slate-400">Verified global suppliers</p>
+                  </div>
                 </div>
-              ))}
+                <p className="text-slate-400 text-sm mb-5 leading-relaxed">Search and connect with verified suppliers across 220+ countries. Filter by industry, region, and certifications.</p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {["Electronics", "Textiles", "Machinery", "Chemicals", "Food"].map((industry) => (
+                    <button
+                      key={industry}
+                      onClick={() => { setEmbeddedIndustry(industry); setShowSuppliers(true); }}
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/60 hover:bg-blue-600/30 text-slate-300 hover:text-blue-200 border border-slate-600/60 hover:border-blue-500/40 transition-all"
+                    >
+                      {industry}
+                    </button>
+                  ))}
+                </div>
+                <Button onClick={() => { setEmbeddedIndustry(""); setShowSuppliers(true); }} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-500/25">
+                  Browse All Suppliers <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
             </div>
-            <Button onClick={() => { setEmbeddedIndustry(""); setShowSuppliers(true); }} className="w-full bg-blue-600 hover:bg-blue-700">
-              Browse All Suppliers <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </CardContent>
-        </Card>
+          </Card>
 
-        {/* Quick RFQ */}
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-100">
-              <FileQuestion className="w-5 h-5 text-green-400" />
-              Request for Quotation
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-slate-400 text-sm mb-4">Submit an RFQ and get competitive quotes from verified suppliers worldwide.</p>
-            <Link href="/rfq">
-              <Button className="w-full bg-green-600 hover:bg-green-700">
-                Submit New RFQ <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
+          {/* Quick RFQ */}
+          <Card className="group overflow-hidden bg-gradient-to-br from-slate-800/80 to-slate-800/40 border-slate-600/60 hover:border-emerald-500/40 shadow-xl transition-all duration-300">
+            <div className="flex flex-col sm:flex-row sm:items-stretch">
+              <div className="flex-1 p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <FileQuestion className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-100">Request for Quotation</h3>
+                    <p className="text-sm text-slate-400">Get competitive quotes</p>
+                  </div>
+                </div>
+                <p className="text-slate-400 text-sm mb-6 leading-relaxed">Submit an RFQ and receive competitive quotes from verified suppliers worldwide. Fast turnaround, transparent pricing.</p>
+                <Link href="/rfq">
+                  <Button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-lg shadow-emerald-500/25">
+                    Submit New RFQ <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
     </div>
   );
 }

@@ -463,6 +463,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Global scale stats */}
+      <section className="py-16 sm:py-20 bg-slate-900 text-white">
+        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+          <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-10">
+            {t("trust.byDecisionMakers")}
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
+            <div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{formatStat(suppliersVal)}</div>
+              <div className="text-sm text-slate-400">Verified suppliers</div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{formatStat(leadsVal)}</div>
+              <div className="text-sm text-slate-400">Buyer leads</div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{countriesVal}+</div>
+              <div className="text-sm text-slate-400">Countries</div>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{industriesVal}+</div>
+              <div className="text-sm text-slate-400">Industries</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="py-20 sm:py-24 bg-slate-50/90">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
@@ -471,14 +498,14 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.testimonials.title")}</h2>
             <p className="text-lg text-slate-600">{t("home.testimonials.subtitle")}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {[
               { quote: "SmartSeek cut our supplier qualification time by 60%. The AI-powered risk assessments give us confidence in every sourcing decision we make.", outcome: "60% faster qualification", name: "Sarah Chen", title: "VP of Procurement", company: "Global Manufacturing Corp" },
               { quote: "The landed cost calculator alone saved us from three costly surprises last quarter. It's become an essential tool for our international sourcing team.", outcome: "Avoided 3 cost overruns", name: "Marcus Weber", title: "Supply Chain Director", company: "EuroTech Industries" },
               { quote: "We discovered verified suppliers in regions we hadn't considered before. SmartSeek's AI reports provided the data we needed to diversify our supply chain.", outcome: "Diversified to 5 new regions", name: "Priya Sharma", title: "Head of Strategic Sourcing", company: "Atlas Retail Group" },
             ].map((testimonial, i) => (
-              <Card key={i} className="h-full bg-white border-slate-200 hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
+              <Card key={i} className="h-full bg-white border-slate-200 hover:shadow-xl hover:border-blue-200/50 transition-all duration-300">
+                <CardContent className="p-6 sm:p-8">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex gap-1">
                       {[...Array(5)].map((_, j) => (
@@ -488,13 +515,13 @@ export default function Home() {
                     <div className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">{testimonial.outcome}</div>
                   </div>
                   <p className="text-slate-700 leading-relaxed mb-6 italic">"{testimonial.quote}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
+                  <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
                       {testimonial.name.split(' ').map(n => n[0]).join('')}
                     </div>
-                    <div>
-                      <p className="font-semibold text-slate-900 text-sm">{testimonial.name}</p>
-                      <p className="text-slate-500 text-xs">{testimonial.title}, {testimonial.company}</p>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-slate-900 text-sm truncate">{testimonial.name}</p>
+                      <p className="text-slate-500 text-xs truncate">{testimonial.title}, {testimonial.company}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -504,24 +531,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-20 sm:py-24 bg-white">
+      {/* Final CTA - IndexBox-style */}
+      <section className="py-20 sm:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
-          <div className="bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-2xl sm:rounded-3xl p-8 sm:p-12 md:p-16 text-center border border-slate-200/80 shadow-lg relative overflow-hidden">
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 sm:p-12 md:p-20 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(59,130,246,0.15),transparent)]" />
             <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-6 border border-blue-200">
-                <Sparkles className="w-8 h-8 text-blue-600" />
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-slate-900">{t("home.cta.title")}</h2>
-              <p className="text-lg sm:text-xl text-slate-600 max-w-xl mx-auto">{t("home.cta.subtitle")}</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white leading-tight">
+                {t("home.cta.title")}
+              </h2>
+              <p className="text-lg sm:text-xl text-slate-300 max-w-xl mx-auto leading-relaxed">
+                {t("home.cta.subtitle")}
+              </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4">
                 <Link href="/signup" data-testid="link-cta-signup">
-                  <Button size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25 font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all" data-testid="button-cta-signup">
+                  <Button size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg rounded-xl bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/30 font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all" data-testid="button-cta-signup">
                     {t("home.cta.button")}
                   </Button>
                 </Link>
               </div>
-              <p className="text-sm text-slate-500 mb-5">{t("home.cta.footer")}</p>
+              <p className="text-sm text-slate-400 pt-2">{t("home.cta.footer")}</p>
               <TrustBadges variant="compact" />
             </div>
           </div>

@@ -105,15 +105,36 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         {children}
       </main>
 
-      <footer className="border-t border-border bg-card/30">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-            <div className="md:col-span-5">
-              <div className="flex items-center gap-2.5 mb-4">
+      <footer className="border-t border-border bg-slate-50/80 dark:bg-slate-900/30">
+        {/* CTA strip - IndexBox-style "Ready to Get Started?" */}
+        <div className="border-b border-border bg-slate-100/80 dark:bg-slate-800/50 py-10 sm:py-12">
+          <div className="container mx-auto px-4 text-center">
+            <div className="max-w-2xl mx-auto">
+              <h3 className="text-xl sm:text-2xl font-heading font-bold text-slate-900 dark:text-slate-100 mb-2">
+                {t("home.cta.title")}
+              </h3>
+              <p className="text-sm text-muted-foreground mb-6">
+                {t("home.cta.subtitle")}
+              </p>
+              {!user && (
+                <Link href="/signup">
+                  <Button size="lg" className="font-semibold shadow-lg">
+                    {t("home.cta.button")}
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-14 sm:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
+            <div className="lg:col-span-5">
+              <div className="flex items-center gap-2.5 mb-5">
                 <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold text-lg">S</div>
                 <span className="text-xl font-heading font-bold">SmartSeek</span>
               </div>
-              <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-6">
+              <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-4">
                 {t("footer.tagline")}
               </p>
               <p className="text-xs text-muted-foreground/80 mb-6">{t("footer.designedFor")}</p>
@@ -126,8 +147,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <Button size="sm" className="shrink-0 w-full sm:w-auto">{t("footer.subscribe")}</Button>
               </div>
             </div>
-            <div className="md:col-span-2">
-              <h4 className="font-semibold text-sm mb-4">{t("footer.platform")}</h4>
+            <div className="lg:col-span-2">
+              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">{t("footer.platform")}</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li><Link href="/pricing" className="hover:text-foreground transition-colors">{t("footer.pricing")}</Link></li>
                 <li><Link href="/faq" className="hover:text-foreground transition-colors">{t("footer.faq")}</Link></li>
@@ -137,23 +158,27 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <li><Link href="/integrations" className="hover:text-foreground transition-colors">{t("footer.integrations")}</Link></li>
               </ul>
             </div>
-            <div className="md:col-span-2">
-              <h4 className="font-semibold text-sm mb-4">{t("footer.company")}</h4>
+            <div className="lg:col-span-2">
+              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">{t("footer.company")}</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li><Link href="/about" className="hover:text-foreground transition-colors">{t("footer.about")}</Link></li>
                 <li><Link href="/contact" className="hover:text-foreground transition-colors">{t("footer.contact")}</Link></li>
               </ul>
             </div>
-            <div className="md:col-span-2">
-              <h4 className="font-semibold text-sm mb-4">{t("footer.legal")}</h4>
+            <div className="lg:col-span-2">
+              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">{t("footer.legal")}</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li><Link href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</Link></li>
                 <li><Link href="/terms" className="hover:text-foreground transition-colors">{t("footer.terms")}</Link></li>
               </ul>
             </div>
           </div>
-          <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} SmartSeek. {t("footer.copyright")}.
+          <div className="mt-14 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+            <span>© {new Date().getFullYear()} SmartSeek. {t("footer.copyright")}.</span>
+            <div className="flex items-center gap-4">
+              <Link href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</Link>
+              <Link href="/terms" className="hover:text-foreground transition-colors">{t("footer.terms")}</Link>
+            </div>
           </div>
         </div>
       </footer>
