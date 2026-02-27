@@ -16,7 +16,7 @@ export function Logo({ size = "md", variant = "default", className = "" }: LogoP
     <img
       src="/logo.png"
       alt="SmartSeek"
-      className={`${sizeClass} shrink-0 object-contain rounded-lg ${isLight ? "opacity-90" : ""} ${className}`}
+      className={`shrink-0 object-contain rounded-lg ${isLight ? "opacity-90" : ""} ${className}`}
     />
   );
 }

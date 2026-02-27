@@ -1,6 +1,6 @@
 /**
  * Import suppliers from BOTH companies.csv and pdl-companies.csv
- * Extracts ALL data from both files (~42M rows; target cap 50M).
+ * Processes ALL 42M+ rows; imports ONLY records with full data (name, country, locality, website/domain).
  *
  * Default paths:
  *   - companies.csv: /Users/harunkaya/Downloads/companies.csv (~35M rows)
@@ -21,7 +21,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const prisma = new PrismaClient();
 
-const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "10000000", 10) || 10_000_000;
+const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "50000000", 10) || 50_000_000;
+const QUALITY_ONLY = process.env.QUALITY_ONLY !== "false";
 const BATCH_SIZE = 500;
 const seen = new Set<string>(); // Dedupe by "name|country"
 
@@ -161,6 +162,14 @@ async function processFile(
     const countryRaw = format === "companies" ? getVal(row, "country") : getVal(row, "country");
     if (!name || !countryRaw) continue;
 
+    const locality = format === "companies" ? getVal(row, "locality") : getVal(row, "locality", "city", "region");
+    const domain = format === "companies"
+      ? (getVal(row, "website") || "").replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] || ""
+      : getVal(row, "domain");
+    const website = format === "companies" ? getVal(row, "website") : getVal(row, "website", "domain");
+
+    if (QUALITY_ONLY && (!locality || (!domain && !website))) continue;
+
     const country = normalizeCountryToCanonical(countryRaw);
     const key = dedupeKey(name, country);
     if (seen.has(key)) continue;
@@ -169,14 +178,9 @@ async function processFile(
     const industry = getIndustry(row, format, name);
     if (!industry && process.env.PDL_IMPORT_ALL !== "true") continue;
 
-    const locality = format === "companies" ? getVal(row, "locality") : getVal(row, "locality", "city", "region");
-    const domain = format === "companies"
-      ? (getVal(row, "website") || "").replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] || ""
-      : getVal(row, "domain");
     const slugBase = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").substring(0, 70);
     const slug = `${slugBase}-${importedRef.count}`;
     const yearVal = format === "companies" ? getVal(row, "founded") : getVal(row, "year founded", "founded", "year_founded");
-    const website = format === "companies" ? getVal(row, "website") : getVal(row, "website", "domain");
     const linkedin = format === "companies" ? getVal(row, "linkedin_url") : getVal(row, "linkedin url", "linkedin_url");
 
     const rawSubIndustry = getVal(row, "industry");
@@ -239,8 +243,9 @@ async function main() {
     process.env.PDL_CSV_PATH ||
     "/Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv";
 
-  console.log("\n=== Import All Suppliers (target 42M+) ===\n");
-  console.log(`   Target: ${TARGET_COUNT.toLocaleString()} suppliers`);
+  console.log("\n=== Import All Suppliers (42M+ source) ===\n");
+  console.log(`   Mode: ${QUALITY_ONLY ? "Tam dolu kayıtlar only (locality + website/domain zorunlu)" : "Tüm satırlar"}`);
+  console.log(`   Max: ${TARGET_COUNT.toLocaleString()} suppliers`);
   console.log(`   Files: ${companiesPath}, ${pdlPath}\n`);
 
   const importedRef = { count: 0 };
