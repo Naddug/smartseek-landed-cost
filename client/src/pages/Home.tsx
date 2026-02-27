@@ -185,7 +185,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
             <StatItem value={formatStat(suppliersVal)} label={t("stat.verifiedSuppliers")} icon={<Shield className="w-6 h-6" />} testId="stat-suppliers" />
-            <StatItem value={formatStat(leadsVal)} label={t("stat.buyerLeads")} icon={<DollarSign className="w-6 h-6" />} testId="stat-leads" />
+            <StatItem value={formatStat(leadsVal)} label={t("stat.buyerLeads")} icon={<UserSearch className="w-6 h-6" />} testId="stat-leads" />
             <StatItem value={formatStat(countriesVal)} label={t("stat.countries")} icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
             <StatItem value={formatStat(industriesVal)} label={t("stat.industries")} icon={<Zap className="w-6 h-6" />} testId="stat-industries" />
           </div>
