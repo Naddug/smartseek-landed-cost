@@ -1,98 +1,138 @@
 /**
- * Map country names (as used in UI) to ISO 3166-1 alpha-2 codes.
- * Used for landed cost, customs, and freight lookups.
+ * Map country names to ISO 3166-1 alpha-2 codes.
+ * Handles typos, variants, empty (→ Undefined), and skips useless data.
  */
-export const COUNTRY_NAME_TO_CODE: Record<string, string> = {
-  "Any": "CN", // Default to China for "any" origin (common sourcing hub)
-  "China": "CN",
-  "United States": "US",
-  "United States of America": "US",
-  "USA": "US",
-  "Germany": "DE",
-  "United Kingdom": "GB",
-  "UK": "GB",
-  "France": "FR",
-  "Japan": "JP",
-  "South Korea": "KR",
-  "Korea, Republic of": "KR",
-  "India": "IN",
-  "Vietnam": "VN",
-  "Thailand": "TH",
-  "Indonesia": "ID",
-  "Mexico": "MX",
-  "Turkey": "TR",
-  "Canada": "CA",
-  "Australia": "AU",
-  "Italy": "IT",
-  "Spain": "ES",
-  "Brazil": "BR",
-  "Poland": "PL",
-  "Malaysia": "MY",
-  "Singapore": "SG",
-  "Taiwan": "TW",
-  "United Arab Emirates": "AE",
-  "UAE": "AE",
-  "Bangladesh": "BD",
-  "Pakistan": "PK",
-  "Egypt": "EG",
-  "Philippines": "PH",
-  "Netherlands": "NL",
-  "Belgium": "BE",
-  "Sweden": "SE",
-  "Switzerland": "CH",
-  "Austria": "AT",
-  "Portugal": "PT",
-  "Czech Republic": "CZ",
-  "Romania": "RO",
-  "Hungary": "HU",
-  "Greece": "GR",
-  "Ireland": "IE",
-  "Russia": "RU",
-  "South Africa": "ZA",
-  "Argentina": "AR",
-  "Chile": "CL",
-  "Colombia": "CO",
-  "Peru": "PE",
-  "Israel": "IL",
-  "Saudi Arabia": "SA",
-  "Iran": "IR",
-  "Iraq": "IQ",
-  "Nigeria": "NG",
-  "Kenya": "KE",
-  "Morocco": "MA",
-  "Algeria": "DZ",
-  "Tunisia": "TN",
-  "Ukraine": "UA",
-  "Hong Kong": "HK",
-  "New Zealand": "NZ",
+import {
+  COUNTRY_NAME_TO_CODE as ISO_MAP,
+  CODE_TO_DISPLAY,
+} from "./isoCountryMap.generated";
+
+export const COUNTRY_NAME_TO_CODE = ISO_MAP;
+
+/** Typos and odd spellings → canonical country name for lookup */
+const TYPO_FIXES: Record<string, string> = {
+  // Typos
+  chine: "China",
+  chinaa: "China",
+  chinna: "China",
+  unitedstatess: "United States",
+  "united statess": "United States",
+  unitedstates: "United States",
+  vietnamm: "Vietnam",
+  vietnamn: "Vietnam",
+  netherrlands: "Netherlands",
+  netherland: "Netherlands",
+  netherlandss: "Netherlands",
+  germanny: "Germany",
+  germani: "Germany",
+  inddia: "India",
+  inda: "India",
+  japann: "Japan",
+  japn: "Japan",
+  brazill: "Brazil",
+  brasil: "Brazil",
+  england: "United Kingdom",
+  "great britain": "United Kingdom",
+  "the netherlands": "Netherlands",
+  "the netherland": "Netherlands",
+  korea: "South Korea",
+  "south korea": "South Korea",
+  "north korea": "North Korea",
+  "republic of korea": "South Korea",
+  "korea, republic of": "South Korea",
+  "united kingdom": "United Kingdom",
+  "united states": "United States",
+  "united states of america": "United States",
+  usa: "United States",
+  uk: "United Kingdom",
 };
 
-export function getCountryCode(nameOrCode: string): string {
-  if (!nameOrCode || typeof nameOrCode !== "string") return "US";
-  const trimmed = nameOrCode.trim();
-  if (trimmed.length === 2) return trimmed.toUpperCase();
-  return COUNTRY_NAME_TO_CODE[trimmed] ?? COUNTRY_NAME_TO_CODE[trimmed.toLowerCase()] ?? "US";
+function isEmpty(raw: string | null | undefined): boolean {
+  return raw == null || (typeof raw === "string" && !raw.trim());
 }
 
-/** Canonical display names for common variants (avoid duplicates like "united states" vs "United States") */
-const LOWER_TO_DISPLAY: Record<string, string> = {};
-for (const proper of Object.keys(COUNTRY_NAME_TO_CODE)) {
-  LOWER_TO_DISPLAY[proper.toLowerCase()] = proper;
+/** Useless: too short, numbers only, no letters, or clearly not a country. */
+function isUseless(raw: string | null | undefined): boolean {
+  if (raw == null || typeof raw !== "string") return false;
+  const t = raw.trim();
+  if (!t) return false;
+  if (t.length === 1) return true;
+  if (/^\d+$/.test(t)) return true;
+  if (!/[a-zA-Z]/.test(t)) return true;
+  if (t.length < 2) return true;
+  return false;
 }
-LOWER_TO_DISPLAY["united states of america"] = "United States";
-LOWER_TO_DISPLAY["us"] = "United States";
-LOWER_TO_DISPLAY["great britain"] = "United Kingdom";
-LOWER_TO_DISPLAY["england"] = "United Kingdom";
-LOWER_TO_DISPLAY["korea"] = "South Korea";
-LOWER_TO_DISPLAY["republic of korea"] = "South Korea";
 
-/** Format country/location for display — never lowercase. Use proper casing. */
+/** Normalize: fix typos and variants. Returns normalized string. */
+function normalizeCountryInput(raw: string): string {
+  const trimmed = raw.trim();
+  const lower = trimmed.toLowerCase();
+  const fixed = TYPO_FIXES[lower] ?? trimmed;
+  return fixed;
+}
+
+/** Get country code. Returns "UD" for empty (Undefined), "SKIP" for useless, "XX" for unknown, or valid code. */
+export function getCountryCode(nameOrCode: string | null | undefined): string {
+  if (isEmpty(nameOrCode)) return "UD";
+  if (isUseless(nameOrCode)) return "SKIP";
+  const raw = typeof nameOrCode === "string" ? nameOrCode : "";
+  const normalized = normalizeCountryInput(raw);
+  if (normalized.length === 2) return normalized.toUpperCase();
+  const code = ISO_MAP[normalized] ?? ISO_MAP[normalized.toLowerCase()] ?? null;
+  return code ?? "XX";
+}
+
+/** Whether to skip this row in stats/filters (useless data) */
+export function shouldSkipCountry(nameOrCode: string | null | undefined): boolean {
+  return getCountryCode(nameOrCode) === "SKIP";
+}
+
+/** Preferred short display names for common countries */
+const DISPLAY_OVERRIDES: Record<string, string> = {
+  US: "United States",
+  GB: "United Kingdom",
+  KR: "South Korea",
+  RU: "Russia",
+  TW: "Taiwan",
+  HK: "Hong Kong",
+  TZ: "Tanzania",
+  BO: "Bolivia",
+  VE: "Venezuela",
+  IR: "Iran",
+  LA: "Laos",
+  KP: "North Korea",
+  PS: "Palestine",
+  SY: "Syria",
+  MK: "North Macedonia",
+  MD: "Moldova",
+  CI: "Ivory Coast",
+  CV: "Cape Verde",
+  BN: "Brunei",
+  TL: "Timor-Leste",
+  SZ: "Eswatini",
+  MO: "Macau",
+  VN: "Vietnam",
+  CZ: "Czech Republic",
+  TR: "Turkey",
+  UD: "Undefined",
+};
+
+/** Get canonical display name for a country code (used when merging stats). */
+export function getDisplayForCode(code: string): string {
+  return DISPLAY_OVERRIDES[code] ?? CODE_TO_DISPLAY[code] ?? code;
+}
+
+/** Format country/location for display — proper casing, never lowercase. */
 export function formatCountryDisplay(raw: string | null | undefined): string {
   if (!raw || typeof raw !== "string") return "";
   const trimmed = raw.trim();
   if (!trimmed) return "";
-  const lower = trimmed.toLowerCase();
-  const known = LOWER_TO_DISPLAY[lower];
-  if (known) return known;
-  return trimmed.split(/\s+/).map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+  const code = getCountryCode(trimmed);
+  if (code === "SKIP") return "";
+  if (code !== "XX" && code !== "UD") return getDisplayForCode(code);
+  if (code === "UD") return "Undefined";
+  return trimmed
+    .split(/\s+/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
 }

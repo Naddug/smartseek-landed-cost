@@ -1945,7 +1945,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
   app.get("/api/stats", async (_req: Request, res: Response) => {
     try {
-      const { formatCountryDisplay, getCountryCode } = await import("./lib/countryCodes");
+      const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
       const [supplierCount, countryResult, industryResult] = await Promise.all([
         prisma.supplier.count(),
         prisma.supplier.groupBy({ by: ["country"], _count: { id: true } }),
@@ -1963,7 +1963,8 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const mergedByCode = new Map<string, { display: string; count: number }>();
       for (const row of countryResult) {
         const code = getCountryCode(row.country);
-        const display = formatCountryDisplay(row.country);
+        if (code === "SKIP" || code === "XX") continue; // skip useless / unknown
+        const display = getDisplayForCode(code);
         const existing = mergedByCode.get(code);
         if (existing) {
           existing.count += row._count.id;
@@ -2033,7 +2034,11 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       }
 
       if (country && typeof country === "string") {
-        where.country = { equals: country, mode: "insensitive" as const };
+        if (country === "Undefined") {
+          where.AND = [...(Array.isArray(where.AND) ? where.AND : []), { OR: [{ country: "" }, { country: null }] }];
+        } else {
+          where.country = { equals: country, mode: "insensitive" as const };
+        }
       }
 
       if (industry && typeof industry === "string") {
@@ -2161,7 +2166,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // GET /api/suppliers/filters — Get available filter options (proper-cased, deduplicated)
   app.get("/api/suppliers/filters", async (_req: Request, res: Response) => {
     try {
-      const { formatCountryDisplay, getCountryCode } = await import("./lib/countryCodes");
+      const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
       const [countries, industries] = await Promise.all([
         prisma.supplier.groupBy({
           by: ["country"],
@@ -2178,7 +2183,8 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const mergedByCode = new Map<string, { display: string; count: number }>();
       for (const c of Array.isArray(countries) ? countries : []) {
         const code = getCountryCode(c.country);
-        const display = formatCountryDisplay(c.country);
+        if (code === "SKIP" || code === "XX") continue;
+        const display = getDisplayForCode(code);
         const existing = mergedByCode.get(code);
         if (existing) {
           existing.count += c._count.id;
