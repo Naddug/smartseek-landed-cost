@@ -85,7 +85,7 @@ export default function Signup() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="flex items-center justify-center gap-2 mb-4">
-            <Logo size="lg" />
+            <Logo size="lg" className="w-16 h-16" />
             <span className="text-2xl font-heading font-bold">SmartSeek</span>
           </Link>
           <CardTitle className="text-2xl">Create your account</CardTitle>

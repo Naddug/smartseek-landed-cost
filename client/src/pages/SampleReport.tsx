@@ -38,7 +38,7 @@ export default function SampleReport() {
         <header className="flex justify-between items-start border-b pb-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Logo size="sm" />
+              <Logo size="sm" className="w-12 h-12" />
               <span className="text-xl font-bold tracking-tight">SmartSeek</span>
             </div>
             <div className="text-sm text-slate-500">AI-Powered Sourcing Intelligence</div>

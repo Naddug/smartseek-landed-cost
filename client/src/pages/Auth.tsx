@@ -30,7 +30,7 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-muted/20 p-4">
       <Card className="w-full max-w-md border-primary/20 shadow-2xl">
         <CardHeader className="text-center space-y-2">
-          <Logo size="lg" className="w-14 h-14 mx-auto mb-2" />
+          <Logo size="lg" className="w-16 h-16 mx-auto mb-2" />
           <CardTitle className="text-2xl font-heading">Welcome to SmartSeek</CardTitle>
           <CardDescription>Enter your email to sign in or create an account</CardDescription>
         </CardHeader>
