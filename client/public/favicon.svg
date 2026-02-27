@@ -1,16 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <defs>
-    <linearGradient id="bg" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#1e3a5f"/>
+    <linearGradient id="bg" x1="2" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e40af"/>
       <stop offset="0.5" stop-color="#2563eb"/>
       <stop offset="1" stop-color="#3b82f6"/>
     </linearGradient>
-    <linearGradient id="s1" x1="10" y1="8" x2="22" y2="24" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#93c5fd"/>
-      <stop offset="1" stop-color="#ffffff"/>
+    <linearGradient id="face1" x1="4" y1="8" x2="16" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="face2" x1="16" y1="8" x2="28" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="top" x1="8" y1="1" x2="24" y2="9" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#3b82f6"/>
     </linearGradient>
   </defs>
-  <path d="M16 1 L28.66 8.5 L28.66 23.5 L16 31 L3.34 23.5 L3.34 8.5 Z" fill="url(#bg)"/>
-  <path d="M20.5 10.5 L12.5 10.5 C11 10.5 10 11.5 10 13 C10 14.5 11 15.5 12.5 15.5 L19.5 15.5 C21 15.5 22 16.5 22 18 C22 19.5 21 20.5 19.5 20.5 L11.5 20.5"
-        stroke="url(#s1)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Hexagon left face -->
+  <path d="M3.34 8.5 L16 1 L16 16 L3.34 23.5 Z" fill="url(#face1)"/>
+  <!-- Hexagon right face -->
+  <path d="M16 1 L28.66 8.5 L28.66 23.5 L16 16 Z" fill="url(#face2)"/>
+  <!-- Hexagon bottom faces -->
+  <path d="M3.34 23.5 L16 16 L28.66 23.5 L16 31 Z" fill="#1e3a8a"/>
+  <!-- Top highlight -->
+  <path d="M16 1 L28.66 8.5 L16 16 L3.34 8.5 Z" fill="url(#top)" opacity="0.3"/>
+  <!-- SS mark - top S -->
+  <path d="M10 9 L16 9 L16 12.5 L10 12.5 L10 16 L16 16"
+        stroke="#ffffff" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" fill="none" opacity="0.95"/>
+  <!-- SS mark - bottom S -->
+  <path d="M16 16 L22 16 L22 19.5 L16 19.5 L16 23 L22 23"
+        stroke="#ffffff" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" fill="none" opacity="0.8"/>
 </svg>
