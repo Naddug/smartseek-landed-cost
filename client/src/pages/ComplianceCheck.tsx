@@ -62,30 +62,30 @@ export default function ComplianceCheck() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-1 h-fit">
+        <Card className="lg:col-span-1 h-fit bg-white border-slate-200">
           <CardHeader className="pb-3">
             <CardTitle className="text-base text-slate-900">Check Parameters</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Supplier Name <span className="text-red-500">*</span></label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Country <span className="text-red-500">*</span></label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Industry <span className="text-red-500">*</span></label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Target Markets</label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="USA, EU, UK" value={form.targetMarkets} onChange={e => setForm({...form, targetMarkets: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="USA, EU, UK" value={form.targetMarkets} onChange={e => setForm({...form, targetMarkets: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Products</label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
             </div>
             <button onClick={() => mutation.mutate()} disabled={!form.supplierName || !form.country || !form.industry || mutation.isPending} className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors mt-2">
               {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Checking...</> : <><ClipboardCheck className="w-4 h-4" /> Run Compliance Check</>}
@@ -96,37 +96,37 @@ export default function ComplianceCheck() {
         <div className="lg:col-span-2 space-y-4">
           {mutation.isError && <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">Failed to generate compliance check. Please try again.</div>}
           {!result && !mutation.isPending && (
-            <Card className="border-dashed">
+            <Card className="border-dashed bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardContent className="py-16 text-center">
-                <ClipboardCheck className="w-14 h-14 text-slate-300 mx-auto mb-4" />
-                <p className="text-slate-500 text-lg font-medium">Enter supplier details and run a compliance check</p>
-                <p className="text-slate-400 text-sm mt-1">Covers certifications, regulatory checks, and sanctions screening</p>
+                <ClipboardCheck className="w-14 h-14 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
+                <p className="text-slate-700 dark:text-slate-200 text-lg font-medium">Enter supplier details and run a compliance check</p>
+                <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">Covers certifications, regulatory checks, and sanctions screening</p>
               </CardContent>
             </Card>
           )}
           {mutation.isPending && (
-            <Card>
+            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardContent className="py-16 text-center">
                 <Loader2 className="w-12 h-12 text-emerald-500 mx-auto mb-4 animate-spin" />
-                <p className="text-slate-900 font-semibold text-lg">Running compliance check...</p>
-                <p className="text-slate-500 text-sm mt-1">Checking certifications, regulations & sanctions lists</p>
+                <p className="text-slate-800 dark:text-slate-200 font-semibold text-lg">Running compliance check...</p>
+                <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">Checking certifications, regulations & sanctions lists</p>
               </CardContent>
             </Card>
           )}
           {result && !mutation.isPending && (
             <>
-              <Card>
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-6">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                     <h2 className="text-xl font-bold text-slate-900">Compliance Overview</h2>
                     <ComplianceBadge level={result.complianceLevel} />
                   </div>
-                  <div className="flex items-center gap-6 mb-4">
-                    <div className={`rounded-2xl p-6 flex flex-col items-center ${result.overallScore >= 80 ? "bg-emerald-50" : result.overallScore >= 60 ? "bg-amber-50" : "bg-red-50"}`}>
-                      <div className={`text-5xl font-bold ${result.overallScore >= 80 ? "text-emerald-600" : result.overallScore >= 60 ? "text-amber-600" : "text-red-600"}`}>{result.overallScore}</div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-4">
+                    <div className={`rounded-2xl p-4 sm:p-6 flex flex-col items-center shrink-0 ${result.overallScore >= 80 ? "bg-emerald-50" : result.overallScore >= 60 ? "bg-amber-50" : "bg-red-50"}`}>
+                      <div className={`text-4xl sm:text-5xl font-bold ${result.overallScore >= 80 ? "text-emerald-600" : result.overallScore >= 60 ? "text-amber-600" : "text-red-600"}`}>{result.overallScore}</div>
                       <div className="text-sm text-slate-500 mt-1">/ 100</div>
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-slate-700 text-sm leading-relaxed">{result.summary}</p>
                       <div className="mt-3 w-full bg-slate-200 rounded-full h-3">
                         <div className={`h-3 rounded-full transition-all duration-700 ${result.overallScore >= 80 ? "bg-emerald-500" : result.overallScore >= 60 ? "bg-amber-500" : "bg-red-500"}`} style={{ width: `${result.overallScore}%` }} />
@@ -136,22 +136,22 @@ export default function ComplianceCheck() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-base text-slate-900">Certifications</CardTitle>
+                  <CardTitle className="text-base text-slate-900 dark:text-slate-100">Certifications</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
                     {result.certifications.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between bg-slate-50 rounded-lg p-4 border border-slate-100">
-                        <div className="flex items-center gap-3">
+                      <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50 rounded-lg p-3 sm:p-4 border border-slate-100 gap-2">
+                        <div className="flex items-center gap-3 min-w-0">
                           <StatusIcon status={c.status} />
-                          <div>
-                            <p className="text-sm text-slate-900 font-semibold">{c.name}</p>
+                          <div className="min-w-0">
+                            <p className="text-sm text-slate-900 font-semibold truncate">{c.name}</p>
                             <p className="text-xs text-slate-500 mt-0.5">{c.notes}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 shrink-0 ml-8 sm:ml-0">
                           {c.required && <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200">Required</Badge>}
                           <Badge variant="outline" className={`text-xs ${c.status === "Verified" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : c.status === "Likely" ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-red-50 text-red-700 border-red-200"}`}>{c.status}</Badge>
                         </div>
@@ -161,9 +161,9 @@ export default function ComplianceCheck() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-base text-slate-900">Regulatory Checks</CardTitle>
+                  <CardTitle className="text-base text-slate-900 dark:text-slate-100">Regulatory Checks</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
@@ -198,7 +198,7 @@ export default function ComplianceCheck() {
               </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card>
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2 text-slate-900">
                       <ArrowRight className="w-5 h-5 text-blue-500" /> Recommendations
@@ -214,7 +214,7 @@ export default function ComplianceCheck() {
                     </ul>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2 text-slate-900">
                       <FileText className="w-5 h-5 text-amber-500" /> Required Documents

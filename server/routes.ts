@@ -6,6 +6,7 @@ import { insertReportSchema, insertSourcingRequestSchema, insertSupplierShortlis
 import { eq, sql, desc } from "drizzle-orm";
 import { fromError } from "zod-validation-error";
 import { generateSmartFinderReport, type ReportFormData } from "./services/reportGenerator";
+import { withTimeout } from "./lib/asyncUtils";
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
 import { getOpenAIClient } from "./services/openaiClient";
@@ -623,23 +624,37 @@ RESPONSE GUIDELINES:
       });
       
       // Generate AI report in background (don't await to return quickly)
-      generateSmartFinderReport(validatedData.formData as ReportFormData)
+      const { withTimeout } = await import("./lib/asyncUtils");
+      withTimeout(
+        generateSmartFinderReport(validatedData.formData as ReportFormData),
+        120000,
+        "Report generation"
+      )
         .then(async (reportData) => {
-          await storage.updateReport(report.id, {
-            reportData,
-            status: "completed",
-          });
+          try {
+            await storage.updateReport(report.id, {
+              reportData,
+              status: "completed",
+            });
+            console.log("Report completed:", report.id);
+          } catch (updateErr) {
+            console.error("Report completed but failed to save:", report.id, updateErr);
+          }
         })
         .catch(async (error) => {
           const errMsg = error?.message || String(error) || "Unknown error";
-          console.error("Report generation failed:", errMsg, error);
+          const userMsg =
+            errMsg.includes("timed out") ? "Report generation took too long. Please try again with a simpler query." :
+            errMsg.includes("API key") || errMsg.includes("OPENAI") ? "AI service not configured. Please contact support." :
+            errMsg.length < 150 ? errMsg : errMsg.substring(0, 147) + "...";
+          console.error("Report generation failed:", report.id, errMsg, error?.stack);
           try {
             await storage.updateReport(report.id, {
               status: "failed",
-              reportData: { error: errMsg, failedAt: new Date().toISOString() },
+              reportData: { error: userMsg, failedAt: new Date().toISOString(), rawError: errMsg },
             });
           } catch (updateErr) {
-            console.error("Failed to update report status:", updateErr);
+            console.error("Failed to update report status to failed:", report.id, updateErr);
           }
         });
       
@@ -1678,11 +1693,16 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     try {
       const { supplierName, country, industry, products } = req.body;
       if (!country) return res.status(400).json({ error: "Country is required" });
-      const result = await generateRiskAnalysis({ supplierName, country, industry, products });
+      const { withTimeout } = await import("./lib/asyncUtils");
+      const result = await withTimeout(
+        generateRiskAnalysis({ supplierName, country, industry, products }),
+        30000,
+        "Risk analysis"
+      );
       res.json(result);
     } catch (error: any) {
       console.error("Risk analysis error:", error);
-      res.status(500).json({ error: "Failed to generate risk analysis" });
+      res.status(500).json({ error: error?.message?.includes("timed out") ? "Analysis took too long. Please try again." : "Failed to generate risk analysis" });
     }
   });
 

@@ -680,12 +680,12 @@ export default function AIAgent() {
                   </p>
 
                   {/* Capabilities */}
-                  <div className="grid grid-cols-5 gap-3 w-full mb-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 w-full mb-8">
                     {CAPABILITIES.map((cap) => (
-                      <div key={cap.label} className={`flex flex-col items-center text-center p-3 rounded-xl ${cap.bg} border ${cap.border} transition-all hover:shadow-sm`}>
-                        <cap.icon className={`w-5 h-5 ${cap.color} mb-2`} />
-                        <span className="text-xs font-medium text-gray-800 leading-tight">{cap.label}</span>
-                        <span className="text-[10px] text-gray-500 mt-0.5 leading-tight">{cap.desc}</span>
+                      <div key={cap.label} className={`flex flex-col items-center text-center p-2.5 sm:p-3 rounded-xl ${cap.bg} border ${cap.border} transition-all hover:shadow-sm min-w-0`}>
+                        <cap.icon className={`w-5 h-5 ${cap.color} mb-1.5 sm:mb-2 shrink-0`} />
+                        <span className="text-[11px] sm:text-xs font-medium text-gray-800 leading-tight">{cap.label}</span>
+                        <span className="text-[9px] sm:text-[10px] text-gray-500 mt-0.5 leading-tight hidden sm:block">{cap.desc}</span>
                       </div>
                     ))}
                   </div>
@@ -696,15 +696,15 @@ export default function AIAgent() {
                       <Lightbulb className="w-3.5 h-3.5" />
                       Try asking
                     </p>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {SUGGESTION_CHIPS.map((chip) => (
                         <button
                           key={chip.label}
                           onClick={() => handleSuggestionClick(chip.label)}
-                          className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/50 hover:text-indigo-700 transition-all text-left group"
+                          className="flex items-center gap-2.5 px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/50 hover:text-indigo-700 transition-all text-left group min-w-0"
                         >
                           <chip.icon className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors shrink-0" />
-                          <span>{chip.label}</span>
+                          <span className="truncate">{chip.label}</span>
                           <ArrowRight className="w-3.5 h-3.5 ml-auto text-gray-300 group-hover:text-indigo-400 transition-colors shrink-0" />
                         </button>
                       ))}

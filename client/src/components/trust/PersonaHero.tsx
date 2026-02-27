@@ -11,10 +11,10 @@ const PERSONA_KEYS: Record<Persona, { labelKey: string; headlineKey: string; sub
 };
 
 const PERSONA_ICONS: Record<Persona, React.ReactNode> = {
-  procurer: <Briefcase className="w-5 h-5" />,
-  entrepreneur: <Rocket className="w-5 h-5" />,
-  supplier: <Building2 className="w-5 h-5" />,
-  producer: <Factory className="w-5 h-5" />,
+  procurer: <Briefcase className="w-3.5 h-3.5 sm:w-5 sm:h-5" />,
+  entrepreneur: <Rocket className="w-3.5 h-3.5 sm:w-5 sm:h-5" />,
+  supplier: <Building2 className="w-3.5 h-3.5 sm:w-5 sm:h-5" />,
+  producer: <Factory className="w-3.5 h-3.5 sm:w-5 sm:h-5" />,
 };
 
 interface PersonaHeroProps {
@@ -29,12 +29,12 @@ export function PersonaHero({ active, onSelect }: PersonaHeroProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2">
         {(Object.keys(PERSONA_KEYS) as Persona[]).map((id) => (
           <button
             key={id}
             onClick={() => onSelect(id)}
-            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
               active === id
                 ? "bg-slate-900 text-white shadow-md"
                 : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"

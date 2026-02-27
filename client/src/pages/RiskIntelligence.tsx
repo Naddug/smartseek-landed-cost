@@ -93,26 +93,26 @@ export default function RiskIntelligence() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-1 h-fit">
+        <Card className="lg:col-span-1 h-fit bg-white border-slate-200">
           <CardHeader className="pb-3">
             <CardTitle className="text-base text-slate-900">Analysis Parameters</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Supplier Name</label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Country <span className="text-red-500">*</span></label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Industry</label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-700 mb-1.5 block">Products</label>
-              <input className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
+              <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
             </div>
             <button onClick={() => mutation.mutate()} disabled={!form.country || mutation.isPending} className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors mt-2">
               {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</> : <><Shield className="w-4 h-4" /> Analyze Risk</>}
@@ -125,34 +125,34 @@ export default function RiskIntelligence() {
             <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">Failed to generate analysis. Please try again.</div>
           )}
           {!result && !mutation.isPending && (
-            <Card className="border-dashed">
+            <Card className="border-dashed bg-white/5">
               <CardContent className="py-16 text-center">
-                <Shield className="w-14 h-14 text-slate-300 mx-auto mb-4" />
-                <p className="text-slate-500 text-lg font-medium">Enter parameters and click Analyze</p>
+                <Shield className="w-14 h-14 text-slate-400 mx-auto mb-4" />
+                <p className="text-slate-300 text-lg font-medium">Enter parameters and click Analyze</p>
                 <p className="text-slate-400 text-sm mt-1">Get comprehensive risk intelligence covering 7 risk categories</p>
               </CardContent>
             </Card>
           )}
           {mutation.isPending && (
-            <Card>
+            <Card className="bg-white/5">
               <CardContent className="py-16 text-center">
                 <Loader2 className="w-12 h-12 text-blue-500 mx-auto mb-4 animate-spin" />
-                <p className="text-slate-900 font-semibold text-lg">Analyzing risk factors...</p>
-                <p className="text-slate-500 text-sm mt-1">Scanning geopolitical, financial, supply chain, and ESG data</p>
+                <p className="text-slate-200 font-semibold text-lg">Analyzing risk factors...</p>
+                <p className="text-slate-400 text-sm mt-1">Scanning geopolitical, financial, supply chain, and ESG data</p>
               </CardContent>
             </Card>
           )}
           {result && !mutation.isPending && (
             <>
-              <Card>
+              <Card className="bg-white border-slate-200">
                 <CardContent className="pt-6">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-2">
                     <h2 className="text-xl font-bold text-slate-900">Overall Risk Assessment</h2>
                     <LevelBadge level={result.riskLevel} />
                   </div>
-                  <div className="flex items-start gap-6">
+                  <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                     <ScoreGauge score={result.overallRiskScore} />
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-slate-700 text-sm leading-relaxed">{result.summary}</p>
                       <div className="mt-4">
                         <ScoreBar score={result.overallRiskScore} />
@@ -164,16 +164,16 @@ export default function RiskIntelligence() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {result.categories.map((cat, i) => (
-                  <Card key={i} className="hover:shadow-md transition-shadow">
+                  <Card key={i} className="hover:shadow-md transition-shadow bg-white border-slate-200">
                     <CardContent className="pt-5">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          <div className="p-1.5 bg-slate-100 rounded-lg text-slate-600">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="p-1.5 bg-slate-100 rounded-lg text-slate-600 shrink-0">
                             {categoryIcons[cat.name] || <Shield className="w-4 h-4" />}
                           </div>
-                          <h3 className="text-sm font-bold text-slate-900">{cat.name}</h3>
+                          <h3 className="text-sm font-bold text-slate-900 truncate">{cat.name}</h3>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 shrink-0">
                           <span className="text-sm font-bold text-slate-700">{cat.score}/100</span>
                           <LevelBadge level={cat.level} />
                         </div>
@@ -193,7 +193,7 @@ export default function RiskIntelligence() {
               </div>
 
               {result.recommendations.length > 0 && (
-                <Card>
+                <Card className="bg-white border-slate-200">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2 text-slate-900">
                       <CheckCircle2 className="w-5 h-5 text-emerald-500" /> Strategic Recommendations

@@ -12,10 +12,12 @@ import {
   Building2, MapPin, Star, Shield, Calendar, TrendingUp, Users, DollarSign, Package, 
   Truck, AlertTriangle, Target, Globe, Ship, Plane, FileCheck, Calculator, 
   BarChart3, PieChart as PieChartIcon, Percent, CreditCard, ArrowRight, ExternalLink,
-  Hash, Scale, Receipt, Landmark, Container, ClipboardCheck, UserSearch
+  Hash, Scale, Receipt, Landmark, Container, ClipboardCheck, UserSearch, Send, Copy
 } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useRef } from "react";
+import { ContactQuoteModal } from "@/components/ContactQuoteModal";
+import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, AreaChart, Area, Legend } from "recharts";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
@@ -372,6 +374,8 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
   const { data: report, isLoading, refetch } = useReport(reportId);
   const [activeSection, setActiveSection] = useState('overview');
   const [isExporting, setIsExporting] = useState(false);
+  const [contactSlug, setContactSlug] = useState<string | null>(null);
+  const [contactSupplierName, setContactSupplierName] = useState("");
   const reportRef = useRef<HTMLDivElement>(null);
 
   const exportToPDF = async () => {
@@ -491,14 +495,18 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
         addText(`Break-even Quantity: ${pa.breakEvenQuantity || 'N/A'}`, 10);
       }
       
-      // Supplier Comparison
+      // Supplier Comparison (with contact info)
       if (reportData?.sellerComparison?.length > 0) {
         addSection('SUPPLIER COMPARISON');
         reportData.sellerComparison.forEach((seller: any, index: number) => {
           addText(`${index + 1}. ${seller.sellerName || 'Supplier'}`, 11, true);
           addText(`   Platform: ${seller.platform || 'N/A'} | Location: ${seller.location || 'N/A'}`, 9);
           addText(`   Unit Price: ${seller.unitPrice || 'N/A'} | MOQ: ${seller.moq || 'N/A'}`, 9);
-          addText(`   Rating: ${seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
+          addText(`   Rating: ${typeof seller.rating === 'number' ? seller.rating.toFixed(1) : seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
+          if (seller.contactEmail || seller.contactPhone || seller.website) {
+            addText(`   Contact: ${seller.contactEmail || 'N/A'} | Phone: ${seller.contactPhone || 'N/A'}`, 9);
+            if (seller.website) addText(`   Website: ${seller.website}`, 9);
+          }
           y += 2;
         });
       }
@@ -610,12 +618,20 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
     { name: 'Fees', value: parseFloat(landedCost.handlingFees?.replace(/[^0-9.]/g, '') || '0') + parseFloat(landedCost.brokerageFees?.replace(/[^0-9.]/g, '') || '0'), color: '#8b5cf6' },
   ].filter(d => d.value > 0) : [];
 
-  const sellerComparisonData = sellers.map((s: any) => ({
-    name: s.sellerName?.split(' ')[0] || 'Seller',
-    price: parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0'),
-    margin: parseFloat(s.profitMargin?.replace(/[^0-9.]/g, '') || '0'),
-    rating: s.rating || 4.0
-  }));
+  const sellerComparisonData = sellers.map((s: any) => {
+    const price = parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0');
+    const margin = parseFloat(s.profitMargin?.replace(/[^0-9.]/g, '') || '0');
+    const rating = typeof s.rating === 'number' ? s.rating : 4.0;
+    return {
+      name: (s.sellerName?.split(' ')[0] || 'Seller').slice(0, 12),
+      price: price > 0 ? price : rating * 500,
+      margin: margin > 0 ? margin : rating * 15,
+      rating,
+      displayPrice: price > 0 ? s.unitPrice : 'Contact',
+      displayMargin: margin > 0 ? s.profitMargin : '—',
+    };
+  });
+  const hasRealPricing = sellers.some((s: any) => parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0') > 0);
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
@@ -911,16 +927,19 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
               <CardContent>
                 {/* Comparison Chart */}
                 <div className="h-64 mb-8">
+                  {!hasRealPricing && sellerComparisonData.length > 0 && (
+                    <p className="text-xs text-muted-foreground mb-2">Chart shows supplier ratings (contact suppliers for pricing)</p>
+                  )}
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={sellerComparisonData}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                      <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
-                      <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
-                      <Tooltip />
+                      <XAxis dataKey="name" tick={{ fontSize: 11 }} />
+                      <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
+                      <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
+                      <Tooltip formatter={(value: number, name: string) => [hasRealPricing ? value : `${value > 100 ? (value / 500).toFixed(1) : (value / 15).toFixed(1)}★`, name]} />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="price" name="Unit Price ($)" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar yAxisId="right" dataKey="margin" name="Profit Margin (%)" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar yAxisId="left" dataKey="price" name={hasRealPricing ? "Unit Price ($)" : "Rating Score"} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                      <Bar yAxisId="right" dataKey="margin" name={hasRealPricing ? "Profit Margin (%)" : "Rating"} fill="#10b981" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -969,11 +988,31 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                               <div className="text-xs text-muted-foreground">Rating</div>
                               <div className="flex items-center gap-1">
                                 <Star className="w-4 h-4 text-amber-500 fill-current" />
-                                <span className="font-medium">{seller.rating}</span>
+                                <span className="font-medium">{typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (() => { const n = parseFloat(String(seller.rating)); return !isNaN(n) ? n.toFixed(1) : '—'; })()}</span>
                                 <span className="text-xs text-muted-foreground">({seller.yearsInBusiness}y)</span>
                               </div>
                             </div>
                           </div>
+
+                          {seller.slug && (
+                            <Button
+                              size="sm"
+                              className="mt-3"
+                              onClick={() => {
+                                setContactSlug(seller.slug);
+                                setContactSupplierName(seller.sellerName || "");
+                              }}
+                            >
+                              <Send className="w-3 h-3 mr-1" />
+                              Contact for quote
+                            </Button>
+                          )}
+                          {(seller.contactEmail || seller.website) && !seller.slug && (
+                            <div className="mt-3 text-sm">
+                              {seller.contactEmail && <a href={`mailto:${seller.contactEmail}`} className="text-primary hover:underline">{seller.contactEmail}</a>}
+                              {seller.website && <a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer" className="ml-2 text-primary hover:underline">Website</a>}
+                            </div>
+                          )}
 
                           <div className="flex flex-wrap gap-1 mt-3">
                             {seller.certifications?.map((cert: string, j: number) => (
@@ -1177,11 +1216,26 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
               <CardContent>
                 <div className="space-y-3">
                   {reportData.nextSteps.map((step: string, i: number) => (
-                    <div key={i} className="flex items-center gap-3 p-4 border rounded-xl hover:bg-muted/50 transition-colors">
-                      <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-950 flex items-center justify-center">
+                    <div
+                      key={i}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => { navigator.clipboard.writeText(step); toast.success("Copied to clipboard"); }}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigator.clipboard.writeText(step); toast.success("Copied to clipboard"); } }}
+                      className="flex items-center gap-3 p-4 border rounded-xl hover:bg-muted/50 transition-colors cursor-pointer group"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-950 flex items-center justify-center shrink-0">
                         <CheckCircle className="w-4 h-4 text-green-600" />
                       </div>
-                      <span>{step}</span>
+                      <span className="flex-1">{step}</span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                        onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(step); toast.success("Copied"); }}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -1209,6 +1263,12 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           {isExporting ? 'Generating PDF...' : 'Export PDF'}
         </Button>
       </div>
+
+      <ContactQuoteModal
+        slug={contactSlug || ""}
+        supplierName={contactSupplierName}
+        onClose={() => { setContactSlug(null); setContactSupplierName(""); }}
+      />
     </div>
   );
 }

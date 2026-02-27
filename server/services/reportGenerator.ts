@@ -5,6 +5,7 @@ import { generateRiskAnalysis } from "./riskIntelligence";
 import { getMineralMarketPrice, getProductFamilyMarketPrice } from "./marketPrices";
 import { prisma } from "../../lib/prisma";
 import { getCountryCode } from "../lib/countryCodes";
+import { withTimeout, withRetry } from "../lib/asyncUtils";
 import { MINERAL_PRODUCTS, MINERAL_FORMS, getMineralPricePerTonne, getMineralPriceSource, detectMineralProduct } from "@shared/mineralConfig";
 import { PRODUCT_FAMILIES, detectProductFamily, getProductFamilyPrice } from "@shared/productFamilies";
 
@@ -69,6 +70,10 @@ export interface SellerComparison {
   profitMargin: string;
   totalCostWithFees: string;
   recommendation: string;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  website?: string | null;
+  slug?: string;
 }
 
 export interface GeneratedReport {
@@ -239,7 +244,11 @@ export async function generateSmartFinderReport(
       ? formData.mineralPurity.purityId
       : mineralProduct.purities.find((p) => p.id === "99.9")?.id ?? mineralProduct.purities[0]?.id ?? "99.9";
     const formId = formData.mineralPurity?.formId ?? "ingot";
-    const { pricePerTonne: marketBase, source: priceSource } = await getMineralMarketPrice(mineralProduct.id, originCountry);
+    const { pricePerTonne: marketBase, source: priceSource } = await withTimeout(
+      getMineralMarketPrice(mineralProduct.id, originCountry),
+      10000,
+      "Mineral market price"
+    );
     const pricePerTonne = getMineralPricePerTonne(mineralProduct.id, purityId, originCountry, formId, marketBase);
     if (pricePerTonne != null) {
       estimatedFobPerUnit = pricePerTonne;
@@ -274,7 +283,11 @@ export async function generateSmartFinderReport(
         family.id === "agri_bulk" ? params.product
         : family.id === "food_beverage" ? params.product_type
         : undefined;
-      const marketPrice = await getProductFamilyMarketPrice(family.id, productParam, originCountry);
+      const marketPrice = await withTimeout(
+        getProductFamilyMarketPrice(family.id, productParam, originCountry),
+        10000,
+        "Product family market price"
+      );
       const baseOverride = marketPrice?.pricePerTonne;
       const pricePerUnit = getProductFamilyPrice(
         family,
@@ -312,19 +325,23 @@ export async function generateSmartFinderReport(
   let hsCode = "";
   if (estimatedFobPerUnit == null) {
     try {
-      const miniRes = await getOpenAIClient().chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          {
-            role: "user",
-            content: `Product: ${productName}. Category: ${category}. Quantity: ${quantity} units. Return ONLY valid JSON: { "hsCode": "6-digit HS code (e.g. 8471.30)", "estimatedFobCostPerUnit": number }.
+      const miniRes = await withTimeout(
+        getOpenAIClient().chat.completions.create({
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "user",
+              content: `Product: ${productName}. Category: ${category}. Quantity: ${quantity} units. Return ONLY valid JSON: { "hsCode": "6-digit HS code (e.g. 8471.30)", "estimatedFobCostPerUnit": number }.
 For metals/minerals (copper, iron, steel, aluminum, etc.) use price PER TONNE in USD (e.g. copper ~13000 LME, steel ~700).
 For electronics use price per piece. For textiles use price per piece or per kg.`,
-          },
-        ],
-        response_format: { type: "json_object" },
-        max_tokens: 150,
-      });
+            },
+          ],
+          response_format: { type: "json_object" },
+          max_tokens: 150,
+        }),
+        15000,
+        "HS code LLM"
+      );
       const mini = JSON.parse(miniRes.choices[0]?.message?.content || "{}");
       hsCode = mini.hsCode || "8471.30";
       estimatedFobPerUnit = typeof mini.estimatedFobCostPerUnit === "number" ? mini.estimatedFobCostPerUnit : 5;
@@ -343,6 +360,7 @@ For electronics use price per piece. For textiles use price per piece or per kg.
       if (/lead/i.test(searchText)) return "7801.10";
       if (/nickel/i.test(searchText)) return "7502.10";
       if (/aluminum|aluminium/i.test(searchText)) return "7601.10";
+      if (/honey/i.test(searchText)) return "0409.00";
       return "8471.30";
     })();
   }
@@ -364,67 +382,84 @@ For electronics use price per piece. For textiles use price per piece or per kg.
 
   const baseCost = Math.max(100, effectivePricePerUnit * effectiveQuantity);
 
+  const searchTerm = productName.slice(0, 25);
+  const categoryTerm = category.slice(0, 25);
+  const countryCode = originCountry !== "any suitable global sourcing location" ? getCountryCode(originCountry) : null;
+
   const [landedResult, suppliersResult, riskResult] = await Promise.allSettled([
-    (async () => {
-      const weightKg = isBulkCommodity ? quantity * 1000 : Math.max(1, quantity * 0.5);
-      const volumeCbm = isBulkCommodity ? quantity * 0.5 : Math.max(0.1, quantity * 0.001);
-      const input: LandedCostInput = {
-        productName,
-        hsCode,
-        category,
-        baseCost,
-        incoterm: "FOB",
-        quantity,
-        currency: "USD",
-        originCountry: originCode,
-        destinationCountry: destCode,
-        shippingMethod: "sea_fcl",
-        containerType: "40ft",
-        weight: weightKg,
-        volume: volumeCbm,
-      };
-      return calculateLandedCost(input);
-    })(),
-    (() => {
-      const countryCode = originCountry !== "any suitable global sourcing location" ? getCountryCode(originCountry) : null;
-      const countryFilter =
-        originCountry !== "any suitable global sourcing location"
-          ? {
-              OR: [
-                { country: { contains: originCountry, mode: "insensitive" as const } },
-                ...(countryCode && countryCode !== "XX" && countryCode !== "SKIP"
-                  ? [{ countryCode: { equals: countryCode, mode: "insensitive" as const } }]
-                  : []),
-              ],
-            }
-          : {};
-      return prisma.supplier.findMany({
-        where: {
-          ...(Object.keys(countryFilter).length > 0
-            ? { AND: [countryFilter, { OR: [ { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } }, { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } }, { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } } ] }] }
-            : { OR: [ { products: { contains: productName.slice(0, 30), mode: "insensitive" as const } }, { industry: { contains: category.slice(0, 30), mode: "insensitive" as const } }, { companyName: { contains: productName.slice(0, 20), mode: "insensitive" as const } } ] }),
-        },
-      take: 15,
-      orderBy: { rating: "desc" },
-      select: {
-        companyName: true,
-        slug: true,
-        country: true,
-        city: true,
-        industry: true,
-        products: true,
-        certifications: true,
-        rating: true,
-        minOrderValue: true,
-        yearEstablished: true,
-      },
-    });
-    })(),
-    generateRiskAnalysis({
-      country: originCountry === "any suitable global sourcing location" ? "China" : originCountry,
-      industry: category,
-      products: productName,
-    }),
+    withTimeout(
+      (async () => {
+        const weightKg = isBulkCommodity ? quantity * 1000 : Math.max(1, quantity * 0.5);
+        const volumeCbm = isBulkCommodity ? quantity * 0.5 : Math.max(0.1, quantity * 0.001);
+        const input: LandedCostInput = {
+          productName,
+          hsCode,
+          category,
+          baseCost,
+          incoterm: "FOB",
+          quantity,
+          currency: "USD",
+          originCountry: originCode,
+          destinationCountry: destCode,
+          shippingMethod: "sea_fcl",
+          containerType: "40ft",
+          weight: weightKg,
+          volume: volumeCbm,
+        };
+        return calculateLandedCost(input);
+      })(),
+      15000,
+      "Landed cost"
+    ),
+    withTimeout(
+      (async () => {
+        const where: Record<string, unknown> = {};
+        if (countryCode && countryCode !== "XX" && countryCode !== "SKIP") {
+          where.countryCode = { equals: countryCode, mode: "insensitive" as const };
+        } else if (originCountry !== "any suitable global sourcing location") {
+          where.country = { contains: originCountry, mode: "insensitive" as const };
+        }
+        const productFilter = {
+          OR: [
+            { products: { contains: searchTerm, mode: "insensitive" as const } },
+            { industry: { contains: categoryTerm, mode: "insensitive" as const } },
+            { companyName: { contains: searchTerm, mode: "insensitive" as const } },
+          ] as const,
+        };
+        const fullWhere = Object.keys(where).length > 0 ? { AND: [where, productFilter] } : productFilter;
+        return prisma.supplier.findMany({
+          where: fullWhere,
+          take: 15,
+          orderBy: { rating: "desc" },
+          select: {
+            companyName: true,
+            slug: true,
+            country: true,
+            city: true,
+            industry: true,
+            products: true,
+            certifications: true,
+            rating: true,
+            minOrderValue: true,
+            yearEstablished: true,
+            contactEmail: true,
+            contactPhone: true,
+            website: true,
+          },
+        });
+      })(),
+      12000,
+      "Supplier search"
+    ),
+    withTimeout(
+      generateRiskAnalysis({
+        country: originCountry === "any suitable global sourcing location" ? "China" : originCountry,
+        industry: category,
+        products: productName,
+      }),
+      25000,
+      "Risk analysis"
+    ),
   ]);
 
   if (landedResult.status === "fulfilled") {
@@ -645,18 +680,26 @@ CRITICAL QUALITY REQUIREMENTS:
       formData.productName || formData.category
     );
 
-    const completion = await getOpenAIClient().chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations. Always return valid JSON.",
-        },
-        { role: "user", content: prompt },
-      ],
-      max_tokens: 8000,
-    });
+    const completion = await withRetry(
+      () =>
+        withTimeout(
+          getOpenAIClient().chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are an expert international trade consultant specializing in customs, tariffs, HS codes, and landed cost analysis. Provide accurate, professional, and actionable sourcing intelligence. Use realistic tariff rates and HS codes based on current trade regulations. Always return valid JSON.",
+              },
+              { role: "user", content: prompt },
+            ],
+            max_tokens: 8000,
+          }),
+          90000,
+          "Main report LLM"
+        ),
+      { maxAttempts: 2, delayMs: 3000, label: "Main report LLM" }
+    );
 
     const responseText = completion.choices[0]?.message?.content || "";
     console.log("AI response received, length:", responseText.length);
@@ -714,7 +757,7 @@ CRITICAL QUALITY REQUIREMENTS:
         unitPrice: s.minOrderValue ? `$${s.minOrderValue.toLocaleString()}` : "Contact for quote",
         moq: "Contact supplier",
         leadTime: "14-45 days",
-        rating: s.rating || 4,
+        rating: typeof s.rating === "number" ? Math.round(s.rating * 10) / 10 : 4,
         yearsInBusiness: s.yearEstablished ? new Date().getFullYear() - s.yearEstablished : 5,
         certifications: s.certifications ? s.certifications.split(/[,;|]/).map((c: string) => c.trim()).filter(Boolean) : [],
         platformFees: "N/A",
@@ -724,6 +767,9 @@ CRITICAL QUALITY REQUIREMENTS:
         profitMargin: "Varies",
         totalCostWithFees: "Contact for quote",
         recommendation: `Verified supplier in ${s.country}. ${s.industry} specialist.`,
+        contactEmail: s.contactEmail || null,
+        contactPhone: s.contactPhone || null,
+        website: s.website || null,
       }));
       report.supplierAnalysis = report.supplierAnalysis || { topRegions: [], recommendedSuppliers: [] };
       report.supplierAnalysis.recommendedSuppliers = realSuppliers.map((s) => ({

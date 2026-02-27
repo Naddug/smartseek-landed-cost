@@ -24,10 +24,34 @@ const prisma = new PrismaClient();
 const TARGET_COUNT = parseInt(process.env.PDL_TARGET_COUNT || "50000000", 10) || 50_000_000;
 const QUALITY_ONLY = process.env.QUALITY_ONLY !== "false";
 const BATCH_SIZE = 500;
-const seen = new Set<string>(); // Dedupe by "name|country"
+const SKIP_ROWS = parseInt(process.env.SKIP_ROWS || "0", 10);
+const SKIP_PDL_ROWS = parseInt(process.env.SKIP_PDL_ROWS || "0", 10);
+
+/**
+ * Bloom-filter-style dedup using multiple smaller Sets to avoid the V8 Set max-size limit (~16.7M).
+ * Partitions keys across N shards by a simple hash.
+ */
+const SHARD_COUNT = 32;
+const seenShards: Set<string>[] = Array.from({ length: SHARD_COUNT }, () => new Set<string>());
+let seenTotal = 0;
+
+function shardIndex(key: string): number {
+  let h = 0;
+  for (let i = 0; i < key.length; i++) h = ((h << 5) - h + key.charCodeAt(i)) | 0;
+  return ((h >>> 0) % SHARD_COUNT);
+}
 
 function dedupeKey(name: string, country: string): string {
   return `${(name || "").toLowerCase().trim()}|${(country || "").toLowerCase().trim()}`;
+}
+
+function hasSeen(key: string): boolean {
+  return seenShards[shardIndex(key)].has(key);
+}
+
+function addSeen(key: string): void {
+  seenShards[shardIndex(key)].add(key);
+  seenTotal++;
 }
 
 // Reuse industry mapping from import-pdl-dataset
@@ -130,6 +154,30 @@ function getVal(row: Record<string, unknown>, ...keys: string[]): string {
   return "";
 }
 
+/** Reject placeholder, empty, or low-quality values */
+const PLACEHOLDER_VALUES = new Set([
+  "n/a", "na", "none", "null", "unknown", "-", "--", "n.a.", "n.a", "tbd", "tba",
+  "not available", "not applicable", "no data", "no info", "missing", "unk", "xxx",
+  "test", "example", "sample", "placeholder", "default", "xx", "ud"
+]);
+
+function isPlaceholderOrEmpty(val: string): boolean {
+  if (!val || typeof val !== "string") return true;
+  const v = val.trim().toLowerCase();
+  if (v.length < 2) return true;
+  if (PLACEHOLDER_VALUES.has(v)) return true;
+  if (/^[\s\-\.]+$/.test(v)) return true;
+  if (/^(https?:\/\/)?(www\.)?(n\/a|none|unknown|example\.com)$/i.test(v)) return true;
+  return false;
+}
+
+function isValidDomain(domain: string): boolean {
+  if (!domain || domain.length < 4) return false;
+  if (isPlaceholderOrEmpty(domain)) return false;
+  if (!/^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$/i.test(domain.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0])) return false;
+  return true;
+}
+
 const MINERAL_KEYWORDS = ["tin", "antimony", "ore", "ores", "iron", "copper", "zinc", "lead", "bauxite", "lithium", "cobalt", "nickel", "manganese", "tungsten", "molybdenum", "chromium", "bismuth", "rare earth", "mineral", "minerals", "metal", "metals"];
 
 function extractMineralProducts(industry: string, subIndustry: string, companyName: string): string[] {
@@ -146,7 +194,8 @@ function extractMineralProducts(industry: string, subIndustry: string, companyNa
 async function processFile(
   csvPath: string,
   format: "companies" | "pdl",
-  importedRef: { count: number }
+  importedRef: { count: number },
+  skipRows: number = 0
 ): Promise<number> {
   if (!fs.existsSync(csvPath) || fs.statSync(csvPath).size < 100) return 0;
   const parser = fs.createReadStream(csvPath).pipe(
@@ -154,13 +203,20 @@ async function processFile(
   );
   let batch: Record<string, unknown>[] = [];
   let added = 0;
+  let rowIndex = 0;
 
   for await (const row of parser) {
+    rowIndex++;
+    if (rowIndex <= skipRows) {
+      if (rowIndex % 1_000_000 === 0) console.log(`   ⏩ Skipping row ${rowIndex.toLocaleString()}...`);
+      continue;
+    }
     if (importedRef.count >= TARGET_COUNT) break;
 
     const name = format === "companies" ? getVal(row, "name") : getVal(row, "name", "company_name", "companyName");
     const countryRaw = format === "companies" ? getVal(row, "country") : getVal(row, "country");
-    if (!name || !countryRaw) continue;
+    if (!name || !countryRaw || isPlaceholderOrEmpty(name) || isPlaceholderOrEmpty(countryRaw)) continue;
+    if (name.length < 2) continue;
 
     const locality = format === "companies" ? getVal(row, "locality") : getVal(row, "locality", "city", "region");
     const domain = format === "companies"
@@ -169,11 +225,17 @@ async function processFile(
     const website = format === "companies" ? getVal(row, "website") : getVal(row, "website", "domain");
 
     if (QUALITY_ONLY && (!locality || (!domain && !website))) continue;
+    if (QUALITY_ONLY && (domain || website)) {
+      const d = domain || (website ? website.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0] : "");
+      if (!isValidDomain(d)) continue;
+    }
+    if (QUALITY_ONLY && isPlaceholderOrEmpty(locality)) continue;
 
     const country = normalizeCountryToCanonical(countryRaw);
+    if (!country || isPlaceholderOrEmpty(country)) continue;
     const key = dedupeKey(name, country);
-    if (seen.has(key)) continue;
-    seen.add(key);
+    if (hasSeen(key)) continue;
+    addSeen(key);
 
     const industry = getIndustry(row, format, name);
     if (!industry && process.env.PDL_IMPORT_ALL !== "true") continue;
@@ -216,11 +278,11 @@ async function processFile(
         importedRef.count += batch.length;
         added += batch.length;
         await new Promise((r) => setTimeout(r, 150));
-        if (importedRef.count % 5000 === 0) {
-          console.log(`   ✅ ${importedRef.count.toLocaleString()} suppliers (${path.basename(csvPath)})`);
+        if (added % 5000 === 0) {
+          console.log(`   ✅ ${importedRef.count.toLocaleString()} total / +${added.toLocaleString()} new (${path.basename(csvPath)}) [row ${rowIndex.toLocaleString()}]`);
         }
       } catch (e) {
-        if (importedRef.count % 25000 === 0) console.error(`   ⚠️ Batch error: ${(e as Error).message?.substring(0, 100)}`);
+        if (added % 25000 === 0) console.error(`   ⚠️ Batch error at row ${rowIndex.toLocaleString()}: ${(e as Error).message?.substring(0, 100)}`);
       }
       batch = [];
     }
@@ -241,7 +303,7 @@ async function main() {
     process.env.COMPANIES_CSV_PATH || "/Users/harunkaya/Downloads/companies.csv";
   const pdlPath =
     process.env.PDL_CSV_PATH ||
-    "/Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv";
+    path.join(__dirname, "pdl-companies.csv");
 
   console.log("\n=== Import All Suppliers (42M+ source) ===\n");
   console.log(`   Mode: ${QUALITY_ONLY ? "Tam dolu kayıtlar only (locality + website/domain zorunlu)" : "Tüm satırlar"}`);
@@ -250,9 +312,21 @@ async function main() {
 
   const importedRef = { count: 0 };
 
-  // Resume: pre-load existing (companyName, country) to skip duplicates
-  if (process.env.RESUME_IMPORT === "true") {
-    console.log("   📥 Loading existing suppliers for deduplication...");
+  // Resume: skip rows already processed
+  const skipRowsForResume = SKIP_ROWS;
+  const skipPdlRows = SKIP_PDL_ROWS;
+  if (skipRowsForResume > 0) {
+    console.log(`   ⏩ Will skip first ${skipRowsForResume.toLocaleString()} rows of companies.csv\n`);
+  }
+  if (skipPdlRows > 0) {
+    console.log(`   ⏩ Will skip companies.csv and first ${skipPdlRows.toLocaleString()} rows of pdl-companies.csv\n`);
+  }
+
+  // Count existing suppliers and load into dedup set to prevent duplicates across runs
+  const existingCount = await prisma.supplier.count();
+  if (existingCount > 0) {
+    importedRef.count = existingCount;
+    console.log(`   📥 Loading ${existingCount.toLocaleString()} existing suppliers into dedup set...`);
     let offset = 0;
     const PAGE = 100_000;
     while (true) {
@@ -261,27 +335,29 @@ async function main() {
         skip: offset,
         take: PAGE,
       });
-      for (const r of batch) seen.add(dedupeKey(r.companyName, r.country));
+      for (const r of batch) addSeen(dedupeKey(r.companyName, r.country));
       if (batch.length < PAGE) break;
       offset += PAGE;
-      process.stdout.write(`\r   Loaded ${offset.toLocaleString()} existing`);
+      process.stdout.write(`\r   Loaded ${offset.toLocaleString()} into dedup set`);
     }
-    console.log(`\n   ✓ ${seen.size.toLocaleString()} existing suppliers in dedupe set\n`);
+    console.log(`\n   ✓ Dedup set ready (${seenTotal.toLocaleString()} existing)\n`);
   }
 
-  // 1. companies.csv (larger file first)
-  if (fs.existsSync(companiesPath)) {
+  // 1. companies.csv (skip entirely when resuming pdl only)
+  if (skipPdlRows === 0 && fs.existsSync(companiesPath)) {
     console.log(`   📂 Processing companies.csv...`);
-    const n = await processFile(companiesPath, "companies", importedRef);
+    const n = await processFile(companiesPath, "companies", importedRef, skipRowsForResume);
     console.log(`   Added ${n.toLocaleString()} from companies.csv. Total: ${importedRef.count.toLocaleString()}\n`);
-  } else {
+  } else if (skipPdlRows > 0) {
+    console.log(`   ⏭️ Skipping companies.csv (PDL resume mode)\n`);
+  } else if (!fs.existsSync(companiesPath)) {
     console.log(`   ⚠️ companies.csv not found at ${companiesPath}\n`);
   }
 
   // 2. pdl-companies.csv
   if (importedRef.count < TARGET_COUNT && fs.existsSync(pdlPath)) {
     console.log(`   📂 Processing pdl-companies.csv...`);
-    const n = await processFile(pdlPath, "pdl", importedRef);
+    const n = await processFile(pdlPath, "pdl", importedRef, skipPdlRows);
     console.log(`   Added ${n.toLocaleString()} from pdl-companies.csv. Total: ${importedRef.count.toLocaleString()}\n`);
   }
 

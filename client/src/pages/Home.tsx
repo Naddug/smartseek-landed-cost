@@ -393,13 +393,13 @@ export default function Home() {
           </div>
           <Tabs value={activeDashboardTab} onValueChange={setActiveDashboardTab} className="w-full">
             <div className="flex justify-center mb-8">
-              <TabsList className="bg-white p-1.5 rounded-full border border-slate-200 shadow-sm">
-                <TabsTrigger value="dashboard" className="rounded-full px-6 py-2.5 text-slate-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300" data-testid="tab-preview-dashboard">
-                  <BarChart3 className="w-4 h-4 mr-2" />
+              <TabsList className="bg-white p-1 sm:p-1.5 rounded-full border border-slate-200 shadow-sm">
+                <TabsTrigger value="dashboard" className="rounded-full px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300" data-testid="tab-preview-dashboard">
+                  <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" />
                   {t("home.tabs.analytics")}
                 </TabsTrigger>
-                <TabsTrigger value="report" className="rounded-full px-6 py-2.5 text-slate-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300" data-testid="tab-preview-report">
-                  <Layers className="w-4 h-4 mr-2" />
+                <TabsTrigger value="report" className="rounded-full px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300" data-testid="tab-preview-report">
+                  <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" />
                   {t("home.tabs.reports")}
                 </TabsTrigger>
               </TabsList>

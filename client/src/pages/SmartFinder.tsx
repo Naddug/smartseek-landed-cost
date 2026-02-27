@@ -949,6 +949,22 @@ export default function SmartFinder() {
             y += 8;
             pdf.setTextColor(0, 0, 0);
           }
+          if (seller.contactEmail || seller.contactPhone || seller.website) {
+            checkPageBreak(10);
+            pdf.setFontSize(6);
+            pdf.setTextColor(59, 130, 246);
+            pdf.setFont('helvetica', 'normal');
+            const contactParts = [
+              seller.contactEmail ? `Email: ${seller.contactEmail}` : null,
+              seller.contactPhone ? `Phone: ${seller.contactPhone}` : null,
+              seller.website ? `Web: ${seller.website}` : null,
+            ].filter(Boolean);
+            if (contactParts.length > 0) {
+              pdf.text('Contact: ' + contactParts.join(' | ').substring(0, 90), margin + 2, y + 4);
+              y += 6;
+            }
+            pdf.setTextColor(0, 0, 0);
+          }
         });
         y += 5;
       }
@@ -1197,12 +1213,18 @@ export default function SmartFinder() {
       { name: 'Fees', value: parseNumericValue(landedCost.handlingFees) + parseNumericValue(landedCost.brokerageFees), color: '#8b5cf6' },
     ].filter(d => d.value > 0) : [];
 
-    const sellerComparisonData = sellers.map((s: any) => ({
-      name: s.sellerName?.split(' ')[0] || 'Seller',
-      price: parseNumericValue(s.unitPrice),
-      margin: parseNumericValue(s.profitMargin),
-      rating: s.rating || 4.0
-    }));
+    const sellerComparisonData = sellers.map((s: any) => {
+      const price = parseNumericValue(s.unitPrice);
+      const margin = parseNumericValue(s.profitMargin);
+      const rating = typeof s.rating === 'number' ? s.rating : parseFloat(String(s.rating)) || 4.0;
+      return {
+        name: (s.sellerName?.split(' ')[0] || 'Seller').slice(0, 12),
+        price: price > 0 ? price : rating * 500,
+        margin: margin > 0 ? margin : rating * 15,
+        rating,
+      };
+    });
+    const hasRealPricing = sellers.some((s: any) => parseNumericValue(s.unitPrice) > 0);
 
     return (
       <Card className="w-full max-w-4xl mx-auto shadow-md border border-slate-200/80 bg-white overflow-hidden">
@@ -1462,16 +1484,19 @@ export default function SmartFinder() {
             <TabsContent value="suppliers" className="space-y-5">
               {sellerComparisonData.length > 0 && (
                 <div className="h-52 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  {!hasRealPricing && (
+                    <p className="text-xs text-slate-500 mb-2">Chart shows supplier ratings (contact suppliers for pricing)</p>
+                  )}
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={sellerComparisonData}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                       <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#1e293b' }} />
                       <YAxis yAxisId="left" tick={{ fontSize: 11, fill: '#64748b' }} />
                       <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: '#64748b' }} />
-                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
+                      <Tooltip formatter={(value: number, name: string) => [hasRealPricing ? value : `${value > 100 ? (value / 500).toFixed(1) : (value / 15).toFixed(1)}★`, name]} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="price" name="Unit Price ($)" fill="#3b82f6" radius={[6, 6, 0, 0]} />
-                      <Bar yAxisId="right" dataKey="margin" name="Profit Margin (%)" fill="#10b981" radius={[6, 6, 0, 0]} />
+                      <Bar yAxisId="left" dataKey="price" name={hasRealPricing ? "Unit Price ($)" : "Rating Score"} fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                      <Bar yAxisId="right" dataKey="margin" name={hasRealPricing ? "Profit Margin (%)" : "Rating"} fill="#10b981" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1528,7 +1553,7 @@ export default function SmartFinder() {
                             <div className="flex items-center gap-1 mt-0.5">
                               <Star className="w-4 h-4 text-amber-500 fill-current" />
                               <span className="font-bold text-sm text-slate-900">
-                              {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : seller.rating}
+                              {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (() => { const n = parseFloat(String(seller.rating)); return !isNaN(n) ? n.toFixed(1) : '—'; })()}
                             </span>
                             </div>
                           </div>
@@ -1558,6 +1583,19 @@ export default function SmartFinder() {
                             <Send className="w-3 h-3 mr-1" />
                             Contact for quote
                           </Button>
+                        ) : (seller.contactEmail || seller.website) ? (
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {seller.contactEmail && (
+                              <Button variant="outline" size="sm" asChild>
+                                <a href={`mailto:${seller.contactEmail}`}>Email</a>
+                              </Button>
+                            )}
+                            {seller.website && (
+                              <Button variant="outline" size="sm" asChild>
+                                <a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer">Website</a>
+                              </Button>
+                            )}
+                          </div>
                         ) : (
                           <Button variant="outline" size="sm" className="mt-3" asChild>
                             <a href="/suppliers" target="_blank" rel="noopener noreferrer">View suppliers</a>

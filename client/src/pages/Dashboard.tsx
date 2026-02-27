@@ -527,17 +527,17 @@ function MetricCard({ icon, label, value, change, iconBg, cardBg }: {
   cardBg: string;
 }) {
   return (
-    <Card className={`bg-gradient-to-br ${cardBg} border-slate-500/40 shadow-xl backdrop-blur-sm hover:border-slate-400/50 transition-all group`}>
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between mb-4">
-          <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${iconBg} flex items-center justify-center shadow-lg text-white`}>
+    <Card className={`bg-gradient-to-br ${cardBg} border-slate-500/40 shadow-xl backdrop-blur-sm hover:border-slate-400/50 transition-all group min-w-0`}>
+      <CardContent className="p-3 sm:p-5">
+        <div className="flex items-start justify-between mb-3 sm:mb-4">
+          <div className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br ${iconBg} flex items-center justify-center shadow-lg text-white shrink-0`}>
             {icon}
           </div>
         </div>
-        <div className="text-3xl font-bold mb-1 text-slate-100 group-hover:text-white transition-colors">{value}</div>
-        <div className="text-sm text-slate-400">{label}</div>
+        <div className="text-xl sm:text-3xl font-bold mb-1 text-slate-100 group-hover:text-white transition-colors truncate">{value}</div>
+        <div className="text-xs sm:text-sm text-slate-400 truncate">{label}</div>
         {change && (
-          <div className="text-xs text-blue-400 mt-2 font-semibold">{change}</div>
+          <div className="text-xs text-blue-400 mt-1.5 sm:mt-2 font-semibold truncate">{change}</div>
         )}
       </CardContent>
     </Card>
