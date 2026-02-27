@@ -1,6 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <!-- Precision Target: flat, scalable, favicon-compatible -->
-  <circle cx="16" cy="16" r="14" stroke="#0f172a" stroke-width="2" fill="none"/>
-  <circle cx="16" cy="16" r="9" stroke="#0f172a" stroke-width="1.5" fill="none"/>
-  <circle cx="16" cy="16" r="4" fill="#0f172a"/>
+  <defs>
+    <!-- 3D hexagon: royal blue top, darker bottom -->
+    <linearGradient id="hexGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3b82f6"/>
+      <stop offset="0.4" stop-color="#2563eb"/>
+      <stop offset="0.7" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+    <!-- Recessed S: darker blue -->
+    <linearGradient id="sGrad" x1="8" y1="8" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e40af"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+  <!-- Hexagonal frame -->
+  <path d="M16 2 L26 9 L26 23 L16 30 L6 23 L6 9 Z" fill="url(#hexGrad)"/>
+  <!-- Stylized S: top bar, zigzag, bottom bar -->
+  <path d="M11 9 L21 9 L21 11 L11 16 L11 18 L21 18 L21 20 L11 15 L11 9 Z" fill="url(#sGrad)"/>
 </svg>
