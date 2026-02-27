@@ -505,10 +505,12 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           addText(`   Unit Price: ${seller.unitPrice || 'N/A'} | MOQ: ${seller.moq || 'N/A'}`, 9);
           addText(`   Rating: ${typeof seller.rating === 'number' ? seller.rating.toFixed(1) : seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
           if (seller.contactEmail || seller.contactPhone || seller.website) {
-            addText(`   Contact: ${seller.contactEmail || 'N/A'} | Phone: ${seller.contactPhone || 'N/A'}`, 9);
-            if (seller.website) addText(`   Website: ${seller.website}`, 9);
+            addText(`   Contact: ${seller.contactEmail || '—'} | Phone: ${seller.contactPhone || '—'}`, 10);
+            if (seller.website) addText(`   Website: ${seller.website}`, 10);
           } else {
-            addText(`   Contact: Find verified suppliers at SmartSeek /suppliers`, 9);
+            const searchTerm = (reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '';
+            addText(`   Contact: Visit SmartSeek Suppliers to find verified companies with contact details.`, 10);
+            if (searchTerm) addText(`   Search: smartseek.com/suppliers?q=${encodeURIComponent(String(searchTerm).slice(0, 50))}`, 9);
           }
           y += 2;
         });
@@ -1022,13 +1024,13 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                                 </Button>
                               )}
                             </div>
-                          ) : (
-                            <Button variant="outline" size="sm" className="mt-3" asChild>
-                              <Link href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
-                                Find verified suppliers
-                              </Link>
-                            </Button>
-                          )}
+          ) : (
+            <Link href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
+              <Button variant="outline" size="sm" className="mt-3">
+                Find verified suppliers →
+              </Button>
+            </Link>
+          )}
 
                           <div className="flex flex-wrap gap-1 mt-3">
                             {seller.certifications?.map((cert: string, j: number) => (

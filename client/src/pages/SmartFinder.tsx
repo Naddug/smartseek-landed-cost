@@ -965,13 +965,21 @@ export default function SmartFinder() {
             }
             pdf.setTextColor(0, 0, 0);
           } else {
-            checkPageBreak(10);
-            pdf.setFontSize(6);
-            pdf.setTextColor(107, 114, 128);
-            pdf.setFont('helvetica', 'normal');
-            pdf.text('Contact: Find verified suppliers at SmartSeek /suppliers', margin + 2, y + 4);
-            y += 6;
+            checkPageBreak(12);
+            pdf.setFontSize(8);
             pdf.setTextColor(0, 0, 0);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('Contact: Visit SmartSeek Suppliers for verified companies with contact details.', margin + 2, y + 4);
+            const productName = (reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '';
+            if (productName) {
+              pdf.setFontSize(7);
+              pdf.setTextColor(59, 130, 246);
+              pdf.text(`Search: /suppliers?q=${productName.toString().substring(0, 40)}`, margin + 2, y + 10);
+              pdf.setTextColor(0, 0, 0);
+              y += 14;
+            } else {
+              y += 10;
+            }
           }
         });
         y += 5;
@@ -1612,11 +1620,11 @@ export default function SmartFinder() {
                             )}
                           </div>
                         ) : (
-                          <Button variant="outline" size="sm" className="mt-3" asChild>
-                            <Link href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || report?.title || '')}`}>
-                              Find verified suppliers
-                            </Link>
-                          </Button>
+                          <a href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || report?.title || '')}`}>
+                            <Button variant="outline" size="sm" className="mt-3">
+                              Find verified suppliers →
+                            </Button>
+                          </a>
                         )}
                       </div>
 

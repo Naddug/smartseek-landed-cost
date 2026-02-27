@@ -413,12 +413,21 @@ For electronics use price per piece. For textiles use price per piece or per kg.
     ),
     withTimeout(
       (async () => {
-        const where: Record<string, unknown> = {};
-        if (countryCode && countryCode !== "XX" && countryCode !== "SKIP") {
-          where.countryCode = { equals: countryCode, mode: "insensitive" as const };
-        } else if (originCountry !== "any suitable global sourcing location") {
-          where.country = { contains: originCountry, mode: "insensitive" as const };
-        }
+        const selectFields = {
+          companyName: true,
+          slug: true,
+          country: true,
+          city: true,
+          industry: true,
+          products: true,
+          certifications: true,
+          rating: true,
+          minOrderValue: true,
+          yearEstablished: true,
+          contactEmail: true,
+          contactPhone: true,
+          website: true,
+        } as const;
         const productFilter = {
           OR: [
             { products: { contains: searchTerm, mode: "insensitive" as const } },
@@ -426,29 +435,45 @@ For electronics use price per piece. For textiles use price per piece or per kg.
             { companyName: { contains: searchTerm, mode: "insensitive" as const } },
           ] as const,
         };
-        const fullWhere = Object.keys(where).length > 0 ? { AND: [where, productFilter] } : productFilter;
-        return prisma.supplier.findMany({
-          where: fullWhere,
-          take: 15,
-          orderBy: { rating: "desc" },
-          select: {
-            companyName: true,
-            slug: true,
-            country: true,
-            city: true,
-            industry: true,
-            products: true,
-            certifications: true,
-            rating: true,
-            minOrderValue: true,
-            yearEstablished: true,
-            contactEmail: true,
-            contactPhone: true,
-            website: true,
-          },
-        });
+        const trySearch = async (whereClause: Record<string, unknown> | null, filter?: Record<string, unknown>) => {
+          const baseFilter = filter ?? productFilter;
+          const fullWhere = whereClause ? { AND: [whereClause, baseFilter] } : baseFilter;
+          return prisma.supplier.findMany({
+            where: fullWhere,
+            take: 15,
+            orderBy: { rating: "desc" },
+            select: selectFields,
+          });
+        };
+        let where: Record<string, unknown> | null = null;
+        if (countryCode && countryCode !== "XX" && countryCode !== "SKIP") {
+          where = { countryCode: { equals: countryCode, mode: "insensitive" as const } };
+        } else if (originCountry !== "any suitable global sourcing location") {
+          where = { country: { contains: originCountry, mode: "insensitive" as const } };
+        }
+        let results = await trySearch(where);
+        if (results.length === 0 && where) {
+          results = await trySearch(null);
+        }
+        if (results.length === 0) {
+          const broaderFilter = {
+            OR: [
+              { industry: { contains: categoryTerm.slice(0, 10), mode: "insensitive" as const } },
+              { products: { contains: searchTerm.slice(0, 8), mode: "insensitive" as const } },
+            ] as const,
+          };
+          results = await trySearch(null, broaderFilter);
+        }
+        if (results.length === 0) {
+          results = await prisma.supplier.findMany({
+            take: 10,
+            orderBy: { rating: "desc" },
+            select: selectFields,
+          });
+        }
+        return results;
       })(),
-      12000,
+      15000,
       "Supplier search"
     ),
     withTimeout(
