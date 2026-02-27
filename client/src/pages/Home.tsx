@@ -46,10 +46,10 @@ export default function Home() {
       .catch(() => { setStats(null); setStatsLoaded(true); });
   }, []);
 
-  const suppliersVal = stats?.suppliers ?? 10000000;
-  const leadsVal = stats?.leads ?? 7000000;
-  const countriesVal = stats?.countries ?? 220;
-  const industriesVal = stats?.industries ?? 20;
+  const suppliersVal = (stats?.suppliers && stats.suppliers > 0) ? stats.suppliers : 10000000;
+  const leadsVal = (stats?.leads && stats.leads > 0) ? stats.leads : 7000000;
+  const countriesVal = (stats?.countries && stats.countries > 0) ? stats.countries : 220;
+  const industriesVal = (stats?.industries && stats.industries > 0) ? stats.industries : 20;
   const topCountries = stats?.topCountries ?? [];
   const totalForPct = topCountries.reduce((s, c) => s + c.count, 0);
 
