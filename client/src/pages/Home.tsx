@@ -20,6 +20,12 @@ function formatStat(n: number): string {
   return `${n}+`;
 }
 
+/** Ensure location/country names are never lowercase (proper casing) */
+function formatLocation(str: string): string {
+  if (!str || typeof str !== "string") return str;
+  return str.split(",").map((p) => p.trim().replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())).join(", ");
+}
+
 export default function Home() {
   const { t } = useTranslation();
   const [activeDashboardTab, setActiveDashboardTab] = useState("dashboard");
@@ -49,7 +55,7 @@ export default function Home() {
   const supplierRegions =
     topCountries.length > 0 && totalForPct > 0
       ? topCountries.slice(0, 8).map((c, i) => ({
-          label: `${c.country} — ${c.count.toLocaleString()}+`,
+          label: `${formatLocation(c.country)} — ${c.count.toLocaleString()}+`,
           barValue: Math.round((c.count / totalForPct) * 100),
           color: ["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500", "bg-rose-500", "bg-cyan-500", "bg-indigo-500", "bg-slate-400"][i] ?? "bg-slate-300",
         }))

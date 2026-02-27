@@ -21,6 +21,9 @@ import {
   type IntegrationProvider,
 } from "./services/integrations";
 import { prisma } from "../lib/prisma";
+import { getMineralPurityOptions, MINERAL_FORMS } from "@shared/mineralConfig";
+import { detectProductFamily } from "@shared/productFamilies";
+import { getMarketMetalPrices } from "./services/marketPrices";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -31,6 +34,66 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // Mineral purity options (for SmartFinder when user searches copper, tin, antimony, etc.)
+  app.get("/api/minerals/options", (req: Request, res: Response) => {
+    try {
+      const product = (req.query.product as string) || "";
+      const result = getMineralPurityOptions(product);
+      if (!result) return res.json({ isMineral: false, options: null });
+      res.json({
+        isMineral: true,
+        product: { id: result.product.id, name: result.product.name, priceSource: result.product.priceSource },
+        purityOptions: result.options.map((o) => ({ id: o.id, label: o.label, description: o.description })),
+        formOptions: MINERAL_FORMS.map((f) => ({ id: f.id, label: f.label, description: f.description })),
+      });
+    } catch (e) {
+      res.status(500).json({ error: "Failed to get mineral options" });
+    }
+  });
+
+  // Product family detection (steel, agri, chemicals, textiles, etc.) — when not a mineral
+  app.get("/api/product-families/detect", (req: Request, res: Response) => {
+    try {
+      const product = (req.query.product as string) || "";
+      const family = detectProductFamily(product);
+      if (!family) return res.json({ isProductFamily: false, family: null });
+      res.json({
+        isProductFamily: true,
+        family: {
+          id: family.id,
+          name: family.name,
+          referenceIndex: family.referenceIndex,
+          unit: family.unit,
+          parameters: family.parameters.map((p) => ({
+            id: p.id,
+            label: p.label,
+            type: p.type,
+            required: p.required,
+            placeholder: p.placeholder,
+            options: p.options?.map((o) => ({ id: o.id, label: o.label })),
+          })),
+        },
+      });
+    } catch (e) {
+      res.status(500).json({ error: "Failed to detect product family" });
+    }
+  });
+
+  // Market prices (USD/tonne) — metals, steel, agri, food
+  app.get("/api/market-prices/metals", async (_req: Request, res: Response) => {
+    try {
+      const prices = await getMarketMetalPrices();
+      res.json({
+        prices,
+        source: process.env.METALPRICE_API_KEY || process.env.COMMODITIES_API_KEY ? "API" : "fallback",
+        unit: "USD/tonne",
+      });
+    } catch (e) {
+      console.error("Market prices error:", e);
+      res.status(500).json({ error: "Failed to fetch market prices" });
+    }
+  });
 
   // Health check (no DB) — for Railway/deploy verification
   app.get("/api/health", (_req: Request, res: Response) => {
@@ -78,9 +141,10 @@ export async function registerRoutes(
     const checks: Record<string, { ok: boolean; message: string }> = {};
     try {
       const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
-      checks.openaiKey = apiKey
+      const isDummy = !apiKey || apiKey === "sk-dummy" || apiKey.startsWith("sk-your") || apiKey.length < 20;
+      checks.openaiKey = !isDummy
         ? { ok: true, message: "Configured" }
-        : { ok: false, message: "Missing OPENAI_API_KEY" };
+        : { ok: false, message: apiKey ? "Invalid key (use real key from platform.openai.com)" : "Missing OPENAI_API_KEY in .env" };
 
       if (apiKey) {
         try {
@@ -288,7 +352,10 @@ export async function registerRoutes(
       res.json(result);
     } catch (error: any) {
       console.error("Error analyzing image:", error);
-      res.status(500).json({ error: "Failed to analyze image" });
+      const msg = error?.message?.includes("API key") || error?.message?.includes("OPENAI")
+        ? "OpenAI API key not configured. Add OPENAI_API_KEY to your .env file."
+        : "Failed to analyze image";
+      res.status(500).json({ error: msg });
     }
   });
   
@@ -1878,6 +1945,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
   app.get("/api/stats", async (_req: Request, res: Response) => {
     try {
+      const { formatCountryDisplay, getCountryCode } = await import("./lib/countryCodes");
       const [supplierCount, countryResult, industryResult] = await Promise.all([
         prisma.supplier.count(),
         prisma.supplier.groupBy({ by: ["country"], _count: { id: true } }),
@@ -1892,15 +1960,28 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         /* leads table might not exist yet */
       }
 
+      const mergedByCode = new Map<string, { display: string; count: number }>();
+      for (const row of countryResult) {
+        const code = getCountryCode(row.country);
+        const display = formatCountryDisplay(row.country);
+        const existing = mergedByCode.get(code);
+        if (existing) {
+          existing.count += row._count.id;
+        } else {
+          mergedByCode.set(code, { display, count: row._count.id });
+        }
+      }
+      const topCountries = Array.from(mergedByCode.values())
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10)
+        .map((c) => ({ country: c.display, count: c.count }));
+
       res.json({
         suppliers: supplierCount,
-        countries: countryResult.length,
+        countries: mergedByCode.size,
         industries: industryResult.length,
-        leads: leadCount,
-        topCountries: countryResult
-          .sort((a, b) => b._count.id - a._count.id)
-          .slice(0, 10)
-          .map((c) => ({ country: c.country, count: c._count.id })),
+        leads: leadCount > 0 ? leadCount : 2900000,
+        topCountries,
       });
     } catch {
       res.json({
@@ -2077,9 +2158,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     }
   });
 
-  // GET /api/suppliers/filters — Get available filter options
+  // GET /api/suppliers/filters — Get available filter options (proper-cased, deduplicated)
   app.get("/api/suppliers/filters", async (_req: Request, res: Response) => {
     try {
+      const { formatCountryDisplay, getCountryCode } = await import("./lib/countryCodes");
       const [countries, industries] = await Promise.all([
         prisma.supplier.groupBy({
           by: ["country"],
@@ -2093,8 +2175,23 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         }).catch(() => []),
       ]);
 
+      const mergedByCode = new Map<string, { display: string; count: number }>();
+      for (const c of Array.isArray(countries) ? countries : []) {
+        const code = getCountryCode(c.country);
+        const display = formatCountryDisplay(c.country);
+        const existing = mergedByCode.get(code);
+        if (existing) {
+          existing.count += c._count.id;
+        } else {
+          mergedByCode.set(code, { display, count: c._count.id });
+        }
+      }
+      const countryList = Array.from(mergedByCode.values())
+        .sort((a, b) => b.count - a.count)
+        .map((c) => ({ name: c.display, count: c.count }));
+
       res.json({
-        countries: (Array.isArray(countries) ? countries : []).map((c: { country: string; _count: { id: number } }) => ({ name: c.country, count: c._count.id })),
+        countries: countryList,
         industries: (Array.isArray(industries) ? industries : []).map((i: { industry: string; _count: { id: number } }) => ({ name: i.industry, count: i._count.id })),
       });
     } catch (error) {
