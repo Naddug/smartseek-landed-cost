@@ -512,7 +512,7 @@ export default function AIAgent() {
     <div className="flex h-full min-h-[calc(100vh-120px)] bg-gray-50/80">
       {/* Settings Sidebar */}
       <Collapsible open={sidebarOpen} onOpenChange={setSidebarOpen} className="flex">
-        <CollapsibleContent className="w-72 border-r border-gray-200 bg-white overflow-y-auto shadow-sm">
+        <CollapsibleContent className="w-full sm:w-72 max-w-[85vw] border-r border-gray-200 bg-white overflow-y-auto shadow-sm absolute sm:relative z-30 h-full sm:h-auto">
           <div className="p-5 space-y-5">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-gray-800 flex items-center gap-2 uppercase tracking-wide">

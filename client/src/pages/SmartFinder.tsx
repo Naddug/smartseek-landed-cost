@@ -1653,7 +1653,7 @@ export default function SmartFinder() {
               )}
 
               {profitAnalysis && (
-                <div className="grid grid-cols-3 gap-3 mt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
                   <div className="p-3 bg-green-50 rounded-lg text-center border border-green-100">
                     <div className="text-xs font-medium text-slate-800">Retail Price</div>
                     <div className="text-lg font-bold text-green-600">{profitAnalysis.recommendedRetailPrice}</div>
