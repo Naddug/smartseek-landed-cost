@@ -59,13 +59,13 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       )}
 
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm pt-[env(safe-area-inset-top)]">
-        <div className="container mx-auto px-3 sm:px-6 h-28 sm:h-32 flex items-center justify-between gap-2 min-w-0">
+        <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
           <Link href="/" className="flex items-center gap-1.5 group shrink-0 min-w-0">
             <Logo size="md" className="group-hover:scale-105 transition-transform w-8 h-8 sm:w-9 sm:h-9 shrink-0" />
             <span className="text-lg sm:text-xl font-heading font-bold tracking-tight truncate">SmartSeek</span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1.5">
             {navLinks}
           </nav>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -106,7 +106,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
       <footer className="border-t border-border bg-slate-50/80 dark:bg-slate-900/30">
         {/* Platform overview - IndexBox-style stats strip (no duplicate CTA) */}
-        <div className="border-b border-border bg-slate-100/80 dark:bg-slate-800/50 py-10 sm:py-12">
+        <div className="border-b border-border bg-slate-100/80 dark:bg-slate-800/50 py-8 sm:py-10">
           <div className="container mx-auto px-4">
             <p className="text-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] mb-6">
               {t("footer.platformOverview")}
@@ -138,11 +138,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-14 sm:py-16">
+        <div className="container mx-auto px-4 py-10 sm:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
             <div className="lg:col-span-5">
-              <div className="flex items-center gap-2.5 mb-5">
-                <Logo size="md" className="w-28 h-28" />
+              <div className="flex items-center gap-1.5 mb-5">
+                <Logo size="md" className="w-8 h-8 sm:w-10 sm:h-10" />
                 <span className="text-xl font-heading font-bold">SmartSeek</span>
               </div>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-4">

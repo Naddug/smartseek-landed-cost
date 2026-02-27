@@ -622,7 +622,7 @@ Generate a detailed professional report with the following structure (return ONL
   ]
 }
 
-IMPORTANT - Provide maximum value for procurers and sellers:
+CRITICAL QUALITY REQUIREMENTS:
 - Use correct spelling: "Experienced" (not Experient), "infrastructure" (not rastructure), "United Kingdom" (not Unite)
 - Use realistic 6-digit HS codes for this exact product category
 - Calculate customs duties based on current tariff rates for origin→destination
@@ -631,7 +631,13 @@ IMPORTANT - Provide maximum value for procurers and sellers:
 - marketOverview: Include concrete market size, growth rate, and 5+ key trends
 - All monetary values: use realistic numbers (e.g. $X.XX, $X,XXX)
 - Be specific with percentages, lead times (days), and quantities
-- recommendations and nextSteps: 4-5 actionable items each`;
+- recommendations and nextSteps: 5-7 actionable items each, be HIGHLY SPECIFIC and strategic
+- executiveSummary: Write 4-5 sentences. Include the key cost figure, best supplier recommendation, and one strategic insight
+- riskAssessment: Include 5 risk categories minimum (Geopolitical, Financial Stability, Supply Chain, Regulatory/Trade, Quality/Reputation)
+- Each risk mitigation should be a concrete actionable strategy, not generic advice
+- sellerComparison: Include specific certifications, payment terms, and a clear recommendation for each seller
+- profitAnalysis: Include realistic retail prices based on current market data
+- timeline: Be specific with day ranges for each phase`;
 
   try {
     console.log(

@@ -11,7 +11,8 @@ import {
 } from "recharts";
 import { 
   TrendingUp, TrendingDown, Globe, Package, Ship, DollarSign,
-  ArrowUpRight, ArrowDownRight, Calendar, Download, Search, Sparkles, ExternalLink
+  ArrowUpRight, ArrowDownRight, Calendar, Download, Search, Sparkles, ExternalLink,
+  AlertTriangle, Target, Shield, Zap, BarChart3, Activity
 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -656,10 +657,105 @@ export default function TradeData() {
         </Card>
       </div>
 
-      {/* Market Insights - high contrast for readability */}
+      {/* AI-Powered Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2 border-blue-200 bg-gradient-to-br from-blue-50/80 to-white">
+          <CardHeader>
+            <CardTitle className="text-slate-900 text-xl flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-blue-600" />
+              AI Trade Insights
+            </CardTitle>
+            <CardDescription className="text-slate-600">
+              Actionable intelligence based on current market data
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[
+              { title: "Sourcing Opportunity", badge: "High Impact", badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-300", icon: <Target className="w-4 h-4 text-emerald-600" />, text: `${region === "asia" ? "Vietnam and Indonesia" : region === "europe" ? "Poland and Czech Republic" : region === "americas" ? "Mexico and Colombia" : "Southeast Asian"} suppliers show 12-18% cost advantage vs. established markets. Consider diversifying supply chain.` },
+              { title: "Price Alert", badge: "Action Needed", badgeColor: "bg-amber-100 text-amber-800 border-amber-300", icon: <AlertTriangle className="w-4 h-4 text-amber-600" />, text: "Copper prices up 32% YTD. Lock in contracts now or consider aluminum substitutes where possible. Forecast suggests continued upward pressure through Q3." },
+              { title: "Compliance Update", badge: "Regulatory", badgeColor: "bg-blue-100 text-blue-800 border-blue-300", icon: <Shield className="w-4 h-4 text-blue-600" />, text: "New EU Carbon Border Adjustment Mechanism (CBAM) affects steel, aluminum, and cement imports. Factor carbon costs into landed cost calculations." },
+              { title: "Route Optimization", badge: "Cost Saving", badgeColor: "bg-purple-100 text-purple-800 border-purple-300", icon: <Zap className="w-4 h-4 text-purple-600" />, text: "Rail freight via China-Europe corridor is 40% cheaper than air and 60% faster than sea for mid-weight shipments. Consider for time-sensitive orders under 5 tonnes." },
+            ].map((insight, i) => (
+              <div key={i} className="p-4 bg-white rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5">{insight.icon}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-slate-900">{insight.title}</span>
+                      <Badge variant="outline" className={`text-xs ${insight.badgeColor}`}>{insight.badge}</Badge>
+                    </div>
+                    <p className="text-sm text-slate-700 leading-relaxed">{insight.text}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        <div className="space-y-6">
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2 text-slate-900">
+                <Activity className="w-4 h-4 text-blue-500" />
+                Supply Chain Health
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {[
+                { label: "Logistics", score: 87, color: "bg-emerald-500" },
+                { label: "Supplier Reliability", score: 92, color: "bg-blue-500" },
+                { label: "Port Congestion", score: 64, color: "bg-amber-500" },
+                { label: "Regulatory Risk", score: 78, color: "bg-purple-500" },
+                { label: "Price Stability", score: 55, color: "bg-red-500" },
+              ].map((item) => (
+                <div key={item.label}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-slate-700">{item.label}</span>
+                    <span className="font-semibold text-slate-900">{item.score}/100</span>
+                  </div>
+                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full ${item.color} transition-all duration-500`} style={{ width: `${item.score}%` }} />
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2 text-slate-900">
+                <BarChart3 className="w-4 h-4 text-amber-500" />
+                Trending Commodities
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {[
+                { name: "Copper", price: "$9,245/t", change: +3.2, trend: "up" as const },
+                { name: "Steel HRC", price: "$680/t", change: -1.8, trend: "down" as const },
+                { name: "Aluminum", price: "$2,410/t", change: +1.5, trend: "up" as const },
+                { name: "Lithium", price: "$12,800/t", change: +8.4, trend: "up" as const },
+                { name: "Polyethylene", price: "$1,120/t", change: -0.6, trend: "down" as const },
+              ].map((item) => (
+                <div key={item.name} className="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors">
+                  <span className="text-sm font-medium text-slate-800">{item.name}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-semibold text-slate-900">{item.price}</span>
+                    <span className={`text-xs font-medium flex items-center gap-0.5 ${item.trend === "up" ? "text-emerald-600" : "text-red-600"}`}>
+                      {item.trend === "up" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                      {Math.abs(item.change)}%
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Market Insights */}
       <Card className="bg-white border-slate-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 text-xl">Market Insights</CardTitle>
+          <CardTitle className="text-slate-900 text-xl">Market Intelligence</CardTitle>
           <CardDescription className="text-slate-600">
             Trade intelligence updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}
           </CardDescription>

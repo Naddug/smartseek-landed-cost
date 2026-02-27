@@ -59,11 +59,7 @@ export default function Home() {
           barValue: Math.round((c.count / totalForPct) * 100),
           color: ["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500", "bg-rose-500", "bg-cyan-500", "bg-indigo-500", "bg-slate-400"][i] ?? "bg-slate-300",
         }))
-      : [
-          { label: t("home.regionUnitedKingdom"), barValue: 96, color: "bg-blue-500" },
-          { label: t("home.regionUnitedStates"), barValue: 3, color: "bg-emerald-500" },
-          { label: t("home.regionMoreComing"), barValue: 1, color: "bg-slate-300" },
-        ];
+      : [];
 
   const platformFeatures = [
     { icon: <Shield className="w-6 h-6" />, titleKey: "home.feature1.title", descKey: "home.feature1.desc", href: "/risk-intelligence" },
@@ -87,7 +83,7 @@ export default function Home() {
   return (
     <PublicLayout>
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 sm:pt-20 pb-24 sm:pb-32 min-h-[85vh] sm:min-h-[90vh] flex items-center bg-gradient-to-b from-white via-slate-50/80 to-blue-50/60">
+      <section className="relative overflow-hidden pt-12 sm:pt-16 pb-16 sm:pb-24 min-h-[70vh] sm:min-h-[80vh] flex items-center bg-gradient-to-b from-white via-slate-50/80 to-blue-50/60">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_70%_20%,rgba(59,130,246,0.08),transparent)" />
           <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-blue-50/60 to-transparent" />
@@ -225,6 +221,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h3 className="text-2xl font-bold text-slate-900">{t("home.supplierRegions.title")}</h3>
+              {supplierRegions.length > 0 ? (
               <div className="space-y-4">
                 {supplierRegions.map((region, index) => (
                   <div key={`region-${index}`} className="flex items-center gap-4" data-testid={`supplier-region-${index}`}>
@@ -232,7 +229,7 @@ export default function Home() {
                     <div className="flex-1">
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-medium text-slate-800">{region.label}</span>
-                        <span className="font-bold text-slate-900">{region.barValue === 1 && topCountries.length === 0 ? "—" : `${region.barValue}%`}</span>
+                        <span className="font-bold text-slate-900">{`${region.barValue}%`}</span>
                       </div>
                       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full ${region.color} rounded-full transition-all duration-500`} style={{ width: `${region.barValue}%` }} />
@@ -241,6 +238,11 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              ) : (
+              <div className="flex items-center justify-center h-40 text-slate-400 text-sm">
+                Loading supplier regions...
+              </div>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-6">

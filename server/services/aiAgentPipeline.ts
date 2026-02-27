@@ -71,8 +71,8 @@ async function runProspector(input: PipelineInput): Promise<EnrichedLead[]> {
   const industries = input.targetIndustries?.length
     ? input.targetIndustries.join(", ")
     : "any industry";
-  const query = `Find business owners and decision makers matching: ${input.searchCriteria}. Target industries: ${industries}. Return as JSON: { "leads": [ { "name", "title", "company", "industry", "email", "phone" } ], "summary": "brief summary" }. Generate 8-12 realistic leads.`;
-  const systemPrompt = `You are a B2B lead generation specialist. Return ONLY valid JSON with a "leads" array. Each lead must have: name, title, company, industry, email, phone.`;
+  const query = `Find business owners and decision makers matching: ${input.searchCriteria}. Target industries: ${industries}. Return as JSON: { "leads": [ { "name", "title", "company", "industry", "email", "phone" } ], "summary": "brief summary" }. Generate 8-12 realistic leads. Focus on C-level executives, VPs, and Directors who are actual decision makers for procurement and sourcing. Include companies of varying sizes (enterprise, mid-market, SMB) for a diverse pipeline.`;
+  const systemPrompt = `You are an elite B2B lead generation specialist with deep expertise in international trade and sourcing. You identify high-value decision makers at companies that actively source products globally. Return ONLY valid JSON with a "leads" array. Each lead must have: name, title, company, industry, email, phone. Prioritize: procurement directors, supply chain VPs, sourcing managers, and C-suite executives at importing/manufacturing companies.`;
   const content = await callLLM(systemPrompt, query);
   return parseLeadsFromContent(content);
 }
@@ -86,8 +86,8 @@ async function runEnricher(leads: EnrichedLead[], topN: number): Promise<Enriche
 
   for (const lead of toEnrich) {
     try {
-      const query = `Provide a brief company research summary (3-4 sentences) for ${lead.company}. Include: company size, key products, recent news, and decision-maker context for ${lead.name} (${lead.title}).`;
-      const systemPrompt = `You are a business intelligence analyst. Return a concise summary only, no JSON.`;
+      const query = `Provide a strategic intelligence brief (5-6 sentences) for ${lead.company}. Include: company size and revenue estimate, key products/services, recent strategic moves or news, current sourcing challenges or opportunities, and specific engagement angle for reaching ${lead.name} (${lead.title}). End with one specific pain point we can address.`;
+      const systemPrompt = `You are a senior business intelligence analyst specializing in supply chain and procurement intelligence. Provide actionable insights that a sales team can immediately use. Be specific about company details, market position, and strategic opportunities. Return a concise summary only, no JSON.`;
       const research = await callLLM(systemPrompt, query);
       enriched.push({ ...lead, research: research.trim() });
     } catch {

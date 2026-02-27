@@ -100,23 +100,32 @@ export default function Dashboard() {
     );
   }
 
-  const activityData = [
-    { name: 'Mon', reports: 2, credits: 5 },
-    { name: 'Tue', reports: 1, credits: 3 },
-    { name: 'Wed', reports: 3, credits: 8 },
-    { name: 'Thu', reports: 0, credits: 0 },
-    { name: 'Fri', reports: 2, credits: 4 },
-    { name: 'Sat', reports: 1, credits: 2 },
-    { name: 'Sun', reports: reports.length, credits: 6 },
-  ];
+  const activityData = (() => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const now = new Date();
+    return days.map((name, i) => {
+      const dayReports = reports.filter((r: any) => {
+        const d = new Date(r.createdAt);
+        return d.getDay() === (i + 1) % 7 && now.getTime() - d.getTime() < 7 * 86400000;
+      });
+      return { name, reports: dayReports.length, credits: dayReports.length * 2 };
+    });
+  })();
 
-  const regionData = [
-    { name: 'China', value: 35, color: '#3b82f6' },
-    { name: 'Vietnam', value: 25, color: '#10b981' },
-    { name: 'India', value: 20, color: '#f59e0b' },
-    { name: 'Mexico', value: 12, color: '#ef4444' },
-    { name: 'Other', value: 8, color: '#8b5cf6' },
-  ];
+  const regionData = reports.length > 0
+    ? (() => {
+        const counts: Record<string, number> = {};
+        reports.forEach((r: any) => {
+          const country = r.formData?.originCountry || r.formData?.targetRegion || "Other";
+          counts[country] = (counts[country] || 0) + 1;
+        });
+        const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899'];
+        return Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([name, value], i) => ({ name, value, color: colors[i] || '#94a3b8' }));
+      })()
+    : [];
 
   return (
     <div className="space-y-6 sm:space-y-8 min-w-0">
@@ -176,8 +185,8 @@ export default function Dashboard() {
         <MetricCard
           icon={<Globe2 className="w-5 h-5" />}
           label="Regions Covered"
-          value="220+"
-          change="Global network"
+          value={(() => { const regions = new Set(reports.map((r: any) => r.formData?.originCountry).filter(Boolean)); return regions.size > 0 ? `${regions.size}` : "—"; })()}
+          change="From your reports"
           iconBg="from-amber-500 to-orange-500"
           cardBg="from-slate-700/90 to-slate-600/90"
         />
@@ -455,9 +464,9 @@ export default function Dashboard() {
                     <p className="text-sm text-slate-400">Verified global suppliers</p>
                   </div>
                 </div>
-                <p className="text-slate-400 text-sm mb-5 leading-relaxed">Search and connect with verified suppliers across 220+ countries. Filter by industry, region, and certifications.</p>
+                <p className="text-slate-400 text-sm mb-5 leading-relaxed">Search and connect with verified suppliers. Filter by industry, region, and certifications.</p>
                 <div className="flex flex-wrap gap-2 mb-5">
-                  {["Electronics", "Textiles", "Machinery", "Chemicals", "Food"].map((industry) => (
+                  {["Electronics & Semiconductors", "Textiles & Apparel", "Machinery & Industrial Equipment", "Chemicals & Petrochemicals", "Mining & Minerals"].map((industry) => (
                     <button
                       key={industry}
                       onClick={() => { setEmbeddedIndustry(industry); setShowSuppliers(true); }}

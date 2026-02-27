@@ -1266,25 +1266,25 @@ export default function SmartFinder() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-            <div className="p-3 bg-blue-50 rounded-lg text-center">
-              <Hash className="w-4 h-4 text-blue-600 mx-auto mb-1" />
-              <div className="text-sm font-bold font-mono text-blue-900">{productClass?.hsCode || 'N/A'}</div>
-              <div className="text-xs text-blue-600">HS Code</div>
+            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl text-center border border-blue-200 shadow-sm">
+              <Hash className="w-5 h-5 text-blue-600 mx-auto mb-1.5" />
+              <div className="text-base font-bold font-mono text-blue-900">{productClass?.hsCode || 'N/A'}</div>
+              <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide">HS Code</div>
             </div>
-            <div className="p-3 bg-green-50 rounded-lg text-center">
-              <DollarSign className="w-4 h-4 text-green-600 mx-auto mb-1" />
-              <div className="text-sm font-bold text-green-900">{landedCost?.costPerUnit || 'N/A'}</div>
-              <div className="text-xs font-medium text-green-800">Landed Cost/{unit}</div>
+            <div className="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-xl text-center border border-emerald-200 shadow-sm">
+              <DollarSign className="w-5 h-5 text-emerald-600 mx-auto mb-1.5" />
+              <div className="text-base font-bold text-emerald-900">{landedCost?.costPerUnit || 'N/A'}</div>
+              <div className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Landed Cost/{unit}</div>
             </div>
-            <div className="p-3 bg-purple-50 rounded-lg text-center">
-              <Percent className="w-4 h-4 text-purple-600 mx-auto mb-1" />
-              <div className="text-sm font-bold text-purple-900">{profitAnalysis?.profitMargin || 'N/A'}</div>
-              <div className="text-xs text-purple-600">Est. Margin</div>
+            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-xl text-center border border-purple-200 shadow-sm">
+              <Percent className="w-5 h-5 text-purple-600 mx-auto mb-1.5" />
+              <div className="text-base font-bold text-purple-900">{profitAnalysis?.profitMargin || 'N/A'}</div>
+              <div className="text-xs font-semibold text-purple-700 uppercase tracking-wide">Est. Margin</div>
             </div>
-            <div className="p-3 bg-amber-50 rounded-lg text-center">
-              <Users className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-              <div className="text-sm font-bold text-amber-900">{sellers.length}</div>
-              <div className="text-xs text-amber-600">Suppliers Found</div>
+            <div className="p-4 bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-xl text-center border border-amber-200 shadow-sm">
+              <Users className="w-5 h-5 text-amber-600 mx-auto mb-1.5" />
+              <div className="text-base font-bold text-amber-900">{sellers.length}</div>
+              <div className="text-xs font-semibold text-amber-700 uppercase tracking-wide">Suppliers Found</div>
             </div>
           </div>
         </CardHeader>
@@ -1309,36 +1309,36 @@ export default function SmartFinder() {
               </div>
             )}
 
-            <TabsContent value="summary" className="space-y-4">
-              <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
-                <h4 className="font-semibold flex items-center gap-2 mb-2">
-                  <FileText className="w-4 h-4 text-blue-600" />
+            <TabsContent value="summary" className="space-y-5">
+              <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
+                <h4 className="font-bold text-base flex items-center gap-2 mb-3 text-slate-900">
+                  <FileText className="w-5 h-5 text-blue-600" />
                   Executive Summary
                 </h4>
-                <p className="text-sm text-slate-700 leading-relaxed">{reportData?.executiveSummary || 'No summary available.'}</p>
+                <p className="text-sm text-slate-800 leading-relaxed">{reportData?.executiveSummary || 'No summary available.'}</p>
               </div>
 
               {productClass && (
-                <div className="p-4 bg-gray-50 rounded-lg border">
-                  <h4 className="font-semibold flex items-center gap-2 mb-3">
-                    <Hash className="w-4 h-4 text-primary" />
+                <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <h4 className="font-bold text-base flex items-center gap-2 mb-4 text-slate-900">
+                    <Hash className="w-5 h-5 text-blue-600" />
                     Product Classification
                   </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div>
-                      <div className="text-xs font-medium text-slate-800">HS Code</div>
-                      <div className="font-mono font-bold text-primary">{productClass.hsCode}</div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">HS Code</div>
+                      <div className="font-mono font-bold text-lg text-blue-900">{productClass.hsCode}</div>
                     </div>
-                    <div>
-                      <div className="text-xs font-medium text-slate-800">Tariff Chapter</div>
+                    <div className="p-3 bg-slate-50 rounded-lg">
+                      <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Tariff Chapter</div>
                       <div className="font-medium text-sm text-slate-900">{productClass.tariffChapter}</div>
                     </div>
-                    <div>
-                      <div className="text-xs font-medium text-slate-800">Category</div>
+                    <div className="p-3 bg-slate-50 rounded-lg">
+                      <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Category</div>
                       <div className="font-medium text-sm text-slate-900">{productClass.productCategory}</div>
                     </div>
-                    <div>
-                      <div className="text-xs font-medium text-slate-800">Description</div>
+                    <div className="p-3 bg-slate-50 rounded-lg">
+                      <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Description</div>
                       <div className="font-medium text-sm text-slate-900" title={productClass.hsCodeDescription}>{productClass.hsCodeDescription || "—"}</div>
                     </div>
                   </div>
@@ -1346,16 +1346,16 @@ export default function SmartFinder() {
               )}
 
               {reportData?.recommendations && reportData.recommendations.length > 0 && (
-                <div className="p-4 bg-green-50 rounded-lg border border-green-100">
-                  <h4 className="font-semibold flex items-center gap-2 mb-2 text-slate-900">
-                    <Sparkles className="w-4 h-4 text-green-600" />
-                    Recommendations
+                <div className="p-5 bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-200 shadow-sm">
+                  <h4 className="font-bold text-base flex items-center gap-2 mb-3 text-slate-900">
+                    <Sparkles className="w-5 h-5 text-emerald-600" />
+                    Key Recommendations
                   </h4>
-                  <ul className="space-y-1">
+                  <ul className="space-y-2">
                     {reportData.recommendations.slice(0, 4).map((rec: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-slate-800">
-                        <CheckCircle className="w-3 h-3 text-green-500 mt-1 shrink-0" />
-                        <span>{rec}</span>
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-slate-800">
+                        <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                        <span className="leading-relaxed">{rec}</span>
                       </li>
                     ))}
                   </ul>
@@ -1363,45 +1363,45 @@ export default function SmartFinder() {
               )}
             </TabsContent>
 
-            <TabsContent value="countries" className="space-y-4">
+            <TabsContent value="countries" className="space-y-5">
               {reportData?.marketOverview && typeof reportData.marketOverview === 'object' && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
-                  <h4 className="font-semibold flex items-center gap-2 mb-3 text-slate-800">
-                    <Globe className="w-4 h-4 text-blue-600" />
+                <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
+                  <h4 className="font-bold text-base flex items-center gap-2 mb-4 text-slate-900">
+                    <Globe className="w-5 h-5 text-blue-600" />
                     Market Overview
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-700">
-                    <div>
-                      <span className="text-xs font-medium text-slate-700">Market Size</span>
-                      <p className="text-sm font-medium">{reportData.marketOverview.marketSize || 'N/A'}</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                      <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Market Size</span>
+                      <p className="text-base font-bold text-slate-900 mt-1">{reportData.marketOverview.marketSize || 'N/A'}</p>
                     </div>
-                    <div>
-                      <span className="text-xs font-medium text-slate-700">Growth Rate</span>
-                      <p className="text-sm font-medium">{reportData.marketOverview.growthRate || 'N/A'}</p>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                      <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Growth Rate</span>
+                      <p className="text-base font-bold text-emerald-700 mt-1">{reportData.marketOverview.growthRate || 'N/A'}</p>
                     </div>
                     {reportData.marketOverview.keyTrends?.length > 0 && (
-                      <div className="md:col-span-2">
-                        <span className="text-xs font-medium text-slate-700">Key Trends</span>
-                        <ul className="mt-1 space-y-1">
+                      <div className="md:col-span-2 p-3 bg-white rounded-lg border border-slate-200">
+                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Key Trends</span>
+                        <ul className="mt-2 space-y-1.5">
                           {reportData.marketOverview.keyTrends.map((t: string, i: number) => (
-                            <li key={i} className="text-sm flex items-center gap-2">
-                              <CheckCircle className="w-3 h-3 text-green-500 shrink-0" />
-                              {t}
+                            <li key={i} className="text-sm flex items-center gap-2 text-slate-800">
+                              <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                              <span className="font-medium">{t}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
                     )}
                     {reportData.marketOverview.majorExporters?.length > 0 && (
-                      <div>
-                        <span className="text-xs font-medium text-slate-700">Major Exporters</span>
-                        <p className="text-sm">{reportData.marketOverview.majorExporters.join(', ')}</p>
+                      <div className="p-3 bg-white rounded-lg border border-slate-200">
+                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Major Exporters</span>
+                        <p className="text-sm font-medium text-slate-900 mt-1">{reportData.marketOverview.majorExporters.join(', ')}</p>
                       </div>
                     )}
                     {reportData.marketOverview.majorImporters?.length > 0 && (
-                      <div>
-                        <span className="text-xs font-medium text-slate-700">Major Importers</span>
-                        <p className="text-sm">{reportData.marketOverview.majorImporters.join(', ')}</p>
+                      <div className="p-3 bg-white rounded-lg border border-slate-200">
+                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Major Importers</span>
+                        <p className="text-sm font-medium text-slate-900 mt-1">{reportData.marketOverview.majorImporters.join(', ')}</p>
                       </div>
                     )}
                   </div>
@@ -1459,73 +1459,75 @@ export default function SmartFinder() {
               )}
             </TabsContent>
 
-            <TabsContent value="suppliers" className="space-y-4">
+            <TabsContent value="suppliers" className="space-y-5">
               {sellerComparisonData.length > 0 && (
-                <div className="h-48">
+                <div className="h-52 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={sellerComparisonData}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                      <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                      <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
-                      <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
-                      <Tooltip />
+                      <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#1e293b' }} />
+                      <YAxis yAxisId="left" tick={{ fontSize: 11, fill: '#64748b' }} />
+                      <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: '#64748b' }} />
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="price" name="Unit Price ($)" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar yAxisId="right" dataKey="margin" name="Profit Margin (%)" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar yAxisId="left" dataKey="price" name="Unit Price ($)" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                      <Bar yAxisId="right" dataKey="margin" name="Profit Margin (%)" fill="#10b981" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               )}
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {sellers.map((seller: any, i: number) => (
-                  <div key={i} className={`p-4 rounded-lg border ${i === 0 ? 'border-green-300 bg-green-50/50' : 'border-gray-200'}`}>
+                  <div key={i} className={`p-5 rounded-xl border shadow-sm hover:shadow-md transition-shadow ${i === 0 ? 'border-emerald-300 bg-gradient-to-br from-emerald-50/80 to-white' : 'border-slate-200 bg-white'}`}>
                     {i === 0 && (
-                      <Badge className="bg-green-500 mb-2 text-xs">
+                      <Badge className="bg-emerald-600 mb-3 text-xs font-bold">
                         <Star className="w-3 h-3 mr-1 fill-current" />
-                        Recommended
+                        Top Recommended
                       </Badge>
                     )}
                     <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Building2 className="w-5 h-5 text-primary" />
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                            <Building2 className="w-5 h-5 text-blue-600" />
+                          </div>
                           <div>
-                            <h4 className="font-bold text-slate-900">
+                            <h4 className="font-bold text-base text-slate-900">
                               {seller.slug ? (
-                                <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-primary hover:underline">
+                                <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-blue-600 hover:underline">
                                   {toTitleCase(seller.sellerName)}
                                 </Link>
                               ) : (
                                 toTitleCase(seller.sellerName)
                               )}
                             </h4>
-                            <div className="flex items-center gap-2 text-xs text-slate-700">
-                              <MapPin className="w-3 h-3" />
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                              <MapPin className="w-3.5 h-3.5" />
                               {toTitleCase(seller.location)}
-                              <Badge variant="outline" className="text-xs">{seller.platform}</Badge>
+                              <Badge variant="outline" className="text-xs font-medium">{seller.platform}</Badge>
                             </div>
                           </div>
                         </div>
                         
-                        <div className="grid grid-cols-4 gap-3 mt-3">
-                          <div>
-                            <div className="text-xs font-medium text-slate-800">Unit Price</div>
-                            <div className="font-bold text-primary text-slate-900">{seller.unitPrice}</div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+                          <div className="p-2.5 bg-slate-50 rounded-lg">
+                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Unit Price</div>
+                            <div className="font-bold text-blue-700 mt-0.5">{seller.unitPrice}</div>
                           </div>
-                          <div>
-                            <div className="text-xs font-medium text-slate-800">MOQ</div>
-                            <div className="font-medium text-sm text-slate-800">{seller.moq}</div>
+                          <div className="p-2.5 bg-slate-50 rounded-lg">
+                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">MOQ</div>
+                            <div className="font-bold text-sm text-slate-900 mt-0.5">{seller.moq}</div>
                           </div>
-                          <div>
-                            <div className="text-xs font-medium text-slate-800">Lead Time</div>
-                            <div className="font-medium text-sm text-slate-800">{seller.leadTime}</div>
+                          <div className="p-2.5 bg-slate-50 rounded-lg">
+                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Lead Time</div>
+                            <div className="font-bold text-sm text-slate-900 mt-0.5">{seller.leadTime}</div>
                           </div>
-                          <div>
-                            <div className="text-xs font-medium text-slate-800">Rating</div>
-                            <div className="flex items-center gap-1">
-                              <Star className="w-3 h-3 text-amber-500 fill-current" />
-                              <span className="font-medium text-sm text-slate-800">
+                          <div className="p-2.5 bg-slate-50 rounded-lg">
+                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rating</div>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <Star className="w-4 h-4 text-amber-500 fill-current" />
+                              <span className="font-bold text-sm text-slate-900">
                               {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : seller.rating}
                             </span>
                             </div>
@@ -1590,14 +1592,14 @@ export default function SmartFinder() {
               </div>
             </TabsContent>
 
-            <TabsContent value="costs" className="space-y-4">
+            <TabsContent value="costs" className="space-y-5">
               {(reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }> | undefined)?.mineralPurity?.calculationFormula && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
-                  <h4 className="font-semibold text-slate-800 mb-2 flex items-center gap-2">
-                    <Calculator className="w-4 h-4 text-blue-600" />
+                <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
+                  <h4 className="font-bold text-base text-slate-900 mb-2 flex items-center gap-2">
+                    <Calculator className="w-5 h-5 text-blue-600" />
                     Pricing Calculation
                   </h4>
-                  <p className="text-sm text-slate-700 font-mono">
+                  <p className="text-sm text-blue-800 font-mono bg-blue-100/50 p-3 rounded-lg">
                     {(reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }>)?.mineralPurity?.calculationFormula}
                   </p>
                 </div>
@@ -1605,7 +1607,7 @@ export default function SmartFinder() {
               {landedCost && (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {costBreakdownData.length > 0 && (
-                    <div className="h-56">
+                    <div className="h-56 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                           <Pie
@@ -1622,13 +1624,13 @@ export default function SmartFinder() {
                               <Cell key={`cell-${index}`} fill={entry.color} />
                             ))}
                           </Pie>
-                          <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+                          <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
                         </PieChart>
                       </ResponsiveContainer>
                     </div>
                   )}
 
-                  <div className="space-y-2">
+                  <div className="space-y-2 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
                     <CostRow icon={<Package className="text-blue-500" />} label="Product Cost (FOB)" value={landedCost.productCost} />
                     <CostRow icon={<Ship className="text-cyan-500" />} label="Freight Cost" value={landedCost.freightCost} />
                     <CostRow icon={<Shield className="text-green-500" />} label="Insurance" value={landedCost.insuranceCost} />
@@ -1638,13 +1640,13 @@ export default function SmartFinder() {
                     <CostRow icon={<Container className="text-purple-500" />} label="Handling Fees" value={landedCost.handlingFees} />
                     <CostRow icon={<Truck className="text-orange-500" />} label="Inland Transport" value={landedCost.inlandTransport} />
                     <Separator className="border-2" />
-                    <div className="flex justify-between items-center p-3 bg-primary/10 rounded-lg">
-                      <span className="font-bold">Total Landed Cost</span>
-                      <span className="text-xl font-bold text-primary">{landedCost.totalLandedCost}</span>
+                    <div className="flex justify-between items-center p-3 bg-blue-600 rounded-xl">
+                      <span className="font-bold text-white">Total Landed Cost</span>
+                      <span className="text-xl font-bold text-white">{landedCost.totalLandedCost}</span>
                     </div>
-                    <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg border border-green-200">
-                      <span className="font-medium text-sm text-slate-800">Cost Per {unit.charAt(0).toUpperCase() + unit.slice(1)}</span>
-                      <span className="font-bold text-green-600">{landedCost.costPerUnit}</span>
+                    <div className="flex justify-between items-center p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                      <span className="font-semibold text-sm text-emerald-900">Cost Per {unit.charAt(0).toUpperCase() + unit.slice(1)}</span>
+                      <span className="font-bold text-lg text-emerald-700">{landedCost.costPerUnit}</span>
                     </div>
                   </div>
                 </div>
@@ -1674,69 +1676,69 @@ export default function SmartFinder() {
               )}
             </TabsContent>
 
-            <TabsContent value="customs" className="space-y-4">
+            <TabsContent value="customs" className="space-y-5">
               {customsData?.customsFees && (
                 <>
                   <div className="overflow-x-auto -mx-2 sm:mx-0">
                   <Table>
                     <TableHeader>
-                      <TableRow>
-                        <TableHead>Fee Type</TableHead>
-                        <TableHead className="text-right">Rate</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
+                      <TableRow className="bg-slate-50">
+                        <TableHead className="text-slate-900 font-bold text-sm">Fee Type</TableHead>
+                        <TableHead className="text-right text-slate-900 font-bold text-sm">Rate</TableHead>
+                        <TableHead className="text-right text-slate-900 font-bold text-sm">Amount</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">Import Duty</TableCell>
-                        <TableCell className="text-right">{customsData.customsFees.importDutyRate}</TableCell>
-                        <TableCell className="text-right font-medium">{customsData.customsFees.importDutyAmount}</TableCell>
+                      <TableRow className="hover:bg-slate-50">
+                        <TableCell className="font-semibold text-slate-900">Import Duty</TableCell>
+                        <TableCell className="text-right text-slate-800 font-medium">{customsData.customsFees.importDutyRate}</TableCell>
+                        <TableCell className="text-right font-bold text-slate-900">{customsData.customsFees.importDutyAmount}</TableCell>
                       </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">VAT/GST</TableCell>
-                        <TableCell className="text-right">{customsData.customsFees.vatRate}</TableCell>
-                        <TableCell className="text-right font-medium">{customsData.customsFees.vatAmount}</TableCell>
+                      <TableRow className="hover:bg-slate-50">
+                        <TableCell className="font-semibold text-slate-900">VAT/GST</TableCell>
+                        <TableCell className="text-right text-slate-800 font-medium">{customsData.customsFees.vatRate}</TableCell>
+                        <TableCell className="text-right font-bold text-slate-900">{customsData.customsFees.vatAmount}</TableCell>
                       </TableRow>
                       {customsData.customsFees.additionalDuties?.map((duty: any, i: number) => (
-                        <TableRow key={i}>
-                          <TableCell className="font-medium">{duty.name}</TableCell>
-                          <TableCell className="text-right">{duty.rate}</TableCell>
-                          <TableCell className="text-right font-medium">{duty.amount}</TableCell>
+                        <TableRow key={i} className="hover:bg-slate-50">
+                          <TableCell className="font-semibold text-slate-900">{duty.name}</TableCell>
+                          <TableCell className="text-right text-slate-800 font-medium">{duty.rate}</TableCell>
+                          <TableCell className="text-right font-bold text-slate-900">{duty.amount}</TableCell>
                         </TableRow>
                       ))}
-                      <TableRow className="bg-primary/5 font-bold">
-                        <TableCell colSpan={2}>Total Customs Fees</TableCell>
-                        <TableCell className="text-right text-primary">{customsData.customsFees.totalCustomsFees}</TableCell>
+                      <TableRow className="bg-blue-50 border-t-2 border-blue-200">
+                        <TableCell colSpan={2} className="font-bold text-blue-900 text-base">Total Customs Fees</TableCell>
+                        <TableCell className="text-right font-bold text-blue-900 text-lg">{customsData.customsFees.totalCustomsFees}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                   </div>
 
                   {customsData.tradeAgreements && (
-                    <div className="p-3 bg-green-50 rounded-lg border border-green-100">
-                      <div className="text-sm font-medium mb-2 flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-500" />
+                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                      <div className="text-sm font-bold mb-2 flex items-center gap-2 text-emerald-900">
+                        <CheckCircle className="w-5 h-5 text-emerald-600" />
                         Applicable Trade Agreements
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {customsData.tradeAgreements.map((agreement: string, i: number) => (
-                          <Badge key={i} variant="secondary">{agreement}</Badge>
+                          <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold">{agreement}</Badge>
                         ))}
                       </div>
                     </div>
                   )}
 
                   {customsData.requiredDocuments && (
-                    <div>
-                      <div className="text-sm font-medium mb-2 flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-blue-500" />
+                    <div className="p-4 bg-white rounded-xl border border-slate-200">
+                      <div className="text-sm font-bold mb-3 flex items-center gap-2 text-slate-900">
+                        <FileText className="w-5 h-5 text-blue-600" />
                         Required Documents
                       </div>
-                      <ul className="space-y-1">
+                      <ul className="space-y-2">
                         {customsData.requiredDocuments.map((doc: string, i: number) => (
-                          <li key={i} className="text-sm flex items-center gap-2">
-                            <CheckCircle className="w-3 h-3 text-green-500" />
-                            {doc}
+                          <li key={i} className="text-sm flex items-center gap-2.5 text-slate-800">
+                            <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                            <span className="font-medium">{doc}</span>
                           </li>
                         ))}
                       </ul>
@@ -1746,27 +1748,52 @@ export default function SmartFinder() {
               )}
             </TabsContent>
 
-            <TabsContent value="risks" className="space-y-4">
+            <TabsContent value="risks" className="space-y-5">
               {reportData?.riskAssessment && (
                 <>
-                  <div className="flex items-center gap-2 mb-4">
-                    <AlertTriangle className="w-5 h-5 text-amber-500" />
-                    <span className="font-semibold">Risk Assessment</span>
-                    <Badge variant={reportData.riskAssessment.overallRisk === 'Low' ? 'outline' : 'destructive'}>
+                  <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <AlertTriangle className="w-6 h-6 text-amber-500" />
+                    <div>
+                      <span className="font-bold text-base text-slate-900">Risk Assessment</span>
+                      <p className="text-sm text-slate-600">Comprehensive risk analysis for this trade route</p>
+                    </div>
+                    <Badge
+                      className={`ml-auto text-sm font-bold px-3 py-1 ${
+                        reportData.riskAssessment.overallRisk === 'Low' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                        reportData.riskAssessment.overallRisk === 'Medium' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                        'bg-red-100 text-red-800 border-red-300'
+                      }`}
+                    >
                       Overall: {reportData.riskAssessment.overallRisk}
                     </Badge>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {reportData.riskAssessment.risks?.map((risk: any, i: number) => (
-                      <div key={i} className="p-3 border rounded-lg">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium text-sm">{risk.category}</span>
-                          <Badge variant={risk.level === 'Low' ? 'outline' : risk.level === 'Medium' ? 'secondary' : 'destructive'} className="text-xs">
+                      <div key={i} className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="font-bold text-sm text-slate-900">{risk.category}</span>
+                          <Badge
+                            className={`text-xs font-bold ${
+                              risk.level === 'Low' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                              risk.level === 'Medium' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                              'bg-red-100 text-red-800 border-red-300'
+                            }`}
+                          >
                             {risk.level}
                           </Badge>
                         </div>
-                        <Progress value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75} className="h-1.5 mb-2" />
-                        <p className="text-xs text-slate-700">{risk.mitigation}</p>
+                        <Progress
+                          value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75}
+                          className={`h-2 mb-3 ${
+                            risk.level === 'Low' ? '[&>div]:bg-emerald-500' :
+                            risk.level === 'Medium' ? '[&>div]:bg-amber-500' :
+                            '[&>div]:bg-red-500'
+                          }`}
+                        />
+                        <p className="text-sm text-slate-700 leading-relaxed">
+                          <span className="font-semibold text-slate-800">Mitigation: </span>
+                          {risk.mitigation}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -1774,12 +1801,12 @@ export default function SmartFinder() {
               )}
 
               {reportData?.marketOverview && typeof reportData.marketOverview === 'string' && (
-                <div className="p-4 bg-gray-50 rounded-lg border">
-                  <h4 className="font-semibold flex items-center gap-2 mb-2">
-                    <Globe className="w-4 h-4 text-primary" />
+                <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <h4 className="font-bold text-base flex items-center gap-2 mb-3 text-slate-900">
+                    <Globe className="w-5 h-5 text-blue-600" />
                     Market Overview
                   </h4>
-                  <p className="text-sm text-slate-700">{reportData.marketOverview}</p>
+                  <p className="text-sm text-slate-800 leading-relaxed">{reportData.marketOverview}</p>
                 </div>
               )}
             </TabsContent>

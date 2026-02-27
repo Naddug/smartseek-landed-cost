@@ -45,7 +45,7 @@ const faqSections: FAQSection[] = [
       },
       {
         question: "What countries do you cover?",
-        answer: "We cover major sourcing regions including China, India, Vietnam, Turkey, Bangladesh, Indonesia, Pakistan, Thailand, Poland, Malaysia, South Korea, Egypt, Brazil, and Mexico."
+        answer: "We cover 220+ countries and territories worldwide. Major sourcing regions include China, India, Vietnam, Turkey, Bangladesh, Indonesia, Pakistan, Thailand, Poland, Malaysia, South Korea, Egypt, Brazil, Mexico, United States, United Kingdom, Germany, France, Japan, and many more. Our database is continuously expanding with real registry data."
       }
     ]
   },

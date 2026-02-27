@@ -71,8 +71,8 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="flex items-center justify-center gap-2 mb-4">
-            <Logo size="lg" className="w-32 h-32" />
+          <Link href="/" className="flex items-center justify-center gap-1.5 mb-4">
+            <Logo size="lg" className="w-10 h-10" />
             <span className="text-2xl font-heading font-bold">SmartSeek</span>
           </Link>
           <CardTitle className="text-2xl">Welcome back</CardTitle>

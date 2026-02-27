@@ -75,7 +75,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="p-6">
           <Link href="/dashboard">
             <span className="flex items-center gap-2 text-sidebar-foreground cursor-pointer">
-              <Logo size="sm" className="rounded-lg w-24 h-24" />
+              <Logo size="sm" className="rounded-lg w-8 h-8" />
               <span className="font-heading font-bold text-xl">SmartSeek</span>
             </span>
           </Link>
