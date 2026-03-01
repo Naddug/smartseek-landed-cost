@@ -1,3 +1,4 @@
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Briefcase, Rocket, Building2, Factory } from "lucide-react";
 

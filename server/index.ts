@@ -164,7 +164,7 @@ app.use(
 app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 
 // Security headers (CSP disabled to avoid breaking SPA/Vite)
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
 // Rate limiting — 100 req/15min per IP for API
 app.use(

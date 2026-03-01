@@ -23,7 +23,7 @@ import {
   Users,
   Home
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Logo } from "@/components/Logo";
 
 const CREDITS_BANNER_DISMISSED = "smartseek_credits_banner_dismissed";
