@@ -53,8 +53,8 @@ const LinkedInIcon = () => (
 );
 
 const AppleIcon = () => (
-  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c1.32-1.58 1.1-3.93-.22-5.28-1.32-1.35-3.55-1.6-4.86-.04-1.31 1.57-1.1 3.92.22 5.27 1.32 1.35 3.54 1.6 4.86.05z"/>
+  <svg width="18" height="22" viewBox="0 0 814 1000" fill="white" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 434.9 0 304.4 0 280.5c0-12.3 1.3-24.5 4.5-36.5C31.7 151.4 95.8 95.4 165.2 95.4c66.4 0 114.1 43.5 155.5 43.5 40.1 0 97.3-46.1 172.2-46.1 27.3 0 108.2 3.2 165.2 97.4zm-326.4-92.5c-3.2-16.4-3.8-33.5-3.8-50.7 0-78.4 52.1-163.4 141.9-218.2 12.3-7.7 25.2-13.5 38.7-16.9 3.8-1.3 7.7-1.9 11.6-1.9 1.3 0 2.6 0 4.5.6-1.9 80.3-55.9 157.1-141.9 208.4-11.6 7.1-30.8 17.3-50.7 21.5-.6.6-1.3.6-1.9 1.3-.6-.6-.6-.6-.6-.6l1.9 56.5z"/>
   </svg>
 );
 
@@ -95,6 +95,13 @@ export default function Auth() {
 
   const passwordStrength = mode === "signup" ? getPasswordStrength(formData.password) : 0;
   const passwordsMatch = !formData.confirmPassword || formData.password === formData.confirmPassword;
+
+  const handleOAuthClick = (provider: string) => {
+    toast({
+      title: `${provider} sign-in coming soon`,
+      description: "Please use email/password for now.",
+    });
+  };
 
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
@@ -185,8 +192,6 @@ export default function Auth() {
     }
   };
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md">
@@ -212,40 +217,38 @@ export default function Auth() {
             {mode !== "forgot" && (
               <>
                 <div className="space-y-2">
-                  <a
-                    href={`${baseUrl}/api/auth/google`}
+                  <button
+                    type="button"
+                    onClick={() => handleOAuthClick("Google")}
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-gray-50 transition-colors"
                   >
                     <GoogleIcon />
                     <span className="ml-2 text-gray-800">Continue with Google</span>
-                  </a>
-                  <a
-                    href={`${baseUrl}/api/auth/facebook`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOAuthClick("Facebook")}
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#1877F2] bg-[#1877F2] text-white font-medium hover:bg-[#166FE5] transition-colors"
                   >
                     <FacebookIcon />
                     <span className="ml-2 text-white">Continue with Facebook</span>
-                  </a>
-                  <a
-                    href={`${baseUrl}/api/auth/linkedin`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOAuthClick("LinkedIn")}
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#0A66C2] bg-[#0A66C2] text-white font-medium hover:bg-[#004182] transition-colors"
                   >
                     <LinkedInIcon />
                     <span className="ml-2 text-white">Continue with LinkedIn</span>
-                  </a>
-                  <Button
+                  </button>
+                  <button
                     type="button"
-                    variant="outline"
-                    className="w-full flex items-center bg-black text-white border-black hover:bg-gray-800"
-                    onClick={async () => {
-                      const res = await fetch(`${baseUrl}/api/auth/apple`);
-                      const data = await res.json().catch(() => ({}));
-                      toast({ title: "Apple Sign In", description: data.error || "Coming soon", variant: "destructive" });
-                    }}
+                    onClick={() => handleOAuthClick("Apple")}
+                    className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-600 bg-black text-white font-medium hover:bg-gray-900 transition-colors"
                   >
-                    <span className="ml-3 shrink-0"><AppleIcon /></span>
-                    <span className="flex-1 text-center">Continue with Apple</span>
-                  </Button>
+                    <AppleIcon />
+                    <span className="ml-2 text-white">Continue with Apple</span>
+                  </button>
                 </div>
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">

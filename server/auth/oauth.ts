@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as FacebookStrategy } from "passport-facebook";
@@ -99,9 +99,17 @@ async function findOrCreateOAuthUser(oauth: OAuthProfile) {
   return user;
 }
 
+const oauthStub = (provider: string) => (_req: Request, res: Response) => {
+  res.status(501).json({ error: `${provider} OAuth not configured yet. Use email/password.` });
+};
+
 export function setupOAuth(app: Express) {
   if (!OAUTH_CALLBACK_BASE) {
-    console.log("OAUTH_CALLBACK_BASE not set — OAuth routes disabled");
+    app.get("/api/auth/google", oauthStub("Google"));
+    app.get("/api/auth/facebook", oauthStub("Facebook"));
+    app.get("/api/auth/linkedin", oauthStub("LinkedIn"));
+    app.get("/api/auth/apple", oauthStub("Apple"));
+    console.log("OAUTH_CALLBACK_BASE not set — OAuth routes disabled (stubs registered)");
     return;
   }
 
