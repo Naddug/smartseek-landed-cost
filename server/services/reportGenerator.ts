@@ -435,12 +435,12 @@ For electronics use price per piece. For textiles use price per piece or per kg.
             { companyName: { contains: searchTerm, mode: "insensitive" as const } },
           ] as const,
         };
-        const trySearch = async (whereClause: Record<string, unknown> | null, filter?: Record<string, unknown>) => {
+        const trySearch = async (whereClause: Record<string, unknown> | null, filter?: Record<string, unknown>, limit = 15) => {
           const baseFilter = filter ?? productFilter;
           const fullWhere = whereClause ? { AND: [whereClause, baseFilter] } : baseFilter;
           return prisma.supplier.findMany({
             where: fullWhere,
-            take: 15,
+            take: limit,
             orderBy: { rating: "desc" },
             select: selectFields,
           });
@@ -451,9 +451,19 @@ For electronics use price per piece. For textiles use price per piece or per kg.
         } else if (originCountry !== "any suitable global sourcing location") {
           where = { country: { contains: originCountry, mode: "insensitive" as const } };
         }
-        let results = await trySearch(where);
-        if (results.length === 0 && where) {
-          results = await trySearch(null);
+        const MIN_SUPPLIERS = 12;
+        let results = await trySearch(where, undefined, MIN_SUPPLIERS);
+        if (results.length < MIN_SUPPLIERS && where) {
+          const more = await trySearch(null, undefined, MIN_SUPPLIERS);
+          const seen = new Set(results.map((r) => r.companyName + "|" + r.country));
+          for (const r of more) {
+            if (seen.size >= MIN_SUPPLIERS) break;
+            const key = r.companyName + "|" + r.country;
+            if (!seen.has(key)) { seen.add(key); results = [...results, r]; }
+          }
+        }
+        if (results.length === 0) {
+          results = await trySearch(null, undefined, MIN_SUPPLIERS);
         }
         if (results.length === 0) {
           const broaderFilter = {
@@ -462,11 +472,11 @@ For electronics use price per piece. For textiles use price per piece or per kg.
               { products: { contains: searchTerm.slice(0, 8), mode: "insensitive" as const } },
             ] as const,
           };
-          results = await trySearch(null, broaderFilter);
+          results = await trySearch(null, broaderFilter, MIN_SUPPLIERS);
         }
         if (results.length === 0) {
           results = await prisma.supplier.findMany({
-            take: 10,
+            take: MIN_SUPPLIERS,
             orderBy: { rating: "desc" },
             select: selectFields,
           });
@@ -686,12 +696,12 @@ CRITICAL QUALITY REQUIREMENTS:
 - Use correct spelling: "Experienced" (not Experient), "infrastructure" (not rastructure), "United Kingdom" (not Unite)
 - Use realistic 6-digit HS codes for this exact product category
 - Calculate customs duties based on current tariff rates for origin→destination
-- Include 8-12 seller comparisons with varied price points, MOQs, and lead times for comprehensive comparison
+- Include 10-12 seller comparisons minimum (use all REAL SUPPLIERS provided; database has millions). Varied price points, MOQs, and lead times for comprehensive comparison
 - topRegions: ALWAYS provide 3-5 regions when origin is "any"; include specific price ranges and trade-offs
 - marketOverview: Include concrete market size, growth rate, and 5+ key trends
 - All monetary values: use realistic numbers (e.g. $X.XX, $X,XXX)
 - Be specific with percentages, lead times (days), and quantities
-- recommendations and nextSteps: 5-7 actionable items each, be HIGHLY SPECIFIC and strategic
+- recommendations and nextSteps: 5-7 actionable items each, be HIGHLY SPECIFIC and strategic. nextSteps should reference specific suppliers from sellerComparison when relevant (e.g. "Request samples from [top seller names]", "Draft outreach email to [supplier] for quote", "Verify certifications with [supplier name]")
 - executiveSummary: Write 4-5 sentences. Include the key cost figure, best supplier recommendation, and one strategic insight
 - riskAssessment: Include 5 risk categories minimum (Geopolitical, Financial Stability, Supply Chain, Regulatory/Trade, Quality/Reputation)
 - Each risk mitigation should be a concrete actionable strategy, not generic advice
@@ -865,7 +875,7 @@ ${budgetStr}
 Quantity: ${formData.quantity} units
 ${formData.additionalRequirements ? `Additional: ${formData.additionalRequirements}` : ""}
 
-Return ONLY valid JSON with: executiveSummary, productClassification (hsCode, hsCodeDescription, tariffChapter, productCategory, regulatoryRequirements), marketOverview (marketSize, growthRate, keyTrends, majorExporters, majorImporters), customsAnalysis (originCountry, destinationCountry, tradeAgreements, customsFees, requiredDocuments, complianceNotes), landedCostBreakdown (productCost, freightCost, insuranceCost, customsDuties, vatTaxes, handlingFees, brokerageFees, portCharges, inlandTransport, totalLandedCost, costPerUnit), sellerComparison (array of 8-12 with sellerName, platform, location, unitPrice, moq, leadTime, rating, yearsInBusiness, certifications, platformFees, paymentTerms, shippingOptions, estimatedProfit, profitMargin, totalCostWithFees, recommendation), supplierAnalysis (topRegions with at least 4-6 regions, recommendedSuppliers), profitAnalysis, costBreakdown, riskAssessment (overallRisk, risks), timeline, recommendations, nextSteps.`;
+Return ONLY valid JSON with: executiveSummary, productClassification (hsCode, hsCodeDescription, tariffChapter, productCategory, regulatoryRequirements), marketOverview (marketSize, growthRate, keyTrends, majorExporters, majorImporters), customsAnalysis (originCountry, destinationCountry, tradeAgreements, customsFees, requiredDocuments, complianceNotes), landedCostBreakdown (productCost, freightCost, insuranceCost, customsDuties, vatTaxes, handlingFees, brokerageFees, portCharges, inlandTransport, totalLandedCost, costPerUnit), sellerComparison (array of 10-12 minimum with sellerName, platform, location, unitPrice, moq, leadTime, rating, yearsInBusiness, certifications, platformFees, paymentTerms, shippingOptions, estimatedProfit, profitMargin, totalCostWithFees, recommendation), supplierAnalysis (topRegions with at least 4-6 regions, recommendedSuppliers), profitAnalysis, costBreakdown, riskAssessment (overallRisk, risks), timeline, recommendations, nextSteps. nextSteps should reference specific supplier names from sellerComparison when actionable (e.g. outreach, samples, certifications).`;
 
   const completion = await getOpenAIClient().chat.completions.create({
     model: "gpt-4o",

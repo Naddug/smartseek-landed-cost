@@ -56,7 +56,9 @@ export interface IStorage {
   createReport(report: InsertReportFull): Promise<Report>;
   getReport(id: number): Promise<Report | undefined>;
   getUserReports(userId: string): Promise<Report[]>;
+  getUserStats(userId: string): Promise<{ reportsCount: number; topRegions: { name: string; count: number }[]; commodities: string[] }>;
   updateReport(id: number, data: Partial<Report>): Promise<Report>;
+  deleteReport(id: number): Promise<void>;
   
   // Supplier Shortlists
   getAllSupplierShortlists(): Promise<SupplierShortlist[]>;
@@ -242,6 +244,31 @@ export const storage: IStorage = {
       .orderBy(desc(reports.createdAt));
   },
 
+  async getUserStats(userId: string) {
+    const userReports = await this.getUserReports(userId);
+    const completed = userReports.filter((r) => r.status === "completed");
+    const regionCounts: Record<string, number> = {};
+    const commoditySet = new Set<string>();
+    for (const r of completed) {
+      const fd = (r.formData as Record<string, unknown>) || {};
+      const origin = (fd.origin as string) || (fd.originCountry as string) || "";
+      const dest = (fd.destination as string) || (fd.destinationCountry as string) || "";
+      const region = origin || dest || "Unknown";
+      regionCounts[region] = (regionCounts[region] || 0) + 1;
+      const cat = r.category || (fd.commodity as string) || (fd.product as string) || "";
+      if (cat) commoditySet.add(cat);
+    }
+    const topRegions = Object.entries(regionCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([name, count]) => ({ name, count }));
+    return {
+      reportsCount: completed.length,
+      topRegions,
+      commodities: Array.from(commoditySet),
+    };
+  },
+
   async updateReport(id: number, data: Partial<Report>) {
     const [updated] = await db
       .update(reports)
@@ -249,6 +276,10 @@ export const storage: IStorage = {
       .where(eq(reports.id, id))
       .returning();
     return updated;
+  },
+
+  async deleteReport(id: number) {
+    await db.delete(reports).where(eq(reports.id, id));
   },
 
   // Supplier Shortlists

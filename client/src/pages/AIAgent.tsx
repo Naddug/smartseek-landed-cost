@@ -26,6 +26,12 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   Bot,
   Phone,
   Mail,
@@ -56,8 +62,6 @@ import {
   Activity,
   Package,
   FileText,
-  ChevronDown,
-  ChevronUp,
   Clock,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -122,11 +126,11 @@ const defaultSettings: AgentSettings = {
 };
 
 const CAPABILITIES = [
-  { icon: BarChart3, label: "Market Intelligence", desc: "Trend analysis & price monitoring", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
-  { icon: Target, label: "Supplier Discovery", desc: "Find & qualify suppliers globally", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
-  { icon: Shield, label: "Risk Analysis", desc: "Geopolitical & supply chain risks", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
-  { icon: Zap, label: "Cost Optimization", desc: "Landed cost & shipping routes", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
-  { icon: FileText, label: "Trade Compliance", desc: "HS codes, customs & regulations", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100" },
+  { icon: BarChart3, label: "Market Intelligence", desc: "Trend analysis & price monitoring", tooltip: "Get commodity price trends, market alerts, and trade flow insights.", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
+  { icon: Target, label: "Supplier Discovery", desc: "Find & qualify suppliers globally", tooltip: "Search 42M+ suppliers by product, region, and certification. Get AI-ranked shortlists.", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
+  { icon: Shield, label: "Risk Analysis", desc: "Geopolitical & supply chain risks", tooltip: "Assess geopolitical, financial, and ESG risks for suppliers and regions.", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
+  { icon: Zap, label: "Cost Optimization", desc: "Landed cost & shipping routes", tooltip: "Calculate landed costs, compare shipping routes, and optimize total cost of ownership.", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
+  { icon: FileText, label: "Trade Compliance", desc: "HS codes, customs & regulations", tooltip: "Look up HS codes, check tariffs, and verify regulatory requirements for target markets.", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100" },
 ];
 
 const PROACTIVE_INSIGHTS = [
@@ -169,7 +173,6 @@ export default function AIAgent() {
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState("");
-  const [insightsExpanded, setInsightsExpanded] = useState(true);
   const [completedPipelineSteps, setCompletedPipelineSteps] = useState<string[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -181,12 +184,24 @@ export default function AIAgent() {
     const ctx = sessionStorage.getItem("aiAgentPipelineContext");
     if (ctx) {
       try {
-        const { type, steps, reportTitle } = JSON.parse(ctx);
+        const { type, steps, reportTitle, suppliers, product, origin, destination } = JSON.parse(ctx);
         sessionStorage.removeItem("aiAgentPipelineContext");
         if (type === "pipeline" && Array.isArray(steps) && steps.length > 0) {
-          const prompt = `Create a sourcing pipeline from this report's next steps:\n\n${steps.map((s: string, i: number) => `${i + 1}. ${s}`).join("\n")}\n\n${reportTitle ? `Report: ${reportTitle}` : ""}`;
-          setChatInput(prompt);
-          toast.success("Next steps loaded. Hit send to create a pipeline with AI Agent.");
+          const parts: string[] = [];
+          parts.push(`Create a sourcing pipeline from this report's next steps:\n\n${steps.map((s: string, i: number) => `${i + 1}. ${s}`).join("\n")}`);
+          if (reportTitle) parts.push(`\nReport: ${reportTitle}`);
+          if (product) parts.push(`\nProduct: ${product}`);
+          if (origin || destination) parts.push(`\nTrade route: ${origin || "—"} → ${destination || "—"}`);
+          if (Array.isArray(suppliers) && suppliers.length > 0) {
+            parts.push("\n\nTop suppliers from this report (use these for outreach):");
+            suppliers.forEach((s: { name?: string; platform?: string; location?: string; email?: string | null; phone?: string | null; website?: string | null }) => {
+              const line = `- ${s.name || "Unknown"}${s.location ? ` (${s.location})` : ""}${s.platform ? ` [${s.platform}]` : ""}${s.email ? ` — ${s.email}` : ""}${s.phone && !s.email ? ` — ${s.phone}` : ""}${s.website && !s.email && !s.phone ? ` — ${s.website}` : ""}`;
+              parts.push(line);
+            });
+            parts.push("\nInclude actionable steps such as: draft outreach emails to these suppliers, prepare call scripts for top 3, or schedule follow-ups.");
+          }
+          setChatInput(parts.join(""));
+          toast.success("Report context loaded. Hit send to create a pipeline with AI Agent.");
         }
       } catch {
         sessionStorage.removeItem("aiAgentPipelineContext");
@@ -697,14 +712,44 @@ export default function AIAgent() {
                   </p>
 
                   {/* Capabilities */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 w-full mb-8">
-                    {CAPABILITIES.map((cap) => (
-                      <div key={cap.label} className={`flex flex-col items-center text-center p-2.5 sm:p-3 rounded-xl ${cap.bg} border ${cap.border} transition-all hover:shadow-sm min-w-0`}>
-                        <cap.icon className={`w-5 h-5 ${cap.color} mb-1.5 sm:mb-2 shrink-0`} />
-                        <span className="text-[11px] sm:text-xs font-medium text-gray-800 leading-tight">{cap.label}</span>
-                        <span className="text-[9px] sm:text-[10px] text-gray-500 mt-0.5 leading-tight hidden sm:block">{cap.desc}</span>
-                      </div>
-                    ))}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 w-full mb-6">
+                    <TooltipProvider>
+                      {CAPABILITIES.map((cap) => (
+                        <Tooltip key={cap.label}>
+                          <TooltipTrigger asChild>
+                            <div className={`flex flex-col items-center text-center p-2.5 sm:p-3 rounded-xl ${cap.bg} border ${cap.border} transition-all hover:shadow-sm min-w-0 cursor-help`}>
+                              <cap.icon className={`w-5 h-5 ${cap.color} mb-1.5 sm:mb-2 shrink-0`} />
+                              <span className="text-[11px] sm:text-xs font-medium text-gray-800 leading-tight">{cap.label}</span>
+                              <span className="text-[9px] sm:text-[10px] text-gray-500 mt-0.5 leading-tight hidden sm:block">{cap.desc}</span>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom" className="max-w-[220px]">
+                            <p>{cap.tooltip}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                    </TooltipProvider>
+                  </div>
+
+                  {/* Market Intelligence — horizontal strip */}
+                  <div className="w-full mb-8">
+                    <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-1.5">
+                      <Activity className="w-3.5 h-3.5" />
+                      Market Intelligence
+                    </p>
+                    <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+                      {PROACTIVE_INSIGHTS.map((insight, idx) => (
+                        <div key={idx} className={`flex items-start gap-2.5 p-3 rounded-xl ${insight.bg} border ${insight.border} min-w-0 max-w-full sm:max-w-[280px] flex-1 sm:flex-initial`}>
+                          <insight.icon className={`w-4 h-4 ${insight.color} mt-0.5 shrink-0`} />
+                          <div className="min-w-0">
+                            <Badge className={`${insight.badgeColor} text-[10px] px-1.5 py-0 font-medium border-0 mb-1`}>
+                              {insight.title}
+                            </Badge>
+                            <p className="text-xs text-gray-700 leading-relaxed">{insight.message}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Suggestions */}
@@ -959,47 +1004,14 @@ export default function AIAgent() {
             </div>
           </div>
 
-          {/* Right Panel — Insights & Results */}
+          {/* Right Panel — Market Intelligence & Results */}
           <div className="w-80 border-l border-gray-200 bg-white overflow-y-auto hidden lg:block">
             <div className="p-4 space-y-4">
-              {/* Proactive Insights */}
-              <div>
-                <button
-                  onClick={() => setInsightsExpanded(!insightsExpanded)}
-                  className="flex items-center justify-between w-full mb-3"
-                >
-                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5" />
-                    Market Intelligence
-                  </h3>
-                  {insightsExpanded ? <ChevronUp className="w-3.5 h-3.5 text-gray-400" /> : <ChevronDown className="w-3.5 h-3.5 text-gray-400" />}
-                </button>
-                {insightsExpanded && (
-                  <div className="space-y-2.5">
-                    {PROACTIVE_INSIGHTS.map((insight, idx) => (
-                      <div key={idx} className={`p-3 rounded-xl ${insight.bg} border ${insight.border} transition-all hover:shadow-sm`}>
-                        <div className="flex items-start gap-2.5">
-                          <insight.icon className={`w-4 h-4 ${insight.color} mt-0.5 shrink-0`} />
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Badge className={`${insight.badgeColor} text-[10px] px-1.5 py-0 font-medium border-0`}>
-                                {insight.title}
-                              </Badge>
-                            </div>
-                            <p className="text-xs text-gray-700 leading-relaxed">{insight.message}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Quick Actions */}
+              {/* Market Intelligence — Quick Actions */}
               <div>
                 <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5" />
-                  Quick Actions
+                  <Activity className="w-3.5 h-3.5" />
+                  Market Intelligence
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
                   <button

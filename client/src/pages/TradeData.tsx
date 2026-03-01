@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "wouter";
+import { userAPI, tradeAPI } from "@/lib/api";
 
 // Region-specific data - each region has distinct datasets
 const REGION_DATA: Record<string, {
@@ -260,10 +262,55 @@ function getMonthsForRange(timeRange: string): string[] {
   return months; // 12m
 }
 
+const COUNTRIES = [
+  { code: "0", name: "World" },
+  { code: "156", name: "China" },
+  { code: "392", name: "Japan" },
+  { code: "410", name: "South Korea" },
+  { code: "702", name: "Singapore" },
+  { code: "704", name: "Vietnam" },
+  { code: "360", name: "Indonesia" },
+  { code: "764", name: "Thailand" },
+  { code: "276", name: "Germany" },
+  { code: "250", name: "France" },
+  { code: "380", name: "Italy" },
+  { code: "528", name: "Netherlands" },
+  { code: "840", name: "United States" },
+  { code: "484", name: "Mexico" },
+  { code: "124", name: "Canada" },
+  { code: "076", name: "Brazil" },
+  { code: "356", name: "India" },
+];
+
 export default function TradeData() {
   const [timeRange, setTimeRange] = useState("12m");
   const [region, setRegion] = useState("global");
   const [categorySearch, setCategorySearch] = useState("");
+  const [comtradeCountry, setComtradeCountry] = useState("156");
+  const [hsCode, setHsCode] = useState("");
+
+  const [fetchComtrade, setFetchComtrade] = useState(false);
+
+  const { data: userStats } = useQuery({
+    queryKey: ["/api/user/stats"],
+    queryFn: () => userAPI.getStats(),
+  });
+
+  const { data: comtradeData, isLoading: comtradeLoading, error: comtradeError, refetch: refetchComtrade } = useQuery({
+    queryKey: ["/api/trade/comtrade", comtradeCountry, hsCode],
+    queryFn: () => tradeAPI.getComtrade({
+      type: "C",
+      freq: "A",
+      px: "HS",
+      r: comtradeCountry,
+      p: "0",
+      ps: String(new Date().getFullYear() - 1),
+      maxRecords: "50",
+      ...(hsCode.trim() ? { cc: hsCode.trim().replace(/\D/g, "").slice(0, 4) || undefined } : {}),
+    }),
+    enabled: fetchComtrade && !!comtradeCountry,
+    retry: false,
+  });
 
   const regionData = REGION_DATA[region] || REGION_DATA.global;
   const monthFilter = getMonthsForRange(timeRange);
@@ -342,6 +389,65 @@ export default function TradeData() {
         </div>
       </div>
 
+      {/* Your Sourcing Activity */}
+      {userStats && (
+        <Card className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border-slate-200 dark:border-slate-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <Activity className="w-5 h-5 text-primary" />
+              Your Sourcing Activity
+            </CardTitle>
+            <CardDescription>Insights from your SmartSeek reports</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div>
+                <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">{userStats.reportsCount}</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">Reports generated</div>
+              </div>
+              {userStats.topRegions.length > 0 ? (
+                <div>
+                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Top regions</div>
+                  <div className="flex flex-wrap gap-2">
+                    {userStats.topRegions.slice(0, 4).map((r) => (
+                      <Badge key={r.name} variant="secondary">{r.name} ({r.count})</Badge>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Top regions</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">No reports generated yet</div>
+                </div>
+              )}
+              {userStats.commodities.length > 0 ? (
+                <div>
+                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Commodities sourced</div>
+                  <div className="flex flex-wrap gap-2">
+                    {userStats.commodities.slice(0, 5).map((c) => (
+                      <Badge key={c} variant="outline">{c}</Badge>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Commodities sourced</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">No commodities yet</div>
+                </div>
+              )}
+            </div>
+            <Link href="/smart-finder">
+              <Button variant="outline" size="sm" className="mt-4">
+                <Sparkles className="w-4 h-4 mr-2" />
+                New AI Sourcing Report
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Global Trade Intelligence */}
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Global Trade Intelligence</h2>
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -414,6 +520,46 @@ export default function TradeData() {
         </TabsContent>
 
         <TabsContent value="countries" className="mt-4 sm:mt-6">
+          <div className="flex flex-wrap gap-4 mb-4 items-center">
+            <Select value={comtradeCountry} onValueChange={(v) => { setComtradeCountry(v); setFetchComtrade(false); }}>
+              <SelectTrigger className="w-[180px]">
+                <Globe className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Country" />
+              </SelectTrigger>
+              <SelectContent>
+                {COUNTRIES.map((c) => (
+                  <SelectItem key={c.code} value={c.code}>{c.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className="relative flex-1 min-w-[160px] max-w-[240px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Input
+                placeholder="HS code (e.g. 7408)"
+                value={hsCode}
+                onChange={(e) => setHsCode(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setFetchComtrade(true)}
+              disabled={comtradeLoading}
+            >
+              {comtradeLoading ? "Loading…" : "Fetch UN Comtrade"}
+            </Button>
+          </div>
+          {comtradeError && (
+            <div className="mb-4 p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-sm text-amber-800 dark:text-amber-200">
+              UN Comtrade API not configured or unavailable. Showing regional estimates.
+            </div>
+          )}
+          {comtradeData?.data && Array.isArray(comtradeData.data) && comtradeData.data.length > 0 && (
+            <div className="mb-4 p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-sm text-emerald-800 dark:text-emerald-200">
+              Data from {comtradeData.source}
+            </div>
+          )}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardHeader>
@@ -524,28 +670,25 @@ export default function TradeData() {
           <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
             <CardHeader>
               <CardTitle>Commodity Price Index</CardTitle>
-              <CardDescription>Price trends relative to baseline (Jan = 100) — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+              <CardDescription>Live price trends — coming soon</CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={350}>
-                <LineChart data={filteredPriceIndex.length > 0 ? filteredPriceIndex : regionData.priceIndex}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
-                  <XAxis dataKey="month" className="text-xs" tick={{ fill: "#64748b" }} />
-                  <YAxis className="text-xs" domain={[95, 145]} tick={{ fill: "#64748b" }} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--background))', 
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
-                    }} 
-                  />
-                  <Legend />
-                  <Line type="monotone" dataKey="steel" stroke="#3b82f6" strokeWidth={2} dot={false} name="Steel" />
-                  <Line type="monotone" dataKey="copper" stroke="#f59e0b" strokeWidth={2} dot={false} name="Copper" />
-                  <Line type="monotone" dataKey="aluminum" stroke="#10b981" strokeWidth={2} dot={false} name="Aluminum" />
-                  <Line type="monotone" dataKey="plastic" stroke="#8b5cf6" strokeWidth={2} dot={false} name="Plastic" />
-                </LineChart>
-              </ResponsiveContainer>
+              <div className="rounded-lg border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/50 p-12 text-center">
+                <BarChart3 className="w-16 h-16 mx-auto mb-4 text-slate-400" />
+                <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Coming Soon</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+                  Real-time commodity price indices for steel, copper, aluminum, and more. We&apos;re integrating with market data providers.
+                </p>
+                <div className="inline-block text-left text-sm text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+                  <p className="font-medium text-slate-800 dark:text-slate-200 mb-2">Reference prices (static)</p>
+                  <ul className="space-y-1">
+                    <li>Copper: ~$9,200/t</li>
+                    <li>Steel HRC: ~$680/t</li>
+                    <li>Aluminum: ~$2,400/t</li>
+                    <li>Polyethylene: ~$1,100/t</li>
+                  </ul>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

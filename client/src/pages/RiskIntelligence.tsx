@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Shield, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Globe, TrendingDown, TrendingUp, BarChart3, FileText, Zap } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 type RiskCategory = {
@@ -125,11 +125,35 @@ export default function RiskIntelligence() {
             <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">Failed to generate analysis. Please try again.</div>
           )}
           {!result && !mutation.isPending && (
-            <Card className="border-dashed bg-white/5">
-              <CardContent className="py-16 text-center">
-                <Shield className="w-14 h-14 text-slate-400 mx-auto mb-4" />
-                <p className="text-slate-300 text-lg font-medium">Enter parameters and click Analyze</p>
-                <p className="text-slate-400 text-sm mt-1">Get comprehensive risk intelligence covering 7 risk categories</p>
+            <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+              <CardHeader>
+                <CardTitle className="text-slate-900 dark:text-slate-100">What we analyze</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-400">
+                  Enter parameters on the left and click Analyze to get a comprehensive risk assessment across these categories.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    { name: "Geopolitical Risk", icon: Globe, desc: "Political stability, sanctions, trade tensions" },
+                    { name: "Economic & Financial Stability", icon: TrendingDown, desc: "Currency volatility, inflation, credit risk" },
+                    { name: "Supply Chain & Logistics", icon: Zap, desc: "Port congestion, transit times, capacity" },
+                    { name: "Regulatory & Trade Policy", icon: FileText, desc: "Tariffs, customs, compliance requirements" },
+                    { name: "Quality & Compliance", icon: CheckCircle2, desc: "Standards, certifications, audit risk" },
+                    { name: "Currency & Payment Risk", icon: BarChart3, desc: "FX exposure, payment terms, banking" },
+                    { name: "Environmental & ESG", icon: Shield, desc: "Carbon footprint, sustainability, CBAM" },
+                  ].map((item) => (
+                    <div key={item.name} className="flex items-start gap-3 p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+                      <div className="p-2 bg-primary/10 rounded-lg text-primary shrink-0">
+                        <item.icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-slate-900 dark:text-slate-100 text-sm">{item.name}</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           )}

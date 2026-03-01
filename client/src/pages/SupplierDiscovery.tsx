@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, BadgeCheck } from "lucide-react";
+import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { useProfile } from "@/lib/hooks";
+import { Link } from "wouter";
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -133,118 +135,118 @@ function formatList(items: string[]): string {
   return items.map((item) => toTitleCase(String(item).trim())).join(", ");
 }
 
-// ─── Industry border color ────────────────────────────────────────────
+// ─── Employee count badge color ───────────────────────────────────────
 
-function getIndustryBorderColor(industry: string): string {
-  if (industry.includes("Mining") || industry.includes("Minerals")) return "border-l-amber-600";
-  if (industry.includes("Electronics")) return "border-l-blue-500";
-  if (industry.includes("Textiles")) return "border-l-purple-500";
-  if (industry.includes("Machinery")) return "border-l-orange-500";
-  if (industry.includes("Chemicals")) return "border-l-green-500";
-  if (industry.includes("Food") || industry.includes("Agriculture")) return "border-l-amber-500";
-  return "border-l-gray-300";
+function getEmployeeBadgeClass(count: number): string {
+  if (count <= 10) return "bg-gray-100 text-gray-700";
+  if (count <= 50) return "bg-blue-100 text-blue-700";
+  if (count <= 200) return "bg-teal-100 text-teal-700";
+  if (count <= 1000) return "bg-purple-100 text-purple-700";
+  return "bg-amber-100 text-amber-700";
 }
 
 // ─── Supplier Card ───────────────────────────────────────────────────
 
 function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () => void }) {
-  const borderColor = getIndustryBorderColor(supplier.industry);
+  const [hover, setHover] = useState(false);
+  const isVerified = supplier.verified || supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR";
+  const qualityScore = Math.round((supplier.rating || 0) * 20);
+
+  const descFormatted = supplier.description
+    ? (() => {
+        let d = supplier.description;
+        d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
+        d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
+        d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
+        return d.charAt(0).toUpperCase() + d.slice(1);
+      })()
+    : "";
+
+  const products = Array.isArray(supplier.products) ? supplier.products : [];
+  const productDisplay = products.slice(0, 3);
+  const productOverflow = products.length - 3;
+
   return (
     <div
       onClick={onClick}
-      className={`bg-white border border-gray-200 border-l-4 ${borderColor} rounded-lg p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer`}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className={`relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all cursor-pointer
+        ${isVerified ? "border-t-4 border-t-blue-500" : ""}
+        hover:shadow-lg hover:-translate-y-0.5`}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="text-lg font-semibold text-gray-900 truncate">{toTitleCase(supplier.companyName)}</h3>
-            {supplier.verified && (
-              <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
-                <Shield className="w-3 h-3" />Verified
-              </span>
-            )}
-            {(supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR") && (
-              <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-medium px-2 py-0.5 rounded-full">
-                <BadgeCheck className="w-3 h-3" />Registry Verified
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-2 mt-1 text-sm text-gray-700">
-            <MapPin className="w-3.5 h-3.5" />
-            <span>{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
+      <div className="p-5">
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-lg font-semibold text-gray-900 truncate">{toTitleCase(supplier.companyName)}</h3>
+              {supplier.verified && (
+                <span className="inline-flex items-center gap-1 bg-teal-100 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
+                  <Check className="w-3 h-3" /> Verified
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1 mt-1 text-sm text-gray-600">
+              <span>📍</span>
+              <span>{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
+            </div>
           </div>
         </div>
-        {supplier.reviewCount > 0 ? (
-          <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded text-sm">
-            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <span className="font-medium text-yellow-700">{supplier.rating.toFixed(1)}</span>
-            <span className="text-gray-600">({supplier.reviewCount})</span>
-          </div>
-        ) : (
-          <span className="text-xs text-slate-500 px-2 py-1">Verified</span>
-        )}
-      </div>
 
-      <div className="mb-3">
-        <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded mr-2">
-          {toTitleCase(supplier.industry)}
-        </span>
-        {supplier.subIndustry && (
-          <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">
-            {toTitleCase(supplier.subIndustry)}
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
+            {toTitleCase(supplier.industry)}
           </span>
+          {supplier.subIndustry && (
+            <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">
+              {toTitleCase(supplier.subIndustry)}
+            </span>
+          )}
+        </div>
+
+        <p className="text-sm text-gray-700 line-clamp-2 mb-3">{descFormatted}</p>
+
+        {products.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-3">
+            {productDisplay.map((p, i) => (
+              <span key={i} className="text-xs bg-gray-50 text-gray-600 px-2 py-0.5 rounded">
+                {toTitleCase(String(p))}
+              </span>
+            ))}
+            {productOverflow > 0 && (
+              <span className="text-xs text-gray-500">+{productOverflow} more</span>
+            )}
+          </div>
         )}
-      </div>
 
-      <p className="text-sm text-gray-700 line-clamp-2 mb-3">
-        {supplier.description
-          ? (() => {
-              let d = supplier.description;
-              d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
-              d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
-              d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
-              return d.charAt(0).toUpperCase() + d.slice(1);
-            })()
-          : ""}
-      </p>
-
-      {Array.isArray(supplier.products) && supplier.products.length > 0 && (
-        <p className="text-sm text-gray-700 mb-3 line-clamp-2">
-          {formatList(supplier.products.slice(0, 4))}
-          {supplier.products.length > 4 && ` +${supplier.products.length - 4} more`}
-        </p>
-      )}
-
-      <div className="flex items-center justify-between text-xs text-gray-600 pt-3 border-t border-gray-100">
-        <div className="flex items-center gap-3">
-          {supplier.registryUrl && (
-            <a
-              href={supplier.registryUrl.startsWith("http") ? supplier.registryUrl : `https://${supplier.registryUrl}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 hover:underline"
-            >
-              <ExternalLink className="w-3 h-3" /> {supplier.contactVerified ? "Verified contact · Registry" : "Contact via registry"}
-            </a>
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <Star
+                key={i}
+                className={`w-4 h-4 ${i <= (supplier.rating || 0) ? "text-amber-500 fill-amber-500" : "text-gray-200"}`}
+              />
+            ))}
+            <span className="ml-0.5 font-medium text-gray-700">{(supplier.rating || 0).toFixed(1)}</span>
+          </div>
+          {supplier.employeeCount != null && (
+            <span className={`px-2 py-0.5 rounded-full font-medium ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
+              {supplier.employeeCount <= 1000 ? supplier.employeeCount.toLocaleString() : `${(supplier.employeeCount / 1000).toFixed(1)}K+`} employees
+            </span>
           )}
           {supplier.responseTime && (
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" /> {supplier.responseTime}
-            </span>
-          )}
-          {supplier.employeeCount && (
-            <span className="flex items-center gap-1">
-              <Building2 className="w-3 h-3" /> {supplier.employeeCount} staff
+            <span className="inline-flex items-center gap-0.5 bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+              ⚡ {supplier.responseTime}
             </span>
           )}
         </div>
-        {supplier.minOrderValue && (
-          <span className="flex items-center gap-1">
-            <DollarSign className="w-3 h-3" /> MOQ ${supplier.minOrderValue.toLocaleString()}
-          </span>
-        )}
       </div>
+
+      {hover && (
+        <div className="absolute inset-x-0 bottom-0 bg-blue-600 text-white py-2.5 flex items-center justify-center gap-2 text-sm font-medium transition-all animate-in slide-in-from-bottom-2">
+          View Details <ChevronRight className="w-4 h-4" />
+        </div>
+      )}
     </div>
   );
 }
@@ -260,17 +262,19 @@ function SupplierDetail({
   onClose: () => void;
   openContactForm?: boolean;
 }) {
+  const { data: profile } = useProfile();
+  const isPaid = !!profile && profile.plan !== "free";
   const { data: supplier, isLoading } = useQuery<Supplier & {
-    contactEmail: string;
-    contactPhone: string | null;
-    website: string | null;
+    contactEmail?: string;
+    contactPhone?: string | null;
+    website?: string | null;
     paymentTerms: string[];
     exportMarkets: string[];
-    currency: string;
+    currency?: string;
   }>({
     queryKey: ["supplier", slug],
     queryFn: async () => {
-      const res = await fetch(`/api/suppliers/${slug}`);
+      const res = await fetch(`/api/suppliers/${slug}`, { credentials: "include" });
       if (!res.ok) throw new Error("Failed to fetch supplier");
       return res.json();
     },
@@ -304,6 +308,18 @@ function SupplierDetail({
     }
   };
 
+  const qualityScore = Math.round((supplier?.rating || 0) * 20);
+  const descFormatted = supplier?.description
+    ? (() => {
+        if (!supplier) return "";
+        let d = supplier.description;
+        d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
+        d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
+        d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
+        return d.charAt(0).toUpperCase() + d.slice(1);
+      })()
+    : "";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
       <div
@@ -314,117 +330,162 @@ function SupplierDetail({
           <div className="p-12 text-center text-gray-600">Loading...</div>
         ) : supplier ? (
           <>
-            {/* Header */}
-            <div className="p-6 border-b border-gray-100">
+            {/* Sticky Header */}
+            <div className="sticky top-0 z-10 bg-white border-b border-gray-100 p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
                     <h2 className="text-xl font-bold text-gray-900">{toTitleCase(supplier.companyName)}</h2>
-                    {supplier.verified && <Shield className="w-5 h-5 text-blue-600" />}
-                    {(supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR") && (
-                      <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 text-xs font-medium px-2 py-0.5 rounded-full">
-                        <BadgeCheck className="w-3 h-3" /> Registry Verified
+                    {supplier.verified && (
+                      <span className="inline-flex items-center gap-1 bg-teal-100 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full">
+                        <Check className="w-3 h-3" /> Verified
+                      </span>
+                    )}
+                    {supplier.yearEstablished && (
+                      <span className="text-sm text-gray-500">Est. {supplier.yearEstablished}</span>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 mt-2">
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <Star key={i} className={`w-4 h-4 ${i <= (supplier.rating || 0) ? "text-amber-500 fill-amber-500" : "text-gray-200"}`} />
+                      ))}
+                      <span className="ml-0.5 font-medium">{(supplier.rating || 0).toFixed(1)}</span>
+                    </div>
+                    <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded font-medium">
+                      Quality Score: {qualityScore}/100
+                    </span>
+                    {supplier.employeeCount != null && (
+                      <span className={`px-2 py-0.5 rounded-full text-sm font-medium ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
+                        {supplier.employeeCount.toLocaleString()} employees
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-700 mt-1">{formatLocation(supplier.city)}, {formatLocation(supplier.country)} · Est. {supplier.yearEstablished}</p>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    <span className="bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded">{toTitleCase(supplier.industry)}</span>
+                    {supplier.subIndustry && (
+                      <span className="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">{toTitleCase(supplier.subIndustry)}</span>
+                    )}
+                  </div>
                 </div>
                 <button onClick={onClose} className="text-gray-600 hover:text-gray-900 p-1">
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <div className="flex items-center gap-4 mt-3">
-                {supplier.reviewCount > 0 ? (
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                    <span className="font-medium">{supplier.rating.toFixed(1)}</span>
-                    <span className="text-gray-600 text-sm">({supplier.reviewCount} reviews)</span>
-                  </div>
-                ) : (
-                  <span className="text-sm text-slate-500">Verified</span>
-                )}
-                <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded">{toTitleCase(supplier.industry)}</span>
-              </div>
             </div>
 
             {/* Body */}
             <div className="p-6 space-y-5">
-              <p className="text-gray-700">
-                {supplier.description
-                  ? (() => {
-                      let d = supplier.description;
-                      d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
-                      d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
-                      d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
-                      return d.charAt(0).toUpperCase() + d.slice(1);
-                    })()
-                  : ""}
-              </p>
+              <p className="text-gray-700">{descFormatted}</p>
 
               <div>
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">Products</h4>
-                <p className="text-sm text-gray-700">
+                <div className="flex flex-wrap gap-2">
                   {Array.isArray(supplier.products) && supplier.products.length > 0
-                    ? formatList(supplier.products)
-                    : toTitleCase(supplier.industry || "—")}
-                </p>
+                    ? supplier.products.map((p, i) => (
+                        <span key={i} className="text-sm bg-gray-50 text-gray-700 px-2.5 py-1 rounded">{toTitleCase(String(p))}</span>
+                      ))
+                    : <span className="text-sm text-gray-500">—</span>}
+                </div>
               </div>
 
-              {supplier.certifications.length > 0 && (
+              {supplier.certifications && supplier.certifications.length > 0 && (
                 <div>
                   <h4 className="text-sm font-semibold text-gray-900 mb-2">Certifications</h4>
                   <div className="flex flex-wrap gap-2">
                     {supplier.certifications.map((c) => (
-                      <span key={c} className="text-sm bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded">{toTitleCase(c)}</span>
+                      <span key={c} className="text-sm bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded inline-flex items-center gap-1">
+                        🏅 {toTitleCase(c)}
+                      </span>
                     ))}
                   </div>
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                {supplier.employeeCount && (
-                  <div><span className="text-gray-700 font-medium">Employees:</span> <span className="font-medium text-gray-900">{supplier.employeeCount.toLocaleString()}</span></div>
-                )}
-                {supplier.annualRevenue && (
-                  <div><span className="text-gray-700 font-medium">Revenue:</span> <span className="font-medium text-gray-900">{supplier.annualRevenue}</span></div>
-                )}
-                {supplier.responseTime && (
-                  <div><span className="text-gray-700 font-medium">Response Time:</span> <span className="font-medium text-gray-900">{supplier.responseTime}</span></div>
-                )}
-                {supplier.minOrderValue && (
-                  <div><span className="text-gray-700 font-medium">Min Order:</span> <span className="font-medium text-gray-900">${supplier.minOrderValue.toLocaleString()}</span></div>
-                )}
-                {supplier.paymentTerms.length > 0 && (
-                  <div><span className="text-gray-700 font-medium">Payment:</span> <span className="font-medium text-gray-900">{formatList(supplier.paymentTerms)}</span></div>
-                )}
-                {supplier.exportMarkets.length > 0 && (
-                  <div><span className="text-gray-700 font-medium">Markets:</span> <span className="font-medium text-gray-900">{formatList(supplier.exportMarkets)}</span></div>
-                )}
-                {supplier.website && (
-                  <div className="col-span-2"><span className="text-gray-700 font-medium">Website:</span>{" "}
-                    <a
-                      href={supplier.website.startsWith("http") ? supplier.website : `https://${supplier.website}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:text-blue-700 hover:underline break-all"
-                    >
-                      {supplier.website}
-                    </a>
+              <div className="grid grid-cols-2 gap-4">
+                {supplier.paymentTerms && supplier.paymentTerms.length > 0 && (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h4 className="text-xs font-semibold text-gray-600 uppercase mb-2">Payment Terms</h4>
+                    <p className="text-sm text-gray-900">{formatList(supplier.paymentTerms)}</p>
                   </div>
                 )}
-                {supplier.registryUrl && (
-                  <div className="col-span-2"><span className="text-gray-700 font-medium">Official registry:</span>{" "}
-                    <a
-                      href={supplier.registryUrl.startsWith("http") ? supplier.registryUrl : `https://${supplier.registryUrl}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
-                    >
-                      View on official registry <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                {supplier.exportMarkets && supplier.exportMarkets.length > 0 && (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h4 className="text-xs font-semibold text-gray-600 uppercase mb-2">Key Markets</h4>
+                    <p className="text-sm text-gray-900">{formatList(supplier.exportMarkets)}</p>
                   </div>
                 )}
               </div>
+
+              {/* Contact Section */}
+              <div className="border-t border-gray-100 pt-4">
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">Contact</h4>
+                {isPaid ? (
+                  (supplier.contactEmail || supplier.contactPhone || supplier.website) ? (
+                    <div className="space-y-2 bg-gray-50 rounded-lg p-4">
+                      {supplier.contactEmail && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-600 text-sm">Email:</span>
+                          <a href={`mailto:${supplier.contactEmail}`} className="text-blue-600 hover:underline text-sm">
+                            {supplier.contactEmail}
+                          </a>
+                        </div>
+                      )}
+                      {supplier.contactPhone && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-600 text-sm">Phone:</span>
+                          <a href={`tel:${supplier.contactPhone}`} className="text-blue-600 hover:underline text-sm">
+                            {supplier.contactPhone}
+                          </a>
+                        </div>
+                      )}
+                      {supplier.website && (
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-600 text-sm">Website:</span>
+                          <a
+                            href={supplier.website.startsWith("http") ? supplier.website : `https://${supplier.website}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline text-sm break-all"
+                          >
+                            {supplier.website}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">Contact information not available for this supplier.</p>
+                  )
+                ) : (
+                  <div className="relative bg-gray-100 rounded-lg p-6 overflow-hidden">
+                    <div className="blur-sm select-none pointer-events-none space-y-2">
+                      <div className="h-4 bg-gray-300 rounded w-48" />
+                      <div className="h-4 bg-gray-300 rounded w-36" />
+                      <div className="h-4 bg-gray-300 rounded w-56" />
+                    </div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
+                      <span className="text-gray-600 font-medium">🔒 Sign in to view</span>
+                      <p className="text-sm text-gray-500 mt-1">Upgrade to access supplier contact details</p>
+                      <Link href="/billing">
+                        <button className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
+                          Upgrade
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {supplier.registryUrl && (
+                <a
+                  href={supplier.registryUrl.startsWith("http") ? supplier.registryUrl : `https://${supplier.registryUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-500 hover:text-blue-600 hover:underline flex items-center gap-1"
+                >
+                  Official registry <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
 
               {/* Contact Form */}
               {!showContactForm ? (

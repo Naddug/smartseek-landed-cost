@@ -79,6 +79,9 @@ export async function setupAuth(app: Express) {
   app.set("trust proxy", true);
   app.use(getSession());
 
+  const { setupOAuth } = await import("../../auth/oauth");
+  setupOAuth(app);
+
   // Signup endpoint
   app.post("/api/auth/signup", async (req, res) => {
     try {

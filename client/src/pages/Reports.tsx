@@ -8,14 +8,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, useLocation } from "wouter";
 import { 
-  FileText, Download, Loader2, CheckCircle, Clock, AlertCircle, ArrowLeft, Sparkles, 
+  FileText, Download, Loader2, CheckCircle, Clock, AlertCircle, ArrowRight, ArrowLeft, Sparkles, 
   Building2, MapPin, Star, Shield, Calendar, TrendingUp, Users, DollarSign, Package, 
   Truck, AlertTriangle, Target, Globe, Ship, Plane, FileCheck, Calculator, 
-  BarChart3, PieChart as PieChartIcon, Percent, CreditCard, ArrowRight, ExternalLink,
-  Hash, Scale, Receipt, Landmark, Container, ClipboardCheck, UserSearch, Send, Copy
+  BarChart3, PieChart as PieChartIcon, Percent, CreditCard, ExternalLink,
+  Hash, Scale, Receipt, Landmark, Container, ClipboardCheck, UserSearch, Send, Copy, Trash2
 } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { reportsAPI } from "@/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ContactQuoteModal } from "@/components/ContactQuoteModal";
 import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, AreaChart, Area, Legend } from "recharts";
@@ -24,7 +27,53 @@ import { jsPDF } from "jspdf";
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
+const COMMODITY_EMOJI: Record<string, string> = {
+  copper: "🔶",
+  steel: "⚙️",
+  honey: "🍯",
+  furniture: "🪑",
+  electronics: "💻",
+  textile: "🧵",
+  textiles: "🧵",
+  mineral: "⛏️",
+  minerals: "⛏️",
+  lithium: "🔋",
+};
+function getCommodityEmoji(commodity: string): string {
+  if (!commodity) return "📦";
+  const lower = commodity.toLowerCase();
+  for (const [key, emoji] of Object.entries(COMMODITY_EMOJI)) {
+    if (lower.includes(key)) return emoji;
+  }
+  return "📦";
+}
+
+function deduplicateReports(reports: any[]): any[] {
+  const sourcing = reports.filter((r) => r.category && r.category !== "ai-agent");
+  const byKey = new Map<string, any[]>();
+  for (const r of sourcing) {
+    const fd = r.formData || {};
+    const commodity = (fd.productName || fd.category || "").toString().toLowerCase().trim();
+    const origin = (fd.originCountry || "").toString().toLowerCase().trim();
+    const dest = (fd.destinationCountry || "").toString().toLowerCase().trim();
+    const key = `${commodity}|${origin}|${dest}`;
+    if (!byKey.has(key)) byKey.set(key, []);
+    byKey.get(key)!.push(r);
+  }
+  const result: any[] = [];
+  Array.from(byKey.values()).forEach((group: any[]) => {
+    const completed = group.filter((r: any) => r.status === "completed");
+    const toKeep = completed.length > 0
+      ? completed.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0]
+      : group.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+    result.push(toKeep);
+  });
+  return result.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
 export default function Reports() {
+  const queryClient = useQueryClient();
+  const openId = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("open") : null;
   const { data: reports = [], isLoading, error, refetch: refetchReports } = useReports();
   const { data: leadHistory = [], isLoading: leadsLoading } = useLeadHistory();
   const { data: customsCalcs = [], isLoading: customsLoading } = useCustomsCalculations();
@@ -32,8 +81,18 @@ export default function Reports() {
   const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
   const [selectedLeadReportId, setSelectedLeadReportId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("sourcing");
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [retryingId, setRetryingId] = useState<number | null>(null);
 
   const totalCalculations = customsCalcs.length + shippingEsts.length;
+  const dedupedReports = deduplicateReports(reports);
+
+  useEffect(() => {
+    if (openId) {
+      const id = parseInt(openId, 10);
+      if (!isNaN(id)) setSelectedReportId(id);
+    }
+  }, [openId]);
 
   if (isLoading || leadsLoading || customsLoading || shippingLoading) {
     return (
@@ -104,7 +163,7 @@ export default function Reports() {
         <TabsList className="grid w-full max-w-xl grid-cols-3">
           <TabsTrigger value="sourcing" className="flex items-center gap-2">
             <FileText className="w-4 h-4" />
-            Sourcing ({reports.length})
+            Sourcing ({dedupedReports.length})
           </TabsTrigger>
           <TabsTrigger value="leads" className="flex items-center gap-2">
             <UserSearch className="w-4 h-4" />
@@ -117,7 +176,7 @@ export default function Reports() {
         </TabsList>
 
         <TabsContent value="sourcing" className="mt-6">
-          {reports.length === 0 ? (
+          {dedupedReports.length === 0 ? (
             <Card className="py-12">
               <CardContent className="text-center">
                 <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
@@ -130,26 +189,26 @@ export default function Reports() {
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {reports.map((report) => (
-                <Card key={report.id} className="hover:shadow-lg transition-shadow cursor-pointer group" onClick={() => setSelectedReportId(report.id)} data-testid={`card-report-${report.id}`}>
-                  <CardHeader className="pb-2">
-                    <div className="flex justify-between items-start mb-2">
-                      <StatusBadge status={report.status} />
-                      <span className="text-xs text-muted-foreground">
-                        {format(new Date(report.createdAt), 'MMM d, yyyy')}
-                      </span>
-                    </div>
-                    <CardTitle className="text-lg group-hover:text-primary transition-colors">{report.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                      <Badge variant="outline">{report.category}</Badge>
-                    </div>
-                    <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      View Full Report
-                    </Button>
-                  </CardContent>
-                </Card>
+              {dedupedReports.map((report) => (
+                <ReportCard
+                  key={report.id}
+                  report={report}
+                  onView={() => setSelectedReportId(report.id)}
+                  onDelete={() => setDeleteConfirmId(report.id)}
+                  onRetry={async () => {
+                    setRetryingId(report.id);
+                    try {
+                      await reportsAPI.retry(report.id);
+                      queryClient.invalidateQueries({ queryKey: ["reports"] });
+                      toast.success("Report retry started");
+                    } catch (e: any) {
+                      toast.error(e?.message || "Retry failed");
+                    } finally {
+                      setRetryingId(null);
+                    }
+                  }}
+                  isRetrying={retryingId === report.id}
+                />
               ))}
             </div>
           )}
@@ -341,30 +400,190 @@ export default function Reports() {
           )}
         </TabsContent>
       </Tabs>
+
+      <AlertDialog open={!!deleteConfirmId} onOpenChange={() => setDeleteConfirmId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete report?</AlertDialogTitle>
+            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={async (e) => {
+                e.preventDefault();
+                if (deleteConfirmId) {
+                  try {
+                    await reportsAPI.delete(deleteConfirmId);
+                    queryClient.invalidateQueries({ queryKey: ["reports"] });
+                    setDeleteConfirmId(null);
+                    toast.success("Report deleted");
+                  } catch (err: any) {
+                    toast.error(err?.message || "Failed to delete");
+                  }
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
 
+function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
+  report: any;
+  onView: () => void;
+  onDelete: () => void;
+  onRetry: () => void;
+  isRetrying: boolean;
+}) {
+  const formData = report.formData || {};
+  const reportData = report.reportData || {};
+  const commodity = (formData.productName || formData.category || report.category || "").toString();
+  const origin = formData.originCountry || "—";
+  const dest = formData.destinationCountry || "—";
+  const landedCostPerUnit = reportData?.landedCostBreakdown?.costPerUnit;
+  const estimatedMargin = reportData?.sellerComparison?.[0]?.profitMargin || reportData?.profitAnalysis?.estimatedMargin;
+  const suppliersFound = (reportData?.sellerComparison?.length ?? 0) || (reportData?.recommendedSuppliers?.length ?? 0);
+  const topSupplier = reportData?.sellerComparison?.[0]?.sellerName || reportData?.recommendedSuppliers?.[0]?.name;
+  const errorMsg = reportData?.error;
+
+  const isComplete = report.status === "completed";
+  const isFailed = report.status === "failed";
+  const isProcessing = report.status === "generating";
+
+  return (
+    <Card
+      className={`relative overflow-hidden transition-shadow cursor-pointer group hover:shadow-lg
+        ${isComplete ? "border-t-4 border-t-emerald-500" : ""}
+        ${isFailed ? "border-t-4 border-t-red-500" : ""}`}
+      onClick={onView}
+      data-testid={`card-report-${report.id}`}
+    >
+      <button
+        onClick={(e) => { e.stopPropagation(); onDelete(); }}
+        className="absolute top-3 right-3 p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-all z-10"
+      >
+        <Trash2 className="w-4 h-4" />
+      </button>
+
+      <CardHeader className="pb-2">
+        <div className="flex justify-between items-start mb-2">
+          <StatusBadge status={report.status} />
+          <span className="text-xs text-muted-foreground">
+            {format(new Date(report.createdAt), "d MMM yyyy")}
+          </span>
+        </div>
+        <CardTitle className="text-lg pr-8 group-hover:text-primary transition-colors flex items-center gap-2">
+          <span>{getCommodityEmoji(commodity)}</span>
+          {(commodity || report.title).trim() || "Report"}
+        </CardTitle>
+        <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
+          <span>{origin}</span>
+          <ArrowRight className="w-4 h-4 shrink-0" />
+          <span>{dest}</span>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        {isComplete && (
+          <>
+            <div className="rounded-lg bg-slate-800/40 p-3 mb-3 space-y-2 text-sm">
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div>
+                  <div className="text-muted-foreground">Landed Cost/Unit</div>
+                  <div className="font-medium">{landedCostPerUnit || "—"}</div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground">Est. Margin %</div>
+                  <div className="font-medium">{estimatedMargin || "—"}</div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground">Suppliers</div>
+                  <div className="font-medium">{suppliersFound || "—"}</div>
+                </div>
+              </div>
+            </div>
+            {topSupplier && (
+              <p className="text-xs text-emerald-600 mb-3">★ Top pick: {topSupplier}</p>
+            )}
+            <Button
+              variant="outline"
+              className="w-full bg-slate-800 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
+              onClick={(e) => { e.stopPropagation(); onView(); }}
+            >
+              View Full Report
+            </Button>
+          </>
+        )}
+
+        {isFailed && (
+          <div className="space-y-3">
+            <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-700 dark:text-red-300">
+              {errorMsg || "Report generation failed. Check your query and retry."}
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-amber-500/20 border-amber-500/40 text-amber-700 hover:bg-amber-500/30"
+                onClick={(e) => { e.stopPropagation(); onRetry(); }}
+                disabled={isRetrying}
+              >
+                {isRetrying ? <Loader2 className="w-4 h-4 animate-spin" /> : "↻ Retry"}
+              </Button>
+              <Button variant="outline" size="sm" className="text-muted-foreground" onClick={(e) => { e.stopPropagation(); onView(); }}>
+                View
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {isProcessing && (
+          <div className="py-4 text-center">
+            <div className="inline-flex items-center gap-2 text-sm text-muted-foreground animate-pulse">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Generating…
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 function StatusBadge({ status }: { status: string }) {
-  if (status === 'completed') {
+  if (status === "completed") {
     return (
-      <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-        <CheckCircle className="w-3 h-3 mr-1" />
+      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1.5" />
         Complete
       </Badge>
     );
   }
-  if (status === 'generating') {
+  if (status === "generating") {
     return (
       <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
-        <Clock className="w-3 h-3 mr-1" />
-        Generating
+        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse mr-1.5" />
+        Processing
+      </Badge>
+    );
+  }
+  if (status === "pending") {
+    return (
+      <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5" />
+        Pending
       </Badge>
     );
   }
   return (
     <Badge className="bg-red-100 text-red-700 hover:bg-red-100">
-      <AlertCircle className="w-3 h-3 mr-1" />
+      <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5" />
       Failed
     </Badge>
   );
@@ -1236,10 +1455,23 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                 <Button
                   className="w-full mb-4"
                   onClick={() => {
+                    const topSuppliers = (reportData.sellerComparison || []).slice(0, 12).map((s: any) => ({
+                      name: s.sellerName,
+                      platform: s.platform,
+                      location: s.location,
+                      email: s.contactEmail || null,
+                      phone: s.contactPhone || null,
+                      website: s.website || null,
+                      slug: s.slug || null,
+                    }));
                     sessionStorage.setItem('aiAgentPipelineContext', JSON.stringify({
                       type: 'pipeline',
                       steps: reportData.nextSteps,
                       reportTitle: report?.title,
+                      suppliers: topSuppliers,
+                      product: (reportData?.metadata?.inputs as any)?.productName || formData?.productName || formData?.category || '',
+                      origin: reportData?.customsAnalysis?.originCountry || formData?.originCountry || '',
+                      destination: reportData?.customsAnalysis?.destinationCountry || formData?.destinationCountry || '',
                     }));
                     setLocation('/ai-agent');
                   }}

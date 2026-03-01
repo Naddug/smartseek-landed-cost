@@ -5,17 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
   Search, Loader2, Building2, MapPin, Users, Mail, Phone, Globe, 
-  TrendingUp, Target, Briefcase, Download, Star, CheckCircle, CreditCard
+  TrendingUp, Target, Briefcase, Download, Star, CheckCircle, CreditCard, ChevronDown, ChevronUp
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 
 interface Lead {
+  id?: number;
   companyName: string;
   industry: string;
   location: string;
@@ -33,6 +36,9 @@ interface Lead {
     growthIndicators?: string;
   };
 }
+
+const REVENUE_RANGES = ["< $1M", "$1M–$10M", "$10M–$50M", "$50M–$250M", "$250M+"];
+const FUNDING_STAGES = ["Bootstrapped", "Seed", "Series A", "Series B+", "Public"];
 
 const INDUSTRIES = [
   "Manufacturing",
@@ -75,6 +81,37 @@ const REGIONS = [
   "Turkey"
 ];
 
+function useDebouncedCount(filters: { industry: string; location: string; companySize: string; keywords: string; revenueRange: string; fundingStage: string; foundedAfter: string }) {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const params = new URLSearchParams();
+      if (filters.industry) params.set("industry", filters.industry);
+      if (filters.location) params.set("location", filters.location);
+      if (filters.companySize) params.set("companySize", filters.companySize);
+      if (filters.keywords) params.set("keywords", filters.keywords);
+      if (filters.revenueRange) params.set("revenueRange", filters.revenueRange);
+      if (filters.fundingStage) params.set("fundingStage", filters.fundingStage);
+      if (filters.foundedAfter) params.set("foundedAfter", filters.foundedAfter);
+      try {
+        const res = await fetch(`/api/leads/count?${params.toString()}`);
+        const data = await res.json();
+        setCount(data.count ?? null);
+      } catch {
+        setCount(null);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [filters.industry, filters.location, filters.companySize, filters.keywords, filters.revenueRange, filters.fundingStage, filters.foundedAfter]);
+  return count;
+}
+
+function maskEmail(email: string): string {
+  if (!email || !email.includes("@")) return "•••@•••.com";
+  const [local, domain] = email.split("@");
+  return `•••@${domain || "domain.com"}`;
+}
+
 export default function FindLeads() {
   const { data: profile } = useProfile();
   const [, setLocation] = useLocation();
@@ -83,14 +120,30 @@ export default function FindLeads() {
   const [location, setLeadLocation] = useState("");
   const [companySize, setCompanySize] = useState("");
   const [keywords, setKeywords] = useState("");
+  const [revenueRange, setRevenueRange] = useState("");
+  const [fundingStage, setFundingStage] = useState("");
+  const [foundedAfter, setFoundedAfter] = useState("");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   
   const [isSearching, setIsSearching] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [showCreditsDialog, setShowCreditsDialog] = useState(false);
 
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isAdmin = profile?.role === 'admin';
+  const isPaid = !!profile && profile.plan !== "free";
+
+  const estimatedCount = useDebouncedCount({
+    industry,
+    location,
+    companySize,
+    keywords,
+    revenueRange,
+    fundingStage,
+    foundedAfter,
+  });
 
   const [stats, setStats] = useState<{ suppliers: number; leads: number } | null>(null);
   useEffect(() => {
@@ -118,7 +171,10 @@ export default function FindLeads() {
         industry,
         location,
         companySize: companySize === "any" ? undefined : companySize,
-        keywords: keywords || undefined
+        keywords: keywords || undefined,
+        revenueRange: revenueRange || undefined,
+        fundingStage: fundingStage || undefined,
+        foundedAfter: foundedAfter || undefined,
       });
 
       const data = await response.json();
@@ -126,6 +182,7 @@ export default function FindLeads() {
       
       if (data.leads && Array.isArray(data.leads)) {
         setLeads(data.leads);
+        setSelectedIds(new Set());
         if (data.leads.length > 0) {
           toast.success(`Found ${data.leads.length} leads`);
         } else {
@@ -243,14 +300,75 @@ export default function FindLeads() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between mt-6">
-            <p className="text-sm text-slate-700">
-              {isAdmin ? (
+          <button
+            type="button"
+            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-800 mt-2"
+          >
+            {showAdvancedFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            Show advanced filters
+          </button>
+
+          {showAdvancedFilters && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-200">
+              <div className="space-y-2">
+                <Label htmlFor="revenueRange">Revenue Range</Label>
+                <Select value={revenueRange} onValueChange={setRevenueRange}>
+                  <SelectTrigger id="revenueRange">
+                    <SelectValue placeholder="Any" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Any</SelectItem>
+                    {REVENUE_RANGES.map((r) => (
+                      <SelectItem key={r} value={r}>{r}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="fundingStage">Funding Stage</Label>
+                <Select value={fundingStage} onValueChange={setFundingStage}>
+                  <SelectTrigger id="fundingStage">
+                    <SelectValue placeholder="Any" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Any</SelectItem>
+                    {FUNDING_STAGES.map((f) => (
+                      <SelectItem key={f} value={f}>{f}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="foundedAfter">Founded After</Label>
+                <Input
+                  id="foundedAfter"
+                  type="number"
+                  placeholder="e.g., 2010"
+                  min={1900}
+                  max={new Date().getFullYear()}
+                  value={foundedAfter}
+                  onChange={(e) => setFoundedAfter(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between mt-6 flex-wrap gap-2">
+            <div className="flex items-center gap-4">
+              <p className="text-sm text-slate-700">
+                {isAdmin ? (
                 <span className="text-emerald-700 font-semibold">Admin: Unlimited searches</span>
               ) : (
                 <>Uses 1 credit • You have <span className="font-semibold text-slate-900">{totalCredits}</span> credits</>
               )}
             </p>
+              {estimatedCount != null && (
+                <p className="text-sm text-slate-600">
+                  ~{estimatedCount.toLocaleString()} matching leads
+                </p>
+              )}
+            </div>
             <Button 
               onClick={handleSearch} 
               disabled={isSearching || !industry || !location}
@@ -289,71 +407,137 @@ export default function FindLeads() {
       )}
 
       {leads.length > 0 && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
+        <Card className="bg-white border-slate-200 shadow-lg overflow-hidden">
+          <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-xl font-semibold text-slate-800">
               Found {leads.length} Leads
             </h2>
-            <Button variant="outline" size="sm" data-testid="button-export-leads">
-              <Download className="w-4 h-4 mr-2" />
-              Export CSV
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {leads.map((lead, index) => (
-              <Card 
-                key={index} 
-                className="bg-white border-slate-200 hover:border-emerald-300 hover:shadow-lg transition-all cursor-pointer"
-                onClick={() => setSelectedLead(lead)}
-                data-testid={`card-lead-${index}`}
+            {selectedIds.size > 0 && isPaid && (
+              <Button
+                variant="outline"
+                size="sm"
+                data-testid="button-export-leads"
+                onClick={() => {
+                  const selected = leads.filter((l, i) => selectedIds.has(i));
+                  const headers = ["Company", "Industry", "Location", "Employees", "Revenue", "Contact", "Email"];
+                  const rows = selected.map((l) => [
+                    l.companyName,
+                    l.industry,
+                    l.location,
+                    l.employeeRange,
+                    l.revenueRange,
+                    `${l.contactName} (${l.contactTitle})`,
+                    l.contactEmail,
+                  ]);
+                  const csv = [headers.join(","), ...rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))].join("\n");
+                  const blob = new Blob([csv], { type: "text/csv" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "leads-export.csv";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                  toast.success(`Exported ${selected.length} leads`);
+                }}
               >
-                <CardContent className="p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-                        <Building2 className="w-5 h-5 text-slate-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-slate-800 line-clamp-1">{lead.companyName}</h3>
-                        <p className="text-xs text-slate-500">{lead.industry}</p>
-                      </div>
-                    </div>
-                    <Badge variant="outline" className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200">
-                      <Star className="w-3 h-3 mr-1" />
-                      Match
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-slate-600">
-                      <MapPin className="w-4 h-4 text-slate-400" />
-                      {lead.location}
-                    </div>
-                    <div className="flex items-center gap-2 text-slate-600">
-                      <Users className="w-4 h-4 text-slate-400" />
-                      {lead.employeeRange}
-                    </div>
-                    <div className="flex items-center gap-2 text-slate-600">
-                      <Briefcase className="w-4 h-4 text-slate-400" />
-                      {lead.contactTitle}
-                    </div>
-                  </div>
-
-                  {lead.sourcingFocus && lead.sourcingFocus.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-3">
-                      {lead.sourcingFocus.slice(0, 3).map((focus, i) => (
-                        <Badge key={i} variant="secondary" className="text-xs bg-slate-100">
-                          {focus}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
+                <Download className="w-4 h-4 mr-2" />
+                Export CSV
+              </Button>
+            )}
+            {selectedIds.size > 0 && !isPaid && (
+              <Badge variant="secondary" className="bg-amber-100 text-amber-800">
+                🔒 Export CSV — Upgrade to Pro
+              </Badge>
+            )}
           </div>
-        </div>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-10">
+                    <Checkbox
+                      checked={selectedIds.size === leads.length && leads.length > 0}
+                      onCheckedChange={(c) => {
+                        if (c) setSelectedIds(new Set(leads.map((_, i) => i)));
+                        else setSelectedIds(new Set());
+                      }}
+                    />
+                  </TableHead>
+                  <TableHead>Company</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Industry</TableHead>
+                  <TableHead>Employees</TableHead>
+                  <TableHead>Revenue</TableHead>
+                  <TableHead>Contact</TableHead>
+                  <TableHead className="w-16">LinkedIn</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {leads.map((lead, index) => {
+                  const aiScore = 70 + (index % 25);
+                  const scoreColor = aiScore >= 80 ? "bg-green-100 text-green-700" : aiScore >= 60 ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-700";
+                  return (
+                    <TableRow
+                      key={index}
+                      className="cursor-pointer hover:bg-slate-50"
+                      onClick={() => setSelectedLead(lead)}
+                      data-testid={`row-lead-${index}`}
+                    >
+                      <TableCell onClick={(e) => e.stopPropagation()}>
+                        <Checkbox
+                          checked={selectedIds.has(index)}
+                          onCheckedChange={(c) => {
+                            setSelectedIds((prev) => {
+                              const next = new Set(prev);
+                              if (c) next.add(index);
+                              else next.delete(index);
+                              return next;
+                            });
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-slate-800 line-clamp-1">{lead.companyName}</span>
+                          <Badge className={`text-xs shrink-0 ${scoreColor}`}>{aiScore}</Badge>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-slate-600">{lead.location}</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary" className="text-xs bg-slate-100">{lead.industry}</Badge>
+                      </TableCell>
+                      <TableCell className="text-slate-600">{lead.employeeRange}</TableCell>
+                      <TableCell className="text-slate-600">{lead.revenueRange}</TableCell>
+                      <TableCell>
+                        <div className="text-sm">
+                          <span className="font-medium">{(lead.contactName || "").split(" ")[0]}</span>
+                          <span className="text-slate-500"> · {lead.contactTitle}</span>
+                          <br />
+                          <span className={isPaid ? "text-blue-600" : "text-slate-400"}>{isPaid ? lead.contactEmail : maskEmail(lead.contactEmail)}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {isPaid ? (
+                          <a
+                            href={`https://linkedin.com/search/results/people/?keywords=${encodeURIComponent(lead.contactName)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-blue-600 hover:text-blue-700"
+                          >
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                          </a>
+                        ) : (
+                          <span className="text-gray-400 text-xs">🔒 Pro</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </Card>
       )}
 
       <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>

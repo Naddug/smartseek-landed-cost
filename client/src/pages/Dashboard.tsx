@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useProfile, useReports, useCreditTransactions } from "@/lib/hooks";
+import { useProfile, useReports, useCreditTransactions, useUser } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,16 +27,21 @@ import {
   Home
 } from "lucide-react";
 import { format } from "date-fns";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, Legend } from "recharts";
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function Dashboard() {
   const [showSuppliers, setShowSuppliers] = useState(false);
   const [embeddedIndustry, setEmbeddedIndustry] = useState("");
+  const { data: user } = useUser();
   const { data: profile, isLoading: profileLoading, error: profileError, refetch: refetchProfile } = useProfile();
   const { data: reports = [], isLoading: reportsLoading } = useReports();
   const { data: transactions = [] } = useCreditTransactions();
+
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const firstName = user?.firstName || user?.email?.split("@")[0] || "there";
 
   const isLoading = profileLoading || reportsLoading;
 
@@ -102,31 +107,50 @@ export default function Dashboard() {
   }
 
   const activityData = (() => {
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const now = new Date();
-    return days.map((name, i) => {
+    const result: { name: string; searches: number; reports: number }[] = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      const dayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+      const dayEnd = dayStart + 86400000;
       const dayReports = reports.filter((r: any) => {
-        const d = new Date(r.createdAt);
-        return d.getDay() === (i + 1) % 7 && now.getTime() - d.getTime() < 7 * 86400000;
+        const t = new Date(r.createdAt).getTime();
+        return t >= dayStart && t < dayEnd;
       });
-      return { name, reports: dayReports.length, credits: dayReports.length * 2 };
-    });
+      const completed = dayReports.filter((r: any) => r.status === "completed").length;
+      result.unshift({
+        name: dayLabels[d.getDay()],
+        searches: dayReports.length,
+        reports: completed,
+      });
+    }
+    return result;
   })();
+
+  const activityTotal = activityData.reduce((s, d) => s + d.searches + d.reports, 0);
 
   const regionData = reports.length > 0
     ? (() => {
         const counts: Record<string, number> = {};
         reports.forEach((r: any) => {
           const country = r.formData?.originCountry || r.formData?.targetRegion || "Other";
-          counts[country] = (counts[country] || 0) + 1;
+          if (country && country !== "Other") counts[country] = (counts[country] || 0) + 1;
         });
+        const total = Object.values(counts).reduce((a, b) => a + b, 0);
         const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899'];
-        return Object.entries(counts)
+        const entries = Object.entries(counts)
           .sort((a, b) => b[1] - a[1])
-          .slice(0, 5)
-          .map(([name, value], i) => ({ name, value, color: colors[i] || '#94a3b8' }));
+          .slice(0, 6)
+          .map(([name, cnt], i) => ({ name, value: total > 0 ? Math.round((cnt / total) * 100) : 0, count: cnt, color: colors[i] || '#94a3b8' }));
+        const covered = entries.reduce((s, e) => s + e.value, 0);
+        if (covered < 100 && entries.length > 0) {
+          entries.push({ name: "Other regions", value: 100 - covered, count: 0, color: '#1e293b' });
+        }
+        return { entries, totalCovered: Math.min(100, covered) };
       })()
-    : [];
+    : null;
 
   return (
     <div className="space-y-6 sm:space-y-8 min-w-0">
@@ -149,17 +173,17 @@ export default function Dashboard() {
               </Badge>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold text-white mb-2">
-              Command Center
+              {greeting}, {firstName} 👋
             </h1>
             <p className="text-slate-300 text-lg">
               AI-powered sourcing intelligence at your fingertips.
             </p>
           </div>
           <div className="flex gap-3">
-            <Link href="/">
+            <Link href="/reports">
               <Button size="lg" variant="outline" className="shrink-0 border-slate-500 text-slate-200 hover:bg-slate-600/50">
-                <Home className="mr-2 h-4 w-4 shrink-0" />
-                <span className="whitespace-nowrap">Homepage</span>
+                <FileText className="mr-2 h-4 w-4 shrink-0" />
+                <span className="whitespace-nowrap">My Reports</span>
               </Button>
             </Link>
             <Link href="/smart-finder">
@@ -173,14 +197,30 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <MetricCard
-          icon={<CreditCard className="w-5 h-5" />}
-          label="Available Credits"
-          value={totalCredits}
-          change={profile?.plan === 'monthly' ? '+30/mo' : undefined}
-          iconBg="from-blue-500 to-blue-600"
-          cardBg="from-slate-700/90 to-slate-600/90"
-        />
+        <Card className={`bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm hover:border-slate-400/50 transition-all group min-w-0 relative ${totalCredits === 0 ? "border-amber-500/60" : ""}`}>
+          <CardContent className="p-3 sm:p-5">
+            {profile?.plan === "free" && (
+              <Link href="/billing" className="absolute top-3 right-3">
+                <Button variant="ghost" size="sm" className="text-xs text-blue-400 hover:text-blue-300 h-7 px-2">
+                  + Buy more
+                </Button>
+              </Link>
+            )}
+            <div className="flex items-start justify-between mb-3 sm:mb-4">
+              <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg text-white shrink-0">
+                <CreditCard className="w-5 h-5" />
+              </div>
+            </div>
+            <div className="text-xl sm:text-3xl font-bold mb-1 text-slate-100 group-hover:text-white transition-colors truncate">{totalCredits}</div>
+            <div className="text-xs sm:text-sm text-slate-400 truncate">Available Credits</div>
+            {totalCredits === 0 && (
+              <div className="text-xs text-amber-400 mt-1.5 font-semibold">⚠ Out of credits</div>
+            )}
+            {profile?.plan === "monthly" && (
+              <div className="text-xs text-slate-500 mt-1.5">Refreshes monthly</div>
+            )}
+          </CardContent>
+        </Card>
         <MetricCard
           icon={<FileText className="w-5 h-5" />}
           label="Reports Generated"
@@ -211,31 +251,50 @@ export default function Dashboard() {
             <Badge variant="outline" className="border-slate-500 text-slate-300 bg-slate-600/50">Last 7 days</Badge>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={activityData}>
-                  <defs>
-                    <linearGradient id="colorReports" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
-                  <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke="#475569" />
-                  <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} stroke="#475569" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1e293b',
-                      border: '1px solid #334155',
-                      borderRadius: '12px',
-                      boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
-                      color: '#e2e8f0'
-                    }}
-                  />
-                  <Area type="monotone" dataKey="reports" stroke="#3b82f6" fill="url(#colorReports)" strokeWidth={3} />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+            {activityTotal === 0 ? (
+              <div className="h-64 flex flex-col items-center justify-center text-center">
+                <p className="text-slate-400 mb-2">No activity yet this week</p>
+                <Link href="/smart-finder">
+                  <Button variant="link" className="text-blue-400 hover:text-blue-300 p-0">
+                    Start your first search →
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={activityData}>
+                    <defs>
+                      <linearGradient id="colorSearches" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorReports" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
+                    <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke="#475569" />
+                    <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} stroke="#475569" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#1e293b',
+                        border: '1px solid #334155',
+                        borderRadius: '12px',
+                        boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
+                        color: '#e2e8f0'
+                      }}
+                      formatter={(value: number) => [value, '']}
+                      labelFormatter={(label) => `Day: ${label}`}
+                    />
+                    <Area type="monotone" dataKey="searches" name="Searches" stroke="#3B82F6" fill="url(#colorSearches)" strokeWidth={2} />
+                    <Area type="monotone" dataKey="reports" name="Reports" stroke="#10B981" fill="url(#colorReports)" strokeWidth={2} />
+                    <Legend />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -249,51 +308,58 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
-            <div className="h-48 mb-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={regionData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={45}
-                    outerRadius={70}
-                    paddingAngle={3}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {regionData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: '#1e293b',
-                      border: '1px solid #334155',
-                      borderRadius: '8px',
-                      color: '#e2e8f0'
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="space-y-2">
-              {regionData.map((region, i) => (
-                <div key={i} className="flex items-center justify-between text-sm group">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full shadow-lg" style={{ backgroundColor: region.color }}></div>
-                    <span className="text-slate-300 group-hover:text-white transition-colors">{region.name}</span>
+            {!regionData ? (
+              <div className="h-48 flex flex-col items-center justify-center text-center">
+                <p className="text-slate-400">No reports generated yet</p>
+              </div>
+            ) : (
+              <>
+                <div className="h-48 mb-4 relative">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={regionData.entries}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={45}
+                        outerRadius={70}
+                        paddingAngle={2}
+                        dataKey="value"
+                        stroke="none"
+                      >
+                        {regionData.entries.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
+                        formatter={(value: number) => [`${value}%`, '']}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span className="text-2xl font-bold text-slate-200">{regionData.totalCovered}%</span>
                   </div>
-                  <span className="font-semibold text-slate-200">{region.value}%</span>
                 </div>
-              ))}
-            </div>
+                <div className="space-y-2">
+                  {regionData.entries.map((region, i) => (
+                    <div key={i} className="flex items-center justify-between text-sm group">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: region.color }}></div>
+                        <span className="text-slate-300 group-hover:text-white transition-colors">{region.name}</span>
+                      </div>
+                      <span className="font-semibold text-slate-200">{region.value}%</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-gradient-to-br from-slate-700/90 to-slate-600/90 border-slate-500/40 shadow-xl backdrop-blur-sm">
+        <Card className="bg-[#0f1629] border-slate-500/40 shadow-xl backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between border-b border-slate-500/40 pb-4">
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30">
@@ -308,36 +374,35 @@ export default function Dashboard() {
           <CardContent className="pt-6">
             {reports.length === 0 ? (
               <div className="text-center py-8">
-                <div className="w-16 h-16 rounded-2xl bg-slate-800/50 flex items-center justify-center mx-auto mb-4 border border-slate-700/50">
-                  <FileText className="w-8 h-8 text-slate-500" />
-                </div>
-                <p className="text-slate-400 mb-4">No reports yet</p>
+                <p className="text-slate-400 mb-2">No reports yet — Generate your first →</p>
                 <Link href="/smart-finder">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-500">Generate First Report</Button>
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-500">Generate Report</Button>
                 </Link>
               </div>
             ) : (
-              <div className="space-y-3">
-                {reports.slice(0, 4).map((report) => (
-                  <Link key={report.id} href="/reports">
-                    <div className="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 hover:bg-slate-800/60 hover:border-slate-600/50 transition-all cursor-pointer group" data-testid={`card-report-${report.id}`}>
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2.5 rounded-xl ${report.status === 'completed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : report.status === 'generating' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
-                          <FileText size={16} />
+              <div className="space-y-1">
+                {reports.slice(0, 4).map((report: any) => {
+                  const fd = report.formData || {};
+                  const rd = report.reportData || {};
+                  const commodity = (fd.productName || fd.category || report.category || "Report").toString();
+                  const landedCost = rd?.landedCostBreakdown?.costPerUnit;
+                  const margin = rd?.sellerComparison?.[0]?.profitMargin || rd?.profitAnalysis?.estimatedMargin;
+                  return (
+                    <Link key={report.id} href={`/reports?open=${report.id}`}>
+                      <div className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-800/60 transition-all cursor-pointer group" data-testid={`card-report-${report.id}`}>
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-2 h-2 rounded-full shrink-0 ${report.status === 'completed' ? 'bg-emerald-500' : report.status === 'generating' ? 'bg-blue-500 animate-pulse' : 'bg-red-500'}`} />
+                          <span className="font-medium text-sm text-slate-200 group-hover:text-white truncate capitalize">{commodity}</span>
+                          <span className="text-xs text-slate-500 shrink-0">{format(new Date(report.createdAt), "d MMM yyyy")}</span>
                         </div>
-                        <div>
-                          <div className="font-medium text-sm text-slate-200 group-hover:text-white transition-colors">{report.title}</div>
-                          <div className="text-xs text-slate-500">
-                            {format(new Date(report.createdAt), 'MMM d, yyyy')}
-                          </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                          {landedCost && <span className="text-xs text-slate-400">{String(landedCost).startsWith("$") ? landedCost : `$${landedCost}`}/unit</span>}
+                          {margin && <span className="text-xs text-emerald-400">{margin} margin</span>}
                         </div>
                       </div>
-                      <Badge variant="outline" className={`text-xs ${report.status === 'completed' ? 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10' : 'border-slate-500/50 text-slate-400 bg-slate-600/30'}`}>
-                        {report.status}
-                      </Badge>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </CardContent>
@@ -352,68 +417,33 @@ export default function Dashboard() {
               Quick Actions
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-6 space-y-3">
-            <Link href="/smart-finder">
-              <div className="p-4 rounded-xl border-2 border-dashed border-blue-500/40 bg-blue-500/10 hover:bg-blue-500/20 hover:border-blue-400/60 transition-all cursor-pointer group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-                    <Sparkles className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">SmartSeek AI</div>
-                    <div className="text-sm text-slate-400">Generate sourcing intelligence with AI</div>
-                  </div>
-                  <Badge className="bg-blue-600/30 text-blue-300 border-blue-500/50">1 Credit</Badge>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/find-leads">
-              <div className="p-4 rounded-xl border-2 border-dashed border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 hover:border-emerald-400/60 transition-all cursor-pointer group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25">
-                    <Target className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">Find Buyer Leads</div>
-                    <div className="text-sm text-slate-400">Discover qualified buyer contacts</div>
-                  </div>
-                  <Badge className="bg-emerald-600/30 text-emerald-300 border-emerald-500/50">1 Credit</Badge>
-                </div>
-              </div>
-            </Link>
-
-            <Link href="/tools">
-              <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 hover:bg-slate-800/60 hover:border-slate-600/50 transition-all cursor-pointer group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-500/30 flex items-center justify-center">
-                    <DollarSign className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-slate-200 group-hover:text-white transition-colors">Cost Calculator</div>
-                    <div className="text-sm text-slate-400">Estimate landed costs & margins</div>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300 transition-colors" />
-                </div>
-              </div>
-            </Link>
-
-            {profile?.plan !== 'monthly' && (
-              <Link href="/billing">
-                <div className="p-4 rounded-xl bg-gradient-to-r from-blue-600/20 via-indigo-600/20 to-violet-600/20 border border-blue-500/30 hover:from-blue-600/30 hover:via-indigo-600/30 hover:to-violet-600/30 hover:border-blue-400/50 transition-all cursor-pointer group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-                      <Crown className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-semibold text-slate-200 group-hover:text-white transition-colors">Upgrade to Pro</div>
-                      <div className="text-sm text-slate-400">Unlock all features + 30 credits/mo</div>
-                    </div>
-                    <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 shadow-lg">$10/mo</Badge>
-                  </div>
-                </div>
-              </Link>
-            )}
+          <CardContent className="pt-6">
+            <div className="grid grid-cols-2 gap-3">
+              <a href="/smart-finder" className="p-4 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/40 transition-all group block">
+                <div className="font-semibold text-slate-200 group-hover:text-white">🔍 AI Sourcing</div>
+                <div className="text-xs text-slate-400 mt-0.5">Generate AI reports</div>
+              </a>
+              <a href="/find-leads" className="p-4 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-500/40 transition-all group block">
+                <div className="font-semibold text-slate-200 group-hover:text-white">🎯 Find Leads</div>
+                <div className="text-xs text-slate-400 mt-0.5">Buyer contacts</div>
+              </a>
+              <a href="/landed-cost" className="p-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 transition-all group block">
+                <div className="font-semibold text-slate-200 group-hover:text-white">💰 Landed Cost</div>
+                <div className="text-xs text-slate-400 mt-0.5">Cost calculator</div>
+              </a>
+              <a href="/risk-intelligence" className="p-4 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 transition-all group block">
+                <div className="font-semibold text-slate-200 group-hover:text-white">🛡️ Risk Check</div>
+                <div className="text-xs text-slate-400 mt-0.5">Risk analysis</div>
+              </a>
+              <a href="/customs-calculator" className="p-4 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 transition-all group block">
+                <div className="font-semibold text-slate-200 group-hover:text-white">🏛️ Customs</div>
+                <div className="text-xs text-slate-400 mt-0.5">Duty calculator</div>
+              </a>
+              <a href="/ai-agent" className="p-4 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/40 transition-all group block">
+                <div className="font-semibold text-slate-200 group-hover:text-white">🤖 AI Agent</div>
+                <div className="text-xs text-slate-400 mt-0.5">AI assistant</div>
+              </a>
+            </div>
           </CardContent>
         </Card>
       </div>

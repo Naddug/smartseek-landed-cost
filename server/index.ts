@@ -4,6 +4,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
@@ -160,6 +162,21 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: false, limit: '15mb' }));
+
+// Security headers (CSP disabled to avoid breaking SPA/Vite)
+app.use(helmet({ contentSecurityPolicy: false }));
+
+// Rate limiting — 100 req/15min per IP for API
+app.use(
+  "/api",
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { error: "Too many requests, please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {

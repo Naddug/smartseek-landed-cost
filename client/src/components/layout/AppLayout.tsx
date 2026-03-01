@@ -23,20 +23,36 @@ import {
   Users,
   Home
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Logo } from "@/components/Logo";
+
+const CREDITS_BANNER_DISMISSED = "smartseek_credits_banner_dismissed";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
   const { data: user } = useUser();
   const { data: profile } = useProfile();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showCreditsBanner, setShowCreditsBanner] = useState(false);
+
+  const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+  useEffect(() => {
+    if (profile && totalCredits <= 1 && profile.plan === "free") {
+      const dismissed = localStorage.getItem(CREDITS_BANNER_DISMISSED);
+      if (!dismissed) setShowCreditsBanner(true);
+    } else {
+      setShowCreditsBanner(false);
+    }
+  }, [profile, totalCredits]);
 
   const handleLogout = () => {
     window.location.href = '/api/logout';
   };
 
-  const isActive = (path: string) => location === path;
+  const isActive = (path: string) => {
+    const base = location.split("?")[0];
+    return base === path || (path !== "/" && base.startsWith(path + "/"));
+  };
 
   const getPageTitle = (path: string) => {
     const slug = path.split('/')[1] || 'dashboard';
@@ -109,7 +125,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-4 border-t border-sidebar-border">
-          <div className="bg-sidebar-accent/50 rounded-lg p-4 mb-4">
+          <div className={`rounded-lg p-4 mb-4 ${totalCredits === 0 ? 'bg-amber-500/20 border border-amber-500/50' : 'bg-sidebar-accent/50'}`}>
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs text-sidebar-foreground/70">Available Credits</div>
               {profile?.plan === 'monthly' && (
@@ -120,9 +136,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               )}
             </div>
             <div className="flex items-end justify-between">
-              <span className="text-2xl font-bold text-sidebar-foreground">{(profile?.monthlyCredits || 0) + (profile?.topupCredits || 0)}</span>
+              <div>
+                <span className="text-2xl font-bold text-sidebar-foreground">{(profile?.monthlyCredits || 0) + (profile?.topupCredits || 0)}</span>
+                {profile?.plan === 'monthly' && <span className="block text-[10px] text-sidebar-foreground/60">Refreshes monthly</span>}
+              </div>
               <Button size="sm" variant="secondary" className="h-6 px-2 text-xs" onClick={() => setLocation('/billing')}>
-                {profile?.plan === 'monthly' ? 'Manage' : 'Upgrade'}
+                {profile?.plan === 'monthly' ? 'Manage' : '+ Buy more'}
               </Button>
             </div>
           </div>
@@ -161,6 +180,30 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <main className="flex-1 p-4 md:p-8 overflow-x-hidden min-w-0">
+          {showCreditsBanner && (
+            <div className="mb-4 flex items-center justify-between gap-4 rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-amber-800 dark:text-amber-200">
+              <span>
+                ⚠ You have {totalCredits} credit{totalCredits === 1 ? "" : "s"} left. Buy more to keep sourcing.
+              </span>
+              <div className="flex items-center gap-2 shrink-0">
+                <Link href="/billing">
+                  <Button size="sm" variant="outline" className="border-amber-600 text-amber-700 hover:bg-amber-500/20">
+                    Buy Credits →
+                  </Button>
+                </Link>
+                <button
+                  onClick={() => {
+                    localStorage.setItem(CREDITS_BANNER_DISMISSED, "1");
+                    setShowCreditsBanner(false);
+                  }}
+                  className="text-amber-600 hover:text-amber-800 p-1"
+                  aria-label="Dismiss"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          )}
           {children}
         </main>
       </div>

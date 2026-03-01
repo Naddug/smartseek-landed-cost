@@ -8,7 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Check, CreditCard, Zap, Loader2, ExternalLink, Gift, Calendar, Plus, Minus, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useSearch } from "wouter";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -67,6 +68,7 @@ function CheckoutForm({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
       queryClient.invalidateQueries({ queryKey: ['/api/credits/transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/billing/transactions'] });
       onSuccess();
     },
     onError: (err: Error) => {
@@ -84,6 +86,7 @@ function CheckoutForm({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/profile'] });
       queryClient.invalidateQueries({ queryKey: ['/api/credits/transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/billing/transactions'] });
       onSuccess();
     },
     onError: (err: Error) => {
@@ -168,20 +171,58 @@ function CheckoutForm({
 export default function Billing() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const search = useSearch();
+  const params = new URLSearchParams(search);
   const [creditQuantity, setCreditQuantity] = useState(1);
   const [checkoutType, setCheckoutType] = useState<'credit' | 'subscription' | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
+  const [billingInterval, setBillingInterval] = useState<'monthly' | 'annual'>('monthly');
 
-  const { data: profile, isLoading: profileLoading } = useQuery<UserProfile>({
+  const { data: profile, isLoading: profileLoading, refetch: refetchProfile } = useQuery<UserProfile>({
     queryKey: ['/api/profile'],
   });
 
   const { data: transactions = [] } = useQuery<CreditTransaction[]>({
-    queryKey: ['/api/credits/transactions'],
+    queryKey: ['/api/billing/transactions'],
   });
+
+  // Poll credits when returning from successful payment (redirect flow)
+  const paymentSuccess = params.get('success') || params.get('payment') === 'success';
+  const initialCreditsRef = useRef<number | null>(null);
+  if (paymentSuccess && initialCreditsRef.current === null) {
+    initialCreditsRef.current = totalCredits;
+  }
+  useEffect(() => {
+    if (!paymentSuccess) return;
+    let intervalId: ReturnType<typeof setInterval>;
+    const baseline = initialCreditsRef.current ?? totalCredits;
+    const poll = async () => {
+      try {
+        const res = await fetch('/api/user/credits', { credentials: 'include' });
+        if (res.ok) {
+          const { credits } = await res.json();
+          refetchProfile();
+          if (credits > baseline) {
+            window.history.replaceState({}, '', '/billing');
+            if (intervalId) clearInterval(intervalId);
+          }
+        }
+      } catch { /* ignore */ }
+    };
+    intervalId = setInterval(poll, 3000);
+    poll(); // run immediately
+    const timeout = setTimeout(() => {
+      clearInterval(intervalId);
+      window.history.replaceState({}, '', '/billing');
+    }, 30000);
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(timeout);
+    };
+  }, [paymentSuccess, refetchProfile, totalCredits]);
 
   const { data: products, isLoading: productsLoading } = useQuery<{ products: any[] }>({
     queryKey: ['/api/stripe/products'],
@@ -211,8 +252,14 @@ export default function Billing() {
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isSubscribed = profile?.plan === 'monthly' && profile?.subscriptionStatus === 'active';
 
+  const { data: subscriptionPrices } = useQuery<{ monthly: string | null; annual: string | null }>({
+    queryKey: ['/api/stripe/subscription-prices'],
+  });
   const monthlyPrice = products?.products?.find(p => p.metadata?.type === 'subscription')?.prices?.[0];
   const creditPrice = products?.products?.find(p => p.metadata?.type === 'credit')?.prices?.[0];
+  const subscriptionPriceId = billingInterval === 'annual' && subscriptionPrices?.annual
+    ? subscriptionPrices.annual
+    : (monthlyPrice?.id || subscriptionPrices?.monthly);
   
   const checkoutReady = !productsLoading && !stripeConfigLoading && stripePromise !== null;
 
@@ -256,7 +303,7 @@ export default function Billing() {
       });
       return;
     }
-    if (!monthlyPrice?.id) {
+    if (!subscriptionPriceId) {
       toast({
         title: "Products Not Available",
         description: "Subscription product hasn't been set up yet. Please try refreshing the page.",
@@ -267,7 +314,7 @@ export default function Billing() {
     setLoadingCheckout(true);
     try {
       const res = await apiRequest('POST', '/api/stripe/create-embedded-subscription', { 
-        priceId: monthlyPrice.id 
+        priceId: subscriptionPriceId 
       });
       const data = await res.json();
       if (data.error) {
@@ -405,27 +452,115 @@ export default function Billing() {
                     Every new user gets 2 free credits to try SmartSeek. No credit card required.
                   </p>
                 </div>
-                <div className="flex items-center justify-between bg-muted/30 p-4 rounded-lg">
-                  <div className="space-y-1">
-                    <div className="font-bold text-lg">Upgrade to Monthly - $80/month</div>
-                    <div className="text-sm text-muted-foreground">
-                      Get 10 credits refreshed every month. Cancel anytime.
-                    </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setBillingInterval('monthly')}
+                      className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                        billingInterval === 'monthly' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      }`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBillingInterval('annual')}
+                      className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                        billingInterval === 'annual' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      }`}
+                    >
+                      Annual
+                      <span className="text-xs bg-emerald-500/90 text-white px-1.5 py-0.5 rounded">Save 20%</span>
+                    </button>
                   </div>
-                  <Button 
-                    onClick={startSubscriptionCheckout}
-                    disabled={loadingCheckout || !checkoutReady}
-                    data-testid="button-subscribe"
-                  >
-                    {(loadingCheckout || !checkoutReady) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Subscribe Now
-                  </Button>
+                  <div className="flex items-center justify-between bg-muted/30 p-4 rounded-lg">
+                    <div className="space-y-1">
+                      <div className="font-bold text-lg">
+                        {billingInterval === 'annual' ? (
+                          <>$64/mo <span className="text-sm font-normal text-muted-foreground">billed as $768/year</span></>
+                        ) : (
+                          <>$80/month</>
+                        )}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Get 10 credits refreshed every month. Cancel anytime.
+                      </div>
+                    </div>
+                    <Button 
+                      onClick={startSubscriptionCheckout}
+                      disabled={loadingCheckout || !checkoutReady}
+                      data-testid="button-subscribe"
+                    >
+                      {(loadingCheckout || !checkoutReady) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Subscribe Now
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Plan Comparison</CardTitle>
+          <CardDescription>Compare plans and choose what works for you</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[140px]">Feature</TableHead>
+                  <TableHead className="text-center">Free</TableHead>
+                  <TableHead className="text-center">Pro Monthly</TableHead>
+                  <TableHead className="text-center">Pro Annual</TableHead>
+                  <TableHead className="text-center">Enterprise</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">Credits</TableCell>
+                  <TableCell className="text-center">2 trial</TableCell>
+                  <TableCell className="text-center">10/mo</TableCell>
+                  <TableCell className="text-center">10/mo</TableCell>
+                  <TableCell className="text-center">Custom</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Price</TableCell>
+                  <TableCell className="text-center">$0</TableCell>
+                  <TableCell className="text-center">$80/mo</TableCell>
+                  <TableCell className="text-center">$64/mo</TableCell>
+                  <TableCell className="text-center">Contact</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">AI Reports</TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Find Leads</TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Support</TableCell>
+                  <TableCell className="text-center">Community</TableCell>
+                  <TableCell className="text-center">Email</TableCell>
+                  <TableCell className="text-center">Email</TableCell>
+                  <TableCell className="text-center">Dedicated</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
 
       <Tabs defaultValue="topup" className="w-full">
         <TabsList>

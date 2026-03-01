@@ -8,8 +8,7 @@ import { Loader2 } from "lucide-react";
 
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
+import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import SmartFinder from "@/pages/SmartFinder";
 import AIAgent from "@/pages/AIAgent";
@@ -26,7 +25,6 @@ import ComplianceCheck from "@/pages/ComplianceCheck";
 import TradeData from "@/pages/TradeData";
 import FindLeads from "@/pages/FindLeads";
 import VerifyEmail from "@/pages/VerifyEmail";
-import ForgotPassword from "@/pages/ForgotPassword";
 import ResetPassword from "@/pages/ResetPassword";
 import EmailVerificationRequired from "@/pages/EmailVerificationRequired";
 import AppLayout from "@/components/layout/AppLayout";
@@ -73,12 +71,43 @@ function ProtectedRoute({ component: Component, adminOnly = false, requireVerifi
   );
 }
 
+const PAGE_TITLES: Record<string, string> = {
+  "/": "SmartSeek – Sourcing & Lead Intelligence",
+  "/dashboard": "Dashboard | SmartSeek",
+  "/smart-finder": "SmartSeek AI | SmartSeek",
+  "/ai-agent": "AI Agent | SmartSeek",
+  "/find-leads": "Find Leads | SmartSeek",
+  "/reports": "My Reports | SmartSeek",
+  "/billing": "Billing | SmartSeek",
+  "/trade-data": "Trade Data | SmartSeek",
+  "/landed-cost": "Landed Cost Calculator | SmartSeek",
+  "/customs-calculator": "Customs Calculator | SmartSeek",
+  "/shipping-estimator": "Shipping Estimator | SmartSeek",
+  "/risk-intelligence": "Risk Intelligence | SmartSeek",
+  "/compliance": "Compliance Check | SmartSeek",
+  "/suppliers": "Suppliers | SmartSeek",
+  "/tools": "Tools | SmartSeek",
+  "/admin": "Admin | SmartSeek",
+  "/login": "Login | SmartSeek",
+  "/signup": "Sign Up | SmartSeek",
+  "/pricing": "Pricing | SmartSeek",
+  "/faq": "FAQ | SmartSeek",
+  "/about": "About | SmartSeek",
+};
+
 function Router() {
+  const [location] = useLocation();
+  useEffect(() => {
+    const base = location.split("?")[0];
+    document.title = PAGE_TITLES[base] || "SmartSeek – Sourcing & Lead Intelligence";
+  }, [location]);
+
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
+      <Route path="/login" component={Auth} />
+      <Route path="/signup" component={Auth} />
+      <Route path="/forgot-password" component={Auth} />
       <Route path="/sample-report" component={SampleReport} />
       <Route path="/suppliers">
         <ProtectedRoute component={SupplierDiscovery} />
@@ -108,7 +137,6 @@ function Router() {
         <PublicLayout><Integrations /></PublicLayout>
       </Route>
       <Route path="/verify-email" component={VerifyEmail} />
-      <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />
       
       {/* Protected Routes */}

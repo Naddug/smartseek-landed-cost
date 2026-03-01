@@ -31,6 +31,8 @@ async function fetchAPI<T>(url: string, options?: RequestInit): Promise<T> {
 export const userAPI = {
   getUser: () => fetchAPI<{ id: string; email: string; firstName?: string; lastName?: string; emailVerified?: boolean }>("/auth/user"),
   getProfile: () => fetchAPI<UserProfile>("/profile"),
+  getStats: () =>
+    fetchAPI<{ reportsCount: number; topRegions: { name: string; count: number }[]; commodities: string[] }>("/user/stats"),
   updateProfile: (data: { region?: string; currency?: string }) =>
     fetchAPI<UserProfile>("/profile", {
       method: "PATCH",
@@ -56,6 +58,10 @@ export const reportsAPI = {
     }),
   getAll: () => fetchAPI<Report[]>("/reports"),
   getById: (id: number) => fetchAPI<Report>(`/reports/${id}?_t=${Date.now()}`),
+  retry: (id: number) =>
+    fetchAPI<{ success: boolean; report: Report }>(`/reports/${id}/retry`, { method: "POST" }),
+  delete: (id: number) =>
+    fetchAPI<{ success: boolean }>(`/reports/${id}`, { method: "DELETE" }),
 };
 
 // Supplier Shortlists
@@ -88,6 +94,14 @@ export const leadsAPI = {
 export const calculationsAPI = {
   getCustoms: () => fetchAPI<any[]>("/calculations/customs"),
   getShipping: () => fetchAPI<any[]>("/calculations/shipping"),
+};
+
+// Trade Data (UN Comtrade)
+export const tradeAPI = {
+  getComtrade: (params: Record<string, string>) => {
+    const q = new URLSearchParams(params).toString();
+    return fetchAPI<{ data: any; source: string }>(`/trade/comtrade?${q}`);
+  },
 };
 
 // Admin APIs

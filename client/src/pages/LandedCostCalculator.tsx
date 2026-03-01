@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { calculateLandedCost } from "@/lib/landedCost/calculator";
 import type { LandedCostInput, LandedCostResult } from "@/lib/landedCost/types";
+import { useUser } from "@/lib/hooks";
 
 const COUNTRIES = [
   { code: "CN", name: "China" },
@@ -83,6 +84,7 @@ const INCOTERMS = [
 const COLORS = ["#0ea5e9", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16"];
 
 export default function LandedCostCalculator() {
+  const { data: user, isLoading: userLoading } = useUser();
   const [formData, setFormData] = useState({
     productName: "Sample Product",
     hsCode: "847130",
@@ -207,9 +209,17 @@ export default function LandedCostCalculator() {
         <Link href="/">
           <Button variant="ghost" size="sm">← Back to Home</Button>
         </Link>
-        <Link href="/login">
-          <Button variant="outline" size="sm">Login</Button>
-        </Link>
+        {!userLoading && (
+          user ? (
+            <Link href="/dashboard">
+              <Button variant="outline" size="sm">Dashboard</Button>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <Button variant="outline" size="sm">Login</Button>
+            </Link>
+          )
+        )}
       </div>
       <div>
         <h1 className="text-3xl font-heading font-bold mb-2 flex items-center gap-2">

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ClipboardCheck, CheckCircle2, AlertTriangle, XCircle, Loader2, FileText, Shield, ArrowRight } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 type Certification = { name: string; status: string; required: boolean; notes: string };
@@ -96,11 +96,30 @@ export default function ComplianceCheck() {
         <div className="lg:col-span-2 space-y-4">
           {mutation.isError && <div className="bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 rounded-xl p-4 text-red-700 dark:text-red-300 text-sm">Failed to generate compliance check. Please try again.</div>}
           {!result && !mutation.isPending && (
-            <Card className="border-dashed bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
-              <CardContent className="py-16 text-center">
-                <ClipboardCheck className="w-14 h-14 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
-                <p className="text-slate-700 dark:text-slate-200 text-lg font-medium">Enter supplier details and run a compliance check</p>
-                <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">Covers certifications, regulatory checks, and sanctions screening</p>
+            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-slate-900 dark:text-slate-100">Checks we run automatically</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-400">
+                  Enter supplier details on the left and run a check. We verify the following:
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  {[
+                    "ISO 9001, ISO 14001, and industry-specific certifications",
+                    "REACH, RoHS, Conflict Minerals (Dodd-Frank 1502)",
+                    "EU CBAM and carbon footprint requirements",
+                    "US CBP forced labor (UFLPA) screening",
+                    "OFAC, EU, UK sanctions and denied-party lists",
+                    "Export control (ECCN, dual-use) classification",
+                    "Product safety (CE, FCC, FDA where applicable)",
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                      <span className="text-sm text-slate-700 dark:text-slate-300">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </CardContent>
             </Card>
           )}
