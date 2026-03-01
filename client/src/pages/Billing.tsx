@@ -189,6 +189,8 @@ export default function Billing() {
     queryKey: ['/api/billing/transactions'],
   });
 
+  const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
+
   // Poll credits when returning from successful payment (redirect flow)
   const paymentSuccess = params.get('success') || params.get('payment') === 'success';
   const initialCreditsRef = useRef<number | null>(null);
@@ -249,7 +251,6 @@ export default function Billing() {
     },
   });
 
-  const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isSubscribed = profile?.plan === 'monthly' && profile?.subscriptionStatus === 'active';
 
   const { data: subscriptionPrices } = useQuery<{ monthly: string | null; annual: string | null }>({

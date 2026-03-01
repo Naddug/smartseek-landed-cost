@@ -303,10 +303,10 @@ export default function FindLeads() {
           <button
             type="button"
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-800 mt-2"
+            className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-slate-900 mt-4 py-2 px-3 rounded-lg border border-slate-200 hover:border-slate-300 bg-slate-50 hover:bg-slate-100 transition-colors"
           >
             {showAdvancedFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            Show advanced filters
+            ⚙ Advanced filters {showAdvancedFilters ? "▴" : "▾"}
           </button>
 
           {showAdvancedFilters && (
@@ -344,7 +344,7 @@ export default function FindLeads() {
                 <Input
                   id="foundedAfter"
                   type="number"
-                  placeholder="e.g., 2010"
+                  placeholder="e.g. 2015"
                   min={1900}
                   max={new Date().getFullYear()}
                   value={foundedAfter}
@@ -365,7 +365,7 @@ export default function FindLeads() {
             </p>
               {estimatedCount != null && (
                 <p className="text-sm text-slate-600">
-                  ~{estimatedCount.toLocaleString()} matching leads
+                  ~{estimatedCount.toLocaleString()} matching companies
                 </p>
               )}
             </div>
