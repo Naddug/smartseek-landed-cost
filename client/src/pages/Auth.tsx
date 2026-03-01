@@ -86,12 +86,15 @@ export default function Auth() {
   const urlParams = new URLSearchParams(searchString);
   const urlError = urlParams.get("error");
 
+  const [providers, setProviders] = useState({ google: false, facebook: false, linkedin: false, apple: false });
+
   useEffect(() => {
-    if (urlError) {
-      toast({ title: "Authentication failed", description: decodeURIComponent(urlError), variant: "destructive" });
-      window.history.replaceState({}, "", "/login");
-    }
-  }, [urlError, toast]);
+    fetch("/api/auth/providers", { credentials: "include" })
+      .then((r) => r.json())
+      .then(setProviders)
+      .catch(() => {});
+  }, []);
+
 
   const passwordStrength = mode === "signup" ? getPasswordStrength(formData.password) : 0;
   const passwordsMatch = !formData.confirmPassword || formData.password === formData.confirmPassword;
@@ -214,41 +217,90 @@ export default function Auth() {
 
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {urlError && (
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center">
+                Sign-in failed. Please try again or use email/password.
+              </div>
+            )}
             {mode !== "forgot" && (
               <>
                 <div className="space-y-2">
-                  <button
-                    type="button"
-                    onClick={() => handleOAuthClick("Google")}
-                    className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-gray-50 transition-colors"
-                  >
-                    <GoogleIcon />
-                    <span className="ml-2 text-gray-800">Continue with Google</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOAuthClick("Facebook")}
-                    className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#1877F2] bg-[#1877F2] text-white font-medium hover:bg-[#166FE5] transition-colors"
-                  >
-                    <FacebookIcon />
-                    <span className="ml-2 text-white">Continue with Facebook</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOAuthClick("LinkedIn")}
-                    className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#0A66C2] bg-[#0A66C2] text-white font-medium hover:bg-[#004182] transition-colors"
-                  >
-                    <LinkedInIcon />
-                    <span className="ml-2 text-white">Continue with LinkedIn</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleOAuthClick("Apple")}
-                    className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-600 bg-black text-white font-medium hover:bg-gray-900 transition-colors"
-                  >
-                    <AppleIcon />
-                    <span className="ml-2 text-white">Continue with Apple</span>
-                  </button>
+                  {providers.google ? (
+                    <a
+                      href="/api/auth/google"
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      <GoogleIcon />
+                      <span className="ml-2 text-gray-800">Continue with Google</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleOAuthClick("Google")}
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-300 bg-gray-100 text-gray-500 font-medium cursor-not-allowed opacity-75"
+                      title="Coming soon"
+                    >
+                      <GoogleIcon />
+                      <span className="ml-2">Continue with Google</span>
+                    </button>
+                  )}
+                  {providers.facebook ? (
+                    <a
+                      href="/api/auth/facebook"
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#1877F2] bg-[#1877F2] text-white font-medium hover:bg-[#166FE5] transition-colors"
+                    >
+                      <FacebookIcon />
+                      <span className="ml-2 text-white">Continue with Facebook</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleOAuthClick("Facebook")}
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-400 bg-gray-600 text-gray-300 font-medium cursor-not-allowed opacity-75"
+                      title="Coming soon"
+                    >
+                      <FacebookIcon />
+                      <span className="ml-2 text-white">Continue with Facebook</span>
+                    </button>
+                  )}
+                  {providers.linkedin ? (
+                    <a
+                      href="/api/auth/linkedin"
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#0A66C2] bg-[#0A66C2] text-white font-medium hover:bg-[#0958a8] transition-colors"
+                    >
+                      <LinkedInIcon />
+                      <span className="ml-2 text-white">Continue with LinkedIn</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleOAuthClick("LinkedIn")}
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-400 bg-gray-600 text-gray-300 font-medium cursor-not-allowed opacity-75"
+                      title="Coming soon"
+                    >
+                      <LinkedInIcon />
+                      <span className="ml-2 text-white">Continue with LinkedIn</span>
+                    </button>
+                  )}
+                  {providers.apple ? (
+                    <a
+                      href="/api/auth/apple"
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-600 bg-black text-white font-medium hover:bg-gray-900 transition-colors"
+                    >
+                      <AppleIcon />
+                      <span className="ml-2 text-white">Continue with Apple</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleOAuthClick("Apple")}
+                      className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-600 bg-gray-800 text-gray-400 font-medium cursor-not-allowed opacity-75"
+                      title="Coming soon"
+                    >
+                      <AppleIcon />
+                      <span className="ml-2 text-white">Continue with Apple</span>
+                    </button>
+                  )}
                 </div>
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
