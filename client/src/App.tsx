@@ -91,6 +91,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/admin": "Admin | SmartSeek",
   "/login": "Login | SmartSeek",
   "/signup": "Sign Up | SmartSeek",
+  "/forgot-password": "Reset Password | SmartSeek",
   "/pricing": "Pricing | SmartSeek",
   "/faq": "FAQ | SmartSeek",
   "/about": "About | SmartSeek",

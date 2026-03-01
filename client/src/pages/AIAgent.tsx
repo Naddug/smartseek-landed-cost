@@ -698,10 +698,36 @@ export default function AIAgent() {
         <div className="flex-1 flex overflow-hidden">
           {/* Chat Area */}
           <div className="flex-1 flex flex-col overflow-hidden">
+            {/* Market Intelligence strip — always visible, full-width */}
+            <div className="w-full px-6 pt-4 pb-2 shrink-0">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Live Intelligence
+              </p>
+              <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-thin">
+                {PROACTIVE_INSIGHTS.map((insight, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex items-start gap-2.5 min-w-[260px] rounded-xl border-l-4 p-4 shrink-0 ${insight.bg} border border-gray-200 ${
+                      insight.type === "alert" ? "border-l-blue-500" : insight.type === "opportunity" ? "border-l-emerald-500" : "border-l-amber-500"
+                    }`}
+                  >
+                    <insight.icon className={`w-4 h-4 ${insight.color} mt-0.5 shrink-0`} />
+                    <div className="min-w-0">
+                      <Badge className={`${insight.badgeColor} text-[10px] px-1.5 py-0 font-medium border-0 mb-1`}>
+                        {insight.title}
+                      </Badge>
+                      <p className="text-xs text-gray-700 leading-relaxed">{insight.message}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
               {chatMessages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto">
+                <div className="flex flex-col items-center justify-center min-h-[200px] max-w-2xl mx-auto">
                   {/* Welcome */}
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-5 shadow-lg shadow-blue-200/40">
                     <Brain className="w-8 h-8 text-white" />
@@ -729,27 +755,6 @@ export default function AIAgent() {
                         </Tooltip>
                       ))}
                     </TooltipProvider>
-                  </div>
-
-                  {/* Market Intelligence — horizontal strip */}
-                  <div className="w-full mb-8">
-                    <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-1.5">
-                      <Activity className="w-3.5 h-3.5" />
-                      Market Intelligence
-                    </p>
-                    <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
-                      {PROACTIVE_INSIGHTS.map((insight, idx) => (
-                        <div key={idx} className={`flex items-start gap-2.5 p-3 rounded-xl ${insight.bg} border ${insight.border} min-w-0 max-w-full sm:max-w-[280px] flex-1 sm:flex-initial`}>
-                          <insight.icon className={`w-4 h-4 ${insight.color} mt-0.5 shrink-0`} />
-                          <div className="min-w-0">
-                            <Badge className={`${insight.badgeColor} text-[10px] px-1.5 py-0 font-medium border-0 mb-1`}>
-                              {insight.title}
-                            </Badge>
-                            <p className="text-xs text-gray-700 leading-relaxed">{insight.message}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
                   </div>
 
                   {/* Suggestions */}

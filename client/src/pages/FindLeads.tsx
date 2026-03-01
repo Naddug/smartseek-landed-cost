@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
   Search, Loader2, Building2, MapPin, Users, Mail, Phone, Globe, 
-  TrendingUp, Target, Briefcase, Download, Star, CheckCircle, CreditCard, ChevronDown, ChevronUp
+  TrendingUp, Target, Briefcase, Download, Star, CheckCircle, CreditCard, ChevronDown, ChevronUp, SlidersHorizontal
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
@@ -303,10 +303,11 @@ export default function FindLeads() {
           <button
             type="button"
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-slate-900 mt-4 py-2 px-3 rounded-lg border border-slate-200 hover:border-slate-300 bg-slate-50 hover:bg-slate-100 transition-colors"
+            className="flex items-center gap-2 text-sm text-slate-300 px-4 py-2 rounded-lg border border-slate-600 bg-slate-800 hover:bg-slate-700 transition-colors mt-4"
           >
-            {showAdvancedFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            ⚙ Advanced filters {showAdvancedFilters ? "▴" : "▾"}
+            <SlidersHorizontal className="w-4 h-4 shrink-0" />
+            <span>⚙ Advanced filters {showAdvancedFilters ? "▴" : "▾"}</span>
+            <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${showAdvancedFilters ? "rotate-180" : ""}`} />
           </button>
 
           {showAdvancedFilters && (

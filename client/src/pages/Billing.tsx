@@ -488,13 +488,13 @@ export default function Billing() {
                         Get 10 credits refreshed every month. Cancel anytime.
                       </div>
                     </div>
-                    <Button 
+                    <Button
                       onClick={startSubscriptionCheckout}
                       disabled={loadingCheckout || !checkoutReady}
                       data-testid="button-subscribe"
                     >
-                      {(loadingCheckout || !checkoutReady) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Subscribe Now
+                      {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {!checkoutReady ? "Loading..." : "Subscribe Now"}
                     </Button>
                   </div>
                 </div>
@@ -622,7 +622,7 @@ export default function Billing() {
                   disabled={loadingCheckout || !checkoutReady}
                   data-testid="button-buy-credits"
                 >
-                  {(loadingCheckout || !checkoutReady) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <CreditCard className="mr-2 h-4 w-4" />
                   Buy {creditQuantity} Credit{creditQuantity > 1 ? 's' : ''} - ${(10 * creditQuantity).toFixed(0)}
                 </Button>

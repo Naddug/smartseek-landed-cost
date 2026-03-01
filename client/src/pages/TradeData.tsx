@@ -391,23 +391,23 @@ export default function TradeData() {
 
       {/* Your Sourcing Activity */}
       {userStats && (
-        <Card className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border-slate-200 dark:border-slate-700">
+        <Card className="bg-[#1a2035] border border-slate-700/50">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
+            <CardTitle className="flex items-center gap-2 text-slate-100">
               <Activity className="w-5 h-5 text-primary" />
               Your Sourcing Activity
             </CardTitle>
-            <CardDescription>Insights from your SmartSeek reports</CardDescription>
+            <CardDescription className="text-slate-400">Insights from your SmartSeek reports</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">{userStats.reportsCount}</div>
-                <div className="text-sm text-slate-600 dark:text-slate-400">Reports generated</div>
+                <div className="text-2xl font-bold text-slate-100">{userStats.reportsCount}</div>
+                <div className="text-sm text-slate-400">Reports generated</div>
               </div>
               {userStats.topRegions.length > 0 ? (
                 <div>
-                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Top regions</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">Top regions</div>
                   <div className="flex flex-wrap gap-2">
                     {userStats.topRegions.slice(0, 4).map((r) => (
                       <Badge key={r.name} variant="secondary">{r.name} ({r.count})</Badge>
@@ -416,13 +416,13 @@ export default function TradeData() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Top regions</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">No reports generated yet</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">Top regions</div>
+                  <div className="text-sm text-slate-400">No reports generated yet</div>
                 </div>
               )}
               {userStats.commodities.length > 0 ? (
                 <div>
-                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Commodities sourced</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">Commodities sourced</div>
                   <div className="flex flex-wrap gap-2">
                     {userStats.commodities.slice(0, 5).map((c) => (
                       <Badge key={c} variant="outline">{c}</Badge>
@@ -431,17 +431,24 @@ export default function TradeData() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Commodities sourced</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">No commodities yet</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">Commodities sourced</div>
+                  <div className="text-sm text-slate-400">No commodities yet</div>
                 </div>
               )}
             </div>
-            <Link href="/smart-finder">
-              <Button variant="outline" size="sm" className="mt-4">
-                <Sparkles className="w-4 h-4 mr-2" />
-                New AI Sourcing Report
-              </Button>
-            </Link>
+            <div className="flex gap-2 mt-4">
+              <Link href="/smart-finder">
+                <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  New AI Sourcing Report
+                </Button>
+              </Link>
+              <Link href="/reports">
+                <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
+                  View My Reports →
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
       )}

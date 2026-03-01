@@ -57,7 +57,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const getPageTitle = (path: string) => {
     const slug = path.split('/')[1] || 'dashboard';
     const titles: Record<string, string> = {
-      dashboard: 'Dashboard',
+      dashboard: 'Home',
       'smart-finder': 'SmartSeek AI',
       'ai-agent': 'AI Agent',
       'find-leads': 'Find Leads',

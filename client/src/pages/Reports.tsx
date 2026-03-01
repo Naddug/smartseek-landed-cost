@@ -18,7 +18,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { reportsAPI } from "@/lib/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { ContactQuoteModal } from "@/components/ContactQuoteModal";
 import { toast } from "sonner";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, AreaChart, Area, Legend } from "recharts";
@@ -53,7 +53,7 @@ function deduplicateReports(reports: any[]): any[] {
   const byKey = new Map<string, any[]>();
   for (const r of sourcing) {
     const fd = r.formData || {};
-    const commodity = (fd.productName || fd.category || "").toString().toLowerCase().trim();
+    const commodity = (fd.productName || fd.category || r.title || "").toString().toLowerCase().trim();
     const origin = (fd.originCountry || "").toString().toLowerCase().trim();
     const dest = (fd.destinationCountry || "").toString().toLowerCase().trim();
     const key = `${commodity}|${origin}|${dest}`;
@@ -85,7 +85,7 @@ export default function Reports() {
   const [retryingId, setRetryingId] = useState<number | null>(null);
 
   const totalCalculations = customsCalcs.length + shippingEsts.length;
-  const dedupedReports = deduplicateReports(reports);
+  const dedupedReports = useMemo(() => deduplicateReports(reports), [reports]);
 
   useEffect(() => {
     if (openId) {

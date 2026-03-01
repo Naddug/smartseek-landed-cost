@@ -657,7 +657,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
                 placeholder="Search suppliers, products, or industries..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder:text-slate-400 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <button
@@ -678,13 +678,13 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
 
       {/* Filters Bar */}
       {showFilters && (
-        <div className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="bg-slate-800/60 border-b border-slate-700 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="flex flex-wrap items-center gap-3">
               <select
                 value={selectedCountry}
                 onChange={(e) => setSelectedCountry(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Countries</option>
                 {filters?.countries.map((c) => (
@@ -695,7 +695,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
               <select
                 value={selectedIndustry}
                 onChange={(e) => setSelectedIndustry(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">All Industries</option>
                 {filters?.industries.map((i) => (
@@ -703,7 +703,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
                 ))}
               </select>
 
-              <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={verifiedOnly}
@@ -717,7 +717,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="rating">Top Rated</option>
                 <option value="reviewCount">Most Reviewed</option>
