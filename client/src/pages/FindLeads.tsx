@@ -230,7 +230,7 @@ export default function FindLeads() {
           </div>
           <div>
             <h1 className="text-2xl font-heading font-bold text-white">Find Buyer Leads</h1>
-            <p className="text-slate-400 break-words">{stats ? `${formatStat(stats.leads)} buyer & trade leads` : "7M+ buyer & trade leads"} • AI-ranked, high-signal • Intent & firmographics from {stats ? formatStat(stats.suppliers) : "10M+"} verified suppliers</p>
+            <p className="text-slate-400 break-words">{stats ? `${formatStat(stats.leads)} buyer & trade leads` : "7M+ buyer & trade leads"} • AI-ranked, high-signal • Intent & firmographics from {stats ? formatStat(stats.suppliers) : "23.2M+"} verified and trusted suppliers</p>
           </div>
         </div>
       </div>

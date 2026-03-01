@@ -129,7 +129,7 @@ async function findOrCreateOAuthUser(oauth: OAuthProfile) {
 }
 
 const oauthStub = (provider: string) => (_req: Request, res: Response) => {
-  res.status(501).json({ error: `${provider} OAuth not configured yet. Use email/password.` });
+  res.redirect(`/login?error=${encodeURIComponent(`${provider} sign-in coming soon. Use email/password.`)}`);
 };
 
 export function setupOAuth(app: Express) {

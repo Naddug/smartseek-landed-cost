@@ -7,6 +7,21 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useUser, useProfile } from "@/lib/hooks";
 import { Loader2 } from "lucide-react";
 
+/** Invalidate auth cache when page restored from back-forward cache to prevent stale logged-in state */
+function AuthCacheBuster() {
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+        queryClient.invalidateQueries({ queryKey: ["profile"] });
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+  return null;
+}
+
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Auth from "@/pages/Auth";
@@ -52,7 +67,7 @@ function ProtectedRoute({ component: Component, adminOnly = false, requireVerifi
   }
 
   if (error || !user) {
-    window.location.href = '/login';
+    window.location.replace('/login');
     return null;
   }
 
@@ -193,6 +208,7 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthCacheBuster />
       <TooltipProvider>
         <Toaster />
         <Router />

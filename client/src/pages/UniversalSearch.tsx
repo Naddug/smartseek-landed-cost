@@ -276,7 +276,7 @@ export default function UniversalSearch() {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: "Electronics", icon: "📱", count: "10M+ suppliers" },
+                  { name: "Electronics", icon: "📱", count: "23.2M+ suppliers" },
                   { name: "Apparel", icon: "👕", count: "1.8M products" },
                   { name: "Home & Garden", icon: "🏠", count: "980K products" },
                   { name: "Sports & Fitness", icon: "⚽", count: "560K products" },

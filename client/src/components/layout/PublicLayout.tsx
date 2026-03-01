@@ -114,7 +114,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats ? formatStat(stats.suppliers) : "10M+"}
+                  {stats ? formatStat(stats.suppliers) : "23.2M+"}
                 </div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
               </div>

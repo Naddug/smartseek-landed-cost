@@ -127,7 +127,7 @@ const defaultSettings: AgentSettings = {
 
 const CAPABILITIES = [
   { icon: BarChart3, label: "Market Intelligence", desc: "Trend analysis & price monitoring", tooltip: "Get commodity price trends, market alerts, and trade flow insights.", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
-  { icon: Target, label: "Supplier Discovery", desc: "Find & qualify suppliers globally", tooltip: "Search 42M+ suppliers by product, region, and certification. Get AI-ranked shortlists.", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
+  { icon: Target, label: "Supplier Discovery", desc: "Find & qualify suppliers globally", tooltip: "Search 23.2M+ suppliers by product, region, and certification. Get AI-ranked shortlists.", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
   { icon: Shield, label: "Risk Analysis", desc: "Geopolitical & supply chain risks", tooltip: "Assess geopolitical, financial, and ESG risks for suppliers and regions.", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
   { icon: Zap, label: "Cost Optimization", desc: "Landed cost & shipping routes", tooltip: "Calculate landed costs, compare shipping routes, and optimize total cost of ownership.", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
   { icon: FileText, label: "Trade Compliance", desc: "HS codes, customs & regulations", tooltip: "Look up HS codes, check tariffs, and verify regulatory requirements for target markets.", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100" },
