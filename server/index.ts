@@ -10,19 +10,22 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import { setupAuth } from "./auth";
-import { runMigrations } from 'stripe-replit-sync';
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 
+// stripe-replit-sync removed — Replit-specific package, incompatible with Railway.
+// Stripe schema is managed via drizzle migrations.
+
 const app = express();
 
-/** Ensure required tables exist on Railway deploy. Skips drizzle-kit push (blocks on interactive prompts with Prisma tables). */
+/** Ensure required tables exist on Railway deploy. */
 async function runDrizzlePush() {
   const url = process.env.DATABASE_URL;
   const onRailway = !!process.env.RAILWAY_ENVIRONMENT_ID || !!process.env.RAILWAY_ENVIRONMENT_NAME;
   if (!url || process.env.NODE_ENV !== "production") return;
   if (url.includes("localhost") || url.includes("dummy")) return;
   if (!onRailway) return;
+  // ensureReportsTable called exactly once here
   await ensureReportsTable();
 }
 
@@ -47,6 +50,7 @@ async function ensureReportsTable() {
     console.warn("ensureReportsTable failed:", (e as Error)?.message ?? e);
   }
 }
+
 const httpServer = createServer(app);
 
 declare module "http" {
@@ -55,7 +59,7 @@ declare module "http" {
   }
 }
 
-// Initialize Stripe schema and sync data
+// Initialize Stripe sync (no runMigrations — handled by drizzle)
 async function initStripe() {
   if (process.env.STRIPE_SKIP_INIT === 'true') {
     console.log('STRIPE_SKIP_INIT set, skipping Stripe initialization');
@@ -66,61 +70,19 @@ async function initStripe() {
     console.log('DATABASE_URL not set, skipping Stripe initialization');
     return;
   }
-  // Skip if using dummy/local SQLite (Prisma) — Stripe needs PostgreSQL
   if (databaseUrl.includes('localhost:5432/dummy') || databaseUrl.startsWith('file:')) {
     console.log('Using local/dummy database, skipping Stripe initialization');
     return;
   }
 
-  const doInit = async () => {
-    console.log('Initializing Stripe schema...');
-    // @ts-ignore - schema option is supported by stripe-replit-sync
-    await runMigrations({ databaseUrl, schema: 'stripe' } as any);
-  };
-
   try {
-    await doInit();
-    console.log('Stripe schema ready');
-
     const stripeSync = await getStripeSync();
-
-    console.log('Setting up managed webhook...');
-    const webhookBaseUrl = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
-    if (webhookBaseUrl && webhookBaseUrl !== 'https://undefined') {
-      try {
-        const result = await stripeSync.findOrCreateManagedWebhook(
-          `${webhookBaseUrl}/api/stripe/webhook`
-        );
-        if (result?.webhook?.url) {
-          console.log(`Webhook configured: ${result.webhook.url}`);
-        } else {
-          console.log('Webhook setup returned no URL - may already exist');
-        }
-      } catch (webhookError) {
-        console.log('Webhook setup skipped or already exists:', webhookError);
-      }
-    } else {
-      console.log('Skipping webhook setup - no domain configured');
-    }
-
     console.log('Syncing Stripe data...');
     stripeSync.syncBackfill()
       .then(() => console.log('Stripe data synced'))
       .catch((err: any) => console.error('Error syncing Stripe data:', err));
   } catch (error: any) {
-    if (error?.code === 'ECONNRESET' || error?.message?.includes('ECONNRESET')) {
-      console.log('Stripe init ECONNRESET, retrying in 5s...');
-      await new Promise((r) => setTimeout(r, 5000));
-      try {
-        await doInit();
-        console.log('Stripe schema ready (retry succeeded)');
-        return;
-      } catch (retryErr) {
-        console.error('Stripe init retry failed (server will continue):', retryErr);
-      }
-    } else {
-      console.error('Failed to initialize Stripe (server will continue):', error);
-    }
+    console.error('Failed to initialize Stripe (server will continue):', error);
   }
 }
 
@@ -150,8 +112,7 @@ app.post(
   }
 );
 
-// Now apply JSON middleware for all other routes
-// Increased limit to 15mb to support image uploads (base64 encoding adds ~33% overhead)
+// JSON middleware for all other routes (15mb for image uploads)
 app.use(
   express.json({
     limit: '15mb',
@@ -163,10 +124,10 @@ app.use(
 
 app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 
-// Security headers (CSP disabled to avoid breaking SPA/Vite)
+// Security headers
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
-// Rate limiting — 100 req/15min per IP for API
+// Rate limiting — mounted at /api so req.path is relative (no /api prefix)
 app.use(
   "/api",
   rateLimit({
@@ -175,6 +136,14 @@ app.use(
     message: { error: "Too many requests, please try again later." },
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req) => {
+      const path = req.path;
+      return (
+        path.startsWith("/auth") ||
+        path === "/health" ||
+        path === "/stripe/webhook"
+      );
+    },
   })
 );
 
@@ -207,7 +176,6 @@ app.use((req, res, next) => {
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
       log(logLine);
     }
   });
@@ -216,29 +184,23 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Run Drizzle migrations on Railway (fixes ECONNRESET — runs from Railway network)
   await runDrizzlePush();
-  // Ensure reports table exists (fallback when drizzle-kit push fails or is skipped)
-  if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("localhost")) {
-    await ensureReportsTable();
-  }
-  // Initialize Stripe on startup
   await initStripe();
-  
+
   await setupAuth(app);
   await registerRoutes(httpServer, app);
 
+  // Error handler — do NOT re-throw; throwing inside Express error middleware
+  // causes unhandled rejection and crashes the process.
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
+    if (status >= 500) {
+      console.error("[error]", err);
+    }
     res.status(status).json({ message });
-    throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -246,7 +208,6 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  // Serve on PORT env or 3000 (avoids macOS AirPlay on 5000)
   const port = parseInt(process.env.PORT || "3000", 10);
   httpServer.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
