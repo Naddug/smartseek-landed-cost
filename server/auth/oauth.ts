@@ -149,10 +149,15 @@ export function setupOAuth(app: Express) {
     app.get("/api/auth/facebook", oauthStub("Facebook"));
     app.get("/api/auth/linkedin", oauthStub("LinkedIn"));
     app.get("/api/auth/apple", oauthStub("Apple"));
-    console.log("OAUTH_CALLBACK_BASE not set â OAuth routes disabled (stubs registered)");
+    console.log("OAUTH_CALLBACK_BASE not set Ã¢ÂÂ OAuth routes disabled (stubs registered)");
     return;
   }
 
+  passport.serializeUser((user: any, done) => { done(null, user.id); });
+  passport.deserializeUser(async (id: string, done) => {
+    try { const user = await authStorage.getUserById(id); done(null, user || false); }
+    catch (err) { done(err, false); }
+  });
   app.use(passport.initialize());
 
   if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
