@@ -120,6 +120,37 @@ export async function registerRoutes(
     res.status(200).json({ ok: true });
   });
 
+  // Newsletter subscribe — footer email signup
+  app.post("/api/newsletter/subscribe", async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+      if (!email || typeof email !== "string") {
+        return res.status(400).json({ error: "Email is required" });
+      }
+      const trimmed = email.trim().toLowerCase();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(trimmed)) {
+        return res.status(400).json({ error: "Invalid email format" });
+      }
+      const { pool } = await import("./db");
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+          id SERIAL PRIMARY KEY,
+          email VARCHAR(255) UNIQUE NOT NULL,
+          created_at TIMESTAMP DEFAULT NOW()
+        )
+      `);
+      await pool.query(
+        `INSERT INTO newsletter_subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING`,
+        [trimmed]
+      );
+      res.json({ success: true, message: "Subscribed successfully" });
+    } catch (e: any) {
+      console.error("Newsletter subscribe error:", e);
+      res.status(500).json({ error: "Failed to subscribe. Please try again." });
+    }
+  });
+
   // Freight benchmark rates Ã¢ÂÂ real market data (2024 indices: FBX, Xeneta, Drewry)
   // Routes keyed by origin-destination; rates in USD
   app.get("/api/freight/benchmark-rates", async (req: Request, res: Response) => {

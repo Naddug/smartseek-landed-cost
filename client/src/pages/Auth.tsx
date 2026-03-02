@@ -219,8 +219,10 @@ export default function Auth() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             {urlError && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center">
-                Sign-in failed. Please try again or use email/password.
+              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                <p className="font-medium text-center mb-1">Sign-in failed.</p>
+                <p className="text-center text-xs opacity-90">{urlError}</p>
+                <p className="text-center mt-2 text-xs">Please try again or use email/password.</p>
               </div>
             )}
             {mode !== "forgot" && (

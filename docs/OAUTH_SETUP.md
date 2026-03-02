@@ -9,7 +9,10 @@ Add these environment variables in Railway → your project → Variables:
 ### Google (usually works first)
 - `GOOGLE_CLIENT_ID` – from [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials → OAuth 2.0 Client ID
 - `GOOGLE_CLIENT_SECRET`
-- Redirect URI: `{OAUTH_CALLBACK_BASE}/api/auth/google/callback`
+- **Redirect URI** (must match exactly in Google Console): `{OAUTH_CALLBACK_BASE}/api/auth/google/callback`
+  - Example: `https://smartseek-landed-cost-production.up.railway.app/api/auth/google/callback`
+  - Add this under "Authorized redirect URIs" in your OAuth 2.0 Client ID settings
+  - "redirect_uri_mismatch" = URL in Google Console doesn't match OAUTH_CALLBACK_BASE
 
 ### Facebook
 - `FACEBOOK_APP_ID` – from [Facebook Developers](https://developers.facebook.com) → Create App → Facebook Login

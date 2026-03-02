@@ -226,7 +226,16 @@ export function setupOAuth(app: Express) {
   }
 
   const authCallback = (provider: string) => (req: any, res: any) => {
-    passport.authenticate(provider, { session: false }, (err: Error | null, user: { id: string } | false) => {
+    // Google/OAuth provider may redirect with ?error=...&error_description=... on failure
+    const providerError = req.query?.error as string | undefined;
+    const providerErrorDesc = req.query?.error_description as string | undefined;
+    if (providerError) {
+      const msg = providerErrorDesc || providerError;
+      console.error(`OAuth ${provider} provider error:`, providerError, providerErrorDesc);
+      return res.redirect(`/login?error=${encodeURIComponent(msg)}`);
+    }
+
+    passport.authenticate(provider, (err: Error | null, user: { id: string } | false) => {
       if (err) {
         console.error(`OAuth ${provider} error:`, err);
         return res.redirect(`/login?error=${encodeURIComponent(err.message)}`);
@@ -246,21 +255,21 @@ export function setupOAuth(app: Express) {
   };
 
   if (process.env.GOOGLE_CLIENT_ID) {
-    app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"], session: false }));
+    app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
     app.get("/api/auth/google/callback", authCallback("google"));
   } else {
     app.get("/api/auth/google", oauthStub("Google"));
   }
 
   if (process.env.FACEBOOK_APP_ID) {
-    app.get("/api/auth/facebook", passport.authenticate("facebook", { scope: ["email"], session: false }));
+    app.get("/api/auth/facebook", passport.authenticate("facebook", { scope: ["email"] }));
     app.get("/api/auth/facebook/callback", authCallback("facebook"));
   } else {
     app.get("/api/auth/facebook", oauthStub("Facebook"));
   }
 
   if (process.env.LINKEDIN_CLIENT_ID) {
-    app.get("/api/auth/linkedin", passport.authenticate("linkedin", { session: false }));
+    app.get("/api/auth/linkedin", passport.authenticate("linkedin"));
     app.get("/api/auth/linkedin/callback", authCallback("linkedin"));
   } else {
     app.get("/api/auth/linkedin", oauthStub("LinkedIn"));

@@ -2,11 +2,62 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/lib/store";
+import { useUser } from "@/lib/hooks";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, Loader2, Check } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { useToast } from "@/hooks/use-toast";
+
+function NewsletterForm() {
+  const { t } = useTranslation();
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = email.trim().toLowerCase();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Failed to subscribe");
+      setSubscribed(true);
+      setEmail("");
+      toast({ title: "Subscribed!", description: "You'll receive sourcing insights and updates." });
+    } catch (err: any) {
+      toast({ title: "Subscription failed", description: err.message || "Please try again later.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 flex-1 min-w-0 w-full">
+      <input
+        type="email"
+        placeholder={t("footer.newsletterPlaceholder")}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        disabled={subscribed}
+        className="flex-1 min-w-0 h-10 px-3 rounded-lg border border-input bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary disabled:opacity-60"
+      />
+      <Button type="submit" size="sm" className="shrink-0 w-full sm:w-auto" disabled={loading || subscribed}>
+        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : subscribed ? <Check className="w-4 h-4 text-green-600" /> : t("footer.subscribe")}
+      </Button>
+    </form>
+  );
+}
 
 function formatStat(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
@@ -17,7 +68,7 @@ function formatStat(n: number): string {
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
-  const { user } = useStore();
+  const { data: user } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [stats, setStats] = useState<{ suppliers: number; countries: number; leads: number } | null>(null);
 
@@ -150,12 +201,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               </p>
               <p className="text-xs text-muted-foreground/80 mb-6">{t("footer.designedFor")}</p>
               <div className="flex flex-col sm:flex-row gap-2 max-w-xs">
-                <input
-                  type="email"
-                  placeholder={t("footer.newsletterPlaceholder")}
-                  className="flex-1 min-w-0 h-10 px-3 rounded-lg border border-input bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-                <Button size="sm" className="shrink-0 w-full sm:w-auto">{t("footer.subscribe")}</Button>
+                <NewsletterForm />
               </div>
             </div>
             <div className="lg:col-span-2">

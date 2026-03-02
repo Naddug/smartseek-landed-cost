@@ -14,9 +14,11 @@ export class WebhookHandlers {
       );
     }
 
-    // Let stripe-replit-sync process and store the webhook data
+    // Let stripe-replit-sync process and store the webhook data (if available)
     const sync = await getStripeSync();
-    await sync.processWebhook(payload, signature);
+    if (sync) {
+      await sync.processWebhook(payload, signature);
+    }
 
     // Also handle business logic for credit fulfillment
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;

@@ -18,15 +18,14 @@ import { WebhookHandlers } from "./webhookHandlers";
 
 const app = express();
 
-/** Ensure required tables exist on Railway deploy. */
+/** Ensure required tables exist on deploy. Runs for production with real DB (Railway or other cloud). */
 async function runDrizzlePush() {
   const url = process.env.DATABASE_URL;
-  const onRailway = !!process.env.RAILWAY_ENVIRONMENT_ID || !!process.env.RAILWAY_ENVIRONMENT_NAME;
-  if (!url || process.env.NODE_ENV !== "production") return;
-  if (url.includes("localhost") || url.includes("dummy")) return;
-  if (!onRailway) return;
-  // ensureReportsTable called exactly once here
+  const isProd = process.env.NODE_ENV === "production";
+  const isRealDb = url && !url.includes("localhost") && !url.includes("dummy") && !url.startsWith("file:");
+  if (!url || !isProd || !isRealDb) return;
   await ensureReportsTable();
+  await ensureOAuthColumns();
 }
 
 /** Create reports table if missing (fallback when drizzle-kit push fails) */
@@ -51,6 +50,19 @@ async function ensureReportsTable() {
   }
 }
 
+/** Ensure users table has OAuth columns (for Google, Facebook, LinkedIn, Apple sign-in) */
+async function ensureOAuthColumns() {
+  try {
+    const { pool } = await import("./db");
+    const columns = ["google_id", "facebook_id", "linkedin_id", "apple_id"];
+    for (const col of columns) {
+      await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS ${col} VARCHAR(255) UNIQUE`);
+    }
+    console.log("OAuth columns ensured");
+  } catch (e) {
+    console.warn("ensureOAuthColumns failed:", (e as Error)?.message ?? e);
+  }
+}
 const httpServer = createServer(app);
 
 declare module "http" {
@@ -75,8 +87,30 @@ async function initStripe() {
     return;
   }
 
+  const doInit = async () => {
+    let runMigrations: (opts: any) => Promise<void>;
+    try {
+      const mod = await import('stripe-replit-sync');
+      runMigrations = mod.runMigrations;
+    } catch (err) {
+      console.warn('stripe-replit-sync not available, skipping Stripe schema init:', (err as Error)?.message);
+      return;
+    }
+    console.log('Initializing Stripe schema...');
+    // @ts-ignore - schema option is supported by stripe-replit-sync
+    await runMigrations({ databaseUrl, schema: 'stripe' } as any);
+  };
+
   try {
+    await doInit();
+    console.log('Stripe schema ready');
+
     const stripeSync = await getStripeSync();
+    if (!stripeSync) {
+      console.log('Stripe sync not available (stripe-replit-sync not loaded)');
+      return;
+    }
+
     console.log('Syncing Stripe data...');
     stripeSync.syncBackfill()
       .then(() => console.log('Stripe data synced'))
@@ -127,7 +161,11 @@ app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 // Security headers
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
+<<<<<<< Updated upstream
 // Rate limiting â mounted at /api so req.path is relative (no /api prefix)
+=======
+// Rate limiting — 100 req/15min per IP for API (exempt: auth, health, webhooks)
+>>>>>>> Stashed changes
 app.use(
   "/api",
   rateLimit({
@@ -138,11 +176,7 @@ app.use(
     legacyHeaders: false,
     skip: (req) => {
       const path = req.path;
-      return (
-        path.startsWith("/auth") ||
-        path === "/health" ||
-        path === "/stripe/webhook"
-      );
+      return path.startsWith("/auth") || path === "/health" || path === "/stripe/webhook";
     },
   })
 );

@@ -61,10 +61,15 @@ export async function getStripeSecretKey() {
 }
 
 let stripeSync: any = null;
+let stripeSyncLoadFailed = false;
 
-export async function getStripeSync() {
-  if (!stripeSync) {
-    const { StripeSync } = await import('stripe-replit-sync');
+export async function getStripeSync(): Promise<any> {
+  if (stripeSyncLoadFailed) return null;
+  if (stripeSync) return stripeSync;
+  try {
+    // Dynamic import - module path in variable so bundlers don't resolve at build time
+    const mod = await import(/* @bundler-ignore */ 'stripe-replit-sync');
+    const { StripeSync } = mod;
     const secretKey = await getStripeSecretKey();
 
     stripeSync = new StripeSync({
@@ -74,6 +79,10 @@ export async function getStripeSync() {
       },
       stripeSecretKey: secretKey,
     });
+    return stripeSync;
+  } catch (err) {
+    console.warn('stripe-replit-sync not available:', (err as Error)?.message);
+    stripeSyncLoadFailed = true;
+    return null;
   }
-  return stripeSync;
 }

@@ -51,6 +51,10 @@ async function buildAll() {
     ...Object.keys(pkg.devDependencies || {}),
   ];
   const externals = allDeps.filter((dep) => !allowlist.includes(dep));
+  // Force stripe-replit-sync external — esbuild fails to resolve in Railway Docker
+  if (!externals.includes("stripe-replit-sync")) {
+    externals.push("stripe-replit-sync");
+  }
 
   const sharedDir = path.resolve(process.cwd(), "shared");
   await esbuild({
