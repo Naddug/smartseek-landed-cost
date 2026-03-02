@@ -53,7 +53,7 @@ export async function registerRoutes(
     }
   });
 
-  // Product family detection (steel, agri, chemicals, textiles, etc.) — when not a mineral
+  // Product family detection (steel, agri, chemicals, textiles, etc.) â when not a mineral
   app.get("/api/product-families/detect", (req: Request, res: Response) => {
     try {
       const product = (req.query.product as string) || "";
@@ -81,7 +81,7 @@ export async function registerRoutes(
     }
   });
 
-  // UN Comtrade proxy — official trade data (requires UN_COMTRADE_API_KEY)
+  // UN Comtrade proxy â official trade data (requires UN_COMTRADE_API_KEY)
   app.get("/api/trade/comtrade", async (req: Request, res: Response) => {
     const key = process.env.UN_COMTRADE_API_KEY;
     if (!key) {
@@ -100,7 +100,7 @@ export async function registerRoutes(
     }
   });
 
-  // Market prices (USD/tonne) — metals, steel, agri, food
+  // Market prices (USD/tonne) â metals, steel, agri, food
   app.get("/api/market-prices/metals", async (_req: Request, res: Response) => {
     try {
       const prices = await getMarketMetalPrices();
@@ -115,12 +115,12 @@ export async function registerRoutes(
     }
   });
 
-  // Health check (no DB) — for Railway/deploy verification
+  // Health check (no DB) â for Railway/deploy verification
   app.get("/api/health", (_req: Request, res: Response) => {
     res.status(200).json({ ok: true });
   });
 
-  // Freight benchmark rates — real market data (2024 indices: FBX, Xeneta, Drewry)
+  // Freight benchmark rates â real market data (2024 indices: FBX, Xeneta, Drewry)
   // Routes keyed by origin-destination; rates in USD
   app.get("/api/freight/benchmark-rates", async (req: Request, res: Response) => {
     try {
@@ -284,7 +284,7 @@ export async function registerRoutes(
       res.json(profile);
     } catch (error) {
       console.error("Error fetching profile:", error);
-      // Fallback when user_profiles table missing (migrations not run) — allow Dashboard to load
+      // Fallback when user_profiles table missing (migrations not run) â allow Dashboard to load
       res.json({
         userId,
         role: "buyer",
@@ -467,10 +467,10 @@ Keep it natural and conversational. Adapt tone to the lead's seniority and indus
 IMPORTANT: Use the exact email template style (formal/casual/sales) and signature provided in the user's message.
 Draft a compelling, highly personalized outreach email. Use this structure:
 1. SUBJECT LINE - Create 2 options: one curiosity-driven, one value-driven (max 50 chars each)
-2. OPENING - Personalized hook (reference their role, company, or industry—show you've researched)
+2. OPENING - Personalized hook (reference their role, company, or industryâshow you've researched)
 3. VALUE PROPOSITION - One clear benefit in 1-2 sentences (outcome-focused, not feature-focused)
 4. SOCIAL PROOF - One credible stat or proof point
-5. CALL TO ACTION - Single, specific ask (one meeting, one call—not multiple options)
+5. CALL TO ACTION - Single, specific ask (one meeting, one callânot multiple options)
 6. SIGN-OFF - Use the exact signature the user provided (e.g. "Best regards, Your Name")
 Keep total email under 150 words. Avoid buzzwords. Sound human, not salesy.`,
         
@@ -534,12 +534,12 @@ Your capabilities include:
 - **Strategic Advisory**: Provide actionable recommendations backed by market data and industry expertise
 
 RESPONSE GUIDELINES:
-- Be specific with numbers, percentages, and data points — never vague
+- Be specific with numbers, percentages, and data points â never vague
 - Structure responses with clear headers and bullet points for readability
 - Always end with 2-3 actionable next steps the user can take immediately
 - Reference current market conditions, trade policies, and industry trends
 - If the user asks about a specific product/market, provide pricing ranges, key suppliers, and risk factors
-- Think like a senior trade consultant charging $500/hour — every response should deliver that level of value`
+- Think like a senior trade consultant charging $500/hour â every response should deliver that level of value`
       };
       
       const systemPrompt = taskPrompts[task] || taskPrompts.general;
@@ -577,7 +577,7 @@ RESPONSE GUIDELINES:
     }
   });
 
-  // Pipeline: Prospector → Enricher → Qualifier → Outreach
+  // Pipeline: Prospector â Enricher â Qualifier â Outreach
   app.post("/api/ai-agent/pipeline", async (req: Request, res: Response) => {
     const userId = getUserId(req);
     if (!userId) {
@@ -649,7 +649,7 @@ RESPONSE GUIDELINES:
     try {
       const validatedData = insertReportSchema.parse(req.body);
       
-      // Check credits — fallback when user_profiles/credit tables missing (migrations not run)
+      // Check credits â fallback when user_profiles/credit tables missing (migrations not run)
       let profile: Awaited<ReturnType<typeof storage.getUserProfile>>;
       try {
         profile = await storage.getUserProfile(userId);
@@ -674,7 +674,7 @@ RESPONSE GUIDELINES:
             if (!spent) return res.status(402).json({ error: "Failed to deduct credits" });
           }
         } catch {
-          // Credits tables missing — allow report anyway (graceful degradation)
+          // Credits tables missing â allow report anyway (graceful degradation)
         }
       }
       
@@ -741,7 +741,7 @@ RESPONSE GUIDELINES:
       res.json(reports);
     } catch (error) {
       console.error("Error fetching reports:", error);
-      // Fallback when reports table missing — allow Reports page to load
+      // Fallback when reports table missing â allow Reports page to load
       res.json([]);
     }
   });
@@ -2290,7 +2290,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // Supplier Discovery API
   // ============================================================================
 
-  // GET /api/suppliers — Search, filter, paginate
+  // GET /api/suppliers â Search, filter, paginate
   app.get("/api/suppliers", async (req: Request, res: Response) => {
     res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=60");
     try {
@@ -2474,7 +2474,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     }
   });
 
-  // GET /api/suppliers/filters — Get available filter options (proper-cased, deduplicated)
+  // GET /api/suppliers/filters â Get available filter options (proper-cased, deduplicated)
   let filtersCache: { data: any; ts: number } | null = null;
   const FILTERS_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
@@ -2536,7 +2536,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     }
   });
 
-  // GET /api/suppliers/:slug — Supplier detail (contact fields only for paid users)
+  // GET /api/suppliers/:slug â Supplier detail (contact fields only for paid users)
   app.get("/api/suppliers/:slug", async (req: Request, res: Response) => {
     try {
       const supplier = await prisma.supplier.findUnique({
@@ -2608,7 +2608,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // Lead Generation API
   // ============================================================================
 
-  // POST /api/leads — Submit a lead/contact request
+  // POST /api/leads â Submit a lead/contact request
   app.post("/api/leads", async (req: Request, res: Response) => {
     try {
       const { supplierId, buyerName, buyerEmail, buyerPhone, buyerCompany, message, productInterest, source } = req.body;
@@ -2647,7 +2647,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // RFQ API
   // ============================================================================
 
-  // POST /api/rfqs — Submit an RFQ
+  // POST /api/rfqs â Submit an RFQ
   app.post("/api/rfqs", async (req: Request, res: Response) => {
     try {
       const {
@@ -2689,7 +2689,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     }
   });
 
-  // GET /api/rfqs — Get RFQs by buyer email
+  // GET /api/rfqs â Get RFQs by buyer email
   app.get("/api/rfqs", async (req: Request, res: Response) => {
     try {
       const { email } = req.query;
