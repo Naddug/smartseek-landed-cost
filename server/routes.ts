@@ -686,7 +686,7 @@ RESPONSE GUIDELINES:
       });
       
       // Generate AI report in background (don't await to return quickly)
-      const { withTimeout } = await import("./lib/asyncUtils");
+      
       withTimeout(
         generateSmartFinderReport(validatedData.formData as ReportFormData),
         120000,
@@ -783,7 +783,7 @@ RESPONSE GUIDELINES:
         status: "generating",
         reportData: null,
       });
-      const { withTimeout } = await import("./lib/asyncUtils");
+      
       withTimeout(generateSmartFinderReport(formData), 120000, "Report generation")
         .then(async (reportData) => {
           await storage.updateReport(id, { reportData, status: "completed" });
@@ -1856,7 +1856,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     try {
       const { supplierName, country, industry, products } = req.body;
       if (!country) return res.status(400).json({ error: "Country is required" });
-      const { withTimeout } = await import("./lib/asyncUtils");
+      
       const result = await withTimeout(
         generateRiskAnalysis({ supplierName, country, industry, products }),
         30000,
@@ -2204,7 +2204,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       let supplierCount = 0;
       try {
         const estRows = await prisma.$queryRaw<[{ cnt: number }]>`
-          SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'
+          SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'supplier'
         `;
         supplierCount = Number(estRows[0]?.cnt || 0);
       } catch {}
@@ -2401,7 +2401,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const hasFilters = q || country || industry || verified === "true" || minRating;
       const countPromise = hasFilters
         ? prisma.supplier.count({ where })
-        : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'`
+        : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'supplier'`
             .then((rows) => Number(rows[0]?.cnt || 0))
             .catch(() => prisma.supplier.count({ where }));
 
