@@ -13,7 +13,7 @@ import { setupAuth } from "./auth";
 import { getStripeSync } from "./stripeClient";
 import { WebhookHandlers } from "./webhookHandlers";
 
-// stripe-replit-sync removed — Replit-specific package, incompatible with Railway.
+// stripe-replit-sync removed â Replit-specific package, incompatible with Railway.
 // Stripe schema is managed via drizzle migrations.
 
 const app = express();
@@ -59,7 +59,7 @@ declare module "http" {
   }
 }
 
-// Initialize Stripe sync (no runMigrations — handled by drizzle)
+// Initialize Stripe sync (no runMigrations â handled by drizzle)
 async function initStripe() {
   if (process.env.STRIPE_SKIP_INIT === 'true') {
     console.log('STRIPE_SKIP_INIT set, skipping Stripe initialization');
@@ -127,7 +127,7 @@ app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 // Security headers
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
-// Rate limiting — mounted at /api so req.path is relative (no /api prefix)
+// Rate limiting â mounted at /api so req.path is relative (no /api prefix)
 app.use(
   "/api",
   rateLimit({
@@ -190,7 +190,7 @@ app.use((req, res, next) => {
   await setupAuth(app);
   await registerRoutes(httpServer, app);
 
-  // Error handler — do NOT re-throw; throwing inside Express error middleware
+  // Error handler â do NOT re-throw; throwing inside Express error middleware
   // causes unhandled rejection and crashes the process.
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
