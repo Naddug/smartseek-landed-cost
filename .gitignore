@@ -15,4 +15,4 @@ vite.config.ts.*
 .config/
 .local/
 prisma/dev.db
-Untitled
+Untitledscripts/data-import/import-suppliers.log
