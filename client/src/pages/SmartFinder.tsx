@@ -2,20 +2,19 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useProfile, useCreateReport, useReport } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { 
+import {
   Sparkles, Loader2, FileText, CheckCircle,
-  Package, Globe, Ship, Plane, Truck, Shield, Hash, 
-  Building2, Download,
+  Package, Globe, Ship, Truck, Shield, Hash,
+  Building2, Download, TrendingUp,
   AlertTriangle, Star, MapPin, Users, DollarSign, Calculator,
   Landmark, Receipt, Container, Percent, Send, CreditCard, Zap,
-  Camera, X, ChevronDown, ChevronUp
+  Camera, X, ChevronDown, ChevronUp, ArrowRight
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -30,7 +29,7 @@ const COUNTRIES = [
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { jsPDF } from "jspdf";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 
@@ -193,6 +192,8 @@ export default function SmartFinder() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const refetchRef = useRef(refetch);
+  useEffect(() => { refetchRef.current = refetch; }, [refetch]);
 
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isAdmin = profile?.role === 'admin';
@@ -282,22 +283,26 @@ export default function SmartFinder() {
     return () => clearTimeout(t);
   }, [query]);
 
-  // Poll for report status when loading
+  // Poll for report status when loading — uses direct fetch to bypass React Query caching
   useEffect(() => {
     if (view !== 'loading' || !reportId) return;
 
     const pollReport = async () => {
       try {
-        const { data: latestReport } = await refetch();
+        const res = await fetch(`/api/reports/${reportId}?_t=${Date.now()}`, { credentials: 'include' });
+        if (!res.ok) return;
+        const latestReport = await res.json();
         if (latestReport?.status === 'completed') {
+          // Sync React Query cache with fresh server data before showing results
+          await refetchRef.current();
           setView('results');
         } else if (latestReport?.status === 'failed') {
           const errData = (latestReport?.reportData as any)?.error;
           let msg = "Report generation failed. Please try again.";
           if (typeof errData === "string") {
             if (errData.includes("API key") || errData.includes("OPENAI")) {
-              msg = "AI service not configured. Set OPENAI_API_KEY in your environment.";
-            } else if (errData.length < 120) {
+              msg = "AI service not configured. Please contact support or check server environment.";
+            } else if (errData.length < 200) {
               msg = errData;
             }
           }
@@ -310,14 +315,10 @@ export default function SmartFinder() {
       }
     };
 
-    // Initial poll
     pollReport();
-
-    // Set up interval polling
-    const intervalId = setInterval(pollReport, 2000);
-
+    const intervalId = setInterval(pollReport, 2500);
     return () => clearInterval(intervalId);
-  }, [view, reportId, refetch]);
+  }, [view, reportId]);
 
   const handleSubmit = async (inputQuery?: string) => {
     let searchQuery = inputQuery || query;
@@ -1211,14 +1212,18 @@ export default function SmartFinder() {
 
   const renderResults = () => {
     if (!report) return null;
-    
+
     const reportData = report.reportData as any;
     const savedFormData = report.formData as any;
     const customsData = reportData?.customsAnalysis;
     const landedCost = reportData?.landedCostBreakdown;
-    const sellers = reportData?.sellerComparison || [];
+    const sellers = (reportData?.sellerComparison || []) as any[];
     const profitAnalysis = reportData?.profitAnalysis;
     const productClass = reportData?.productClassification;
+    const marketOverview = reportData?.marketOverview;
+    const riskAssessment = reportData?.riskAssessment;
+    const timeline = reportData?.timeline;
+    const supplierAnalysis = reportData?.supplierAnalysis;
     const unit = inferUnit(productClass?.hsCode, productClass?.productCategory);
 
     const costBreakdownData = landedCost ? [
@@ -1226,494 +1231,352 @@ export default function SmartFinder() {
       { name: 'Freight', value: parseNumericValue(landedCost.freightCost), color: '#10b981' },
       { name: 'Duties', value: parseNumericValue(landedCost.customsDuties), color: '#f59e0b' },
       { name: 'VAT/Tax', value: parseNumericValue(landedCost.vatTaxes), color: '#ef4444' },
-      { name: 'Fees', value: parseNumericValue(landedCost.handlingFees) + parseNumericValue(landedCost.brokerageFees), color: '#8b5cf6' },
+      { name: 'Other', value: parseNumericValue(landedCost.handlingFees) + parseNumericValue(landedCost.brokerageFees) + parseNumericValue(landedCost.portCharges), color: '#8b5cf6' },
     ].filter(d => d.value > 0) : [];
 
-    const sellerComparisonData = sellers.map((s: any) => {
-      const price = parseNumericValue(s.unitPrice);
-      const margin = parseNumericValue(s.profitMargin);
-      const rating = typeof s.rating === 'number' ? s.rating : parseFloat(String(s.rating)) || 4.0;
-      return {
-        name: (s.sellerName?.split(' ')[0] || 'Seller').slice(0, 12),
-        price: price > 0 ? price : rating * 500,
-        margin: margin > 0 ? margin : rating * 15,
-        rating,
-      };
+    const warnings = (reportData?.metadata?.warnings || []).filter((w: string) => {
+      if (sellers.length > 0 && /no suppliers found in .* supplier directory/i.test(w)) return false;
+      return true;
     });
-    const hasRealPricing = sellers.some((s: any) => parseNumericValue(s.unitPrice) > 0);
+
+    const riskBadgeClass = (level: string) =>
+      level === 'Low' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+      level === 'Medium' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+      'bg-red-100 text-red-800 border-red-300';
+
+    const riskBarClass = (level: string) =>
+      level === 'Low' ? '[&>div]:bg-emerald-500' :
+      level === 'Medium' ? '[&>div]:bg-amber-500' :
+      '[&>div]:bg-red-500';
+
+    const exportCSV = () => {
+      if (!sellers.length) { toast.info('No supplier data to export'); return; }
+      const headers = ['Supplier', 'Platform', 'Location', 'Price', 'MOQ', 'Lead Time', 'Rating', 'Certifications'];
+      const rows = sellers.map((s: any) => [s.sellerName||'', s.platform||'', s.location||'', s.unitPrice||'', s.moq||'', s.leadTime||'', s.rating??'', (s.certifications||[]).join('; ')]);
+      const csv = [headers.join(','), ...rows.map((r: string[]) => r.map((c) => `"${String(c).replace(/"/g,'""')}"`).join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `SmartSeek_Suppliers_${report.title.replace(/[^a-zA-Z0-9]/g,'_')}_${format(new Date(),'yyyy-MM-dd')}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success('Supplier list exported');
+    };
 
     return (
-      <Card className="w-full max-w-4xl mx-auto shadow-md border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden">
-        <CardHeader className="pb-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <Badge variant="outline" className="mb-2 bg-green-50 dark:bg-green-950/50 text-green-800 dark:text-green-200 border-green-300 dark:border-green-700">
-                <CheckCircle className="w-3 h-3 mr-1" />
-                Report Complete
-              </Badge>
-              <CardTitle className="text-xl text-slate-900 dark:text-slate-100">{report.title}</CardTitle>
-              <p className="text-sm text-slate-700 dark:text-slate-400 mt-1">
-                Generated on {format(new Date(report.createdAt), 'MMMM d, yyyy')}
-              </p>
+      <div className="w-full max-w-5xl mx-auto space-y-5">
+
+        {/* ── REPORT HEADER ── */}
+        <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-5 sm:p-7 shadow-xl border border-blue-900/30">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-semibold text-xs">
+                  <CheckCircle className="w-3 h-3 mr-1" /> Intelligence Report Ready
+                </Badge>
+                <span className="text-slate-400 text-xs">{format(new Date(report.createdAt), 'MMM d, yyyy · HH:mm')}</span>
+              </div>
+              <h2 className="text-lg sm:text-2xl font-bold text-white leading-tight break-words">{report.title}</h2>
+              {savedFormData?.originCountry && savedFormData?.destinationCountry && (
+                <p className="text-blue-300 text-sm mt-1 flex items-center gap-1.5 flex-wrap">
+                  <Globe className="w-3.5 h-3.5 shrink-0" />
+                  {savedFormData.originCountry === 'Any' ? 'Global' : savedFormData.originCountry}
+                  <ArrowRight className="w-3 h-3" />
+                  {savedFormData.destinationCountry}
+                  {savedFormData.quantity && <span className="text-slate-400 ml-1">· {Number(savedFormData.quantity).toLocaleString()} units</span>}
+                </p>
+              )}
             </div>
             <div className="flex flex-wrap gap-2 shrink-0">
-              <Button onClick={exportToPDF} disabled={isExporting} className="shrink-0" data-testid="button-download-pdf">
-                {isExporting ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <Download className="w-4 h-4 mr-2" />
-                )}
-                {isExporting ? 'Generating...' : 'PDF'}
+              <Button onClick={handleNewSearch} variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700 text-xs">
+                <Sparkles className="w-3.5 h-3.5 mr-1" /> New Search
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  const sellers = reportData?.sellerComparison || [];
-                  if (sellers.length === 0) {
-                    toast.info('No supplier data to export');
-                    return;
-                  }
-                  const headers = ['Supplier', 'Platform', 'Location', 'Price', 'MOQ', 'Lead Time', 'Rating', 'Certifications'];
-                  const rows = sellers.map((s: any) => [
-                    s.sellerName || '',
-                    s.platform || '',
-                    s.location || '',
-                    s.unitPrice || '',
-                    s.moq || '',
-                    s.leadTime || '',
-                    s.rating ?? '',
-                    (s.certifications || []).join('; '),
-                  ]);
-                  const csv = [headers.join(','), ...rows.map((r: string[]) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(','))].join('\n');
-                  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  a.href = url;
-                  a.download = `SmartSeek_Suppliers_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.csv`;
-                  a.click();
-                  URL.revokeObjectURL(url);
-                  toast.success('Supplier data exported');
-                }}
-                className="shrink-0"
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                Export CSV
+              <Button onClick={exportCSV} variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700 text-xs">
+                <FileText className="w-3.5 h-3.5 mr-1" /> CSV
+              </Button>
+              <Button onClick={exportToPDF} disabled={isExporting} size="sm" className="bg-blue-600 hover:bg-blue-500 text-white border-0 text-xs" data-testid="button-download-pdf">
+                {isExporting ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" /> : <Download className="w-3.5 h-3.5 mr-1" />}
+                {isExporting ? 'Generating…' : 'PDF Report'}
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/50 dark:to-blue-900/50 rounded-xl text-center border border-blue-200 dark:border-blue-800 shadow-sm">
-              <Hash className="w-5 h-5 text-blue-600 dark:text-blue-400 mx-auto mb-1.5" />
-              <div className="text-base font-bold font-mono text-blue-900 dark:text-blue-100">{productClass?.hsCode || 'N/A'}</div>
-              <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide">HS Code</div>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-emerald-50 to-emerald-100/50 dark:from-emerald-950/50 dark:to-emerald-900/50 rounded-xl text-center border border-emerald-200 dark:border-emerald-800 shadow-sm">
-              <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mx-auto mb-1.5" />
-              <div className="text-base font-bold text-emerald-900 dark:text-emerald-100">{landedCost?.costPerUnit || 'N/A'}</div>
-              <div className="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Landed Cost/{unit}</div>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-950/50 dark:to-purple-900/50 rounded-xl text-center border border-purple-200 dark:border-purple-800 shadow-sm">
-              <Percent className="w-5 h-5 text-purple-600 dark:text-purple-400 mx-auto mb-1.5" />
-              <div className="text-base font-bold text-purple-900 dark:text-purple-100">{profitAnalysis?.profitMargin || 'N/A'}</div>
-              <div className="text-xs font-semibold text-purple-700 uppercase tracking-wide">Est. Margin</div>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-amber-50 to-amber-100/50 dark:from-amber-950/50 dark:to-amber-900/50 rounded-xl text-center border border-amber-200 dark:border-amber-800 shadow-sm">
-              <Users className="w-5 h-5 text-amber-600 dark:text-amber-400 mx-auto mb-1.5" />
-              <div className="text-base font-bold text-amber-900 dark:text-amber-100">{sellers.length}</div>
-              <div className="text-xs font-semibold text-amber-800 dark:text-amber-200 uppercase tracking-wide">Suppliers Found</div>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="pt-0">
-          <Tabs defaultValue="summary" className="w-full">
-            <TabsList className="flex w-full overflow-x-auto flex-nowrap gap-1 p-1 mb-4 h-auto [&::-webkit-scrollbar]:hidden">
-              <TabsTrigger value="summary" data-testid="tab-summary" className="shrink-0">Summary</TabsTrigger>
-              <TabsTrigger value="countries" data-testid="tab-countries" className="shrink-0">Countries</TabsTrigger>
-              <TabsTrigger value="suppliers" data-testid="tab-suppliers" className="shrink-0">Suppliers</TabsTrigger>
-              <TabsTrigger value="costs" data-testid="tab-costs" className="shrink-0">Costs</TabsTrigger>
-              <TabsTrigger value="customs" data-testid="tab-customs" className="shrink-0">Customs</TabsTrigger>
-              <TabsTrigger value="risks" data-testid="tab-risks" className="shrink-0">Risk</TabsTrigger>
-            </TabsList>
-
-            {reportData?.metadata?.warnings?.length > 0 && (() => {
-              const sellers = reportData?.sellerComparison || [];
-              const filtered = reportData.metadata.warnings.filter((w: string) => {
-                if (sellers.length > 0 && /no suppliers found in .* supplier directory/i.test(w)) return false;
-                return true;
-              });
-              return filtered.length > 0 ? (
-                <div className="p-3 bg-amber-50 dark:bg-amber-950/50 rounded-lg border border-amber-200 dark:border-amber-800 flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-sm text-amber-800 dark:text-amber-200">
-                    <span className="font-medium">Note:</span> {filtered.join(" ")}
-                  </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { label: 'HS Code', value: productClass?.hsCode || 'N/A', sub: productClass?.tariffChapter?.split(' ').slice(0,3).join(' ') || 'Classification', icon: <Hash className="w-3.5 h-3.5" />, color: 'text-blue-300' },
+              { label: `Landed Cost/${unit}`, value: landedCost?.costPerUnit || 'N/A', sub: `Total: ${landedCost?.totalLandedCost || 'N/A'}`, icon: <DollarSign className="w-3.5 h-3.5" />, color: 'text-emerald-300' },
+              { label: 'Est. Margin', value: profitAnalysis?.profitMargin || 'N/A', sub: `Retail: ${profitAnalysis?.recommendedRetailPrice || 'N/A'}`, icon: <Percent className="w-3.5 h-3.5" />, color: 'text-purple-300' },
+              { label: 'Suppliers Found', value: String(sellers.length), sub: `Risk: ${riskAssessment?.overallRisk || 'N/A'}`, icon: <Users className="w-3.5 h-3.5" />, color: 'text-amber-300' },
+            ].map((kpi, i) => (
+              <div key={i} className="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10">
+                <div className={`text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1 ${kpi.color}`}>
+                  {kpi.icon} {kpi.label}
                 </div>
-              ) : null;
-            })()}
-
-            <TabsContent value="summary" className="space-y-5">
-              <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
-                <h4 className="font-bold text-base flex items-center gap-2 mb-3 text-slate-900">
-                  <FileText className="w-5 h-5 text-blue-600" />
-                  Executive Summary
-                </h4>
-                <p className="text-sm text-slate-800 leading-relaxed">{reportData?.executiveSummary || 'No summary available.'}</p>
+                <div className="text-lg font-bold font-mono text-white">{kpi.value}</div>
+                <div className="text-xs text-slate-400 mt-1 truncate">{kpi.sub}</div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {warnings.length > 0 && (
+          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 flex items-start gap-2">
+            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-amber-800"><span className="font-semibold">Note: </span>{warnings.join(' ')}</p>
+          </div>
+        )}
+
+        {/* ── EXECUTIVE SUMMARY ── */}
+        {reportData?.executiveSummary && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                  <FileText className="w-4 h-4 text-blue-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Executive Summary</h3>
+              </div>
+              <p className="text-slate-700 leading-relaxed text-[15px]">{reportData.executiveSummary}</p>
 
               {productClass && (
-                <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
-                  <h4 className="font-bold text-base flex items-center gap-2 mb-4 text-slate-900">
-                    <Hash className="w-5 h-5 text-blue-600" />
-                    Product Classification
-                  </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="p-3 bg-blue-50 rounded-lg">
-                      <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">HS Code</div>
-                      <div className="font-mono font-bold text-lg text-blue-900">{productClass.hsCode}</div>
-                    </div>
-                    <div className="p-3 bg-slate-50 rounded-lg">
-                      <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Tariff Chapter</div>
-                      <div className="font-medium text-sm text-slate-900">{productClass.tariffChapter}</div>
-                    </div>
-                    <div className="p-3 bg-slate-50 rounded-lg">
-                      <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Category</div>
-                      <div className="font-medium text-sm text-slate-900">{productClass.productCategory}</div>
-                    </div>
-                    <div className="p-3 bg-slate-50 rounded-lg">
-                      <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">Description</div>
-                      <div className="font-medium text-sm text-slate-900" title={productClass.hsCodeDescription}>{productClass.hsCodeDescription || "—"}</div>
-                    </div>
+                <div className="mt-5 pt-5 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-1">HS Code</div>
+                    <div className="font-bold font-mono text-blue-900">{productClass.hsCode}</div>
                   </div>
-                </div>
-              )}
-
-              {reportData?.recommendations && reportData.recommendations.length > 0 && (
-                <div className="p-5 bg-gradient-to-br from-emerald-50 to-white rounded-xl border border-emerald-200 shadow-sm">
-                  <h4 className="font-bold text-base flex items-center gap-2 mb-3 text-slate-900">
-                    <Sparkles className="w-5 h-5 text-emerald-600" />
-                    Key Recommendations
-                  </h4>
-                  <ul className="space-y-2">
-                    {reportData.recommendations.slice(0, 4).map((rec: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-slate-800">
-                        <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                        <span className="leading-relaxed">{rec}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="countries" className="space-y-5">
-              {reportData?.marketOverview && typeof reportData.marketOverview === 'object' && (
-                <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
-                  <h4 className="font-bold text-base flex items-center gap-2 mb-4 text-slate-900">
-                    <Globe className="w-5 h-5 text-blue-600" />
-                    Market Overview
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-3 bg-white rounded-lg border border-slate-200">
-                      <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Market Size</span>
-                      <p className="text-base font-bold text-slate-900 mt-1">{reportData.marketOverview.marketSize || 'N/A'}</p>
+                  <div className="p-3 bg-slate-50 rounded-lg">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Category</div>
+                    <div className="font-semibold text-sm text-slate-800">{productClass.productCategory || '—'}</div>
+                  </div>
+                  <div className="p-3 bg-slate-50 rounded-lg col-span-2">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Description</div>
+                    <div className="font-medium text-sm text-slate-800">{productClass.hsCodeDescription || '—'}</div>
+                  </div>
+                  {productClass.regulatoryRequirements?.length > 0 && (
+                    <div className="col-span-2 sm:col-span-4">
+                      <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Regulatory Requirements</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {productClass.regulatoryRequirements.map((req: string, i: number) => (
+                          <Badge key={i} variant="secondary" className="text-xs bg-amber-50 text-amber-800 border border-amber-200">{req}</Badge>
+                        ))}
+                      </div>
                     </div>
-                    <div className="p-3 bg-white rounded-lg border border-slate-200">
-                      <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Growth Rate</span>
-                      <p className="text-base font-bold text-emerald-700 mt-1">{reportData.marketOverview.growthRate || 'N/A'}</p>
-                    </div>
-                    {reportData.marketOverview.keyTrends?.length > 0 && (
-                      <div className="md:col-span-2 p-3 bg-white rounded-lg border border-slate-200">
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Key Trends</span>
-                        <ul className="mt-2 space-y-1.5">
-                          {reportData.marketOverview.keyTrends.map((t: string, i: number) => (
-                            <li key={i} className="text-sm flex items-center gap-2 text-slate-800">
-                              <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                              <span className="font-medium">{t}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    {reportData.marketOverview.majorExporters?.length > 0 && (
-                      <div className="p-3 bg-white rounded-lg border border-slate-200">
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Major Exporters</span>
-                        <p className="text-sm font-medium text-slate-900 mt-1">{reportData.marketOverview.majorExporters.join(', ')}</p>
-                      </div>
-                    )}
-                    {reportData.marketOverview.majorImporters?.length > 0 && (
-                      <div className="p-3 bg-white rounded-lg border border-slate-200">
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Major Importers</span>
-                        <p className="text-sm font-medium text-slate-900 mt-1">{reportData.marketOverview.majorImporters.join(', ')}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-              {reportData?.supplierAnalysis?.topRegions?.length > 0 ? (
-                <div className="space-y-3">
-                  <h4 className="font-semibold flex items-center gap-2 text-slate-800">
-                    <MapPin className="w-4 h-4 text-primary" />
-                    Country & Region Analysis
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {reportData.supplierAnalysis.topRegions.map((region: any, i: number) => (
-                      <div key={i} className="p-4 rounded-lg border border-gray-200 bg-white">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-bold text-slate-800">{region.region}</span>
-                          <Badge variant="outline" className="text-xs text-slate-700">{region.avgPriceRange || 'N/A'}</Badge>
-                        </div>
-                        {region.advantages?.length > 0 && (
-                          <div className="mb-2">
-                            <span className="text-xs font-medium text-slate-700">Advantages</span>
-                            <ul className="mt-1 space-y-0.5">
-                              {region.advantages.map((a: string, j: number) => (
-                                <li key={j} className="text-sm text-slate-700 flex items-start gap-1">
-                                  <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 shrink-0" />
-                                  {a}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        {region.considerations?.length > 0 && (
-                          <div>
-                            <span className="text-xs font-medium text-slate-700">Considerations</span>
-                            <ul className="mt-1 space-y-0.5">
-                              {region.considerations.map((c: string, j: number) => (
-                                <li key={j} className="text-sm text-slate-700 flex items-start gap-1">
-                                  <AlertTriangle className="w-3 h-3 text-amber-500 mt-0.5 shrink-0" />
-                                  {c}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                !reportData?.marketOverview || typeof reportData.marketOverview !== 'object' ? (
-                  <div className="text-center py-6 text-slate-700">
-                    No country or region analysis available for this report.
-                  </div>
-                ) : null
-              )}
-            </TabsContent>
-
-            <TabsContent value="suppliers" className="space-y-5">
-              {sellerComparisonData.length > 0 && (
-                <div className="h-52 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                  {!hasRealPricing && (
-                    <p className="text-xs text-slate-500 mb-2">Chart shows supplier ratings (contact suppliers for pricing)</p>
                   )}
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={sellerComparisonData}>
-                      <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                      <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#1e293b' }} />
-                      <YAxis yAxisId="left" tick={{ fontSize: 11, fill: '#64748b' }} />
-                      <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11, fill: '#64748b' }} />
-                      <Tooltip formatter={(value: number, name: string) => [hasRealPricing ? value : `${value > 100 ? (value / 500).toFixed(1) : (value / 15).toFixed(1)}★`, name]} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
-                      <Legend />
-                      <Bar yAxisId="left" dataKey="price" name={hasRealPricing ? "Unit Price ($)" : "Rating Score"} fill="#3b82f6" radius={[6, 6, 0, 0]} />
-                      <Bar yAxisId="right" dataKey="margin" name={hasRealPricing ? "Profit Margin (%)" : "Rating"} fill="#10b981" radius={[6, 6, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── SUPPLIER INTELLIGENCE ── */}
+        {sellers.length > 0 && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
+                  <Building2 className="w-4 h-4 text-emerald-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Supplier Intelligence</h3>
+                <Badge variant="outline" className="text-xs font-semibold ml-1">{sellers.length} verified suppliers</Badge>
+              </div>
 
               <div className="space-y-4">
-                {sellers.map((seller: any, i: number) => (
-                  <div key={i} className={`p-5 rounded-xl border shadow-sm hover:shadow-md transition-shadow ${i === 0 ? 'border-emerald-300 bg-gradient-to-br from-emerald-50/80 to-white' : 'border-slate-200 bg-white'}`}>
-                    {i === 0 && (
-                      <Badge className="bg-emerald-600 mb-3 text-xs font-bold">
-                        <Star className="w-3 h-3 mr-1 fill-current" />
-                        Top Recommended
-                      </Badge>
-                    )}
-                    <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
-                            <Building2 className="w-5 h-5 text-blue-600" />
+                {sellers.slice(0, 12).map((seller: any, i: number) => (
+                  <div key={i} className={`p-4 rounded-xl border transition-all hover:shadow-md ${
+                    i === 0 ? 'border-emerald-300 bg-gradient-to-br from-emerald-50/80 to-white shadow-sm' : 'border-slate-200 bg-white'
+                  }`}>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start gap-3 mb-3">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${i === 0 ? 'bg-emerald-100' : 'bg-blue-50'}`}>
+                            <Building2 className={`w-5 h-5 ${i === 0 ? 'text-emerald-600' : 'text-blue-500'}`} />
                           </div>
-                          <div>
-                            <h4 className="font-bold text-base text-slate-900">
+                          <div className="min-w-0">
+                            {i === 0 && (
+                              <Badge className="bg-emerald-600 text-white text-xs mb-1 inline-flex">
+                                <Star className="w-2.5 h-2.5 mr-1 fill-current" /> Top Recommended
+                              </Badge>
+                            )}
+                            <h4 className="font-bold text-slate-900 text-sm leading-tight">
                               {seller.slug ? (
-                                <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-blue-600 hover:underline">
-                                  {toTitleCase(seller.sellerName)}
-                                </Link>
-                              ) : (
-                                toTitleCase(seller.sellerName)
-                              )}
+                                <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-blue-600 hover:underline">{toTitleCase(seller.sellerName)}</Link>
+                              ) : toTitleCase(seller.sellerName)}
                             </h4>
-                            <div className="flex items-center gap-2 text-sm text-slate-600">
-                              <MapPin className="w-3.5 h-3.5" />
-                              {toTitleCase(seller.location)}
-                              <Badge variant="outline" className="text-xs font-medium">{seller.platform}</Badge>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
-                          <div className="p-2.5 bg-slate-50 rounded-lg">
-                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Unit Price</div>
-                            <div className="font-bold text-blue-700 mt-0.5">{seller.unitPrice}</div>
-                          </div>
-                          <div className="p-2.5 bg-slate-50 rounded-lg">
-                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">MOQ</div>
-                            <div className="font-bold text-sm text-slate-900 mt-0.5">{seller.moq}</div>
-                          </div>
-                          <div className="p-2.5 bg-slate-50 rounded-lg">
-                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Lead Time</div>
-                            <div className="font-bold text-sm text-slate-900 mt-0.5">{seller.leadTime}</div>
-                          </div>
-                          <div className="p-2.5 bg-slate-50 rounded-lg">
-                            <div className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rating</div>
-                            <div className="flex items-center gap-1 mt-0.5">
-                              <Star className="w-4 h-4 text-amber-500 fill-current" />
-                              <span className="font-bold text-sm text-slate-900">
-                              {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (() => { const n = parseFloat(String(seller.rating)); return !isNaN(n) ? n.toFixed(1) : '—'; })()}
-                            </span>
+                            <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                              <span className="text-xs text-slate-500 flex items-center gap-1"><MapPin className="w-3 h-3" />{toTitleCase(seller.location)}</span>
+                              <Badge variant="outline" className="text-xs">{seller.platform}</Badge>
+                              {seller.yearsInBusiness > 0 && <span className="text-xs text-slate-400">{seller.yearsInBusiness} yrs in business</span>}
                             </div>
                           </div>
                         </div>
 
-                        {seller.certifications && (
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {seller.certifications.slice(0, 3).map((cert: string, j: number) => (
-                              <Badge key={j} variant="secondary" className="text-xs">
-                                <Shield className="w-2 h-2 mr-1" />
-                                {cert}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                          {[
+                            { label: 'Unit Price', val: seller.unitPrice, cls: 'text-blue-700 font-bold' },
+                            { label: 'MOQ', val: seller.moq, cls: 'text-slate-800 font-semibold' },
+                            { label: 'Lead Time', val: seller.leadTime, cls: 'text-slate-800 font-semibold' },
+                            { label: 'Rating', val: null, cls: '' },
+                          ].map((field, fi) => (
+                            <div key={fi} className="p-2.5 bg-slate-50 rounded-lg">
+                              <div className="text-xs text-slate-500 font-medium">{field.label}</div>
+                              {field.val !== null ? (
+                                <div className={`text-sm mt-0.5 ${field.cls}`}>{field.val}</div>
+                              ) : (
+                                <div className="flex items-center gap-1 mt-0.5">
+                                  <Star className="w-3.5 h-3.5 text-amber-500 fill-current" />
+                                  <span className="font-bold text-sm text-slate-900">
+                                    {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (parseFloat(String(seller.rating)) || 0).toFixed(1)}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+
+                        {seller.certifications?.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {seller.certifications.slice(0, 4).map((cert: string, j: number) => (
+                              <Badge key={j} variant="secondary" className="text-xs bg-blue-50 text-blue-700 border-blue-200">
+                                <Shield className="w-2.5 h-2.5 mr-0.5" />{cert}
                               </Badge>
                             ))}
                           </div>
                         )}
 
-                        {seller.slug ? (
-                          <Button
-                            variant="default"
-                            size="sm"
-                            className="mt-3"
-                            onClick={() => {
-                              setContactSlug(seller.slug);
-                              setContactSupplierName(seller.sellerName || "");
-                            }}
-                          >
-                            <Send className="w-3 h-3 mr-1" />
-                            Contact for quote
-                          </Button>
-                        ) : (seller.contactEmail || seller.website) ? (
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            {seller.contactEmail && (
-                              <Button variant="outline" size="sm" asChild>
-                                <a href={`mailto:${seller.contactEmail}`}>Email</a>
-                              </Button>
-                            )}
-                            {seller.website && (
-                              <Button variant="outline" size="sm" asChild>
-                                <a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer">Website</a>
-                              </Button>
-                            )}
-                          </div>
-                        ) : (
-                          <a href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || report?.title || '')}`}>
-                            <Button variant="outline" size="sm" className="mt-3">
-                              Find verified suppliers →
-                            </Button>
-                          </a>
+                        {seller.recommendation && (
+                          <p className="text-xs text-slate-600 italic leading-relaxed mb-3">{seller.recommendation}</p>
                         )}
+
+                        <div className="flex flex-wrap gap-2">
+                          {seller.slug ? (
+                            <Button size="sm" className="text-xs h-8" onClick={() => { setContactSlug(seller.slug); setContactSupplierName(seller.sellerName || ''); }}>
+                              <Send className="w-3 h-3 mr-1" /> Contact for Quote
+                            </Button>
+                          ) : seller.contactEmail || seller.website ? (
+                            <>
+                              {seller.contactEmail && <Button size="sm" variant="outline" className="text-xs h-8" asChild><a href={`mailto:${seller.contactEmail}`}>Email</a></Button>}
+                              {seller.website && <Button size="sm" variant="outline" className="text-xs h-8" asChild><a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer">Website</a></Button>}
+                            </>
+                          ) : (
+                            <a href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
+                              <Button size="sm" variant="outline" className="text-xs h-8">Browse Suppliers <ArrowRight className="w-3 h-3 ml-1" /></Button>
+                            </a>
+                          )}
+                          {seller.paymentTerms && (
+                            <span className="inline-flex items-center text-xs text-slate-500 bg-slate-100 rounded-md px-2 h-8">{seller.paymentTerms}</span>
+                          )}
+                        </div>
                       </div>
 
-                      <div className="lg:w-48 space-y-2 p-3 bg-gray-100 rounded-lg text-sm">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-slate-800">Est. Profit</span>
-                          <span className="font-bold text-green-600">{seller.estimatedProfit || '—'}</span>
+                      {(seller.estimatedProfit || seller.profitMargin) && (
+                        <div className="sm:w-36 shrink-0 p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm self-start">
+                          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Profit</div>
+                          <div className="space-y-1.5">
+                            {seller.estimatedProfit && seller.estimatedProfit !== 'Varies' && (
+                              <div><span className="text-xs text-slate-500">Per unit:</span><br /><span className="font-bold text-emerald-600">{seller.estimatedProfit}</span></div>
+                            )}
+                            {seller.profitMargin && seller.profitMargin !== 'Varies' && seller.profitMargin !== seller.estimatedProfit && (
+                              <div><span className="text-xs text-slate-500">Margin:</span><br /><span className="font-bold text-emerald-700">{seller.profitMargin}</span></div>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-slate-800">Margin</span>
-                          <span className="font-bold text-green-600">
-                            {seller.profitMargin && String(seller.profitMargin) !== String(seller.estimatedProfit || '')
-                              ? seller.profitMargin
-                              : seller.profitMargin && String(seller.profitMargin) === String(seller.estimatedProfit || '')
-                                ? '—'
-                                : (seller.profitMargin || '—')}
-                          </span>
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 ))}
+                {sellers.length > 12 && (
+                  <p className="text-sm text-slate-500 text-center py-2">+ {sellers.length - 12} more suppliers in PDF export</p>
+                )}
                 {sellers.length === 0 && (
-                  <div className="text-center py-6 text-slate-700">
-                    No suppliers found for this product.
-                  </div>
+                  <p className="text-center py-6 text-slate-500">No suppliers found for this product.</p>
                 )}
               </div>
-            </TabsContent>
 
-            <TabsContent value="costs" className="space-y-5">
-              {(reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }> | undefined)?.mineralPurity?.calculationFormula && (
-                <div className="p-5 bg-gradient-to-br from-blue-50 to-white rounded-xl border border-blue-200 shadow-sm">
-                  <h4 className="font-bold text-base text-slate-900 mb-2 flex items-center gap-2">
-                    <Calculator className="w-5 h-5 text-blue-600" />
-                    Pricing Calculation
+              {supplierAnalysis?.topRegions?.length > 0 && (
+                <div className="mt-6 pt-5 border-t border-slate-100">
+                  <h4 className="font-semibold text-slate-800 mb-3 flex items-center gap-2 text-sm">
+                    <MapPin className="w-4 h-4 text-blue-500" /> Regional Breakdown
                   </h4>
-                  <p className="text-sm text-blue-800 font-mono bg-blue-100/50 p-3 rounded-lg">
-                    {(reportData?.metadata?.inputs as Record<string, { calculationFormula?: string }>)?.mineralPurity?.calculationFormula}
-                  </p>
-                </div>
-              )}
-              {landedCost && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {costBreakdownData.length > 0 && (
-                    <div className="h-56 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={costBreakdownData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={50}
-                            outerRadius={80}
-                            paddingAngle={3}
-                            dataKey="value"
-                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                          >
-                            {costBreakdownData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
-                            ))}
-                          </Pie>
-                          <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </div>
-                  )}
-
-                  <div className="space-y-2 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                    <CostRow icon={<Package className="text-blue-500" />} label="Product Cost (FOB)" value={landedCost.productCost} />
-                    <CostRow icon={<Ship className="text-cyan-500" />} label="Freight Cost" value={landedCost.freightCost} />
-                    <CostRow icon={<Shield className="text-green-500" />} label="Insurance" value={landedCost.insuranceCost} />
-                    <Separator />
-                    <CostRow icon={<Landmark className="text-amber-500" />} label="Customs Duties" value={landedCost.customsDuties} />
-                    <CostRow icon={<Receipt className="text-red-500" />} label="VAT/Taxes" value={landedCost.vatTaxes} />
-                    <CostRow icon={<Container className="text-purple-500" />} label="Handling Fees" value={landedCost.handlingFees} />
-                    <CostRow icon={<Truck className="text-orange-500" />} label="Inland Transport" value={landedCost.inlandTransport} />
-                    <Separator className="border-2" />
-                    <div className="flex justify-between items-center p-3 bg-blue-600 rounded-xl">
-                      <span className="font-bold text-white">Total Landed Cost</span>
-                      <span className="text-xl font-bold text-white">{landedCost.totalLandedCost}</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-emerald-50 rounded-xl border border-emerald-200">
-                      <span className="font-semibold text-sm text-emerald-900">Cost Per {unit.charAt(0).toUpperCase() + unit.slice(1)}</span>
-                      <span className="font-bold text-lg text-emerald-700">{landedCost.costPerUnit}</span>
-                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {supplierAnalysis.topRegions.map((region: any, i: number) => (
+                      <div key={i} className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-semibold text-sm text-slate-800">{region.region}</span>
+                          <Badge variant="outline" className="text-xs">{region.avgPriceRange || 'N/A'}</Badge>
+                        </div>
+                        <ul className="space-y-1">
+                          {region.advantages?.slice(0, 2).map((a: string, j: number) => (
+                            <li key={j} className="text-xs text-slate-600 flex items-start gap-1.5">
+                              <CheckCircle className="w-3 h-3 text-emerald-500 mt-0.5 shrink-0" />{a}
+                            </li>
+                          ))}
+                          {region.considerations?.slice(0, 1).map((c: string, j: number) => (
+                            <li key={j} className="text-xs text-amber-700 flex items-start gap-1.5 mt-1">
+                              <AlertTriangle className="w-3 h-3 mt-0.5 shrink-0" />{c}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── COST ANALYSIS ── */}
+        {landedCost && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                  <Calculator className="w-4 h-4 text-blue-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Cost Analysis</h3>
+              </div>
+
+              {(reportData?.metadata?.inputs as any)?.mineralPurity?.calculationFormula && (
+                <div className="mb-4 p-3 bg-blue-50 rounded-xl border border-blue-200">
+                  <p className="text-xs font-mono text-blue-800">{(reportData.metadata.inputs as any).mineralPurity.calculationFormula}</p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {costBreakdownData.length > 0 && (
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie data={costBreakdownData} cx="50%" cy="50%" innerRadius={60} outerRadius={95} paddingAngle={3} dataKey="value"
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={false}>
+                          {costBreakdownData.map((entry, index) => (<Cell key={`cell-${index}`} fill={entry.color} />))}
+                        </Pie>
+                        <Tooltip formatter={(value: number) => [`$${value.toLocaleString()}`, '']} contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
+                <div className="space-y-2">
+                  <CostRow icon={<Package className="text-blue-500" />} label="Product Cost (FOB)" value={landedCost.productCost} />
+                  <CostRow icon={<Ship className="text-cyan-500" />} label="Freight" value={landedCost.freightCost} />
+                  <CostRow icon={<Shield className="text-green-500" />} label="Insurance" value={landedCost.insuranceCost} />
+                  <Separator />
+                  <CostRow icon={<Landmark className="text-amber-500" />} label="Customs Duties" value={landedCost.customsDuties} />
+                  <CostRow icon={<Receipt className="text-red-500" />} label="VAT/Taxes" value={landedCost.vatTaxes} />
+                  <CostRow icon={<Container className="text-purple-500" />} label="Handling Fees" value={landedCost.handlingFees} />
+                  <CostRow icon={<Truck className="text-orange-500" />} label="Inland Transport" value={landedCost.inlandTransport} />
+                  <Separator className="border-2" />
+                  <div className="flex justify-between items-center p-3 bg-blue-600 rounded-xl">
+                    <span className="font-bold text-white">Total Landed Cost</span>
+                    <span className="text-xl font-bold text-white">{landedCost.totalLandedCost}</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                    <span className="font-semibold text-sm text-emerald-900">Cost Per {unit.charAt(0).toUpperCase() + unit.slice(1)}</span>
+                    <span className="font-bold text-lg text-emerald-700">{landedCost.costPerUnit}</span>
+                  </div>
+                </div>
+              </div>
 
               {profitAnalysis && (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
@@ -1737,145 +1600,267 @@ export default function SmartFinder() {
                   </div>
                 </div>
               )}
-            </TabsContent>
+            </CardContent>
+          </Card>
+        )}
 
-            <TabsContent value="customs" className="space-y-5">
-              {customsData?.customsFees && (
-                <>
-                  <div className="overflow-x-auto -mx-2 sm:mx-0">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-slate-50">
-                        <TableHead className="text-slate-900 font-bold text-sm">Fee Type</TableHead>
-                        <TableHead className="text-right text-slate-900 font-bold text-sm">Rate</TableHead>
-                        <TableHead className="text-right text-slate-900 font-bold text-sm">Amount</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow className="hover:bg-slate-50">
-                        <TableCell className="font-semibold text-slate-900">Import Duty</TableCell>
-                        <TableCell className="text-right text-slate-800 font-medium">{customsData.customsFees.importDutyRate}</TableCell>
-                        <TableCell className="text-right font-bold text-slate-900">{customsData.customsFees.importDutyAmount}</TableCell>
-                      </TableRow>
-                      <TableRow className="hover:bg-slate-50">
-                        <TableCell className="font-semibold text-slate-900">VAT/GST</TableCell>
-                        <TableCell className="text-right text-slate-800 font-medium">{customsData.customsFees.vatRate}</TableCell>
-                        <TableCell className="text-right font-bold text-slate-900">{customsData.customsFees.vatAmount}</TableCell>
-                      </TableRow>
-                      {customsData.customsFees.additionalDuties?.map((duty: any, i: number) => (
-                        <TableRow key={i} className="hover:bg-slate-50">
-                          <TableCell className="font-semibold text-slate-900">{duty.name}</TableCell>
-                          <TableCell className="text-right text-slate-800 font-medium">{duty.rate}</TableCell>
-                          <TableCell className="text-right font-bold text-slate-900">{duty.amount}</TableCell>
-                        </TableRow>
-                      ))}
-                      <TableRow className="bg-blue-50 border-t-2 border-blue-200">
-                        <TableCell colSpan={2} className="font-bold text-blue-900 text-base">Total Customs Fees</TableCell>
-                        <TableCell className="text-right font-bold text-blue-900 text-lg">{customsData.customsFees.totalCustomsFees}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                  </div>
+        {/* ── CUSTOMS & TRADE COMPLIANCE ── */}
+        {customsData?.customsFees && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center shrink-0">
+                  <Landmark className="w-4 h-4 text-amber-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Customs & Trade Compliance</h3>
+              </div>
 
-                  {customsData.tradeAgreements && (
-                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
-                      <div className="text-sm font-bold mb-2 flex items-center gap-2 text-emerald-900">
-                        <CheckCircle className="w-5 h-5 text-emerald-600" />
-                        Applicable Trade Agreements
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {customsData.tradeAgreements.map((agreement: string, i: number) => (
-                          <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold">{agreement}</Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {customsData.requiredDocuments && (
-                    <div className="p-4 bg-white rounded-xl border border-slate-200">
-                      <div className="text-sm font-bold mb-3 flex items-center gap-2 text-slate-900">
-                        <FileText className="w-5 h-5 text-blue-600" />
-                        Required Documents
-                      </div>
-                      <ul className="space-y-2">
-                        {customsData.requiredDocuments.map((doc: string, i: number) => (
-                          <li key={i} className="text-sm flex items-center gap-2.5 text-slate-800">
-                            <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                            <span className="font-medium">{doc}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </>
-              )}
-            </TabsContent>
-
-            <TabsContent value="risks" className="space-y-5">
-              {reportData?.riskAssessment && (
-                <>
-                  <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                    <AlertTriangle className="w-6 h-6 text-amber-500" />
-                    <div>
-                      <span className="font-bold text-base text-slate-900">Risk Assessment</span>
-                      <p className="text-sm text-slate-600">Comprehensive risk analysis for this trade route</p>
-                    </div>
-                    <Badge
-                      className={`ml-auto text-sm font-bold px-3 py-1 ${
-                        reportData.riskAssessment.overallRisk === 'Low' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
-                        reportData.riskAssessment.overallRisk === 'Medium' ? 'bg-amber-100 text-amber-800 border-amber-300' :
-                        'bg-red-100 text-red-800 border-red-300'
-                      }`}
-                    >
-                      Overall: {reportData.riskAssessment.overallRisk}
-                    </Badge>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {reportData.riskAssessment.risks?.map((risk: any, i: number) => (
-                      <div key={i} className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center justify-between mb-3">
-                          <span className="font-bold text-sm text-slate-900">{risk.category}</span>
-                          <Badge
-                            className={`text-xs font-bold ${
-                              risk.level === 'Low' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
-                              risk.level === 'Medium' ? 'bg-amber-100 text-amber-800 border-amber-300' :
-                              'bg-red-100 text-red-800 border-red-300'
-                            }`}
-                          >
-                            {risk.level}
-                          </Badge>
-                        </div>
-                        <Progress
-                          value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75}
-                          className={`h-2 mb-3 ${
-                            risk.level === 'Low' ? '[&>div]:bg-emerald-500' :
-                            risk.level === 'Medium' ? '[&>div]:bg-amber-500' :
-                            '[&>div]:bg-red-500'
-                          }`}
-                        />
-                        <p className="text-sm text-slate-700 leading-relaxed">
-                          <span className="font-semibold text-slate-800">Mitigation: </span>
-                          {risk.mitigation}
-                        </p>
-                      </div>
+              <div className="overflow-x-auto -mx-2 sm:mx-0 mb-4">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-slate-50">
+                      <TableHead className="text-slate-900 font-bold text-sm">Fee Type</TableHead>
+                      <TableHead className="text-right text-slate-900 font-bold text-sm">Rate</TableHead>
+                      <TableHead className="text-right text-slate-900 font-bold text-sm">Amount</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-semibold text-slate-900">Import Duty</TableCell>
+                      <TableCell className="text-right text-slate-800 font-medium">{customsData.customsFees.importDutyRate}</TableCell>
+                      <TableCell className="text-right font-bold text-slate-900">{customsData.customsFees.importDutyAmount}</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-semibold text-slate-900">VAT/GST</TableCell>
+                      <TableCell className="text-right text-slate-800 font-medium">{customsData.customsFees.vatRate}</TableCell>
+                      <TableCell className="text-right font-bold text-slate-900">{customsData.customsFees.vatAmount}</TableCell>
+                    </TableRow>
+                    {customsData.customsFees.additionalDuties?.map((duty: any, i: number) => (
+                      <TableRow key={i} className="hover:bg-slate-50">
+                        <TableCell className="font-semibold text-slate-900">{duty.name}</TableCell>
+                        <TableCell className="text-right text-slate-800 font-medium">{duty.rate}</TableCell>
+                        <TableCell className="text-right font-bold text-slate-900">{duty.amount}</TableCell>
+                      </TableRow>
                     ))}
-                  </div>
-                </>
-              )}
+                    <TableRow className="bg-blue-50 border-t-2 border-blue-200">
+                      <TableCell colSpan={2} className="font-bold text-blue-900 text-base">Total Customs Fees</TableCell>
+                      <TableCell className="text-right font-bold text-blue-900 text-lg">{customsData.customsFees.totalCustomsFees}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
 
-              {reportData?.marketOverview && typeof reportData.marketOverview === 'string' && (
-                <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
-                  <h4 className="font-bold text-base flex items-center gap-2 mb-3 text-slate-900">
-                    <Globe className="w-5 h-5 text-blue-600" />
-                    Market Overview
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {customsData.tradeAgreements?.length > 0 && (
+                  <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                    <div className="text-sm font-bold mb-3 flex items-center gap-2 text-emerald-900">
+                      <CheckCircle className="w-4 h-4 text-emerald-600" />
+                      Trade Agreements
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {customsData.tradeAgreements.map((agreement: string, i: number) => (
+                        <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold">{agreement}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {customsData.requiredDocuments?.length > 0 && (
+                  <div className="p-4 bg-white rounded-xl border border-slate-200">
+                    <div className="text-sm font-bold mb-3 flex items-center gap-2 text-slate-900">
+                      <FileText className="w-4 h-4 text-blue-600" />
+                      Required Documents
+                    </div>
+                    <ul className="space-y-2">
+                      {customsData.requiredDocuments.map((doc: string, i: number) => (
+                        <li key={i} className="text-sm flex items-center gap-2.5 text-slate-800">
+                          <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                          <span className="font-medium">{doc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── RISK ASSESSMENT ── */}
+        {riskAssessment && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center shrink-0">
+                    <AlertTriangle className="w-4 h-4 text-red-600" />
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-lg">Risk Assessment</h3>
+                </div>
+                <Badge className={`text-sm font-bold px-3 py-1 ${riskBadgeClass(riskAssessment.overallRisk)}`}>
+                  Overall: {riskAssessment.overallRisk}
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {riskAssessment.risks?.map((risk: any, i: number) => (
+                  <div key={i} className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="font-bold text-sm text-slate-900">{risk.category}</span>
+                      <Badge className={`text-xs font-bold ${riskBadgeClass(risk.level)}`}>{risk.level}</Badge>
+                    </div>
+                    <Progress
+                      value={risk.level === 'Low' ? 25 : risk.level === 'Medium' ? 50 : 75}
+                      className={`h-2 mb-3 ${riskBarClass(risk.level)}`}
+                    />
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      <span className="font-semibold text-slate-800">Mitigation: </span>
+                      {risk.mitigation}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {typeof marketOverview === 'string' && marketOverview && (
+                <div className="mt-5 pt-5 border-t border-slate-100">
+                  <h4 className="font-semibold text-sm text-slate-700 mb-2 flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-blue-500" /> Market Overview
                   </h4>
-                  <p className="text-sm text-slate-800 leading-relaxed">{reportData.marketOverview}</p>
+                  <p className="text-sm text-slate-800 leading-relaxed">{marketOverview}</p>
                 </div>
               )}
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── MARKET INTELLIGENCE (object form) ── */}
+        {marketOverview && typeof marketOverview === 'object' && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center shrink-0">
+                  <TrendingUp className="w-4 h-4 text-purple-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Market Intelligence</h3>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                {(marketOverview as any).demandTrend && (
+                  <div className="p-3 bg-blue-50 rounded-xl border border-blue-100">
+                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-1">Demand Trend</div>
+                    <div className="font-semibold text-sm text-blue-900">{(marketOverview as any).demandTrend}</div>
+                  </div>
+                )}
+                {(marketOverview as any).marketSize && (
+                  <div className="p-3 bg-purple-50 rounded-xl border border-purple-100">
+                    <div className="text-xs font-semibold text-purple-600 uppercase tracking-wide mb-1">Market Size</div>
+                    <div className="font-semibold text-sm text-purple-900">{(marketOverview as any).marketSize}</div>
+                  </div>
+                )}
+                {(marketOverview as any).competitionLevel && (
+                  <div className="p-3 bg-amber-50 rounded-xl border border-amber-100">
+                    <div className="text-xs font-semibold text-amber-600 uppercase tracking-wide mb-1">Competition</div>
+                    <div className="font-semibold text-sm text-amber-900">{(marketOverview as any).competitionLevel}</div>
+                  </div>
+                )}
+                {(marketOverview as any).averageMarketPrice && (
+                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-1">Avg Market Price</div>
+                    <div className="font-semibold text-sm text-emerald-900">{(marketOverview as any).averageMarketPrice}</div>
+                  </div>
+                )}
+              </div>
+              {(marketOverview as any).keyInsights?.length > 0 && (
+                <ul className="space-y-2">
+                  {(marketOverview as any).keyInsights.map((insight: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                      <Zap className="w-3.5 h-3.5 text-purple-500 mt-0.5 shrink-0" />
+                      {insight}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── PROCUREMENT TIMELINE ── */}
+        {timeline?.phases?.length > 0 && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0">
+                  <Zap className="w-4 h-4 text-indigo-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Procurement Timeline</h3>
+                {timeline.totalDuration && <Badge variant="outline" className="ml-auto text-xs">{timeline.totalDuration}</Badge>}
+              </div>
+              <div className="space-y-3">
+                {timeline.phases.map((phase: any, i: number) => (
+                  <div key={i} className="flex gap-4 items-start">
+                    <div className="flex flex-col items-center shrink-0">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white ${
+                        i === 0 ? 'bg-blue-500' : i === 1 ? 'bg-indigo-500' : i === 2 ? 'bg-purple-500' : 'bg-slate-400'
+                      }`}>{i + 1}</div>
+                      {i < timeline.phases.length - 1 && <div className="w-0.5 h-6 bg-slate-200 mt-1" />}
+                    </div>
+                    <div className="flex-1 pb-2">
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold text-sm text-slate-900">{phase.phase}</span>
+                        {phase.duration && <Badge variant="outline" className="text-xs">{phase.duration}</Badge>}
+                      </div>
+                      {phase.description && <p className="text-xs text-slate-600 mt-0.5">{phase.description}</p>}
+                      {phase.actions?.length > 0 && (
+                        <ul className="mt-2 space-y-1">
+                          {phase.actions.map((action: string, j: number) => (
+                            <li key={j} className="text-xs text-slate-600 flex items-center gap-1.5">
+                              <CheckCircle className="w-3 h-3 text-emerald-500 shrink-0" />{action}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── RECOMMENDATIONS ── */}
+        {supplierAnalysis?.recommendations?.length > 0 && (
+          <Card className="border-slate-200 shadow-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
+                  <Star className="w-4 h-4 text-emerald-600" />
+                </div>
+                <h3 className="font-bold text-slate-900 text-lg">Recommendations & Next Steps</h3>
+              </div>
+              <ol className="space-y-3">
+                {supplierAnalysis.recommendations.map((rec: string, i: number) => (
+                  <li key={i} className="flex items-start gap-3 p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <div className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</div>
+                    <p className="text-sm text-slate-800 leading-relaxed">{rec}</p>
+                  </li>
+                ))}
+              </ol>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── BOTTOM EXPORT STRIP ── */}
+        <div className="flex flex-wrap justify-center gap-3 py-4">
+          <Button onClick={handleNewSearch} variant="outline" size="sm" className="font-medium">
+            <Sparkles className="w-4 h-4 mr-1.5" /> New Search
+          </Button>
+          <Button onClick={exportCSV} variant="outline" size="sm" className="font-medium">
+            <FileText className="w-4 h-4 mr-1.5" /> Export Suppliers CSV
+          </Button>
+          <Button onClick={exportToPDF} disabled={isExporting} size="sm" className="font-medium bg-blue-600 hover:bg-blue-500 text-white border-0">
+            {isExporting ? <Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> : <Download className="w-4 h-4 mr-1.5" />}
+            {isExporting ? 'Generating PDF…' : 'Download Full PDF'}
+          </Button>
+        </div>
+      </div>
     );
   };
 
