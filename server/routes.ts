@@ -28,6 +28,8 @@ import { getMarketMetalPrices } from "./services/marketPrices";
 import { getTechStack, type TechStackResult } from "./services/apifyTechService";
 import { searchCompanies, indexCompany, getIndexStats, setupSearchIndex } from "./services/searchService";
 import { runIntelligenceEngine, quickRiskScore } from "./services/intelligenceEngine";
+import { getGraphService } from "./services/graphService";
+import type { GraphRelation } from "@shared/schema";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -2913,6 +2915,166 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       }
       console.error("GET /api/tech-intelligence error:", err);
       res.status(500).json({ error: "Failed to detect tech stack" });
+    }
+  });
+
+  // ============================================================================
+  // Supplier Graph Intelligence  (/api/graph)
+  // ============================================================================
+
+  // Initialise graph backend on startup (non-blocking)
+  getGraphService().setup().catch(e =>
+    console.warn("[graph] Setup deferred:", (e as Error).message)
+  );
+
+  /** PUT /api/graph/node — upsert a node (supplier / buyer / product) */
+  app.put("/api/graph/node", async (req: Request, res: Response) => {
+    const { id, type, name, country, industry, metadata } = req.body ?? {};
+    if (!id || !type) return res.status(400).json({ error: "id and type are required" });
+    if (!["supplier", "buyer", "product"].includes(type))
+      return res.status(400).json({ error: "type must be supplier | buyer | product" });
+    try {
+      await getGraphService().upsertNode({ id, type, name, country, industry, metadata });
+      res.json({ ok: true });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /** PUT /api/graph/edge — upsert a relationship */
+  app.put("/api/graph/edge", async (req: Request, res: Response) => {
+    const { fromNode, toNode, relation, weight, metadata } = req.body ?? {};
+    if (!fromNode || !toNode || !relation)
+      return res.status(400).json({ error: "fromNode, toNode, relation are required" });
+    try {
+      await getGraphService().upsertEdge({ fromNode, toNode, relation, weight, metadata });
+      res.json({ ok: true });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /** DELETE /api/graph/node/:id */
+  app.delete("/api/graph/node/:id", async (req: Request, res: Response) => {
+    try {
+      await getGraphService().deleteNode(req.params.id);
+      res.json({ ok: true });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /** GET /api/graph/node/:id */
+  app.get("/api/graph/node/:id", async (req: Request, res: Response) => {
+    try {
+      const node = await getGraphService().getNode(req.params.id);
+      if (!node) return res.status(404).json({ error: "Node not found" });
+      res.json(node);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/graph/neighbors/:id
+   *   ?relation=SUPPLIES&direction=out
+   */
+  app.get("/api/graph/neighbors/:id", async (req: Request, res: Response) => {
+    const { relation, direction } = req.query as Record<string, string>;
+    try {
+      const neighbors = await getGraphService().getNeighbors(
+        req.params.id,
+        relation as GraphRelation | undefined,
+        (direction as "in" | "out" | "both") || "both"
+      );
+      res.json(neighbors);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/graph/path?from=acme.com&to=steel-wire&maxDepth=6
+   * Returns shortest path between two nodes.
+   */
+  app.get("/api/graph/path", async (req: Request, res: Response) => {
+    const { from, to, maxDepth } = req.query as Record<string, string>;
+    if (!from || !to) return res.status(400).json({ error: "from and to are required" });
+    try {
+      const path = await getGraphService().getShortestPath(from, to, maxDepth ? parseInt(maxDepth) : 6);
+      if (!path) return res.status(404).json({ error: "No path found" });
+      res.json(path);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/graph/alternatives/:supplierId?limit=10
+   * Returns alternative/competing suppliers.
+   */
+  app.get("/api/graph/alternatives/:supplierId", async (req: Request, res: Response) => {
+    const limit = parseInt((req.query.limit as string) ?? "10");
+    try {
+      const alts = await getGraphService().getAlternativeSuppliers(req.params.supplierId, limit);
+      res.json(alts);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/graph/common-buyers?s1=acme.com&s2=globex.com
+   * Returns buyers that purchase from both suppliers.
+   */
+  app.get("/api/graph/common-buyers", async (req: Request, res: Response) => {
+    const { s1, s2 } = req.query as Record<string, string>;
+    if (!s1 || !s2) return res.status(400).json({ error: "s1 and s2 supplier IDs are required" });
+    try {
+      const buyers = await getGraphService().getCommonBuyers(s1, s2);
+      res.json(buyers);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/graph/supply-chain/:productId?depth=3
+   * Returns all upstream suppliers for a product.
+   */
+  app.get("/api/graph/supply-chain/:productId", async (req: Request, res: Response) => {
+    const depth = parseInt((req.query.depth as string) ?? "3");
+    try {
+      const chain = await getGraphService().getSupplyChain(req.params.productId, depth);
+      res.json(chain);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/graph/centrality?type=supplier&limit=20
+   * Returns most-connected nodes (hub suppliers, key buyers, etc.).
+   */
+  app.get("/api/graph/centrality", async (req: Request, res: Response) => {
+    const { type, limit } = req.query as Record<string, string>;
+    try {
+      const nodes = await getGraphService().getTopCentralNodes(
+        type as "supplier" | "buyer" | "product" | undefined,
+        limit ? parseInt(limit) : 20
+      );
+      res.json(nodes);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /** GET /api/graph/stats — node/edge counts by type and relation */
+  app.get("/api/graph/stats", async (_req: Request, res: Response) => {
+    try {
+      res.json(await getGraphService().getStats());
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
     }
   });
 

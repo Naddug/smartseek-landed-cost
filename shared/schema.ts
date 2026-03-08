@@ -204,6 +204,38 @@ export const tradeDataCache = pgTable("trade_data_cache", {
   expiresAt: timestamp("expires_at"),
 });
 
+// ─── Supplier Graph (adjacency list — PostgreSQL backend) ─────────────────────
+export const graphNodes = pgTable("graph_nodes", {
+  id:        text("id").primaryKey(),           // domain, cuid, or composite key
+  type:      varchar("type", { enum: ["supplier", "buyer", "product"] }).notNull(),
+  name:      text("name"),
+  country:   text("country"),
+  industry:  text("industry"),
+  metadata:  jsonb("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const GRAPH_RELATIONS = [
+  "SUPPLIES",          // supplier → product
+  "BUYS_FROM",         // buyer    → supplier
+  "COMPETES_WITH",     // supplier → supplier  (symmetric)
+  "ALTERNATIVE_TO",    // supplier → supplier  (directional substitute)
+  "PARTNERS_WITH",     // supplier → supplier  (co-manufacturing, JV)
+  "SUBSIDIARY_OF",     // supplier → supplier  (ownership)
+] as const;
+export type GraphRelation = (typeof GRAPH_RELATIONS)[number];
+
+export const graphEdges = pgTable("graph_edges", {
+  id:       serial("id").primaryKey(),
+  fromNode: text("from_node").notNull().references(() => graphNodes.id, { onDelete: "cascade" }),
+  toNode:   text("to_node").notNull().references(() => graphNodes.id, { onDelete: "cascade" }),
+  relation: text("relation").notNull(),   // one of GRAPH_RELATIONS
+  weight:   integer("weight").default(1).notNull(), // edge strength 1-100
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Company Search Index (pgvector semantic + full-text search)
 // embedding column is managed as raw text here; actual vector ops done via raw SQL in searchService.ts
 export const companySearchIndex = pgTable("company_search_index", {
