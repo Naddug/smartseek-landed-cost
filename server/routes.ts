@@ -25,6 +25,7 @@ import { prisma } from "../lib/prisma";
 import { getMineralPurityOptions, MINERAL_FORMS } from "@shared/mineralConfig";
 import { detectProductFamily } from "@shared/productFamilies";
 import { getMarketMetalPrices } from "./services/marketPrices";
+import { getTechStack, type TechStackResult } from "./services/apifyTechService";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -2853,6 +2854,46 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     } catch (error: any) {
       console.error("Subscribe error:", error);
       res.status(500).json({ error: "Failed to subscribe" });
+    }
+  });
+
+  // ============================================================================
+  // Tech Intelligence API
+  // ============================================================================
+
+  const techCache = new Map<string, { data: TechStackResult; ts: number }>();
+  const TECH_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours — tech stacks rarely change
+
+  app.get("/api/tech-intelligence", async (req: Request, res: Response) => {
+    const domain = (req.query.domain as string | undefined)?.trim();
+
+    if (!domain) {
+      return res.status(400).json({ error: "domain parameter is required" });
+    }
+
+    const cacheKey = domain.toLowerCase().replace(/^https?:\/\//, "").split("/")[0];
+    const cached = techCache.get(cacheKey);
+    if (cached && Date.now() - cached.ts < TECH_CACHE_TTL) {
+      return res.json(cached.data);
+    }
+
+    try {
+      const result = await getTechStack(domain);
+      techCache.set(cacheKey, { data: result, ts: Date.now() });
+      res.json(result);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      if (msg === "actor-not-found") {
+        return res.status(503).json({ error: "Tech stack detector unavailable" });
+      }
+      if (msg === "run-timeout-exceeded") {
+        return res.status(504).json({ error: "Tech stack detection timed out" });
+      }
+      if (msg.includes("APIFY_TOKEN")) {
+        return res.status(503).json({ error: "Tech intelligence service not configured" });
+      }
+      console.error("GET /api/tech-intelligence error:", err);
+      res.status(500).json({ error: "Failed to detect tech stack" });
     }
   });
 
