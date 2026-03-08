@@ -455,7 +455,7 @@ For electronics use price per piece. For textiles use price per piece or per kg.
         let results = await trySearch(where, undefined, MIN_SUPPLIERS);
         if (results.length < MIN_SUPPLIERS && where) {
           const more = await trySearch(null, undefined, MIN_SUPPLIERS);
-          const seen = new Set(results.map((r) => r.companyName + "|" + r.country));
+          const seen = new Set(results.map((r: any) => r.companyName + "|" + r.country));
           for (const r of more) {
             if (seen.size >= MIN_SUPPLIERS) break;
             const key = r.companyName + "|" + r.country;

@@ -3,7 +3,15 @@ import { useTranslation } from "react-i18next";
 /**
  * Integration logos - self-hosted SVG brand logos (always load, no external CDN)
  */
-const INTEGRATIONS = [
+interface Integration {
+  name: string;
+  slug: string;
+  url: string;
+  logoUrl: string;
+  fallbackUrl?: string;
+}
+
+const INTEGRATIONS: Integration[] = [
   { name: "Google Workspace", slug: "google", url: "https://workspace.google.com", logoUrl: "/logos/google.svg" },
   { name: "SAP Ariba", slug: "sap", url: "https://www.sap.com", logoUrl: "/logos/sap.svg" },
   { name: "Oracle", slug: "oracle", url: "https://www.oracle.com", logoUrl: "/logos/oracle.svg" },

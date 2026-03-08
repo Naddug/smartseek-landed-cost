@@ -558,8 +558,8 @@ function ShippingOptionCard({ option, recommended }: { option: any; recommended?
             <div className="text-3xl font-bold text-primary">
               ${option.cost.toLocaleString()}
             </div>
-            <Button className="mt-2" size="sm">
-              Request Quote
+            <Button className="mt-2" size="sm" asChild>
+              <a href="/rfq">Request Quote</a>
             </Button>
           </div>
         </div>
