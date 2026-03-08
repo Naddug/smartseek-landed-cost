@@ -27,6 +27,7 @@ import { detectProductFamily } from "@shared/productFamilies";
 import { getMarketMetalPrices } from "./services/marketPrices";
 import { getTechStack, type TechStackResult } from "./services/apifyTechService";
 import PLATFORM_STATS from "./data/stats.json";
+import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -142,10 +143,16 @@ export async function registerRoutes(
           created_at TIMESTAMP DEFAULT NOW()
         )
       `);
-      await pool.query(
-        `INSERT INTO newsletter_subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING`,
+      const result = await pool.query(
+        `INSERT INTO newsletter_subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING id`,
         [trimmed]
       );
+      // Send confirmation email only for new subscribers (not duplicates)
+      if (result.rowCount && result.rowCount > 0) {
+        sendSubscribeConfirmationEmail(trimmed).catch((err: Error) =>
+          console.warn("[newsletter] Confirmation email failed:", err?.message)
+        );
+      }
       res.json({ success: true, message: "Subscribed successfully" });
     } catch (e: any) {
       console.error("Newsletter subscribe error:", e);
@@ -2820,22 +2827,37 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       if (!email || typeof email !== "string" || !email.includes("@")) {
         return res.status(400).json({ error: "Valid email address is required" });
       }
-      const apiKey = process.env.SENDGRID_API_KEY;
-      if (!apiKey) {
-        console.log("Subscribe (no SendGrid key):", email);
-        return res.json({ success: true, message: "Subscribed successfully" });
+      const trimmed = email.toLowerCase().trim();
+
+      // Persist to newsletter_subscribers table (reuse same table as /api/newsletter/subscribe)
+      try {
+        const { pool } = await import("./db");
+        await pool.query(`
+          CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+            id SERIAL PRIMARY KEY,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT NOW()
+          )
+        `);
+        const result = await pool.query(
+          `INSERT INTO newsletter_subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING id`,
+          [trimmed]
+        );
+        // Send confirmation only for new subscribers
+        if (result.rowCount && result.rowCount > 0) {
+          sendSubscribeConfirmationEmail(trimmed).catch((err: Error) =>
+            console.warn("[subscribe] Confirmation email failed:", err?.message)
+          );
+        }
+      } catch (dbErr: any) {
+        // Non-fatal — still return success if DB is unavailable
+        console.warn("[subscribe] DB persist failed:", dbErr?.message);
+        // Still attempt the email
+        sendSubscribeConfirmationEmail(trimmed).catch((err: Error) =>
+          console.warn("[subscribe] Confirmation email failed:", err?.message)
+        );
       }
-      const body: Record<string, unknown> = { contacts: [{ email: email.toLowerCase().trim() }] };
-      if (process.env.SENDGRID_LIST_ID) body.list_ids = [process.env.SENDGRID_LIST_ID];
-      const sgRes = await fetch("https://api.sendgrid.com/v3/marketing/contacts", {
-        method: "PUT",
-        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (!sgRes.ok) {
-        console.error("SendGrid error:", await sgRes.text());
-        return res.status(500).json({ error: "Failed to subscribe. Please try again." });
-      }
+
       res.json({ success: true, message: "Subscribed successfully" });
     } catch (error: any) {
       console.error("Subscribe error:", error);

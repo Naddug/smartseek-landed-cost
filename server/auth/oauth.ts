@@ -149,14 +149,6 @@ export function setupOAuth(app: Express) {
     app.get("/api/auth/facebook", oauthStub("Facebook"));
     app.get("/api/auth/linkedin", oauthStub("LinkedIn"));
     app.get("/api/auth/apple", oauthStub("Apple"));
-    // Log OAuth provider status on startup for easier debugging
-  console.log("[oauth] Provider status:", {
-    callbackBase: callbackBase || "(not set -- OAuth disabled)",
-    google: \!\!process.env.GOOGLE_CLIENT_ID,
-    facebook: \!\!process.env.FACEBOOK_APP_ID,
-    linkedin: \!\!process.env.LINKEDIN_CLIENT_ID,
-    apple: \!\!process.env.APPLE_CLIENT_ID,
-  });
   // Log OAuth provider status on startup for easier debugging
   console.log("[oauth] Provider status:", {
     callbackBase: callbackBase || "(not set -- OAuth disabled)",
