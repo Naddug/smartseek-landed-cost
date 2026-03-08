@@ -52,8 +52,9 @@
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
   
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Outfit', sans-serif;
+  /* Multilingual font stack: Latin → CJK → Arabic → Devanagari → system */
+  --font-sans: 'Inter', 'Noto Sans', 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans Arabic', 'Noto Sans Devanagari', system-ui, sans-serif;
+  --font-heading: 'Outfit', 'Noto Sans', 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans Arabic', 'Noto Sans Devanagari', system-ui, sans-serif;
   --font-mono: 'Space Grotesk', monospace;
 }
 
@@ -175,5 +176,35 @@ html, body {
 /* Mobile: smooth touch scrolling on iOS */
 .overflow-x-auto {
   -webkit-overflow-scrolling: touch;
+}
+
+/* ── Multilingual text safety ────────────────────────────────────────────── */
+
+/* Prevent long translations from breaking layouts */
+p, h1, h2, h3, h4, h5, h6, span, li, label, button {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Enable automatic hyphenation for non-CJK languages */
+p, h1, h2, h3, h4, h5, h6 {
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* RTL language support (Arabic, Hebrew, Farsi) */
+[dir="rtl"] {
+  text-align: right;
+}
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+[dir="rtl"] .space-x-2 > * + *,
+[dir="rtl"] .space-x-4 > * + * {
+  margin-left: 0;
+}
+/* Ensure inline-flex badge pills are safe in RTL */
+[dir="rtl"] .flex-wrap {
+  justify-content: flex-end;
 }
 

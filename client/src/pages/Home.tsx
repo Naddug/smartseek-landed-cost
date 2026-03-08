@@ -96,12 +96,12 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 relative z-10 min-w-0 overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div className="space-y-5 sm:space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/[0.06] text-slate-700 text-xs sm:text-sm font-medium border border-slate-200/80">
-                <BadgeCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600" />
-                {t("hero.badge")}
+              <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-xl sm:rounded-full bg-slate-900/[0.06] text-slate-700 text-xs sm:text-sm font-medium border border-slate-200/80 max-w-full">
+                <BadgeCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 shrink-0" />
+                <span className="break-words">{t("hero.badge")}</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-heading font-bold tracking-tight text-slate-900 leading-[1.1] break-words">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-heading font-bold tracking-tight text-slate-900 leading-[1.15] break-words hyphens-auto">
                 {t("hero.title1")}
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600">
@@ -209,12 +209,12 @@ export default function Home() {
       {/* Supplier Database */}
       <section className="py-20 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200">{t("home.supplierNetwork.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">
               {formatStat(suppliersVal)} {t("home.supplierNetwork.titleSuffix")}
             </h2>
-            <p className="text-lg text-slate-600">
+            <p className="text-base sm:text-lg text-slate-600">
               {t("home.supplierNetwork.subtitlePrefix")} {formatStat(countriesVal)} {t("home.supplierNetwork.subtitleSuffix")}
             </p>
           </div>
@@ -225,12 +225,12 @@ export default function Home() {
               {supplierRegions.length > 0 ? (
               <div className="space-y-4">
                 {supplierRegions.map((region, index) => (
-                  <div key={`region-${index}`} className="flex items-center gap-4" data-testid={`supplier-region-${index}`}>
-                    <div className={`w-3 h-3 rounded-full ${region.color}`}></div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-slate-800">{region.label}</span>
-                        <span className="font-bold text-slate-900">{`${region.barValue}%`}</span>
+                  <div key={`region-${index}`} className="flex items-center gap-3 sm:gap-4" data-testid={`supplier-region-${index}`}>
+                    <div className={`w-3 h-3 rounded-full shrink-0 ${region.color}`}></div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-center gap-2 mb-1">
+                        <span className="font-medium text-slate-800 text-sm sm:text-base truncate">{region.label}</span>
+                        <span className="font-bold text-slate-900 shrink-0">{`${region.barValue}%`}</span>
                       </div>
                       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div className={`h-full ${region.color} rounded-full transition-all duration-500`} style={{ width: `${region.barValue}%` }} />
@@ -325,10 +325,10 @@ export default function Home() {
       {/* Industries */}
       <section className="py-20 sm:py-24 bg-slate-50/90">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.industries.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.industries.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.industries.subtitle")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.industries.title")}</h2>
+            <p className="text-base sm:text-lg text-slate-600">{t("home.industries.subtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {industries.map((industry, index) => (
@@ -349,10 +349,10 @@ export default function Home() {
       {/* Platform Features */}
       <section className="py-20 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.features.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.features.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.features.subtitle")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.features.title")}</h2>
+            <p className="text-base sm:text-lg text-slate-600">{t("home.features.subtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {platformFeatures.map((feature, index) => (
@@ -384,10 +384,10 @@ export default function Home() {
       {/* Platform Showcase */}
       <section className="py-20 sm:py-24 overflow-hidden bg-slate-50/90">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <Badge className="mb-4 bg-purple-100 text-purple-700 border-purple-200">{t("home.showcase.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.showcase.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.showcase.subtitle", { suppliers: formatStat(suppliersVal) })}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.showcase.title")}</h2>
+            <p className="text-base sm:text-lg text-slate-600">{t("home.showcase.subtitle", { suppliers: formatStat(suppliersVal) })}</p>
           </div>
           <Tabs value={activeDashboardTab} onValueChange={setActiveDashboardTab} className="w-full">
             <div className="flex justify-center mb-8">
@@ -422,10 +422,10 @@ export default function Home() {
       {/* How It Works */}
       <section id="how-it-works" className="py-20 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.howItWorks.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.howItWorks.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.howItWorks.subtitle")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.howItWorks.title")}</h2>
+            <p className="text-base sm:text-lg text-slate-600">{t("home.howItWorks.subtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             <div className="hidden md:block absolute top-16 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-transparent via-blue-300 to-transparent z-0"></div>
@@ -474,12 +474,12 @@ export default function Home() {
       <section className="py-20 sm:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
           <Card className="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 border-0 overflow-hidden relative">
-            <CardContent className="p-8 md:p-16 relative z-10">
+            <CardContent className="p-6 sm:p-8 md:p-16 relative z-10">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="space-y-6">
                   <Badge className="bg-white/20 text-white border-white/30">{t("home.tryFreeBadge")}</Badge>
-                  <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">{t("home.ready.title")}</h2>
-                  <p className="text-xl text-blue-100">{t("home.ready.subtitle")}</p>
+                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold text-white">{t("home.ready.title")}</h2>
+                  <p className="text-base sm:text-xl text-blue-100">{t("home.ready.subtitle")}</p>
                   <Link href="/signup" data-testid="link-free-trial-cta">
                     <Button size="lg" className="h-12 sm:h-14 px-10 text-lg rounded-xl bg-white text-blue-700 hover:bg-blue-50 shadow-xl font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all" data-testid="button-free-trial-cta">
                       {t("home.trial.title")}
@@ -534,10 +534,10 @@ export default function Home() {
       {/* Testimonials */}
       <section className="py-20 sm:py-24 bg-slate-50/90">
         <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.testimonials.badge")}</Badge>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.testimonials.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.testimonials.subtitle")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.testimonials.title")}</h2>
+            <p className="text-base sm:text-lg text-slate-600">{t("home.testimonials.subtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {[

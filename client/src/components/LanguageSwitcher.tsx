@@ -14,6 +14,19 @@ const LANGUAGE_NAMES: Record<string, string> = {
   fr: "Français", ar: "العربية", de: "Deutsch", ja: "日本語", ko: "한국어", pt: "Português",
   it: "Italiano", nl: "Nederlands", pl: "Polski", vi: "Tiếng Việt", id: "Bahasa Indonesia",
   hi: "हिन्दी", bn: "বাংলা", uk: "Українська", he: "עברית", fa: "فارسی", ms: "Bahasa Melayu",
+  // Extended coverage
+  cs: "Čeština", el: "Ελληνικά", hu: "Magyar", ro: "Română", sv: "Svenska",
+  da: "Dansk", fi: "Suomi", no: "Norsk", ta: "தமிழ்", te: "తెలుగు",
+  mr: "मराठी", gu: "ગુજરાતી", kn: "ಕನ್ನಡ", ml: "മലയാളം", pa: "ਪੰਜਾਬੀ",
+  si: "සිංහල", my: "မြန်မာဘာသာ", km: "ខ្មែរ", lo: "ລາວ", ne: "नेपाली",
+  ur: "اردو", sw: "Kiswahili", am: "አማርኛ", ha: "Hausa", yo: "Yorùbá",
+  ig: "Igbo", zu: "isiZulu", xh: "isiXhosa", af: "Afrikaans", sq: "Shqip",
+  hy: "Հայերեն", az: "Azərbaycan", be: "Беларуская", bs: "Bosanski",
+  bg: "Български", hr: "Hrvatski", ka: "ქართული", mk: "Македонски",
+  sr: "Српски", sk: "Slovenčina", sl: "Slovenščina", et: "Eesti",
+  lv: "Latviešu", lt: "Lietuvių", mt: "Malti", cy: "Cymraeg", ga: "Gaeilge",
+  is: "Íslenska", lb: "Lëtzebuergesch", jv: "Basa Jawa", su: "Basa Sunda",
+  tl: "Filipino",
 };
 
 export function LanguageSwitcher() {
