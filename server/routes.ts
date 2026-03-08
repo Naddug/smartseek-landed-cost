@@ -27,6 +27,7 @@ import { detectProductFamily } from "@shared/productFamilies";
 import { getMarketMetalPrices } from "./services/marketPrices";
 import { getTechStack, type TechStackResult } from "./services/apifyTechService";
 import { searchCompanies, indexCompany, getIndexStats, setupSearchIndex } from "./services/searchService";
+import { runIntelligenceEngine, quickRiskScore } from "./services/intelligenceEngine";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -2912,6 +2913,67 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       }
       console.error("GET /api/tech-intelligence error:", err);
       res.status(500).json({ error: "Failed to detect tech stack" });
+    }
+  });
+
+  // ============================================================================
+  // AI Intelligence Engine  (/api/intelligence)
+  // ============================================================================
+
+  /**
+   * POST /api/intelligence/analyze
+   *
+   * Body: IntelligenceInput
+   * {
+   *   company:   { name, country, industry, domain }
+   *   suppliers: [{ name, country, industry, employees, unitPrice, ... }]
+   *   tradeData: { industry, country, topProducts, signals }   // optional
+   *   product:   { name, hsCode, quantity, unit, targetUnitPrice, destinationCountry }
+   *   techStack: { technologies: [{ name, category }] }        // optional
+   * }
+   *
+   * Returns: IntelligenceReport
+   * {
+   *   risk_score, riskLevel, riskBreakdown,
+   *   margin_estimate,
+   *   recommended_suppliers,
+   *   cost_analysis,
+   *   executiveSummary, actionItems, generatedAt
+   * }
+   */
+  app.post("/api/intelligence/analyze", async (req: Request, res: Response) => {
+    const { company, suppliers, tradeData, product, techStack } = req.body ?? {};
+
+    if (!company) return res.status(400).json({ error: "company is required" });
+    if (!Array.isArray(suppliers) || suppliers.length === 0)
+      return res.status(400).json({ error: "suppliers array is required (min 1)" });
+    if (!product?.name)
+      return res.status(400).json({ error: "product.name is required" });
+
+    try {
+      const report = await runIntelligenceEngine({ company, suppliers, tradeData, product, techStack });
+      res.json(report);
+    } catch (e) {
+      const msg = (e as Error).message;
+      console.error("POST /api/intelligence/analyze error:", e);
+      if (msg.includes("OpenAI API key")) return res.status(503).json({ error: msg });
+      res.status(500).json({ error: "Intelligence analysis failed", detail: msg });
+    }
+  });
+
+  /**
+   * GET /api/intelligence/risk?country=China&industry=Electronics
+   * Quick risk score for a supplier country — no GPT-4o, uses existing risk service.
+   */
+  app.get("/api/intelligence/risk", async (req: Request, res: Response) => {
+    const country = (req.query.country as string)?.trim();
+    if (!country) return res.status(400).json({ error: "country is required" });
+
+    try {
+      const result = await quickRiskScore(country, req.query.industry as string);
+      res.json(result);
+    } catch (e) {
+      res.status(500).json({ error: "Risk score failed", detail: (e as Error).message });
     }
   });
 
