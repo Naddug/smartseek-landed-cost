@@ -28,6 +28,7 @@ import { getMarketMetalPrices } from "./services/marketPrices";
 import { getTechStack, type TechStackResult } from "./services/apifyTechService";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
+import { upsertHubSpotContact } from "./hubspotClient";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -147,10 +148,13 @@ export async function registerRoutes(
         `INSERT INTO newsletter_subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING id`,
         [trimmed]
       );
-      // Send confirmation email only for new subscribers (not duplicates)
+      // Send confirmation email + sync to HubSpot only for new subscribers
       if (result.rowCount && result.rowCount > 0) {
         sendSubscribeConfirmationEmail(trimmed).catch((err: Error) =>
           console.warn("[newsletter] Confirmation email failed:", err?.message)
+        );
+        upsertHubSpotContact(trimmed, { source: "newsletter" }).catch((err: Error) =>
+          console.warn("[newsletter] HubSpot sync failed:", err?.message)
         );
       }
       res.json({ success: true, message: "Subscribed successfully" });
@@ -2843,18 +2847,23 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           `INSERT INTO newsletter_subscribers (email) VALUES ($1) ON CONFLICT (email) DO NOTHING RETURNING id`,
           [trimmed]
         );
-        // Send confirmation only for new subscribers
+        // Send confirmation email + sync to HubSpot only for new subscribers
         if (result.rowCount && result.rowCount > 0) {
           sendSubscribeConfirmationEmail(trimmed).catch((err: Error) =>
             console.warn("[subscribe] Confirmation email failed:", err?.message)
+          );
+          upsertHubSpotContact(trimmed, { source: "subscribe" }).catch((err: Error) =>
+            console.warn("[subscribe] HubSpot sync failed:", err?.message)
           );
         }
       } catch (dbErr: any) {
         // Non-fatal — still return success if DB is unavailable
         console.warn("[subscribe] DB persist failed:", dbErr?.message);
-        // Still attempt the email
         sendSubscribeConfirmationEmail(trimmed).catch((err: Error) =>
           console.warn("[subscribe] Confirmation email failed:", err?.message)
+        );
+        upsertHubSpotContact(trimmed, { source: "subscribe" }).catch((err: Error) =>
+          console.warn("[subscribe] HubSpot sync failed:", err?.message)
         );
       }
 
