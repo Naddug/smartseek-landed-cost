@@ -13,6 +13,7 @@ import { setupAuth } from "./auth";
 import { getStripeSync } from "./stripeClient";
 import { verifySmtpConnection } from "./sendgridClient";
 import { WebhookHandlers } from "./webhookHandlers";
+import { startDataCollectionPipeline } from "./jobs/dataCollector";
 
 // stripe-replit-sync removed Ã¢ÂÂ Replit-specific package, incompatible with Railway.
 // Stripe schema is managed via drizzle migrations.
@@ -253,6 +254,7 @@ app.use((req, res, next) => {
   await runDrizzlePush();
   await initStripe();
   verifySmtpConnection(); // non-blocking — logs OK or warning
+  startDataCollectionPipeline(); // non-blocking — starts cron scheduler
 
   await setupAuth(app);
   await registerRoutes(httpServer, app);

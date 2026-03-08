@@ -30,6 +30,7 @@ import { searchCompanies, indexCompany, getIndexStats, setupSearchIndex } from "
 import { runIntelligenceEngine, quickRiskScore } from "./services/intelligenceEngine";
 import { getGraphService } from "./services/graphService";
 import type { GraphRelation } from "@shared/schema";
+import { triggerPipelineRun, getPipelineRuns, isPipelineRunning } from "./jobs/dataCollector";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -2915,6 +2916,31 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       }
       console.error("GET /api/tech-intelligence error:", err);
       res.status(500).json({ error: "Failed to detect tech stack" });
+    }
+  });
+
+  // ============================================================================
+  // Data Collection Pipeline  (/api/pipeline)
+  // ============================================================================
+
+  /** POST /api/pipeline/trigger — manually kick off a pipeline run */
+  app.post("/api/pipeline/trigger", async (_req: Request, res: Response) => {
+    try {
+      const result = await triggerPipelineRun();
+      if (!result.started) return res.status(409).json({ error: result.reason });
+      res.json({ message: "Pipeline run started", running: true });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /** GET /api/pipeline/status — current run state + last 10 runs */
+  app.get("/api/pipeline/status", async (_req: Request, res: Response) => {
+    try {
+      const runs = await getPipelineRuns(10);
+      res.json({ running: isPipelineRunning(), recentRuns: runs });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
     }
   });
 
