@@ -26,6 +26,7 @@ import { getMineralPurityOptions, MINERAL_FORMS } from "@shared/mineralConfig";
 import { detectProductFamily } from "@shared/productFamilies";
 import { getMarketMetalPrices } from "./services/marketPrices";
 import { getTechStack, type TechStackResult } from "./services/apifyTechService";
+import { searchCompanies, indexCompany, getIndexStats, setupSearchIndex } from "./services/searchService";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -2911,6 +2912,78 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       }
       console.error("GET /api/tech-intelligence error:", err);
       res.status(500).json({ error: "Failed to detect tech stack" });
+    }
+  });
+
+  // ============================================================================
+  // Search Index API  (/api/search)
+  // ============================================================================
+
+  // Initialise search index on startup (non-blocking)
+  setupSearchIndex().catch(e =>
+    console.warn("[search] Index setup deferred:", (e as Error).message)
+  );
+
+  /**
+   * GET /api/search?q=<query>
+   *   &country=China
+   *   &industry=Electronics
+   *   &minEmployees=100
+   *   &maxEmployees=5000
+   *   &limit=20
+   *
+   * Returns ranked results combining full-text + semantic (pgvector) search.
+   */
+  app.get("/api/search", async (req: Request, res: Response) => {
+    const q = ((req.query.q as string) ?? "").trim();
+    if (!q) return res.status(400).json({ error: "q parameter is required" });
+
+    const limit = Math.min(parseInt((req.query.limit as string) ?? "20", 10) || 20, 100);
+    const opts = {
+      limit,
+      country: (req.query.country as string) || undefined,
+      industry: (req.query.industry as string) || undefined,
+      minEmployees: req.query.minEmployees ? parseInt(req.query.minEmployees as string, 10) : undefined,
+      maxEmployees: req.query.maxEmployees ? parseInt(req.query.maxEmployees as string, 10) : undefined,
+    };
+
+    try {
+      const results = await searchCompanies(q, opts);
+      res.json({ query: q, total: results.length, results });
+    } catch (e) {
+      console.error("GET /api/search error:", e);
+      res.status(500).json({ error: "Search failed" });
+    }
+  });
+
+  /**
+   * POST /api/search/index
+   * Body: { domain, company, country, industry, employees, techStack, keywords }
+   * Indexes or re-indexes a single company. Admin use / webhook target.
+   */
+  app.post("/api/search/index", async (req: Request, res: Response) => {
+    const { domain, company, country, industry, employees, techStack, keywords } = req.body ?? {};
+    if (!domain) return res.status(400).json({ error: "domain is required" });
+
+    try {
+      await indexCompany({ domain, company, country, industry, employees, techStack, keywords });
+      res.json({ success: true, domain });
+    } catch (e) {
+      console.error("POST /api/search/index error:", e);
+      res.status(500).json({ error: "Indexing failed", detail: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/search/stats
+   * Returns total indexed records and embedding coverage.
+   */
+  app.get("/api/search/stats", async (_req: Request, res: Response) => {
+    try {
+      const stats = await getIndexStats();
+      res.json(stats);
+    } catch (e) {
+      res.status(500).json({ error: "Could not retrieve stats" });
     }
   });
 

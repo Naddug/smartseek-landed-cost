@@ -204,6 +204,22 @@ export const tradeDataCache = pgTable("trade_data_cache", {
   expiresAt: timestamp("expires_at"),
 });
 
+// Company Search Index (pgvector semantic + full-text search)
+// embedding column is managed as raw text here; actual vector ops done via raw SQL in searchService.ts
+export const companySearchIndex = pgTable("company_search_index", {
+  id: serial("id").primaryKey(),
+  domain: text("domain").notNull().unique(),
+  company: text("company"),
+  country: text("country"),
+  industry: text("industry"),
+  employees: integer("employees"),
+  techStack: jsonb("tech_stack").$type<string[]>(),
+  keywords: text("keywords"), // space-separated, used for full-text search
+  embeddingJson: text("embedding_json"), // JSON-serialised float[] — stored as text, used via raw SQL cast
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Import auth models for references
 import { users } from "./models/auth";
 
