@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,6 +61,7 @@ const AppleIcon = () => (
 );
 
 export default function Auth() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const [matchForgot] = useRoute("/forgot-password");
   const [matchSignup] = useRoute("/signup");
@@ -205,14 +207,14 @@ export default function Auth() {
             <span className="text-2xl font-heading font-bold">SmartSeek</span>
           </Link>
           <CardTitle className="text-2xl">
-            {mode === "login" && "Welcome back"}
-            {mode === "signup" && "Create your account"}
-            {mode === "forgot" && "Forgot password"}
+            {mode === "login" && t("auth.welcomeBack")}
+            {mode === "signup" && t("auth.createAccount")}
+            {mode === "forgot" && t("auth.forgotPassword")}
           </CardTitle>
           <CardDescription>
-            {mode === "login" && "Sign in to your account to continue"}
-            {mode === "signup" && "Start sourcing smarter with AI-powered insights"}
-            {mode === "forgot" && "Enter your email and we'll send you a reset link"}
+            {mode === "login" && t("auth.signInDesc")}
+            {mode === "signup" && t("auth.signupDesc")}
+            {mode === "forgot" && t("auth.forgotDesc")}
           </CardDescription>
         </CardHeader>
 

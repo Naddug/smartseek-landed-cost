@@ -161,7 +161,7 @@ app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 // Security headers
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
-// Rate limiting Ã¢ÂÂ mounted at /api so req.path is relative (no /api prefix)
+// Rate limiting — 100 req/15min per IP for API (exempt: auth, health, webhooks)
 app.use(
   "/api",
   rateLimit({

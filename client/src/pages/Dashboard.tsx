@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useProfile, useReports, useCreditTransactions, useUser } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,6 +33,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const [showSuppliers, setShowSuppliers] = useState(false);
   const [embeddedIndustry, setEmbeddedIndustry] = useState("");
   const { data: user } = useUser();
@@ -40,7 +42,7 @@ export default function Dashboard() {
   const { data: transactions = [] } = useCreditTransactions();
 
   const hour = new Date().getHours();
-  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const greeting = hour < 12 ? t("dashboard.greetingMorning") : hour < 17 ? t("dashboard.greetingAfternoon") : t("dashboard.greetingEvening");
   const firstName = user?.firstName || user?.email?.split("@")[0] || "there";
 
   const isLoading = profileLoading || reportsLoading;
@@ -50,7 +52,7 @@ export default function Dashboard() {
     return (
       <div className="space-y-4">
         <Button variant="ghost" onClick={() => { setShowSuppliers(false); setEmbeddedIndustry(""); }} className="text-slate-400 hover:text-slate-200">
-          ← Back to Dashboard
+          {t("dashboard.backToDashboard")}
         </Button>
         <SupplierDiscovery embedded initialIndustry={embeddedIndustry} />
       </div>
@@ -70,7 +72,7 @@ export default function Dashboard() {
               <Loader2 className="w-8 h-8 animate-spin text-blue-400" />
             </div>
           </div>
-          <p className="text-slate-400 font-medium">Loading your dashboard...</p>
+          <p className="text-slate-400 font-medium">{t("dashboard.loading")}</p>
         </div>
       </div>
     );
@@ -84,21 +86,21 @@ export default function Dashboard() {
           <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-4">
             <Activity className="w-8 h-8 text-red-400" />
           </div>
-          <h2 className="text-xl font-bold mb-2 text-slate-200">Unable to load dashboard</h2>
+          <h2 className="text-xl font-bold mb-2 text-slate-200">{t("dashboard.unableToLoad")}</h2>
           <p className="text-slate-400 mb-4">
-            {isAuthError ? "Your session may have expired." : "Please try refreshing the page."}
+            {isAuthError ? t("dashboard.sessionExpired") : t("dashboard.tryRefreshing")}
           </p>
           <div className="flex flex-wrap gap-2 justify-center">
             <Button onClick={() => refetchProfile()} variant="outline" className="bg-slate-800 hover:bg-slate-700 border border-slate-600">
-              Retry
+              {t("dashboard.retry")}
             </Button>
             {isAuthError && (
               <Link href="/login">
-                <Button className="bg-slate-800 hover:bg-slate-700 border border-slate-600">Log in again</Button>
+                <Button className="bg-slate-800 hover:bg-slate-700 border border-slate-600">{t("dashboard.logInAgain")}</Button>
               </Link>
             )}
             {!isAuthError && (
-              <Button onClick={() => window.location.reload()} className="bg-slate-800 hover:bg-slate-700 border border-slate-600">Refresh Page</Button>
+              <Button onClick={() => window.location.reload()} className="bg-slate-800 hover:bg-slate-700 border border-slate-600">{t("dashboard.refreshPage")}</Button>
             )}
           </div>
         </div>
@@ -164,7 +166,7 @@ export default function Dashboard() {
               {profile?.plan === 'monthly' && (
                 <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 shadow-lg shadow-blue-500/25 px-3 py-1">
                   <Crown className="w-3.5 h-3.5 mr-1.5" />
-                  Pro Member
+                  {t("dashboard.proMember")}
                 </Badge>
               )}
               <Badge variant="outline" className="border-slate-600 text-slate-300 bg-slate-800/50">
@@ -176,20 +178,20 @@ export default function Dashboard() {
               {greeting}, {firstName} 👋
             </h1>
             <p className="text-slate-300 text-lg">
-              AI-powered sourcing intelligence at your fingertips.
+              {t("dashboard.subtitle")}
             </p>
           </div>
           <div className="flex gap-3">
             <Link href="/reports">
               <Button size="lg" variant="outline" className="shrink-0 border-slate-500 text-slate-200 hover:bg-slate-600/50">
                 <FileText className="mr-2 h-4 w-4 shrink-0" />
-                <span className="whitespace-nowrap">My Reports</span>
+                <span className="whitespace-nowrap">{t("dashboard.myReports")}</span>
               </Button>
             </Link>
             <Link href="/smart-finder">
               <Button size="lg" className="shrink-0 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-xl shadow-blue-500/25 border-0 text-white font-semibold" data-testid="button-new-search">
                 <Sparkles className="mr-2 h-5 w-5 shrink-0" />
-                <span className="whitespace-nowrap">New AI Search</span>
+                <span className="whitespace-nowrap">{t("dashboard.newAISearch")}</span>
               </Button>
             </Link>
           </div>
@@ -202,7 +204,7 @@ export default function Dashboard() {
             {profile?.plan === "free" && (
               <Link href="/billing" className="absolute top-3 right-3">
                 <Button variant="ghost" size="sm" className="text-xs text-blue-400 hover:text-blue-300 h-7 px-2">
-                  + Buy more
+                  {t("dashboard.buyMore")}
                 </Button>
               </Link>
             )}
@@ -212,18 +214,18 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="text-xl sm:text-3xl font-bold mb-1 text-slate-100 group-hover:text-white transition-colors truncate">{totalCredits}</div>
-            <div className="text-xs sm:text-sm text-slate-400 truncate">Available Credits</div>
+            <div className="text-xs sm:text-sm text-slate-400 truncate">{t("dashboard.availableCredits")}</div>
             {totalCredits === 0 && (
-              <div className="text-xs text-amber-400 mt-1.5 font-semibold">⚠ Out of credits</div>
+              <div className="text-xs text-amber-400 mt-1.5 font-semibold">⚠ {t("dashboard.outOfCredits")}</div>
             )}
             {profile?.plan === "monthly" && (
-              <div className="text-xs text-slate-500 mt-1.5">Refreshes monthly</div>
+              <div className="text-xs text-slate-500 mt-1.5">{t("dashboard.refreshesMonthly")}</div>
             )}
           </CardContent>
         </Card>
         <MetricCard
           icon={<FileText className="w-5 h-5" />}
-          label="Reports Generated"
+          label={t("dashboard.reportsGenerated")}
           value={reports.length}
           change={reports.length > 0 ? `${reports.filter(r => r.status === 'completed').length} complete` : undefined}
           iconBg="from-emerald-500 to-emerald-600"
@@ -231,9 +233,9 @@ export default function Dashboard() {
         />
         <MetricCard
           icon={<Globe2 className="w-5 h-5" />}
-          label="Regions Covered"
+          label={t("dashboard.regionsCovered")}
           value={(() => { const regions = new Set(reports.map((r: any) => r.formData?.originCountry).filter(Boolean)); return regions.size > 0 ? `${regions.size}` : "—"; })()}
-          change="From your reports"
+          change={t("dashboard.fromYourReports")}
           iconBg="from-amber-500 to-orange-500"
           cardBg="from-slate-700/90 to-slate-600/90"
         />
@@ -246,17 +248,17 @@ export default function Dashboard() {
               <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/30">
                 <BarChart3 className="w-4 h-4 text-blue-400" />
               </div>
-              Weekly Activity
+              {t("dashboard.weeklyActivity")}
             </CardTitle>
-            <Badge variant="outline" className="border-slate-500 text-slate-300 bg-slate-600/50">Last 7 days</Badge>
+            <Badge variant="outline" className="border-slate-500 text-slate-300 bg-slate-600/50">{t("dashboard.last7Days")}</Badge>
           </CardHeader>
           <CardContent className="pt-6">
             {activityTotal === 0 ? (
               <div className="h-64 flex flex-col items-center justify-center text-center">
-                <p className="text-slate-400 mb-2">No activity yet this week</p>
+                <p className="text-slate-400 mb-2">{t("dashboard.noActivityYet")}</p>
                 <Link href="/smart-finder">
                   <Button variant="link" className="text-blue-400 hover:text-blue-300 p-0">
-                    Start your first search →
+                    {t("dashboard.startFirstSearch")}
                   </Button>
                 </Link>
               </div>
@@ -288,8 +290,8 @@ export default function Dashboard() {
                       formatter={(value: number) => [value, '']}
                       labelFormatter={(label) => `Day: ${label}`}
                     />
-                    <Area type="monotone" dataKey="searches" name="Searches" stroke="#3B82F6" fill="url(#colorSearches)" strokeWidth={2} />
-                    <Area type="monotone" dataKey="reports" name="Reports" stroke="#10B981" fill="url(#colorReports)" strokeWidth={2} />
+                    <Area type="monotone" dataKey="searches" name={t("dashboard.searches")} stroke="#3B82F6" fill="url(#colorSearches)" strokeWidth={2} />
+                    <Area type="monotone" dataKey="reports" name={t("dashboard.reports")} stroke="#10B981" fill="url(#colorReports)" strokeWidth={2} />
                     <Legend />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -304,13 +306,13 @@ export default function Dashboard() {
               <div className="p-2 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/30">
                 <MapPin className="w-4 h-4 text-violet-400" />
               </div>
-              Top Sourcing Regions
+              {t("dashboard.topSourcingRegions")}
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             {!regionData ? (
               <div className="h-48 flex flex-col items-center justify-center text-center">
-                <p className="text-slate-400">No reports generated yet</p>
+                <p className="text-slate-400">{t("dashboard.noReportsYet")}</p>
               </div>
             ) : (
               <>

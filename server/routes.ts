@@ -2267,13 +2267,13 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           prisma.$queryRaw<{ country: string; cnt: number }[]>`
             SELECT country, COUNT(*)::int as cnt FROM "Supplier" WHERE country IS NOT NULL AND country != '' GROUP BY country ORDER BY cnt DESC LIMIT 50
           `,
-          []
+          [] as { country: string; cnt: number }[]
         ),
         withTimeout(
           prisma.$queryRaw<{ industry: string; cnt: number }[]>`
             SELECT industry, COUNT(*)::int as cnt FROM "Supplier" WHERE industry IS NOT NULL AND industry != '' GROUP BY industry ORDER BY cnt DESC LIMIT 30
           `,
-          []
+          [] as { industry: string; cnt: number }[]
         ),
       ]);
 
@@ -2433,14 +2433,14 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const countPromise = hasFilters
         ? prisma.supplier.count({ where })
         : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'supplier'`
-            .then((rows) => Number(rows[0]?.cnt || 0))
+            .then((rows: [{ cnt: number }]) => Number(rows[0]?.cnt || 0))
             .catch(() => prisma.supplier.count({ where }));
 
       const [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
       const total = typeof totalRaw === "number" ? totalRaw : totalRaw;
 
       // Format company names and locations for display (title case)
-      function toTitleCase(str: string | null | undefined): string {
+      const toTitleCase = (str: string | null | undefined): string => {
         if (!str || typeof str !== "string") return str || "";
         const abbr = new Set(["pt", "tbk", "gmbh", "llc", "ltd", "inc", "co", "lp", "plc", "sa", "ag", "nv", "bv", "corp", "pvt", "uk", "us"]);
         return str.replace(/\w\S*/g, (w) => {
@@ -2448,11 +2448,11 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           if (abbr.has(lower)) return lower === "gmbh" ? "GmbH" : lower.toUpperCase();
           return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
         });
-      }
-      function formatLocation(str: string | null | undefined): string {
+      };
+      const formatLocation = (str: string | null | undefined): string => {
         if (!str || typeof str !== "string") return str || "";
         return str.split(",").map((p) => toTitleCase(p.trim())).filter(Boolean).join(", ");
-      }
+      };
 
       // Parse JSON string fields and apply formatting (bulletproof: handle strings, objects, null)
       const safeString = (v: unknown): string =>
@@ -2528,13 +2528,13 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           prisma.$queryRaw<{ country: string; cnt: number }[]>`
             SELECT country, COUNT(*)::int as cnt FROM "Supplier" WHERE country IS NOT NULL AND country != '' GROUP BY country ORDER BY cnt DESC LIMIT 60
           `,
-          []
+          [] as { country: string; cnt: number }[]
         ),
         withTimeout(
           prisma.$queryRaw<{ industry: string; cnt: number }[]>`
             SELECT industry, COUNT(*)::int as cnt FROM "Supplier" WHERE industry IS NOT NULL AND industry != '' GROUP BY industry ORDER BY cnt DESC LIMIT 40
           `,
-          []
+          [] as { industry: string; cnt: number }[]
         ),
       ]);
 

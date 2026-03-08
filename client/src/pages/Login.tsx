@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,7 @@ import { Loader2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 export default function Login() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -75,9 +77,9 @@ export default function Login() {
             <Logo size="lg" className="w-10 h-10" />
             <span className="text-2xl font-heading font-bold">SmartSeek</span>
           </Link>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
+          <CardTitle className="text-2xl">{t("auth.welcomeBack")}</CardTitle>
           <CardDescription>
-            Sign in to your account to continue
+            {t("auth.signInDesc")}
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>

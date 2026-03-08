@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { BarChart3, Globe2, Shield, DollarSign, Users, Package, AlertTriangle, CheckCircle2, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
@@ -24,6 +25,7 @@ function StatCard({ icon: Icon, label, value, change, positive, iconBg }: {
 }
 
 export function HeroDashboardMock() {
+  const { t } = useTranslation();
   return (
     <div className="relative rounded-2xl shadow-2xl border border-slate-200 w-full bg-white overflow-hidden" data-testid="img-hero-dashboard">
       <div className="bg-slate-800 px-4 py-2 flex items-center gap-2">
@@ -39,20 +41,20 @@ export function HeroDashboardMock() {
       <div className="p-4 space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[10px] text-slate-500">Welcome back</p>
-            <p className="text-xs font-semibold text-slate-800">Sourcing Dashboard</p>
+            <p className="text-[10px] text-slate-500">{t("dashboardMock.welcomeBack")}</p>
+            <p className="text-xs font-semibold text-slate-800">{t("dashboardMock.sourcingDashboard")}</p>
           </div>
-          <div className="bg-blue-600 text-white text-[9px] px-2 py-1 rounded-md font-medium">+ New Report</div>
+          <div className="bg-blue-600 text-white text-[9px] px-2 py-1 rounded-md font-medium">{t("dashboardMock.newReport")}</div>
         </div>
         <div className="grid grid-cols-3 gap-2">
-          <StatCard icon={Users} label="Suppliers" value="2,847" change="+12%" positive iconBg="bg-blue-600" />
-          <StatCard icon={DollarSign} label="Avg Landed Cost" value="$4.2M" change="-8%" positive iconBg="bg-emerald-600" />
-          <StatCard icon={Shield} label="Risk Score" value="Low" change="94/100" positive iconBg="bg-violet-600" />
+          <StatCard icon={Users} label={t("dashboardMock.suppliers")} value="2,847" change="+12%" positive iconBg="bg-blue-600" />
+          <StatCard icon={DollarSign} label={t("dashboardMock.avgLandedCost")} value="$4.2M" change="-8%" positive iconBg="bg-emerald-600" />
+          <StatCard icon={Shield} label={t("dashboardMock.riskScore")} value="Low" change="94/100" positive iconBg="bg-violet-600" />
         </div>
         <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-[10px] font-medium text-slate-700">Sourcing Volume</p>
-            <p className="text-[9px] text-slate-400">Last 12 months</p>
+            <p className="text-[10px] font-medium text-slate-700">{t("dashboardMock.sourcingVolume")}</p>
+            <p className="text-[9px] text-slate-400">{t("dashboardMock.last12Months")}</p>
           </div>
           <div className="flex items-end justify-between gap-1 h-12">
             {[35, 45, 40, 55, 50, 65, 60, 75, 70, 85, 80, 92].map((v, i) => (
@@ -70,11 +72,12 @@ export function HeroDashboardMock() {
 }
 
 export function DashboardPreviewMock() {
+  const { t } = useTranslation();
   const regionData = [
-    { region: "Asia Pacific", value: 45, color: "bg-blue-500" },
-    { region: "Europe", value: 28, color: "bg-violet-500" },
-    { region: "North America", value: 18, color: "bg-emerald-500" },
-    { region: "Middle East", value: 9, color: "bg-amber-500" },
+    { region: t("dashboardMock.asiaPacific"), value: 45, color: "bg-blue-500" },
+    { region: t("dashboardMock.europe"), value: 28, color: "bg-violet-500" },
+    { region: t("dashboardMock.northAmerica"), value: 18, color: "bg-emerald-500" },
+    { region: t("dashboardMock.middleEast"), value: 9, color: "bg-amber-500" },
   ];
 
   return (
@@ -96,12 +99,12 @@ export function DashboardPreviewMock() {
             <span className="text-[10px] text-white font-semibold">SmartSeek</span>
           </div>
           {[
-            { icon: BarChart3, label: "Analytics", active: true },
-            { icon: Users, label: "Suppliers", active: false },
-            { icon: Globe2, label: "Trade Data", active: false },
-            { icon: Shield, label: "Risk Monitor", active: false },
-            { icon: Package, label: "RFQ Manager", active: false },
-            { icon: DollarSign, label: "Cost Calculator", active: false },
+            { icon: BarChart3, label: t("dashboardMock.analytics"), active: true },
+            { icon: Users, label: t("dashboardMock.suppliers"), active: false },
+            { icon: Globe2, label: t("dashboardMock.tradeData"), active: false },
+            { icon: Shield, label: t("dashboardMock.riskMonitor"), active: false },
+            { icon: Package, label: t("dashboardMock.rfqManager"), active: false },
+            { icon: DollarSign, label: t("dashboardMock.costCalculator"), active: false },
           ].map((item, i) => (
             <div key={i} className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-[9px] ${item.active ? 'bg-blue-600/20 text-blue-400' : 'text-slate-500 hover:text-slate-300'}`}>
               <item.icon className="w-3 h-3 shrink-0" />
@@ -112,31 +115,31 @@ export function DashboardPreviewMock() {
         <div className="flex-1 p-3 sm:p-4 bg-slate-50 overflow-hidden min-w-0">
           <div className="flex items-center justify-between mb-3 gap-2">
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-slate-800 truncate">Supplier Analytics</p>
-              <p className="text-[9px] text-slate-500 truncate">Real-time performance metrics</p>
+              <p className="text-xs font-semibold text-slate-800 truncate">{t("dashboardMock.supplierAnalytics")}</p>
+              <p className="text-[9px] text-slate-500 truncate">{t("dashboardMock.realTimeMetrics")}</p>
             </div>
             <div className="flex gap-1.5 shrink-0">
-              <div className="bg-white border border-slate-200 text-[9px] px-2 py-1 rounded-md text-slate-600 whitespace-nowrap">Last 30 days</div>
-              <div className="bg-blue-600 text-white text-[9px] px-2 py-1 rounded-md whitespace-nowrap">Export</div>
+              <div className="bg-white border border-slate-200 text-[9px] px-2 py-1 rounded-md text-slate-600 whitespace-nowrap">{t("dashboardMock.last30Days")}</div>
+              <div className="bg-blue-600 text-white text-[9px] px-2 py-1 rounded-md whitespace-nowrap">{t("dashboardMock.export")}</div>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-            <StatCard icon={Users} label="Active Suppliers" value="2,847" change="+12%" positive iconBg="bg-blue-600" />
-            <StatCard icon={DollarSign} label="Total Spend" value="$14.2M" change="+23%" positive iconBg="bg-emerald-600" />
-            <StatCard icon={Shield} label="Avg Risk Score" value="92/100" change="+3pts" positive iconBg="bg-violet-600" />
-            <StatCard icon={AlertTriangle} label="Alerts" value="7" change="-34%" positive iconBg="bg-amber-500" />
+            <StatCard icon={Users} label={t("dashboardMock.activeSuppliers")} value="2,847" change="+12%" positive iconBg="bg-blue-600" />
+            <StatCard icon={DollarSign} label={t("dashboardMock.totalSpend")} value="$14.2M" change="+23%" positive iconBg="bg-emerald-600" />
+            <StatCard icon={Shield} label={t("dashboardMock.avgRiskScore")} value="92/100" change="+3pts" positive iconBg="bg-violet-600" />
+            <StatCard icon={AlertTriangle} label={t("dashboardMock.alerts")} value="7" change="-34%" positive iconBg="bg-amber-500" />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
             <div className="sm:col-span-3 bg-white rounded-lg p-3 border border-slate-200/80">
-              <p className="text-[10px] font-medium text-slate-700 mb-2">Spend by Category</p>
+              <p className="text-[10px] font-medium text-slate-700 mb-2">{t("dashboardMock.spendByCategory")}</p>
               <div className="flex items-end justify-between gap-1 h-20">
                 {[
-                  { label: "Raw Mat.", h: 85, c: "bg-blue-500" },
-                  { label: "Electronics", h: 65, c: "bg-violet-500" },
-                  { label: "Chemicals", h: 50, c: "bg-emerald-500" },
-                  { label: "Packaging", h: 40, c: "bg-amber-500" },
-                  { label: "Logistics", h: 30, c: "bg-rose-500" },
-                  { label: "Equipment", h: 55, c: "bg-cyan-500" },
+                  { label: t("dashboardMock.rawMat"), h: 85, c: "bg-blue-500" },
+                  { label: t("dashboardMock.electronics"), h: 65, c: "bg-violet-500" },
+                  { label: t("dashboardMock.chemicals"), h: 50, c: "bg-emerald-500" },
+                  { label: t("dashboardMock.packaging"), h: 40, c: "bg-amber-500" },
+                  { label: t("dashboardMock.logistics"), h: 30, c: "bg-rose-500" },
+                  { label: t("dashboardMock.equipment"), h: 55, c: "bg-cyan-500" },
                 ].map((bar, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1 min-w-0">
                     <div className={`w-full ${bar.c} rounded-t-sm`} style={{ height: `${bar.h}%`, opacity: 0.8 }} />
@@ -146,7 +149,7 @@ export function DashboardPreviewMock() {
               </div>
             </div>
             <div className="sm:col-span-2 bg-white rounded-lg p-3 border border-slate-200/80">
-              <p className="text-[10px] font-medium text-slate-700 mb-2">By Region</p>
+              <p className="text-[10px] font-medium text-slate-700 mb-2">{t("dashboardMock.byRegion")}</p>
               <div className="space-y-2">
                 {regionData.map((r, i) => (
                   <div key={i}>

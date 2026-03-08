@@ -479,7 +479,7 @@ export default function Home() {
             <CardContent className="p-8 md:p-16 relative z-10">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="space-y-6">
-                  <Badge className="bg-white/20 text-white border-white/30">Try Free</Badge>
+                  <Badge className="bg-white/20 text-white border-white/30">{t("home.tryFreeBadge")}</Badge>
                   <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">{t("home.ready.title")}</h2>
                   <p className="text-xl text-blue-100">{t("home.ready.subtitle")}</p>
                   <Link href="/signup" data-testid="link-free-trial-cta">
@@ -515,19 +515,19 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
             <div>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{formatStat(suppliersVal)}</div>
-              <div className="text-sm text-slate-400">Verified suppliers</div>
+              <div className="text-sm text-slate-400">{t("footer.statSuppliers")}</div>
             </div>
             <div>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{formatStat(leadsVal)}</div>
-              <div className="text-sm text-slate-400">Buyer leads</div>
+              <div className="text-sm text-slate-400">{t("footer.statLeads")}</div>
             </div>
             <div>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{countriesVal}+</div>
-              <div className="text-sm text-slate-400">Countries</div>
+              <div className="text-sm text-slate-400">{t("footer.statCountries")}</div>
             </div>
             <div>
               <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{industriesVal}+</div>
-              <div className="text-sm text-slate-400">Industries</div>
+              <div className="text-sm text-slate-400">{t("footer.statIndustries")}</div>
             </div>
           </div>
         </div>
