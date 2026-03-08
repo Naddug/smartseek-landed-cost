@@ -30,7 +30,7 @@ const LANGUAGE_NAMES: Record<string, string> = {
 };
 
 export function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -41,7 +41,7 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="max-h-[70vh] overflow-y-auto w-52">
         <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          Language
+          {t("lang.selectLanguage")}
         </div>
         {LANGUAGES.map((lang) => (
           <DropdownMenuItem

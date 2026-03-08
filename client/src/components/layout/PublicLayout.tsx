@@ -20,7 +20,7 @@ function NewsletterForm() {
     e.preventDefault();
     const trimmed = email.trim().toLowerCase();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
+      toast({ title: t("newsletter.invalidEmail"), description: t("newsletter.invalidEmailDesc"), variant: "destructive" });
       return;
     }
     setLoading(true);
@@ -34,9 +34,9 @@ function NewsletterForm() {
       if (!res.ok) throw new Error(data.error || "Failed to subscribe");
       setSubscribed(true);
       setEmail("");
-      toast({ title: "Subscribed!", description: "You'll receive sourcing insights and updates." });
+      toast({ title: t("newsletter.subscribed"), description: t("newsletter.subscribedDesc") });
     } catch (err: any) {
-      toast({ title: "Subscription failed", description: err.message || "Please try again later.", variant: "destructive" });
+      toast({ title: t("newsletter.subscriptionFailed"), description: err.message || "Please try again later.", variant: "destructive" });
     } finally {
       setLoading(false);
     }

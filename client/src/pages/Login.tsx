@@ -50,8 +50,8 @@ export default function Login() {
       }
 
       toast({
-        title: "Welcome back!",
-        description: "You have been logged in successfully.",
+        title: t("auth.loginSuccessTitle"),
+        description: t("auth.loginSuccessDesc"),
       });
 
       setLocation("/dashboard");
@@ -60,7 +60,7 @@ export default function Login() {
       const msg = error?.message || "Please check your credentials and try again.";
       setErrorMessage(msg);
       toast({
-        title: "Login failed",
+        title: t("auth.loginFailed"),
         description: msg,
         variant: "destructive",
       });
@@ -90,11 +90,11 @@ export default function Login() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("auth.email")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder={t("auth.emailPlaceholder")}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
@@ -103,15 +103,15 @@ export default function Login() {
             </div>
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("auth.password")}</Label>
                 <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                  Forgot password?
+                  {t("auth.forgotPasswordLink")}
                 </Link>
               </div>
               <Input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder={t("auth.passwordPlaceholder")}
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
@@ -122,12 +122,12 @@ export default function Login() {
           <CardFooter className="flex flex-col gap-4">
             <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-login">
               {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-              Sign In
+              {t("auth.signIn")}
             </Button>
             <p className="text-sm text-muted-foreground text-center">
-              Don't have an account?{" "}
+              {t("auth.dontHaveAccount")}{" "}
               <Link href="/signup" className="text-primary hover:underline">
-                Sign up
+                {t("auth.signUp")}
               </Link>
             </p>
           </CardFooter>

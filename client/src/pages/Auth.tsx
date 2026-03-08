@@ -97,24 +97,24 @@ export default function Auth() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (mode !== "forgot") {
-      if (!formData.email) errs.email = "Email is required";
-      else if (!emailRegex.test(formData.email)) errs.email = "Invalid email format";
+      if (!formData.email) errs.email = t("auth.validation.emailRequired");
+      else if (!emailRegex.test(formData.email)) errs.email = t("auth.validation.emailInvalid");
     }
 
     if (mode === "login") {
-      if (!formData.password) errs.password = "Password is required";
+      if (!formData.password) errs.password = t("auth.validation.passwordRequired");
     }
 
     if (mode === "signup") {
-      if (!formData.firstName?.trim()) errs.firstName = "First name is required";
-      if (!formData.lastName?.trim()) errs.lastName = "Last name is required";
-      if (!formData.password) errs.password = "Password is required";
-      else if (formData.password.length < 6) errs.password = "Password must be at least 6 characters";
-      else if (!passwordsMatch) errs.confirmPassword = "Passwords do not match";
-      if (!formData.acceptTerms) errs.acceptTerms = "You must accept the Terms of Service";
+      if (!formData.firstName?.trim()) errs.firstName = t("auth.validation.firstNameRequired");
+      if (!formData.lastName?.trim()) errs.lastName = t("auth.validation.lastNameRequired");
+      if (!formData.password) errs.password = t("auth.validation.passwordRequired");
+      else if (formData.password.length < 6) errs.password = t("auth.validation.passwordLength");
+      else if (!passwordsMatch) errs.confirmPassword = t("auth.validation.passwordsNoMatch");
+      if (!formData.acceptTerms) errs.acceptTerms = t("auth.validation.acceptTerms");
     }
 
-    if (mode === "forgot" && !formData.email) errs.email = "Email is required";
+    if (mode === "forgot" && !formData.email) errs.email = t("auth.validation.emailRequired");
 
     setFieldErrors(errs);
     return Object.keys(errs).length === 0;
@@ -137,7 +137,7 @@ export default function Auth() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Failed");
-        toast({ title: "Check your email", description: "If an account exists, we've sent a reset link." });
+        toast({ title: t("auth.checkYourEmail"), description: t("auth.resetLinkSent") });
         setLocation("/login");
         return;
       }
@@ -156,7 +156,7 @@ export default function Auth() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Signup failed");
-        toast({ title: "Account created!", description: "Welcome to SmartSeek. You've received 2 free credits." });
+        toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
         setLocation("/dashboard");
         return;
       }
@@ -172,10 +172,11 @@ export default function Auth() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
-      toast({ title: "Welcome back!", description: "You have been logged in successfully." });
+      toast({ title: t("auth.loginSuccessTitle"), description: t("auth.loginSuccessDesc") });
       setLocation("/dashboard");
     } catch (err: any) {
-      toast({ title: mode === "forgot" ? "Error" : mode === "signup" ? "Signup failed" : "Login failed", description: err.message, variant: "destructive" });
+      const title = mode === "forgot" ? t("auth.error") : mode === "signup" ? t("auth.signupFailed") : t("auth.loginFailed");
+      toast({ title, description: err.message, variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -205,9 +206,9 @@ export default function Auth() {
           <CardContent className="space-y-4">
             {urlError && (
               <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm">
-                <p className="font-medium text-center mb-1">Sign-in failed.</p>
+                <p className="font-medium text-center mb-1">{t("auth.signInFailed")}</p>
                 <p className="text-center text-xs opacity-90">{urlError}</p>
-                <p className="text-center mt-2 text-xs">Please try again or use email/password.</p>
+                <p className="text-center mt-2 text-xs">{t("auth.tryAgainOrEmail")}</p>
               </div>
             )}
             {mode !== "forgot" && (
@@ -218,28 +219,28 @@ export default function Auth() {
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-gray-50 transition-colors"
                   >
                     <GoogleIcon />
-                    <span className="ml-2 text-gray-800">Continue with Google</span>
+                    <span className="ml-2 text-gray-800">{t("auth.continueWithGoogle")}</span>
                   </a>
                   <a
                     href="/api/auth/facebook"
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#1877F2] bg-[#1877F2] text-white font-medium hover:bg-[#166FE5] transition-colors"
                   >
                     <FacebookIcon />
-                    <span className="ml-2">Continue with Facebook</span>
+                    <span className="ml-2">{t("auth.continueWithFacebook")}</span>
                   </a>
                   <a
                     href="/api/auth/linkedin"
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-[#0A66C2] bg-[#0A66C2] text-white font-medium hover:bg-[#0958a8] transition-colors"
                   >
                     <LinkedInIcon />
-                    <span className="ml-2">Continue with LinkedIn</span>
+                    <span className="ml-2">{t("auth.continueWithLinkedIn")}</span>
                   </a>
                   <a
                     href="/api/auth/apple"
                     className="inline-flex items-center justify-center w-full px-4 py-3 rounded-lg border border-gray-600 bg-black text-white font-medium hover:bg-gray-900 transition-colors"
                   >
                     <AppleIcon />
-                    <span className="ml-2">Continue with Apple</span>
+                    <span className="ml-2">{t("auth.continueWithApple")}</span>
                   </a>
                 </div>
                 <div className="relative">
@@ -247,7 +248,7 @@ export default function Auth() {
                     <span className="w-full border-t" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">or continue with email</span>
+                    <span className="bg-card px-2 text-muted-foreground">{t("auth.orContinueWith")}</span>
                   </div>
                 </div>
               </>
@@ -256,7 +257,7 @@ export default function Auth() {
             {mode === "signup" && (
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName">{t("auth.firstName")}</Label>
                   <Input
                     id="firstName"
                     placeholder="John"
@@ -267,7 +268,7 @@ export default function Auth() {
                   {fieldErrors.firstName && <p className="text-xs text-red-500">{fieldErrors.firstName}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName">{t("auth.lastName")}</Label>
                   <Input
                     id="lastName"
                     placeholder="Doe"
@@ -281,11 +282,11 @@ export default function Auth() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("auth.email")}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
+                placeholder={t("auth.emailPlaceholder")}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className={fieldErrors.email ? "border-red-500" : ""}
@@ -297,10 +298,10 @@ export default function Auth() {
               <>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{t("auth.password")}</Label>
                     {mode === "login" && (
                       <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                        Forgot password?
+                        {t("auth.forgotPasswordLink")}
                       </Link>
                     )}
                   </div>
@@ -308,7 +309,7 @@ export default function Auth() {
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      placeholder={mode === "signup" ? "At least 6 characters" : "Enter your password"}
+                      placeholder={mode === "signup" ? t("auth.passwordSignupPlaceholder") : t("auth.passwordPlaceholder")}
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       className={`pr-10 ${fieldErrors.password ? "border-red-500" : ""}`}
@@ -338,17 +339,17 @@ export default function Auth() {
 
                 {mode === "signup" && (
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword">{t("auth.confirmPassword")}</Label>
                     <Input
                       id="confirmPassword"
                       type={showPassword ? "text" : "password"}
-                      placeholder="Confirm your password"
+                      placeholder={t("auth.confirmPasswordPlaceholder")}
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                       className={fieldErrors.confirmPassword ? "border-red-500" : ""}
                     />
                     {fieldErrors.confirmPassword && <p className="text-xs text-red-500">{fieldErrors.confirmPassword}</p>}
-                    {formData.confirmPassword && !passwordsMatch && <p className="text-xs text-red-500">Passwords do not match</p>}
+                    {formData.confirmPassword && !passwordsMatch && <p className="text-xs text-red-500">{t("auth.validation.passwordsNoMatch")}</p>}
                   </div>
                 )}
 
@@ -359,7 +360,7 @@ export default function Auth() {
                       checked={formData.rememberMe}
                       onCheckedChange={(c) => setFormData({ ...formData, rememberMe: !!c })}
                     />
-                    <Label htmlFor="rememberMe" className="text-sm font-normal cursor-pointer">Remember me</Label>
+                    <Label htmlFor="rememberMe" className="text-sm font-normal cursor-pointer">{t("auth.rememberMe")}</Label>
                   </div>
                 )}
 
@@ -373,7 +374,7 @@ export default function Auth() {
                         className={fieldErrors.acceptTerms ? "border-red-500" : ""}
                       />
                       <Label htmlFor="acceptTerms" className="text-sm font-normal cursor-pointer leading-tight">
-                        I agree to the <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>
+                        {t("auth.agreeToTerms")} <Link href="/terms" className="text-primary hover:underline">{t("auth.termsOfService")}</Link>
                       </Label>
                     </div>
                     {fieldErrors.acceptTerms && <p className="text-xs text-red-500">{fieldErrors.acceptTerms}</p>}
@@ -386,40 +387,40 @@ export default function Auth() {
           <CardFooter className="flex flex-col gap-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-              {mode === "login" && "Sign In"}
-              {mode === "signup" && "Create Account"}
-              {mode === "forgot" && "Send Reset Link"}
+              {mode === "login" && t("auth.signIn")}
+              {mode === "signup" && t("auth.createAccountBtn")}
+              {mode === "forgot" && t("auth.sendResetLink")}
             </Button>
 
             <div className="flex flex-wrap justify-center gap-x-2 text-xs text-muted-foreground">
-              <span>256-bit SSL</span>
+              <span>{t("auth.ssl")}</span>
               <span>·</span>
-              <span>GDPR Compliant</span>
+              <span>{t("auth.gdpr")}</span>
               <span>·</span>
-              <span>No spam</span>
+              <span>{t("auth.noSpam")}</span>
             </div>
 
             <p className="text-sm text-muted-foreground text-center">
               {mode === "login" && (
                 <>
-                  Don't have an account?{" "}
+                  {t("auth.dontHaveAccount")}{" "}
                   <Link href="/signup" className="text-primary hover:underline">
-                    Sign up
+                    {t("auth.signUp")}
                   </Link>
                 </>
               )}
               {mode === "signup" && (
                 <>
-                  Already have an account?{" "}
+                  {t("auth.alreadyHaveAccount")}{" "}
                   <Link href="/login" className="text-primary hover:underline">
-                    Sign in
+                    {t("auth.signIn")}
                   </Link>
                 </>
               )}
               {mode === "forgot" && (
                 <>
                   <Link href="/login" className="text-primary hover:underline">
-                    Back to login
+                    {t("auth.backToLogin")}
                   </Link>
                 </>
               )}

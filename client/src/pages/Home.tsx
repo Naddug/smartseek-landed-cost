@@ -540,12 +540,8 @@ export default function Home() {
             <p className="text-base sm:text-lg text-slate-600">{t("home.testimonials.subtitle")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {[
-              { quote: "SmartSeek cut our supplier qualification time by 60%. The AI-powered risk assessments give us confidence in every sourcing decision we make.", outcome: "60% faster qualification", name: "Sarah Chen", title: "VP of Procurement", company: "Global Manufacturing Corp" },
-              { quote: "The landed cost calculator alone saved us from three costly surprises last quarter. It's become an essential tool for our international sourcing team.", outcome: "Avoided 3 cost overruns", name: "Marcus Weber", title: "Supply Chain Director", company: "EuroTech Industries" },
-              { quote: "We discovered verified suppliers in regions we hadn't considered before. SmartSeek's AI reports provided the data we needed to diversify our supply chain.", outcome: "Diversified to 5 new regions", name: "Priya Sharma", title: "Head of Strategic Sourcing", company: "Atlas Retail Group" },
-            ].map((testimonial, i) => (
-              <Card key={i} className="h-full bg-white border-slate-200 hover:shadow-xl hover:border-blue-200/50 transition-all duration-300">
+            {([1, 2, 3] as const).map((n) => (
+              <Card key={n} className="h-full bg-white border-slate-200 hover:shadow-xl hover:border-blue-200/50 transition-all duration-300">
                 <CardContent className="p-6 sm:p-8">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex gap-1">
@@ -553,16 +549,16 @@ export default function Home() {
                         <svg key={j} className="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                       ))}
                     </div>
-                    <div className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">{testimonial.outcome}</div>
+                    <div className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">{t(`home.testimonial${n}.outcome`)}</div>
                   </div>
-                  <p className="text-slate-700 leading-relaxed mb-6 italic">"{testimonial.quote}"</p>
+                  <p className="text-slate-700 leading-relaxed mb-6 italic">"{t(`home.testimonial${n}.quote`)}"</p>
                   <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
-                      {testimonial.name.split(' ').map(n => n[0]).join('')}
+                      {t(`home.testimonial${n}.name`).split(' ').map((w: string) => w[0]).join('')}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-slate-900 text-sm truncate">{testimonial.name}</p>
-                      <p className="text-slate-500 text-xs truncate">{testimonial.title}, {testimonial.company}</p>
+                      <p className="font-semibold text-slate-900 text-sm truncate">{t(`home.testimonial${n}.name`)}</p>
+                      <p className="text-slate-500 text-xs truncate">{t(`home.testimonial${n}.role`)}</p>
                     </div>
                   </div>
                 </CardContent>
