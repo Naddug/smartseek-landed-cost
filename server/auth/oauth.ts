@@ -155,7 +155,7 @@ export function setupOAuth(app: Express) {
 
   passport.serializeUser((user: any, done) => { done(null, user.id); });
   passport.deserializeUser(async (id: string, done) => {
-    try { const user = await authStorage.getUserById(id); done(null, user || false); }
+    try { const user = await authStorage.getUser(id); done(null, user || false); }
     catch (err) { done(err, false); }
   });
   app.use(passport.initialize());
