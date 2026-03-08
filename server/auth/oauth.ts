@@ -149,7 +149,24 @@ export function setupOAuth(app: Express) {
     app.get("/api/auth/facebook", oauthStub("Facebook"));
     app.get("/api/auth/linkedin", oauthStub("LinkedIn"));
     app.get("/api/auth/apple", oauthStub("Apple"));
-    console.log("OAUTH_CALLBACK_BASE not set Ã¢ÂÂ OAuth routes disabled (stubs registered)");
+    // Log OAuth provider status on startup for easier debugging
+  console.log("[oauth] Provider status:", {
+    callbackBase: callbackBase || "(not set -- OAuth disabled)",
+    google: \!\!process.env.GOOGLE_CLIENT_ID,
+    facebook: \!\!process.env.FACEBOOK_APP_ID,
+    linkedin: \!\!process.env.LINKEDIN_CLIENT_ID,
+    apple: \!\!process.env.APPLE_CLIENT_ID,
+  });
+  // Log OAuth provider status on startup for easier debugging
+  console.log("[oauth] Provider status:", {
+    callbackBase: callbackBase || "(not set -- OAuth disabled)",
+    google: !!process.env.GOOGLE_CLIENT_ID,
+    facebook: !!process.env.FACEBOOK_APP_ID,
+    linkedin: !!process.env.LINKEDIN_CLIENT_ID,
+    apple: !!process.env.APPLE_CLIENT_ID,
+  });
+  console.warn("[oauth] OAUTH_CALLBACK_BASE not set -- OAuth routes disabled. " +
+    "Set OAUTH_CALLBACK_BASE to your Railway public URL to enable OAuth.");
     return;
   }
 

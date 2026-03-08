@@ -3,6 +3,7 @@ import type { Express, RequestHandler } from "express";
 import connectPg from "connect-pg-simple";
 import createMemoryStore from "memorystore";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { authStorage } from "./storage";
 import { sendVerificationEmail, sendPasswordResetEmail } from "../../sendgridClient";
 
@@ -23,9 +24,8 @@ function isDummyOrSqliteDb(): boolean {
 function useMemorySessionStore(): boolean {
   if (isDummyOrSqliteDb()) return true;
   if (process.env.USE_MEMORY_SESSION === "true") return true;
-  // Railway Postgres often has ECONNRESET with pg session store — use memory by default
-  const url = process.env.DATABASE_URL || "";
-  if (url.includes("railway") || url.includes("rlwy.net")) return true;
+  // No DATABASE_URL set — fall back to memory
+  if (!process.env.DATABASE_URL) return true;
   return false;
 }
 
@@ -34,30 +34,55 @@ export function getSession() {
   const useMemoryStore = useMemorySessionStore();
   const isDev = process.env.NODE_ENV !== "production";
 
-  const sessionStore = useMemoryStore
-    ? new (createMemoryStore(session))({
-        checkPeriod: 24 * 60 * 60 * 1000, // prune expired every 24h
-        ttl: sessionTtl,
-      })
-    : (() => {
-        const pgStore = connectPg(session);
-        return new pgStore({
-          conString: process.env.DATABASE_URL,
-          createTableIfMissing: true,
-          ttl: sessionTtl,
-          tableName: "sessions",
-        });
-      })();
+  // SESSION_SECRET is required. Generate a random one with a loud warning if missing
+  // (random secret means sessions invalidate on restart, but at least the server starts)
+  const sessionSecret = process.env.SESSION_SECRET || (() => {
+    console.warn(
+      "[auth] WARNING: SESSION_SECRET env var is not set! " +
+      "Sessions will be invalidated on every server restart. " +
+      "Set SESSION_SECRET in your Railway environment variables."
+    );
+    return crypto.randomBytes(32).toString("hex");
+  })();
+
+  let sessionStore: session.Store;
 
   if (useMemoryStore) {
-    console.log("Using in-memory session store (sessions reset on deploy).");
+    console.log("[auth] Using in-memory session store (sessions reset on restart). " +
+      "Set USE_MEMORY_SESSION=false or configure a non-local DATABASE_URL to persist sessions.");
+    sessionStore = new (createMemoryStore(session))({
+      checkPeriod: 24 * 60 * 60 * 1000, // prune expired every 24h
+      ttl: sessionTtl,
+    });
+  } else {
+    // Use the existing db pool (already configured with SSL for Railway/cloud Postgres)
+    // This avoids ECONNRESET errors that occur with raw connection strings
+    const pgStore = connectPg(session);
+    try {
+      // Lazy-import pool so this module doesn't crash if DB isn't available
+      const { pool } = require("../../db");
+      sessionStore = new pgStore({
+        pool,
+        createTableIfMissing: true,
+        ttl: Math.floor(sessionTtl / 1000), // connect-pg-simple expects seconds
+        tableName: "sessions",
+        errorLog: (err: Error) => console.error("[session-store]", err.message),
+      });
+      console.log("[auth] Using PostgreSQL session store (sessions persist across restarts).");
+    } catch (err) {
+      console.warn("[auth] Failed to create PG session store, falling back to memory store:", (err as Error).message);
+      sessionStore = new (createMemoryStore(session))({
+        checkPeriod: 24 * 60 * 60 * 1000,
+        ttl: sessionTtl,
+      });
+    }
   }
 
   return session({
-    secret: process.env.SESSION_SECRET!,
+    secret: sessionSecret,
     store: sessionStore,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: !isDev,

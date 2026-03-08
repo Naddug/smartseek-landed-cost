@@ -161,7 +161,41 @@ app.use(express.urlencoded({ extended: false, limit: '15mb' }));
 // Security headers
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 
-// Rate limiting — 100 req/15min per IP for API (exempt: auth, health, webhooks)
+// Strict rate limiting for auth endpoints — prevent brute-force attacks
+// Applied BEFORE the general limiter so it hits first
+app.use(
+  "/api/auth/login",
+  rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10,                   // 10 login attempts per IP per window
+    message: { error: "Too many login attempts. Please try again in 15 minutes." },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: true, // don't count successful logins
+  })
+);
+app.use(
+  "/api/auth/signup",
+  rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 5,                    // 5 signups per IP per hour
+    message: { error: "Too many account creation attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
+app.use(
+  "/api/auth/forgot-password",
+  rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 5,                    // 5 reset requests per IP per hour
+    message: { error: "Too many password reset requests. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
+
+// General rate limiting — 100 req/15min per IP for all other API routes
 app.use(
   "/api",
   rateLimit({
@@ -172,7 +206,8 @@ app.use(
     legacyHeaders: false,
     skip: (req) => {
       const path = req.path;
-      return path.startsWith("/auth") || path === "/health" || path === "/stripe/webhook";
+      // Skip health and webhooks; auth paths now have their own limiters above
+      return path === "/health" || path === "/stripe/webhook";
     },
   })
 );
