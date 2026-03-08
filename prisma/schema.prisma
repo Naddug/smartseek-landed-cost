@@ -231,6 +231,101 @@ model RFQ {
   @@index([status])
 }
 
+// ============================================================================
+// Lead Capture System
+// ============================================================================
+
+// Supplier profile linked to a registered user
+model SupplierProfile {
+  id     String @id @default(cuid())
+  userId String @unique @map("user_id")
+
+  companyName     String  @map("company_name")
+  domain          String?
+  country         String
+  city            String?
+  industry        String
+  subIndustry     String? @map("sub_industry")
+  description     String?
+  employeeCount   Int?    @map("employee_count")
+  yearEstablished Int?    @map("year_established")
+  annualRevenue   String? @map("annual_revenue")
+
+  products       String
+  certifications String?
+  exportMarkets  String? @map("export_markets")
+  minOrderValue  Float?  @map("min_order_value")
+  currency       String  @default("USD")
+  leadTimeDays   Int?    @map("lead_time_days")
+  paymentTerms   String? @map("payment_terms")
+
+  contactEmail String  @map("contact_email")
+  contactPhone String? @map("contact_phone")
+  website      String?
+
+  verified          Boolean @default(false)
+  active            Boolean @default(true)
+  profileCompleted  Boolean @default(false) @map("profile_completed")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt     @map("updated_at")
+
+  rfqRequests RfqRequest[]
+
+  @@index([userId])
+  @@index([country])
+  @@index([industry])
+  @@map("supplier_profiles")
+}
+
+// RFQ requests — lead capture, tied to buyer + optional supplier
+model RfqRequest {
+  id String @id @default(cuid())
+
+  buyerUserId  String? @map("buyer_user_id")
+  buyerName    String  @map("buyer_name")
+  buyerEmail   String  @map("buyer_email")
+  buyerPhone   String? @map("buyer_phone")
+  buyerCompany String? @map("buyer_company")
+  buyerCountry String? @map("buyer_country")
+  buyerWebsite String? @map("buyer_website")
+
+  productName      String  @map("product_name")
+  productCategory  String? @map("product_category")
+  hsCode           String? @map("hs_code")
+  quantity         Int
+  unit             String  @default("pcs")
+  targetPrice      Float?  @map("target_price")
+  currency         String  @default("USD")
+  specifications   String?
+  sampleRequired   Boolean @default(false) @map("sample_required")
+
+  incoterm           String?
+  originCountry      String? @map("origin_country")
+  destinationCountry String? @map("destination_country")
+  destinationPort    String? @map("destination_port")
+  deliveryDeadline   String? @map("delivery_deadline")
+
+  supplierId String?          @map("supplier_id")
+  supplier   SupplierProfile? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+
+  status   String @default("pending")
+  priority String @default("normal")
+  notes    String?
+  source   String @default("web")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt     @map("updated_at")
+
+  @@index([buyerEmail])
+  @@index([buyerUserId])
+  @@index([supplierId])
+  @@index([status])
+  @@index([productCategory])
+  @@index([createdAt])
+  @@map("rfq_requests")
+}
+
 model UserIntegration {
   id            String   @id @default(cuid())
   userId        String   @map("user_id")

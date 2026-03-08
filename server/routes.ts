@@ -2917,6 +2917,277 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   });
 
   // ============================================================================
+  // Lead Capture System
+  // ============================================================================
+
+  /**
+   * POST /api/rfq
+   * Submit a Request for Quotation.
+   * Works for both guests and authenticated buyers.
+   */
+  app.post("/api/rfq", async (req: Request, res: Response) => {
+    const {
+      buyerName, buyerEmail, buyerPhone, buyerCompany, buyerCountry, buyerWebsite,
+      productName, productCategory, hsCode, quantity, unit, targetPrice, currency,
+      specifications, sampleRequired,
+      incoterm, originCountry, destinationCountry, destinationPort, deliveryDeadline,
+      supplierId, priority, notes, source,
+    } = req.body ?? {};
+
+    if (!buyerName || !buyerEmail || !productName || !quantity) {
+      return res.status(400).json({
+        error: "Required: buyerName, buyerEmail, productName, quantity",
+      });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) {
+      return res.status(400).json({ error: "Invalid email address" });
+    }
+
+    try {
+      const rfq = await prisma.rfqRequest.create({
+        data: {
+          buyerUserId:       getUserId(req) ?? null,
+          buyerName,
+          buyerEmail:        buyerEmail.trim().toLowerCase(),
+          buyerPhone:        buyerPhone ?? null,
+          buyerCompany:      buyerCompany ?? null,
+          buyerCountry:      buyerCountry ?? null,
+          buyerWebsite:      buyerWebsite ?? null,
+          productName,
+          productCategory:   productCategory ?? null,
+          hsCode:            hsCode ?? null,
+          quantity:          parseInt(quantity, 10),
+          unit:              unit ?? "pcs",
+          targetPrice:       targetPrice != null ? parseFloat(targetPrice) : null,
+          currency:          currency ?? "USD",
+          specifications:    specifications ?? null,
+          sampleRequired:    Boolean(sampleRequired),
+          incoterm:          incoterm ?? null,
+          originCountry:     originCountry ?? null,
+          destinationCountry: destinationCountry ?? null,
+          destinationPort:   destinationPort ?? null,
+          deliveryDeadline:  deliveryDeadline ?? null,
+          supplierId:        supplierId ?? null,
+          priority:          priority ?? "normal",
+          notes:             notes ?? null,
+          source:            source ?? "web",
+        },
+      });
+      res.status(201).json(rfq);
+    } catch (e) {
+      console.error("POST /api/rfq error:", e);
+      res.status(500).json({ error: "Failed to submit RFQ" });
+    }
+  });
+
+  /** GET /api/rfq — list RFQs for the authenticated buyer or by email (admin) */
+  app.get("/api/rfq", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    const emailQ = (req.query.email as string)?.trim().toLowerCase();
+
+    if (!userId && !emailQ) {
+      return res.status(401).json({ error: "Authentication or email param required" });
+    }
+
+    try {
+      const rfqs = await prisma.rfqRequest.findMany({
+        where: userId ? { buyerUserId: userId } : { buyerEmail: emailQ },
+        orderBy: { createdAt: "desc" },
+        include: { supplier: { select: { companyName: true, country: true, contactEmail: true } } },
+      });
+      res.json(rfqs);
+    } catch (e) {
+      console.error("GET /api/rfq error:", e);
+      res.status(500).json({ error: "Failed to fetch RFQs" });
+    }
+  });
+
+  /**
+   * POST /api/supplier-signup
+   * Register a new supplier: creates a user account + supplier profile in one step.
+   */
+  app.post("/api/supplier-signup", async (req: Request, res: Response) => {
+    const {
+      // Auth fields
+      email, password, firstName, lastName,
+      // Profile fields
+      companyName, domain, country, city, industry, subIndustry, description,
+      employeeCount, yearEstablished, annualRevenue,
+      products, certifications, exportMarkets, minOrderValue, currency,
+      leadTimeDays, paymentTerms, contactPhone, website,
+    } = req.body ?? {};
+
+    if (!email || !password || !companyName || !country || !industry || !products) {
+      return res.status(400).json({
+        error: "Required: email, password, companyName, country, industry, products",
+      });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "Invalid email address" });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters" });
+    }
+
+    try {
+      const { users: usersTable } = await import("@shared/schema");
+      const bcrypt = await import("bcryptjs");
+
+      // Check duplicate email
+      const existing = await db
+        .select({ id: usersTable.id })
+        .from(usersTable)
+        .where(eq(usersTable.email, email.trim().toLowerCase()))
+        .limit(1);
+      if (existing.length > 0) {
+        return res.status(409).json({ error: "An account with this email already exists" });
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const [user] = await db
+        .insert(usersTable)
+        .values({
+          email: email.trim().toLowerCase(),
+          passwordHash,
+          firstName:  firstName ?? null,
+          lastName:   lastName ?? null,
+          emailVerified: false,
+        })
+        .returning({ id: usersTable.id, email: usersTable.email });
+
+      // Create user profile (role = seller)
+      await storage.createUserProfile({ userId: user.id, role: "seller", plan: "free" });
+
+      // Create supplier profile
+      const profile = await prisma.supplierProfile.create({
+        data: {
+          userId:          user.id,
+          companyName,
+          domain:          domain ?? null,
+          country,
+          city:            city ?? null,
+          industry,
+          subIndustry:     subIndustry ?? null,
+          description:     description ?? null,
+          employeeCount:   employeeCount != null ? parseInt(employeeCount, 10) : null,
+          yearEstablished: yearEstablished != null ? parseInt(yearEstablished, 10) : null,
+          annualRevenue:   annualRevenue ?? null,
+          products,
+          certifications:  certifications ?? null,
+          exportMarkets:   exportMarkets ?? null,
+          minOrderValue:   minOrderValue != null ? parseFloat(minOrderValue) : null,
+          currency:        currency ?? "USD",
+          leadTimeDays:    leadTimeDays != null ? parseInt(leadTimeDays, 10) : null,
+          paymentTerms:    paymentTerms ?? null,
+          contactEmail:    email.trim().toLowerCase(),
+          contactPhone:    contactPhone ?? null,
+          website:         website ?? null,
+          profileCompleted: Boolean(companyName && country && industry && products),
+        },
+      });
+
+      res.status(201).json({
+        message: "Supplier account created",
+        userId: user.id,
+        email: user.email,
+        supplierProfileId: profile.id,
+      });
+    } catch (e) {
+      console.error("POST /api/supplier-signup error:", e);
+      res.status(500).json({ error: "Signup failed", detail: (e as Error).message });
+    }
+  });
+
+  /**
+   * POST /api/buyer-signup
+   * Register a new buyer: creates a user account + buyer profile in one step.
+   */
+  app.post("/api/buyer-signup", async (req: Request, res: Response) => {
+    const {
+      email, password, firstName, lastName,
+      company, country, industry, website, phone,
+      annualPurchaseVolume, primaryCategories, preferredOrigins,
+    } = req.body ?? {};
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Required: email, password" });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: "Invalid email address" });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters" });
+    }
+
+    try {
+      const { users: usersTable } = await import("@shared/schema");
+      const bcrypt = await import("bcryptjs");
+
+      const existing = await db
+        .select({ id: usersTable.id })
+        .from(usersTable)
+        .where(eq(usersTable.email, email.trim().toLowerCase()))
+        .limit(1);
+      if (existing.length > 0) {
+        return res.status(409).json({ error: "An account with this email already exists" });
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const [user] = await db
+        .insert(usersTable)
+        .values({
+          email:      email.trim().toLowerCase(),
+          passwordHash,
+          firstName:  firstName ?? null,
+          lastName:   lastName ?? null,
+          emailVerified: false,
+        })
+        .returning({ id: usersTable.id, email: usersTable.email });
+
+      // Create user profile (role = buyer) with 2 free trial credits
+      await storage.createUserProfile({ userId: user.id, role: "buyer", plan: "free" });
+      await db.insert(creditTransactions).values({
+        userId: user.id,
+        amount: 2,
+        type: "free_trial",
+        creditSource: "topup",
+        description: "Free trial credits on signup",
+      });
+
+      // Store extra buyer lead data in appSettings keyed by userId (lightweight, no extra table)
+      if (company || country || annualPurchaseVolume || primaryCategories) {
+        const { appSettings } = await import("@shared/schema");
+        await db.insert(appSettings).values({
+          key: `buyer_profile:${user.id}`,
+          value: {
+            company:              company ?? null,
+            country:              country ?? null,
+            industry:             industry ?? null,
+            website:              website ?? null,
+            phone:                phone ?? null,
+            annualPurchaseVolume: annualPurchaseVolume ?? null,
+            primaryCategories:    primaryCategories ?? null,
+            preferredOrigins:     preferredOrigins ?? null,
+          },
+        }).onConflictDoUpdate({
+          target: appSettings.key,
+          set: { value: sql`excluded.value`, updatedAt: sql`now()` },
+        });
+      }
+
+      res.status(201).json({
+        message: "Buyer account created. 2 free credits added.",
+        userId: user.id,
+        email: user.email,
+        credits: 2,
+      });
+    } catch (e) {
+      console.error("POST /api/buyer-signup error:", e);
+      res.status(500).json({ error: "Signup failed", detail: (e as Error).message });
+    }
+  });
+
+  // ============================================================================
   // AI Intelligence Engine  (/api/intelligence)
   // ============================================================================
 
