@@ -1,0 +1,16 @@
+{
+  "suppliers": 25200000,
+  "leads": 7000000,
+  "countries": 220,
+  "industries": 20,
+  "topCountries": [
+    { "country": "United States", "count": 2800000 },
+    { "country": "United Kingdom", "count": 1200000 },
+    { "country": "India",          "count": 900000  },
+    { "country": "Germany",        "count": 750000  },
+    { "country": "China",          "count": 700000  },
+    { "country": "Canada",         "count": 600000  },
+    { "country": "France",         "count": 500000  },
+    { "country": "Australia",      "count": 400000  }
+  ]
+}

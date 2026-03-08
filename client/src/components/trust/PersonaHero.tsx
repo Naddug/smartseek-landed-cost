@@ -21,10 +21,11 @@ const PERSONA_ICONS: Record<Persona, React.ReactNode> = {
 interface PersonaHeroProps {
   active: Persona;
   onSelect: (p: Persona) => void;
+  suppliers?: string;
 }
 
 /** Multi-persona messaging - speaks directly to each audience (neuromarketing: relevance) */
-export function PersonaHero({ active, onSelect }: PersonaHeroProps) {
+export function PersonaHero({ active, onSelect, suppliers }: PersonaHeroProps) {
   const { t } = useTranslation();
   const keys = PERSONA_KEYS[active];
 
@@ -48,7 +49,7 @@ export function PersonaHero({ active, onSelect }: PersonaHeroProps) {
       </div>
       <div className="space-y-2 min-w-0">
         <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 break-words">{t(keys.headlineKey)}</h3>
-        <p className="text-slate-600 max-w-xl break-words">{t(keys.sublineKey)}</p>
+        <p className="text-slate-600 max-w-xl break-words">{t(keys.sublineKey, { suppliers })}</p>
       </div>
     </div>
   );

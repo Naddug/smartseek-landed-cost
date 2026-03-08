@@ -26,6 +26,7 @@ import { getMineralPurityOptions, MINERAL_FORMS } from "@shared/mineralConfig";
 import { detectProductFamily } from "@shared/productFamilies";
 import { getMarketMetalPrices } from "./services/marketPrices";
 import { getTechStack, type TechStackResult } from "./services/apifyTechService";
+import PLATFORM_STATS from "./data/stats.json";
 
 // Helper to get user ID from session
 function getUserId(req: Request): string | null {
@@ -2212,22 +2213,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       return res.json(statsCache.data);
     }
 
-    const FALLBACK_STATS = {
-      suppliers: 10000000,
-      countries: 220,
-      industries: 20,
-      leads: 7000000,
-      topCountries: [
-        { country: "United States", count: 2800000 },
-        { country: "United Kingdom", count: 1200000 },
-        { country: "India", count: 900000 },
-        { country: "Germany", count: 750000 },
-        { country: "China", count: 700000 },
-        { country: "Canada", count: 600000 },
-        { country: "France", count: 500000 },
-        { country: "Australia", count: 400000 },
-      ],
-    };
+    const FALLBACK_STATS = PLATFORM_STATS;
 
     try {
       const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
@@ -2302,11 +2288,11 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         .map((c) => ({ country: c.display, count: c.count }));
 
       const result = {
-        suppliers: supplierCount,
-        countries: mergedByCode.size > 0 ? mergedByCode.size : 220,
-        industries: industryResult.length > 0 ? industryResult.length : 20,
-        leads: leadCount > 0 ? leadCount : 7000000,
-        topCountries: topCountries.length > 0 ? topCountries : FALLBACK_STATS.topCountries,
+        suppliers: supplierCount > 0 ? supplierCount : PLATFORM_STATS.suppliers,
+        countries: mergedByCode.size > 0 ? mergedByCode.size : PLATFORM_STATS.countries,
+        industries: industryResult.length > 0 ? industryResult.length : PLATFORM_STATS.industries,
+        leads: leadCount > 0 ? leadCount : PLATFORM_STATS.leads,
+        topCountries: topCountries.length > 0 ? topCountries : PLATFORM_STATS.topCountries,
       };
 
       statsCache = { data: result, ts: Date.now() };

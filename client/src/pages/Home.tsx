@@ -110,10 +110,10 @@ export default function Home() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
-                {t("hero.subtitle")}
+                {t("hero.subtitle", { suppliers: formatStat(suppliersVal), leads: formatStat(leadsVal) })}
               </p>
 
-              <PersonaHero active={activePersona} onSelect={setActivePersona} />
+              <PersonaHero active={activePersona} onSelect={setActivePersona} suppliers={formatStat(suppliersVal)} />
 
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -366,9 +366,7 @@ export default function Home() {
                       <div className="space-y-2">
                         <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{t(feature.titleKey)}</h3>
                         <p className="text-slate-600 leading-relaxed">
-                          {feature.descKey === "home.feature5.desc"
-                            ? t(feature.descKey, { suppliers: formatStat(suppliersVal), countries: countriesVal })
-                            : t(feature.descKey)}
+                          {t(feature.descKey, { suppliers: formatStat(suppliersVal), leads: formatStat(leadsVal), countries: countriesVal })}
                         </p>
                         <span className="text-blue-600 text-sm font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           {t("common.learnMore")} <ArrowRight className="w-4 h-4" />
@@ -389,7 +387,7 @@ export default function Home() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <Badge className="mb-4 bg-purple-100 text-purple-700 border-purple-200">{t("home.showcase.badge")}</Badge>
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.showcase.title")}</h2>
-            <p className="text-lg text-slate-600">{t("home.showcase.subtitle")}</p>
+            <p className="text-lg text-slate-600">{t("home.showcase.subtitle", { suppliers: formatStat(suppliersVal) })}</p>
           </div>
           <Tabs value={activeDashboardTab} onValueChange={setActiveDashboardTab} className="w-full">
             <div className="flex justify-center mb-8">
@@ -432,7 +430,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             <div className="hidden md:block absolute top-16 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-transparent via-blue-300 to-transparent z-0"></div>
             <StepCard step="01" icon={<Search className="w-8 h-8 text-blue-600" />} title={t("home.step1.title")} desc={t("home.step1.desc")} />
-            <StepCard step="02" icon={<Brain className="w-8 h-8 text-purple-600" />} title={t("home.step2.title")} desc={t("home.step2.desc")} />
+            <StepCard step="02" icon={<Brain className="w-8 h-8 text-purple-600" />} title={t("home.step2.title")} desc={t("home.step2.desc", { suppliers: formatStat(suppliersVal) })} />
             <StepCard step="03" icon={<Rocket className="w-8 h-8 text-emerald-600" />} title={t("home.step3.title")} desc={t("home.step3.desc")} />
           </div>
         </div>
@@ -494,7 +492,7 @@ export default function Home() {
                   <div className="space-y-4">
                     <TrialFeature icon={<Sparkles className="w-5 h-5" />} text={t("home.trial.reports")} />
                     <TrialFeature icon={<BarChart3 className="w-5 h-5" />} text={t("home.trial.platform")} />
-                    <TrialFeature icon={<Globe className="w-5 h-5" />} text={t("home.trial.database")} />
+                    <TrialFeature icon={<Globe className="w-5 h-5" />} text={t("home.trial.database", { suppliers: formatStat(suppliersVal) })} />
                     <TrialFeature icon={<Shield className="w-5 h-5" />} text={t("home.trial.risk")} />
                     <TrialFeature icon={<DollarSign className="w-5 h-5" />} text={t("home.trial.calculator")} />
                     <TrialFeature icon={<Sparkles className="w-5 h-5" />} text={t("home.trial.support")} />
