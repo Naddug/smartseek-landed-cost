@@ -79,8 +79,23 @@ export function Wordmark({ variant = "default", className = "", iconClassName = 
   return (
     <span className={`flex items-center gap-2 ${className}`}>
       <Logo variant={variant} className={iconClassName} />
-      <span className={`text-lg font-bold tracking-tight ${textColor}`}>
-        Smart<span className={accentColor}>Seek</span>
+      <span className="text-lg font-bold tracking-tight leading-none">
+        {/* "Smart" — futuristic: wide tracking, gradient, light weight */}
+        <span
+          className="font-light tracking-[0.15em] uppercase text-transparent bg-clip-text"
+          style={{
+            backgroundImage: isLight
+              ? "linear-gradient(135deg, #e2e8f0 0%, #93c5fd 60%, #c4b5fd 100%)"
+              : "linear-gradient(135deg, #334155 0%, #1e40af 60%, #4f46e5 100%)",
+            letterSpacing: "0.14em",
+          }}
+        >
+          Smart
+        </span>
+        {/* "Seek" — bold, blue accent */}
+        <span className={`font-extrabold tracking-tight ${isLight ? "text-blue-300" : "text-blue-600"}`}>
+          Seek
+        </span>
       </span>
     </span>
   );
