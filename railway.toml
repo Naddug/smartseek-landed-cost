@@ -1,4 +1,8 @@
 # Railway deployment config
+[build]
+buildCommand = "npm run build"
+
 [deploy]
-# preDeployCommand removed — db:push fails with Railway Postgres SSL and blocks on prompts.
-# Reports table is created at runtime via ensureReportsTable() in server/index.ts.
+startCommand = "npm run start"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

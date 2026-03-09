@@ -77,6 +77,7 @@ function useSuppliers(params: {
       return res.json();
     },
     staleTime: 30000,
+    placeholderData: (prev) => prev,
   });
 }
 
@@ -687,7 +688,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
     setPage(1);
   }, [selectedCountry, selectedIndustry, verifiedOnly, sortBy]);
 
-  const { data, isLoading, isError, error } = useSuppliers({
+  const { data, isLoading, isFetching, isError, error } = useSuppliers({
     q: debouncedQuery,
     country: selectedCountry,
     industry: selectedIndustry,
@@ -816,8 +817,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-700">
-            {data ? `${data.pagination.total.toLocaleString()} suppliers found` : "Loading..."}
-            {debouncedQuery && ` for "${debouncedQuery}"`}
+            {isFetching ? "Searching..." : data ? `${data.pagination.total.toLocaleString()} suppliers found` : "Loading..."}
+            {!isFetching && debouncedQuery && ` for "${debouncedQuery}"`}
           </p>
           {data?.guestLimited && (
             <Link href="/signup">
