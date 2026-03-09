@@ -1,18 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { HeroDashboardMock, DashboardPreviewMock, ReportPreviewMock } from "@/components/home/DashboardMocks";
-import { Button } from "@/components/ui/button";
-import PublicLayout from "@/components/layout/PublicLayout";
-import { TrustBadges } from "@/components/trust/TrustBadges";
-import { IntegrationLogos } from "@/components/integrations/IntegrationLogos";
-import { PersonaHero, type Persona } from "@/components/trust/PersonaHero";
-import { MethodologySection } from "@/components/trust/MethodologySection";
-import { ArrowRight, Check, Search, Shield, Globe, DollarSign, BarChart3, TrendingUp, Layers, Zap, CheckCircle2, BadgeCheck, Award, UserSearch, FileCheck, Brain, Rocket, Sparkles, Gem, Factory, Cpu, ShoppingCart, Car, HeartPulse, HardHat, Database } from "lucide-react";
-import { Link } from "wouter";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
+import { Search, ArrowRight, Globe, DollarSign, Shield, CheckCircle2 } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import PublicLayout from "@/components/layout/PublicLayout";
 
 function formatStat(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
@@ -20,609 +10,194 @@ function formatStat(n: number): string {
   return `${n}+`;
 }
 
-/** Ensure location/country names are never lowercase (proper casing) */
-function formatLocation(str: string): string {
-  if (!str || typeof str !== "string") return str;
-  return str.split(",").map((p) => p.trim().replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())).join(", ");
-}
-
 export default function Home() {
   const { t } = useTranslation();
-  const [activeDashboardTab, setActiveDashboardTab] = useState("dashboard");
-  const [activePersona, setActivePersona] = useState<Persona>("procurer");
-  const [stats, setStats] = useState<{
-    suppliers: number;
-    leads: number;
-    countries: number;
-    industries: number;
-    topCountries: { country: string; count: number }[];
-  } | null>(null);
-  const [statsLoaded, setStatsLoaded] = useState(false);
+  const [query, setQuery] = useState("");
+  const [, navigate] = useLocation();
+  const [suppliers, setSuppliers] = useState(25_200_000);
+  const [countries, setCountries] = useState(220);
 
   useEffect(() => {
     fetch("/api/stats")
-      .then((r) => r.json())
-      .then((data) => { setStats(data); setStatsLoaded(true); })
-      .catch(() => { setStats(null); setStatsLoaded(true); });
+      .then(r => r.json())
+      .then(d => {
+        if (d.suppliers > 0) setSuppliers(d.suppliers);
+        if (d.countries > 0) setCountries(d.countries);
+      })
+      .catch(() => {});
   }, []);
 
-  const suppliersVal = (stats?.suppliers && stats.suppliers > 0) ? stats.suppliers : 25200000;
-  const leadsVal = (stats?.leads && stats.leads > 0) ? stats.leads : 7000000;
-  const countriesVal = (stats?.countries && stats.countries > 0) ? stats.countries : 220;
-  const industriesVal = (stats?.industries && stats.industries > 0) ? stats.industries : 20;
-  const topCountries = stats?.topCountries ?? [];
-  const totalForPct = topCountries.reduce((s, c) => s + c.count, 0);
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    navigate(`/suppliers${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+  };
 
-  const supplierRegions =
-    topCountries.length > 0 && totalForPct > 0
-      ? topCountries.slice(0, 8).map((c, i) => ({
-          label: `${formatLocation(c.country)} — ${c.count.toLocaleString()}+`,
-          barValue: Math.round((c.count / totalForPct) * 100),
-          color: ["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500", "bg-rose-500", "bg-cyan-500", "bg-indigo-500", "bg-slate-400"][i] ?? "bg-slate-300",
-        }))
-      : [];
-
-  const platformFeatures = [
-    { icon: <Shield className="w-6 h-6" />, titleKey: "home.feature1.title", descKey: "home.feature1.desc", href: "/risk-intelligence" },
-    { icon: <DollarSign className="w-6 h-6" />, titleKey: "home.feature2.title", descKey: "home.feature2.desc", href: "/landed-cost" },
-    { icon: <UserSearch className="w-6 h-6" />, titleKey: "home.feature3.title", descKey: "home.feature3.desc", href: "/find-leads" },
-    { icon: <FileCheck className="w-6 h-6" />, titleKey: "home.feature4.title", descKey: "home.feature4.desc", href: "/compliance" },
-    { icon: <Globe className="w-6 h-6" />, titleKey: "home.feature5.title", descKey: "home.feature5.desc", href: "/suppliers" },
-    { icon: <Brain className="w-6 h-6" />, titleKey: "home.feature6.title", descKey: "home.feature6.desc", href: "/smart-finder" },
-  ];
-
-  const industries = [
-    { icon: <Gem className="w-8 h-8" />, titleKey: "home.industry1.title", descKey: "home.industry1.desc" },
-    { icon: <Factory className="w-8 h-8" />, titleKey: "home.industry2.title", descKey: "home.industry2.desc" },
-    { icon: <Cpu className="w-8 h-8" />, titleKey: "home.industry3.title", descKey: "home.industry3.desc" },
-    { icon: <ShoppingCart className="w-8 h-8" />, titleKey: "home.industry4.title", descKey: "home.industry4.desc" },
-    { icon: <Car className="w-8 h-8" />, titleKey: "home.industry5.title", descKey: "home.industry5.desc" },
-    { icon: <HeartPulse className="w-8 h-8" />, titleKey: "home.industry6.title", descKey: "home.industry6.desc" },
-    { icon: <HardHat className="w-8 h-8" />, titleKey: "home.industry7.title", descKey: "home.industry7.desc" },
+  const outcomes = [
+    {
+      icon: <Globe className="w-6 h-6" />,
+      color: "text-blue-500",
+      bg: "bg-blue-50",
+      title: t("home.feature5.title"),
+      desc: t("home.feature5.desc", { suppliers: formatStat(suppliers), leads: "", countries }),
+    },
+    {
+      icon: <DollarSign className="w-6 h-6" />,
+      color: "text-emerald-500",
+      bg: "bg-emerald-50",
+      title: t("home.feature2.title"),
+      desc: t("home.feature2.desc", { suppliers: formatStat(suppliers), leads: "", countries }),
+    },
+    {
+      icon: <Shield className="w-6 h-6" />,
+      color: "text-violet-500",
+      bg: "bg-violet-50",
+      title: t("home.feature1.title"),
+      desc: t("home.feature1.desc", { suppliers: formatStat(suppliers), leads: "", countries }),
+    },
   ];
 
   return (
     <PublicLayout>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 sm:pt-16 pb-16 sm:pb-24 min-h-[70vh] sm:min-h-[80vh] flex items-center bg-gradient-to-b from-white via-slate-50/80 to-blue-50/60">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_70%_20%,rgba(59,130,246,0.08),transparent)" />
-          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-blue-50/60 to-transparent" />
+      {/* ── HERO ────────────────────────────────────────────────────── */}
+      <section className="relative flex flex-col items-center justify-center min-h-[90vh] bg-slate-950 px-4 text-center overflow-hidden">
+
+        {/* Subtle glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+
+        {/* Badge */}
+        <div className="relative z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/8 border border-white/10 text-slate-400 text-xs font-medium mb-8 tracking-wide">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          Trusted by procurement teams in {countries}+ countries
         </div>
 
-        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 -left-32 w-80 h-80 bg-indigo-200/25 rounded-full blur-3xl pointer-events-none" />
+        {/* Headline */}
+        <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.12] tracking-tight max-w-3xl mb-5">
+          {t("hero.title1")}
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-300">
+            {t("hero.title2")}
+          </span>
+        </h1>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10 min-w-0 overflow-hidden">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="space-y-5 sm:space-y-6">
-              <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-xl sm:rounded-full bg-slate-900/[0.06] text-slate-700 text-xs sm:text-sm font-medium border border-slate-200/80 max-w-full">
-                <BadgeCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 shrink-0" />
-                <span className="break-words">{t("hero.badge")}</span>
-              </div>
+        {/* Subline */}
+        <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed mb-10">
+          Search {formatStat(suppliers)} verified global suppliers and know your true cost — before you commit.
+        </p>
 
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-heading font-bold tracking-tight text-slate-900 leading-[1.15] break-words hyphens-auto">
-                {t("hero.title1")}
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600">
-                  {t("hero.title2")}
-                </span>
-              </h1>
+        {/* Search bar */}
+        <form
+          onSubmit={handleSearch}
+          className="relative z-10 w-full max-w-xl flex items-center bg-white rounded-xl shadow-2xl shadow-blue-900/30 overflow-hidden mb-5"
+        >
+          <Search className="absolute left-4 w-5 h-5 text-slate-400 pointer-events-none" />
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search suppliers, products, or industries..."
+            className="flex-1 pl-12 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
+          />
+          <button
+            type="submit"
+            className="shrink-0 m-1.5 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition flex items-center gap-2"
+          >
+            Search <ArrowRight className="w-4 h-4" />
+          </button>
+        </form>
 
-              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
-                {t("hero.subtitle", { suppliers: formatStat(suppliersVal), leads: formatStat(leadsVal) })}
-              </p>
+        {/* Micro CTAs */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-sm">
+          <Link href="/signup">
+            <span className="text-blue-400 hover:text-blue-300 font-medium transition cursor-pointer flex items-center gap-1.5">
+              {t("hero.cta")} <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </Link>
+          <span className="hidden sm:block text-slate-700">·</span>
+          <span className="text-slate-500 flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("hero.noCard")}
+          </span>
+        </div>
 
-              <PersonaHero active={activePersona} onSelect={setActivePersona} suppliers={formatStat(suppliersVal)} />
-
-              <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <Link href="/signup" data-testid="link-hero-signup" className="order-1">
-                    <Button size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-semibold" data-testid="button-hero-signup">
-                      {t("hero.cta")} <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/landed-cost" className="order-2">
-                    <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 text-base rounded-xl border-2 border-slate-300 hover:border-slate-400 hover:bg-slate-50 font-medium text-slate-800">
-                      {t("hero.calculator")}
-                    </Button>
-                  </Link>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-500 flex flex-wrap items-center gap-x-4 gap-y-1">
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> {t("hero.noCard")}</span>
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> {t("hero.freeReports")}</span>
-                  <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> {t("hero.fullAccess")}</span>
-                </p>
-              </div>
-
-              <div className="pt-6 sm:pt-8 border-t border-slate-200/60">
-                <p className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-[0.12em] mb-3">{t("trust.byProcurers")}</p>
-                <TrustBadges variant="compact" />
-              </div>
-            </div>
-
-            <div className="relative hidden lg:block">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-2xl blur-3xl transform rotate-6 scale-95"></div>
-              <motion.div
-                className="relative"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <HeroDashboardMock />
-              </motion.div>
-              <div className="absolute -bottom-8 -left-8 bg-white p-4 rounded-xl shadow-xl border border-slate-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                    <TrendingUp size={24} />
-                  </div>
-                  <div>
-                    <div className="text-xs text-slate-500 uppercase font-bold">{t("home.costSavings")}</div>
-                    <div className="text-2xl font-bold text-slate-900">23% Avg.</div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -top-4 -right-4 bg-white p-3 rounded-xl shadow-xl border border-slate-200">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                    <Shield size={18} />
-                  </div>
-                  <div className="text-sm font-semibold text-slate-900">{t("home.riskScore")}</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Bottom stat strip */}
+        <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center gap-6 sm:gap-10 text-xs text-slate-600 font-medium tracking-wide">
+          <span>{formatStat(suppliers)} suppliers</span>
+          <span>·</span>
+          <span>{countries}+ countries</span>
+          <span>·</span>
+          <span>Free plan available</span>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 sm:py-20 border-y border-slate-200/80 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10 sm:mb-14">
-            <p className="text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-[0.18em]">{t("trust.byDecisionMakers")}</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
-            <StatItem value={formatStat(suppliersVal)} label={t("stat.verifiedSuppliers")} icon={<Shield className="w-6 h-6" />} testId="stat-suppliers" />
-            <StatItem value={formatStat(leadsVal)} label={t("stat.buyerLeads")} icon={<UserSearch className="w-6 h-6" />} testId="stat-leads" />
-            <StatItem value={formatStat(countriesVal)} label={t("stat.countries")} icon={<Globe className="w-6 h-6" />} testId="stat-countries" />
-            <StatItem value={formatStat(industriesVal)} label={t("stat.industries")} icon={<Zap className="w-6 h-6" />} testId="stat-industries" />
-          </div>
-        </div>
-      </section>
+      {/* ── OUTCOMES ────────────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4">
+        <div className="max-w-4xl mx-auto">
 
-      {/* Integrations */}
-      <section className="py-12 sm:py-16 bg-slate-50/80 border-b border-slate-100 px-4 sm:px-6">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
-            <p className="text-center sm:text-left text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">{t("integrations.sectionTitle")}</p>
-            <a href="/integrations" className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline shrink-0">
-              {t("integrations.viewAll")} →
-            </a>
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10">
-            <IntegrationLogos variant="compact" />
-          </div>
-        </div>
-      </section>
-
-      <MethodologySection />
-
-      {/* Supplier Database */}
-      <section className="py-20 sm:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-4 bg-emerald-100 text-emerald-700 border-emerald-200">{t("home.supplierNetwork.badge")}</Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">
-              {formatStat(suppliersVal)} {t("home.supplierNetwork.titleSuffix")}
-            </h2>
-            <p className="text-base sm:text-lg text-slate-600">
-              {t("home.supplierNetwork.subtitlePrefix")} {formatStat(countriesVal)} {t("home.supplierNetwork.subtitleSuffix")}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-slate-900">{t("home.supplierRegions.title")}</h3>
-              {supplierRegions.length > 0 ? (
-              <div className="space-y-4">
-                {supplierRegions.map((region, index) => (
-                  <div key={`region-${index}`} className="flex items-center gap-3 sm:gap-4" data-testid={`supplier-region-${index}`}>
-                    <div className={`w-3 h-3 rounded-full shrink-0 ${region.color}`}></div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-center gap-2 mb-1">
-                        <span className="font-medium text-slate-800 text-sm sm:text-base truncate">{region.label}</span>
-                        <span className="font-bold text-slate-900 shrink-0">{`${region.barValue}%`}</span>
-                      </div>
-                      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                        <div className={`h-full ${region.color} rounded-full transition-all duration-500`} style={{ width: `${region.barValue}%` }} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              ) : !statsLoaded ? (
-              <div className="space-y-4">
-                {[1,2,3,4,5].map((i) => (
-                  <div key={i} className="flex items-center gap-4 animate-pulse">
-                    <div className="w-3 h-3 rounded-full bg-slate-200" />
-                    <div className="flex-1 space-y-2">
-                      <div className="flex justify-between"><div className="h-4 bg-slate-200 rounded w-32" /><div className="h-4 bg-slate-200 rounded w-10" /></div>
-                      <div className="h-2 bg-slate-100 rounded-full" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              ) : (
-              <div className="space-y-4">
-                {[
-                  { label: "United States", pct: 28, color: "bg-blue-500" },
-                  { label: "China", pct: 22, color: "bg-emerald-500" },
-                  { label: "United Kingdom", pct: 12, color: "bg-purple-500" },
-                  { label: "Germany", pct: 9, color: "bg-amber-500" },
-                  { label: "India", pct: 8, color: "bg-rose-500" },
-                  { label: "France", pct: 6, color: "bg-cyan-500" },
-                  { label: "Canada", pct: 5, color: "bg-indigo-500" },
-                  { label: "Japan", pct: 4, color: "bg-slate-400" },
-                ].map((region, index) => (
-                  <div key={`fallback-${index}`} className="flex items-center gap-4">
-                    <div className={`w-3 h-3 rounded-full ${region.color}`} />
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-slate-800">{region.label}</span>
-                        <span className="font-bold text-slate-900">{region.pct}%</span>
-                      </div>
-                      <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                        <div className={`h-full ${region.color} rounded-full transition-all duration-500`} style={{ width: `${region.pct}%` }} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              )}
-            </div>
-
-            <div className="grid grid-cols-2 gap-6">
-              <Card className="bg-white border-slate-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
-                    <BadgeCheck className="w-7 h-7 text-blue-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">98%</div>
-                  <div className="text-sm text-slate-600">{t("home.verificationRate")}</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white border-slate-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <Award className="w-7 h-7 text-emerald-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">4.7/5</div>
-                  <div className="text-sm text-slate-600">{t("home.avgQuality")}</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white border-slate-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                    <Database className="w-7 h-7 text-purple-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">{formatStat(suppliersVal)}</div>
-                  <div className="text-sm text-slate-600">{t("home.productListings")}</div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white border-slate-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center">
-                    <Shield className="w-7 h-7 text-orange-600" />
-                  </div>
-                  <div className="text-3xl font-bold text-slate-900 mb-1">24/7</div>
-                  <div className="text-sm text-slate-600">{t("home.riskMonitoring")}</div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Industries */}
-      <section className="py-20 sm:py-24 bg-slate-50/90">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.industries.badge")}</Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.industries.title")}</h2>
-            <p className="text-base sm:text-lg text-slate-600">{t("home.industries.subtitle")}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {industries.map((industry, index) => (
-              <Card key={`industry-${index}`} className="h-full bg-white border-slate-200 shadow-md hover:shadow-xl hover:border-blue-300 transition-all duration-300 group" data-testid={`card-industry-${index}`}>
-                <CardContent className="p-6">
-                  <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors w-fit mb-4">
-                    {industry.icon}
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{t(industry.titleKey)}</h3>
-                  <p className="text-slate-700 leading-relaxed">{t(industry.descKey)}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Platform Features */}
-      <section className="py-20 sm:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.features.badge")}</Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.features.title")}</h2>
-            <p className="text-base sm:text-lg text-slate-600">{t("home.features.subtitle")}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {platformFeatures.map((feature, index) => (
-              <Link key={`platform-feature-${index}`} href={feature.href}>
-                <Card className="h-full bg-white border-slate-200 shadow-md hover:shadow-xl hover:border-blue-300 transition-all duration-300 group cursor-pointer">
-                  <CardContent className="p-8">
-                    <div className="flex gap-5">
-                      <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors h-fit">
-                        {feature.icon}
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{t(feature.titleKey)}</h3>
-                        <p className="text-slate-600 leading-relaxed">
-                          {t(feature.descKey, { suppliers: formatStat(suppliersVal), leads: formatStat(leadsVal), countries: countriesVal })}
-                        </p>
-                        <span className="text-blue-600 text-sm font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {t("common.learnMore")} <ArrowRight className="w-4 h-4" />
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Platform Showcase */}
-      <section className="py-20 sm:py-24 overflow-hidden bg-slate-50/90">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-4 bg-purple-100 text-purple-700 border-purple-200">{t("home.showcase.badge")}</Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.showcase.title")}</h2>
-            <p className="text-base sm:text-lg text-slate-600">{t("home.showcase.subtitle", { suppliers: formatStat(suppliersVal) })}</p>
-          </div>
-          <Tabs value={activeDashboardTab} onValueChange={setActiveDashboardTab} className="w-full">
-            <div className="flex justify-center mb-8">
-              <TabsList className="bg-white p-1 sm:p-1.5 rounded-full border border-slate-200 shadow-sm">
-                <TabsTrigger value="dashboard" className="rounded-full px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300" data-testid="tab-preview-dashboard">
-                  <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" />
-                  {t("home.tabs.analytics")}
-                </TabsTrigger>
-                <TabsTrigger value="report" className="rounded-full px-3 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm text-slate-600 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300" data-testid="tab-preview-report">
-                  <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 shrink-0" />
-                  {t("home.tabs.reports")}
-                </TabsTrigger>
-              </TabsList>
-            </div>
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/30 to-purple-200/30 rounded-3xl blur-3xl transform scale-95 opacity-50"></div>
-              <TabsContent value="dashboard" className="mt-0">
-                <div className="relative">
-                  <DashboardPreviewMock />
-                </div>
-              </TabsContent>
-              <TabsContent value="report" className="mt-0">
-                <div className="relative">
-                  <ReportPreviewMock />
-                </div>
-              </TabsContent>
-            </div>
-          </Tabs>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section id="how-it-works" className="py-20 sm:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.howItWorks.badge")}</Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.howItWorks.title")}</h2>
-            <p className="text-base sm:text-lg text-slate-600">{t("home.howItWorks.subtitle")}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-16 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-transparent via-blue-300 to-transparent z-0"></div>
-            <StepCard step="01" icon={<Search className="w-8 h-8 text-blue-600" />} title={t("home.step1.title")} desc={t("home.step1.desc")} />
-            <StepCard step="02" icon={<Brain className="w-8 h-8 text-purple-600" />} title={t("home.step2.title")} desc={t("home.step2.desc", { suppliers: formatStat(suppliersVal) })} />
-            <StepCard step="03" icon={<Rocket className="w-8 h-8 text-emerald-600" />} title={t("home.step3.title")} desc={t("home.step3.desc")} />
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-20 sm:py-24 bg-slate-50/90">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-            <Card className="bg-white border-slate-200 shadow-lg">
-              <CardContent className="p-8 space-y-6">
-                <Badge className="bg-blue-100 text-blue-700 border-blue-200">{t("home.benefits.realResults")}</Badge>
-                <h3 className="text-2xl font-bold text-slate-900">{t("home.benefits.saveTitle")}</h3>
-                <p className="text-slate-600 leading-relaxed">{t("home.benefits.saveDesc")}</p>
-                <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> {t("home.benefits.costReduction")}</li>
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> {t("home.benefits.qualification")}</li>
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> {t("home.benefits.resilience")}</li>
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-blue-600" /> {t("home.benefits.compliance")}</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="bg-white border-slate-200 shadow-lg">
-              <CardContent className="p-8 space-y-6">
-                <Badge className="bg-purple-100 text-purple-700 border-purple-200">{t("home.benefits.dataProtected")}</Badge>
-                <h3 className="text-2xl font-bold text-slate-900">{t("home.benefits.securityTitle")}</h3>
-                <p className="text-slate-600 leading-relaxed">{t("home.benefits.securityDesc")}</p>
-                <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-purple-600" /> {t("home.benefits.soc2")}</li>
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-purple-600" /> {t("home.benefits.encryption")}</li>
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-purple-600" /> {t("home.benefits.sso")}</li>
-                  <li className="flex items-center gap-3 text-slate-700"><Check className="w-5 h-5 text-purple-600" /> {t("home.benefits.audit")}</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Free Trial CTA */}
-      <section className="py-20 sm:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <Card className="bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 border-0 overflow-hidden relative">
-            <CardContent className="p-6 sm:p-8 md:p-16 relative z-10">
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                  <Badge className="bg-white/20 text-white border-white/30">{t("home.tryFreeBadge")}</Badge>
-                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold text-white">{t("home.ready.title")}</h2>
-                  <p className="text-base sm:text-xl text-blue-100">{t("home.ready.subtitle")}</p>
-                  <Link href="/signup" data-testid="link-free-trial-cta">
-                    <Button size="lg" className="h-12 sm:h-14 px-10 text-lg rounded-xl bg-white text-blue-700 hover:bg-blue-50 shadow-xl font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all" data-testid="button-free-trial-cta">
-                      {t("home.trial.title")}
-                    </Button>
-                  </Link>
-                  <p className="text-sm text-blue-100/90">{t("home.trial.footer")}</p>
-                </div>
-                <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-white uppercase tracking-wider">{t("home.trial.includes")}</h3>
-                  <div className="space-y-4">
-                    <TrialFeature icon={<Sparkles className="w-5 h-5" />} text={t("home.trial.reports")} />
-                    <TrialFeature icon={<BarChart3 className="w-5 h-5" />} text={t("home.trial.platform")} />
-                    <TrialFeature icon={<Globe className="w-5 h-5" />} text={t("home.trial.database", { suppliers: formatStat(suppliersVal) })} />
-                    <TrialFeature icon={<Shield className="w-5 h-5" />} text={t("home.trial.risk")} />
-                    <TrialFeature icon={<DollarSign className="w-5 h-5" />} text={t("home.trial.calculator")} />
-                    <TrialFeature icon={<Sparkles className="w-5 h-5" />} text={t("home.trial.support")} />
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Global scale stats */}
-      <section className="py-16 sm:py-20 bg-slate-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-10">
-            {t("trust.byDecisionMakers")}
+          <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-14">
+            Everything you need in one place
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
-            <div>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{formatStat(suppliersVal)}</div>
-              <div className="text-sm text-slate-400">{t("footer.statSuppliers")}</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{formatStat(leadsVal)}</div>
-              <div className="text-sm text-slate-400">{t("footer.statLeads")}</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{countriesVal}+</div>
-              <div className="text-sm text-slate-400">{t("footer.statCountries")}</div>
-            </div>
-            <div>
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 tabular-nums">{industriesVal}+</div>
-              <div className="text-sm text-slate-400">{t("footer.statIndustries")}</div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Testimonials */}
-      <section className="py-20 sm:py-24 bg-slate-50/90">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 border-blue-200">{t("home.testimonials.badge")}</Badge>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-4 text-slate-900">{t("home.testimonials.title")}</h2>
-            <p className="text-base sm:text-lg text-slate-600">{t("home.testimonials.subtitle")}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {([1, 2, 3] as const).map((n) => (
-              <Card key={n} className="h-full bg-white border-slate-200 hover:shadow-xl hover:border-blue-200/50 transition-all duration-300">
-                <CardContent className="p-6 sm:p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, j) => (
-                        <svg key={j} className="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                      ))}
-                    </div>
-                    <div className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">{t(`home.testimonial${n}.outcome`)}</div>
-                  </div>
-                  <p className="text-slate-700 leading-relaxed mb-6 italic">"{t(`home.testimonial${n}.quote`)}"</p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
-                      {t(`home.testimonial${n}.name`).split(' ').map((w: string) => w[0]).join('')}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-slate-900 text-sm truncate">{t(`home.testimonial${n}.name`)}</p>
-                      <p className="text-slate-500 text-xs truncate">{t(`home.testimonial${n}.role`)}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {outcomes.map((o, i) => (
+              <div key={i} className="flex flex-col gap-4">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${o.bg} ${o.color}`}>
+                  {o.icon}
+                </div>
+                <h3 className="text-base font-semibold text-slate-900 leading-snug">{o.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{o.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA - IndexBox-style */}
-      <section className="py-20 sm:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
-          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 sm:p-12 md:p-20 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(59,130,246,0.15),transparent)]" />
-            <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-white leading-tight">
-                {t("home.cta.title")}
-              </h2>
-              <p className="text-lg sm:text-xl text-slate-300 max-w-xl mx-auto leading-relaxed">
-                {t("home.cta.subtitle")}
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4">
-                <Link href="/signup" data-testid="link-cta-signup">
-                  <Button size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-8 sm:px-10 text-base sm:text-lg rounded-xl bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/30 font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all" data-testid="button-cta-signup">
-                    {t("home.cta.button")}
-                  </Button>
-                </Link>
-              </div>
-              <p className="text-sm text-slate-400 pt-2">{t("home.cta.footer")}</p>
-              <TrustBadges variant="compact" />
+      {/* ── DIVIDER ──────────────────────────────────────────────────── */}
+      <div className="border-t border-slate-100" />
+
+      {/* ── TESTIMONIAL ──────────────────────────────────────────────── */}
+      <section className="bg-slate-50 py-20 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="flex justify-center mb-6 gap-1">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+          </div>
+
+          <blockquote className="text-xl sm:text-2xl font-medium text-slate-800 leading-relaxed mb-8">
+            "{t("home.testimonial1.quote")}"
+          </blockquote>
+
+          <div className="flex items-center justify-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
+              {t("home.testimonial1.name").split(" ").map((w: string) => w[0]).join("")}
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-semibold text-slate-900">{t("home.testimonial1.name")}</p>
+              <p className="text-xs text-slate-500">{t("home.testimonial1.role")}</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ────────────────────────────────────────────────── */}
+      <section className="bg-slate-950 py-20 px-4 text-center">
+        <div className="max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+            {t("home.cta.title")}
+          </h2>
+          <p className="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">
+            {t("home.cta.subtitle")}
+          </p>
+          <Link href="/signup">
+            <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-xl transition hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-600/30">
+              {t("home.cta.button")} <ArrowRight className="w-4 h-4" />
+            </button>
+          </Link>
+          <p className="mt-4 text-xs text-slate-600">{t("home.cta.footer")}</p>
         </div>
       </section>
     </PublicLayout>
-  );
-}
-
-function StatItem({ value, label, icon, testId }: { value: string, label: string, icon: React.ReactNode, testId: string }) {
-  return (
-    <div className="p-4 sm:p-6 min-w-0" data-testid={testId}>
-      <div className="flex justify-center mb-2 sm:mb-4 text-slate-400">{icon}</div>
-      <div className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-1 sm:mb-2 tabular-nums tracking-tight break-words" data-testid={`${testId}-value`}>{value}</div>
-      <div className="text-xs sm:text-sm text-slate-500 font-medium break-words" data-testid={`${testId}-label`}>{label}</div>
-    </div>
-  );
-}
-
-function StepCard({ step, icon, title, desc }: { step: string, icon: React.ReactNode, title: string, desc: string }) {
-  return (
-    <div className="relative bg-white p-8 rounded-2xl border border-slate-200 shadow-lg z-10 group hover:border-blue-300 hover:shadow-xl transition-all duration-300">
-      <div className="text-7xl font-bold text-slate-100 absolute top-4 right-6 pointer-events-none group-hover:text-blue-100 transition-colors duration-300">{step}</div>
-      <div className="mb-6 p-3 bg-blue-50 w-fit rounded-xl group-hover:bg-blue-100 transition-colors duration-300">{icon}</div>
-      <h3 className="text-xl font-bold mb-3 text-slate-900">{title}</h3>
-      <p className="text-slate-600">{desc}</p>
-    </div>
-  );
-}
-
-function TrialFeature({ icon, text }: { icon: React.ReactNode, text: string }) {
-  return (
-    <div className="flex items-center gap-3">
-      <div className="p-2 bg-white/20 rounded-lg text-white">{icon}</div>
-      <span className="text-white font-medium">{text}</span>
-    </div>
   );
 }
