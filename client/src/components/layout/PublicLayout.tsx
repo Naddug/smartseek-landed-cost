@@ -6,7 +6,7 @@ import { useUser } from "@/lib/hooks";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Loader2, Check } from "lucide-react";
-import { Logo } from "@/components/Logo";
+import { Wordmark } from "@/components/Logo";
 import { useToast } from "@/hooks/use-toast";
 
 function NewsletterForm() {
@@ -111,9 +111,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-sm pt-[env(safe-area-inset-top)]">
         <div className="container mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0">
-          <Link href="/" className="flex items-center gap-1.5 group shrink-0 min-w-0">
-            <Logo size="md" className="group-hover:scale-105 transition-transform w-8 h-8 sm:w-9 sm:h-9 shrink-0" />
-            <span className="text-lg sm:text-xl font-heading font-bold tracking-tight truncate">SmartSeek</span>
+          <Link href="/" className="group shrink-0 min-w-0">
+            <Wordmark iconClassName="w-8 h-8 sm:w-9 sm:h-9 group-hover:scale-105 transition-transform" className="text-lg sm:text-xl" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1.5">
@@ -192,9 +191,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="container mx-auto px-4 py-10 sm:py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
             <div className="lg:col-span-5">
-              <div className="flex items-center gap-1.5 mb-5">
-                <Logo size="md" className="w-8 h-8 sm:w-10 sm:h-10" />
-                <span className="text-xl font-heading font-bold">SmartSeek</span>
+              <div className="mb-5">
+                <Wordmark iconClassName="w-8 h-8 sm:w-10 sm:h-10" className="text-xl" />
               </div>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed mb-4">
                 {t("footer.tagline")}

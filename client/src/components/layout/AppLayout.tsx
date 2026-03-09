@@ -24,7 +24,7 @@ import {
   Home
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { Logo } from "@/components/Logo";
+import { Wordmark } from "@/components/Logo";
 
 const CREDITS_BANNER_DISMISSED = "smartseek_credits_banner_dismissed";
 
@@ -91,10 +91,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <aside className={`w-64 bg-sidebar border-r border-sidebar-border flex flex-col fixed h-full z-40 transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="p-6">
           <Link href="/">
-            <span className="flex items-center gap-2 text-sidebar-foreground cursor-pointer">
-              <Logo size="sm" className="rounded-lg w-8 h-8" />
-              <span className="font-heading font-bold text-xl">SmartSeek</span>
-            </span>
+            <Wordmark iconClassName="w-8 h-8" className="text-xl" />
           </Link>
         </div>
 
