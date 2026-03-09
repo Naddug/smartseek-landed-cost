@@ -24,7 +24,8 @@ const I18N_PATH = path.join(__dirname, "../client/src/lib/i18n.ts");
 
 // ─── Language metadata ────────────────────────────────────────────────────────
 const LANG_NAMES = {
-  th: "Thai",         ar: "Arabic",      de: "German",      ja: "Japanese",
+  tr: "Turkish",      es: "Spanish",     ru: "Russian",     zh: "Chinese",
+  fr: "French",       th: "Thai",        ar: "Arabic",      de: "German",      ja: "Japanese",
   ko: "Korean",       pt: "Portuguese",  it: "Italian",     nl: "Dutch",
   pl: "Polish",       vi: "Vietnamese",  id: "Indonesian",  hi: "Hindi",
   bn: "Bengali",      uk: "Ukrainian",   cs: "Czech",       el: "Greek",
