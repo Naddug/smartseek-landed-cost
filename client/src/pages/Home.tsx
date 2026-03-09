@@ -61,25 +61,25 @@ export default function Home() {
               </svg>
             ))}
           </span>
-          Trusted by 50,000+ procurement professionals worldwide
+          {t("home.hero.badge")}
         </div>
 
         {/* Headline — loss aversion + specificity */}
         <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-72px font-bold text-white leading-[1.1] tracking-tight max-w-4xl mb-6">
-          Find the right supplier.{" "}
+          {t("home.hero.title1")}{" "}
           <br className="hidden sm:block" />
-          Know the real cost.{" "}
-          <span className="text-amber-400">Move first.</span>
+          {t("home.hero.title2")}{" "}
+          <span className="text-amber-400">{t("home.hero.title3")}</span>
         </h1>
 
         {/* Subhead — specific, outcome-driven */}
         <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-3">
-          {formatStat(suppliers)} verified global suppliers, accurate landed costs, and AI-powered risk intelligence — so your team decides in <span className="text-white font-medium">hours, not weeks.</span>
+          {t("home.hero.subtitleBase", { suppliers: formatStat(suppliers) })}<span className="text-white font-medium">{t("home.hero.subtitleHighlight")}</span>
         </p>
 
         {/* Micro pain line */}
         <p className="relative z-10 text-slate-600 text-sm mb-10 italic">
-          Stop cold-emailing. Stop guessing costs. Stop being surprised at customs.
+          {t("home.hero.painLine")}
         </p>
 
         {/* Search bar */}
@@ -92,36 +92,36 @@ export default function Home() {
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder='Try: "cotton fabric manufacturer, Turkey" or "electronics, Vietnam"'
+            placeholder={t("home.hero.searchPlaceholder")}
             className="flex-1 pl-12 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
           />
           <button
             type="submit"
             className="shrink-0 m-1.5 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 text-sm font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-amber-500/20"
           >
-            Search Free <ArrowRight className="w-4 h-4" />
+            {t("home.hero.searchBtn")} <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
         {/* Micro proof under search */}
         <p className="relative z-10 text-slate-600 text-xs mb-8">
-          Average search returns <span className="text-slate-400 font-medium">200+ verified matches</span> in under a second
+          {t("home.hero.proofLine", { matches: "200+" })}
         </p>
 
         {/* Trust chips */}
         <div className="relative z-10 flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-xs text-slate-500">
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> No credit card required</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Free plan available</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Government-verified data</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.hero.chip1")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.hero.chip2")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.hero.chip3")}</span>
         </div>
 
         {/* Stat strip at bottom of hero */}
         <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/5 bg-white/3 backdrop-blur-sm">
           <div className="max-w-3xl mx-auto px-4 py-4 flex justify-center gap-8 sm:gap-16 text-xs font-medium tracking-wide">
-            <span className="text-blue-400">{formatStat(suppliers)} <span className="text-slate-500">Suppliers</span></span>
-            <span className="text-emerald-400">{formatStat(leads)} <span className="text-slate-500">Trade Leads</span></span>
-            <span className="text-violet-400">{countries}+ <span className="text-slate-500">Countries</span></span>
-            <span className="text-amber-400">{industries}+ <span className="text-slate-500">Industries</span></span>
+            <span className="text-blue-400">{formatStat(suppliers)} <span className="text-slate-500">{t("home.hero.statSuppliers")}</span></span>
+            <span className="text-emerald-400">{formatStat(leads)} <span className="text-slate-500">{t("home.hero.statLeads")}</span></span>
+            <span className="text-violet-400">{countries}+ <span className="text-slate-500">{t("home.hero.statCountries")}</span></span>
+            <span className="text-amber-400">{industries}+ <span className="text-slate-500">{t("home.hero.statIndustries")}</span></span>
           </div>
         </div>
       </section>
@@ -130,7 +130,7 @@ export default function Home() {
       <section className="bg-white border-b border-slate-100 py-12 px-4">
         <div className="max-w-5xl mx-auto">
           <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-10">
-            Plugs into the tools your procurement team already uses
+            {t("home.integrations.label")}
           </p>
           <IntegrationLogos variant="compact" />
         </div>
@@ -140,9 +140,9 @@ export default function Home() {
       <section className="bg-slate-50 py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">Three problems. One platform.</p>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.features.badge")}</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 max-w-2xl mx-auto leading-snug">
-              Built for the moments that matter most in procurement
+              {t("home.features.title")}
             </h2>
           </div>
 
@@ -155,22 +155,17 @@ export default function Home() {
                 <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
                   <Globe className="w-5 h-5" />
                 </div>
-                {/* Pain line */}
-                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">The problem</p>
+                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">{t("home.feat1.problem")}</p>
                 <p className="text-sm text-slate-500 italic leading-relaxed -mt-3">
-                  "We spend 3 weeks cold-emailing suppliers who never respond — and still end up with the wrong ones."
+                  {t("home.feat1.quote")}
                 </p>
                 <div className="border-t border-slate-100 pt-4">
-                  <h3 className="text-base font-bold text-slate-900 mb-2">Find verified suppliers in seconds</h3>
+                  <h3 className="text-base font-bold text-slate-900 mb-2">{t("home.feat1.title")}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed mb-4">
-                    Government-registry verified contacts across {formatStat(suppliers)} suppliers. No bounced emails. No dead leads.
+                    {t("home.feat1.desc", { suppliers: formatStat(suppliers) })}
                   </p>
                   <ul className="space-y-2">
-                    {[
-                      "Email & phone included — no hunting",
-                      "Filter by cert, country, MOQ, employees",
-                      "Send RFQ in 2 clicks",
-                    ].map(b => (
+                    {[t("home.feat1.b1"), t("home.feat1.b2"), t("home.feat1.b3")].map(b => (
                       <li key={b} className="flex items-start gap-2 text-sm text-slate-600">
                         <Check className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" /> {b}
                       </li>
@@ -179,7 +174,7 @@ export default function Home() {
                 </div>
                 <Link href="/suppliers" className="mt-auto">
                   <span className="text-sm text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-1 cursor-pointer">
-                    Search suppliers free <ArrowRight className="w-3.5 h-3.5" />
+                    {t("home.feat1.cta")} <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </Link>
               </div>
@@ -192,21 +187,17 @@ export default function Home() {
                 <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                   <DollarSign className="w-5 h-5" />
                 </div>
-                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">The problem</p>
+                <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">{t("home.feat2.problem")}</p>
                 <p className="text-sm text-slate-500 italic leading-relaxed -mt-3">
-                  "We budgeted $42k. The invoice said $61k. The difference was duties we didn't know existed."
+                  {t("home.feat2.quote")}
                 </p>
                 <div className="border-t border-slate-100 pt-4">
-                  <h3 className="text-base font-bold text-slate-900 mb-2">Know your real cost before you commit</h3>
+                  <h3 className="text-base font-bold text-slate-900 mb-2">{t("home.feat2.title")}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed mb-4">
-                    Duties, freight, insurance, port fees, VAT — calculated upfront. No surprises when the container arrives.
+                    {t("home.feat2.desc")}
                   </p>
                   <ul className="space-y-2">
-                    {[
-                      "HS code lookup & live duty rates",
-                      "Sea FCL/LCL, air, express compared",
-                      "Multi-country origin comparison",
-                    ].map(b => (
+                    {[t("home.feat2.b1"), t("home.feat2.b2"), t("home.feat2.b3")].map(b => (
                       <li key={b} className="flex items-start gap-2 text-sm text-slate-600">
                         <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" /> {b}
                       </li>
@@ -215,7 +206,7 @@ export default function Home() {
                 </div>
                 <Link href="/landed-cost" className="mt-auto">
                   <span className="text-sm text-emerald-600 font-semibold hover:text-emerald-700 flex items-center gap-1 cursor-pointer">
-                    Calculate landed cost <ArrowRight className="w-3.5 h-3.5" />
+                    {t("home.feat2.cta")} <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </Link>
               </div>
@@ -228,21 +219,17 @@ export default function Home() {
                 <div className="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center text-violet-600">
                   <Shield className="w-5 h-5" />
                 </div>
-                <p className="text-xs font-semibold text-violet-600 uppercase tracking-wide">The problem</p>
+                <p className="text-xs font-semibold text-violet-600 uppercase tracking-wide">{t("home.feat3.problem")}</p>
                 <p className="text-sm text-slate-500 italic leading-relaxed -mt-3">
-                  "Our top supplier was in a region that went unstable. We had no backup plan and lost 6 weeks of production."
+                  {t("home.feat3.quote")}
                 </p>
                 <div className="border-t border-slate-100 pt-4">
-                  <h3 className="text-base font-bold text-slate-900 mb-2">Spot supplier risk before it costs you</h3>
+                  <h3 className="text-base font-bold text-slate-900 mb-2">{t("home.feat3.title")}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed mb-4">
-                    AI risk scores for every supplier and region. Geopolitical flags. Alternative sourcing routes identified automatically.
+                    {t("home.feat3.desc")}
                   </p>
                   <ul className="space-y-2">
-                    {[
-                      "Risk score 0–100 for any supplier",
-                      "Real-time geopolitical & compliance flags",
-                      "Alternatives suggested automatically",
-                    ].map(b => (
+                    {[t("home.feat3.b1"), t("home.feat3.b2"), t("home.feat3.b3")].map(b => (
                       <li key={b} className="flex items-start gap-2 text-sm text-slate-600">
                         <Check className="w-4 h-4 text-violet-500 shrink-0 mt-0.5" /> {b}
                       </li>
@@ -251,7 +238,7 @@ export default function Home() {
                 </div>
                 <Link href="/risk-intelligence" className="mt-auto">
                   <span className="text-sm text-violet-600 font-semibold hover:text-violet-700 flex items-center gap-1 cursor-pointer">
-                    Assess my risk <ArrowRight className="w-3.5 h-3.5" />
+                    {t("home.feat3.cta")} <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </Link>
               </div>
@@ -267,32 +254,32 @@ export default function Home() {
             <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
               <Clock className="w-5 h-5 text-amber-400" />
             </div>
-            <div className="text-3xl font-bold text-white">14 <span className="text-amber-400">hrs/week</span></div>
+            <div className="text-3xl font-bold text-white">{t("home.pain.stat1")}</div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Average time procurement teams waste on manual supplier research
+              {t("home.pain.stat1desc")}
             </p>
           </div>
           <div className="flex flex-col items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center">
               <AlertTriangle className="w-5 h-5 text-red-400" />
             </div>
-            <div className="text-3xl font-bold text-white">$2.3M <span className="text-red-400">lost</span></div>
+            <div className="text-3xl font-bold text-white">{t("home.pain.stat2")}</div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Estimated annual loss per company from hidden import costs and poor supplier choices
+              {t("home.pain.stat2desc")}
             </p>
           </div>
           <div className="flex flex-col items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-emerald-400" />
             </div>
-            <div className="text-3xl font-bold text-white">23% <span className="text-emerald-400">saved</span></div>
+            <div className="text-3xl font-bold text-white">{t("home.pain.stat3")}</div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Average cost reduction reported by SmartSeek users in their first 90 days
+              {t("home.pain.stat3desc")}
             </p>
           </div>
         </div>
         <p className="text-center text-xs text-slate-600 mt-10 max-w-xl mx-auto">
-          SmartSeek users go from 14 hours of weekly research to under 2. That's 12 hours back — every single week.
+          {t("home.pain.footnote")}
         </p>
       </section>
 
@@ -300,9 +287,9 @@ export default function Home() {
       <section className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">How it works</p>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.hiw.badge")}</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">
-              From search to contract in days — not months
+              {t("home.hiw.title")}
             </h2>
           </div>
 
@@ -314,22 +301,22 @@ export default function Home() {
                 step: "01",
                 icon: <Search className="w-6 h-6 text-blue-600" />,
                 bg: "bg-blue-50",
-                title: "Search",
-                desc: "Type a product, material, or industry. Get 200+ verified supplier matches instantly — with contact details.",
+                title: t("home.hiw.step1.title"),
+                desc: t("home.hiw.step1.desc"),
               },
               {
                 step: "02",
                 icon: <Brain className="w-6 h-6 text-purple-600" />,
                 bg: "bg-purple-50",
-                title: "Analyze",
-                desc: "AI scores each supplier on risk, quality, and landed cost. Compare countries and routes side-by-side.",
+                title: t("home.hiw.step2.title"),
+                desc: t("home.hiw.step2.desc"),
               },
               {
                 step: "03",
                 icon: <Rocket className="w-6 h-6 text-emerald-600" />,
                 bg: "bg-emerald-50",
-                title: "Source",
-                desc: "Contact suppliers directly, send an RFQ, and move forward — all without leaving the platform.",
+                title: t("home.hiw.step3.title"),
+                desc: t("home.hiw.step3.desc"),
               },
             ].map(s => (
               <div key={s.step} className="relative bg-slate-50 rounded-2xl p-7 border border-slate-200 z-10 hover:border-slate-300 hover:shadow-md transition-all">
@@ -348,7 +335,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto text-center">
           {/* Outcome badge */}
           <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-8">
-            <TrendingUp className="w-4 h-4" /> 60% faster supplier qualification
+            <TrendingUp className="w-4 h-4" /> {t("home.testimonial.badge")}
           </div>
 
           <div className="flex justify-center mb-6 gap-1">
@@ -379,27 +366,27 @@ export default function Home() {
       <section className="bg-slate-950 py-24 px-4 text-center relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
         <div className="relative z-10 max-w-xl mx-auto">
-          <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">Start for free today</p>
+          <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">{t("home.cta.badge")}</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
-            Your competitors are already <br className="hidden sm:block" />
-            sourcing smarter. Are you?
+            {t("home.cta.title1")} <br className="hidden sm:block" />
+            {t("home.cta.title2")}
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mb-10 leading-relaxed">
-            Join 50,000+ procurement professionals who stopped guessing and started sourcing with confidence.
+            {t("home.cta.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/signup">
               <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-4 rounded-xl transition hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/20 text-base">
-                Start Searching Free <ArrowRight className="w-4 h-4" />
+                {t("home.cta.primary")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
             <Link href="/suppliers">
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-8 py-4 rounded-xl transition text-base">
-                Browse suppliers
+                {t("home.cta.secondary")}
               </button>
             </Link>
           </div>
-          <p className="mt-5 text-xs text-slate-600">No credit card · Free plan · Cancel anytime</p>
+          <p className="mt-5 text-xs text-slate-600">{t("home.cta.footer")}</p>
         </div>
       </section>
 

@@ -2356,14 +2356,30 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
       if (q && typeof q === "string" && q.trim()) {
         const search = q.trim();
-        where.OR = [
-          { companyName: { contains: search, mode: "insensitive" as const } },
-          { products: { contains: search, mode: "insensitive" as const } },
-          { industry: { contains: search, mode: "insensitive" as const } },
-          { subIndustry: { contains: search, mode: "insensitive" as const } },
-          { description: { contains: search, mode: "insensitive" as const } },
-          { city: { contains: search, mode: "insensitive" as const } },
-        ];
+        const terms = search.split(/\s+/).filter(Boolean);
+        const fieldMatch = (term: string) => ({
+          OR: [
+            { companyName: { contains: term, mode: "insensitive" as const } },
+            { products: { contains: term, mode: "insensitive" as const } },
+            { industry: { contains: term, mode: "insensitive" as const } },
+            { subIndustry: { contains: term, mode: "insensitive" as const } },
+            { description: { contains: term, mode: "insensitive" as const } },
+            { city: { contains: term, mode: "insensitive" as const } },
+            { country: { contains: term, mode: "insensitive" as const } },
+          ],
+        });
+        if (terms.length === 1) {
+          // Single term: standard OR across all fields
+          where.OR = fieldMatch(terms[0]).OR;
+        } else {
+          // Multi-term: every word must appear somewhere in the record (AND of ORs)
+          // This makes "cotton fabric Turkey" correctly find suppliers that mention
+          // cotton AND fabric AND Turkey across any combination of fields
+          where.AND = [
+            ...(Array.isArray(where.AND) ? where.AND : []),
+            ...terms.map(fieldMatch),
+          ];
+        }
       }
 
       if (country && typeof country === "string") {
@@ -2398,10 +2414,15 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         }
       }
 
-      // Build orderBy
+      // Build orderBy — when a search query is active and user hasn't manually
+      // chosen a sort, prioritise verified suppliers then rating (most relevant first)
       const validSortFields = ["rating", "reviewCount", "yearEstablished", "companyName", "createdAt"];
+      const hasSearchQuery = !!(q && typeof q === "string" && q.trim());
       const sortField = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
       const order = sortOrder === "asc" ? "asc" : "desc";
+      const orderBy: any = hasSearchQuery && sortBy === "rating"
+        ? [{ verified: "desc" }, { rating: "desc" }, { reviewCount: "desc" }]
+        : [{ [sortField]: order }];
 
       const selectFields = {
         id: true,
@@ -2432,7 +2453,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
       const suppliersPromise = prisma.supplier.findMany({
         where,
-        orderBy: { [sortField]: order },
+        orderBy,
         skip,
         take: limitNum,
         select: selectFields,

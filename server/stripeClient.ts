@@ -67,8 +67,8 @@ export async function getStripeSync(): Promise<any> {
   if (stripeSyncLoadFailed) return null;
   if (stripeSync) return stripeSync;
   try {
-    // Dynamic import - module path in variable so bundlers don't resolve at build time
-    const mod = await import(/* @bundler-ignore */ 'stripe-replit-sync');
+    // @ts-expect-error - stripe-replit-sync is optional; may not have types
+    const mod = await import('stripe-replit-sync');
     const { StripeSync } = mod;
     const secretKey = await getStripeSecretKey();
 

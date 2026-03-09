@@ -642,11 +642,12 @@ function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) 
 interface SupplierDiscoveryProps {
   embedded?: boolean;
   initialIndustry?: string;
+  initialQuery?: string;
 }
 
-export default function SupplierDiscovery({ embedded, initialIndustry }: SupplierDiscoveryProps = {}) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+export default function SupplierDiscovery({ embedded, initialIndustry, initialQuery }: SupplierDiscoveryProps = {}) {
+  const [searchQuery, setSearchQuery] = useState(initialQuery || "");
+  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery || "");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedIndustry, setSelectedIndustry] = useState(initialIndustry || "");
   const [verifiedOnly, setVerifiedOnly] = useState(false);
@@ -658,11 +659,10 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
   });
   const [showFilters, setShowFilters] = useState(false);
 
-  // Read URL params or initialIndustry prop on mount
+  // Read URL params or initialIndustry/initialQuery prop on mount
   useEffect(() => {
-    if (initialIndustry) {
-      setSelectedIndustry(initialIndustry);
-    }
+    if (initialIndustry) setSelectedIndustry(initialIndustry);
+    if (initialQuery) { setSearchQuery(initialQuery); setDebouncedQuery(initialQuery); }
     if (embedded) return;
     const params = new URLSearchParams(window.location.search);
     const q = params.get("q");
@@ -672,7 +672,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
       setDebouncedQuery(q);
     }
     if (industry) setSelectedIndustry(industry);
-  }, [initialIndustry, embedded]);
+  }, [initialIndustry, initialQuery, embedded]);
 
   // Debounce search
   useEffect(() => {
