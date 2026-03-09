@@ -30,6 +30,7 @@
 import cron from "node-cron";
 import { pool } from "../db.js";
 import { prisma } from "../../lib/prisma.js";
+import { scrapeAll } from "../scrapers/directoryScraper.js";
 import { getCompany }   from "../services/companyService.js";
 import { getTradeData } from "../services/tradeService.js";
 import { indexCompany } from "../services/searchService.js";
@@ -483,6 +484,29 @@ async function runPipeline(): Promise<void> {
   const tasks: TaskResult[] = [];
 
   try {
+    // ── Task 0: Directory scraping (runs first, non-blocking on failure) ──
+    console.log("\n[pipeline] Task 0 / 4 — Scraping directories...");
+    try {
+      const scrapeResults = await scrapeAll({
+        maxPages: parseInt(process.env.PIPELINE_SCRAPE_PAGES ?? "2", 10),
+        delayMs:  2500,
+      });
+      const totalScraped = scrapeResults.reduce((s, r) => s + r.stored, 0);
+      tasks.push({
+        task: "scrape_directories",
+        success: scrapeResults.some(r => r.stored > 0 || r.skipped > 0),
+        count: totalScraped,
+        errors: scrapeResults.reduce((s, r) => s + r.errors, 0),
+        durationMs: scrapeResults.reduce((s, r) => s + r.durationMs, 0),
+        detail: scrapeResults.map(r => `${r.source}:${r.stored}`).join(", "),
+      });
+      console.log(`  ✓ Directory scraping: ${totalScraped} new companies stored`);
+    } catch (e) {
+      console.warn("  ⚠ Directory scraping failed:", (e as Error).message);
+      tasks.push({ task: "scrape_directories", success: false, count: 0, errors: 1,
+                   durationMs: 0, detail: (e as Error).message });
+    }
+
     // ── Task 1: Collect ────────────────────────────────────────────────────
     console.log("\n[pipeline] Task 1 / 4 — Collecting companies...");
     const { result: r1, companies } = await task1_collect();

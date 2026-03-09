@@ -346,6 +346,51 @@ model UserIntegration {
   @@map("user_integrations")
 }
 
+// ============================================================================
+// Directory Scraping — Companies
+// ============================================================================
+
+model Company {
+  id           String   @id @default(cuid())
+
+  // Core fields extracted by scrapers
+  name         String
+  website      String?
+  country      String?
+  city         String?
+  industry     String?
+  employees    String?  // raw string e.g. "50-249", "1,000+"
+  employeeMin  Int?     @map("employee_min")
+  employeeMax  Int?     @map("employee_max")
+
+  // Source metadata
+  source       String           // "clutch" | "g2" | "goodfirms"
+  sourceUrl    String?  @map("source_url")   // listing page URL
+  sourceId     String?  @map("source_id")    // ID/slug on source site
+  rating       Float?
+  reviewCount  Int?     @map("review_count")
+
+  // Enrichment (optional, filled later)
+  description  String?
+  founded      Int?
+  linkedin     String?
+  techStack    String[] @map("tech_stack")   // filled by techStackService
+  tags         String[]
+
+  // Dedup & status
+  domain       String?  @unique              // normalised domain (no www/https)
+  scraped      Boolean  @default(true)
+  enriched     Boolean  @default(false)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt           @map("updated_at")
+
+  @@index([source])
+  @@index([country])
+  @@index([industry])
+  @@index([domain])
+  @@map("companies")
+}
+
 model IntegrationOAuthState {
   id          String   @id @default(cuid())
   state       String   @unique

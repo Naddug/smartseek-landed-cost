@@ -31,6 +31,7 @@ import { runIntelligenceEngine, quickRiskScore } from "./services/intelligenceEn
 import { getGraphService } from "./services/graphService";
 import type { GraphRelation } from "@shared/schema";
 import { triggerPipelineRun, getPipelineRuns, isPipelineRunning } from "./jobs/dataCollector";
+import { scrapeSource, scrapeAll, getCompanyStats, type ScraperSource } from "./scrapers/directoryScraper";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -2922,6 +2923,80 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // ============================================================================
   // Data Collection Pipeline  (/api/pipeline)
   // ============================================================================
+
+  // ============================================================================
+  // Directory Scraper API  (/api/scraper)
+  // ============================================================================
+
+  /**
+   * POST /api/scraper/run
+   * Body: { source?: "clutch"|"g2"|"goodfirms"|"all", maxPages?: number, categories?: string[] }
+   * Runs the scraper in the background and returns immediately.
+   */
+  app.post("/api/scraper/run", async (req: Request, res: Response) => {
+    const { source = "all", maxPages = 3, categories = [] } = req.body ?? {};
+    const opts = { maxPages: Math.min(parseInt(maxPages, 10) || 3, 20), categories };
+
+    // Fire-and-forget
+    const run = source === "all"
+      ? scrapeAll(opts)
+      : scrapeSource(source as ScraperSource, opts);
+
+    run
+      .then(result => console.log("[scraper] Finished:", result))
+      .catch(e => console.error("[scraper] Failed:", e.message));
+
+    res.json({ message: `Scraping ${source} started`, source, maxPages: opts.maxPages });
+  });
+
+  /** GET /api/scraper/stats — record counts per source */
+  app.get("/api/scraper/stats", async (_req: Request, res: Response) => {
+    try {
+      res.json(await getCompanyStats());
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/companies
+   * ?source=clutch&country=US&industry=IT&page=1&limit=50
+   */
+  app.get("/api/companies", async (req: Request, res: Response) => {
+    const { source, country, industry, page = "1", limit = "50" } = req.query as Record<string, string>;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const where: Record<string, unknown> = {};
+    if (source)   where.source   = source;
+    if (country)  where.country  = { contains: country, mode: "insensitive" };
+    if (industry) where.industry = { contains: industry, mode: "insensitive" };
+
+    try {
+      const [companies, total] = await Promise.all([
+        prisma.company.findMany({
+          where,
+          skip,
+          take: Math.min(parseInt(limit), 200),
+          orderBy: [{ rating: "desc" }, { createdAt: "desc" }],
+        }),
+        prisma.company.count({ where }),
+      ]);
+      res.json({ total, page: parseInt(page), companies });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /** GET /api/companies/:id */
+  app.get("/api/companies/:id", async (req: Request, res: Response) => {
+    try {
+      const company = await prisma.company.findUnique({ where: { id: req.params.id } });
+      if (!company) return res.status(404).json({ error: "Not found" });
+      res.json(company);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
 
   /** POST /api/pipeline/trigger — manually kick off a pipeline run */
   app.post("/api/pipeline/trigger", async (_req: Request, res: Response) => {
