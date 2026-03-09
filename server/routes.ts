@@ -32,6 +32,7 @@ import { getGraphService } from "./services/graphService";
 import type { GraphRelation } from "@shared/schema";
 import { triggerPipelineRun, getPipelineRuns, isPipelineRunning } from "./jobs/dataCollector";
 import { scrapeSource, scrapeAll, getCompanyStats, type ScraperSource } from "./scrapers/directoryScraper";
+import { crawlAndSave, getCrawlResult, listEnrichments } from "./scrapers/websiteCrawler";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -2993,6 +2994,68 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const company = await prisma.company.findUnique({ where: { id: req.params.id } });
       if (!company) return res.status(404).json({ error: "Not found" });
       res.json(company);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  // ─── Website Crawler / Company Enrichment ────────────────────────────────────
+
+  /**
+   * POST /api/enrichment/crawl
+   * Body: { domain: string, maxPages?: number, companyId?: string }
+   * Crawls a company website and extracts emails, linkedins, phones, addresses, keywords.
+   * Saves result to company_enrichments table.
+   */
+  app.post("/api/enrichment/crawl", async (req: Request, res: Response) => {
+    try {
+      const { domain, maxPages, companyId } = req.body ?? {};
+      if (!domain || typeof domain !== "string") {
+        return res.status(400).json({ error: "domain is required" });
+      }
+      const result = await crawlAndSave(domain, {
+        maxPages: maxPages ? parseInt(String(maxPages), 10) : 20,
+        companyId: companyId ?? undefined,
+      });
+      res.json({
+        domain:       result.domain,
+        emails:       result.emails,
+        linkedins:    result.linkedins,
+        phones:       result.phones,
+        addresses:    result.addresses,
+        keywords:     result.keywords,
+        pagesVisited: result.pagesVisited,
+        crawledAt:    result.crawledAt,
+      });
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/enrichment/:domain
+   * Returns the saved enrichment record for a domain.
+   */
+  app.get("/api/enrichment/:domain", async (req: Request, res: Response) => {
+    try {
+      const record = await getCrawlResult(req.params.domain);
+      if (!record) return res.status(404).json({ error: "No enrichment found for this domain" });
+      res.json(record);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/enrichments?skip=0&take=50
+   * Lists all enrichment records ordered by most recently crawled.
+   */
+  app.get("/api/enrichments", async (req: Request, res: Response) => {
+    try {
+      const skip = parseInt(String(req.query.skip ?? "0"), 10);
+      const take = parseInt(String(req.query.take ?? "50"), 10);
+      const records = await listEnrichments({ skip, take });
+      res.json(records);
     } catch (e) {
       res.status(500).json({ error: (e as Error).message });
     }

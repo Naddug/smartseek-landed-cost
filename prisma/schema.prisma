@@ -391,6 +391,39 @@ model Company {
   @@map("companies")
 }
 
+// ============================================================================
+// Website Crawler — Company Enrichment
+// ============================================================================
+
+model CompanyEnrichment {
+  id          String   @id @default(cuid())
+  domain      String   @unique
+
+  // Optional FK to Company scraped from directories
+  companyId   String?  @map("company_id")
+
+  // Extracted contact data
+  emails      String[]
+  linkedins   String[]
+  phones      String[]
+  addresses   String[]
+  keywords    String[]
+
+  // Crawl metadata
+  pagesVisited Int      @default(0) @map("pages_visited")
+  crawledAt    DateTime? @map("crawled_at")
+
+  // Raw per-page breakdown stored as JSONB for debugging/re-processing
+  rawData      Json?    @map("raw_data")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt       @map("updated_at")
+
+  @@index([domain])
+  @@index([companyId])
+  @@map("company_enrichments")
+}
+
 model IntegrationOAuthState {
   id          String   @id @default(cuid())
   state       String   @unique
