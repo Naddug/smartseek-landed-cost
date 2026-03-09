@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Search, ArrowRight, Globe, DollarSign, Shield, CheckCircle2 } from "lucide-react";
+import {
+  Search, ArrowRight, Globe, DollarSign, Shield,
+  CheckCircle2, Check, TrendingUp, Brain, Rocket,
+} from "lucide-react";
 import { Link, useLocation } from "wouter";
 import PublicLayout from "@/components/layout/PublicLayout";
+import { IntegrationLogos } from "@/components/integrations/IntegrationLogos";
 
 function formatStat(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
@@ -15,14 +19,18 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [, navigate] = useLocation();
   const [suppliers, setSuppliers] = useState(25_200_000);
+  const [leads, setLeads] = useState(7_000_000);
   const [countries, setCountries] = useState(220);
+  const [industries, setIndustries] = useState(20);
 
   useEffect(() => {
     fetch("/api/stats")
       .then(r => r.json())
       .then(d => {
         if (d.suppliers > 0) setSuppliers(d.suppliers);
+        if (d.leads > 0) setLeads(d.leads);
         if (d.countries > 0) setCountries(d.countries);
+        if (d.industries > 0) setIndustries(d.industries);
       })
       .catch(() => {});
   }, []);
@@ -33,37 +41,12 @@ export default function Home() {
     navigate(`/suppliers${q ? `?q=${encodeURIComponent(q)}` : ""}`);
   };
 
-  const outcomes = [
-    {
-      icon: <Globe className="w-6 h-6" />,
-      color: "text-blue-500",
-      bg: "bg-blue-50",
-      title: t("home.feature5.title"),
-      desc: t("home.feature5.desc", { suppliers: formatStat(suppliers), leads: "", countries }),
-    },
-    {
-      icon: <DollarSign className="w-6 h-6" />,
-      color: "text-emerald-500",
-      bg: "bg-emerald-50",
-      title: t("home.feature2.title"),
-      desc: t("home.feature2.desc", { suppliers: formatStat(suppliers), leads: "", countries }),
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      color: "text-violet-500",
-      bg: "bg-violet-50",
-      title: t("home.feature1.title"),
-      desc: t("home.feature1.desc", { suppliers: formatStat(suppliers), leads: "", countries }),
-    },
-  ];
-
   return (
     <PublicLayout>
-      {/* ── HERO ────────────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center justify-center min-h-[90vh] bg-slate-950 px-4 text-center overflow-hidden">
 
-        {/* Subtle glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+      {/* ── 1. HERO ─────────────────────────────────────────────────── */}
+      <section className="relative flex flex-col items-center justify-center min-h-[88vh] bg-slate-950 px-4 text-center overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
 
         {/* Badge */}
         <div className="relative z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/8 border border-white/10 text-slate-400 text-xs font-medium mb-8 tracking-wide">
@@ -80,9 +63,8 @@ export default function Home() {
           </span>
         </h1>
 
-        {/* Subline */}
         <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-xl leading-relaxed mb-10">
-          Search {formatStat(suppliers)} verified global suppliers and know your true cost — before you commit.
+          Search {formatStat(suppliers)} verified global suppliers, calculate true landed costs, and assess supply chain risk — all in one platform.
         </p>
 
         {/* Search bar */}
@@ -106,7 +88,6 @@ export default function Home() {
           </button>
         </form>
 
-        {/* Micro CTAs */}
         <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-sm">
           <Link href="/signup">
             <span className="text-blue-400 hover:text-blue-300 font-medium transition cursor-pointer flex items-center gap-1.5">
@@ -119,7 +100,6 @@ export default function Home() {
           </span>
         </div>
 
-        {/* Bottom stat strip */}
         <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center gap-6 sm:gap-10 text-xs text-slate-600 font-medium tracking-wide">
           <span>{formatStat(suppliers)} suppliers</span>
           <span>·</span>
@@ -129,34 +109,158 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── OUTCOMES ────────────────────────────────────────────────── */}
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-4xl mx-auto">
+      {/* ── 2. STATS ─────────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-slate-100 py-14 px-4">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { value: formatStat(suppliers), label: t("stat.verifiedSuppliers") },
+            { value: formatStat(leads),     label: t("stat.buyerLeads") },
+            { value: `${countries}+`,       label: t("stat.countries") },
+            { value: `${industries}+`,      label: t("stat.industries") },
+          ].map((s, i) => (
+            <div key={i}>
+              <div className="text-3xl sm:text-4xl font-bold text-slate-900 tabular-nums mb-1">{s.value}</div>
+              <div className="text-sm text-slate-500">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-14">
-            Everything you need in one place
+      {/* ── 3. INTEGRATIONS ──────────────────────────────────────────── */}
+      <section className="bg-slate-50 border-b border-slate-100 py-12 px-4">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-10">
+            Integrates with your existing procurement stack
           </p>
+          <IntegrationLogos variant="compact" />
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {outcomes.map((o, i) => (
-              <div key={i} className="flex flex-col gap-4">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${o.bg} ${o.color}`}>
-                  {o.icon}
-                </div>
-                <h3 className="text-base font-semibold text-slate-900 leading-snug">{o.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{o.desc}</p>
+      {/* ── 4. FEATURES ──────────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">Platform capabilities</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">
+              Everything you need to source smarter
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Supplier Discovery */}
+            <div className="bg-slate-50 rounded-2xl p-7 flex flex-col gap-5 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+              <div className="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+                <Globe className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{t("home.feature5.title")}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-4">
+                  Search {formatStat(suppliers)} verified suppliers across {countries}+ countries. Filter by industry, country, certifications, and more.
+                </p>
+                <ul className="space-y-2">
+                  {["Government-registry verified data", "Real-time contact enrichment", "RFQ & lead capture built in"].map(b => (
+                    <li key={b} className="flex items-center gap-2 text-sm text-slate-600">
+                      <Check className="w-4 h-4 text-blue-500 shrink-0" /> {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Link href="/suppliers">
+                <span className="text-sm text-blue-600 font-medium hover:text-blue-700 flex items-center gap-1 cursor-pointer mt-auto">
+                  Search suppliers <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            </div>
+
+            {/* Landed Cost */}
+            <div className="bg-slate-50 rounded-2xl p-7 flex flex-col gap-5 border border-slate-100 hover:border-emerald-200 hover:shadow-lg transition-all">
+              <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
+                <DollarSign className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{t("home.feature2.title")}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-4">
+                  Calculate the true total cost of any import shipment — duties, freight, insurance, taxes, and port fees — before you commit.
+                </p>
+                <ul className="space-y-2">
+                  {["HS code lookup & duty rates", "Sea FCL/LCL, air & express", "Multi-country comparison"].map(b => (
+                    <li key={b} className="flex items-center gap-2 text-sm text-slate-600">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0" /> {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Link href="/landed-cost">
+                <span className="text-sm text-emerald-600 font-medium hover:text-emerald-700 flex items-center gap-1 cursor-pointer mt-auto">
+                  Try the calculator <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            </div>
+
+            {/* Risk Intelligence */}
+            <div className="bg-slate-50 rounded-2xl p-7 flex flex-col gap-5 border border-slate-100 hover:border-violet-200 hover:shadow-lg transition-all">
+              <div className="w-11 h-11 rounded-xl bg-violet-100 flex items-center justify-center text-violet-600">
+                <Shield className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{t("home.feature1.title")}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed mb-4">
+                  Real-time risk scoring for suppliers, countries, and industries. Identify concentration risk and alternative sourcing routes instantly.
+                </p>
+                <ul className="space-y-2">
+                  {["AI-powered risk scores 0–100", "Geopolitical & compliance flags", "Alternative supplier suggestions"].map(b => (
+                    <li key={b} className="flex items-center gap-2 text-sm text-slate-600">
+                      <Check className="w-4 h-4 text-violet-500 shrink-0" /> {b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Link href="/risk-intelligence">
+                <span className="text-sm text-violet-600 font-medium hover:text-violet-700 flex items-center gap-1 cursor-pointer mt-auto">
+                  Assess risk <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. HOW IT WORKS ──────────────────────────────────────────── */}
+      <section className="bg-slate-50 border-y border-slate-100 py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.howItWorks.badge")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900">{t("home.howItWorks.title")}</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            {/* connector line */}
+            <div className="hidden md:block absolute top-10 left-[23%] right-[23%] h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+
+            {[
+              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: t("home.step1.title"), desc: t("home.step1.desc") },
+              { step: "02", icon: <Brain className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50", title: t("home.step2.title"), desc: t("home.step2.desc", { suppliers: formatStat(suppliers) }) },
+              { step: "03", icon: <Rocket className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: t("home.step3.title"), desc: t("home.step3.desc") },
+            ].map(s => (
+              <div key={s.step} className="relative bg-white rounded-2xl p-7 border border-slate-200 shadow-sm z-10">
+                <span className="absolute top-5 right-6 text-5xl font-bold text-slate-100 select-none">{s.step}</span>
+                <div className={`w-12 h-12 rounded-xl ${s.bg} flex items-center justify-center mb-5`}>{s.icon}</div>
+                <h3 className="font-bold text-slate-900 mb-2">{s.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── DIVIDER ──────────────────────────────────────────────────── */}
-      <div className="border-t border-slate-100" />
-
-      {/* ── TESTIMONIAL ──────────────────────────────────────────────── */}
-      <section className="bg-slate-50 py-20 px-4">
+      {/* ── 6. TESTIMONIAL ───────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4">
         <div className="max-w-2xl mx-auto text-center">
+          {/* Cost savings badge */}
+          <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-8">
+            <TrendingUp className="w-4 h-4" /> Average 23% cost reduction reported by users
+          </div>
+
           <div className="flex justify-center mb-6 gap-1">
             {[...Array(5)].map((_, i) => (
               <svg key={i} className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
@@ -181,7 +285,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ────────────────────────────────────────────────── */}
+      {/* ── 7. FINAL CTA ─────────────────────────────────────────────── */}
       <section className="bg-slate-950 py-20 px-4 text-center">
         <div className="max-w-xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
@@ -198,6 +302,7 @@ export default function Home() {
           <p className="mt-4 text-xs text-slate-600">{t("home.cta.footer")}</p>
         </div>
       </section>
+
     </PublicLayout>
   );
 }
