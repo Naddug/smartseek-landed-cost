@@ -1,0 +1,3283 @@
+
+=== Import All Suppliers (target 42M+) ===
+
+   Target: 42,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/pdl-companies.csv
+
+   📥 Loading existing suppliers for deduplication...
+   Loaded 100,000 existing   Loaded 200,000 existing   Loaded 300,000 existing   Loaded 400,000 existing   Loaded 500,000 existing   Loaded 600,000 existing   Loaded 700,000 existing   Loaded 800,000 existing   Loaded 900,000 existing   Loaded 1,000,000 existing   Loaded 1,100,000 existing   Loaded 1,200,000 existing   Loaded 1,300,000 existing   Loaded 1,400,000 existing   Loaded 1,500,000 existing   Loaded 1,600,000 existing   Loaded 1,700,000 existing   Loaded 1,800,000 existing   Loaded 1,900,000 existing   Loaded 2,000,000 existing   Loaded 2,100,000 existing   Loaded 2,200,000 existing   Loaded 2,300,000 existing   Loaded 2,400,000 existing   Loaded 2,500,000 existing   Loaded 2,600,000 existing   Loaded 2,700,000 existing   Loaded 2,800,000 existing   Loaded 2,900,000 existing   Loaded 3,000,000 existing   Loaded 3,100,000 existing   Loaded 3,200,000 existing   Loaded 3,300,000 existing   Loaded 3,400,000 existing   Loaded 3,500,000 existing   Loaded 3,600,000 existing   Loaded 3,700,000 existing   Loaded 3,800,000 existing   Loaded 3,900,000 existing   Loaded 4,000,000 existing   Loaded 4,100,000 existing   Loaded 4,200,000 existing   Loaded 4,300,000 existing   Loaded 4,400,000 existing   Loaded 4,500,000 existing   Loaded 4,600,000 existing   Loaded 4,700,000 existing   Loaded 4,800,000 existing   Loaded 4,900,000 existing   Loaded 5,000,000 existing   Loaded 5,100,000 existing   Loaded 5,200,000 existing   Loaded 5,300,000 existing   Loaded 5,400,000 existing   Loaded 5,500,000 existing   Loaded 5,600,000 existing   Loaded 5,700,000 existing   Loaded 5,800,000 existing   Loaded 5,900,000 existing   Loaded 6,000,000 existing   Loaded 6,100,000 existing   Loaded 6,200,000 existing   Loaded 6,300,000 existing   Loaded 6,400,000 existing   Loaded 6,500,000 existing
+   ✓ 5,250,893 existing suppliers in dedupe set
+
+   📂 Processing companies.csv...
+   ✅ 5,000 suppliers (companies.csv)
+   ✅ 10,000 suppliers (companies.csv)
+   ✅ 15,000 suppliers (companies.csv)
+   ✅ 20,000 suppliers (companies.csv)
+   ✅ 25,000 suppliers (companies.csv)
+   ✅ 30,000 suppliers (companies.csv)
+   ✅ 35,000 suppliers (companies.csv)
+   ✅ 40,000 suppliers (companies.csv)
+   ✅ 45,000 suppliers (companies.csv)
+   ✅ 50,000 suppliers (companies.csv)
+   ✅ 55,000 suppliers (companies.csv)
+   ✅ 60,000 suppliers (companies.csv)
+   ✅ 65,000 suppliers (companies.csv)
+   ✅ 70,000 suppliers (companies.csv)
+   ✅ 75,000 suppliers (companies.csv)
+   ✅ 80,000 suppliers (companies.csv)
+   ✅ 85,000 suppliers (companies.csv)
+   ✅ 90,000 suppliers (companies.csv)
+   ✅ 95,000 suppliers (companies.csv)
+   ✅ 100,000 suppliers (companies.csv)
+   ✅ 105,000 suppliers (companies.csv)
+   ✅ 110,000 suppliers (companies.csv)
+   ✅ 115,000 suppliers (companies.csv)
+   ✅ 120,000 suppliers (companies.csv)
+   ✅ 125,000 suppliers (companies.csv)
+   ✅ 130,000 suppliers (companies.csv)
+   ✅ 135,000 suppliers (companies.csv)
+   ✅ 140,000 suppliers (companies.csv)
+   ✅ 145,000 suppliers (companies.csv)
+
+=== Import All Suppliers (target 42M+) ===
+
+   Target: 42,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv
+
+   📥 Loading existing suppliers for deduplication...
+   Loaded 100,000 existing   Loaded 200,000 existing   Loaded 300,000 existing   Loaded 400,000 existing   Loaded 500,000 existing   Loaded 600,000 existing   Loaded 700,000 existing   Loaded 800,000 existing   Loaded 900,000 existing   Loaded 1,000,000 existing   Loaded 1,100,000 existing   Loaded 1,200,000 existing   Loaded 1,300,000 existing   Loaded 1,400,000 existing   Loaded 1,500,000 existing   Loaded 1,600,000 existing   Loaded 1,700,000 existing   Loaded 1,800,000 existing   Loaded 1,900,000 existing   Loaded 2,000,000 existing   Loaded 2,100,000 existing   Loaded 2,200,000 existing   Loaded 2,300,000 existing   Loaded 2,400,000 existing   Loaded 2,500,000 existing   Loaded 2,600,000 existing   Loaded 2,700,000 existing   Loaded 2,800,000 existing   Loaded 2,900,000 existing   Loaded 3,000,000 existing   Loaded 3,100,000 existing   Loaded 3,200,000 existing   Loaded 3,300,000 existing   Loaded 3,400,000 existing   Loaded 3,500,000 existing   Loaded 3,600,000 existing   Loaded 3,700,000 existing   Loaded 3,800,000 existing   Loaded 3,900,000 existing   Loaded 4,000,000 existing   Loaded 4,100,000 existing   Loaded 4,200,000 existing   Loaded 4,300,000 existing   Loaded 4,400,000 existing   Loaded 4,500,000 existing   Loaded 4,600,000 existing   Loaded 4,700,000 existing   Loaded 4,800,000 existing   Loaded 4,900,000 existing   Loaded 5,000,000 existing   Loaded 5,100,000 existing   Loaded 5,200,000 existing   Loaded 5,300,000 existing   Loaded 5,400,000 existing   Loaded 5,500,000 existing   Loaded 5,600,000 existing   Loaded 5,700,000 existing   Loaded 5,800,000 existing   Loaded 5,900,000 existing   Loaded 6,000,000 existing   Loaded 6,100,000 existing   Loaded 6,200,000 existing   Loaded 6,300,000 existing   Loaded 6,400,000 existing   Loaded 6,500,000 existing
+   ✓ 5,286,000 existing suppliers in dedupe set
+
+   📂 Processing companies.csv...
+   ✅ 5,000 suppliers (companies.csv)
+   ✅ 10,000 suppliers (companies.csv)
+   ✅ 15,000 suppliers (companies.csv)
+   ✅ 20,000 suppliers (companies.csv)
+   ✅ 25,000 suppliers (companies.csv)
+   ✅ 30,000 suppliers (companies.csv)
+   ✅ 35,000 suppliers (companies.csv)
+   ✅ 40,000 suppliers (companies.csv)
+   ✅ 45,000 suppliers (companies.csv)
+   ✅ 50,000 suppliers (companies.csv)
+   ✅ 55,000 suppliers (companies.csv)
+   ✅ 60,000 suppliers (companies.csv)
+   ✅ 65,000 suppliers (companies.csv)
+   ✅ 70,000 suppliers (companies.csv)
+   ✅ 75,000 suppliers (companies.csv)
+   ✅ 80,000 suppliers (companies.csv)
+   ✅ 85,000 suppliers (companies.csv)
+   ✅ 90,000 suppliers (companies.csv)
+   ✅ 95,000 suppliers (companies.csv)
+   ✅ 100,000 suppliers (companies.csv)
+   ✅ 105,000 suppliers (companies.csv)
+   ✅ 110,000 suppliers (companies.csv)
+   ✅ 115,000 suppliers (companies.csv)
+   ✅ 120,000 suppliers (companies.csv)
+   ✅ 125,000 suppliers (companies.csv)
+   ✅ 130,000 suppliers (companies.csv)
+   ✅ 135,000 suppliers (companies.csv)
+   ✅ 140,000 suppliers (companies.csv)
+   ✅ 145,000 suppliers (companies.csv)
+   ✅ 150,000 suppliers (companies.csv)
+   ✅ 155,000 suppliers (companies.csv)
+   ✅ 160,000 suppliers (companies.csv)
+   ✅ 165,000 suppliers (companies.csv)
+   ✅ 170,000 suppliers (companies.csv)
+   ✅ 175,000 suppliers (companies.csv)
+   ✅ 180,000 suppliers (companies.csv)
+   ✅ 185,000 suppliers (companies.csv)
+   ✅ 190,000 suppliers (companies.csv)
+   ✅ 195,000 suppliers (companies.csv)
+   ✅ 200,000 suppliers (companies.csv)
+   ✅ 205,000 suppliers (companies.csv)
+   ✅ 210,000 suppliers (companies.csv)
+   ✅ 215,000 suppliers (companies.csv)
+   ✅ 220,000 suppliers (companies.csv)
+   ✅ 225,000 suppliers (companies.csv)
+   ✅ 230,000 suppliers (companies.csv)
+   ✅ 235,000 suppliers (companies.csv)
+   ✅ 240,000 suppliers (companies.csv)
+   ✅ 245,000 suppliers (companies.csv)
+   ✅ 250,000 suppliers (companies.csv)
+   ✅ 255,000 suppliers (companies.csv)
+   ✅ 260,000 suppliers (companies.csv)
+   ✅ 265,000 suppliers (companies.csv)
+   ✅ 270,000 suppliers (companies.csv)
+   ✅ 275,000 suppliers (companies.csv)
+   ✅ 280,000 suppliers (companies.csv)
+   ✅ 285,000 suppliers (companies.csv)
+   ✅ 290,000 suppliers (companies.csv)
+   ✅ 295,000 suppliers (companies.csv)
+   ✅ 300,000 suppliers (companies.csv)
+   ✅ 305,000 suppliers (companies.csv)
+   ✅ 310,000 suppliers (companies.csv)
+   ✅ 315,000 suppliers (companies.csv)
+   ✅ 320,000 suppliers (companies.csv)
+   ✅ 325,000 suppliers (companies.csv)
+   ✅ 330,000 suppliers (companies.csv)
+   ✅ 335,000 suppliers (companies.csv)
+   ✅ 340,000 suppliers (companies.csv)
+   ✅ 345,000 suppliers (companies.csv)
+   ✅ 350,000 suppliers (companies.csv)
+   ✅ 355,000 suppliers (companies.csv)
+   ✅ 360,000 suppliers (companies.csv)
+   ✅ 365,000 suppliers (companies.csv)
+   ✅ 370,000 suppliers (companies.csv)
+   ✅ 375,000 suppliers (companies.csv)
+   ✅ 380,000 suppliers (companies.csv)
+   ✅ 385,000 suppliers (companies.csv)
+   ✅ 390,000 suppliers (companies.csv)
+   ✅ 395,000 suppliers (companies.csv)
+   ✅ 400,000 suppliers (companies.csv)
+   ✅ 405,000 suppliers (companies.csv)
+   ✅ 410,000 suppliers (companies.csv)
+   ✅ 415,000 suppliers (companies.csv)
+   ✅ 420,000 suppliers (companies.csv)
+   ✅ 425,000 suppliers (companies.csv)
+   ✅ 430,000 suppliers (companies.csv)
+   ✅ 435,000 suppliers (companies.csv)
+   ✅ 440,000 suppliers (companies.csv)
+   ✅ 445,000 suppliers (companies.csv)
+   ✅ 450,000 suppliers (companies.csv)
+   ✅ 455,000 suppliers (companies.csv)
+   ✅ 460,000 suppliers (companies.csv)
+   ✅ 465,000 suppliers (companies.csv)
+   ✅ 470,000 suppliers (companies.csv)
+   ✅ 475,000 suppliers (companies.csv)
+   ✅ 480,000 suppliers (companies.csv)
+   ✅ 485,000 suppliers (companies.csv)
+   ✅ 490,000 suppliers (companies.csv)
+   ✅ 495,000 suppliers (companies.csv)
+   ✅ 500,000 suppliers (companies.csv)
+   ✅ 505,000 suppliers (companies.csv)
+   ✅ 510,000 suppliers (companies.csv)
+   ✅ 515,000 suppliers (companies.csv)
+   ✅ 520,000 suppliers (companies.csv)
+   ✅ 525,000 suppliers (companies.csv)
+   ✅ 530,000 suppliers (companies.csv)
+   ✅ 535,000 suppliers (companies.csv)
+   ✅ 540,000 suppliers (companies.csv)
+   ✅ 545,000 suppliers (companies.csv)
+   ✅ 550,000 suppliers (companies.csv)
+   ✅ 555,000 suppliers (companies.csv)
+   ✅ 560,000 suppliers (companies.csv)
+   ✅ 565,000 suppliers (companies.csv)
+   ✅ 570,000 suppliers (companies.csv)
+   ✅ 575,000 suppliers (companies.csv)
+   ✅ 580,000 suppliers (companies.csv)
+   ✅ 585,000 suppliers (companies.csv)
+   ✅ 590,000 suppliers (companies.csv)
+   ✅ 595,000 suppliers (companies.csv)
+   ✅ 600,000 suppliers (companies.csv)
+   ✅ 605,000 suppliers (companies.csv)
+   ✅ 610,000 suppliers (companies.csv)
+   ✅ 615,000 suppliers (companies.csv)
+   ✅ 620,000 suppliers (companies.csv)
+   ✅ 625,000 suppliers (companies.csv)
+   ✅ 630,000 suppliers (companies.csv)
+   ✅ 635,000 suppliers (companies.csv)
+   ✅ 640,000 suppliers (companies.csv)
+   ✅ 645,000 suppliers (companies.csv)
+   ✅ 650,000 suppliers (companies.csv)
+   ✅ 655,000 suppliers (companies.csv)
+   ✅ 660,000 suppliers (companies.csv)
+   ✅ 665,000 suppliers (companies.csv)
+   ✅ 670,000 suppliers (companies.csv)
+   ✅ 675,000 suppliers (companies.csv)
+   ✅ 680,000 suppliers (companies.csv)
+   ✅ 685,000 suppliers (companies.csv)
+   ✅ 690,000 suppliers (companies.csv)
+   ✅ 695,000 suppliers (companies.csv)
+   ✅ 700,000 suppliers (companies.csv)
+   ✅ 705,000 suppliers (companies.csv)
+   ✅ 710,000 suppliers (companies.csv)
+   ✅ 715,000 suppliers (companies.csv)
+   ✅ 720,000 suppliers (companies.csv)
+   ✅ 725,000 suppliers (companies.csv)
+   ✅ 730,000 suppliers (companies.csv)
+   ✅ 735,000 suppliers (companies.csv)
+   ✅ 740,000 suppliers (companies.csv)
+   ✅ 745,000 suppliers (companies.csv)
+   ✅ 750,000 suppliers (companies.csv)
+   ✅ 755,000 suppliers (companies.csv)
+   ✅ 760,000 suppliers (companies.csv)
+   ✅ 765,000 suppliers (companies.csv)
+   ✅ 770,000 suppliers (companies.csv)
+   ✅ 775,000 suppliers (companies.csv)
+   ✅ 780,000 suppliers (companies.csv)
+   ✅ 785,000 suppliers (companies.csv)
+   ✅ 790,000 suppliers (companies.csv)
+   ✅ 795,000 suppliers (companies.csv)
+   ✅ 800,000 suppliers (companies.csv)
+   ✅ 805,000 suppliers (companies.csv)
+   ✅ 810,000 suppliers (companies.csv)
+   ✅ 815,000 suppliers (companies.csv)
+   ✅ 820,000 suppliers (companies.csv)
+   ✅ 825,000 suppliers (companies.csv)
+   ✅ 830,000 suppliers (companies.csv)
+   ✅ 835,000 suppliers (companies.csv)
+   ✅ 840,000 suppliers (companies.csv)
+   ✅ 845,000 suppliers (companies.csv)
+   ✅ 850,000 suppliers (companies.csv)
+   ✅ 855,000 suppliers (companies.csv)
+   ✅ 860,000 suppliers (companies.csv)
+   ✅ 865,000 suppliers (companies.csv)
+   ✅ 870,000 suppliers (companies.csv)
+   ✅ 875,000 suppliers (companies.csv)
+   ✅ 880,000 suppliers (companies.csv)
+   ✅ 885,000 suppliers (companies.csv)
+   ✅ 890,000 suppliers (companies.csv)
+   ✅ 895,000 suppliers (companies.csv)
+   ✅ 900,000 suppliers (companies.csv)
+   ✅ 905,000 suppliers (companies.csv)
+   ✅ 910,000 suppliers (companies.csv)
+   ✅ 915,000 suppliers (companies.csv)
+   ✅ 920,000 suppliers (companies.csv)
+   ✅ 925,000 suppliers (companies.csv)
+   ✅ 930,000 suppliers (companies.csv)
+   ✅ 935,000 suppliers (companies.csv)
+   ✅ 940,000 suppliers (companies.csv)
+   ✅ 945,000 suppliers (companies.csv)
+   ✅ 950,000 suppliers (companies.csv)
+   ✅ 955,000 suppliers (companies.csv)
+   ✅ 960,000 suppliers (companies.csv)
+   ✅ 965,000 suppliers (companies.csv)
+   ✅ 970,000 suppliers (companies.csv)
+   ✅ 975,000 suppliers (companies.csv)
+   ✅ 980,000 suppliers (companies.csv)
+   ✅ 985,000 suppliers (companies.csv)
+   ✅ 990,000 suppliers (companies.csv)
+   ✅ 995,000 suppliers (companies.csv)
+   ✅ 1,000,000 suppliers (companies.csv)
+   ✅ 1,005,000 suppliers (companies.csv)
+   ✅ 1,010,000 suppliers (companies.csv)
+   ✅ 1,015,000 suppliers (companies.csv)
+   ✅ 1,020,000 suppliers (companies.csv)
+   ✅ 1,025,000 suppliers (companies.csv)
+   ✅ 1,030,000 suppliers (companies.csv)
+   ✅ 1,035,000 suppliers (companies.csv)
+   ✅ 1,040,000 suppliers (companies.csv)
+   ✅ 1,045,000 suppliers (companies.csv)
+   ✅ 1,050,000 suppliers (companies.csv)
+   ✅ 1,055,000 suppliers (companies.csv)
+   ✅ 1,060,000 suppliers (companies.csv)
+   ✅ 1,065,000 suppliers (companies.csv)
+   ✅ 1,070,000 suppliers (companies.csv)
+   ✅ 1,075,000 suppliers (companies.csv)
+   ✅ 1,080,000 suppliers (companies.csv)
+   ✅ 1,085,000 suppliers (companies.csv)
+   ✅ 1,090,000 suppliers (companies.csv)
+   ✅ 1,095,000 suppliers (companies.csv)
+   ✅ 1,100,000 suppliers (companies.csv)
+   ✅ 1,105,000 suppliers (companies.csv)
+   ✅ 1,110,000 suppliers (companies.csv)
+   ✅ 1,115,000 suppliers (companies.csv)
+   ✅ 1,120,000 suppliers (companies.csv)
+   ✅ 1,125,000 suppliers (companies.csv)
+   ✅ 1,130,000 suppliers (companies.csv)
+   ✅ 1,135,000 suppliers (companies.csv)
+   ✅ 1,140,000 suppliers (companies.csv)
+   ✅ 1,145,000 suppliers (companies.csv)
+   ✅ 1,150,000 suppliers (companies.csv)
+   ✅ 1,155,000 suppliers (companies.csv)
+   ✅ 1,160,000 suppliers (companies.csv)
+   ✅ 1,165,000 suppliers (companies.csv)
+   ✅ 1,170,000 suppliers (companies.csv)
+   ✅ 1,175,000 suppliers (companies.csv)
+   ✅ 1,180,000 suppliers (companies.csv)
+   ✅ 1,185,000 suppliers (companies.csv)
+   ✅ 1,190,000 suppliers (companies.csv)
+   ✅ 1,195,000 suppliers (companies.csv)
+   ✅ 1,200,000 suppliers (companies.csv)
+   ✅ 1,205,000 suppliers (companies.csv)
+   ✅ 1,210,000 suppliers (companies.csv)
+   ✅ 1,215,000 suppliers (companies.csv)
+   ✅ 1,220,000 suppliers (companies.csv)
+   ✅ 1,225,000 suppliers (companies.csv)
+   ✅ 1,230,000 suppliers (companies.csv)
+   ✅ 1,235,000 suppliers (companies.csv)
+   ✅ 1,240,000 suppliers (companies.csv)
+   ✅ 1,245,000 suppliers (companies.csv)
+   ✅ 1,250,000 suppliers (companies.csv)
+   ✅ 1,255,000 suppliers (companies.csv)
+   ✅ 1,260,000 suppliers (companies.csv)
+   ✅ 1,265,000 suppliers (companies.csv)
+   ✅ 1,270,000 suppliers (companies.csv)
+   ✅ 1,275,000 suppliers (companies.csv)
+   ✅ 1,280,000 suppliers (companies.csv)
+   ✅ 1,285,000 suppliers (companies.csv)
+   ✅ 1,290,000 suppliers (companies.csv)
+   ✅ 1,295,000 suppliers (companies.csv)
+   ✅ 1,300,000 suppliers (companies.csv)
+   ✅ 1,305,000 suppliers (companies.csv)
+   ✅ 1,310,000 suppliers (companies.csv)
+   ✅ 1,315,000 suppliers (companies.csv)
+   ✅ 1,320,000 suppliers (companies.csv)
+   ✅ 1,325,000 suppliers (companies.csv)
+   ✅ 1,330,000 suppliers (companies.csv)
+   ✅ 1,335,000 suppliers (companies.csv)
+   ✅ 1,340,000 suppliers (companies.csv)
+   ✅ 1,345,000 suppliers (companies.csv)
+   ✅ 1,350,000 suppliers (companies.csv)
+   ✅ 1,355,000 suppliers (companies.csv)
+   ✅ 1,360,000 suppliers (companies.csv)
+   ✅ 1,365,000 suppliers (companies.csv)
+   ✅ 1,370,000 suppliers (companies.csv)
+   ✅ 1,375,000 suppliers (companies.csv)
+   ✅ 1,380,000 suppliers (companies.csv)
+   ✅ 1,385,000 suppliers (companies.csv)
+   ✅ 1,390,000 suppliers (companies.csv)
+   ✅ 1,395,000 suppliers (companies.csv)
+   ✅ 1,400,000 suppliers (companies.csv)
+   ✅ 1,405,000 suppliers (companies.csv)
+   ✅ 1,410,000 suppliers (companies.csv)
+   ✅ 1,415,000 suppliers (companies.csv)
+   ✅ 1,420,000 suppliers (companies.csv)
+   ✅ 1,425,000 suppliers (companies.csv)
+   ✅ 1,430,000 suppliers (companies.csv)
+   ✅ 1,435,000 suppliers (companies.csv)
+   ✅ 1,440,000 suppliers (companies.csv)
+   ✅ 1,445,000 suppliers (companies.csv)
+   ✅ 1,450,000 suppliers (companies.csv)
+   ✅ 1,455,000 suppliers (companies.csv)
+   ✅ 1,460,000 suppliers (companies.csv)
+   ✅ 1,465,000 suppliers (companies.csv)
+   ✅ 1,470,000 suppliers (companies.csv)
+   ✅ 1,475,000 suppliers (companies.csv)
+   ✅ 1,480,000 suppliers (companies.csv)
+   ✅ 1,485,000 suppliers (companies.csv)
+   ✅ 1,490,000 suppliers (companies.csv)
+   ✅ 1,495,000 suppliers (companies.csv)
+   ✅ 1,500,000 suppliers (companies.csv)
+   ✅ 1,505,000 suppliers (companies.csv)
+   ✅ 1,510,000 suppliers (companies.csv)
+   ✅ 1,515,000 suppliers (companies.csv)
+   ✅ 1,520,000 suppliers (companies.csv)
+   ✅ 1,525,000 suppliers (companies.csv)
+   ✅ 1,530,000 suppliers (companies.csv)
+   ✅ 1,535,000 suppliers (companies.csv)
+   ✅ 1,540,000 suppliers (companies.csv)
+   ✅ 1,545,000 suppliers (companies.csv)
+   ✅ 1,550,000 suppliers (companies.csv)
+   ✅ 1,555,000 suppliers (companies.csv)
+   ✅ 1,560,000 suppliers (companies.csv)
+   ✅ 1,565,000 suppliers (companies.csv)
+   ✅ 1,570,000 suppliers (companies.csv)
+   ✅ 1,575,000 suppliers (companies.csv)
+   ✅ 1,580,000 suppliers (companies.csv)
+   ✅ 1,585,000 suppliers (companies.csv)
+   ✅ 1,590,000 suppliers (companies.csv)
+   ✅ 1,595,000 suppliers (companies.csv)
+   ✅ 1,600,000 suppliers (companies.csv)
+   ✅ 1,605,000 suppliers (companies.csv)
+   ✅ 1,610,000 suppliers (companies.csv)
+   ✅ 1,615,000 suppliers (companies.csv)
+   ✅ 1,620,000 suppliers (companies.csv)
+   ✅ 1,625,000 suppliers (companies.csv)
+   ✅ 1,630,000 suppliers (companies.csv)
+   ✅ 1,635,000 suppliers (companies.csv)
+   ✅ 1,640,000 suppliers (companies.csv)
+   ✅ 1,645,000 suppliers (companies.csv)
+   ✅ 1,650,000 suppliers (companies.csv)
+   ✅ 1,655,000 suppliers (companies.csv)
+   ✅ 1,660,000 suppliers (companies.csv)
+   ✅ 1,665,000 suppliers (companies.csv)
+   ✅ 1,670,000 suppliers (companies.csv)
+   ✅ 1,675,000 suppliers (companies.csv)
+   ✅ 1,680,000 suppliers (companies.csv)
+   ✅ 1,685,000 suppliers (companies.csv)
+   ✅ 1,690,000 suppliers (companies.csv)
+   ✅ 1,695,000 suppliers (companies.csv)
+   ✅ 1,700,000 suppliers (companies.csv)
+   ✅ 1,705,000 suppliers (companies.csv)
+   ✅ 1,710,000 suppliers (companies.csv)
+   ✅ 1,715,000 suppliers (companies.csv)
+   ✅ 1,720,000 suppliers (companies.csv)
+   ✅ 1,725,000 suppliers (companies.csv)
+   ✅ 1,730,000 suppliers (companies.csv)
+   ✅ 1,735,000 suppliers (companies.csv)
+   ✅ 1,740,000 suppliers (companies.csv)
+   ✅ 1,745,000 suppliers (companies.csv)
+   ✅ 1,750,000 suppliers (companies.csv)
+   ✅ 1,755,000 suppliers (companies.csv)
+   ✅ 1,760,000 suppliers (companies.csv)
+   ✅ 1,765,000 suppliers (companies.csv)
+   ✅ 1,770,000 suppliers (companies.csv)
+   ✅ 1,775,000 suppliers (companies.csv)
+   ✅ 1,780,000 suppliers (companies.csv)
+   ✅ 1,785,000 suppliers (companies.csv)
+   ✅ 1,790,000 suppliers (companies.csv)
+   ✅ 1,795,000 suppliers (companies.csv)
+   ✅ 1,800,000 suppliers (companies.csv)
+   ✅ 1,805,000 suppliers (companies.csv)
+   ✅ 1,810,000 suppliers (companies.csv)
+   ✅ 1,815,000 suppliers (companies.csv)
+   ✅ 1,820,000 suppliers (companies.csv)
+   ✅ 1,825,000 suppliers (companies.csv)
+   ✅ 1,830,000 suppliers (companies.csv)
+   ✅ 1,835,000 suppliers (companies.csv)
+   ✅ 1,840,000 suppliers (companies.csv)
+   ✅ 1,845,000 suppliers (companies.csv)
+   ✅ 1,850,000 suppliers (companies.csv)
+   ✅ 1,855,000 suppliers (companies.csv)
+   ✅ 1,860,000 suppliers (companies.csv)
+   ✅ 1,865,000 suppliers (companies.csv)
+   ✅ 1,870,000 suppliers (companies.csv)
+   ✅ 1,875,000 suppliers (companies.csv)
+   ✅ 1,880,000 suppliers (companies.csv)
+   ✅ 1,885,000 suppliers (companies.csv)
+   ✅ 1,890,000 suppliers (companies.csv)
+   ✅ 1,895,000 suppliers (companies.csv)
+   ✅ 1,900,000 suppliers (companies.csv)
+   ✅ 1,905,000 suppliers (companies.csv)
+   ✅ 1,910,000 suppliers (companies.csv)
+   ✅ 1,915,000 suppliers (companies.csv)
+   ✅ 1,920,000 suppliers (companies.csv)
+   ✅ 1,925,000 suppliers (companies.csv)
+   ✅ 1,930,000 suppliers (companies.csv)
+   ✅ 1,935,000 suppliers (companies.csv)
+   ✅ 1,940,000 suppliers (companies.csv)
+   ✅ 1,945,000 suppliers (companies.csv)
+   ✅ 1,950,000 suppliers (companies.csv)
+   ✅ 1,955,000 suppliers (companies.csv)
+   ✅ 1,960,000 suppliers (companies.csv)
+   ✅ 1,965,000 suppliers (companies.csv)
+   ✅ 1,970,000 suppliers (companies.csv)
+   ✅ 1,975,000 suppliers (companies.csv)
+   ✅ 1,980,000 suppliers (companies.csv)
+   ✅ 1,985,000 suppliers (companies.csv)
+   ✅ 1,990,000 suppliers (companies.csv)
+   ✅ 1,995,000 suppliers (companies.csv)
+   ✅ 2,000,000 suppliers (companies.csv)
+   ✅ 2,005,000 suppliers (companies.csv)
+   ✅ 2,010,000 suppliers (companies.csv)
+   ✅ 2,015,000 suppliers (companies.csv)
+   ✅ 2,020,000 suppliers (companies.csv)
+   ✅ 2,025,000 suppliers (companies.csv)
+   ✅ 2,030,000 suppliers (companies.csv)
+   ✅ 2,035,000 suppliers (companies.csv)
+   ✅ 2,040,000 suppliers (companies.csv)
+   ✅ 2,045,000 suppliers (companies.csv)
+   ✅ 2,050,000 suppliers (companies.csv)
+   ✅ 2,055,000 suppliers (companies.csv)
+   ✅ 2,060,000 suppliers (companies.csv)
+   ✅ 2,065,000 suppliers (companies.csv)
+   ✅ 2,070,000 suppliers (companies.csv)
+   ✅ 2,075,000 suppliers (companies.csv)
+   ✅ 2,080,000 suppliers (companies.csv)
+   ✅ 2,085,000 suppliers (companies.csv)
+   ✅ 2,090,000 suppliers (companies.csv)
+   ✅ 2,095,000 suppliers (companies.csv)
+   ✅ 2,100,000 suppliers (companies.csv)
+   ✅ 2,105,000 suppliers (companies.csv)
+   ✅ 2,110,000 suppliers (companies.csv)
+   ✅ 2,115,000 suppliers (companies.csv)
+   ✅ 2,120,000 suppliers (companies.csv)
+   ✅ 2,125,000 suppliers (companies.csv)
+   ✅ 2,130,000 suppliers (companies.csv)
+   ✅ 2,135,000 suppliers (companies.csv)
+   ✅ 2,140,000 suppliers (companies.csv)
+   ✅ 2,145,000 suppliers (companies.csv)
+   ✅ 2,150,000 suppliers (companies.csv)
+   ✅ 2,155,000 suppliers (companies.csv)
+   ✅ 2,160,000 suppliers (companies.csv)
+   ✅ 2,165,000 suppliers (companies.csv)
+   ✅ 2,170,000 suppliers (companies.csv)
+   ✅ 2,175,000 suppliers (companies.csv)
+   ✅ 2,180,000 suppliers (companies.csv)
+   ✅ 2,185,000 suppliers (companies.csv)
+   ✅ 2,190,000 suppliers (companies.csv)
+   ✅ 2,195,000 suppliers (companies.csv)
+   ✅ 2,200,000 suppliers (companies.csv)
+   ✅ 2,205,000 suppliers (companies.csv)
+   ✅ 2,210,000 suppliers (companies.csv)
+   ✅ 2,215,000 suppliers (companies.csv)
+   ✅ 2,220,000 suppliers (companies.csv)
+   ✅ 2,225,000 suppliers (companies.csv)
+   ✅ 2,230,000 suppliers (companies.csv)
+   ✅ 2,235,000 suppliers (companies.csv)
+   ✅ 2,240,000 suppliers (companies.csv)
+   ✅ 2,245,000 suppliers (companies.csv)
+   ✅ 2,250,000 suppliers (companies.csv)
+   ✅ 2,255,000 suppliers (companies.csv)
+   ✅ 2,260,000 suppliers (companies.csv)
+   ✅ 2,265,000 suppliers (companies.csv)
+   ✅ 2,270,000 suppliers (companies.csv)
+   ✅ 2,275,000 suppliers (companies.csv)
+   ✅ 2,280,000 suppliers (companies.csv)
+   ✅ 2,285,000 suppliers (companies.csv)
+   ✅ 2,290,000 suppliers (companies.csv)
+   ✅ 2,295,000 suppliers (companies.csv)
+   ✅ 2,300,000 suppliers (companies.csv)
+   ✅ 2,305,000 suppliers (companies.csv)
+   ✅ 2,310,000 suppliers (companies.csv)
+   ✅ 2,315,000 suppliers (companies.csv)
+   ✅ 2,320,000 suppliers (companies.csv)
+   ✅ 2,325,000 suppliers (companies.csv)
+   ✅ 2,330,000 suppliers (companies.csv)
+   ✅ 2,335,000 suppliers (companies.csv)
+   ✅ 2,340,000 suppliers (companies.csv)
+   ✅ 2,345,000 suppliers (companies.csv)
+   ✅ 2,350,000 suppliers (companies.csv)
+   ✅ 2,355,000 suppliers (companies.csv)
+   ✅ 2,360,000 suppliers (companies.csv)
+   ✅ 2,365,000 suppliers (companies.csv)
+   ✅ 2,370,000 suppliers (companies.csv)
+   ✅ 2,375,000 suppliers (companies.csv)
+   ✅ 2,380,000 suppliers (companies.csv)
+   ✅ 2,385,000 suppliers (companies.csv)
+   ✅ 2,390,000 suppliers (companies.csv)
+   ✅ 2,395,000 suppliers (companies.csv)
+   ✅ 2,400,000 suppliers (companies.csv)
+   ✅ 2,405,000 suppliers (companies.csv)
+   ✅ 2,410,000 suppliers (companies.csv)
+   ✅ 2,415,000 suppliers (companies.csv)
+   ✅ 2,420,000 suppliers (companies.csv)
+   ✅ 2,425,000 suppliers (companies.csv)
+   ✅ 2,430,000 suppliers (companies.csv)
+   ✅ 2,435,000 suppliers (companies.csv)
+   ✅ 2,440,000 suppliers (companies.csv)
+   ✅ 2,445,000 suppliers (companies.csv)
+   ✅ 2,450,000 suppliers (companies.csv)
+   ✅ 2,455,000 suppliers (companies.csv)
+   ✅ 2,460,000 suppliers (companies.csv)
+   ✅ 2,465,000 suppliers (companies.csv)
+   ✅ 2,470,000 suppliers (companies.csv)
+   ✅ 2,475,000 suppliers (companies.csv)
+   ✅ 2,480,000 suppliers (companies.csv)
+   ✅ 2,485,000 suppliers (companies.csv)
+   ✅ 2,490,000 suppliers (companies.csv)
+   ✅ 2,495,000 suppliers (companies.csv)
+   ✅ 2,500,000 suppliers (companies.csv)
+   ✅ 2,505,000 suppliers (companies.csv)
+   ✅ 2,510,000 suppliers (companies.csv)
+   ✅ 2,515,000 suppliers (companies.csv)
+   ✅ 2,520,000 suppliers (companies.csv)
+   ✅ 2,525,000 suppliers (companies.csv)
+   ✅ 2,530,000 suppliers (companies.csv)
+   ✅ 2,535,000 suppliers (companies.csv)
+   ✅ 2,540,000 suppliers (companies.csv)
+   ✅ 2,545,000 suppliers (companies.csv)
+   ✅ 2,550,000 suppliers (companies.csv)
+   ✅ 2,555,000 suppliers (companies.csv)
+   ✅ 2,560,000 suppliers (companies.csv)
+   ✅ 2,565,000 suppliers (companies.csv)
+   ✅ 2,570,000 suppliers (companies.csv)
+   ✅ 2,575,000 suppliers (companies.csv)
+   ✅ 2,580,000 suppliers (companies.csv)
+   ✅ 2,585,000 suppliers (companies.csv)
+   ✅ 2,590,000 suppliers (companies.csv)
+   ✅ 2,595,000 suppliers (companies.csv)
+   ✅ 2,600,000 suppliers (companies.csv)
+   ✅ 2,605,000 suppliers (companies.csv)
+   ✅ 2,610,000 suppliers (companies.csv)
+   ✅ 2,615,000 suppliers (companies.csv)
+   ✅ 2,620,000 suppliers (companies.csv)
+   ✅ 2,625,000 suppliers (companies.csv)
+   ✅ 2,630,000 suppliers (companies.csv)
+   ✅ 2,635,000 suppliers (companies.csv)
+   ✅ 2,640,000 suppliers (companies.csv)
+   ✅ 2,645,000 suppliers (companies.csv)
+   ✅ 2,650,000 suppliers (companies.csv)
+   ✅ 2,655,000 suppliers (companies.csv)
+   ✅ 2,660,000 suppliers (companies.csv)
+   ✅ 2,665,000 suppliers (companies.csv)
+   ✅ 2,670,000 suppliers (companies.csv)
+   ✅ 2,675,000 suppliers (companies.csv)
+   ✅ 2,680,000 suppliers (companies.csv)
+   ✅ 2,685,000 suppliers (companies.csv)
+   ✅ 2,690,000 suppliers (companies.csv)
+   ✅ 2,695,000 suppliers (companies.csv)
+   ✅ 2,700,000 suppliers (companies.csv)
+   ✅ 2,705,000 suppliers (companies.csv)
+   ✅ 2,710,000 suppliers (companies.csv)
+   ✅ 2,715,000 suppliers (companies.csv)
+   ✅ 2,720,000 suppliers (companies.csv)
+   ✅ 2,725,000 suppliers (companies.csv)
+   ✅ 2,730,000 suppliers (companies.csv)
+   ✅ 2,735,000 suppliers (companies.csv)
+   ✅ 2,740,000 suppliers (companies.csv)
+   ✅ 2,745,000 suppliers (companies.csv)
+   ✅ 2,750,000 suppliers (companies.csv)
+   ✅ 2,755,000 suppliers (companies.csv)
+   ✅ 2,760,000 suppliers (companies.csv)
+   ✅ 2,765,000 suppliers (companies.csv)
+   ✅ 2,770,000 suppliers (companies.csv)
+   ✅ 2,775,000 suppliers (companies.csv)
+   ✅ 2,780,000 suppliers (companies.csv)
+   ✅ 2,785,000 suppliers (companies.csv)
+   ✅ 2,790,000 suppliers (companies.csv)
+   ✅ 2,795,000 suppliers (companies.csv)
+   ✅ 2,800,000 suppliers (companies.csv)
+   ✅ 2,805,000 suppliers (companies.csv)
+   ✅ 2,810,000 suppliers (companies.csv)
+   ✅ 2,815,000 suppliers (companies.csv)
+   ✅ 2,820,000 suppliers (companies.csv)
+   ✅ 2,825,000 suppliers (companies.csv)
+   ✅ 2,830,000 suppliers (companies.csv)
+   ✅ 2,835,000 suppliers (companies.csv)
+   ✅ 2,840,000 suppliers (companies.csv)
+   ✅ 2,845,000 suppliers (companies.csv)
+   ✅ 2,850,000 suppliers (companies.csv)
+   ✅ 2,855,000 suppliers (companies.csv)
+   ✅ 2,860,000 suppliers (companies.csv)
+   ✅ 2,865,000 suppliers (companies.csv)
+   ✅ 2,870,000 suppliers (companies.csv)
+   ✅ 2,875,000 suppliers (companies.csv)
+   ✅ 2,880,000 suppliers (companies.csv)
+   ✅ 2,885,000 suppliers (companies.csv)
+   ✅ 2,890,000 suppliers (companies.csv)
+   ✅ 2,895,000 suppliers (companies.csv)
+   ✅ 2,900,000 suppliers (companies.csv)
+   ✅ 2,905,000 suppliers (companies.csv)
+   ✅ 2,910,000 suppliers (companies.csv)
+   ✅ 2,915,000 suppliers (companies.csv)
+   ✅ 2,920,000 suppliers (companies.csv)
+   ✅ 2,925,000 suppliers (companies.csv)
+   ✅ 2,930,000 suppliers (companies.csv)
+   ✅ 2,935,000 suppliers (companies.csv)
+   ✅ 2,940,000 suppliers (companies.csv)
+   ✅ 2,945,000 suppliers (companies.csv)
+   ✅ 2,950,000 suppliers (companies.csv)
+   ✅ 2,955,000 suppliers (companies.csv)
+   ✅ 2,960,000 suppliers (companies.csv)
+   ✅ 2,965,000 suppliers (companies.csv)
+   ✅ 2,970,000 suppliers (companies.csv)
+   ✅ 2,975,000 suppliers (companies.csv)
+   ✅ 2,980,000 suppliers (companies.csv)
+   ✅ 2,985,000 suppliers (companies.csv)
+   ✅ 2,990,000 suppliers (companies.csv)
+   ✅ 2,995,000 suppliers (companies.csv)
+   ✅ 3,000,000 suppliers (companies.csv)
+   ✅ 3,005,000 suppliers (companies.csv)
+   ✅ 3,010,000 suppliers (companies.csv)
+   ✅ 3,015,000 suppliers (companies.csv)
+   ✅ 3,020,000 suppliers (companies.csv)
+   ✅ 3,025,000 suppliers (companies.csv)
+   ✅ 3,030,000 suppliers (companies.csv)
+   ✅ 3,035,000 suppliers (companies.csv)
+   ✅ 3,040,000 suppliers (companies.csv)
+   ✅ 3,045,000 suppliers (companies.csv)
+   ✅ 3,050,000 suppliers (companies.csv)
+   ✅ 3,055,000 suppliers (companies.csv)
+   ✅ 3,060,000 suppliers (companies.csv)
+   ✅ 3,065,000 suppliers (companies.csv)
+   ✅ 3,070,000 suppliers (companies.csv)
+   ✅ 3,075,000 suppliers (companies.csv)
+   ✅ 3,080,000 suppliers (companies.csv)
+   ✅ 3,085,000 suppliers (companies.csv)
+   ✅ 3,090,000 suppliers (companies.csv)
+   ✅ 3,095,000 suppliers (companies.csv)
+   ✅ 3,100,000 suppliers (companies.csv)
+   ✅ 3,105,000 suppliers (companies.csv)
+   ✅ 3,110,000 suppliers (companies.csv)
+   ✅ 3,115,000 suppliers (companies.csv)
+   ✅ 3,120,000 suppliers (companies.csv)
+   ✅ 3,125,000 suppliers (companies.csv)
+   ✅ 3,130,000 suppliers (companies.csv)
+   ✅ 3,135,000 suppliers (companies.csv)
+   ✅ 3,140,000 suppliers (companies.csv)
+   ✅ 3,145,000 suppliers (companies.csv)
+   ✅ 3,150,000 suppliers (companies.csv)
+   ✅ 3,155,000 suppliers (companies.csv)
+   ✅ 3,160,000 suppliers (companies.csv)
+   ✅ 3,165,000 suppliers (companies.csv)
+   ✅ 3,170,000 suppliers (companies.csv)
+   ✅ 3,175,000 suppliers (companies.csv)
+   ✅ 3,180,000 suppliers (companies.csv)
+   ✅ 3,185,000 suppliers (companies.csv)
+   ✅ 3,190,000 suppliers (companies.csv)
+   ✅ 3,195,000 suppliers (companies.csv)
+   ✅ 3,200,000 suppliers (companies.csv)
+   ✅ 3,205,000 suppliers (companies.csv)
+   ✅ 3,210,000 suppliers (companies.csv)
+   ✅ 3,215,000 suppliers (companies.csv)
+   ✅ 3,220,000 suppliers (companies.csv)
+   ✅ 3,225,000 suppliers (companies.csv)
+   ✅ 3,230,000 suppliers (companies.csv)
+   ✅ 3,235,000 suppliers (companies.csv)
+   ✅ 3,240,000 suppliers (companies.csv)
+   ✅ 3,245,000 suppliers (companies.csv)
+   ✅ 3,250,000 suppliers (companies.csv)
+   ✅ 3,255,000 suppliers (companies.csv)
+   ✅ 3,260,000 suppliers (companies.csv)
+   ✅ 3,265,000 suppliers (companies.csv)
+   ✅ 3,270,000 suppliers (companies.csv)
+   ✅ 3,275,000 suppliers (companies.csv)
+   ✅ 3,280,000 suppliers (companies.csv)
+   ✅ 3,285,000 suppliers (companies.csv)
+   ✅ 3,290,000 suppliers (companies.csv)
+   ✅ 3,295,000 suppliers (companies.csv)
+   ✅ 3,300,000 suppliers (companies.csv)
+   ✅ 3,305,000 suppliers (companies.csv)
+   ✅ 3,310,000 suppliers (companies.csv)
+   ✅ 3,315,000 suppliers (companies.csv)
+   ✅ 3,320,000 suppliers (companies.csv)
+   ✅ 3,325,000 suppliers (companies.csv)
+   ✅ 3,330,000 suppliers (companies.csv)
+   ✅ 3,335,000 suppliers (companies.csv)
+   ✅ 3,340,000 suppliers (companies.csv)
+   ✅ 3,345,000 suppliers (companies.csv)
+   ✅ 3,350,000 suppliers (companies.csv)
+   ✅ 3,355,000 suppliers (companies.csv)
+   ✅ 3,360,000 suppliers (companies.csv)
+   ✅ 3,365,000 suppliers (companies.csv)
+   ✅ 3,370,000 suppliers (companies.csv)
+   ✅ 3,375,000 suppliers (companies.csv)
+   ✅ 3,380,000 suppliers (companies.csv)
+   ✅ 3,385,000 suppliers (companies.csv)
+   ✅ 3,390,000 suppliers (companies.csv)
+   ✅ 3,395,000 suppliers (companies.csv)
+   ✅ 3,400,000 suppliers (companies.csv)
+   ✅ 3,405,000 suppliers (companies.csv)
+   ✅ 3,410,000 suppliers (companies.csv)
+   ✅ 3,415,000 suppliers (companies.csv)
+   ✅ 3,420,000 suppliers (companies.csv)
+   ✅ 3,425,000 suppliers (companies.csv)
+   ✅ 3,430,000 suppliers (companies.csv)
+   ✅ 3,435,000 suppliers (companies.csv)
+   ✅ 3,440,000 suppliers (companies.csv)
+   ✅ 3,445,000 suppliers (companies.csv)
+   ✅ 3,450,000 suppliers (companies.csv)
+   ✅ 3,455,000 suppliers (companies.csv)
+   ✅ 3,460,000 suppliers (companies.csv)
+   ✅ 3,465,000 suppliers (companies.csv)
+   ✅ 3,470,000 suppliers (companies.csv)
+   ✅ 3,475,000 suppliers (companies.csv)
+   ✅ 3,480,000 suppliers (companies.csv)
+   ✅ 3,485,000 suppliers (companies.csv)
+   ✅ 3,490,000 suppliers (companies.csv)
+   ✅ 3,495,000 suppliers (companies.csv)
+   ✅ 3,500,000 suppliers (companies.csv)
+   ✅ 3,505,000 suppliers (companies.csv)
+   ✅ 3,510,000 suppliers (companies.csv)
+   ✅ 3,515,000 suppliers (companies.csv)
+   ✅ 3,520,000 suppliers (companies.csv)
+   ✅ 3,525,000 suppliers (companies.csv)
+   ✅ 3,530,000 suppliers (companies.csv)
+   ✅ 3,535,000 suppliers (companies.csv)
+   ✅ 3,540,000 suppliers (companies.csv)
+   ✅ 3,545,000 suppliers (companies.csv)
+   ✅ 3,550,000 suppliers (companies.csv)
+   ✅ 3,555,000 suppliers (companies.csv)
+   ✅ 3,560,000 suppliers (companies.csv)
+   ✅ 3,565,000 suppliers (companies.csv)
+   ✅ 3,570,000 suppliers (companies.csv)
+   ✅ 3,575,000 suppliers (companies.csv)
+   ✅ 3,580,000 suppliers (companies.csv)
+   ✅ 3,585,000 suppliers (companies.csv)
+   ✅ 3,590,000 suppliers (companies.csv)
+   ✅ 3,595,000 suppliers (companies.csv)
+   ✅ 3,600,000 suppliers (companies.csv)
+   ✅ 3,605,000 suppliers (companies.csv)
+   ✅ 3,610,000 suppliers (companies.csv)
+   ✅ 3,615,000 suppliers (companies.csv)
+   ✅ 3,620,000 suppliers (companies.csv)
+   ✅ 3,625,000 suppliers (companies.csv)
+   ✅ 3,630,000 suppliers (companies.csv)
+   ✅ 3,635,000 suppliers (companies.csv)
+   ✅ 3,640,000 suppliers (companies.csv)
+   ✅ 3,645,000 suppliers (companies.csv)
+   ✅ 3,650,000 suppliers (companies.csv)
+   ✅ 3,655,000 suppliers (companies.csv)
+   ✅ 3,660,000 suppliers (companies.csv)
+   ✅ 3,665,000 suppliers (companies.csv)
+   ✅ 3,670,000 suppliers (companies.csv)
+   ✅ 3,675,000 suppliers (companies.csv)
+   ✅ 3,680,000 suppliers (companies.csv)
+   ✅ 3,685,000 suppliers (companies.csv)
+   ✅ 3,690,000 suppliers (companies.csv)
+   ✅ 3,695,000 suppliers (companies.csv)
+   ✅ 3,700,000 suppliers (companies.csv)
+   ✅ 3,705,000 suppliers (companies.csv)
+   ✅ 3,710,000 suppliers (companies.csv)
+   ✅ 3,715,000 suppliers (companies.csv)
+   ✅ 3,720,000 suppliers (companies.csv)
+   ✅ 3,725,000 suppliers (companies.csv)
+   ✅ 3,730,000 suppliers (companies.csv)
+   ✅ 3,735,000 suppliers (companies.csv)
+   ✅ 3,740,000 suppliers (companies.csv)
+   ✅ 3,745,000 suppliers (companies.csv)
+   ✅ 3,750,000 suppliers (companies.csv)
+   ✅ 3,755,000 suppliers (companies.csv)
+   ✅ 3,760,000 suppliers (companies.csv)
+   ✅ 3,765,000 suppliers (companies.csv)
+   ✅ 3,770,000 suppliers (companies.csv)
+   ✅ 3,775,000 suppliers (companies.csv)
+   ✅ 3,780,000 suppliers (companies.csv)
+   ✅ 3,785,000 suppliers (companies.csv)
+   ✅ 3,790,000 suppliers (companies.csv)
+   ✅ 3,795,000 suppliers (companies.csv)
+   ✅ 3,800,000 suppliers (companies.csv)
+   ✅ 3,805,000 suppliers (companies.csv)
+   ✅ 3,810,000 suppliers (companies.csv)
+   ✅ 3,815,000 suppliers (companies.csv)
+   ✅ 3,820,000 suppliers (companies.csv)
+   ✅ 3,825,000 suppliers (companies.csv)
+   ✅ 3,830,000 suppliers (companies.csv)
+   ✅ 3,835,000 suppliers (companies.csv)
+   ✅ 3,840,000 suppliers (companies.csv)
+   ✅ 3,845,000 suppliers (companies.csv)
+   ✅ 3,850,000 suppliers (companies.csv)
+   ✅ 3,855,000 suppliers (companies.csv)
+   ✅ 3,860,000 suppliers (companies.csv)
+   ✅ 3,865,000 suppliers (companies.csv)
+   ✅ 3,870,000 suppliers (companies.csv)
+   ✅ 3,875,000 suppliers (companies.csv)
+   ✅ 3,880,000 suppliers (companies.csv)
+   ✅ 3,885,000 suppliers (companies.csv)
+   ✅ 3,890,000 suppliers (companies.csv)
+   ✅ 3,895,000 suppliers (companies.csv)
+   ✅ 3,900,000 suppliers (companies.csv)
+   ✅ 3,905,000 suppliers (companies.csv)
+   ✅ 3,910,000 suppliers (companies.csv)
+   ✅ 3,915,000 suppliers (companies.csv)
+   ✅ 3,920,000 suppliers (companies.csv)
+   ✅ 3,925,000 suppliers (companies.csv)
+   ✅ 3,930,000 suppliers (companies.csv)
+   ✅ 3,935,000 suppliers (companies.csv)
+   ✅ 3,940,000 suppliers (companies.csv)
+   ✅ 3,945,000 suppliers (companies.csv)
+   ✅ 3,950,000 suppliers (companies.csv)
+   ✅ 3,955,000 suppliers (companies.csv)
+   ✅ 3,960,000 suppliers (companies.csv)
+   ✅ 3,965,000 suppliers (companies.csv)
+   ✅ 3,970,000 suppliers (companies.csv)
+   ✅ 3,975,000 suppliers (companies.csv)
+   ✅ 3,980,000 suppliers (companies.csv)
+   ✅ 3,985,000 suppliers (companies.csv)
+   ✅ 3,990,000 suppliers (companies.csv)
+   ✅ 3,995,000 suppliers (companies.csv)
+   ✅ 4,000,000 suppliers (companies.csv)
+   ✅ 4,005,000 suppliers (companies.csv)
+   ✅ 4,010,000 suppliers (companies.csv)
+   ✅ 4,015,000 suppliers (companies.csv)
+   ✅ 4,020,000 suppliers (companies.csv)
+   ✅ 4,025,000 suppliers (companies.csv)
+   ✅ 4,030,000 suppliers (companies.csv)
+   ✅ 4,035,000 suppliers (companies.csv)
+   ✅ 4,040,000 suppliers (companies.csv)
+   ✅ 4,045,000 suppliers (companies.csv)
+   ✅ 4,050,000 suppliers (companies.csv)
+   ✅ 4,055,000 suppliers (companies.csv)
+   ✅ 4,060,000 suppliers (companies.csv)
+   ✅ 4,065,000 suppliers (companies.csv)
+   ✅ 4,070,000 suppliers (companies.csv)
+   ✅ 4,075,000 suppliers (companies.csv)
+   ✅ 4,080,000 suppliers (companies.csv)
+   ✅ 4,085,000 suppliers (companies.csv)
+   ✅ 4,090,000 suppliers (companies.csv)
+   ✅ 4,095,000 suppliers (companies.csv)
+   ✅ 4,100,000 suppliers (companies.csv)
+   ✅ 4,105,000 suppliers (companies.csv)
+   ✅ 4,110,000 suppliers (companies.csv)
+   ✅ 4,115,000 suppliers (companies.csv)
+   ✅ 4,120,000 suppliers (companies.csv)
+   ✅ 4,125,000 suppliers (companies.csv)
+   ✅ 4,130,000 suppliers (companies.csv)
+   ✅ 4,135,000 suppliers (companies.csv)
+   ✅ 4,140,000 suppliers (companies.csv)
+   ✅ 4,145,000 suppliers (companies.csv)
+   ✅ 4,150,000 suppliers (companies.csv)
+   ✅ 4,155,000 suppliers (companies.csv)
+   ✅ 4,160,000 suppliers (companies.csv)
+   ✅ 4,165,000 suppliers (companies.csv)
+   ✅ 4,170,000 suppliers (companies.csv)
+   ✅ 4,175,000 suppliers (companies.csv)
+   ✅ 4,180,000 suppliers (companies.csv)
+   ✅ 4,185,000 suppliers (companies.csv)
+   ✅ 4,190,000 suppliers (companies.csv)
+   ✅ 4,195,000 suppliers (companies.csv)
+   ✅ 4,200,000 suppliers (companies.csv)
+   ✅ 4,205,000 suppliers (companies.csv)
+   ✅ 4,210,000 suppliers (companies.csv)
+   ✅ 4,215,000 suppliers (companies.csv)
+   ✅ 4,220,000 suppliers (companies.csv)
+   ✅ 4,225,000 suppliers (companies.csv)
+   ✅ 4,230,000 suppliers (companies.csv)
+   ✅ 4,235,000 suppliers (companies.csv)
+   ✅ 4,240,000 suppliers (companies.csv)
+   ✅ 4,245,000 suppliers (companies.csv)
+   ✅ 4,250,000 suppliers (companies.csv)
+   ✅ 4,255,000 suppliers (companies.csv)
+   ✅ 4,260,000 suppliers (companies.csv)
+   ✅ 4,265,000 suppliers (companies.csv)
+   ✅ 4,270,000 suppliers (companies.csv)
+   ✅ 4,275,000 suppliers (companies.csv)
+   ✅ 4,280,000 suppliers (companies.csv)
+   ✅ 4,285,000 suppliers (companies.csv)
+   ✅ 4,290,000 suppliers (companies.csv)
+   ✅ 4,295,000 suppliers (companies.csv)
+   ✅ 4,300,000 suppliers (companies.csv)
+   ✅ 4,305,000 suppliers (companies.csv)
+   ✅ 4,310,000 suppliers (companies.csv)
+   ✅ 4,315,000 suppliers (companies.csv)
+   ✅ 4,320,000 suppliers (companies.csv)
+   ✅ 4,325,000 suppliers (companies.csv)
+   ✅ 4,330,000 suppliers (companies.csv)
+   ✅ 4,335,000 suppliers (companies.csv)
+   ✅ 4,340,000 suppliers (companies.csv)
+   ✅ 4,345,000 suppliers (companies.csv)
+   ✅ 4,350,000 suppliers (companies.csv)
+   ✅ 4,355,000 suppliers (companies.csv)
+   ✅ 4,360,000 suppliers (companies.csv)
+   ✅ 4,365,000 suppliers (companies.csv)
+   ✅ 4,370,000 suppliers (companies.csv)
+   ✅ 4,375,000 suppliers (companies.csv)
+   ✅ 4,380,000 suppliers (companies.csv)
+   ✅ 4,385,000 suppliers (companies.csv)
+   ✅ 4,390,000 suppliers (companies.csv)
+   ✅ 4,395,000 suppliers (companies.csv)
+   ✅ 4,400,000 suppliers (companies.csv)
+   ✅ 4,405,000 suppliers (companies.csv)
+   ✅ 4,410,000 suppliers (companies.csv)
+   ✅ 4,415,000 suppliers (companies.csv)
+   ✅ 4,420,000 suppliers (companies.csv)
+   ✅ 4,425,000 suppliers (companies.csv)
+   ✅ 4,430,000 suppliers (companies.csv)
+   ✅ 4,435,000 suppliers (companies.csv)
+   ✅ 4,440,000 suppliers (companies.csv)
+   ✅ 4,445,000 suppliers (companies.csv)
+   ✅ 4,450,000 suppliers (companies.csv)
+   ✅ 4,455,000 suppliers (companies.csv)
+   ✅ 4,460,000 suppliers (companies.csv)
+   ✅ 4,465,000 suppliers (companies.csv)
+   ✅ 4,470,000 suppliers (companies.csv)
+   ✅ 4,475,000 suppliers (companies.csv)
+   ✅ 4,480,000 suppliers (companies.csv)
+   ✅ 4,485,000 suppliers (companies.csv)
+   ✅ 4,490,000 suppliers (companies.csv)
+   ✅ 4,495,000 suppliers (companies.csv)
+   ✅ 4,500,000 suppliers (companies.csv)
+   ✅ 4,505,000 suppliers (companies.csv)
+   ✅ 4,510,000 suppliers (companies.csv)
+   ✅ 4,515,000 suppliers (companies.csv)
+   ✅ 4,520,000 suppliers (companies.csv)
+   ✅ 4,525,000 suppliers (companies.csv)
+   ✅ 4,530,000 suppliers (companies.csv)
+   ✅ 4,535,000 suppliers (companies.csv)
+   ✅ 4,540,000 suppliers (companies.csv)
+   ✅ 4,545,000 suppliers (companies.csv)
+   ✅ 4,550,000 suppliers (companies.csv)
+   ✅ 4,555,000 suppliers (companies.csv)
+   ✅ 4,560,000 suppliers (companies.csv)
+   ✅ 4,565,000 suppliers (companies.csv)
+   ✅ 4,570,000 suppliers (companies.csv)
+   ✅ 4,575,000 suppliers (companies.csv)
+   ✅ 4,580,000 suppliers (companies.csv)
+   ✅ 4,585,000 suppliers (companies.csv)
+   ✅ 4,590,000 suppliers (companies.csv)
+   ✅ 4,595,000 suppliers (companies.csv)
+   ✅ 4,600,000 suppliers (companies.csv)
+   ✅ 4,605,000 suppliers (companies.csv)
+   ✅ 4,610,000 suppliers (companies.csv)
+   ✅ 4,615,000 suppliers (companies.csv)
+   ✅ 4,620,000 suppliers (companies.csv)
+   ✅ 4,625,000 suppliers (companies.csv)
+   ✅ 4,630,000 suppliers (companies.csv)
+   ✅ 4,635,000 suppliers (companies.csv)
+   ✅ 4,640,000 suppliers (companies.csv)
+   ✅ 4,645,000 suppliers (companies.csv)
+   ✅ 4,650,000 suppliers (companies.csv)
+   ✅ 4,655,000 suppliers (companies.csv)
+   ✅ 4,660,000 suppliers (companies.csv)
+   ✅ 4,665,000 suppliers (companies.csv)
+   ✅ 4,670,000 suppliers (companies.csv)
+   ✅ 4,675,000 suppliers (companies.csv)
+   ✅ 4,680,000 suppliers (companies.csv)
+   ✅ 4,685,000 suppliers (companies.csv)
+   ✅ 4,690,000 suppliers (companies.csv)
+   ✅ 4,695,000 suppliers (companies.csv)
+   ✅ 4,700,000 suppliers (companies.csv)
+   ✅ 4,705,000 suppliers (companies.csv)
+   ✅ 4,710,000 suppliers (companies.csv)
+   ✅ 4,715,000 suppliers (companies.csv)
+   ✅ 4,720,000 suppliers (companies.csv)
+   ✅ 4,725,000 suppliers (companies.csv)
+   ✅ 4,730,000 suppliers (companies.csv)
+   ✅ 4,735,000 suppliers (companies.csv)
+   ✅ 4,740,000 suppliers (companies.csv)
+   ✅ 4,745,000 suppliers (companies.csv)
+   ✅ 4,750,000 suppliers (companies.csv)
+   ✅ 4,755,000 suppliers (companies.csv)
+   ✅ 4,760,000 suppliers (companies.csv)
+   ✅ 4,765,000 suppliers (companies.csv)
+   ✅ 4,770,000 suppliers (companies.csv)
+   ✅ 4,775,000 suppliers (companies.csv)
+   ✅ 4,780,000 suppliers (companies.csv)
+   ✅ 4,785,000 suppliers (companies.csv)
+   ✅ 4,790,000 suppliers (companies.csv)
+   ✅ 4,795,000 suppliers (companies.csv)
+   ✅ 4,800,000 suppliers (companies.csv)
+   ✅ 4,805,000 suppliers (companies.csv)
+   ✅ 4,810,000 suppliers (companies.csv)
+   ✅ 4,815,000 suppliers (companies.csv)
+   ✅ 4,820,000 suppliers (companies.csv)
+   ✅ 4,825,000 suppliers (companies.csv)
+   ✅ 4,830,000 suppliers (companies.csv)
+   ✅ 4,835,000 suppliers (companies.csv)
+   ✅ 4,840,000 suppliers (companies.csv)
+   ✅ 4,845,000 suppliers (companies.csv)
+   ✅ 4,850,000 suppliers (companies.csv)
+   ✅ 4,855,000 suppliers (companies.csv)
+   ✅ 4,860,000 suppliers (companies.csv)
+   ✅ 4,865,000 suppliers (companies.csv)
+   ✅ 4,870,000 suppliers (companies.csv)
+   ✅ 4,875,000 suppliers (companies.csv)
+   ✅ 4,880,000 suppliers (companies.csv)
+   ✅ 4,885,000 suppliers (companies.csv)
+   ✅ 4,890,000 suppliers (companies.csv)
+   ✅ 4,895,000 suppliers (companies.csv)
+   ✅ 4,900,000 suppliers (companies.csv)
+   ✅ 4,905,000 suppliers (companies.csv)
+   ✅ 4,910,000 suppliers (companies.csv)
+   ✅ 4,915,000 suppliers (companies.csv)
+   ✅ 4,920,000 suppliers (companies.csv)
+   ✅ 4,925,000 suppliers (companies.csv)
+   ✅ 4,930,000 suppliers (companies.csv)
+   ✅ 4,935,000 suppliers (companies.csv)
+   ✅ 4,940,000 suppliers (companies.csv)
+   ✅ 4,945,000 suppliers (companies.csv)
+   ✅ 4,950,000 suppliers (companies.csv)
+   ✅ 4,955,000 suppliers (companies.csv)
+   ✅ 4,960,000 suppliers (companies.csv)
+   ✅ 4,965,000 suppliers (companies.csv)
+   ✅ 4,970,000 suppliers (companies.csv)
+   ✅ 4,975,000 suppliers (companies.csv)
+   ✅ 4,980,000 suppliers (companies.csv)
+   ✅ 4,985,000 suppliers (companies.csv)
+   ✅ 4,990,000 suppliers (companies.csv)
+   ✅ 4,995,000 suppliers (companies.csv)
+   ✅ 5,000,000 suppliers (companies.csv)
+   ✅ 5,005,000 suppliers (companies.csv)
+   ✅ 5,010,000 suppliers (companies.csv)
+   ✅ 5,015,000 suppliers (companies.csv)
+   ✅ 5,020,000 suppliers (companies.csv)
+   ✅ 5,025,000 suppliers (companies.csv)
+   ✅ 5,030,000 suppliers (companies.csv)
+   ✅ 5,035,000 suppliers (companies.csv)
+   ✅ 5,040,000 suppliers (companies.csv)
+   ✅ 5,045,000 suppliers (companies.csv)
+   ✅ 5,050,000 suppliers (companies.csv)
+   ✅ 5,055,000 suppliers (companies.csv)
+   ✅ 5,060,000 suppliers (companies.csv)
+   ✅ 5,065,000 suppliers (companies.csv)
+   ✅ 5,070,000 suppliers (companies.csv)
+   ✅ 5,075,000 suppliers (companies.csv)
+   ✅ 5,080,000 suppliers (companies.csv)
+   ✅ 5,085,000 suppliers (companies.csv)
+   ✅ 5,090,000 suppliers (companies.csv)
+   ✅ 5,095,000 suppliers (companies.csv)
+   ✅ 5,100,000 suppliers (companies.csv)
+   ✅ 5,105,000 suppliers (companies.csv)
+   ✅ 5,110,000 suppliers (companies.csv)
+   ✅ 5,115,000 suppliers (companies.csv)
+   ✅ 5,120,000 suppliers (companies.csv)
+   ✅ 5,125,000 suppliers (companies.csv)
+   ✅ 5,130,000 suppliers (companies.csv)
+   ✅ 5,135,000 suppliers (companies.csv)
+   ✅ 5,140,000 suppliers (companies.csv)
+   ✅ 5,145,000 suppliers (companies.csv)
+   ✅ 5,150,000 suppliers (companies.csv)
+   ✅ 5,155,000 suppliers (companies.csv)
+   ✅ 5,160,000 suppliers (companies.csv)
+   ✅ 5,165,000 suppliers (companies.csv)
+   ✅ 5,170,000 suppliers (companies.csv)
+   ✅ 5,175,000 suppliers (companies.csv)
+   ✅ 5,180,000 suppliers (companies.csv)
+   ✅ 5,185,000 suppliers (companies.csv)
+   ✅ 5,190,000 suppliers (companies.csv)
+   ✅ 5,195,000 suppliers (companies.csv)
+   ✅ 5,200,000 suppliers (companies.csv)
+   ✅ 5,205,000 suppliers (companies.csv)
+   ✅ 5,210,000 suppliers (companies.csv)
+   ✅ 5,215,000 suppliers (companies.csv)
+   ✅ 5,220,000 suppliers (companies.csv)
+   ✅ 5,225,000 suppliers (companies.csv)
+   ✅ 5,230,000 suppliers (companies.csv)
+   ✅ 5,235,000 suppliers (companies.csv)
+   ✅ 5,240,000 suppliers (companies.csv)
+   ✅ 5,245,000 suppliers (companies.csv)
+   ✅ 5,250,000 suppliers (companies.csv)
+   ✅ 5,255,000 suppliers (companies.csv)
+   ✅ 5,260,000 suppliers (companies.csv)
+   ✅ 5,265,000 suppliers (companies.csv)
+   ✅ 5,270,000 suppliers (companies.csv)
+   ✅ 5,275,000 suppliers (companies.csv)
+   ✅ 5,280,000 suppliers (companies.csv)
+   ✅ 5,285,000 suppliers (companies.csv)
+   ✅ 5,290,000 suppliers (companies.csv)
+   ✅ 5,295,000 suppliers (companies.csv)
+   ✅ 5,300,000 suppliers (companies.csv)
+   ✅ 5,305,000 suppliers (companies.csv)
+   ✅ 5,310,000 suppliers (companies.csv)
+   ✅ 5,315,000 suppliers (companies.csv)
+   ✅ 5,320,000 suppliers (companies.csv)
+   ✅ 5,325,000 suppliers (companies.csv)
+   ✅ 5,330,000 suppliers (companies.csv)
+   ✅ 5,335,000 suppliers (companies.csv)
+   ✅ 5,340,000 suppliers (companies.csv)
+   ✅ 5,345,000 suppliers (companies.csv)
+   ✅ 5,350,000 suppliers (companies.csv)
+   ✅ 5,355,000 suppliers (companies.csv)
+   ✅ 5,360,000 suppliers (companies.csv)
+   ✅ 5,365,000 suppliers (companies.csv)
+   ✅ 5,370,000 suppliers (companies.csv)
+   ✅ 5,375,000 suppliers (companies.csv)
+   ✅ 5,380,000 suppliers (companies.csv)
+   ✅ 5,385,000 suppliers (companies.csv)
+   ✅ 5,390,000 suppliers (companies.csv)
+   ✅ 5,395,000 suppliers (companies.csv)
+   ✅ 5,400,000 suppliers (companies.csv)
+   ✅ 5,405,000 suppliers (companies.csv)
+   ✅ 5,410,000 suppliers (companies.csv)
+   ✅ 5,415,000 suppliers (companies.csv)
+   ✅ 5,420,000 suppliers (companies.csv)
+   ✅ 5,425,000 suppliers (companies.csv)
+   ✅ 5,430,000 suppliers (companies.csv)
+   ✅ 5,435,000 suppliers (companies.csv)
+   ✅ 5,440,000 suppliers (companies.csv)
+   ✅ 5,445,000 suppliers (companies.csv)
+   ✅ 5,450,000 suppliers (companies.csv)
+   ✅ 5,455,000 suppliers (companies.csv)
+   ✅ 5,460,000 suppliers (companies.csv)
+   ✅ 5,465,000 suppliers (companies.csv)
+   ✅ 5,470,000 suppliers (companies.csv)
+   ✅ 5,475,000 suppliers (companies.csv)
+   ✅ 5,480,000 suppliers (companies.csv)
+   ✅ 5,485,000 suppliers (companies.csv)
+   ✅ 5,490,000 suppliers (companies.csv)
+   ✅ 5,495,000 suppliers (companies.csv)
+   ✅ 5,500,000 suppliers (companies.csv)
+   ✅ 5,505,000 suppliers (companies.csv)
+   ✅ 5,510,000 suppliers (companies.csv)
+   ✅ 5,515,000 suppliers (companies.csv)
+   ✅ 5,520,000 suppliers (companies.csv)
+   ✅ 5,525,000 suppliers (companies.csv)
+   ✅ 5,530,000 suppliers (companies.csv)
+   ✅ 5,535,000 suppliers (companies.csv)
+   ✅ 5,540,000 suppliers (companies.csv)
+   ✅ 5,545,000 suppliers (companies.csv)
+   ✅ 5,550,000 suppliers (companies.csv)
+   ✅ 5,555,000 suppliers (companies.csv)
+   ✅ 5,560,000 suppliers (companies.csv)
+   ✅ 5,565,000 suppliers (companies.csv)
+   ✅ 5,570,000 suppliers (companies.csv)
+   ✅ 5,575,000 suppliers (companies.csv)
+   ✅ 5,580,000 suppliers (companies.csv)
+   ✅ 5,585,000 suppliers (companies.csv)
+   ✅ 5,590,000 suppliers (companies.csv)
+   ✅ 5,595,000 suppliers (companies.csv)
+   ✅ 5,600,000 suppliers (companies.csv)
+   ✅ 5,605,000 suppliers (companies.csv)
+   ✅ 5,610,000 suppliers (companies.csv)
+   ✅ 5,615,000 suppliers (companies.csv)
+   ✅ 5,620,000 suppliers (companies.csv)
+   ✅ 5,625,000 suppliers (companies.csv)
+   ✅ 5,630,000 suppliers (companies.csv)
+   ✅ 5,635,000 suppliers (companies.csv)
+   ✅ 5,640,000 suppliers (companies.csv)
+   ✅ 5,645,000 suppliers (companies.csv)
+   ✅ 5,650,000 suppliers (companies.csv)
+   ✅ 5,655,000 suppliers (companies.csv)
+   ✅ 5,660,000 suppliers (companies.csv)
+   ✅ 5,665,000 suppliers (companies.csv)
+   ✅ 5,670,000 suppliers (companies.csv)
+   ✅ 5,675,000 suppliers (companies.csv)
+   ✅ 5,680,000 suppliers (companies.csv)
+   ✅ 5,685,000 suppliers (companies.csv)
+   ✅ 5,690,000 suppliers (companies.csv)
+   ✅ 5,695,000 suppliers (companies.csv)
+   ✅ 5,700,000 suppliers (companies.csv)
+   ✅ 5,705,000 suppliers (companies.csv)
+   ✅ 5,710,000 suppliers (companies.csv)
+   ✅ 5,715,000 suppliers (companies.csv)
+   ✅ 5,720,000 suppliers (companies.csv)
+   ✅ 5,725,000 suppliers (companies.csv)
+   ✅ 5,730,000 suppliers (companies.csv)
+   ✅ 5,735,000 suppliers (companies.csv)
+   ✅ 5,740,000 suppliers (companies.csv)
+   ✅ 5,745,000 suppliers (companies.csv)
+   ✅ 5,750,000 suppliers (companies.csv)
+   ✅ 5,755,000 suppliers (companies.csv)
+   ✅ 5,760,000 suppliers (companies.csv)
+   ✅ 5,765,000 suppliers (companies.csv)
+   ✅ 5,770,000 suppliers (companies.csv)
+   ✅ 5,775,000 suppliers (companies.csv)
+   ✅ 5,780,000 suppliers (companies.csv)
+   ✅ 5,785,000 suppliers (companies.csv)
+   ✅ 5,790,000 suppliers (companies.csv)
+   ✅ 5,795,000 suppliers (companies.csv)
+   ✅ 5,800,000 suppliers (companies.csv)
+   ✅ 5,805,000 suppliers (companies.csv)
+   ✅ 5,810,000 suppliers (companies.csv)
+   ✅ 5,815,000 suppliers (companies.csv)
+   ✅ 5,820,000 suppliers (companies.csv)
+   ✅ 5,825,000 suppliers (companies.csv)
+   ✅ 5,830,000 suppliers (companies.csv)
+   ✅ 5,835,000 suppliers (companies.csv)
+   ✅ 5,840,000 suppliers (companies.csv)
+   ✅ 5,845,000 suppliers (companies.csv)
+   ✅ 5,850,000 suppliers (companies.csv)
+   ✅ 5,855,000 suppliers (companies.csv)
+   ✅ 5,860,000 suppliers (companies.csv)
+   ✅ 5,865,000 suppliers (companies.csv)
+   ✅ 5,870,000 suppliers (companies.csv)
+   ✅ 5,875,000 suppliers (companies.csv)
+   ✅ 5,880,000 suppliers (companies.csv)
+   ✅ 5,885,000 suppliers (companies.csv)
+   ✅ 5,890,000 suppliers (companies.csv)
+   ✅ 5,895,000 suppliers (companies.csv)
+   ✅ 5,900,000 suppliers (companies.csv)
+   ✅ 5,905,000 suppliers (companies.csv)
+   ✅ 5,910,000 suppliers (companies.csv)
+   ✅ 5,915,000 suppliers (companies.csv)
+   ✅ 5,920,000 suppliers (companies.csv)
+   ✅ 5,925,000 suppliers (companies.csv)
+   ✅ 5,930,000 suppliers (companies.csv)
+   ✅ 5,935,000 suppliers (companies.csv)
+   ✅ 5,940,000 suppliers (companies.csv)
+   ✅ 5,945,000 suppliers (companies.csv)
+   ✅ 5,950,000 suppliers (companies.csv)
+   ✅ 5,955,000 suppliers (companies.csv)
+   ✅ 5,960,000 suppliers (companies.csv)
+   ✅ 5,965,000 suppliers (companies.csv)
+   ✅ 5,970,000 suppliers (companies.csv)
+   ✅ 5,975,000 suppliers (companies.csv)
+   ✅ 5,980,000 suppliers (companies.csv)
+   ✅ 5,985,000 suppliers (companies.csv)
+   ✅ 5,990,000 suppliers (companies.csv)
+   ✅ 5,995,000 suppliers (companies.csv)
+   ✅ 6,000,000 suppliers (companies.csv)
+   ✅ 6,005,000 suppliers (companies.csv)
+   ✅ 6,010,000 suppliers (companies.csv)
+   ✅ 6,015,000 suppliers (companies.csv)
+   ✅ 6,020,000 suppliers (companies.csv)
+   ✅ 6,025,000 suppliers (companies.csv)
+   ✅ 6,030,000 suppliers (companies.csv)
+   ✅ 6,035,000 suppliers (companies.csv)
+   ✅ 6,040,000 suppliers (companies.csv)
+   ✅ 6,045,000 suppliers (companies.csv)
+   ✅ 6,050,000 suppliers (companies.csv)
+   ✅ 6,055,000 suppliers (companies.csv)
+   ✅ 6,060,000 suppliers (companies.csv)
+   ✅ 6,065,000 suppliers (companies.csv)
+   ✅ 6,070,000 suppliers (companies.csv)
+   ✅ 6,075,000 suppliers (companies.csv)
+   ✅ 6,080,000 suppliers (companies.csv)
+   ✅ 6,085,000 suppliers (companies.csv)
+   ✅ 6,090,000 suppliers (companies.csv)
+   ✅ 6,095,000 suppliers (companies.csv)
+   ✅ 6,100,000 suppliers (companies.csv)
+   ✅ 6,105,000 suppliers (companies.csv)
+   ✅ 6,110,000 suppliers (companies.csv)
+   ✅ 6,115,000 suppliers (companies.csv)
+   ✅ 6,120,000 suppliers (companies.csv)
+   ✅ 6,125,000 suppliers (companies.csv)
+   ✅ 6,130,000 suppliers (companies.csv)
+   ✅ 6,135,000 suppliers (companies.csv)
+   ✅ 6,140,000 suppliers (companies.csv)
+   ✅ 6,145,000 suppliers (companies.csv)
+   ✅ 6,150,000 suppliers (companies.csv)
+   ✅ 6,155,000 suppliers (companies.csv)
+   ✅ 6,160,000 suppliers (companies.csv)
+   ✅ 6,165,000 suppliers (companies.csv)
+   ✅ 6,170,000 suppliers (companies.csv)
+   ✅ 6,175,000 suppliers (companies.csv)
+   ✅ 6,180,000 suppliers (companies.csv)
+   ✅ 6,185,000 suppliers (companies.csv)
+   ✅ 6,190,000 suppliers (companies.csv)
+   ✅ 6,195,000 suppliers (companies.csv)
+   ✅ 6,200,000 suppliers (companies.csv)
+   ✅ 6,205,000 suppliers (companies.csv)
+   ✅ 6,210,000 suppliers (companies.csv)
+   ✅ 6,215,000 suppliers (companies.csv)
+   ✅ 6,220,000 suppliers (companies.csv)
+   ✅ 6,225,000 suppliers (companies.csv)
+   ✅ 6,230,000 suppliers (companies.csv)
+   ✅ 6,235,000 suppliers (companies.csv)
+   ✅ 6,240,000 suppliers (companies.csv)
+   ✅ 6,245,000 suppliers (companies.csv)
+   ✅ 6,250,000 suppliers (companies.csv)
+   ✅ 6,255,000 suppliers (companies.csv)
+   ✅ 6,260,000 suppliers (companies.csv)
+   ✅ 6,265,000 suppliers (companies.csv)
+   ✅ 6,270,000 suppliers (companies.csv)
+   ✅ 6,275,000 suppliers (companies.csv)
+   ✅ 6,280,000 suppliers (companies.csv)
+   ✅ 6,285,000 suppliers (companies.csv)
+   ✅ 6,290,000 suppliers (companies.csv)
+   ✅ 6,295,000 suppliers (companies.csv)
+   ✅ 6,300,000 suppliers (companies.csv)
+   ✅ 6,305,000 suppliers (companies.csv)
+   ✅ 6,310,000 suppliers (companies.csv)
+   ✅ 6,315,000 suppliers (companies.csv)
+   ✅ 6,320,000 suppliers (companies.csv)
+   ✅ 6,325,000 suppliers (companies.csv)
+   ✅ 6,330,000 suppliers (companies.csv)
+   ✅ 6,335,000 suppliers (companies.csv)
+   ✅ 6,340,000 suppliers (companies.csv)
+   ✅ 6,345,000 suppliers (companies.csv)
+   ✅ 6,350,000 suppliers (companies.csv)
+   ✅ 6,355,000 suppliers (companies.csv)
+   ✅ 6,360,000 suppliers (companies.csv)
+   ✅ 6,365,000 suppliers (companies.csv)
+   ✅ 6,370,000 suppliers (companies.csv)
+   ✅ 6,375,000 suppliers (companies.csv)
+   ✅ 6,380,000 suppliers (companies.csv)
+   ✅ 6,385,000 suppliers (companies.csv)
+   ✅ 6,390,000 suppliers (companies.csv)
+   ✅ 6,395,000 suppliers (companies.csv)
+   ✅ 6,400,000 suppliers (companies.csv)
+   ✅ 6,405,000 suppliers (companies.csv)
+   ✅ 6,410,000 suppliers (companies.csv)
+   ✅ 6,415,000 suppliers (companies.csv)
+   ✅ 6,420,000 suppliers (companies.csv)
+   ✅ 6,425,000 suppliers (companies.csv)
+   ✅ 6,430,000 suppliers (companies.csv)
+   ✅ 6,435,000 suppliers (companies.csv)
+   ✅ 6,440,000 suppliers (companies.csv)
+   ✅ 6,445,000 suppliers (companies.csv)
+   ✅ 6,450,000 suppliers (companies.csv)
+   ✅ 6,455,000 suppliers (companies.csv)
+   ✅ 6,460,000 suppliers (companies.csv)
+   ✅ 6,465,000 suppliers (companies.csv)
+   ✅ 6,470,000 suppliers (companies.csv)
+   ✅ 6,475,000 suppliers (companies.csv)
+   ✅ 6,480,000 suppliers (companies.csv)
+   ✅ 6,485,000 suppliers (companies.csv)
+   ✅ 6,490,000 suppliers (companies.csv)
+   ✅ 6,495,000 suppliers (companies.csv)
+   ✅ 6,500,000 suppliers (companies.csv)
+   ✅ 6,505,000 suppliers (companies.csv)
+   ✅ 6,510,000 suppliers (companies.csv)
+   ✅ 6,515,000 suppliers (companies.csv)
+   ✅ 6,520,000 suppliers (companies.csv)
+   ✅ 6,525,000 suppliers (companies.csv)
+   ✅ 6,530,000 suppliers (companies.csv)
+   ✅ 6,535,000 suppliers (companies.csv)
+   ✅ 6,540,000 suppliers (companies.csv)
+   ✅ 6,545,000 suppliers (companies.csv)
+   ✅ 6,550,000 suppliers (companies.csv)
+   ✅ 6,555,000 suppliers (companies.csv)
+   ✅ 6,560,000 suppliers (companies.csv)
+   ✅ 6,565,000 suppliers (companies.csv)
+   ✅ 6,570,000 suppliers (companies.csv)
+   ✅ 6,575,000 suppliers (companies.csv)
+   ✅ 6,580,000 suppliers (companies.csv)
+   ✅ 6,585,000 suppliers (companies.csv)
+   ✅ 6,590,000 suppliers (companies.csv)
+   ✅ 6,595,000 suppliers (companies.csv)
+   ✅ 6,600,000 suppliers (companies.csv)
+   ✅ 6,605,000 suppliers (companies.csv)
+   ✅ 6,610,000 suppliers (companies.csv)
+   ✅ 6,615,000 suppliers (companies.csv)
+   ✅ 6,620,000 suppliers (companies.csv)
+   ✅ 6,625,000 suppliers (companies.csv)
+   ✅ 6,630,000 suppliers (companies.csv)
+   ✅ 6,635,000 suppliers (companies.csv)
+   ✅ 6,640,000 suppliers (companies.csv)
+   ✅ 6,645,000 suppliers (companies.csv)
+   ✅ 6,650,000 suppliers (companies.csv)
+   ✅ 6,655,000 suppliers (companies.csv)
+   ✅ 6,660,000 suppliers (companies.csv)
+   ✅ 6,665,000 suppliers (companies.csv)
+   ✅ 6,670,000 suppliers (companies.csv)
+   ✅ 6,675,000 suppliers (companies.csv)
+   ✅ 6,680,000 suppliers (companies.csv)
+   ✅ 6,685,000 suppliers (companies.csv)
+   ✅ 6,690,000 suppliers (companies.csv)
+   ✅ 6,695,000 suppliers (companies.csv)
+   ✅ 6,700,000 suppliers (companies.csv)
+   ✅ 6,705,000 suppliers (companies.csv)
+   ✅ 6,710,000 suppliers (companies.csv)
+   ✅ 6,715,000 suppliers (companies.csv)
+   ✅ 6,720,000 suppliers (companies.csv)
+   ✅ 6,725,000 suppliers (companies.csv)
+   ✅ 6,730,000 suppliers (companies.csv)
+   ✅ 6,735,000 suppliers (companies.csv)
+   ✅ 6,740,000 suppliers (companies.csv)
+   ✅ 6,745,000 suppliers (companies.csv)
+   ✅ 6,750,000 suppliers (companies.csv)
+   ✅ 6,755,000 suppliers (companies.csv)
+   ✅ 6,760,000 suppliers (companies.csv)
+   ✅ 6,765,000 suppliers (companies.csv)
+   ✅ 6,770,000 suppliers (companies.csv)
+   ✅ 6,775,000 suppliers (companies.csv)
+   ✅ 6,780,000 suppliers (companies.csv)
+   ✅ 6,785,000 suppliers (companies.csv)
+   ✅ 6,790,000 suppliers (companies.csv)
+   ✅ 6,795,000 suppliers (companies.csv)
+   ✅ 6,800,000 suppliers (companies.csv)
+   ✅ 6,805,000 suppliers (companies.csv)
+   ✅ 6,810,000 suppliers (companies.csv)
+   ✅ 6,815,000 suppliers (companies.csv)
+   ✅ 6,820,000 suppliers (companies.csv)
+   ✅ 6,825,000 suppliers (companies.csv)
+   ✅ 6,830,000 suppliers (companies.csv)
+   ✅ 6,835,000 suppliers (companies.csv)
+   ✅ 6,840,000 suppliers (companies.csv)
+   ✅ 6,845,000 suppliers (companies.csv)
+   ✅ 6,850,000 suppliers (companies.csv)
+   ✅ 6,855,000 suppliers (companies.csv)
+   ✅ 6,860,000 suppliers (companies.csv)
+   ✅ 6,865,000 suppliers (companies.csv)
+   ✅ 6,870,000 suppliers (companies.csv)
+   ✅ 6,875,000 suppliers (companies.csv)
+   ✅ 6,880,000 suppliers (companies.csv)
+   ✅ 6,885,000 suppliers (companies.csv)
+   ✅ 6,890,000 suppliers (companies.csv)
+   ✅ 6,895,000 suppliers (companies.csv)
+   ✅ 6,900,000 suppliers (companies.csv)
+   ✅ 6,905,000 suppliers (companies.csv)
+   ✅ 6,910,000 suppliers (companies.csv)
+   ✅ 6,915,000 suppliers (companies.csv)
+   ✅ 6,920,000 suppliers (companies.csv)
+   ✅ 6,925,000 suppliers (companies.csv)
+   ✅ 6,930,000 suppliers (companies.csv)
+   ✅ 6,935,000 suppliers (companies.csv)
+   ✅ 6,940,000 suppliers (companies.csv)
+   ✅ 6,945,000 suppliers (companies.csv)
+   ✅ 6,950,000 suppliers (companies.csv)
+   ✅ 6,955,000 suppliers (companies.csv)
+   ✅ 6,960,000 suppliers (companies.csv)
+   ✅ 6,965,000 suppliers (companies.csv)
+   ✅ 6,970,000 suppliers (companies.csv)
+   ✅ 6,975,000 suppliers (companies.csv)
+   ✅ 6,980,000 suppliers (companies.csv)
+   ✅ 6,985,000 suppliers (companies.csv)
+   ✅ 6,990,000 suppliers (companies.csv)
+   ✅ 6,995,000 suppliers (companies.csv)
+   ✅ 7,000,000 suppliers (companies.csv)
+   ✅ 7,005,000 suppliers (companies.csv)
+   ✅ 7,010,000 suppliers (companies.csv)
+   ✅ 7,015,000 suppliers (companies.csv)
+   ✅ 7,020,000 suppliers (companies.csv)
+   ✅ 7,025,000 suppliers (companies.csv)
+   ✅ 7,030,000 suppliers (companies.csv)
+   ✅ 7,035,000 suppliers (companies.csv)
+   ✅ 7,040,000 suppliers (companies.csv)
+   ✅ 7,045,000 suppliers (companies.csv)
+   ✅ 7,050,000 suppliers (companies.csv)
+   ✅ 7,055,000 suppliers (companies.csv)
+   ✅ 7,060,000 suppliers (companies.csv)
+   ✅ 7,065,000 suppliers (companies.csv)
+   ✅ 7,070,000 suppliers (companies.csv)
+   ✅ 7,075,000 suppliers (companies.csv)
+   ✅ 7,080,000 suppliers (companies.csv)
+   ✅ 7,085,000 suppliers (companies.csv)
+   ✅ 7,090,000 suppliers (companies.csv)
+   ✅ 7,095,000 suppliers (companies.csv)
+   ✅ 7,100,000 suppliers (companies.csv)
+   ✅ 7,105,000 suppliers (companies.csv)
+   ✅ 7,110,000 suppliers (companies.csv)
+   ✅ 7,115,000 suppliers (companies.csv)
+   ✅ 7,120,000 suppliers (companies.csv)
+   ✅ 7,125,000 suppliers (companies.csv)
+   ✅ 7,130,000 suppliers (companies.csv)
+   ✅ 7,135,000 suppliers (companies.csv)
+   ✅ 7,140,000 suppliers (companies.csv)
+   ✅ 7,145,000 suppliers (companies.csv)
+   ✅ 7,150,000 suppliers (companies.csv)
+   ✅ 7,155,000 suppliers (companies.csv)
+   ✅ 7,160,000 suppliers (companies.csv)
+   ✅ 7,165,000 suppliers (companies.csv)
+   ✅ 7,170,000 suppliers (companies.csv)
+   ✅ 7,175,000 suppliers (companies.csv)
+   ✅ 7,180,000 suppliers (companies.csv)
+   ✅ 7,185,000 suppliers (companies.csv)
+   ✅ 7,190,000 suppliers (companies.csv)
+   ✅ 7,195,000 suppliers (companies.csv)
+   ✅ 7,200,000 suppliers (companies.csv)
+   ✅ 7,205,000 suppliers (companies.csv)
+   ✅ 7,210,000 suppliers (companies.csv)
+   ✅ 7,215,000 suppliers (companies.csv)
+   ✅ 7,220,000 suppliers (companies.csv)
+   ✅ 7,225,000 suppliers (companies.csv)
+   ✅ 7,230,000 suppliers (companies.csv)
+   ✅ 7,235,000 suppliers (companies.csv)
+   ✅ 7,240,000 suppliers (companies.csv)
+   ✅ 7,245,000 suppliers (companies.csv)
+   ✅ 7,250,000 suppliers (companies.csv)
+   ✅ 7,255,000 suppliers (companies.csv)
+   ✅ 7,260,000 suppliers (companies.csv)
+   ✅ 7,265,000 suppliers (companies.csv)
+   ✅ 7,270,000 suppliers (companies.csv)
+   ✅ 7,275,000 suppliers (companies.csv)
+   ✅ 7,280,000 suppliers (companies.csv)
+   ✅ 7,285,000 suppliers (companies.csv)
+   ✅ 7,290,000 suppliers (companies.csv)
+   ✅ 7,295,000 suppliers (companies.csv)
+   ✅ 7,300,000 suppliers (companies.csv)
+   ✅ 7,305,000 suppliers (companies.csv)
+   ✅ 7,310,000 suppliers (companies.csv)
+   ✅ 7,315,000 suppliers (companies.csv)
+   ✅ 7,320,000 suppliers (companies.csv)
+   ✅ 7,325,000 suppliers (companies.csv)
+   ✅ 7,330,000 suppliers (companies.csv)
+   ✅ 7,335,000 suppliers (companies.csv)
+   ✅ 7,340,000 suppliers (companies.csv)
+   ✅ 7,345,000 suppliers (companies.csv)
+   ✅ 7,350,000 suppliers (companies.csv)
+   ✅ 7,355,000 suppliers (companies.csv)
+   ✅ 7,360,000 suppliers (companies.csv)
+   ✅ 7,365,000 suppliers (companies.csv)
+   ✅ 7,370,000 suppliers (companies.csv)
+   ✅ 7,375,000 suppliers (companies.csv)
+   ✅ 7,380,000 suppliers (companies.csv)
+   ✅ 7,385,000 suppliers (companies.csv)
+   ✅ 7,390,000 suppliers (companies.csv)
+   ✅ 7,395,000 suppliers (companies.csv)
+   ✅ 7,400,000 suppliers (companies.csv)
+   ✅ 7,405,000 suppliers (companies.csv)
+   ✅ 7,410,000 suppliers (companies.csv)
+   ✅ 7,415,000 suppliers (companies.csv)
+   ✅ 7,420,000 suppliers (companies.csv)
+   ✅ 7,425,000 suppliers (companies.csv)
+   ✅ 7,430,000 suppliers (companies.csv)
+   ✅ 7,435,000 suppliers (companies.csv)
+   ✅ 7,440,000 suppliers (companies.csv)
+   ✅ 7,445,000 suppliers (companies.csv)
+   ✅ 7,450,000 suppliers (companies.csv)
+   ✅ 7,455,000 suppliers (companies.csv)
+   ✅ 7,460,000 suppliers (companies.csv)
+   ✅ 7,465,000 suppliers (companies.csv)
+   ✅ 7,470,000 suppliers (companies.csv)
+   ✅ 7,475,000 suppliers (companies.csv)
+   ✅ 7,480,000 suppliers (companies.csv)
+   ✅ 7,485,000 suppliers (companies.csv)
+   ✅ 7,490,000 suppliers (companies.csv)
+   ✅ 7,495,000 suppliers (companies.csv)
+   ✅ 7,500,000 suppliers (companies.csv)
+   ✅ 7,505,000 suppliers (companies.csv)
+   ✅ 7,510,000 suppliers (companies.csv)
+   ✅ 7,515,000 suppliers (companies.csv)
+   ✅ 7,520,000 suppliers (companies.csv)
+   ✅ 7,525,000 suppliers (companies.csv)
+   ✅ 7,530,000 suppliers (companies.csv)
+   ✅ 7,535,000 suppliers (companies.csv)
+   ✅ 7,540,000 suppliers (companies.csv)
+   ✅ 7,545,000 suppliers (companies.csv)
+   ✅ 7,550,000 suppliers (companies.csv)
+   ✅ 7,555,000 suppliers (companies.csv)
+   ✅ 7,560,000 suppliers (companies.csv)
+   ✅ 7,565,000 suppliers (companies.csv)
+   ✅ 7,570,000 suppliers (companies.csv)
+   ✅ 7,575,000 suppliers (companies.csv)
+   ✅ 7,580,000 suppliers (companies.csv)
+   ✅ 7,585,000 suppliers (companies.csv)
+   ✅ 7,590,000 suppliers (companies.csv)
+   ✅ 7,595,000 suppliers (companies.csv)
+   ✅ 7,600,000 suppliers (companies.csv)
+   ✅ 7,605,000 suppliers (companies.csv)
+   ✅ 7,610,000 suppliers (companies.csv)
+   ✅ 7,615,000 suppliers (companies.csv)
+   ✅ 7,620,000 suppliers (companies.csv)
+   ✅ 7,625,000 suppliers (companies.csv)
+   ✅ 7,630,000 suppliers (companies.csv)
+   ✅ 7,635,000 suppliers (companies.csv)
+   ✅ 7,640,000 suppliers (companies.csv)
+   ✅ 7,645,000 suppliers (companies.csv)
+   ✅ 7,650,000 suppliers (companies.csv)
+   ✅ 7,655,000 suppliers (companies.csv)
+   ✅ 7,660,000 suppliers (companies.csv)
+   ✅ 7,665,000 suppliers (companies.csv)
+   ✅ 7,670,000 suppliers (companies.csv)
+   ✅ 7,675,000 suppliers (companies.csv)
+   ✅ 7,680,000 suppliers (companies.csv)
+   ✅ 7,685,000 suppliers (companies.csv)
+   ✅ 7,690,000 suppliers (companies.csv)
+   ✅ 7,695,000 suppliers (companies.csv)
+   ✅ 7,700,000 suppliers (companies.csv)
+   ✅ 7,705,000 suppliers (companies.csv)
+   ✅ 7,710,000 suppliers (companies.csv)
+   ✅ 7,715,000 suppliers (companies.csv)
+   ✅ 7,720,000 suppliers (companies.csv)
+   ✅ 7,725,000 suppliers (companies.csv)
+   ✅ 7,730,000 suppliers (companies.csv)
+   ✅ 7,735,000 suppliers (companies.csv)
+   ✅ 7,740,000 suppliers (companies.csv)
+   ✅ 7,745,000 suppliers (companies.csv)
+   ✅ 7,750,000 suppliers (companies.csv)
+   ✅ 7,755,000 suppliers (companies.csv)
+   ✅ 7,760,000 suppliers (companies.csv)
+   ✅ 7,765,000 suppliers (companies.csv)
+   ✅ 7,770,000 suppliers (companies.csv)
+   ✅ 7,775,000 suppliers (companies.csv)
+   ✅ 7,780,000 suppliers (companies.csv)
+   ✅ 7,785,000 suppliers (companies.csv)
+   ✅ 7,790,000 suppliers (companies.csv)
+   ✅ 7,795,000 suppliers (companies.csv)
+   ✅ 7,800,000 suppliers (companies.csv)
+   ✅ 7,805,000 suppliers (companies.csv)
+   ✅ 7,810,000 suppliers (companies.csv)
+   ✅ 7,815,000 suppliers (companies.csv)
+   ✅ 7,820,000 suppliers (companies.csv)
+   ✅ 7,825,000 suppliers (companies.csv)
+   ✅ 7,830,000 suppliers (companies.csv)
+   ✅ 7,835,000 suppliers (companies.csv)
+   ✅ 7,840,000 suppliers (companies.csv)
+   ✅ 7,845,000 suppliers (companies.csv)
+   ✅ 7,850,000 suppliers (companies.csv)
+   ✅ 7,855,000 suppliers (companies.csv)
+   ✅ 7,860,000 suppliers (companies.csv)
+   ✅ 7,865,000 suppliers (companies.csv)
+   ✅ 7,870,000 suppliers (companies.csv)
+   ✅ 7,875,000 suppliers (companies.csv)
+   ✅ 7,880,000 suppliers (companies.csv)
+   ✅ 7,885,000 suppliers (companies.csv)
+   ✅ 7,890,000 suppliers (companies.csv)
+   ✅ 7,895,000 suppliers (companies.csv)
+   ✅ 7,900,000 suppliers (companies.csv)
+   ✅ 7,905,000 suppliers (companies.csv)
+   ✅ 7,910,000 suppliers (companies.csv)
+   ✅ 7,915,000 suppliers (companies.csv)
+   ✅ 7,920,000 suppliers (companies.csv)
+   ✅ 7,925,000 suppliers (companies.csv)
+   ✅ 7,930,000 suppliers (companies.csv)
+   ✅ 7,935,000 suppliers (companies.csv)
+   ✅ 7,940,000 suppliers (companies.csv)
+   ✅ 7,945,000 suppliers (companies.csv)
+   ✅ 7,950,000 suppliers (companies.csv)
+   ✅ 7,955,000 suppliers (companies.csv)
+   ✅ 7,960,000 suppliers (companies.csv)
+   ✅ 7,965,000 suppliers (companies.csv)
+   ✅ 7,970,000 suppliers (companies.csv)
+   ✅ 7,975,000 suppliers (companies.csv)
+   ✅ 7,980,000 suppliers (companies.csv)
+   ✅ 7,985,000 suppliers (companies.csv)
+   ✅ 7,990,000 suppliers (companies.csv)
+   ✅ 7,995,000 suppliers (companies.csv)
+   ✅ 8,000,000 suppliers (companies.csv)
+   ✅ 8,005,000 suppliers (companies.csv)
+   ✅ 8,010,000 suppliers (companies.csv)
+   ✅ 8,015,000 suppliers (companies.csv)
+   ✅ 8,020,000 suppliers (companies.csv)
+   ✅ 8,025,000 suppliers (companies.csv)
+   ✅ 8,030,000 suppliers (companies.csv)
+   ✅ 8,035,000 suppliers (companies.csv)
+   ✅ 8,040,000 suppliers (companies.csv)
+   ✅ 8,045,000 suppliers (companies.csv)
+   ✅ 8,050,000 suppliers (companies.csv)
+   ✅ 8,055,000 suppliers (companies.csv)
+   ✅ 8,060,000 suppliers (companies.csv)
+   ✅ 8,065,000 suppliers (companies.csv)
+   ✅ 8,070,000 suppliers (companies.csv)
+   ✅ 8,075,000 suppliers (companies.csv)
+   ✅ 8,080,000 suppliers (companies.csv)
+   ✅ 8,085,000 suppliers (companies.csv)
+   ✅ 8,090,000 suppliers (companies.csv)
+   ✅ 8,095,000 suppliers (companies.csv)
+   ✅ 8,100,000 suppliers (companies.csv)
+   ✅ 8,105,000 suppliers (companies.csv)
+   ✅ 8,110,000 suppliers (companies.csv)
+   ✅ 8,115,000 suppliers (companies.csv)
+   ✅ 8,120,000 suppliers (companies.csv)
+   ✅ 8,125,000 suppliers (companies.csv)
+   ✅ 8,130,000 suppliers (companies.csv)
+   ✅ 8,135,000 suppliers (companies.csv)
+   ✅ 8,140,000 suppliers (companies.csv)
+   ✅ 8,145,000 suppliers (companies.csv)
+   ✅ 8,150,000 suppliers (companies.csv)
+   ✅ 8,155,000 suppliers (companies.csv)
+   ✅ 8,160,000 suppliers (companies.csv)
+   ✅ 8,165,000 suppliers (companies.csv)
+   ✅ 8,170,000 suppliers (companies.csv)
+   ✅ 8,175,000 suppliers (companies.csv)
+   ✅ 8,180,000 suppliers (companies.csv)
+   ✅ 8,185,000 suppliers (companies.csv)
+   ✅ 8,190,000 suppliers (companies.csv)
+   ✅ 8,195,000 suppliers (companies.csv)
+   ✅ 8,200,000 suppliers (companies.csv)
+   ✅ 8,205,000 suppliers (companies.csv)
+   ✅ 8,210,000 suppliers (companies.csv)
+   ✅ 8,215,000 suppliers (companies.csv)
+   ✅ 8,220,000 suppliers (companies.csv)
+   ✅ 8,225,000 suppliers (companies.csv)
+   ✅ 8,230,000 suppliers (companies.csv)
+   ✅ 8,235,000 suppliers (companies.csv)
+   ✅ 8,240,000 suppliers (companies.csv)
+   ✅ 8,245,000 suppliers (companies.csv)
+   ✅ 8,250,000 suppliers (companies.csv)
+   ✅ 8,255,000 suppliers (companies.csv)
+   ✅ 8,260,000 suppliers (companies.csv)
+   ✅ 8,265,000 suppliers (companies.csv)
+   ✅ 8,270,000 suppliers (companies.csv)
+   ✅ 8,275,000 suppliers (companies.csv)
+   ✅ 8,280,000 suppliers (companies.csv)
+   ✅ 8,285,000 suppliers (companies.csv)
+   ✅ 8,290,000 suppliers (companies.csv)
+   ✅ 8,295,000 suppliers (companies.csv)
+   ✅ 8,300,000 suppliers (companies.csv)
+   ✅ 8,305,000 suppliers (companies.csv)
+   ✅ 8,310,000 suppliers (companies.csv)
+   ✅ 8,315,000 suppliers (companies.csv)
+   ✅ 8,320,000 suppliers (companies.csv)
+   ✅ 8,325,000 suppliers (companies.csv)
+   ✅ 8,330,000 suppliers (companies.csv)
+   ✅ 8,335,000 suppliers (companies.csv)
+   ✅ 8,340,000 suppliers (companies.csv)
+   ✅ 8,345,000 suppliers (companies.csv)
+   ✅ 8,350,000 suppliers (companies.csv)
+   ✅ 8,355,000 suppliers (companies.csv)
+   ✅ 8,360,000 suppliers (companies.csv)
+   ✅ 8,365,000 suppliers (companies.csv)
+   ✅ 8,370,000 suppliers (companies.csv)
+   ✅ 8,375,000 suppliers (companies.csv)
+   ✅ 8,380,000 suppliers (companies.csv)
+   ✅ 8,385,000 suppliers (companies.csv)
+   ✅ 8,390,000 suppliers (companies.csv)
+   ✅ 8,395,000 suppliers (companies.csv)
+   ✅ 8,400,000 suppliers (companies.csv)
+   ✅ 8,405,000 suppliers (companies.csv)
+   ✅ 8,410,000 suppliers (companies.csv)
+   ✅ 8,415,000 suppliers (companies.csv)
+   ✅ 8,420,000 suppliers (companies.csv)
+   ✅ 8,425,000 suppliers (companies.csv)
+   ✅ 8,430,000 suppliers (companies.csv)
+   ✅ 8,435,000 suppliers (companies.csv)
+   ✅ 8,440,000 suppliers (companies.csv)
+   ✅ 8,445,000 suppliers (companies.csv)
+   ✅ 8,450,000 suppliers (companies.csv)
+   ✅ 8,455,000 suppliers (companies.csv)
+   ✅ 8,460,000 suppliers (companies.csv)
+   ✅ 8,465,000 suppliers (companies.csv)
+   ✅ 8,470,000 suppliers (companies.csv)
+   ✅ 8,475,000 suppliers (companies.csv)
+   ✅ 8,480,000 suppliers (companies.csv)
+   ✅ 8,485,000 suppliers (companies.csv)
+   ✅ 8,490,000 suppliers (companies.csv)
+   ✅ 8,495,000 suppliers (companies.csv)
+   ✅ 8,500,000 suppliers (companies.csv)
+   ✅ 8,505,000 suppliers (companies.csv)
+   ✅ 8,510,000 suppliers (companies.csv)
+   ✅ 8,515,000 suppliers (companies.csv)
+   ✅ 8,520,000 suppliers (companies.csv)
+   ✅ 8,525,000 suppliers (companies.csv)
+   ✅ 8,530,000 suppliers (companies.csv)
+   ✅ 8,535,000 suppliers (companies.csv)
+   ✅ 8,540,000 suppliers (companies.csv)
+   ✅ 8,545,000 suppliers (companies.csv)
+   ✅ 8,550,000 suppliers (companies.csv)
+   ✅ 8,555,000 suppliers (companies.csv)
+   ✅ 8,560,000 suppliers (companies.csv)
+   ✅ 8,565,000 suppliers (companies.csv)
+   ✅ 8,570,000 suppliers (companies.csv)
+   ✅ 8,575,000 suppliers (companies.csv)
+   ✅ 8,580,000 suppliers (companies.csv)
+   ✅ 8,585,000 suppliers (companies.csv)
+   ✅ 8,590,000 suppliers (companies.csv)
+   ✅ 8,595,000 suppliers (companies.csv)
+   ✅ 8,600,000 suppliers (companies.csv)
+   ✅ 8,605,000 suppliers (companies.csv)
+   ✅ 8,610,000 suppliers (companies.csv)
+   ✅ 8,615,000 suppliers (companies.csv)
+   ✅ 8,620,000 suppliers (companies.csv)
+   ✅ 8,625,000 suppliers (companies.csv)
+   ✅ 8,630,000 suppliers (companies.csv)
+   ✅ 8,635,000 suppliers (companies.csv)
+   ✅ 8,640,000 suppliers (companies.csv)
+   ✅ 8,645,000 suppliers (companies.csv)
+   ✅ 8,650,000 suppliers (companies.csv)
+   ✅ 8,655,000 suppliers (companies.csv)
+   ✅ 8,660,000 suppliers (companies.csv)
+   ✅ 8,665,000 suppliers (companies.csv)
+   ✅ 8,670,000 suppliers (companies.csv)
+   ✅ 8,675,000 suppliers (companies.csv)
+   ✅ 8,680,000 suppliers (companies.csv)
+   ✅ 8,685,000 suppliers (companies.csv)
+   ✅ 8,690,000 suppliers (companies.csv)
+   ✅ 8,695,000 suppliers (companies.csv)
+   ✅ 8,700,000 suppliers (companies.csv)
+   ✅ 8,705,000 suppliers (companies.csv)
+   ✅ 8,710,000 suppliers (companies.csv)
+   ✅ 8,715,000 suppliers (companies.csv)
+   ✅ 8,720,000 suppliers (companies.csv)
+   ✅ 8,725,000 suppliers (companies.csv)
+   ✅ 8,730,000 suppliers (companies.csv)
+   ✅ 8,735,000 suppliers (companies.csv)
+   ✅ 8,740,000 suppliers (companies.csv)
+   ✅ 8,745,000 suppliers (companies.csv)
+   ✅ 8,750,000 suppliers (companies.csv)
+   ✅ 8,755,000 suppliers (companies.csv)
+   ✅ 8,760,000 suppliers (companies.csv)
+   ✅ 8,765,000 suppliers (companies.csv)
+   ✅ 8,770,000 suppliers (companies.csv)
+   ✅ 8,775,000 suppliers (companies.csv)
+   ✅ 8,780,000 suppliers (companies.csv)
+   ✅ 8,785,000 suppliers (companies.csv)
+   ✅ 8,790,000 suppliers (companies.csv)
+   ✅ 8,795,000 suppliers (companies.csv)
+   ✅ 8,800,000 suppliers (companies.csv)
+   ✅ 8,805,000 suppliers (companies.csv)
+   ✅ 8,810,000 suppliers (companies.csv)
+   ✅ 8,815,000 suppliers (companies.csv)
+   ✅ 8,820,000 suppliers (companies.csv)
+   ✅ 8,825,000 suppliers (companies.csv)
+   ✅ 8,830,000 suppliers (companies.csv)
+   ✅ 8,835,000 suppliers (companies.csv)
+   ✅ 8,840,000 suppliers (companies.csv)
+   ✅ 8,845,000 suppliers (companies.csv)
+   ✅ 8,850,000 suppliers (companies.csv)
+   ✅ 8,855,000 suppliers (companies.csv)
+   ✅ 8,860,000 suppliers (companies.csv)
+   ✅ 8,865,000 suppliers (companies.csv)
+   ✅ 8,870,000 suppliers (companies.csv)
+   ✅ 8,875,000 suppliers (companies.csv)
+   ✅ 8,880,000 suppliers (companies.csv)
+   ✅ 8,885,000 suppliers (companies.csv)
+   ✅ 8,890,000 suppliers (companies.csv)
+   ✅ 8,895,000 suppliers (companies.csv)
+   ✅ 8,900,000 suppliers (companies.csv)
+   ✅ 8,905,000 suppliers (companies.csv)
+   ✅ 8,910,000 suppliers (companies.csv)
+   ✅ 8,915,000 suppliers (companies.csv)
+   ✅ 8,920,000 suppliers (companies.csv)
+   ✅ 8,925,000 suppliers (companies.csv)
+   ✅ 8,930,000 suppliers (companies.csv)
+   ✅ 8,935,000 suppliers (companies.csv)
+   ✅ 8,940,000 suppliers (companies.csv)
+   ✅ 8,945,000 suppliers (companies.csv)
+   ✅ 8,950,000 suppliers (companies.csv)
+   ✅ 8,955,000 suppliers (companies.csv)
+   ✅ 8,960,000 suppliers (companies.csv)
+   ✅ 8,965,000 suppliers (companies.csv)
+   ✅ 8,970,000 suppliers (companies.csv)
+   ✅ 8,975,000 suppliers (companies.csv)
+   ✅ 8,980,000 suppliers (companies.csv)
+   ✅ 8,985,000 suppliers (companies.csv)
+   ✅ 8,990,000 suppliers (companies.csv)
+   ✅ 8,995,000 suppliers (companies.csv)
+   ✅ 9,000,000 suppliers (companies.csv)
+   ✅ 9,005,000 suppliers (companies.csv)
+   ✅ 9,010,000 suppliers (companies.csv)
+   ✅ 9,015,000 suppliers (companies.csv)
+   ✅ 9,020,000 suppliers (companies.csv)
+   ✅ 9,025,000 suppliers (companies.csv)
+   ✅ 9,030,000 suppliers (companies.csv)
+   ✅ 9,035,000 suppliers (companies.csv)
+   ✅ 9,040,000 suppliers (companies.csv)
+   ✅ 9,045,000 suppliers (companies.csv)
+   ✅ 9,050,000 suppliers (companies.csv)
+   ✅ 9,055,000 suppliers (companies.csv)
+   ✅ 9,060,000 suppliers (companies.csv)
+   ✅ 9,065,000 suppliers (companies.csv)
+   ✅ 9,070,000 suppliers (companies.csv)
+   ✅ 9,075,000 suppliers (companies.csv)
+   ✅ 9,080,000 suppliers (companies.csv)
+   ✅ 9,085,000 suppliers (companies.csv)
+   ✅ 9,090,000 suppliers (companies.csv)
+   ✅ 9,095,000 suppliers (companies.csv)
+   ✅ 9,100,000 suppliers (companies.csv)
+   ✅ 9,105,000 suppliers (companies.csv)
+   ✅ 9,110,000 suppliers (companies.csv)
+   ✅ 9,115,000 suppliers (companies.csv)
+   ✅ 9,120,000 suppliers (companies.csv)
+   ✅ 9,125,000 suppliers (companies.csv)
+   ✅ 9,130,000 suppliers (companies.csv)
+   ✅ 9,135,000 suppliers (companies.csv)
+   ✅ 9,140,000 suppliers (companies.csv)
+   ✅ 9,145,000 suppliers (companies.csv)
+   ✅ 9,150,000 suppliers (companies.csv)
+   ✅ 9,155,000 suppliers (companies.csv)
+   ✅ 9,160,000 suppliers (companies.csv)
+   ✅ 9,165,000 suppliers (companies.csv)
+   ✅ 9,170,000 suppliers (companies.csv)
+   ✅ 9,175,000 suppliers (companies.csv)
+   ✅ 9,180,000 suppliers (companies.csv)
+   ✅ 9,185,000 suppliers (companies.csv)
+   ✅ 9,190,000 suppliers (companies.csv)
+   ✅ 9,195,000 suppliers (companies.csv)
+   ✅ 9,200,000 suppliers (companies.csv)
+   ✅ 9,205,000 suppliers (companies.csv)
+   ✅ 9,210,000 suppliers (companies.csv)
+   ✅ 9,215,000 suppliers (companies.csv)
+   ✅ 9,220,000 suppliers (companies.csv)
+   ✅ 9,225,000 suppliers (companies.csv)
+   ✅ 9,230,000 suppliers (companies.csv)
+   ✅ 9,235,000 suppliers (companies.csv)
+   ✅ 9,240,000 suppliers (companies.csv)
+   ✅ 9,245,000 suppliers (companies.csv)
+   ✅ 9,250,000 suppliers (companies.csv)
+   ✅ 9,255,000 suppliers (companies.csv)
+   ✅ 9,260,000 suppliers (companies.csv)
+   ✅ 9,265,000 suppliers (companies.csv)
+   ✅ 9,270,000 suppliers (companies.csv)
+   ✅ 9,275,000 suppliers (companies.csv)
+   ✅ 9,280,000 suppliers (companies.csv)
+   ✅ 9,285,000 suppliers (companies.csv)
+   ✅ 9,290,000 suppliers (companies.csv)
+   ✅ 9,295,000 suppliers (companies.csv)
+   ✅ 9,300,000 suppliers (companies.csv)
+   ✅ 9,305,000 suppliers (companies.csv)
+   ✅ 9,310,000 suppliers (companies.csv)
+   ✅ 9,315,000 suppliers (companies.csv)
+   ✅ 9,320,000 suppliers (companies.csv)
+   ✅ 9,325,000 suppliers (companies.csv)
+   ✅ 9,330,000 suppliers (companies.csv)
+   ✅ 9,335,000 suppliers (companies.csv)
+   ✅ 9,340,000 suppliers (companies.csv)
+   ✅ 9,345,000 suppliers (companies.csv)
+   ✅ 9,350,000 suppliers (companies.csv)
+   ✅ 9,355,000 suppliers (companies.csv)
+   ✅ 9,360,000 suppliers (companies.csv)
+   ✅ 9,365,000 suppliers (companies.csv)
+   ✅ 9,370,000 suppliers (companies.csv)
+   ✅ 9,375,000 suppliers (companies.csv)
+   ✅ 9,380,000 suppliers (companies.csv)
+   ✅ 9,385,000 suppliers (companies.csv)
+   ✅ 9,390,000 suppliers (companies.csv)
+   ✅ 9,395,000 suppliers (companies.csv)
+   ✅ 9,400,000 suppliers (companies.csv)
+   ✅ 9,405,000 suppliers (companies.csv)
+   ✅ 9,410,000 suppliers (companies.csv)
+   ✅ 9,415,000 suppliers (companies.csv)
+   ✅ 9,420,000 suppliers (companies.csv)
+   ✅ 9,425,000 suppliers (companies.csv)
+   ✅ 9,430,000 suppliers (companies.csv)
+   ✅ 9,435,000 suppliers (companies.csv)
+   ✅ 9,440,000 suppliers (companies.csv)
+   ✅ 9,445,000 suppliers (companies.csv)
+   ✅ 9,450,000 suppliers (companies.csv)
+   ✅ 9,455,000 suppliers (companies.csv)
+   ✅ 9,460,000 suppliers (companies.csv)
+   ✅ 9,465,000 suppliers (companies.csv)
+   ✅ 9,470,000 suppliers (companies.csv)
+   ✅ 9,475,000 suppliers (companies.csv)
+   ✅ 9,480,000 suppliers (companies.csv)
+   ✅ 9,485,000 suppliers (companies.csv)
+   ✅ 9,490,000 suppliers (companies.csv)
+   ✅ 9,495,000 suppliers (companies.csv)
+   ✅ 9,500,000 suppliers (companies.csv)
+   ✅ 9,505,000 suppliers (companies.csv)
+   ✅ 9,510,000 suppliers (companies.csv)
+   ✅ 9,515,000 suppliers (companies.csv)
+   ✅ 9,520,000 suppliers (companies.csv)
+   ✅ 9,525,000 suppliers (companies.csv)
+   ✅ 9,530,000 suppliers (companies.csv)
+   ✅ 9,535,000 suppliers (companies.csv)
+   ✅ 9,540,000 suppliers (companies.csv)
+   ✅ 9,545,000 suppliers (companies.csv)
+   ✅ 9,550,000 suppliers (companies.csv)
+   ✅ 9,555,000 suppliers (companies.csv)
+   ✅ 9,560,000 suppliers (companies.csv)
+   ✅ 9,565,000 suppliers (companies.csv)
+   ✅ 9,570,000 suppliers (companies.csv)
+   ✅ 9,575,000 suppliers (companies.csv)
+   ✅ 9,580,000 suppliers (companies.csv)
+   ✅ 9,585,000 suppliers (companies.csv)
+   ✅ 9,590,000 suppliers (companies.csv)
+   ✅ 9,595,000 suppliers (companies.csv)
+   ✅ 9,600,000 suppliers (companies.csv)
+   ✅ 9,605,000 suppliers (companies.csv)
+   ✅ 9,610,000 suppliers (companies.csv)
+   ✅ 9,615,000 suppliers (companies.csv)
+   ✅ 9,620,000 suppliers (companies.csv)
+   ✅ 9,625,000 suppliers (companies.csv)
+   ✅ 9,630,000 suppliers (companies.csv)
+   ✅ 9,635,000 suppliers (companies.csv)
+   ✅ 9,640,000 suppliers (companies.csv)
+   ✅ 9,645,000 suppliers (companies.csv)
+   ✅ 9,650,000 suppliers (companies.csv)
+   ✅ 9,655,000 suppliers (companies.csv)
+   ✅ 9,660,000 suppliers (companies.csv)
+   ✅ 9,665,000 suppliers (companies.csv)
+   ✅ 9,670,000 suppliers (companies.csv)
+   ✅ 9,675,000 suppliers (companies.csv)
+   ✅ 9,680,000 suppliers (companies.csv)
+   ✅ 9,685,000 suppliers (companies.csv)
+   ✅ 9,690,000 suppliers (companies.csv)
+   ✅ 9,695,000 suppliers (companies.csv)
+   ✅ 9,700,000 suppliers (companies.csv)
+   ✅ 9,705,000 suppliers (companies.csv)
+   ✅ 9,710,000 suppliers (companies.csv)
+   ✅ 9,715,000 suppliers (companies.csv)
+   ✅ 9,720,000 suppliers (companies.csv)
+   ✅ 9,725,000 suppliers (companies.csv)
+   ✅ 9,730,000 suppliers (companies.csv)
+   ✅ 9,735,000 suppliers (companies.csv)
+   ✅ 9,740,000 suppliers (companies.csv)
+   ✅ 9,745,000 suppliers (companies.csv)
+   ✅ 9,750,000 suppliers (companies.csv)
+   ✅ 9,755,000 suppliers (companies.csv)
+   ✅ 9,760,000 suppliers (companies.csv)
+   ✅ 9,765,000 suppliers (companies.csv)
+   ✅ 9,770,000 suppliers (companies.csv)
+   ✅ 9,775,000 suppliers (companies.csv)
+   ✅ 9,780,000 suppliers (companies.csv)
+   ✅ 9,785,000 suppliers (companies.csv)
+   ✅ 9,790,000 suppliers (companies.csv)
+   ✅ 9,795,000 suppliers (companies.csv)
+   ✅ 9,800,000 suppliers (companies.csv)
+   ✅ 9,805,000 suppliers (companies.csv)
+   ✅ 9,810,000 suppliers (companies.csv)
+   ✅ 9,815,000 suppliers (companies.csv)
+   ✅ 9,820,000 suppliers (companies.csv)
+   ✅ 9,825,000 suppliers (companies.csv)
+   ✅ 9,830,000 suppliers (companies.csv)
+   ✅ 9,835,000 suppliers (companies.csv)
+   ✅ 9,840,000 suppliers (companies.csv)
+   ✅ 9,845,000 suppliers (companies.csv)
+   ✅ 9,850,000 suppliers (companies.csv)
+   ✅ 9,855,000 suppliers (companies.csv)
+   ✅ 9,860,000 suppliers (companies.csv)
+   ✅ 9,865,000 suppliers (companies.csv)
+   ✅ 9,870,000 suppliers (companies.csv)
+   ✅ 9,875,000 suppliers (companies.csv)
+   ✅ 9,880,000 suppliers (companies.csv)
+   ✅ 9,885,000 suppliers (companies.csv)
+   ✅ 9,890,000 suppliers (companies.csv)
+   ✅ 9,895,000 suppliers (companies.csv)
+   ✅ 9,900,000 suppliers (companies.csv)
+   ✅ 9,905,000 suppliers (companies.csv)
+   ✅ 9,910,000 suppliers (companies.csv)
+   ✅ 9,915,000 suppliers (companies.csv)
+   ✅ 9,920,000 suppliers (companies.csv)
+   ✅ 9,925,000 suppliers (companies.csv)
+   ✅ 9,930,000 suppliers (companies.csv)
+   ✅ 9,935,000 suppliers (companies.csv)
+   ✅ 9,940,000 suppliers (companies.csv)
+   ✅ 9,945,000 suppliers (companies.csv)
+   ✅ 9,950,000 suppliers (companies.csv)
+   ✅ 9,955,000 suppliers (companies.csv)
+   ✅ 9,960,000 suppliers (companies.csv)
+   ✅ 9,965,000 suppliers (companies.csv)
+   ✅ 9,970,000 suppliers (companies.csv)
+   ✅ 9,975,000 suppliers (companies.csv)
+   ✅ 9,980,000 suppliers (companies.csv)
+   ✅ 9,985,000 suppliers (companies.csv)
+   ✅ 9,990,000 suppliers (companies.csv)
+   ✅ 9,995,000 suppliers (companies.csv)
+   ✅ 10,000,000 suppliers (companies.csv)
+   ✅ 10,005,000 suppliers (companies.csv)
+   ✅ 10,010,000 suppliers (companies.csv)
+   ✅ 10,015,000 suppliers (companies.csv)
+   ✅ 10,020,000 suppliers (companies.csv)
+   ✅ 10,025,000 suppliers (companies.csv)
+   ✅ 10,030,000 suppliers (companies.csv)
+   ✅ 10,035,000 suppliers (companies.csv)
+   ✅ 10,040,000 suppliers (companies.csv)
+   ✅ 10,045,000 suppliers (companies.csv)
+   ✅ 10,050,000 suppliers (companies.csv)
+   ✅ 10,055,000 suppliers (companies.csv)
+   ✅ 10,060,000 suppliers (companies.csv)
+   ✅ 10,065,000 suppliers (companies.csv)
+   ✅ 10,070,000 suppliers (companies.csv)
+   ✅ 10,075,000 suppliers (companies.csv)
+   ✅ 10,080,000 suppliers (companies.csv)
+   ✅ 10,085,000 suppliers (companies.csv)
+   ✅ 10,090,000 suppliers (companies.csv)
+   ✅ 10,095,000 suppliers (companies.csv)
+   ✅ 10,100,000 suppliers (companies.csv)
+   ✅ 10,105,000 suppliers (companies.csv)
+   ✅ 10,110,000 suppliers (companies.csv)
+   ✅ 10,115,000 suppliers (companies.csv)
+   ✅ 10,120,000 suppliers (companies.csv)
+   ✅ 10,125,000 suppliers (companies.csv)
+   ✅ 10,130,000 suppliers (companies.csv)
+   ✅ 10,135,000 suppliers (companies.csv)
+   ✅ 10,140,000 suppliers (companies.csv)
+   ✅ 10,145,000 suppliers (companies.csv)
+   ✅ 10,150,000 suppliers (companies.csv)
+   ✅ 10,155,000 suppliers (companies.csv)
+   ✅ 10,160,000 suppliers (companies.csv)
+   ✅ 10,165,000 suppliers (companies.csv)
+   ✅ 10,170,000 suppliers (companies.csv)
+   ✅ 10,175,000 suppliers (companies.csv)
+   ✅ 10,180,000 suppliers (companies.csv)
+   ✅ 10,185,000 suppliers (companies.csv)
+   ✅ 10,190,000 suppliers (companies.csv)
+   ✅ 10,195,000 suppliers (companies.csv)
+   ✅ 10,200,000 suppliers (companies.csv)
+   ✅ 10,205,000 suppliers (companies.csv)
+   ✅ 10,210,000 suppliers (companies.csv)
+   ✅ 10,215,000 suppliers (companies.csv)
+   ✅ 10,220,000 suppliers (companies.csv)
+   ✅ 10,225,000 suppliers (companies.csv)
+   ✅ 10,230,000 suppliers (companies.csv)
+   ✅ 10,235,000 suppliers (companies.csv)
+   ✅ 10,240,000 suppliers (companies.csv)
+   ✅ 10,245,000 suppliers (companies.csv)
+   ✅ 10,250,000 suppliers (companies.csv)
+   ✅ 10,255,000 suppliers (companies.csv)
+   ✅ 10,260,000 suppliers (companies.csv)
+   ✅ 10,265,000 suppliers (companies.csv)
+   ✅ 10,270,000 suppliers (companies.csv)
+   ✅ 10,275,000 suppliers (companies.csv)
+   ✅ 10,280,000 suppliers (companies.csv)
+   ✅ 10,285,000 suppliers (companies.csv)
+   ✅ 10,290,000 suppliers (companies.csv)
+   ✅ 10,295,000 suppliers (companies.csv)
+   ✅ 10,300,000 suppliers (companies.csv)
+   ✅ 10,305,000 suppliers (companies.csv)
+   ✅ 10,310,000 suppliers (companies.csv)
+   ✅ 10,315,000 suppliers (companies.csv)
+   ✅ 10,320,000 suppliers (companies.csv)
+   ✅ 10,325,000 suppliers (companies.csv)
+   ✅ 10,330,000 suppliers (companies.csv)
+   ✅ 10,335,000 suppliers (companies.csv)
+   ✅ 10,340,000 suppliers (companies.csv)
+   ✅ 10,345,000 suppliers (companies.csv)
+   ✅ 10,350,000 suppliers (companies.csv)
+   ✅ 10,355,000 suppliers (companies.csv)
+   ✅ 10,360,000 suppliers (companies.csv)
+   ✅ 10,365,000 suppliers (companies.csv)
+   ✅ 10,370,000 suppliers (companies.csv)
+   ✅ 10,375,000 suppliers (companies.csv)
+   ✅ 10,380,000 suppliers (companies.csv)
+   ✅ 10,385,000 suppliers (companies.csv)
+   ✅ 10,390,000 suppliers (companies.csv)
+   ✅ 10,395,000 suppliers (companies.csv)
+   ✅ 10,400,000 suppliers (companies.csv)
+   ✅ 10,405,000 suppliers (companies.csv)
+   ✅ 10,410,000 suppliers (companies.csv)
+   ✅ 10,415,000 suppliers (companies.csv)
+   ✅ 10,420,000 suppliers (companies.csv)
+   ✅ 10,425,000 suppliers (companies.csv)
+   ✅ 10,430,000 suppliers (companies.csv)
+   ✅ 10,435,000 suppliers (companies.csv)
+   ✅ 10,440,000 suppliers (companies.csv)
+   ✅ 10,445,000 suppliers (companies.csv)
+   ✅ 10,450,000 suppliers (companies.csv)
+   ✅ 10,455,000 suppliers (companies.csv)
+   ✅ 10,460,000 suppliers (companies.csv)
+   ✅ 10,465,000 suppliers (companies.csv)
+   ✅ 10,470,000 suppliers (companies.csv)
+   ✅ 10,475,000 suppliers (companies.csv)
+   ✅ 10,480,000 suppliers (companies.csv)
+   ✅ 10,485,000 suppliers (companies.csv)
+   ✅ 10,490,000 suppliers (companies.csv)
+   ✅ 10,495,000 suppliers (companies.csv)
+   ✅ 10,500,000 suppliers (companies.csv)
+   ✅ 10,505,000 suppliers (companies.csv)
+   ✅ 10,510,000 suppliers (companies.csv)
+   ✅ 10,515,000 suppliers (companies.csv)
+   ✅ 10,520,000 suppliers (companies.csv)
+   ✅ 10,525,000 suppliers (companies.csv)
+   ✅ 10,530,000 suppliers (companies.csv)
+   ✅ 10,535,000 suppliers (companies.csv)
+   ✅ 10,540,000 suppliers (companies.csv)
+   ✅ 10,545,000 suppliers (companies.csv)
+   ✅ 10,550,000 suppliers (companies.csv)
+   ✅ 10,555,000 suppliers (companies.csv)
+   ✅ 10,560,000 suppliers (companies.csv)
+   ✅ 10,565,000 suppliers (companies.csv)
+   ✅ 10,570,000 suppliers (companies.csv)
+   ✅ 10,575,000 suppliers (companies.csv)
+   ✅ 10,580,000 suppliers (companies.csv)
+   ✅ 10,585,000 suppliers (companies.csv)
+   ✅ 10,590,000 suppliers (companies.csv)
+   ✅ 10,595,000 suppliers (companies.csv)
+   ✅ 10,600,000 suppliers (companies.csv)
+   ✅ 10,605,000 suppliers (companies.csv)
+   ✅ 10,610,000 suppliers (companies.csv)
+   ✅ 10,615,000 suppliers (companies.csv)
+   ✅ 10,620,000 suppliers (companies.csv)
+   ✅ 10,625,000 suppliers (companies.csv)
+   ✅ 10,630,000 suppliers (companies.csv)
+   ✅ 10,635,000 suppliers (companies.csv)
+   ✅ 10,640,000 suppliers (companies.csv)
+   ✅ 10,645,000 suppliers (companies.csv)
+   ✅ 10,650,000 suppliers (companies.csv)
+   ✅ 10,655,000 suppliers (companies.csv)
+   ✅ 10,660,000 suppliers (companies.csv)
+   ✅ 10,665,000 suppliers (companies.csv)
+   ✅ 10,670,000 suppliers (companies.csv)
+   ✅ 10,675,000 suppliers (companies.csv)
+   ✅ 10,680,000 suppliers (companies.csv)
+   ✅ 10,685,000 suppliers (companies.csv)
+   ✅ 10,690,000 suppliers (companies.csv)
+   ✅ 10,695,000 suppliers (companies.csv)
+   ✅ 10,700,000 suppliers (companies.csv)
+   ✅ 10,705,000 suppliers (companies.csv)
+   ✅ 10,710,000 suppliers (companies.csv)
+   ✅ 10,715,000 suppliers (companies.csv)
+   ✅ 10,720,000 suppliers (companies.csv)
+   ✅ 10,725,000 suppliers (companies.csv)
+   ✅ 10,730,000 suppliers (companies.csv)
+   ✅ 10,735,000 suppliers (companies.csv)
+   ✅ 10,740,000 suppliers (companies.csv)
+   ✅ 10,745,000 suppliers (companies.csv)
+   ✅ 10,750,000 suppliers (companies.csv)
+   ✅ 10,755,000 suppliers (companies.csv)
+   ✅ 10,760,000 suppliers (companies.csv)
+   ✅ 10,765,000 suppliers (companies.csv)
+   ✅ 10,770,000 suppliers (companies.csv)
+   ✅ 10,775,000 suppliers (companies.csv)
+   ✅ 10,780,000 suppliers (companies.csv)
+   ✅ 10,785,000 suppliers (companies.csv)
+   ✅ 10,790,000 suppliers (companies.csv)
+   ✅ 10,795,000 suppliers (companies.csv)
+   ✅ 10,800,000 suppliers (companies.csv)
+   ✅ 10,805,000 suppliers (companies.csv)
+   ✅ 10,810,000 suppliers (companies.csv)
+   ✅ 10,815,000 suppliers (companies.csv)
+   ✅ 10,820,000 suppliers (companies.csv)
+   ✅ 10,825,000 suppliers (companies.csv)
+   ✅ 10,830,000 suppliers (companies.csv)
+   ✅ 10,835,000 suppliers (companies.csv)
+   ✅ 10,840,000 suppliers (companies.csv)
+   ✅ 10,845,000 suppliers (companies.csv)
+   ✅ 10,850,000 suppliers (companies.csv)
+   ✅ 10,855,000 suppliers (companies.csv)
+   ✅ 10,860,000 suppliers (companies.csv)
+   ✅ 10,865,000 suppliers (companies.csv)
+   ✅ 10,870,000 suppliers (companies.csv)
+   ✅ 10,875,000 suppliers (companies.csv)
+   ✅ 10,880,000 suppliers (companies.csv)
+   ✅ 10,885,000 suppliers (companies.csv)
+   ✅ 10,890,000 suppliers (companies.csv)
+   ✅ 10,895,000 suppliers (companies.csv)
+   ✅ 10,900,000 suppliers (companies.csv)
+   ✅ 10,905,000 suppliers (companies.csv)
+   ✅ 10,910,000 suppliers (companies.csv)
+   ✅ 10,915,000 suppliers (companies.csv)
+   ✅ 10,920,000 suppliers (companies.csv)
+   ✅ 10,925,000 suppliers (companies.csv)
+   ✅ 10,930,000 suppliers (companies.csv)
+   ✅ 10,935,000 suppliers (companies.csv)
+   ✅ 10,940,000 suppliers (companies.csv)
+   ✅ 10,945,000 suppliers (companies.csv)
+   ✅ 10,950,000 suppliers (companies.csv)
+   ✅ 10,955,000 suppliers (companies.csv)
+   ✅ 10,960,000 suppliers (companies.csv)
+   ✅ 10,965,000 suppliers (companies.csv)
+   ✅ 10,970,000 suppliers (companies.csv)
+   ✅ 10,975,000 suppliers (companies.csv)
+   ✅ 10,980,000 suppliers (companies.csv)
+   ✅ 10,985,000 suppliers (companies.csv)
+   ✅ 10,990,000 suppliers (companies.csv)
+   ✅ 10,995,000 suppliers (companies.csv)
+   ✅ 11,000,000 suppliers (companies.csv)
+   ✅ 11,005,000 suppliers (companies.csv)
+   ✅ 11,010,000 suppliers (companies.csv)
+   ✅ 11,015,000 suppliers (companies.csv)
+   ✅ 11,020,000 suppliers (companies.csv)
+   ✅ 11,025,000 suppliers (companies.csv)
+   ✅ 11,030,000 suppliers (companies.csv)
+   ✅ 11,035,000 suppliers (companies.csv)
+   ✅ 11,040,000 suppliers (companies.csv)
+   ✅ 11,045,000 suppliers (companies.csv)
+   ✅ 11,050,000 suppliers (companies.csv)
+   ✅ 11,055,000 suppliers (companies.csv)
+   ✅ 11,060,000 suppliers (companies.csv)
+   ✅ 11,065,000 suppliers (companies.csv)
+   ✅ 11,070,000 suppliers (companies.csv)
+   ✅ 11,075,000 suppliers (companies.csv)
+   ✅ 11,080,000 suppliers (companies.csv)
+   ✅ 11,085,000 suppliers (companies.csv)
+   ✅ 11,090,000 suppliers (companies.csv)
+   ✅ 11,095,000 suppliers (companies.csv)
+   ✅ 11,100,000 suppliers (companies.csv)
+   ✅ 11,105,000 suppliers (companies.csv)
+   ✅ 11,110,000 suppliers (companies.csv)
+   ✅ 11,115,000 suppliers (companies.csv)
+   ✅ 11,120,000 suppliers (companies.csv)
+   ✅ 11,125,000 suppliers (companies.csv)
+   ✅ 11,130,000 suppliers (companies.csv)
+   ✅ 11,135,000 suppliers (companies.csv)
+   ✅ 11,140,000 suppliers (companies.csv)
+   ✅ 11,145,000 suppliers (companies.csv)
+   ✅ 11,150,000 suppliers (companies.csv)
+   ✅ 11,155,000 suppliers (companies.csv)
+   ✅ 11,160,000 suppliers (companies.csv)
+   ✅ 11,165,000 suppliers (companies.csv)
+   ✅ 11,170,000 suppliers (companies.csv)
+   ✅ 11,175,000 suppliers (companies.csv)
+   ✅ 11,180,000 suppliers (companies.csv)
+   ✅ 11,185,000 suppliers (companies.csv)
+   ✅ 11,190,000 suppliers (companies.csv)
+   ✅ 11,195,000 suppliers (companies.csv)
+   ✅ 11,200,000 suppliers (companies.csv)
+   ✅ 11,205,000 suppliers (companies.csv)
+   ✅ 11,210,000 suppliers (companies.csv)
+   ✅ 11,215,000 suppliers (companies.csv)
+   ✅ 11,220,000 suppliers (companies.csv)
+   ✅ 11,225,000 suppliers (companies.csv)
+   ✅ 11,230,000 suppliers (companies.csv)
+   ✅ 11,235,000 suppliers (companies.csv)
+   ✅ 11,240,000 suppliers (companies.csv)
+   ✅ 11,245,000 suppliers (companies.csv)
+   ✅ 11,250,000 suppliers (companies.csv)
+   ✅ 11,255,000 suppliers (companies.csv)
+   ✅ 11,260,000 suppliers (companies.csv)
+   ✅ 11,265,000 suppliers (companies.csv)
+   ✅ 11,270,000 suppliers (companies.csv)
+   ✅ 11,275,000 suppliers (companies.csv)
+   ✅ 11,280,000 suppliers (companies.csv)
+   ✅ 11,285,000 suppliers (companies.csv)
+   ✅ 11,290,000 suppliers (companies.csv)
+   ✅ 11,295,000 suppliers (companies.csv)
+   ✅ 11,300,000 suppliers (companies.csv)
+   ✅ 11,305,000 suppliers (companies.csv)
+   ✅ 11,310,000 suppliers (companies.csv)
+   ✅ 11,315,000 suppliers (companies.csv)
+   ✅ 11,320,000 suppliers (companies.csv)
+   ✅ 11,325,000 suppliers (companies.csv)
+   ✅ 11,330,000 suppliers (companies.csv)
+   ✅ 11,335,000 suppliers (companies.csv)
+   ✅ 11,340,000 suppliers (companies.csv)
+   ✅ 11,345,000 suppliers (companies.csv)
+   ✅ 11,350,000 suppliers (companies.csv)
+   ✅ 11,355,000 suppliers (companies.csv)
+   ✅ 11,360,000 suppliers (companies.csv)
+   ✅ 11,365,000 suppliers (companies.csv)
+   ✅ 11,370,000 suppliers (companies.csv)
+   ✅ 11,375,000 suppliers (companies.csv)
+   ✅ 11,380,000 suppliers (companies.csv)
+   ✅ 11,385,000 suppliers (companies.csv)
+   ✅ 11,390,000 suppliers (companies.csv)
+   ✅ 11,395,000 suppliers (companies.csv)
+   ✅ 11,400,000 suppliers (companies.csv)
+   ✅ 11,405,000 suppliers (companies.csv)
+   ✅ 11,410,000 suppliers (companies.csv)
+   ✅ 11,415,000 suppliers (companies.csv)
+   ✅ 11,420,000 suppliers (companies.csv)
+   ✅ 11,425,000 suppliers (companies.csv)
+   ✅ 11,430,000 suppliers (companies.csv)
+   ✅ 11,435,000 suppliers (companies.csv)
+   ✅ 11,440,000 suppliers (companies.csv)
+   ✅ 11,445,000 suppliers (companies.csv)
+   ✅ 11,450,000 suppliers (companies.csv)
+   ✅ 11,455,000 suppliers (companies.csv)
+   ✅ 11,460,000 suppliers (companies.csv)
+   ✅ 11,465,000 suppliers (companies.csv)
+   ✅ 11,470,000 suppliers (companies.csv)
+   ✅ 11,475,000 suppliers (companies.csv)
+   ✅ 11,480,000 suppliers (companies.csv)
+   ✅ 11,485,000 suppliers (companies.csv)
+RangeError: Set maximum size exceeded
+    at Set.add (<anonymous>)
+    at processFile (/Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/import-all-suppliers.ts:155:10)
+    at async main (/Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/import-all-suppliers.ts:258:15)
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv
+
+   ⏩ Will skip first 30,000,000 rows (already imported)
+
+   📊 20,762,301 suppliers already in DB, continuing from there
+
+   📂 Processing companies.csv...
+   ⏩ Skipping row 1,000,000...
+   ⏩ Skipping row 2,000,000...
+   ⏩ Skipping row 3,000,000...
+   ⏩ Skipping row 4,000,000...
+   ⏩ Skipping row 5,000,000...
+   ⏩ Skipping row 6,000,000...
+   ⏩ Skipping row 7,000,000...
+   ⏩ Skipping row 8,000,000...
+   ⏩ Skipping row 9,000,000...
+   ⏩ Skipping row 10,000,000...
+   ⏩ Skipping row 11,000,000...
+   ⏩ Skipping row 12,000,000...
+   ⏩ Skipping row 13,000,000...
+   ⏩ Skipping row 14,000,000...
+   ⏩ Skipping row 15,000,000...
+   ⏩ Skipping row 16,000,000...
+   ⏩ Skipping row 17,000,000...
+   ⏩ Skipping row 18,000,000...
+   ⏩ Skipping row 19,000,000...
+   ⏩ Skipping row 20,000,000...
+   ⏩ Skipping row 21,000,000...
+   ⏩ Skipping row 22,000,000...
+   ⏩ Skipping row 23,000,000...
+   ⏩ Skipping row 24,000,000...
+   ⏩ Skipping row 25,000,000...
+   ⏩ Skipping row 26,000,000...
+   ⏩ Skipping row 27,000,000...
+   ⏩ Skipping row 28,000,000...
+   ⏩ Skipping row 29,000,000...
+   ⏩ Skipping row 30,000,000...
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv
+
+   ⏩ Will skip first 32,000,000 rows (already imported)
+
+   📊 21,649,263 suppliers already in DB, continuing from there
+
+   📂 Processing companies.csv...
+   ⏩ Skipping row 1,000,000...
+   ⏩ Skipping row 2,000,000...
+   ⏩ Skipping row 3,000,000...
+   ⏩ Skipping row 4,000,000...
+   ⏩ Skipping row 5,000,000...
+   ⏩ Skipping row 6,000,000...
+   ⏩ Skipping row 7,000,000...
+   ⏩ Skipping row 8,000,000...
+   ⏩ Skipping row 9,000,000...
+   ⏩ Skipping row 10,000,000...
+   ⏩ Skipping row 11,000,000...
+   ⏩ Skipping row 12,000,000...
+   ⏩ Skipping row 13,000,000...
+   ⏩ Skipping row 14,000,000...
+   ⏩ Skipping row 15,000,000...
+   ⏩ Skipping row 16,000,000...
+   ⏩ Skipping row 17,000,000...
+   ⏩ Skipping row 18,000,000...
+   ⏩ Skipping row 19,000,000...
+   ⏩ Skipping row 20,000,000...
+   ⏩ Skipping row 21,000,000...
+   ⏩ Skipping row 22,000,000...
+   ⏩ Skipping row 23,000,000...
+   ⏩ Skipping row 24,000,000...
+   ⏩ Skipping row 25,000,000...
+   ⏩ Skipping row 26,000,000...
+   ⏩ Skipping row 27,000,000...
+   ⏩ Skipping row 28,000,000...
+   ⏩ Skipping row 29,000,000...
+   ⏩ Skipping row 30,000,000...
+   ⏩ Skipping row 31,000,000...
+   ⏩ Skipping row 32,000,000...
+   ✅ 21,654,263 total / +5,000 new (companies.csv) [row 32,009,078]
+   ✅ 21,659,263 total / +10,000 new (companies.csv) [row 32,018,072]
+   ✅ 21,664,263 total / +15,000 new (companies.csv) [row 32,027,235]
+   ✅ 21,669,263 total / +20,000 new (companies.csv) [row 32,036,245]
+   ✅ 21,674,263 total / +25,000 new (companies.csv) [row 32,045,381]
+   ✅ 21,679,263 total / +30,000 new (companies.csv) [row 32,054,537]
+   ✅ 21,684,263 total / +35,000 new (companies.csv) [row 32,063,646]
+   ✅ 21,689,263 total / +40,000 new (companies.csv) [row 32,072,801]
+   ✅ 21,694,263 total / +45,000 new (companies.csv) [row 32,081,920]
+   ✅ 21,699,263 total / +50,000 new (companies.csv) [row 32,091,104]
+   ✅ 21,704,263 total / +55,000 new (companies.csv) [row 32,100,079]
+   ✅ 21,709,263 total / +60,000 new (companies.csv) [row 32,109,263]
+   ✅ 21,714,263 total / +65,000 new (companies.csv) [row 32,118,442]
+   ✅ 21,719,263 total / +70,000 new (companies.csv) [row 32,127,548]
+   ✅ 21,724,263 total / +75,000 new (companies.csv) [row 32,136,600]
+   ✅ 21,729,263 total / +80,000 new (companies.csv) [row 32,145,676]
+   ✅ 21,734,263 total / +85,000 new (companies.csv) [row 32,154,747]
+   ✅ 21,739,263 total / +90,000 new (companies.csv) [row 32,163,899]
+   ✅ 21,744,263 total / +95,000 new (companies.csv) [row 32,173,075]
+   ✅ 21,749,263 total / +100,000 new (companies.csv) [row 32,182,264]
+   ✅ 21,754,263 total / +105,000 new (companies.csv) [row 32,191,377]
+   ✅ 21,759,263 total / +110,000 new (companies.csv) [row 32,200,424]
+   ✅ 21,764,263 total / +115,000 new (companies.csv) [row 32,209,547]
+   ✅ 21,769,263 total / +120,000 new (companies.csv) [row 32,218,874]
+   ✅ 21,774,263 total / +125,000 new (companies.csv) [row 32,228,053]
+   ✅ 21,779,263 total / +130,000 new (companies.csv) [row 32,237,115]
+   ✅ 21,784,263 total / +135,000 new (companies.csv) [row 32,246,083]
+   ✅ 21,789,263 total / +140,000 new (companies.csv) [row 32,255,229]
+   ✅ 21,794,263 total / +145,000 new (companies.csv) [row 32,264,346]
+   ✅ 21,799,263 total / +150,000 new (companies.csv) [row 32,273,536]
+   ✅ 21,804,263 total / +155,000 new (companies.csv) [row 32,282,646]
+   ✅ 21,809,263 total / +160,000 new (companies.csv) [row 32,291,720]
+   ✅ 21,814,263 total / +165,000 new (companies.csv) [row 32,300,819]
+   ✅ 21,819,263 total / +170,000 new (companies.csv) [row 32,310,839]
+   ✅ 21,824,263 total / +175,000 new (companies.csv) [row 32,320,001]
+   ✅ 21,829,263 total / +180,000 new (companies.csv) [row 32,329,008]
+   ✅ 21,834,263 total / +185,000 new (companies.csv) [row 32,337,989]
+   ✅ 21,839,263 total / +190,000 new (companies.csv) [row 32,346,945]
+   ✅ 21,844,263 total / +195,000 new (companies.csv) [row 32,356,145]
+   ✅ 21,849,263 total / +200,000 new (companies.csv) [row 32,365,259]
+   ✅ 21,854,263 total / +205,000 new (companies.csv) [row 32,374,453]
+   ✅ 21,859,263 total / +210,000 new (companies.csv) [row 32,383,579]
+   ✅ 21,864,263 total / +215,000 new (companies.csv) [row 32,392,759]
+   ✅ 21,869,263 total / +220,000 new (companies.csv) [row 32,402,071]
+   ✅ 21,874,263 total / +225,000 new (companies.csv) [row 32,411,156]
+   ✅ 21,879,263 total / +230,000 new (companies.csv) [row 32,420,233]
+   ✅ 21,884,263 total / +235,000 new (companies.csv) [row 32,429,333]
+   ✅ 21,889,263 total / +240,000 new (companies.csv) [row 32,438,351]
+   ✅ 21,894,263 total / +245,000 new (companies.csv) [row 32,447,600]
+   ✅ 21,899,263 total / +250,000 new (companies.csv) [row 32,456,658]
+   ✅ 21,904,263 total / +255,000 new (companies.csv) [row 32,465,916]
+   ✅ 21,909,263 total / +260,000 new (companies.csv) [row 32,475,145]
+   ✅ 21,914,263 total / +265,000 new (companies.csv) [row 32,484,255]
+   ✅ 21,919,263 total / +270,000 new (companies.csv) [row 32,493,458]
+   ✅ 21,924,263 total / +275,000 new (companies.csv) [row 32,502,450]
+   ✅ 21,929,263 total / +280,000 new (companies.csv) [row 32,511,614]
+   ✅ 21,934,263 total / +285,000 new (companies.csv) [row 32,520,869]
+   ✅ 21,939,263 total / +290,000 new (companies.csv) [row 32,530,006]
+   ✅ 21,944,263 total / +295,000 new (companies.csv) [row 32,538,968]
+   ✅ 21,949,263 total / +300,000 new (companies.csv) [row 32,547,909]
+   ✅ 21,954,263 total / +305,000 new (companies.csv) [row 32,557,014]
+   ✅ 21,959,263 total / +310,000 new (companies.csv) [row 32,566,071]
+   ✅ 21,964,263 total / +315,000 new (companies.csv) [row 32,575,036]
+   ✅ 21,969,263 total / +320,000 new (companies.csv) [row 32,584,018]
+   ✅ 21,974,263 total / +325,000 new (companies.csv) [row 32,593,194]
+   ✅ 21,979,263 total / +330,000 new (companies.csv) [row 32,602,147]
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/scripts:data-import:pdl-companies.csv
+
+   ⏩ Will skip first 32,602,000 rows (already imported)
+
+   📊 21,977,114 suppliers already in DB, continuing from there
+
+   📂 Processing companies.csv...
+   ⏩ Skipping row 1,000,000...
+   ⏩ Skipping row 2,000,000...
+   ⏩ Skipping row 3,000,000...
+   ⏩ Skipping row 4,000,000...
+   ⏩ Skipping row 5,000,000...
+   ⏩ Skipping row 6,000,000...
+   ⏩ Skipping row 7,000,000...
+   ⏩ Skipping row 8,000,000...
+   ⏩ Skipping row 9,000,000...
+   ⏩ Skipping row 10,000,000...
+   ⏩ Skipping row 11,000,000...
+   ⏩ Skipping row 12,000,000...
+   ⏩ Skipping row 13,000,000...
+   ⏩ Skipping row 14,000,000...
+   ⏩ Skipping row 15,000,000...
+   ⏩ Skipping row 16,000,000...
+   ⏩ Skipping row 17,000,000...
+   ⏩ Skipping row 18,000,000...
+   ⏩ Skipping row 19,000,000...
+   ⏩ Skipping row 20,000,000...
+   ⏩ Skipping row 21,000,000...
+   ⏩ Skipping row 22,000,000...
+   ⏩ Skipping row 23,000,000...
+   ⏩ Skipping row 24,000,000...
+   ⏩ Skipping row 25,000,000...
+   ⏩ Skipping row 26,000,000...
+   ⏩ Skipping row 27,000,000...
+   ⏩ Skipping row 28,000,000...
+   ⏩ Skipping row 29,000,000...
+   ⏩ Skipping row 30,000,000...
+   ⏩ Skipping row 31,000,000...
+   ⏩ Skipping row 32,000,000...
+   ✅ 21,982,114 total / +5,000 new (companies.csv) [row 32,610,971]
+   ✅ 21,987,114 total / +10,000 new (companies.csv) [row 32,620,042]
+   ✅ 21,992,114 total / +15,000 new (companies.csv) [row 32,629,048]
+   ✅ 21,997,114 total / +20,000 new (companies.csv) [row 32,638,208]
+   ✅ 22,002,114 total / +25,000 new (companies.csv) [row 32,647,328]
+   ✅ 22,007,114 total / +30,000 new (companies.csv) [row 32,656,447]
+   ✅ 22,012,114 total / +35,000 new (companies.csv) [row 32,665,687]
+   ✅ 22,017,114 total / +40,000 new (companies.csv) [row 32,674,893]
+   ✅ 22,022,114 total / +45,000 new (companies.csv) [row 32,684,066]
+   ✅ 22,027,114 total / +50,000 new (companies.csv) [row 32,693,124]
+   ✅ 22,032,114 total / +55,000 new (companies.csv) [row 32,702,199]
+   ✅ 22,037,114 total / +60,000 new (companies.csv) [row 32,711,258]
+   ✅ 22,042,114 total / +65,000 new (companies.csv) [row 32,720,308]
+   ✅ 22,047,114 total / +70,000 new (companies.csv) [row 32,729,444]
+   ✅ 22,052,114 total / +75,000 new (companies.csv) [row 32,738,501]
+   ✅ 22,057,114 total / +80,000 new (companies.csv) [row 32,747,556]
+   ✅ 22,062,114 total / +85,000 new (companies.csv) [row 32,756,591]
+   ✅ 22,067,114 total / +90,000 new (companies.csv) [row 32,765,678]
+   ✅ 22,072,114 total / +95,000 new (companies.csv) [row 32,774,746]
+   ✅ 22,077,114 total / +100,000 new (companies.csv) [row 32,783,916]
+   ✅ 22,082,114 total / +105,000 new (companies.csv) [row 32,793,073]
+   ✅ 22,087,114 total / +110,000 new (companies.csv) [row 32,802,077]
+   ✅ 22,092,114 total / +115,000 new (companies.csv) [row 32,811,157]
+   ✅ 22,097,114 total / +120,000 new (companies.csv) [row 32,820,121]
+   ✅ 22,102,114 total / +125,000 new (companies.csv) [row 32,829,213]
+   ✅ 22,107,114 total / +130,000 new (companies.csv) [row 32,838,326]
+   ✅ 22,112,114 total / +135,000 new (companies.csv) [row 32,847,563]
+   ✅ 22,117,114 total / +140,000 new (companies.csv) [row 32,856,754]
+   ✅ 22,122,114 total / +145,000 new (companies.csv) [row 32,865,718]
+   ✅ 22,127,114 total / +150,000 new (companies.csv) [row 32,874,825]
+   ✅ 22,132,114 total / +155,000 new (companies.csv) [row 32,883,896]
+   ✅ 22,137,114 total / +160,000 new (companies.csv) [row 32,892,961]
+   ✅ 22,142,114 total / +165,000 new (companies.csv) [row 32,902,103]
+   ✅ 22,147,114 total / +170,000 new (companies.csv) [row 32,911,215]
+   ✅ 22,152,114 total / +175,000 new (companies.csv) [row 32,920,186]
+   ✅ 22,157,114 total / +180,000 new (companies.csv) [row 32,929,270]
+   ✅ 22,162,114 total / +185,000 new (companies.csv) [row 32,938,352]
+   ✅ 22,167,114 total / +190,000 new (companies.csv) [row 32,947,440]
+   ✅ 22,172,114 total / +195,000 new (companies.csv) [row 32,956,525]
+   ✅ 22,177,114 total / +200,000 new (companies.csv) [row 32,965,724]
+   ✅ 22,182,114 total / +205,000 new (companies.csv) [row 32,974,848]
+   ✅ 22,187,114 total / +210,000 new (companies.csv) [row 32,983,957]
+   ✅ 22,192,114 total / +215,000 new (companies.csv) [row 32,993,162]
+   ✅ 22,197,114 total / +220,000 new (companies.csv) [row 33,002,303]
+   ✅ 22,202,114 total / +225,000 new (companies.csv) [row 33,011,422]
+   ✅ 22,207,114 total / +230,000 new (companies.csv) [row 33,020,512]
+   ✅ 22,212,114 total / +235,000 new (companies.csv) [row 33,029,596]
+   ✅ 22,217,114 total / +240,000 new (companies.csv) [row 33,038,661]
+   ✅ 22,222,114 total / +245,000 new (companies.csv) [row 33,047,752]
+   ✅ 22,227,114 total / +250,000 new (companies.csv) [row 33,056,806]
+   ✅ 22,232,114 total / +255,000 new (companies.csv) [row 33,065,911]
+   ✅ 22,237,114 total / +260,000 new (companies.csv) [row 33,075,027]
+   ✅ 22,242,114 total / +265,000 new (companies.csv) [row 33,084,168]
+   ✅ 22,247,114 total / +270,000 new (companies.csv) [row 33,093,293]
+   ✅ 22,252,114 total / +275,000 new (companies.csv) [row 33,102,450]
+   ✅ 22,257,114 total / +280,000 new (companies.csv) [row 33,111,597]
+   ✅ 22,262,114 total / +285,000 new (companies.csv) [row 33,120,733]
+   ✅ 22,267,114 total / +290,000 new (companies.csv) [row 33,129,795]
+   ✅ 22,272,114 total / +295,000 new (companies.csv) [row 33,139,119]
+   ✅ 22,277,114 total / +300,000 new (companies.csv) [row 33,148,233]
+   ✅ 22,282,114 total / +305,000 new (companies.csv) [row 33,157,417]
+   ✅ 22,287,114 total / +310,000 new (companies.csv) [row 33,166,495]
+   ✅ 22,292,114 total / +315,000 new (companies.csv) [row 33,175,668]
+   ✅ 22,297,114 total / +320,000 new (companies.csv) [row 33,184,570]
+   ✅ 22,302,114 total / +325,000 new (companies.csv) [row 33,193,473]
+   ✅ 22,307,114 total / +330,000 new (companies.csv) [row 33,202,649]
+   ✅ 22,312,114 total / +335,000 new (companies.csv) [row 33,211,599]
+   ✅ 22,317,114 total / +340,000 new (companies.csv) [row 33,220,707]
+   ✅ 22,322,114 total / +345,000 new (companies.csv) [row 33,229,660]
+   ✅ 22,327,114 total / +350,000 new (companies.csv) [row 33,238,798]
+   ✅ 22,332,114 total / +355,000 new (companies.csv) [row 33,247,881]
+   ✅ 22,337,114 total / +360,000 new (companies.csv) [row 33,256,957]
+   ✅ 22,342,114 total / +365,000 new (companies.csv) [row 33,266,180]
+   ✅ 22,347,114 total / +370,000 new (companies.csv) [row 33,275,198]
+   ✅ 22,352,114 total / +375,000 new (companies.csv) [row 33,284,197]
+   ✅ 22,357,114 total / +380,000 new (companies.csv) [row 33,293,289]
+   ✅ 22,362,114 total / +385,000 new (companies.csv) [row 33,302,504]
+   ✅ 22,367,114 total / +390,000 new (companies.csv) [row 33,311,668]
+   ✅ 22,372,114 total / +395,000 new (companies.csv) [row 33,320,590]
+   ✅ 22,377,114 total / +400,000 new (companies.csv) [row 33,329,640]
+   ✅ 22,382,114 total / +405,000 new (companies.csv) [row 33,338,926]
+   ✅ 22,387,114 total / +410,000 new (companies.csv) [row 33,348,057]
+   ✅ 22,392,114 total / +415,000 new (companies.csv) [row 33,357,313]
+   ✅ 22,397,114 total / +420,000 new (companies.csv) [row 33,366,604]
+   ✅ 22,402,114 total / +425,000 new (companies.csv) [row 33,375,643]
+   ✅ 22,407,114 total / +430,000 new (companies.csv) [row 33,384,597]
+   ✅ 22,412,114 total / +435,000 new (companies.csv) [row 33,393,540]
+   ✅ 22,417,114 total / +440,000 new (companies.csv) [row 33,402,876]
+   ✅ 22,422,114 total / +445,000 new (companies.csv) [row 33,411,851]
+   ✅ 22,427,114 total / +450,000 new (companies.csv) [row 33,420,947]
+   ✅ 22,432,114 total / +455,000 new (companies.csv) [row 33,430,122]
+   ✅ 22,437,114 total / +460,000 new (companies.csv) [row 33,439,243]
+   ✅ 22,442,114 total / +465,000 new (companies.csv) [row 33,448,383]
+   ✅ 22,447,114 total / +470,000 new (companies.csv) [row 33,457,510]
+   ✅ 22,452,114 total / +475,000 new (companies.csv) [row 33,466,750]
+   ✅ 22,457,114 total / +480,000 new (companies.csv) [row 33,475,911]
+   ✅ 22,462,114 total / +485,000 new (companies.csv) [row 33,485,125]
+   ✅ 22,467,114 total / +490,000 new (companies.csv) [row 33,494,216]
+   ✅ 22,472,114 total / +495,000 new (companies.csv) [row 33,503,235]
+   ✅ 22,477,114 total / +500,000 new (companies.csv) [row 33,512,253]
+   ✅ 22,482,114 total / +505,000 new (companies.csv) [row 33,521,410]
+   ✅ 22,487,114 total / +510,000 new (companies.csv) [row 33,530,538]
+   ✅ 22,492,114 total / +515,000 new (companies.csv) [row 33,539,598]
+   ✅ 22,497,114 total / +520,000 new (companies.csv) [row 33,548,752]
+   ✅ 22,502,114 total / +525,000 new (companies.csv) [row 33,557,844]
+   ✅ 22,507,114 total / +530,000 new (companies.csv) [row 33,567,005]
+   ✅ 22,512,114 total / +535,000 new (companies.csv) [row 33,576,015]
+   ✅ 22,517,114 total / +540,000 new (companies.csv) [row 33,585,202]
+   ✅ 22,522,114 total / +545,000 new (companies.csv) [row 33,594,241]
+   ✅ 22,527,114 total / +550,000 new (companies.csv) [row 33,603,254]
+   ✅ 22,532,114 total / +555,000 new (companies.csv) [row 33,612,359]
+   ✅ 22,537,114 total / +560,000 new (companies.csv) [row 33,621,667]
+   ✅ 22,542,114 total / +565,000 new (companies.csv) [row 33,630,696]
+   ✅ 22,547,114 total / +570,000 new (companies.csv) [row 33,639,778]
+   ✅ 22,552,114 total / +575,000 new (companies.csv) [row 33,648,965]
+   ✅ 22,557,114 total / +580,000 new (companies.csv) [row 33,658,024]
+   ✅ 22,562,114 total / +585,000 new (companies.csv) [row 33,667,073]
+   ✅ 22,567,114 total / +590,000 new (companies.csv) [row 33,676,226]
+   ✅ 22,572,114 total / +595,000 new (companies.csv) [row 33,685,368]
+   ✅ 22,577,114 total / +600,000 new (companies.csv) [row 33,694,543]
+   ✅ 22,582,114 total / +605,000 new (companies.csv) [row 33,703,432]
+   ✅ 22,587,114 total / +610,000 new (companies.csv) [row 33,712,286]
+   ✅ 22,592,114 total / +615,000 new (companies.csv) [row 33,721,274]
+   ✅ 22,597,114 total / +620,000 new (companies.csv) [row 33,730,421]
+   ✅ 22,602,114 total / +625,000 new (companies.csv) [row 33,739,682]
+   ✅ 22,607,114 total / +630,000 new (companies.csv) [row 33,748,709]
+   ✅ 22,612,114 total / +635,000 new (companies.csv) [row 33,757,781]
+   ✅ 22,617,114 total / +640,000 new (companies.csv) [row 33,766,970]
+   ✅ 22,622,114 total / +645,000 new (companies.csv) [row 33,776,227]
+   ✅ 22,627,114 total / +650,000 new (companies.csv) [row 33,785,326]
+   ✅ 22,632,114 total / +655,000 new (companies.csv) [row 33,794,459]
+   ✅ 22,637,114 total / +660,000 new (companies.csv) [row 33,803,592]
+   ✅ 22,642,114 total / +665,000 new (companies.csv) [row 33,812,727]
+   ✅ 22,647,114 total / +670,000 new (companies.csv) [row 33,821,841]
+   ✅ 22,652,114 total / +675,000 new (companies.csv) [row 33,831,096]
+   ✅ 22,657,114 total / +680,000 new (companies.csv) [row 33,840,303]
+   ✅ 22,662,114 total / +685,000 new (companies.csv) [row 33,849,465]
+   ✅ 22,667,114 total / +690,000 new (companies.csv) [row 33,858,680]
+   ✅ 22,672,114 total / +695,000 new (companies.csv) [row 33,867,946]
+   ✅ 22,677,114 total / +700,000 new (companies.csv) [row 33,877,079]
+   ✅ 22,682,114 total / +705,000 new (companies.csv) [row 33,886,264]
+   ✅ 22,687,114 total / +710,000 new (companies.csv) [row 33,895,227]
+   ✅ 22,692,114 total / +715,000 new (companies.csv) [row 33,904,308]
+   ✅ 22,697,114 total / +720,000 new (companies.csv) [row 33,913,423]
+   ✅ 22,702,114 total / +725,000 new (companies.csv) [row 33,922,601]
+   ✅ 22,707,114 total / +730,000 new (companies.csv) [row 33,931,666]
+   ✅ 22,712,114 total / +735,000 new (companies.csv) [row 33,940,936]
+   ✅ 22,717,114 total / +740,000 new (companies.csv) [row 33,950,121]
+   ✅ 22,722,114 total / +745,000 new (companies.csv) [row 33,959,361]
+   ✅ 22,727,114 total / +750,000 new (companies.csv) [row 33,968,377]
+   ✅ 22,732,114 total / +755,000 new (companies.csv) [row 33,977,453]
+   ✅ 22,737,114 total / +760,000 new (companies.csv) [row 33,986,525]
+   ✅ 22,742,114 total / +765,000 new (companies.csv) [row 33,995,501]
+   ✅ 22,747,114 total / +770,000 new (companies.csv) [row 34,004,631]
+   ✅ 22,752,114 total / +775,000 new (companies.csv) [row 34,013,738]
+   ✅ 22,757,114 total / +780,000 new (companies.csv) [row 34,022,878]
+   ✅ 22,762,114 total / +785,000 new (companies.csv) [row 34,031,971]
+   ✅ 22,767,114 total / +790,000 new (companies.csv) [row 34,041,087]
+   ✅ 22,772,114 total / +795,000 new (companies.csv) [row 34,050,082]
+   ✅ 22,777,114 total / +800,000 new (companies.csv) [row 34,059,254]
+   ✅ 22,782,114 total / +805,000 new (companies.csv) [row 34,068,380]
+   ✅ 22,787,114 total / +810,000 new (companies.csv) [row 34,077,435]
+   ✅ 22,792,114 total / +815,000 new (companies.csv) [row 34,086,480]
+   ✅ 22,797,114 total / +820,000 new (companies.csv) [row 34,095,755]
+   ✅ 22,802,114 total / +825,000 new (companies.csv) [row 34,104,952]
+   ✅ 22,807,114 total / +830,000 new (companies.csv) [row 34,114,019]
+   ✅ 22,812,114 total / +835,000 new (companies.csv) [row 34,123,162]
+   ✅ 22,817,114 total / +840,000 new (companies.csv) [row 34,132,237]
+   ✅ 22,822,114 total / +845,000 new (companies.csv) [row 34,141,273]
+   ✅ 22,827,114 total / +850,000 new (companies.csv) [row 34,150,449]
+   ✅ 22,832,114 total / +855,000 new (companies.csv) [row 34,159,505]
+   ✅ 22,837,114 total / +860,000 new (companies.csv) [row 34,168,681]
+   ✅ 22,842,114 total / +865,000 new (companies.csv) [row 34,177,701]
+   ✅ 22,847,114 total / +870,000 new (companies.csv) [row 34,186,817]
+   ✅ 22,852,114 total / +875,000 new (companies.csv) [row 34,195,857]
+   ✅ 22,857,114 total / +880,000 new (companies.csv) [row 34,204,988]
+   ✅ 22,862,114 total / +885,000 new (companies.csv) [row 34,214,192]
+   ✅ 22,867,114 total / +890,000 new (companies.csv) [row 34,223,203]
+   ✅ 22,872,114 total / +895,000 new (companies.csv) [row 34,232,382]
+   ✅ 22,877,114 total / +900,000 new (companies.csv) [row 34,241,648]
+   ✅ 22,882,114 total / +905,000 new (companies.csv) [row 34,250,787]
+   ✅ 22,887,114 total / +910,000 new (companies.csv) [row 34,259,996]
+   ✅ 22,892,114 total / +915,000 new (companies.csv) [row 34,269,138]
+   ✅ 22,897,114 total / +920,000 new (companies.csv) [row 34,278,157]
+   ✅ 22,902,114 total / +925,000 new (companies.csv) [row 34,287,398]
+   ✅ 22,907,114 total / +930,000 new (companies.csv) [row 34,296,593]
+   ✅ 22,912,114 total / +935,000 new (companies.csv) [row 34,305,706]
+   ✅ 22,917,114 total / +940,000 new (companies.csv) [row 34,314,974]
+   ✅ 22,922,114 total / +945,000 new (companies.csv) [row 34,324,059]
+   ✅ 22,927,114 total / +950,000 new (companies.csv) [row 34,333,121]
+   ✅ 22,932,114 total / +955,000 new (companies.csv) [row 34,342,285]
+   ✅ 22,937,114 total / +960,000 new (companies.csv) [row 34,351,525]
+   ✅ 22,942,114 total / +965,000 new (companies.csv) [row 34,360,732]
+   ✅ 22,947,114 total / +970,000 new (companies.csv) [row 34,369,804]
+   ✅ 22,952,114 total / +975,000 new (companies.csv) [row 34,378,820]
+   ✅ 22,957,114 total / +980,000 new (companies.csv) [row 34,387,858]
+   ✅ 22,962,114 total / +985,000 new (companies.csv) [row 34,396,830]
+   ✅ 22,967,114 total / +990,000 new (companies.csv) [row 34,406,020]
+   ✅ 22,972,114 total / +995,000 new (companies.csv) [row 34,415,000]
+   ✅ 22,977,114 total / +1,000,000 new (companies.csv) [row 34,424,341]
+   ✅ 22,982,114 total / +1,005,000 new (companies.csv) [row 34,433,369]
+   ✅ 22,987,114 total / +1,010,000 new (companies.csv) [row 34,442,429]
+   ✅ 22,992,114 total / +1,015,000 new (companies.csv) [row 34,451,368]
+   ✅ 22,997,114 total / +1,020,000 new (companies.csv) [row 34,460,519]
+   ✅ 23,002,114 total / +1,025,000 new (companies.csv) [row 34,469,703]
+   ✅ 23,007,114 total / +1,030,000 new (companies.csv) [row 34,478,804]
+   ✅ 23,012,114 total / +1,035,000 new (companies.csv) [row 34,487,926]
+   ✅ 23,017,114 total / +1,040,000 new (companies.csv) [row 34,496,995]
+   ✅ 23,022,114 total / +1,045,000 new (companies.csv) [row 34,506,014]
+   ✅ 23,027,114 total / +1,050,000 new (companies.csv) [row 34,515,053]
+   ✅ 23,032,114 total / +1,055,000 new (companies.csv) [row 34,524,294]
+   ✅ 23,037,114 total / +1,060,000 new (companies.csv) [row 34,533,312]
+   ✅ 23,042,114 total / +1,065,000 new (companies.csv) [row 34,542,245]
+   ✅ 23,047,114 total / +1,070,000 new (companies.csv) [row 34,551,453]
+   ✅ 23,052,114 total / +1,075,000 new (companies.csv) [row 34,560,566]
+   ✅ 23,057,114 total / +1,080,000 new (companies.csv) [row 34,569,707]
+   ✅ 23,062,114 total / +1,085,000 new (companies.csv) [row 34,578,764]
+   ✅ 23,067,114 total / +1,090,000 new (companies.csv) [row 34,587,937]
+   ✅ 23,072,114 total / +1,095,000 new (companies.csv) [row 34,597,216]
+   ✅ 23,077,114 total / +1,100,000 new (companies.csv) [row 34,606,255]
+   ✅ 23,082,114 total / +1,105,000 new (companies.csv) [row 34,615,352]
+   ✅ 23,087,114 total / +1,110,000 new (companies.csv) [row 34,624,548]
+   ✅ 23,092,114 total / +1,115,000 new (companies.csv) [row 34,633,642]
+   ✅ 23,097,114 total / +1,120,000 new (companies.csv) [row 34,642,762]
+   ✅ 23,102,114 total / +1,125,000 new (companies.csv) [row 34,651,692]
+   ✅ 23,107,114 total / +1,130,000 new (companies.csv) [row 34,660,845]
+   ✅ 23,112,114 total / +1,135,000 new (companies.csv) [row 34,670,046]
+   ✅ 23,117,114 total / +1,140,000 new (companies.csv) [row 34,679,154]
+   ✅ 23,122,114 total / +1,145,000 new (companies.csv) [row 34,688,451]
+   ✅ 23,127,114 total / +1,150,000 new (companies.csv) [row 34,697,386]
+   ✅ 23,132,114 total / +1,155,000 new (companies.csv) [row 34,706,525]
+   ✅ 23,137,114 total / +1,160,000 new (companies.csv) [row 34,715,679]
+   ✅ 23,142,114 total / +1,165,000 new (companies.csv) [row 34,724,763]
+   ✅ 23,147,114 total / +1,170,000 new (companies.csv) [row 34,733,668]
+   ✅ 23,152,114 total / +1,175,000 new (companies.csv) [row 34,742,829]
+   ✅ 23,157,114 total / +1,180,000 new (companies.csv) [row 34,751,987]
+   ✅ 23,162,114 total / +1,185,000 new (companies.csv) [row 34,761,037]
+   ✅ 23,167,114 total / +1,190,000 new (companies.csv) [row 34,770,367]
+   ✅ 23,172,114 total / +1,195,000 new (companies.csv) [row 34,779,353]
+   ✅ 23,177,114 total / +1,200,000 new (companies.csv) [row 34,788,404]
+   ✅ 23,182,114 total / +1,205,000 new (companies.csv) [row 34,797,650]
+   ✅ 23,187,114 total / +1,210,000 new (companies.csv) [row 34,806,826]
+   ✅ 23,192,114 total / +1,215,000 new (companies.csv) [row 34,815,946]
+   ✅ 23,197,114 total / +1,220,000 new (companies.csv) [row 34,824,799]
+   ✅ 23,202,114 total / +1,225,000 new (companies.csv) [row 34,833,860]
+   ✅ 23,207,114 total / +1,230,000 new (companies.csv) [row 34,842,933]
+   ✅ 23,212,114 total / +1,235,000 new (companies.csv) [row 34,852,254]
+   ✅ 23,217,114 total / +1,240,000 new (companies.csv) [row 34,861,293]
+   ✅ 23,222,114 total / +1,245,000 new (companies.csv) [row 34,870,420]
+   ✅ 23,227,114 total / +1,250,000 new (companies.csv) [row 34,879,585]
+   ✅ 23,232,114 total / +1,255,000 new (companies.csv) [row 34,888,707]
+   ✅ 23,237,114 total / +1,260,000 new (companies.csv) [row 34,897,828]
+   ✅ 23,242,114 total / +1,265,000 new (companies.csv) [row 34,906,858]
+   ✅ 23,247,114 total / +1,270,000 new (companies.csv) [row 34,916,006]
+   ✅ 23,252,114 total / +1,275,000 new (companies.csv) [row 34,925,094]
+   ✅ 23,257,114 total / +1,280,000 new (companies.csv) [row 34,934,337]
+   ✅ 23,262,114 total / +1,285,000 new (companies.csv) [row 34,943,490]
+   ✅ 23,267,114 total / +1,290,000 new (companies.csv) [row 34,952,659]
+   ✅ 23,272,114 total / +1,295,000 new (companies.csv) [row 34,961,858]
+   ✅ 23,277,114 total / +1,300,000 new (companies.csv) [row 34,970,933]
+   ✅ 23,282,114 total / +1,305,000 new (companies.csv) [row 34,979,966]
+   ✅ 23,287,114 total / +1,310,000 new (companies.csv) [row 34,989,109]
+   ✅ 23,292,114 total / +1,315,000 new (companies.csv) [row 34,998,250]
+   ✅ 23,297,114 total / +1,320,000 new (companies.csv) [row 35,007,303]
+   ✅ 23,302,114 total / +1,325,000 new (companies.csv) [row 35,016,411]
+   ✅ 23,307,114 total / +1,330,000 new (companies.csv) [row 35,025,591]
+   ✅ 23,312,114 total / +1,335,000 new (companies.csv) [row 35,034,654]
+   ✅ 23,317,114 total / +1,340,000 new (companies.csv) [row 35,043,734]
+   ✅ 23,322,114 total / +1,345,000 new (companies.csv) [row 35,052,773]
+   ✅ 23,327,114 total / +1,350,000 new (companies.csv) [row 35,061,797]
+   ✅ 23,332,114 total / +1,355,000 new (companies.csv) [row 35,071,679]
+   ✅ 23,337,114 total / +1,360,000 new (companies.csv) [row 35,080,766]
+   ✅ 23,342,114 total / +1,365,000 new (companies.csv) [row 35,089,968]
+   ✅ 23,347,114 total / +1,370,000 new (companies.csv) [row 35,098,950]
+   ✅ 23,352,114 total / +1,375,000 new (companies.csv) [row 35,107,981]
+   ✅ 23,357,114 total / +1,380,000 new (companies.csv) [row 35,116,998]
+   ✅ 23,362,114 total / +1,385,000 new (companies.csv) [row 35,126,145]
+   ✅ 23,367,114 total / +1,390,000 new (companies.csv) [row 35,135,239]
+   ✅ 23,372,114 total / +1,395,000 new (companies.csv) [row 35,144,436]
+   ✅ 23,377,114 total / +1,400,000 new (companies.csv) [row 35,153,489]
+   ✅ 23,382,114 total / +1,405,000 new (companies.csv) [row 35,162,545]
+   ✅ 23,387,114 total / +1,410,000 new (companies.csv) [row 35,171,762]
+   ✅ 23,392,114 total / +1,415,000 new (companies.csv) [row 35,180,780]
+   ✅ 23,397,114 total / +1,420,000 new (companies.csv) [row 35,189,729]
+   ✅ 23,402,114 total / +1,425,000 new (companies.csv) [row 35,198,973]
+   ✅ 23,407,114 total / +1,430,000 new (companies.csv) [row 35,207,994]
+   ✅ 23,412,114 total / +1,435,000 new (companies.csv) [row 35,217,138]
+   ✅ 23,417,114 total / +1,440,000 new (companies.csv) [row 35,226,172]
+   ✅ 23,422,114 total / +1,445,000 new (companies.csv) [row 35,235,337]
+   ✅ 23,427,114 total / +1,450,000 new (companies.csv) [row 35,244,514]
+   ✅ 23,432,114 total / +1,455,000 new (companies.csv) [row 35,253,806]
+   ✅ 23,437,114 total / +1,460,000 new (companies.csv) [row 35,262,888]
+   ✅ 23,442,114 total / +1,465,000 new (companies.csv) [row 35,272,104]
+   ✅ 23,447,114 total / +1,470,000 new (companies.csv) [row 35,281,292]
+   ✅ 23,452,114 total / +1,475,000 new (companies.csv) [row 35,290,347]
+   ✅ 23,457,114 total / +1,480,000 new (companies.csv) [row 35,299,477]
+   ✅ 23,462,114 total / +1,485,000 new (companies.csv) [row 35,308,558]
+   ✅ 23,467,114 total / +1,490,000 new (companies.csv) [row 35,317,654]
+   Added 1,492,785 from companies.csv. Total: 23,469,899
+
+   📂 Processing pdl-companies.csv...
+   ✅ 23,474,899 total / +5,000 new (scripts:data-import:pdl-companies.csv) [row 6,748]
+   ✅ 23,479,899 total / +10,000 new (scripts:data-import:pdl-companies.csv) [row 13,988]
+   ✅ 23,484,899 total / +15,000 new (scripts:data-import:pdl-companies.csv) [row 21,375]
+   ✅ 23,489,899 total / +20,000 new (scripts:data-import:pdl-companies.csv) [row 28,770]
+   ✅ 23,494,899 total / +25,000 new (scripts:data-import:pdl-companies.csv) [row 36,277]
+   ✅ 23,499,899 total / +30,000 new (scripts:data-import:pdl-companies.csv) [row 43,663]
+   ✅ 23,504,899 total / +35,000 new (scripts:data-import:pdl-companies.csv) [row 51,067]
+   ✅ 23,509,899 total / +40,000 new (scripts:data-import:pdl-companies.csv) [row 58,404]
+   ✅ 23,514,899 total / +45,000 new (scripts:data-import:pdl-companies.csv) [row 65,951]
+   ✅ 23,519,899 total / +50,000 new (scripts:data-import:pdl-companies.csv) [row 73,429]
+   ✅ 23,524,899 total / +55,000 new (scripts:data-import:pdl-companies.csv) [row 80,808]
+   ✅ 23,529,899 total / +60,000 new (scripts:data-import:pdl-companies.csv) [row 88,191]
+   ✅ 23,534,899 total / +65,000 new (scripts:data-import:pdl-companies.csv) [row 95,807]
+   ✅ 23,539,899 total / +70,000 new (scripts:data-import:pdl-companies.csv) [row 103,223]
+   ✅ 23,544,899 total / +75,000 new (scripts:data-import:pdl-companies.csv) [row 110,576]
+   ✅ 23,549,899 total / +80,000 new (scripts:data-import:pdl-companies.csv) [row 117,869]
+   ✅ 23,554,899 total / +85,000 new (scripts:data-import:pdl-companies.csv) [row 125,215]
+   ✅ 23,559,899 total / +90,000 new (scripts:data-import:pdl-companies.csv) [row 132,530]
+   ✅ 23,564,899 total / +95,000 new (scripts:data-import:pdl-companies.csv) [row 139,830]
+   ✅ 23,569,899 total / +100,000 new (scripts:data-import:pdl-companies.csv) [row 147,099]
+   ✅ 23,574,899 total / +105,000 new (scripts:data-import:pdl-companies.csv) [row 154,353]
+   ✅ 23,579,899 total / +110,000 new (scripts:data-import:pdl-companies.csv) [row 161,663]
+   ✅ 23,584,899 total / +115,000 new (scripts:data-import:pdl-companies.csv) [row 168,997]
+   ✅ 23,589,899 total / +120,000 new (scripts:data-import:pdl-companies.csv) [row 176,239]
+   ✅ 23,594,899 total / +125,000 new (scripts:data-import:pdl-companies.csv) [row 183,490]
+   ✅ 23,599,899 total / +130,000 new (scripts:data-import:pdl-companies.csv) [row 190,828]
+   ✅ 23,604,899 total / +135,000 new (scripts:data-import:pdl-companies.csv) [row 198,115]
+   ✅ 23,609,899 total / +140,000 new (scripts:data-import:pdl-companies.csv) [row 205,612]
+   ✅ 23,614,899 total / +145,000 new (scripts:data-import:pdl-companies.csv) [row 212,935]
+   ✅ 23,619,899 total / +150,000 new (scripts:data-import:pdl-companies.csv) [row 220,247]
+   ✅ 23,624,899 total / +155,000 new (scripts:data-import:pdl-companies.csv) [row 227,650]
+   ✅ 23,629,899 total / +160,000 new (scripts:data-import:pdl-companies.csv) [row 234,947]
+   ✅ 23,634,899 total / +165,000 new (scripts:data-import:pdl-companies.csv) [row 242,260]
+   ✅ 23,639,899 total / +170,000 new (scripts:data-import:pdl-companies.csv) [row 249,555]
+   ✅ 23,644,899 total / +175,000 new (scripts:data-import:pdl-companies.csv) [row 256,842]
+   ✅ 23,649,899 total / +180,000 new (scripts:data-import:pdl-companies.csv) [row 264,102]
+   ✅ 23,654,899 total / +185,000 new (scripts:data-import:pdl-companies.csv) [row 271,386]
+   ✅ 23,659,899 total / +190,000 new (scripts:data-import:pdl-companies.csv) [row 278,736]
+   ✅ 23,664,899 total / +195,000 new (scripts:data-import:pdl-companies.csv) [row 286,028]
+   ✅ 23,669,899 total / +200,000 new (scripts:data-import:pdl-companies.csv) [row 293,304]
+   ✅ 23,674,899 total / +205,000 new (scripts:data-import:pdl-companies.csv) [row 300,757]
+   ✅ 23,679,899 total / +210,000 new (scripts:data-import:pdl-companies.csv) [row 308,061]
+   ✅ 23,684,899 total / +215,000 new (scripts:data-import:pdl-companies.csv) [row 315,356]
+   ✅ 23,689,899 total / +220,000 new (scripts:data-import:pdl-companies.csv) [row 322,776]
+   ✅ 23,694,899 total / +225,000 new (scripts:data-import:pdl-companies.csv) [row 330,107]
+   ✅ 23,699,899 total / +230,000 new (scripts:data-import:pdl-companies.csv) [row 337,468]
+   ✅ 23,704,899 total / +235,000 new (scripts:data-import:pdl-companies.csv) [row 344,846]
+   ✅ 23,709,899 total / +240,000 new (scripts:data-import:pdl-companies.csv) [row 352,222]
+   ✅ 23,714,899 total / +245,000 new (scripts:data-import:pdl-companies.csv) [row 359,594]
+   ✅ 23,719,899 total / +250,000 new (scripts:data-import:pdl-companies.csv) [row 367,017]
+   ✅ 23,724,899 total / +255,000 new (scripts:data-import:pdl-companies.csv) [row 374,276]
+   ✅ 23,729,899 total / +260,000 new (scripts:data-import:pdl-companies.csv) [row 381,591]
+   ✅ 23,734,899 total / +265,000 new (scripts:data-import:pdl-companies.csv) [row 388,900]
+   ✅ 23,739,899 total / +270,000 new (scripts:data-import:pdl-companies.csv) [row 396,120]
+   ✅ 23,744,899 total / +275,000 new (scripts:data-import:pdl-companies.csv) [row 403,421]
+   ✅ 23,749,899 total / +280,000 new (scripts:data-import:pdl-companies.csv) [row 410,703]
+   ✅ 23,754,899 total / +285,000 new (scripts:data-import:pdl-companies.csv) [row 418,044]
+   ✅ 23,759,899 total / +290,000 new (scripts:data-import:pdl-companies.csv) [row 425,316]
+   ✅ 23,764,899 total / +295,000 new (scripts:data-import:pdl-companies.csv) [row 432,637]
+   ✅ 23,769,899 total / +300,000 new (scripts:data-import:pdl-companies.csv) [row 440,028]
+   ✅ 23,774,899 total / +305,000 new (scripts:data-import:pdl-companies.csv) [row 447,505]
+   ✅ 23,779,899 total / +310,000 new (scripts:data-import:pdl-companies.csv) [row 454,863]
+   ✅ 23,784,899 total / +315,000 new (scripts:data-import:pdl-companies.csv) [row 462,106]
+   ✅ 23,789,899 total / +320,000 new (scripts:data-import:pdl-companies.csv) [row 469,540]
+   ✅ 23,794,899 total / +325,000 new (scripts:data-import:pdl-companies.csv) [row 476,888]
+   ✅ 23,799,899 total / +330,000 new (scripts:data-import:pdl-companies.csv) [row 484,251]
+   ✅ 23,804,899 total / +335,000 new (scripts:data-import:pdl-companies.csv) [row 491,622]
+   ✅ 23,809,899 total / +340,000 new (scripts:data-import:pdl-companies.csv) [row 498,990]
+   ✅ 23,814,899 total / +345,000 new (scripts:data-import:pdl-companies.csv) [row 506,329]
+   ✅ 23,819,899 total / +350,000 new (scripts:data-import:pdl-companies.csv) [row 513,599]
+   ✅ 23,824,899 total / +355,000 new (scripts:data-import:pdl-companies.csv) [row 521,042]
+   ✅ 23,829,899 total / +360,000 new (scripts:data-import:pdl-companies.csv) [row 528,379]
+   ✅ 23,834,899 total / +365,000 new (scripts:data-import:pdl-companies.csv) [row 535,789]
+   ✅ 23,839,899 total / +370,000 new (scripts:data-import:pdl-companies.csv) [row 543,277]
+   ✅ 23,844,899 total / +375,000 new (scripts:data-import:pdl-companies.csv) [row 550,809]
+   ✅ 23,849,899 total / +380,000 new (scripts:data-import:pdl-companies.csv) [row 558,240]
+   ✅ 23,854,899 total / +385,000 new (scripts:data-import:pdl-companies.csv) [row 565,541]
+   ✅ 23,859,899 total / +390,000 new (scripts:data-import:pdl-companies.csv) [row 572,952]
+   ✅ 23,864,899 total / +395,000 new (scripts:data-import:pdl-companies.csv) [row 580,304]
+   ✅ 23,869,899 total / +400,000 new (scripts:data-import:pdl-companies.csv) [row 587,707]
+   ✅ 23,874,899 total / +405,000 new (scripts:data-import:pdl-companies.csv) [row 595,116]
+   ✅ 23,879,899 total / +410,000 new (scripts:data-import:pdl-companies.csv) [row 602,478]
+   ✅ 23,884,899 total / +415,000 new (scripts:data-import:pdl-companies.csv) [row 609,987]
+   ✅ 23,889,899 total / +420,000 new (scripts:data-import:pdl-companies.csv) [row 617,489]
+   ✅ 23,894,899 total / +425,000 new (scripts:data-import:pdl-companies.csv) [row 625,044]
+   ✅ 23,899,899 total / +430,000 new (scripts:data-import:pdl-companies.csv) [row 632,629]
+   ✅ 23,904,899 total / +435,000 new (scripts:data-import:pdl-companies.csv) [row 640,063]
+   ✅ 23,909,899 total / +440,000 new (scripts:data-import:pdl-companies.csv) [row 647,595]
+   ✅ 23,914,899 total / +445,000 new (scripts:data-import:pdl-companies.csv) [row 655,041]
+   ✅ 23,919,899 total / +450,000 new (scripts:data-import:pdl-companies.csv) [row 662,616]
+   ✅ 23,924,899 total / +455,000 new (scripts:data-import:pdl-companies.csv) [row 670,070]
+   ✅ 23,929,899 total / +460,000 new (scripts:data-import:pdl-companies.csv) [row 677,535]
+   ✅ 23,934,899 total / +465,000 new (scripts:data-import:pdl-companies.csv) [row 685,118]
+   ✅ 23,939,899 total / +470,000 new (scripts:data-import:pdl-companies.csv) [row 692,740]
+   ✅ 23,944,899 total / +475,000 new (scripts:data-import:pdl-companies.csv) [row 700,240]
+   ✅ 23,949,899 total / +480,000 new (scripts:data-import:pdl-companies.csv) [row 707,793]
+   ✅ 23,954,899 total / +485,000 new (scripts:data-import:pdl-companies.csv) [row 715,288]
+   ✅ 23,959,899 total / +490,000 new (scripts:data-import:pdl-companies.csv) [row 722,888]
+   ✅ 23,964,899 total / +495,000 new (scripts:data-import:pdl-companies.csv) [row 730,493]
+   ✅ 23,969,899 total / +500,000 new (scripts:data-import:pdl-companies.csv) [row 738,009]
+   ✅ 23,974,899 total / +505,000 new (scripts:data-import:pdl-companies.csv) [row 745,595]
+   ✅ 23,979,899 total / +510,000 new (scripts:data-import:pdl-companies.csv) [row 753,258]
+   ✅ 23,984,899 total / +515,000 new (scripts:data-import:pdl-companies.csv) [row 760,780]
+   ✅ 23,989,899 total / +520,000 new (scripts:data-import:pdl-companies.csv) [row 768,293]
+   ✅ 23,994,899 total / +525,000 new (scripts:data-import:pdl-companies.csv) [row 775,759]
+   ✅ 23,999,899 total / +530,000 new (scripts:data-import:pdl-companies.csv) [row 783,359]
+   ✅ 24,004,899 total / +535,000 new (scripts:data-import:pdl-companies.csv) [row 790,913]
+   ✅ 24,009,899 total / +540,000 new (scripts:data-import:pdl-companies.csv) [row 798,548]
+   ✅ 24,014,899 total / +545,000 new (scripts:data-import:pdl-companies.csv) [row 806,094]
+   ✅ 24,019,899 total / +550,000 new (scripts:data-import:pdl-companies.csv) [row 813,807]
+   ✅ 24,024,899 total / +555,000 new (scripts:data-import:pdl-companies.csv) [row 821,460]
+   ✅ 24,029,899 total / +560,000 new (scripts:data-import:pdl-companies.csv) [row 828,958]
+   ✅ 24,034,899 total / +565,000 new (scripts:data-import:pdl-companies.csv) [row 836,519]
+   ✅ 24,039,899 total / +570,000 new (scripts:data-import:pdl-companies.csv) [row 844,089]
+   ✅ 24,044,899 total / +575,000 new (scripts:data-import:pdl-companies.csv) [row 851,796]
+   ✅ 24,049,899 total / +580,000 new (scripts:data-import:pdl-companies.csv) [row 859,485]
+   ✅ 24,054,899 total / +585,000 new (scripts:data-import:pdl-companies.csv) [row 867,209]
+   ✅ 24,059,899 total / +590,000 new (scripts:data-import:pdl-companies.csv) [row 874,805]
+   ✅ 24,064,899 total / +595,000 new (scripts:data-import:pdl-companies.csv) [row 882,502]
+   ✅ 24,069,899 total / +600,000 new (scripts:data-import:pdl-companies.csv) [row 890,141]
+   ✅ 24,074,899 total / +605,000 new (scripts:data-import:pdl-companies.csv) [row 897,691]
+   ✅ 24,079,899 total / +610,000 new (scripts:data-import:pdl-companies.csv) [row 905,308]
+   ✅ 24,084,899 total / +615,000 new (scripts:data-import:pdl-companies.csv) [row 912,976]
+   ✅ 24,089,899 total / +620,000 new (scripts:data-import:pdl-companies.csv) [row 920,615]
+   ✅ 24,094,899 total / +625,000 new (scripts:data-import:pdl-companies.csv) [row 928,323]
+   ✅ 24,099,899 total / +630,000 new (scripts:data-import:pdl-companies.csv) [row 936,035]
+   ✅ 24,104,899 total / +635,000 new (scripts:data-import:pdl-companies.csv) [row 943,849]
+   ✅ 24,109,899 total / +640,000 new (scripts:data-import:pdl-companies.csv) [row 951,564]
+   ✅ 24,114,899 total / +645,000 new (scripts:data-import:pdl-companies.csv) [row 959,283]
+   ✅ 24,119,899 total / +650,000 new (scripts:data-import:pdl-companies.csv) [row 966,938]
+   ✅ 24,124,899 total / +655,000 new (scripts:data-import:pdl-companies.csv) [row 974,702]
+   ✅ 24,129,899 total / +660,000 new (scripts:data-import:pdl-companies.csv) [row 982,375]
+   ✅ 24,134,899 total / +665,000 new (scripts:data-import:pdl-companies.csv) [row 990,085]
+   ✅ 24,139,899 total / +670,000 new (scripts:data-import:pdl-companies.csv) [row 997,959]
+   ✅ 24,144,899 total / +675,000 new (scripts:data-import:pdl-companies.csv) [row 1,005,608]
+   ✅ 24,149,899 total / +680,000 new (scripts:data-import:pdl-companies.csv) [row 1,013,304]
+   ✅ 24,154,899 total / +685,000 new (scripts:data-import:pdl-companies.csv) [row 1,021,049]
+   ✅ 24,159,899 total / +690,000 new (scripts:data-import:pdl-companies.csv) [row 1,028,872]
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/pdl-companies.csv
+
+   ⏩ Will skip companies.csv and first 1,028,872 rows of pdl-companies.csv
+
+   📥 Loading 24,147,978 existing suppliers into dedup set...
+   Loaded 100,000 into dedup set   Loaded 200,000 into dedup set   Loaded 300,000 into dedup set   Loaded 400,000 into dedup set   Loaded 500,000 into dedup set   Loaded 600,000 into dedup set   Loaded 700,000 into dedup set   Loaded 800,000 into dedup set   Loaded 900,000 into dedup set   Loaded 1,000,000 into dedup set   Loaded 1,100,000 into dedup set   Loaded 1,200,000 into dedup set   Loaded 1,300,000 into dedup set   Loaded 1,400,000 into dedup set   Loaded 1,500,000 into dedup set   Loaded 1,600,000 into dedup set   Loaded 1,700,000 into dedup set   Loaded 1,800,000 into dedup set   Loaded 1,900,000 into dedup set   Loaded 2,000,000 into dedup set   Loaded 2,100,000 into dedup set   Loaded 2,200,000 into dedup set   Loaded 2,300,000 into dedup set   Loaded 2,400,000 into dedup set   Loaded 2,500,000 into dedup set   Loaded 2,600,000 into dedup set   Loaded 2,700,000 into dedup set   Loaded 2,800,000 into dedup set   Loaded 2,900,000 into dedup set   Loaded 3,000,000 into dedup set   Loaded 3,100,000 into dedup set   Loaded 3,200,000 into dedup set   Loaded 3,300,000 into dedup set   Loaded 3,400,000 into dedup set   Loaded 3,500,000 into dedup set   Loaded 3,600,000 into dedup set   Loaded 3,700,000 into dedup set   Loaded 3,800,000 into dedup set   Loaded 3,900,000 into dedup set   Loaded 4,000,000 into dedup set   Loaded 4,100,000 into dedup set   Loaded 4,200,000 into dedup set   Loaded 4,300,000 into dedup set   Loaded 4,400,000 into dedup set   Loaded 4,500,000 into dedup set   Loaded 4,600,000 into dedup set   Loaded 4,700,000 into dedup set   Loaded 4,800,000 into dedup set   Loaded 4,900,000 into dedup set   Loaded 5,000,000 into dedup set   Loaded 5,100,000 into dedup set   Loaded 5,200,000 into dedup set   Loaded 5,300,000 into dedup set   Loaded 5,400,000 into dedup set   Loaded 5,500,000 into dedup set   Loaded 5,600,000 into dedup set   Loaded 5,700,000 into dedup set   Loaded 5,800,000 into dedup set   Loaded 5,900,000 into dedup set   Loaded 6,000,000 into dedup set   Loaded 6,100,000 into dedup set   Loaded 6,200,000 into dedup set   Loaded 6,300,000 into dedup set   Loaded 6,400,000 into dedup set   Loaded 6,500,000 into dedup set   Loaded 6,600,000 into dedup set   Loaded 6,700,000 into dedup set   Loaded 6,800,000 into dedup set   Loaded 6,900,000 into dedup set   Loaded 7,000,000 into dedup set   Loaded 7,100,000 into dedup set   Loaded 7,200,000 into dedup set   Loaded 7,300,000 into dedup set   Loaded 7,400,000 into dedup set   Loaded 7,500,000 into dedup set   Loaded 7,600,000 into dedup set   Loaded 7,700,000 into dedup set   Loaded 7,800,000 into dedup set   Loaded 7,900,000 into dedup set   Loaded 8,000,000 into dedup set   Loaded 8,100,000 into dedup set   Loaded 8,200,000 into dedup set   Loaded 8,300,000 into dedup set   Loaded 8,400,000 into dedup set   Loaded 8,500,000 into dedup set   Loaded 8,600,000 into dedup set   Loaded 8,700,000 into dedup set   Loaded 8,800,000 into dedup set   Loaded 8,900,000 into dedup set   Loaded 9,000,000 into dedup set   Loaded 9,100,000 into dedup set   Loaded 9,200,000 into dedup set   Loaded 9,300,000 into dedup set   Loaded 9,400,000 into dedup set   Loaded 9,500,000 into dedup set   Loaded 9,600,000 into dedup set   Loaded 9,700,000 into dedup set   Loaded 9,800,000 into dedup set   Loaded 9,900,000 into dedup set   Loaded 10,000,000 into dedup set   Loaded 10,100,000 into dedup set   Loaded 10,200,000 into dedup set   Loaded 10,300,000 into dedup set   Loaded 10,400,000 into dedup set   Loaded 10,500,000 into dedup set   Loaded 10,600,000 into dedup set   Loaded 10,700,000 into dedup set   Loaded 10,800,000 into dedup set   Loaded 10,900,000 into dedup set   Loaded 11,000,000 into dedup set   Loaded 11,100,000 into dedup set   Loaded 11,200,000 into dedup set   Loaded 11,300,000 into dedup set   Loaded 11,400,000 into dedup set   Loaded 11,500,000 into dedup set   Loaded 11,600,000 into dedup set   Loaded 11,700,000 into dedup set   Loaded 11,800,000 into dedup set   Loaded 11,900,000 into dedup set   Loaded 12,000,000 into dedup set   Loaded 12,100,000 into dedup set   Loaded 12,200,000 into dedup set   Loaded 12,300,000 into dedup set   Loaded 12,400,000 into dedup set   Loaded 12,500,000 into dedup set   Loaded 12,600,000 into dedup set   Loaded 12,700,000 into dedup set   Loaded 12,800,000 into dedup set   Loaded 12,900,000 into dedup set   Loaded 13,000,000 into dedup set   Loaded 13,100,000 into dedup set   Loaded 13,200,000 into dedup set   Loaded 13,300,000 into dedup set   Loaded 13,400,000 into dedup set   Loaded 13,500,000 into dedup set   Loaded 13,600,000 into dedup set   Loaded 13,700,000 into dedup set   Loaded 13,800,000 into dedup set   Loaded 13,900,000 into dedup set   Loaded 14,000,000 into dedup set   Loaded 14,100,000 into dedup set   Loaded 14,200,000 into dedup set   Loaded 14,300,000 into dedup set   Loaded 14,400,000 into dedup set   Loaded 14,500,000 into dedup set   Loaded 14,600,000 into dedup set   Loaded 14,700,000 into dedup set   Loaded 14,800,000 into dedup set   Loaded 14,900,000 into dedup set   Loaded 15,000,000 into dedup set   Loaded 15,100,000 into dedup set   Loaded 15,200,000 into dedup set   Loaded 15,300,000 into dedup set   Loaded 15,400,000 into dedup set   Loaded 15,500,000 into dedup set   Loaded 15,600,000 into dedup set   Loaded 15,700,000 into dedup set   Loaded 15,800,000 into dedup set   Loaded 15,900,000 into dedup set   Loaded 16,000,000 into dedup set   Loaded 16,100,000 into dedup set   Loaded 16,200,000 into dedup set   Loaded 16,300,000 into dedup set   Loaded 16,400,000 into dedup set   Loaded 16,500,000 into dedup set   Loaded 16,600,000 into dedup set   Loaded 16,700,000 into dedup set   Loaded 16,800,000 into dedup set   Loaded 16,900,000 into dedup set   Loaded 17,000,000 into dedup set   Loaded 17,100,000 into dedup set   Loaded 17,200,000 into dedup set   Loaded 17,300,000 into dedup set   Loaded 17,400,000 into dedup set   Loaded 17,500,000 into dedup set   Loaded 17,600,000 into dedup set   Loaded 17,700,000 into dedup set   Loaded 17,800,000 into dedup set   Loaded 17,900,000 into dedup set   Loaded 18,000,000 into dedup set   Loaded 18,100,000 into dedup set   Loaded 18,200,000 into dedup set   Loaded 18,300,000 into dedup set   Loaded 18,400,000 into dedup set   Loaded 18,500,000 into dedup set   Loaded 18,600,000 into dedup set   Loaded 18,700,000 into dedup set   Loaded 18,800,000 into dedup set   Loaded 18,900,000 into dedup set   Loaded 19,000,000 into dedup set   Loaded 19,100,000 into dedup set   Loaded 19,200,000 into dedup set   Loaded 19,300,000 into dedup set   Loaded 19,400,000 into dedup set   Loaded 19,500,000 into dedup set   Loaded 19,600,000 into dedup set   Loaded 19,700,000 into dedup set   Loaded 19,800,000 into dedup set
+> rest-express@1.0.0 import:all-suppliers-29m
+> PDL_IMPORT_ALL=true PDL_TARGET_COUNT=50000000 NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts
+
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/pdl-companies.csv
+
+   ⏩ Will skip companies.csv and first 1,028,872 rows of pdl-companies.csv
+
+   📥 Loading 24,147,978 existing suppliers into dedup set...
+   Loaded 100,000 into dedup set   Loaded 200,000 into dedup set   Loaded 300,000 into dedup set   Loaded 400,000 into dedup set   Loaded 500,000 into dedup set   Loaded 600,000 into dedup set   Loaded 700,000 into dedup set   Loaded 800,000 into dedup set   Loaded 900,000 into dedup set   Loaded 1,000,000 into dedup set   Loaded 1,100,000 into dedup set   Loaded 1,200,000 into dedup set   Loaded 1,300,000 into dedup set   Loaded 1,400,000 into dedup set   Loaded 1,500,000 into dedup set   Loaded 1,600,000 into dedup set   Loaded 1,700,000 into dedup set   Loaded 1,800,000 into dedup set   Loaded 1,900,000 into dedup set   Loaded 2,000,000 into dedup set   Loaded 2,100,000 into dedup set   Loaded 2,200,000 into dedup set   Loaded 2,300,000 into dedup set   Loaded 2,400,000 into dedup set   Loaded 2,500,000 into dedup set   Loaded 2,600,000 into dedup set   Loaded 2,700,000 into dedup set   Loaded 2,800,000 into dedup set   Loaded 2,900,000 into dedup set   Loaded 3,000,000 into dedup set   Loaded 3,100,000 into dedup set   Loaded 3,200,000 into dedup set   Loaded 3,300,000 into dedup set   Loaded 3,400,000 into dedup set   Loaded 3,500,000 into dedup set   Loaded 3,600,000 into dedup set   Loaded 3,700,000 into dedup set   Loaded 3,800,000 into dedup set   Loaded 3,900,000 into dedup set   Loaded 4,000,000 into dedup set   Loaded 4,100,000 into dedup set   Loaded 4,200,000 into dedup set   Loaded 4,300,000 into dedup set   Loaded 4,400,000 into dedup set   Loaded 4,500,000 into dedup set   Loaded 4,600,000 into dedup set   Loaded 4,700,000 into dedup set   Loaded 4,800,000 into dedup set   Loaded 4,900,000 into dedup set   Loaded 5,000,000 into dedup set   Loaded 5,100,000 into dedup set   Loaded 5,200,000 into dedup set   Loaded 5,300,000 into dedup set   Loaded 5,400,000 into dedup set   Loaded 5,500,000 into dedup set   Loaded 5,600,000 into dedup set   Loaded 5,700,000 into dedup set   Loaded 5,800,000 into dedup set   Loaded 5,900,000 into dedup set   Loaded 6,000,000 into dedup set   Loaded 6,100,000 into dedup set   Loaded 6,200,000 into dedup set   Loaded 6,300,000 into dedup set   Loaded 6,400,000 into dedup set   Loaded 6,500,000 into dedup set   Loaded 6,600,000 into dedup set   Loaded 6,700,000 into dedup set   Loaded 6,800,000 into dedup set   Loaded 6,900,000 into dedup set   Loaded 7,000,000 into dedup set   Loaded 7,100,000 into dedup set   Loaded 7,200,000 into dedup set   Loaded 7,300,000 into dedup set   Loaded 7,400,000 into dedup set   Loaded 7,500,000 into dedup set   Loaded 7,600,000 into dedup set   Loaded 7,700,000 into dedup set   Loaded 7,800,000 into dedup set   Loaded 7,900,000 into dedup set   Loaded 8,000,000 into dedup set   Loaded 8,100,000 into dedup set   Loaded 8,200,000 into dedup set   Loaded 8,300,000 into dedup set   Loaded 8,400,000 into dedup set   Loaded 8,500,000 into dedup set   Loaded 8,600,000 into dedup set   Loaded 8,700,000 into dedup set   Loaded 8,800,000 into dedup set   Loaded 8,900,000 into dedup set   Loaded 9,000,000 into dedup set   Loaded 9,100,000 into dedup set   Loaded 9,200,000 into dedup set   Loaded 9,300,000 into dedup set   Loaded 9,400,000 into dedup set   Loaded 9,500,000 into dedup set   Loaded 9,600,000 into dedup set   Loaded 9,700,000 into dedup set   Loaded 9,800,000 into dedup set   Loaded 9,900,000 into dedup set   Loaded 10,000,000 into dedup set   Loaded 10,100,000 into dedup set   Loaded 10,200,000 into dedup set   Loaded 10,300,000 into dedup set   Loaded 10,400,000 into dedup set   Loaded 10,500,000 into dedup set   Loaded 10,600,000 into dedup set   Loaded 10,700,000 into dedup set   Loaded 10,800,000 into dedup set   Loaded 10,900,000 into dedup set   Loaded 11,000,000 into dedup set   Loaded 11,100,000 into dedup set   Loaded 11,200,000 into dedup set   Loaded 11,300,000 into dedup set   Loaded 11,400,000 into dedup set   Loaded 11,500,000 into dedup set   Loaded 11,600,000 into dedup set   Loaded 11,700,000 into dedup set   Loaded 11,800,000 into dedup set   Loaded 11,900,000 into dedup set   Loaded 12,000,000 into dedup set   Loaded 12,100,000 into dedup set   Loaded 12,200,000 into dedup set   Loaded 12,300,000 into dedup set   Loaded 12,400,000 into dedup set   Loaded 12,500,000 into dedup set   Loaded 12,600,000 into dedup set   Loaded 12,700,000 into dedup set   Loaded 12,800,000 into dedup set   Loaded 12,900,000 into dedup set   Loaded 13,000,000 into dedup set   Loaded 13,100,000 into dedup set   Loaded 13,200,000 into dedup set   Loaded 13,300,000 into dedup set   Loaded 13,400,000 into dedup set   Loaded 13,500,000 into dedup set   Loaded 13,600,000 into dedup set   Loaded 13,700,000 into dedup set   Loaded 13,800,000 into dedup set   Loaded 13,900,000 into dedup set   Loaded 14,000,000 into dedup set   Loaded 14,100,000 into dedup set   Loaded 14,200,000 into dedup set   Loaded 14,300,000 into dedup set   Loaded 14,400,000 into dedup set   Loaded 14,500,000 into dedup set   Loaded 14,600,000 into dedup set   Loaded 14,700,000 into dedup set   Loaded 14,800,000 into dedup set   Loaded 14,900,000 into dedup set   Loaded 15,000,000 into dedup set   Loaded 15,100,000 into dedup set   Loaded 15,200,000 into dedup set   Loaded 15,300,000 into dedup set   Loaded 15,400,000 into dedup set   Loaded 15,500,000 into dedup set   Loaded 15,600,000 into dedup set
+> rest-express@1.0.0 import:all-suppliers-29m
+> PDL_IMPORT_ALL=true PDL_TARGET_COUNT=50000000 NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts
+
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/pdl-companies.csv
+
+   ⏩ Will skip companies.csv and first 1,028,872 rows of pdl-companies.csv
+
+   📥 Loading 24,147,978 existing suppliers into dedup set...
+   Loaded 100,000 into dedup set   Loaded 200,000 into dedup set   Loaded 300,000 into dedup set   Loaded 400,000 into dedup set   Loaded 500,000 into dedup set   Loaded 600,000 into dedup set   Loaded 700,000 into dedup set   Loaded 800,000 into dedup set   Loaded 900,000 into dedup set   Loaded 1,000,000 into dedup set   Loaded 1,100,000 into dedup set   Loaded 1,200,000 into dedup set   Loaded 1,300,000 into dedup set   Loaded 1,400,000 into dedup set   Loaded 1,500,000 into dedup set   Loaded 1,600,000 into dedup set   Loaded 1,700,000 into dedup set   Loaded 1,800,000 into dedup set   Loaded 1,900,000 into dedup set   Loaded 2,000,000 into dedup set   Loaded 2,100,000 into dedup set   Loaded 2,200,000 into dedup set   Loaded 2,300,000 into dedup set   Loaded 2,400,000 into dedup set   Loaded 2,500,000 into dedup set   Loaded 2,600,000 into dedup set   Loaded 2,700,000 into dedup set   Loaded 2,800,000 into dedup set   Loaded 2,900,000 into dedup set   Loaded 3,000,000 into dedup set   Loaded 3,100,000 into dedup set   Loaded 3,200,000 into dedup set   Loaded 3,300,000 into dedup set   Loaded 3,400,000 into dedup set   Loaded 3,500,000 into dedup set   Loaded 3,600,000 into dedup set   Loaded 3,700,000 into dedup set   Loaded 3,800,000 into dedup set   Loaded 3,900,000 into dedup set   Loaded 4,000,000 into dedup set   Loaded 4,100,000 into dedup set   Loaded 4,200,000 into dedup set   Loaded 4,300,000 into dedup set   Loaded 4,400,000 into dedup set   Loaded 4,500,000 into dedup set   Loaded 4,600,000 into dedup set   Loaded 4,700,000 into dedup set   Loaded 4,800,000 into dedup set   Loaded 4,900,000 into dedup set   Loaded 5,000,000 into dedup set   Loaded 5,100,000 into dedup set   Loaded 5,200,000 into dedup set   Loaded 5,300,000 into dedup set   Loaded 5,400,000 into dedup set   Loaded 5,500,000 into dedup set   Loaded 5,600,000 into dedup set   Loaded 5,700,000 into dedup set   Loaded 5,800,000 into dedup set   Loaded 5,900,000 into dedup set   Loaded 6,000,000 into dedup set   Loaded 6,100,000 into dedup set   Loaded 6,200,000 into dedup set   Loaded 6,300,000 into dedup set   Loaded 6,400,000 into dedup set   Loaded 6,500,000 into dedup set   Loaded 6,600,000 into dedup set   Loaded 6,700,000 into dedup set   Loaded 6,800,000 into dedup set   Loaded 6,900,000 into dedup set   Loaded 7,000,000 into dedup set   Loaded 7,100,000 into dedup set   Loaded 7,200,000 into dedup set   Loaded 7,300,000 into dedup set   Loaded 7,400,000 into dedup set   Loaded 7,500,000 into dedup set   Loaded 7,600,000 into dedup set   Loaded 7,700,000 into dedup set   Loaded 7,800,000 into dedup set   Loaded 7,900,000 into dedup set   Loaded 8,000,000 into dedup set   Loaded 8,100,000 into dedup set   Loaded 8,200,000 into dedup set   Loaded 8,300,000 into dedup set   Loaded 8,400,000 into dedup set   Loaded 8,500,000 into dedup set   Loaded 8,600,000 into dedup set   Loaded 8,700,000 into dedup set   Loaded 8,800,000 into dedup set   Loaded 8,900,000 into dedup set   Loaded 9,000,000 into dedup set   Loaded 9,100,000 into dedup set   Loaded 9,200,000 into dedup set   Loaded 9,300,000 into dedup set   Loaded 9,400,000 into dedup set   Loaded 9,500,000 into dedup set   Loaded 9,600,000 into dedup set   Loaded 9,700,000 into dedup set   Loaded 9,800,000 into dedup set   Loaded 9,900,000 into dedup set   Loaded 10,000,000 into dedup set   Loaded 10,100,000 into dedup set   Loaded 10,200,000 into dedup set   Loaded 10,300,000 into dedup set   Loaded 10,400,000 into dedup set   Loaded 10,500,000 into dedup set   Loaded 10,600,000 into dedup set   Loaded 10,700,000 into dedup set   Loaded 10,800,000 into dedup set   Loaded 10,900,000 into dedup set   Loaded 11,000,000 into dedup set   Loaded 11,100,000 into dedup set   Loaded 11,200,000 into dedup set   Loaded 11,300,000 into dedup set   Loaded 11,400,000 into dedup set   Loaded 11,500,000 into dedup set   Loaded 11,600,000 into dedup set   Loaded 11,700,000 into dedup set   Loaded 11,800,000 into dedup set   Loaded 11,900,000 into dedup set   Loaded 12,000,000 into dedup set   Loaded 12,100,000 into dedup set   Loaded 12,200,000 into dedup set   Loaded 12,300,000 into dedup set   Loaded 12,400,000 into dedup set   Loaded 12,500,000 into dedup set   Loaded 12,600,000 into dedup set   Loaded 12,700,000 into dedup set   Loaded 12,800,000 into dedup set   Loaded 12,900,000 into dedup set   Loaded 13,000,000 into dedup set   Loaded 13,100,000 into dedup set   Loaded 13,200,000 into dedup set   Loaded 13,300,000 into dedup set   Loaded 13,400,000 into dedup set   Loaded 13,500,000 into dedup set   Loaded 13,600,000 into dedup set   Loaded 13,700,000 into dedup set   Loaded 13,800,000 into dedup set   Loaded 13,900,000 into dedup set   Loaded 14,000,000 into dedup set   Loaded 14,100,000 into dedup set   Loaded 14,200,000 into dedup set   Loaded 14,300,000 into dedup set   Loaded 14,400,000 into dedup set   Loaded 14,500,000 into dedup set   Loaded 14,600,000 into dedup set   Loaded 14,700,000 into dedup set   Loaded 14,800,000 into dedup set   Loaded 14,900,000 into dedup set   Loaded 15,000,000 into dedup set   Loaded 15,100,000 into dedup set   Loaded 15,200,000 into dedup set   Loaded 15,300,000 into dedup set   Loaded 15,400,000 into dedup set   Loaded 15,500,000 into dedup set   Loaded 15,600,000 into dedup set   Loaded 15,700,000 into dedup set   Loaded 15,800,000 into dedup set   Loaded 15,900,000 into dedup set   Loaded 16,000,000 into dedup set   Loaded 16,100,000 into dedup set   Loaded 16,200,000 into dedup set   Loaded 16,300,000 into dedup set   Loaded 16,400,000 into dedup set   Loaded 16,500,000 into dedup set   Loaded 16,600,000 into dedup set   Loaded 16,700,000 into dedup set   Loaded 16,800,000 into dedup set   Loaded 16,900,000 into dedup set   Loaded 17,000,000 into dedup set   Loaded 17,100,000 into dedup set   Loaded 17,200,000 into dedup set   Loaded 17,300,000 into dedup set   Loaded 17,400,000 into dedup set   Loaded 17,500,000 into dedup set   Loaded 17,600,000 into dedup set   Loaded 17,700,000 into dedup set   Loaded 17,800,000 into dedup set   Loaded 17,900,000 into dedup set   Loaded 18,000,000 into dedup set   Loaded 18,100,000 into dedup set   Loaded 18,200,000 into dedup set   Loaded 18,300,000 into dedup set   Loaded 18,400,000 into dedup set   Loaded 18,500,000 into dedup set   Loaded 18,600,000 into dedup set   Loaded 18,700,000 into dedup set   Loaded 18,800,000 into dedup set   Loaded 18,900,000 into dedup set   Loaded 19,000,000 into dedup set   Loaded 19,100,000 into dedup set   Loaded 19,200,000 into dedup set   Loaded 19,300,000 into dedup set   Loaded 19,400,000 into dedup setPrismaClientKnownRequestError: 
+Invalid `prisma.supplier.findMany()` invocation in
+/Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/import-all-suppliers.ts:333:43
+
+  330 let offset = 0;
+  331 const PAGE = 100_000;
+  332 while (true) {
+→ 333   const batch = await prisma.supplier.findMany(
+Server has closed the connection.
+    at ei.handleRequestError (/Users/harunkaya/Downloads/Smart-sourcing/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+    at ei.handleAndLogRequestError (/Users/harunkaya/Downloads/Smart-sourcing/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+    at ei.request (/Users/harunkaya/Downloads/Smart-sourcing/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+    at async a (/Users/harunkaya/Downloads/Smart-sourcing/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:24)
+    at async main (/Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/import-all-suppliers.ts:333:21) {
+  code: 'P1017',
+  meta: { modelName: 'Supplier' },
+  clientVersion: '6.19.2'
+}
+
+> rest-express@1.0.0 import:all-suppliers-29m
+> PDL_IMPORT_ALL=true PDL_TARGET_COUNT=50000000 NODE_TLS_REJECT_UNAUTHORIZED=0 tsx scripts/data-import/import-all-suppliers.ts
+
+
+=== Import All Suppliers (42M+ source) ===
+
+   Mode: Tam dolu kayıtlar only (locality + website/domain zorunlu)
+   Max: 50,000,000 suppliers
+   Files: /Users/harunkaya/Downloads/companies.csv, /Users/harunkaya/Downloads/Smart-sourcing/scripts/data-import/pdl-companies.csv
+
+   ⏩ Will skip companies.csv and first 1,028,872 rows of pdl-companies.csv
+
+   📥 Loading 24,147,978 existing suppliers into dedup set...
+   Loaded 100,000 into dedup set   Loaded 200,000 into dedup set   Loaded 300,000 into dedup set   Loaded 400,000 into dedup set   Loaded 500,000 into dedup set   Loaded 600,000 into dedup set   Loaded 700,000 into dedup set   Loaded 800,000 into dedup set   Loaded 900,000 into dedup set   Loaded 1,000,000 into dedup set   Loaded 1,100,000 into dedup set   Loaded 1,200,000 into dedup set   Loaded 1,300,000 into dedup set   Loaded 1,400,000 into dedup set   Loaded 1,500,000 into dedup set   Loaded 1,600,000 into dedup set   Loaded 1,700,000 into dedup set   Loaded 1,800,000 into dedup set   Loaded 1,900,000 into dedup set   Loaded 2,000,000 into dedup set   Loaded 2,100,000 into dedup set   Loaded 2,200,000 into dedup set   Loaded 2,300,000 into dedup set   Loaded 2,400,000 into dedup set   Loaded 2,500,000 into dedup set   Loaded 2,600,000 into dedup set   Loaded 2,700,000 into dedup set   Loaded 2,800,000 into dedup set   Loaded 2,900,000 into dedup set   Loaded 3,000,000 into dedup set   Loaded 3,100,000 into dedup set   Loaded 3,200,000 into dedup set   Loaded 3,300,000 into dedup set   Loaded 3,400,000 into dedup set   Loaded 3,500,000 into dedup set   Loaded 3,600,000 into dedup set   Loaded 3,700,000 into dedup set   Loaded 3,800,000 into dedup set   Loaded 3,900,000 into dedup set   Loaded 4,000,000 into dedup set   Loaded 4,100,000 into dedup set   Loaded 4,200,000 into dedup set   Loaded 4,300,000 into dedup set   Loaded 4,400,000 into dedup set   Loaded 4,500,000 into dedup set   Loaded 4,600,000 into dedup set   Loaded 4,700,000 into dedup set   Loaded 4,800,000 into dedup set   Loaded 4,900,000 into dedup set   Loaded 5,000,000 into dedup set   Loaded 5,100,000 into dedup set   Loaded 5,200,000 into dedup set   Loaded 5,300,000 into dedup set   Loaded 5,400,000 into dedup set   Loaded 5,500,000 into dedup set   Loaded 5,600,000 into dedup set   Loaded 5,700,000 into dedup set   Loaded 5,800,000 into dedup set   Loaded 5,900,000 into dedup set   Loaded 6,000,000 into dedup set   Loaded 6,100,000 into dedup set   Loaded 6,200,000 into dedup set   Loaded 6,300,000 into dedup set   Loaded 6,400,000 into dedup set   Loaded 6,500,000 into dedup set   Loaded 6,600,000 into dedup set   Loaded 6,700,000 into dedup set   Loaded 6,800,000 into dedup set   Loaded 6,900,000 into dedup set   Loaded 7,000,000 into dedup set   Loaded 7,100,000 into dedup set   Loaded 7,200,000 into dedup set   Loaded 7,300,000 into dedup set   Loaded 7,400,000 into dedup set   Loaded 7,500,000 into dedup set   Loaded 7,600,000 into dedup set   Loaded 7,700,000 into dedup set   Loaded 7,800,000 into dedup set   Loaded 7,900,000 into dedup set   Loaded 8,000,000 into dedup set   Loaded 8,100,000 into dedup set   Loaded 8,200,000 into dedup set   Loaded 8,300,000 into dedup set   Loaded 8,400,000 into dedup set   Loaded 8,500,000 into dedup set   Loaded 8,600,000 into dedup set   Loaded 8,700,000 into dedup set   Loaded 8,800,000 into dedup set   Loaded 8,900,000 into dedup set   Loaded 9,000,000 into dedup set   Loaded 9,100,000 into dedup set   Loaded 9,200,000 into dedup set   Loaded 9,300,000 into dedup set   Loaded 9,400,000 into dedup set   Loaded 9,500,000 into dedup set   Loaded 9,600,000 into dedup set   Loaded 9,700,000 into dedup set   Loaded 9,800,000 into dedup set   Loaded 9,900,000 into dedup set   Loaded 10,000,000 into dedup set   Loaded 10,100,000 into dedup set   Loaded 10,200,000 into dedup set   Loaded 10,300,000 into dedup set   Loaded 10,400,000 into dedup set   Loaded 10,500,000 into dedup set   Loaded 10,600,000 into dedup set   Loaded 10,700,000 into dedup set   Loaded 10,800,000 into dedup set   Loaded 10,900,000 into dedup set   Loaded 11,000,000 into dedup set   Loaded 11,100,000 into dedup set   Loaded 11,200,000 into dedup set   Loaded 11,300,000 into dedup set   Loaded 11,400,000 into dedup set   Loaded 11,500,000 into dedup set   Loaded 11,600,000 into dedup set   Loaded 11,700,000 into dedup set   Loaded 11,800,000 into dedup set   Loaded 11,900,000 into dedup set   Loaded 12,000,000 into dedup set   Loaded 12,100,000 into dedup set   Loaded 12,200,000 into dedup set   Loaded 12,300,000 into dedup set   Loaded 12,400,000 into dedup set   Loaded 12,500,000 into dedup set   Loaded 12,600,000 into dedup set   Loaded 12,700,000 into dedup set   Loaded 12,800,000 into dedup set   Loaded 12,900,000 into dedup set   Loaded 13,000,000 into dedup set   Loaded 13,100,000 into dedup set   Loaded 13,200,000 into dedup set   Loaded 13,300,000 into dedup set   Loaded 13,400,000 into dedup set   Loaded 13,500,000 into dedup set   Loaded 13,600,000 into dedup set   Loaded 13,700,000 into dedup set   Loaded 13,800,000 into dedup set   Loaded 13,900,000 into dedup set   Loaded 14,000,000 into dedup set   Loaded 14,100,000 into dedup set   Loaded 14,200,000 into dedup set   Loaded 14,300,000 into dedup set   Loaded 14,400,000 into dedup set   Loaded 14,500,000 into dedup set   Loaded 14,600,000 into dedup set   Loaded 14,700,000 into dedup set   Loaded 14,800,000 into dedup set   Loaded 14,900,000 into dedup set   Loaded 15,000,000 into dedup set   Loaded 15,100,000 into dedup set   Loaded 15,200,000 into dedup set   Loaded 15,300,000 into dedup set   Loaded 15,400,000 into dedup set   Loaded 15,500,000 into dedup set   Loaded 15,600,000 into dedup set   Loaded 15,700,000 into dedup set   Loaded 15,800,000 into dedup set   Loaded 15,900,000 into dedup set   Loaded 16,000,000 into dedup set   Loaded 16,100,000 into dedup set   Loaded 16,200,000 into dedup set   Loaded 16,300,000 into dedup set   Loaded 16,400,000 into dedup set   Loaded 16,500,000 into dedup set   Loaded 16,600,000 into dedup set   Loaded 16,700,000 into dedup set   Loaded 16,800,000 into dedup set   Loaded 16,900,000 into dedup set   Loaded 17,000,000 into dedup set   Loaded 17,100,000 into dedup set   Loaded 17,200,000 into dedup set   Loaded 17,300,000 into dedup set   Loaded 17,400,000 into dedup set   Loaded 17,500,000 into dedup set   Loaded 17,600,000 into dedup set   Loaded 17,700,000 into dedup set   Loaded 17,800,000 into dedup set   Loaded 17,900,000 into dedup set   Loaded 18,000,000 into dedup set   Loaded 18,100,000 into dedup set   Loaded 18,200,000 into dedup set   Loaded 18,300,000 into dedup set   Loaded 18,400,000 into dedup set   Loaded 18,500,000 into dedup set   Loaded 18,600,000 into dedup set   Loaded 18,700,000 into dedup set   Loaded 18,800,000 into dedup set   Loaded 18,900,000 into dedup set   Loaded 19,000,000 into dedup set   Loaded 19,100,000 into dedup set   Loaded 19,200,000 into dedup set   Loaded 19,300,000 into dedup set   Loaded 19,400,000 into dedup set   Loaded 19,500,000 into dedup set   Loaded 19,600,000 into dedup set   Loaded 19,700,000 into dedup set   Loaded 19,800,000 into dedup set   Loaded 19,900,000 into dedup set   Loaded 20,000,000 into dedup set   Loaded 20,100,000 into dedup set   Loaded 20,200,000 into dedup set   Loaded 20,300,000 into dedup set   Loaded 20,400,000 into dedup set   Loaded 20,500,000 into dedup set   Loaded 20,600,000 into dedup set   Loaded 20,700,000 into dedup set   Loaded 20,800,000 into dedup set   Loaded 20,900,000 into dedup set   Loaded 21,000,000 into dedup set   Loaded 21,100,000 into dedup set   Loaded 21,200,000 into dedup set   Loaded 21,300,000 into dedup set   Loaded 21,400,000 into dedup set   Loaded 21,500,000 into dedup set   Loaded 21,600,000 into dedup set   Loaded 21,700,000 into dedup set   Loaded 21,800,000 into dedup set   Loaded 21,900,000 into dedup set   Loaded 22,000,000 into dedup set   Loaded 22,100,000 into dedup set   Loaded 22,200,000 into dedup set   Loaded 22,300,000 into dedup set   Loaded 22,400,000 into dedup set   Loaded 22,500,000 into dedup set   Loaded 22,600,000 into dedup set   Loaded 22,700,000 into dedup set   Loaded 22,800,000 into dedup set   Loaded 22,900,000 into dedup set   Loaded 23,000,000 into dedup set   Loaded 23,100,000 into dedup set   Loaded 23,200,000 into dedup set   Loaded 23,300,000 into dedup set   Loaded 23,400,000 into dedup set   Loaded 23,500,000 into dedup set   Loaded 23,600,000 into dedup set   Loaded 23,700,000 into dedup set   Loaded 23,800,000 into dedup set   Loaded 23,900,000 into dedup set   Loaded 24,000,000 into dedup set   Loaded 24,100,000 into dedup set
+   ✓ Dedup set ready (24,147,978 existing)
+
+   ⏭️ Skipping companies.csv (PDL resume mode)
+
+   📂 Processing pdl-companies.csv...
+   ⏩ Skipping row 1,000,000...
+   ✅ 24,152,978 total / +5,000 new (pdl-companies.csv) [row 1,064,201]
+   ✅ 24,157,978 total / +10,000 new (pdl-companies.csv) [row 1,095,472]
+   ✅ 24,162,978 total / +15,000 new (pdl-companies.csv) [row 1,126,675]
+   ✅ 24,167,978 total / +20,000 new (pdl-companies.csv) [row 1,158,066]
+   ✅ 24,172,978 total / +25,000 new (pdl-companies.csv) [row 1,189,701]
+   ✅ 24,177,978 total / +30,000 new (pdl-companies.csv) [row 1,221,810]
+   ✅ 24,182,978 total / +35,000 new (pdl-companies.csv) [row 1,253,014]
+   ✅ 24,187,978 total / +40,000 new (pdl-companies.csv) [row 1,283,837]
+   ✅ 24,192,978 total / +45,000 new (pdl-companies.csv) [row 1,306,127]
+   ✅ 24,197,978 total / +50,000 new (pdl-companies.csv) [row 1,328,635]
+   ✅ 24,202,978 total / +55,000 new (pdl-companies.csv) [row 1,351,243]
+   ✅ 24,207,978 total / +60,000 new (pdl-companies.csv) [row 1,373,725]
+   ✅ 24,212,978 total / +65,000 new (pdl-companies.csv) [row 1,395,898]
+   ✅ 24,217,978 total / +70,000 new (pdl-companies.csv) [row 1,418,013]
+   ✅ 24,222,978 total / +75,000 new (pdl-companies.csv) [row 1,439,879]
+   ✅ 24,227,978 total / +80,000 new (pdl-companies.csv) [row 1,462,516]
+   ✅ 24,232,978 total / +85,000 new (pdl-companies.csv) [row 1,484,975]
+   ✅ 24,237,978 total / +90,000 new (pdl-companies.csv) [row 1,507,501]
+   ✅ 24,242,978 total / +95,000 new (pdl-companies.csv) [row 1,530,224]
+   ✅ 24,247,978 total / +100,000 new (pdl-companies.csv) [row 1,553,598]
+   ✅ 24,252,978 total / +105,000 new (pdl-companies.csv) [row 1,576,676]
+   ✅ 24,257,978 total / +110,000 new (pdl-companies.csv) [row 1,600,261]
+   ✅ 24,262,978 total / +115,000 new (pdl-companies.csv) [row 1,622,975]
+   ✅ 24,267,978 total / +120,000 new (pdl-companies.csv) [row 1,646,143]
+   ✅ 24,272,978 total / +125,000 new (pdl-companies.csv) [row 1,669,177]
+   ✅ 24,277,978 total / +130,000 new (pdl-companies.csv) [row 1,692,013]
+   ✅ 24,282,978 total / +135,000 new (pdl-companies.csv) [row 1,715,023]
+   ✅ 24,287,978 total / +140,000 new (pdl-companies.csv) [row 1,737,938]
+   ✅ 24,292,978 total / +145,000 new (pdl-companies.csv) [row 1,760,769]
+   ✅ 24,297,978 total / +150,000 new (pdl-companies.csv) [row 1,783,947]
+   ✅ 24,302,978 total / +155,000 new (pdl-companies.csv) [row 1,806,741]
+   ✅ 24,307,978 total / +160,000 new (pdl-companies.csv) [row 1,831,031]
+   ✅ 24,312,978 total / +165,000 new (pdl-companies.csv) [row 1,854,809]
+   ✅ 24,317,978 total / +170,000 new (pdl-companies.csv) [row 1,878,736]
+   ✅ 24,322,978 total / +175,000 new (pdl-companies.csv) [row 1,903,320]
+   ✅ 24,327,978 total / +180,000 new (pdl-companies.csv) [row 1,927,401]
+   ✅ 24,332,978 total / +185,000 new (pdl-companies.csv) [row 1,951,523]
+   ✅ 24,337,978 total / +190,000 new (pdl-companies.csv) [row 1,975,367]
+   ✅ 24,342,978 total / +195,000 new (pdl-companies.csv) [row 1,999,017]
+   ✅ 24,347,978 total / +200,000 new (pdl-companies.csv) [row 2,023,084]
+   ✅ 24,352,978 total / +205,000 new (pdl-companies.csv) [row 2,048,043]
+   ✅ 24,357,978 total / +210,000 new (pdl-companies.csv) [row 2,072,055]
+   ✅ 24,362,978 total / +215,000 new (pdl-companies.csv) [row 2,096,100]
+   ✅ 24,367,978 total / +220,000 new (pdl-companies.csv) [row 2,120,512]
+   ✅ 24,372,978 total / +225,000 new (pdl-companies.csv) [row 2,145,188]
+   ✅ 24,377,978 total / +230,000 new (pdl-companies.csv) [row 2,169,042]
+   ✅ 24,382,978 total / +235,000 new (pdl-companies.csv) [row 2,192,967]
+   ✅ 24,387,978 total / +240,000 new (pdl-companies.csv) [row 2,217,043]
+   ✅ 24,392,978 total / +245,000 new (pdl-companies.csv) [row 2,241,025]
+   ✅ 24,397,978 total / +250,000 new (pdl-companies.csv) [row 2,265,472]
+   ✅ 24,402,978 total / +255,000 new (pdl-companies.csv) [row 2,289,587]
+   ✅ 24,407,978 total / +260,000 new (pdl-companies.csv) [row 2,314,240]
+   ✅ 24,412,978 total / +265,000 new (pdl-companies.csv) [row 2,340,135]
+   ✅ 24,417,978 total / +270,000 new (pdl-companies.csv) [row 2,366,208]
+   ✅ 24,422,978 total / +275,000 new (pdl-companies.csv) [row 2,391,363]
+   ✅ 24,427,978 total / +280,000 new (pdl-companies.csv) [row 2,416,909]
+   ✅ 24,432,978 total / +285,000 new (pdl-companies.csv) [row 2,442,811]
+   ✅ 24,437,978 total / +290,000 new (pdl-companies.csv) [row 2,468,687]
+   ✅ 24,442,978 total / +295,000 new (pdl-companies.csv) [row 2,494,051]
+   ✅ 24,447,978 total / +300,000 new (pdl-companies.csv) [row 2,519,917]
+   ✅ 24,452,978 total / +305,000 new (pdl-companies.csv) [row 2,545,611]
+   ✅ 24,457,978 total / +310,000 new (pdl-companies.csv) [row 2,571,907]
+   ✅ 24,462,978 total / +315,000 new (pdl-companies.csv) [row 2,597,506]
+   ✅ 24,467,978 total / +320,000 new (pdl-companies.csv) [row 2,622,903]
+   ✅ 24,472,978 total / +325,000 new (pdl-companies.csv) [row 2,648,483]
+   ✅ 24,477,978 total / +330,000 new (pdl-companies.csv) [row 2,674,126]
+   ✅ 24,482,978 total / +335,000 new (pdl-companies.csv) [row 2,699,854]
+   ✅ 24,487,978 total / +340,000 new (pdl-companies.csv) [row 2,726,284]
+   ✅ 24,492,978 total / +345,000 new (pdl-companies.csv) [row 2,752,184]
+   ✅ 24,497,978 total / +350,000 new (pdl-companies.csv) [row 2,778,081]
+   ✅ 24,502,978 total / +355,000 new (pdl-companies.csv) [row 2,804,269]
+   ✅ 24,507,978 total / +360,000 new (pdl-companies.csv) [row 2,834,994]
+   ✅ 24,512,978 total / +365,000 new (pdl-companies.csv) [row 2,860,844]
+   ✅ 24,517,978 total / +370,000 new (pdl-companies.csv) [row 2,886,928]
+   ✅ 24,522,978 total / +375,000 new (pdl-companies.csv) [row 2,915,271]
+   ✅ 24,527,978 total / +380,000 new (pdl-companies.csv) [row 2,940,514]
+   ✅ 24,532,978 total / +385,000 new (pdl-companies.csv) [row 2,966,559]
+   ✅ 24,537,978 total / +390,000 new (pdl-companies.csv) [row 2,995,225]
+   ✅ 24,542,978 total / +395,000 new (pdl-companies.csv) [row 3,020,942]
+   ✅ 24,547,978 total / +400,000 new (pdl-companies.csv) [row 3,049,876]
+   ✅ 24,552,978 total / +405,000 new (pdl-companies.csv) [row 3,075,222]
+   ✅ 24,557,978 total / +410,000 new (pdl-companies.csv) [row 3,101,168]
+   ✅ 24,562,978 total / +415,000 new (pdl-companies.csv) [row 3,129,550]
+   ✅ 24,567,978 total / +420,000 new (pdl-companies.csv) [row 3,155,816]
+   ✅ 24,572,978 total / +425,000 new (pdl-companies.csv) [row 3,181,379]
+   ✅ 24,577,978 total / +430,000 new (pdl-companies.csv) [row 3,207,010]
+   ✅ 24,582,978 total / +435,000 new (pdl-companies.csv) [row 3,235,630]
+   ✅ 24,587,978 total / +440,000 new (pdl-companies.csv) [row 3,261,441]
+   ✅ 24,592,978 total / +445,000 new (pdl-companies.csv) [row 3,291,944]
+   ✅ 24,597,978 total / +450,000 new (pdl-companies.csv) [row 3,325,939]
+   ✅ 24,602,978 total / +455,000 new (pdl-companies.csv) [row 3,356,771]
+   ✅ 24,607,978 total / +460,000 new (pdl-companies.csv) [row 3,387,526]
+   ✅ 24,612,978 total / +465,000 new (pdl-companies.csv) [row 3,421,048]
+   ✅ 24,617,978 total / +470,000 new (pdl-companies.csv) [row 3,451,458]
+   ✅ 24,622,978 total / +475,000 new (pdl-companies.csv) [row 3,482,119]
+   ✅ 24,627,978 total / +480,000 new (pdl-companies.csv) [row 3,513,300]
+   ✅ 24,632,978 total / +485,000 new (pdl-companies.csv) [row 3,546,896]
+   ✅ 24,637,978 total / +490,000 new (pdl-companies.csv) [row 3,577,816]
+   ✅ 24,642,978 total / +495,000 new (pdl-companies.csv) [row 3,611,663]
+   ✅ 24,647,978 total / +500,000 new (pdl-companies.csv) [row 3,642,543]
+   ✅ 24,652,978 total / +505,000 new (pdl-companies.csv) [row 3,673,308]
+   ✅ 24,657,978 total / +510,000 new (pdl-companies.csv) [row 3,703,791]
+   ✅ 24,662,978 total / +515,000 new (pdl-companies.csv) [row 3,734,796]
+   ✅ 24,667,978 total / +520,000 new (pdl-companies.csv) [row 3,765,636]
+   ✅ 24,672,978 total / +525,000 new (pdl-companies.csv) [row 3,796,965]
+   ✅ 24,677,978 total / +530,000 new (pdl-companies.csv) [row 3,828,172]
+   ✅ 24,682,978 total / +535,000 new (pdl-companies.csv) [row 3,859,326]
+   ✅ 24,687,978 total / +540,000 new (pdl-companies.csv) [row 3,890,960]
+   ✅ 24,692,978 total / +545,000 new (pdl-companies.csv) [row 3,922,293]
+   ✅ 24,697,978 total / +550,000 new (pdl-companies.csv) [row 3,953,008]
+   ✅ 24,702,978 total / +555,000 new (pdl-companies.csv) [row 3,983,809]
+   ✅ 24,707,978 total / +560,000 new (pdl-companies.csv) [row 4,015,315]
+   ✅ 24,712,978 total / +565,000 new (pdl-companies.csv) [row 4,045,966]
+   ✅ 24,717,978 total / +570,000 new (pdl-companies.csv) [row 4,076,819]
+   ✅ 24,722,978 total / +575,000 new (pdl-companies.csv) [row 4,107,235]
+   ✅ 24,727,978 total / +580,000 new (pdl-companies.csv) [row 4,138,250]
+   ✅ 24,732,978 total / +585,000 new (pdl-companies.csv) [row 4,169,286]
+   ✅ 24,737,978 total / +590,000 new (pdl-companies.csv) [row 4,200,789]
+   ✅ 24,742,978 total / +595,000 new (pdl-companies.csv) [row 4,231,916]
+   ✅ 24,747,978 total / +600,000 new (pdl-companies.csv) [row 4,262,980]
+   ✅ 24,752,978 total / +605,000 new (pdl-companies.csv) [row 4,294,434]
+   ✅ 24,757,978 total / +610,000 new (pdl-companies.csv) [row 4,325,477]
+   ✅ 24,762,978 total / +615,000 new (pdl-companies.csv) [row 4,356,538]
+   ✅ 24,767,978 total / +620,000 new (pdl-companies.csv) [row 4,386,249]
+   ✅ 24,772,978 total / +625,000 new (pdl-companies.csv) [row 4,416,732]
+   ✅ 24,777,978 total / +630,000 new (pdl-companies.csv) [row 4,447,499]
+   ✅ 24,782,978 total / +635,000 new (pdl-companies.csv) [row 4,478,158]
+   ✅ 24,787,978 total / +640,000 new (pdl-companies.csv) [row 4,509,732]
+   ✅ 24,792,978 total / +645,000 new (pdl-companies.csv) [row 4,540,443]
+   ✅ 24,797,978 total / +650,000 new (pdl-companies.csv) [row 4,571,388]
+   ✅ 24,802,978 total / +655,000 new (pdl-companies.csv) [row 4,602,450]
+   ✅ 24,807,978 total / +660,000 new (pdl-companies.csv) [row 4,633,070]
+   ✅ 24,812,978 total / +665,000 new (pdl-companies.csv) [row 4,663,936]
+   ✅ 24,817,978 total / +670,000 new (pdl-companies.csv) [row 4,695,171]
+   ✅ 24,822,978 total / +675,000 new (pdl-companies.csv) [row 4,726,660]
+   ✅ 24,827,978 total / +680,000 new (pdl-companies.csv) [row 4,757,079]
+   ✅ 24,832,978 total / +685,000 new (pdl-companies.csv) [row 4,788,208]
+   ✅ 24,837,978 total / +690,000 new (pdl-companies.csv) [row 4,819,017]
+   ✅ 24,842,978 total / +695,000 new (pdl-companies.csv) [row 4,849,802]
+   ✅ 24,847,978 total / +700,000 new (pdl-companies.csv) [row 4,880,603]
+   ✅ 24,852,978 total / +705,000 new (pdl-companies.csv) [row 4,912,058]
+   ✅ 24,857,978 total / +710,000 new (pdl-companies.csv) [row 4,942,938]
+   ✅ 24,862,978 total / +715,000 new (pdl-companies.csv) [row 4,973,341]
+   ✅ 24,867,978 total / +720,000 new (pdl-companies.csv) [row 5,004,729]
+   ✅ 24,872,978 total / +725,000 new (pdl-companies.csv) [row 5,035,348]
+   ✅ 24,877,978 total / +730,000 new (pdl-companies.csv) [row 5,066,860]
+   ✅ 24,882,978 total / +735,000 new (pdl-companies.csv) [row 5,098,145]
+   ✅ 24,887,978 total / +740,000 new (pdl-companies.csv) [row 5,128,731]
+   ✅ 24,892,978 total / +745,000 new (pdl-companies.csv) [row 5,160,883]
+   ✅ 24,897,978 total / +750,000 new (pdl-companies.csv) [row 5,192,314]
+   ✅ 24,902,978 total / +755,000 new (pdl-companies.csv) [row 5,222,487]
+   ✅ 24,907,978 total / +760,000 new (pdl-companies.csv) [row 5,253,555]
+   ✅ 24,912,978 total / +765,000 new (pdl-companies.csv) [row 5,284,534]
+   ✅ 24,917,978 total / +770,000 new (pdl-companies.csv) [row 5,315,220]
+   ✅ 24,922,978 total / +775,000 new (pdl-companies.csv) [row 5,346,093]
+   ✅ 24,927,978 total / +780,000 new (pdl-companies.csv) [row 5,377,397]
+   ✅ 24,932,978 total / +785,000 new (pdl-companies.csv) [row 5,408,271]
+   ✅ 24,937,978 total / +790,000 new (pdl-companies.csv) [row 5,438,777]
+   ✅ 24,942,978 total / +795,000 new (pdl-companies.csv) [row 5,469,991]
+   ✅ 24,947,978 total / +800,000 new (pdl-companies.csv) [row 5,501,070]
+   ✅ 24,952,978 total / +805,000 new (pdl-companies.csv) [row 5,531,197]
+   ✅ 24,957,978 total / +810,000 new (pdl-companies.csv) [row 5,562,784]
+   ✅ 24,962,978 total / +815,000 new (pdl-companies.csv) [row 5,592,983]
+   ✅ 24,967,978 total / +820,000 new (pdl-companies.csv) [row 5,624,356]
+   ✅ 24,972,978 total / +825,000 new (pdl-companies.csv) [row 5,654,653]
+   ✅ 24,977,978 total / +830,000 new (pdl-companies.csv) [row 5,686,168]
+   ✅ 24,982,978 total / +835,000 new (pdl-companies.csv) [row 5,716,817]
+   ✅ 24,987,978 total / +840,000 new (pdl-companies.csv) [row 5,747,589]
+   ✅ 24,992,978 total / +845,000 new (pdl-companies.csv) [row 5,778,342]
+   ✅ 24,997,978 total / +850,000 new (pdl-companies.csv) [row 5,809,659]
+   ✅ 25,002,978 total / +855,000 new (pdl-companies.csv) [row 5,840,755]
+   ✅ 25,007,978 total / +860,000 new (pdl-companies.csv) [row 5,871,307]
+   ✅ 25,012,978 total / +865,000 new (pdl-companies.csv) [row 5,902,076]
+   ✅ 25,017,978 total / +870,000 new (pdl-companies.csv) [row 5,932,883]
+   ✅ 25,022,978 total / +875,000 new (pdl-companies.csv) [row 5,962,982]
+   ✅ 25,027,978 total / +880,000 new (pdl-companies.csv) [row 5,993,955]
+   ✅ 25,032,978 total / +885,000 new (pdl-companies.csv) [row 6,025,245]
+   ✅ 25,037,978 total / +890,000 new (pdl-companies.csv) [row 6,055,807]
+   ✅ 25,042,978 total / +895,000 new (pdl-companies.csv) [row 6,086,847]
+   ✅ 25,047,978 total / +900,000 new (pdl-companies.csv) [row 6,117,362]
+   ✅ 25,052,978 total / +905,000 new (pdl-companies.csv) [row 6,147,533]
+   ✅ 25,057,978 total / +910,000 new (pdl-companies.csv) [row 6,178,087]
+   ✅ 25,062,978 total / +915,000 new (pdl-companies.csv) [row 6,209,002]
+   ✅ 25,067,978 total / +920,000 new (pdl-companies.csv) [row 6,239,834]
+   ✅ 25,072,978 total / +925,000 new (pdl-companies.csv) [row 6,270,706]
+   ✅ 25,077,978 total / +930,000 new (pdl-companies.csv) [row 6,301,824]
+   ✅ 25,082,978 total / +935,000 new (pdl-companies.csv) [row 6,333,068]
+   ✅ 25,087,978 total / +940,000 new (pdl-companies.csv) [row 6,363,253]
+   ✅ 25,092,978 total / +945,000 new (pdl-companies.csv) [row 6,393,094]
+   ✅ 25,097,978 total / +950,000 new (pdl-companies.csv) [row 6,423,936]
+   ✅ 25,102,978 total / +955,000 new (pdl-companies.csv) [row 6,454,219]
+   ✅ 25,107,978 total / +960,000 new (pdl-companies.csv) [row 6,484,697]
+   ✅ 25,112,978 total / +965,000 new (pdl-companies.csv) [row 6,515,437]
+   ✅ 25,117,978 total / +970,000 new (pdl-companies.csv) [row 6,545,864]
+   ✅ 25,122,978 total / +975,000 new (pdl-companies.csv) [row 6,575,938]
+   ✅ 25,127,978 total / +980,000 new (pdl-companies.csv) [row 6,606,959]
+   ✅ 25,132,978 total / +985,000 new (pdl-companies.csv) [row 6,637,524]
+   ✅ 25,137,978 total / +990,000 new (pdl-companies.csv) [row 6,668,934]
+   ✅ 25,142,978 total / +995,000 new (pdl-companies.csv) [row 6,699,292]
+   ✅ 25,147,978 total / +1,000,000 new (pdl-companies.csv) [row 6,729,585]
+   ✅ 25,152,978 total / +1,005,000 new (pdl-companies.csv) [row 6,760,300]
+   ✅ 25,157,978 total / +1,010,000 new (pdl-companies.csv) [row 6,790,571]
+   ✅ 25,162,978 total / +1,015,000 new (pdl-companies.csv) [row 6,820,701]
+   ✅ 25,167,978 total / +1,020,000 new (pdl-companies.csv) [row 6,851,025]
+   ✅ 25,172,978 total / +1,025,000 new (pdl-companies.csv) [row 6,881,813]
+   ✅ 25,177,978 total / +1,030,000 new (pdl-companies.csv) [row 6,912,614]
+   ✅ 25,182,978 total / +1,035,000 new (pdl-companies.csv) [row 6,942,855]
+   ✅ 25,187,978 total / +1,040,000 new (pdl-companies.csv) [row 6,973,294]
+   ✅ 25,192,978 total / +1,045,000 new (pdl-companies.csv) [row 7,003,663]
+   ✅ 25,197,978 total / +1,050,000 new (pdl-companies.csv) [row 7,033,583]
+   ✅ 25,202,978 total / +1,055,000 new (pdl-companies.csv) [row 7,063,946]
+   ✅ 25,207,978 total / +1,060,000 new (pdl-companies.csv) [row 7,095,010]
+   ✅ 25,212,978 total / +1,065,000 new (pdl-companies.csv) [row 7,125,935]
+   ✅ 25,217,978 total / +1,070,000 new (pdl-companies.csv) [row 7,156,823]
+   Added 1,072,670 from pdl-companies.csv. Total: 25,220,648
+
+
+   ✅ Done. Total suppliers in DB: 25,221,147
+

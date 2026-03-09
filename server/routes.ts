@@ -9,7 +9,7 @@ import { generateSmartFinderReport, type ReportFormData } from "./services/repor
 import { withTimeout } from "./lib/asyncUtils";
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
-import { getOpenAIClient } from "./services/openaiClient";
+import { getOpenAIClient, isOpenAIConfigured, chatWithRetry, getUsageLog, LIGHT_MODEL } from "./services/openaiClient";
 import { calculateLandedCost } from "./services/landedCost";
 import type { LandedCostInput, LandedCostResult } from "./services/landedCost";
 import { generateRiskAnalysis, generateComplianceCheck } from "./services/riskIntelligence";
@@ -687,6 +687,113 @@ RESPONSE GUIDELINES:
     } catch (error: any) {
       console.error("Error saving AI agent result:", error);
       res.status(500).json({ error: "Failed to save result" });
+    }
+  });
+
+  // ===== AI: Status & Usage =====
+  app.get("/api/ai/status", (_req: Request, res: Response) => {
+    res.json({ configured: isOpenAIConfigured() });
+  });
+
+  app.get("/api/ai/usage", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    res.json(getUsageLog());
+  });
+
+  // ===== AI: Supplier Summary =====
+  app.post("/api/ai/supplier-summary", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    if (!isOpenAIConfigured()) {
+      return res.status(503).json({ error: "OpenAI API key not configured. Add OPENAI_API_KEY to your .env file." });
+    }
+    try {
+      const { supplierName, country, industry, products, description } = req.body;
+      if (!supplierName || typeof supplierName !== "string") {
+        return res.status(400).json({ error: "supplierName is required" });
+      }
+      const context = [
+        supplierName && `Supplier: ${supplierName}`,
+        country && `Country: ${country}`,
+        industry && `Industry: ${industry}`,
+        products && `Products: ${Array.isArray(products) ? products.join(", ") : products}`,
+        description && `Additional info: ${description}`,
+      ].filter(Boolean).join("\n");
+
+      const response = await chatWithRetry({
+        model: LIGHT_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: "You are a sourcing intelligence assistant. Generate a concise 2-3 sentence summary of this supplier for procurement teams. Highlight strengths, specialties, and key differentiators. Be factual and professional.",
+          },
+          {
+            role: "user",
+            content: `Summarize this supplier:\n\n${context || "No additional context provided."}`,
+          },
+        ],
+        max_tokens: 300,
+        temperature: 0.5,
+      });
+
+      const summary = response.choices[0]?.message?.content?.trim();
+      res.json({ summary: summary || "Unable to generate summary." });
+    } catch (error: any) {
+      console.error("Supplier summary error:", error);
+      res.status(500).json({ error: error?.message || "Failed to generate supplier summary" });
+    }
+  });
+
+  // ===== AI: RFQ Draft =====
+  app.post("/api/ai/rfq-draft", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    if (!isOpenAIConfigured()) {
+      return res.status(503).json({ error: "OpenAI API key not configured. Add OPENAI_API_KEY to your .env file." });
+    }
+    try {
+      const { description, quantity, unit, targetRegion, deadline } = req.body;
+      if (!description || typeof description !== "string") {
+        return res.status(400).json({ error: "description is required" });
+      }
+      const context = [
+        `Product/Service: ${description}`,
+        quantity && `Quantity: ${quantity}`,
+        unit && `Unit: ${unit}`,
+        targetRegion && `Target region: ${targetRegion}`,
+        deadline && `Deadline: ${deadline}`,
+      ].filter(Boolean).join("\n");
+
+      const response = await chatWithRetry({
+        model: LIGHT_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: `You are an expert procurement specialist. Draft a professional Request for Quotation (RFQ) based on the user's description.
+Include: 1) Clear product/service specification, 2) Quantity and unit, 3) Delivery requirements, 4) Quality/certification requirements if relevant, 5) Quote submission deadline, 6) Contact/response instructions.
+Format as plain text, professional tone. Keep it concise but complete.`,
+          },
+          {
+            role: "user",
+            content: `Draft an RFQ for:\n\n${context}`,
+          },
+        ],
+        max_tokens: 600,
+        temperature: 0.6,
+      });
+
+      const draft = response.choices[0]?.message?.content?.trim();
+      res.json({ draft: draft || "Unable to generate RFQ draft." });
+    } catch (error: any) {
+      console.error("RFQ draft error:", error);
+      res.status(500).json({ error: error?.message || "Failed to generate RFQ draft" });
     }
   });
   
