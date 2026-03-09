@@ -33,6 +33,7 @@ import type { GraphRelation } from "@shared/schema";
 import { triggerPipelineRun, getPipelineRuns, isPipelineRunning } from "./jobs/dataCollector";
 import { scrapeSource, scrapeAll, getCompanyStats, type ScraperSource } from "./scrapers/directoryScraper";
 import { crawlAndSave, getCrawlResult, listEnrichments } from "./scrapers/websiteCrawler";
+import { scoreCompany, scoreDomain, scoreBatch, getTopLeads } from "./services/leadScoringEngine";
 import PLATFORM_STATS from "./data/stats.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
@@ -3055,6 +3056,78 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const skip = parseInt(String(req.query.skip ?? "0"), 10);
       const take = parseInt(String(req.query.take ?? "50"), 10);
       const records = await listEnrichments({ skip, take });
+      res.json(records);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  // ─── Lead Scoring ─────────────────────────────────────────────────────────────
+
+  /**
+   * POST /api/lead-score
+   * Score a single company from supplied data (no DB lookup required).
+   * Body: LeadScoringInput
+   */
+  app.post("/api/lead-score", async (req: Request, res: Response) => {
+    try {
+      const input = req.body ?? {};
+      const result = await scoreCompany(input);
+      res.json(result);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/lead-score/:domain
+   * Auto-loads company + enrichment from DB, calls SimilarWeb if key is set,
+   * persists score back to company_enrichments, returns full breakdown.
+   */
+  app.get("/api/lead-score/:domain", async (req: Request, res: Response) => {
+    try {
+      const result = await scoreDomain(req.params.domain);
+      res.json(result);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * POST /api/lead-score/batch
+   * Body: { domains: string[] }
+   * Scores multiple domains sequentially, returns array of { domain, leadScore, tier }.
+   */
+  app.post("/api/lead-score/batch", async (req: Request, res: Response) => {
+    try {
+      const { domains } = req.body ?? {};
+      if (!Array.isArray(domains) || domains.length === 0) {
+        return res.status(400).json({ error: "domains array is required" });
+      }
+      if (domains.length > 100) {
+        return res.status(400).json({ error: "Maximum 100 domains per batch" });
+      }
+      const results = await scoreBatch(domains);
+      res.json(results);
+    } catch (e) {
+      res.status(500).json({ error: (e as Error).message });
+    }
+  });
+
+  /**
+   * GET /api/leads/top?take=50&tier=hot
+   * Returns enriched companies ordered by lead_score desc.
+   * tier filter: "hot" | "warm" | "cold"
+   */
+  app.get("/api/leads/top", async (req: Request, res: Response) => {
+    try {
+      const take = parseInt(String(req.query.take ?? "50"), 10);
+      const tier = req.query.tier as string | undefined;
+      const validTiers = ["hot", "warm", "cold"];
+      const records = await getTopLeads({
+        take,
+        tier: validTiers.includes(tier ?? "") ? (tier as "hot" | "warm" | "cold") : undefined,
+      });
       res.json(records);
     } catch (e) {
       res.status(500).json({ error: (e as Error).message });
