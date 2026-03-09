@@ -77,7 +77,6 @@ function useSuppliers(params: {
       return res.json();
     },
     staleTime: 30000,
-    placeholderData: (prev) => prev,
   });
 }
 
