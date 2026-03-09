@@ -2343,9 +2343,13 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         limit = "20",
       } = req.query;
 
-      const pageNum = Math.max(1, parseInt(page as string, 10) || 1);
-      const limitNum = Math.min(50, Math.max(1, parseInt(limit as string, 10) || 20));
-      const skip = (pageNum - 1) * limitNum;
+      // Growth loop: guests see only the first FREE_LIMIT results
+      const FREE_LIMIT = 3;
+      const isGuest = !getUserId(req);
+
+      const pageNum = isGuest ? 1 : Math.max(1, parseInt(page as string, 10) || 1);
+      const limitNum = isGuest ? FREE_LIMIT : Math.min(50, Math.max(1, parseInt(limit as string, 10) || 20));
+      const skip = isGuest ? 0 : (pageNum - 1) * limitNum;
 
       // Build where clause
       const where: any = {};
@@ -2504,6 +2508,8 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           total,
           totalPages: Math.ceil(total / limitNum),
         },
+        guestLimited: isGuest,
+        freeLimit: FREE_LIMIT,
       });
     } catch (error) {
       console.error("GET /api/suppliers error:", error);

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight } from "lucide-react";
+import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useProfile } from "@/lib/hooks";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -69,7 +69,7 @@ function useSuppliers(params: {
   searchParams.set("page", params.page.toString());
   searchParams.set("limit", "20");
 
-  return useQuery<{ suppliers: Supplier[]; pagination: Pagination }>({
+  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number }>({
     queryKey: ["suppliers", params],
     queryFn: async () => {
       const res = await fetch(`/api/suppliers?${searchParams.toString()}`);
@@ -560,6 +560,83 @@ function SupplierDetail({
   );
 }
 
+// ─── Signup Wall ─────────────────────────────────────────────────────
+
+function GhostCard() {
+  return (
+    <div className="relative bg-white border border-gray-200 rounded-lg overflow-hidden select-none" aria-hidden="true">
+      <div className="p-5 space-y-3">
+        <div className="flex items-start justify-between">
+          <div className="space-y-2 flex-1">
+            <div className="h-4 bg-gray-200 rounded w-2/3" />
+            <div className="h-3 bg-gray-100 rounded w-1/2" />
+          </div>
+          <div className="h-6 w-14 bg-gray-100 rounded" />
+        </div>
+        <div className="space-y-1.5">
+          <div className="h-3 bg-gray-100 rounded w-full" />
+          <div className="h-3 bg-gray-100 rounded w-5/6" />
+          <div className="h-3 bg-gray-100 rounded w-4/6" />
+        </div>
+        <div className="flex gap-2 pt-1">
+          <div className="h-5 bg-gray-100 rounded w-20" />
+          <div className="h-5 bg-gray-100 rounded w-16" />
+          <div className="h-5 bg-gray-100 rounded w-14" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) {
+  const locked = total - freeLimit;
+  const ghostCount = Math.min(locked, 6);
+  const [, navigate] = useLocation();
+
+  return (
+    <div className="relative mt-4">
+      {/* Blurred ghost cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 blur-sm pointer-events-none">
+        {Array.from({ length: ghostCount }).map((_, i) => (
+          <GhostCard key={i} />
+        ))}
+      </div>
+
+      {/* Overlay CTA */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-xl p-8 text-center max-w-md mx-4">
+          <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mx-auto mb-4">
+            <Lock className="w-6 h-6 text-blue-600" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">
+            {locked.toLocaleString()} more supplier{locked !== 1 ? "s" : ""} found
+          </h3>
+          <p className="text-gray-600 text-sm mb-6">
+            You're seeing {freeLimit} of {total.toLocaleString()} results.
+            Sign up free to unlock all suppliers, contact details, and filters.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => navigate("/signup")}
+              className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition"
+            >
+              Sign up free
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+              className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition"
+            >
+              Log in
+            </button>
+          </div>
+          <p className="text-xs text-gray-400 mt-4">No credit card required · Free plan available</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Page ───────────────────────────────────────────────────────
 
 interface SupplierDiscoveryProps {
@@ -743,6 +820,14 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
             {data ? `${data.pagination.total.toLocaleString()} suppliers found` : "Loading..."}
             {debouncedQuery && ` for "${debouncedQuery}"`}
           </p>
+          {data?.guestLimited && (
+            <Link href="/signup">
+              <span className="flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 cursor-pointer">
+                <Lock className="w-3.5 h-3.5" />
+                Sign up to see all results
+              </span>
+            </Link>
+          )}
         </div>
 
         {/* Grid */}
@@ -772,8 +857,16 @@ export default function SupplierDiscovery({ embedded, initialIndustry }: Supplie
               ))}
             </div>
 
-            {/* Pagination */}
-            {data.pagination.totalPages > 1 && (
+            {/* Growth loop: show signup wall for guests */}
+            {data.guestLimited && data.pagination.total > (data.freeLimit ?? 3) && (
+              <SignupWall
+                total={data.pagination.total}
+                freeLimit={data.freeLimit ?? 3}
+              />
+            )}
+
+            {/* Pagination — only for authenticated users */}
+            {!data.guestLimited && data.pagination.totalPages > 1 && (
               <div className="flex items-center justify-center gap-3 mt-8 pb-4">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
