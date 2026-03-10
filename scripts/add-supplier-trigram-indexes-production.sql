@@ -1,5 +1,7 @@
--- Run this manually for production (zero-downtime index creation)
+-- REQUIRED for supplier search with 25M+ rows. Without these indexes, search times out.
+-- Run this manually for production (zero-downtime index creation).
 -- Usage: psql $DATABASE_URL -f scripts/add-supplier-trigram-indexes-production.sql
+-- Or: NODE_TLS_REJECT_UNAUTHORIZED=0 node scripts/run-trigram-indexes.mjs
 -- CREATE INDEX CONCURRENTLY cannot run inside a transaction.
 
 CREATE EXTENSION IF NOT EXISTS pg_trgm;

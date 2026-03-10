@@ -2,7 +2,8 @@
 import "dotenv/config";
 /**
  * Run trigram indexes script (for when psql is not available).
- * Uses DATABASE_URL from env. Each statement runs without transaction so CONCURRENTLY works.
+ * Uses DATABASE_URL from env. Each statement runs in a fresh connection so long-running
+ * index creation doesn't hit connection timeouts.
  */
 import pg from "pg";
 import { readFileSync } from "fs";
@@ -20,18 +21,31 @@ const statements = sql
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL not set");
-const client = new pg.Client({
-  connectionString: url,
-  ssl: { rejectUnauthorized: false },
-});
-await client.connect();
+
+const runOne = async (stmt) => {
+  const client = new pg.Client({
+    connectionString: url,
+    ssl: { rejectUnauthorized: false },
+    statement_timeout: 0, // no timeout for index creation
+  });
+  await client.connect();
+  try {
+    await client.query(stmt);
+  } finally {
+    await client.end();
+  }
+};
 
 for (const stmt of statements) {
   if (!stmt) continue;
-  console.log("Running:", stmt.slice(0, 60) + "...");
-  await client.query(stmt);
-  console.log("  OK");
+  console.log("Running:", stmt.slice(0, 70) + "...");
+  try {
+    await runOne(stmt);
+    console.log("  OK");
+  } catch (err) {
+    if (err.code === "42P07") console.log("  (already exists)");
+    else throw err;
+  }
 }
 
-await client.end();
 console.log("Done.");

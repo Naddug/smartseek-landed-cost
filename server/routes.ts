@@ -2348,7 +2348,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       let supplierCount = 0;
       try {
         const estRows = await prisma.$queryRaw<[{ cnt: number }]>`
-          SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'supplier'
+          SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'
         `;
         supplierCount = Number(estRows[0]?.cnt || 0);
       } catch {}
@@ -2428,6 +2428,40 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       console.error("Stats endpoint error:", err);
       res.json(FALLBACK_STATS);
     }
+  });
+
+  // ============================================================================
+  // Admin: Run trigram indexes (Railway'de SQL arayüzü yok; uygulama içinden çalıştır)
+  // Kullanım: Tarayıcıda aç: https://SITE.up.railway.app/api/admin/run-trigram-indexes?secret=smartseek-index-2025
+  // Her indeks 5-15 dk sürebilir; tek seferde hepsi çalışır.
+  // ============================================================================
+  app.get("/api/admin/run-trigram-indexes", async (req: Request, res: Response) => {
+    const secret = process.env.RUN_INDEXES_SECRET || "smartseek-index-2025";
+    if (req.query.secret !== secret) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+    res.setHeader("Cache-Control", "no-store");
+    const statements = [
+      `CREATE EXTENSION IF NOT EXISTS pg_trgm`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_companyName_trgm_idx" ON "Supplier" USING gin ("companyName" gin_trgm_ops)`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_products_trgm_idx" ON "Supplier" USING gin ("products" gin_trgm_ops)`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_industry_trgm_idx" ON "Supplier" USING gin ("industry" gin_trgm_ops)`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_subIndustry_trgm_idx" ON "Supplier" USING gin ("subIndustry" gin_trgm_ops)`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_description_trgm_idx" ON "Supplier" USING gin ("description" gin_trgm_ops)`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_city_trgm_idx" ON "Supplier" USING gin ("city" gin_trgm_ops)`,
+      `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_country_trgm_idx" ON "Supplier" USING gin ("country" gin_trgm_ops)`,
+    ];
+    const results: string[] = [];
+    for (let i = 0; i < statements.length; i++) {
+      try {
+        await prisma.$executeRawUnsafe(statements[i]);
+        results.push(`OK: ${statements[i].slice(0, 55)}...`);
+      } catch (e: any) {
+        if (e?.code === "42P07") results.push(`SKIP (exists): ${statements[i].slice(0, 45)}...`);
+        else results.push(`ERR: ${e?.message || String(e)}`);
+      }
+    }
+    res.json({ done: true, results });
   });
 
   // ============================================================================
@@ -2602,19 +2636,21 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         select: selectFields,
       });
 
-      // Use estimated count for unfiltered queries (much faster on millions of rows)
+      // For search queries: skip expensive count (25M+ rows) — return results immediately
       const hasFilters = q || country || industry || verified === "true" || minRating;
-      const COUNT_TIMEOUT_MS = 12000;
-      const countPromise = hasFilters
-        ? Promise.race([
-            prisma.supplier.count({ where }),
-            new Promise<number>((_, reject) =>
-              setTimeout(() => reject(new Error("count_timeout")), COUNT_TIMEOUT_MS)
-            ),
-          ]).catch(() => 10000)
-        : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'`
-            .then((rows: [{ cnt: number }]) => Number(rows[0]?.cnt || 0))
-            .catch(() => prisma.supplier.count({ where }));
+      const countPromise =
+        hasSearchQuery
+          ? Promise.resolve(10000) // Skip count for search — show "10,000+"
+          : hasFilters
+            ? Promise.race([
+                prisma.supplier.count({ where }),
+                new Promise<number>((_, reject) =>
+                  setTimeout(() => reject(new Error("count_timeout")), 12000)
+                ),
+              ]).catch(() => 10000)
+            : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'`
+                .then((rows: [{ cnt: number }]) => Number(rows[0]?.cnt || 0))
+                .catch(() => prisma.supplier.count({ where }));
 
       let [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
       let total = typeof totalRaw === "number" ? totalRaw : totalRaw;
