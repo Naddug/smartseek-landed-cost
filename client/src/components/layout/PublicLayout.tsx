@@ -100,11 +100,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-400">
           <span className="hidden sm:inline">{t("trust.strip1")}</span>
           <span className="hidden md:inline">•</span>
-          <span>{stats ? `${formatStat(stats.suppliers)} suppliers` : t("trust.strip2", { suppliers: "25.2M+" })}</span>
+          <span>{stats ? `${formatStat(stats.suppliers)} ${t("trust.suppliersWord")}` : t("trust.strip2", { suppliers: "25.2M+" })}</span>
           <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} leads` : t("trust.leads", { leads: "7M+" })}</span>
+          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} ${t("trust.leadsWord")}` : t("trust.leads", { leads: "7M+" })}</span>
           <span className="hidden lg:inline">•</span>
-          <span>{stats ? `${stats.countries}+ countries` : t("trust.strip4")}</span>
+          <span>{stats ? `${stats.countries}+ ${t("trust.countriesWord")}` : t("trust.strip4")}</span>
         </div>
       </div>
       )}

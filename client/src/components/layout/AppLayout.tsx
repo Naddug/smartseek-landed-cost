@@ -84,7 +84,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <button 
         className="md:hidden fixed z-50 p-2.5 bg-background border rounded-lg shadow-sm top-[max(0.5rem,env(safe-area-inset-top))] left-[max(0.5rem,env(safe-area-inset-left))]"
         onClick={() => setMobileOpen(!mobileOpen)}
-        aria-label={mobileOpen ? "Close menu" : "Open menu"}
+        aria-label={mobileOpen ? t('nav.app.closeMenu') : t('nav.app.openMenu')}
       >
         {mobileOpen ? <X size={20} /> : <Menu size={20} />}
       </button>

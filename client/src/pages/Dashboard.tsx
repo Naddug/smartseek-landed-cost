@@ -225,7 +225,7 @@ export default function Dashboard() {
           type="text"
           value={dashboardSearch}
           onChange={(e) => setDashboardSearch(e.target.value)}
-          placeholder='Search suppliers — try "cotton fabric Turkey" or "electronics Vietnam"'
+          placeholder={t('dashboard.searchPlaceholder')}
           className="flex-1 text-sm text-slate-800 placeholder:text-slate-400 bg-transparent focus:outline-none py-1.5"
         />
         {dashboardSearch && (

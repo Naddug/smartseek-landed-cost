@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useReports, useReport, useLeadHistory, useLeadReport, useCustomsCalculations, useShippingEstimates } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -72,6 +73,7 @@ function deduplicateReports(reports: any[]): any[] {
 }
 
 export default function Reports() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const openId = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("open") : null;
   const { data: reports = [], isLoading, error, refetch: refetchReports } = useReports();
@@ -108,19 +110,19 @@ export default function Reports() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">Unable to load reports</h2>
+          <h2 className="text-xl font-bold mb-2">{t("reports.unableToLoad")}</h2>
           <p className="text-muted-foreground mb-4">
-            {isAuthError ? "Your session may have expired." : "Please try refreshing the page."}
+            {isAuthError ? t("reports.sessionExpired") : t("reports.tryRefreshing")}
           </p>
           <div className="flex flex-wrap gap-2 justify-center">
-            <Button variant="outline" onClick={() => refetchReports()}>Retry</Button>
+            <Button variant="outline" onClick={() => refetchReports()}>{t("reports.retry")}</Button>
             {isAuthError && (
               <Link href="/login">
-                <Button>Log in again</Button>
+                <Button>{t("reports.logInAgain")}</Button>
               </Link>
             )}
             {!isAuthError && (
-              <Button onClick={() => window.location.reload()}>Refresh Page</Button>
+              <Button onClick={() => window.location.reload()}>{t("reports.refreshPage")}</Button>
             )}
           </div>
         </div>
@@ -140,20 +142,20 @@ export default function Reports() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-heading font-bold">My Reports</h1>
-          <p className="text-muted-foreground">Professional AI-generated sourcing and lead intelligence.</p>
+          <h1 className="text-3xl font-heading font-bold">{t("reports.pageTitle")}</h1>
+          <p className="text-muted-foreground">{t("reports.pageSubtitle")}</p>
         </div>
         <div className="flex gap-2">
           <Link href="/find-leads">
             <Button variant="outline" data-testid="button-new-lead-report">
               <UserSearch className="w-4 h-4 mr-2" />
-              Find Leads
+              {t("reports.findLeads")}
             </Button>
           </Link>
           <Link href="/smart-finder">
             <Button data-testid="button-new-report">
               <Sparkles className="w-4 h-4 mr-2" />
-              Generate Report
+              {t("reports.generateReport")}
             </Button>
           </Link>
         </div>
@@ -163,15 +165,15 @@ export default function Reports() {
         <TabsList className="grid w-full max-w-xl grid-cols-3">
           <TabsTrigger value="sourcing" className="flex items-center gap-2">
             <FileText className="w-4 h-4" />
-            Sourcing ({dedupedReports.length})
+            {t("reports.tabSourcing")} ({dedupedReports.length})
           </TabsTrigger>
           <TabsTrigger value="leads" className="flex items-center gap-2">
             <UserSearch className="w-4 h-4" />
-            Leads ({leadHistory.length})
+            {t("reports.tabLeads")} ({leadHistory.length})
           </TabsTrigger>
           <TabsTrigger value="calculations" className="flex items-center gap-2">
             <Calculator className="w-4 h-4" />
-            Calculations ({totalCalculations})
+            {t("reports.tabCalculations")} ({totalCalculations})
           </TabsTrigger>
         </TabsList>
 
@@ -180,10 +182,10 @@ export default function Reports() {
             <Card className="py-12">
               <CardContent className="text-center">
                 <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-medium mb-2">No sourcing reports yet</h3>
-                <p className="text-muted-foreground mb-4">Use SmartSeek AI to generate your first AI sourcing report.</p>
+                <h3 className="text-lg font-medium mb-2">{t("reports.noSourcingYet")}</h3>
+                <p className="text-muted-foreground mb-4">{t("reports.useSmartseekai")}</p>
                 <Link href="/smart-finder">
-                  <Button>Get Started</Button>
+                  <Button>{t("reports.getStarted")}</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -200,9 +202,9 @@ export default function Reports() {
                     try {
                       await reportsAPI.retry(report.id);
                       queryClient.invalidateQueries({ queryKey: ["reports"] });
-                      toast.success("Report retry started");
+                      toast.success(t("reports.retryStarted"));
                     } catch (e: any) {
-                      toast.error(e?.message || "Retry failed");
+                      toast.error(e?.message || t("reports.retryFailed"));
                     } finally {
                       setRetryingId(null);
                     }
@@ -219,10 +221,10 @@ export default function Reports() {
             <Card className="py-12">
               <CardContent className="text-center">
                 <UserSearch className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-medium mb-2">No lead reports yet</h3>
-                <p className="text-muted-foreground mb-4">Use Find Leads to discover qualified buyer contacts.</p>
+                <h3 className="text-lg font-medium mb-2">{t("reports.noLeadsYet")}</h3>
+                <p className="text-muted-foreground mb-4">{t("reports.useFindLeads")}</p>
                 <Link href="/find-leads">
-                  <Button>Find Leads</Button>
+                  <Button>{t("reports.findLeads")}</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -266,11 +268,11 @@ export default function Reports() {
                       </div>
                       {criteria.keywords && (
                         <p className="text-xs text-muted-foreground mb-3 line-clamp-1">
-                          Keywords: {criteria.keywords}
+                          {t("reports.keywords")} {criteria.keywords}
                         </p>
                       )}
                       <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                        View Lead Report
+                        {t("reports.viewLeadReport")}
                       </Button>
                     </CardContent>
                   </Card>
@@ -285,14 +287,14 @@ export default function Reports() {
             <Card className="py-12">
               <CardContent className="text-center">
                 <Calculator className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-lg font-medium mb-2">No saved calculations yet</h3>
-                <p className="text-muted-foreground mb-4">Use our calculators to estimate customs duties and shipping costs.</p>
+                <h3 className="text-lg font-medium mb-2">{t("reports.noCalculationsYet")}</h3>
+                <p className="text-muted-foreground mb-4">{t("reports.useCalculators")}</p>
                 <div className="flex gap-2 justify-center">
                   <Link href="/customs-calculator">
-                    <Button variant="outline">Customs Calculator</Button>
+                    <Button variant="outline">{t("reports.customsCalculator")}</Button>
                   </Link>
                   <Link href="/shipping-estimator">
-                    <Button variant="outline">Shipping Estimator</Button>
+                    <Button variant="outline">{t("reports.shippingEstimator")}</Button>
                   </Link>
                 </div>
               </CardContent>
