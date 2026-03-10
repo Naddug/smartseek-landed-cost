@@ -78,7 +78,7 @@ function useSuppliers(params: {
     queryKey: ["suppliers", params],
     queryFn: async () => {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10_000);
+      const timeout = setTimeout(() => controller.abort(), 45_000);
       try {
         const res = await fetch(`/api/suppliers?${searchParams.toString()}`, { signal: controller.signal });
         if (!res.ok) throw new Error("Failed to fetch suppliers");
@@ -91,7 +91,8 @@ function useSuppliers(params: {
       }
     },
     staleTime: 30000,
-    retry: 1,
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
   });
 }
 
@@ -257,10 +258,12 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
 
 function SupplierDetail({
   slug,
+  supplierId,
   onClose,
   openContactForm = false,
 }: {
   slug: string;
+  supplierId?: string;
   onClose: () => void;
   openContactForm?: boolean;
 }) {
@@ -275,11 +278,15 @@ function SupplierDetail({
     exportMarkets: string[];
     currency?: string;
   }>({
-    queryKey: ["supplier", slug],
+    queryKey: ["supplier", slug, supplierId],
     queryFn: async () => {
       const res = await fetch(`/api/suppliers/${slug}`, { credentials: "include" });
-      if (!res.ok) throw new Error("Failed to fetch supplier");
-      return res.json();
+      if (res.ok) return res.json();
+      if (res.status === 404 && supplierId) {
+        const byId = await fetch(`/api/suppliers/by-id/${supplierId}`, { credentials: "include" });
+        if (byId.ok) return byId.json();
+      }
+      throw new Error("Failed to fetch supplier");
     },
   });
 
@@ -564,7 +571,12 @@ function SupplierDetail({
             </div>
           </>
         ) : (
-          <div className="p-12 text-center text-gray-600">Supplier not found</div>
+          <div className="p-12 text-center">
+            <p className="text-gray-600 mb-4">Supplier not found</p>
+            <button onClick={onClose} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+              Close
+            </button>
+          </div>
         )}
       </div>
     </div>
@@ -601,7 +613,7 @@ function GhostCard() {
 
 function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) {
   const { t } = useTranslation();
-  const locked = total - freeLimit;
+  const locked = Math.max(0, total - freeLimit);
   const ghostCount = Math.min(locked, 6);
   const [, navigate] = useLocation();
 
@@ -706,10 +718,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const [page, setPage] = useState(1);
   const [minOrderValue, setMinOrderValue] = useState<number | null>(null);
   const [minScore, setMinScore] = useState<number | null>(null);
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("slug");
-  });
+  const [selectedSupplier, setSelectedSupplier] = useState<{ slug: string; id: string } | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
   // Read URL params or initialIndustry/initialQuery prop on mount
@@ -788,7 +797,11 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 tracking-tight">{t('supplier.pageTitle')}</h1>
           <p className="text-slate-300 mb-1.5 text-sm max-w-2xl">
-            {supplierCount > 0 ? `AI-powered search across ${formatStat(supplierCount)} verified suppliers${countryCount > 0 ? ` in ${countryCount}+ countries` : ' worldwide'}` : `AI-powered global supplier discovery`}
+            {supplierCount > 0
+              ? countryCount > 0
+                ? t('supplier.heroDescription', { count: formatStat(supplierCount), countries: countryCount })
+                : t('supplier.heroDescriptionWorld', { count: formatStat(supplierCount) })
+              : t('supplier.heroDescriptionEmpty')}
           </p>
           <p className="text-slate-500 text-xs mb-8">{t('supplier.pageTrustLine')}</p>
           <div className="flex gap-2">
@@ -970,7 +983,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
                 <SupplierCard
                   key={supplier.id}
                   supplier={supplier}
-                  onClick={() => setSelectedSlug(supplier.slug)}
+                  onClick={() => setSelectedSupplier({ slug: supplier.slug, id: supplier.id })}
                 />
               ))}
             </div>
@@ -1038,10 +1051,11 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
       </div>
 
       {/* Detail Modal */}
-      {selectedSlug && (
+      {selectedSupplier && (
         <SupplierDetail
-          slug={selectedSlug}
-          onClose={() => setSelectedSlug(null)}
+          slug={selectedSupplier.slug}
+          supplierId={selectedSupplier.id}
+          onClose={() => setSelectedSupplier(null)}
           openContactForm={new URLSearchParams(window.location.search).get("contact") === "1"}
         />
       )}

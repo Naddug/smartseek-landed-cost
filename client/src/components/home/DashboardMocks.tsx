@@ -1,9 +1,10 @@
+import type { ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { BarChart3, Globe2, Shield, DollarSign, Users, Package, AlertTriangle, CheckCircle2, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 function StatCard({ icon: Icon, label, value, change, positive, iconBg }: {
-  icon: any; label: string; value: string; change: string; positive: boolean; iconBg: string;
+  icon: ComponentType<{ className?: string }>; label: string; value: string; change: string; positive: boolean; iconBg: string;
 }) {
   return (
     <div className="bg-white rounded-lg p-2 sm:p-3 border border-slate-200/80 flex flex-col gap-1 sm:gap-1.5 min-w-0">
@@ -108,10 +109,10 @@ export function DashboardPreviewMock() {
           ].map((item, i) => {
             const Icon = item.icon;
             return (
-            <div key={i} className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-[9px] ${item.active ? 'bg-blue-600/20 text-blue-400' : 'text-slate-500 hover:text-slate-300'}`}>
-              <Icon className="w-3 h-3 shrink-0" />
-              <span className="truncate">{item.label}</span>
-            </div>
+              <div key={i} className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-[9px] ${item.active ? 'bg-blue-600/20 text-blue-400' : 'text-slate-500 hover:text-slate-300'}`}>
+                <Icon className="w-3 h-3 shrink-0" />
+                <span className="truncate">{item.label}</span>
+              </div>
             );
           })}
         </div>
