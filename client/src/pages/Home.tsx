@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Search, ArrowRight, Globe, DollarSign, Shield, CheckCircle2, Check, TrendingUp, Brain, Rocket, AlertTriangle, Clock, BadgeDollarSign, Lock, Zap, Building2 } from "lucide-react";
+import { Search, ArrowRight, Globe, DollarSign, Shield, CheckCircle2, Check, TrendingUp, Brain, Rocket, AlertTriangle, Clock, BadgeDollarSign, Lock, Zap, Building2, Target } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useMotionValue, animate } from "framer-motion";
 import PublicLayout from "@/components/layout/PublicLayout";
@@ -524,7 +524,7 @@ export default function Home() {
         </div>
 
         {/* 4 stat counters */}
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl w-full mb-0">
+        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl w-full mb-20">
           {[
             { label: t("home.hero.statSuppliers"), value: suppliers, color: "text-blue-400" },
             { label: t("home.hero.statLeads"), value: leads, color: "text-emerald-400" },
@@ -538,17 +538,6 @@ export default function Home() {
               <div className="text-slate-500 text-xs mt-1">{s.label}</div>
             </div>
           ))}
-        </div>
-
-        {/* Social proof logos */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 border-t border-white/5 bg-white/2 backdrop-blur-sm py-3">
-          <div className="max-w-3xl mx-auto px-4 flex justify-center items-center gap-8 text-xs font-semibold text-slate-600 tracking-widest">
-            <span>GOOGLE WORKSPACE</span>
-            <span>SAP</span>
-            <span>SALESFORCE</span>
-            <span>ORACLE</span>
-            <span>NETSUITE</span>
-          </div>
         </div>
       </section>
 
@@ -581,6 +570,20 @@ export default function Home() {
           ))}
         </div>
         <style>{`@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }`}</style>
+      </div>
+
+      {/* ── B2) TRUSTED BY ──────────────────────────────────────────────────── */}
+      <div className="bg-slate-900 border-b border-slate-800 py-8 px-4">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-center text-[11px] font-semibold text-slate-600 uppercase tracking-[0.18em] mb-5">
+            Trusted by sourcing teams that use
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3">
+            {["Google Workspace", "SAP Ariba", "Salesforce", "Oracle", "Microsoft Dynamics", "Coupa"].map(name => (
+              <span key={name} className="text-sm font-semibold text-slate-600 tracking-wide">{name}</span>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* ── C) THE PROBLEM (asymmetric) ─────────────────────────────────────── */}
@@ -628,7 +631,83 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── E) HOW IT WORKS (numbered, linear) ──────────────────────────────── */}
+      {/* ── E) CORE CAPABILITIES ────────────────────────────────────────────── */}
+      <section className="bg-white py-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-[0.2em] mb-3">Platform Capabilities</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Three intelligence engines. One platform.
+            </h2>
+            <p className="text-slate-500 text-base max-w-xl mx-auto">
+              From supplier discovery to AI-powered market intelligence — everything your sourcing team needs.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: <Globe className="w-6 h-6 text-blue-600" />,
+                bg: "bg-blue-50",
+                accent: "from-blue-500 to-indigo-500",
+                border: "border-slate-200 hover:border-blue-300",
+                title: "Find Suppliers",
+                desc: "Search 25M+ verified global suppliers by product, country, certification, and size. Contact-ready with quality scores.",
+                href: "/suppliers",
+                cta: "Search Suppliers",
+                chips: ["25M+ suppliers", "220+ countries", "Registry-verified"],
+                chipColor: "bg-blue-50 border-blue-100 text-blue-700",
+              },
+              {
+                icon: <Target className="w-6 h-6 text-emerald-600" />,
+                bg: "bg-emerald-50",
+                accent: "from-emerald-500 to-teal-500",
+                border: "border-slate-200 hover:border-emerald-300",
+                title: "Find Leads",
+                desc: "7M+ qualified buyer and trade leads. Filter by intent, industry, region, and company size. Built for B2B outreach.",
+                href: "/signup",
+                cta: "Explore Leads",
+                chips: ["7M+ leads", "High intent signals", "B2B verified"],
+                chipColor: "bg-emerald-50 border-emerald-100 text-emerald-700",
+              },
+              {
+                icon: <Brain className="w-6 h-6 text-violet-600" />,
+                bg: "bg-violet-50",
+                accent: "from-violet-500 to-purple-500",
+                border: "border-slate-200 hover:border-violet-300",
+                title: "AI Market Intelligence",
+                desc: "Real-time risk scoring, landed cost calculations, trade compliance checks, and predictive supply chain analysis.",
+                href: "/signup",
+                cta: "Try AI Analysis",
+                chips: ["Risk intelligence", "Landed cost AI", "Trade compliance"],
+                chipColor: "bg-violet-50 border-violet-100 text-violet-700",
+              },
+            ].map((cap) => (
+              <Link key={cap.title} href={cap.href}>
+                <div className={`group relative bg-white border rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer ${cap.border}`}>
+                  <div className={`h-1 bg-gradient-to-r ${cap.accent}`} />
+                  <div className="p-7">
+                    <div className={`w-12 h-12 rounded-xl ${cap.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200`}>
+                      {cap.icon}
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{cap.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed mb-4">{cap.desc}</p>
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {cap.chips.map(chip => (
+                        <span key={chip} className={`text-xs border px-2.5 py-1 rounded-full font-medium ${cap.chipColor}`}>{chip}</span>
+                      ))}
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 group-hover:text-blue-700">
+                      {cap.cta} <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── F) HOW IT WORKS (numbered, linear) ──────────────────────────────── */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">{t("home.hiw.badge")}</p>
@@ -662,7 +741,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── F) SOCIAL PROOF (2x2 grid) ──────────────────────────────────────── */}
+      {/* ── G) SOCIAL PROOF (2x2 grid) ──────────────────────────────────────── */}
       <section className="bg-slate-50 border-y border-slate-100 py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-8 mx-auto flex w-fit">
@@ -694,7 +773,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── G) PRICING TEASER ───────────────────────────────────────────────── */}
+      {/* ── H) INTEGRATIONS (dedicated section) ─────────────────────────────── */}
+      <section className="bg-white border-t border-slate-100 py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">
+            {t("home.integrations.label")}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+            Connects to the tools you already use
+          </h2>
+          <p className="text-slate-500 text-sm mb-12 max-w-xl mx-auto leading-relaxed">
+            Sync suppliers, leads, and sourcing data directly into your existing ERP, CRM, and procurement systems. No manual exports.
+          </p>
+          <IntegrationLogos variant="compact" />
+          <div className="mt-10">
+            <Link href="/integrations">
+              <button className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 border border-blue-200 hover:border-blue-400 px-5 py-2.5 rounded-xl transition-colors">
+                View all integrations <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── I) PRICING TEASER ───────────────────────────────────────────────── */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.pricing.title")}</p>
@@ -724,18 +826,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── H) FINAL CTA ────────────────────────────────────────────────────── */}
+      {/* ── J) FINAL CTA ────────────────────────────────────────────────────── */}
       <section className="bg-slate-950 py-24 px-4 text-center relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-600/8 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-1/2 left-1/4 w-[300px] h-[300px] bg-amber-500/6 rounded-full blur-[100px] pointer-events-none" />
-
-        {/* Integrations strip */}
-        <div className="relative z-10 max-w-5xl mx-auto mb-14">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-8">
-            {t("home.integrations.label")}
-          </p>
-          <IntegrationLogos variant="compact" />
-        </div>
 
         <div className="relative z-10 max-w-xl mx-auto">
           <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">{t("home.cta.badge")}</p>

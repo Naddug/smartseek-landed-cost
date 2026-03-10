@@ -633,7 +633,7 @@ function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) 
             {locked.toLocaleString()} more supplier{locked !== 1 ? "s" : ""} found
           </h3>
           <p className="text-gray-600 text-sm mb-6">
-            {t("supplier.suppliersFound", { shown: freeLimit, total: total.toLocaleString() })}
+            {t("supplier.limitedResults", { shown: freeLimit, total: total.toLocaleString() })}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
@@ -927,7 +927,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             {isFetching
               ? "Searching..."
               : data
-              ? t("supplier.suppliersFound", { count: data.pagination.total, total: data.pagination.total.toLocaleString() })
+              ? t("supplier.suppliersFound", { total: data.pagination.total.toLocaleString() })
               : "Loading..."}
             {!isFetching && debouncedQuery && ` for "${debouncedQuery}"`}
           </p>
