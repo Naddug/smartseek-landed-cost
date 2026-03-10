@@ -29,13 +29,14 @@ import { Wordmark } from "@/components/Logo";
 
 const CREDITS_BANNER_DISMISSED = "smartseek_credits_banner_dismissed";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({ children, unverifiedEmail }: { children: React.ReactNode; unverifiedEmail?: boolean }) {
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   const { data: user } = useUser();
   const { data: profile } = useProfile();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showCreditsBanner, setShowCreditsBanner] = useState(false);
+  const [emailBannerDismissed, setEmailBannerDismissed] = useState(false);
 
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   useEffect(() => {
@@ -179,6 +180,22 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         <main className="flex-1 p-4 md:p-8 overflow-x-hidden min-w-0">
+          {unverifiedEmail && !emailBannerDismissed && (
+            <div className="mb-4 flex items-center justify-between gap-4 rounded-lg border border-blue-500/50 bg-blue-500/10 px-4 py-3 text-blue-800 dark:text-blue-200">
+              <span>✉ Please verify your email address. Check your inbox for a verification link.</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={async () => {
+                    await fetch("/api/auth/resend-verification", { method: "POST", credentials: "include" });
+                  }}
+                  className="text-sm underline hover:no-underline text-blue-700 dark:text-blue-300"
+                >
+                  Resend
+                </button>
+                <button onClick={() => setEmailBannerDismissed(true)} className="text-blue-600 hover:text-blue-800 p-1" aria-label="Dismiss">×</button>
+              </div>
+            </div>
+          )}
           {showCreditsBanner && (
             <div className="mb-4 flex items-center justify-between gap-4 rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-amber-800 dark:text-amber-200">
               <span>

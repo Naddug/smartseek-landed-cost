@@ -18,6 +18,7 @@ import { WebhookHandlers } from "./webhookHandlers";
 // Stripe schema is managed via drizzle migrations.
 
 const app = express();
+app.set('trust proxy', 1); // Required for Railway/Heroku: makes req.secure=true behind HTTPS reverse proxy
 
 /** Ensure required tables exist on deploy. Runs for production with real DB (Railway or other cloud). */
 async function runDrizzlePush() {

@@ -72,17 +72,15 @@ function ProtectedRoute({ component: Component, adminOnly = false, requireVerifi
     return null;
   }
 
-  // Check email verification (unless requireVerified is false)
-  if (requireVerified && user.emailVerified === false) {
-    return <EmailVerificationRequired />;
-  }
-
   if (adminOnly && profile?.role !== 'admin') {
     return <div className="p-8 text-center text-destructive">Access Denied: Admin Only</div>;
   }
 
+  // Show non-blocking email verification banner instead of hard-blocking the page
+  const needsVerification = requireVerified && user.emailVerified === false;
+
   return (
-    <AppLayout>
+    <AppLayout unverifiedEmail={needsVerification}>
       <Component />
     </AppLayout>
   );

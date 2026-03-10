@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocation, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,6 +63,7 @@ const AppleIcon = () => (
 
 export default function Auth() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
   const [matchForgot] = useRoute("/forgot-password");
   const [matchSignup] = useRoute("/signup");
@@ -156,6 +158,7 @@ export default function Auth() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Signup failed");
+        queryClient.setQueryData(["user"], data);
         toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
         const signupRedirect = new URLSearchParams(window.location.search).get("redirect");
         setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/dashboard");
@@ -173,6 +176,7 @@ export default function Auth() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
+      queryClient.setQueryData(["user"], data);
       toast({ title: t("auth.loginSuccessTitle"), description: t("auth.loginSuccessDesc") });
       const loginRedirect = new URLSearchParams(window.location.search).get("redirect");
       setLocation(loginRedirect && loginRedirect.startsWith("/") ? loginRedirect : "/dashboard");
