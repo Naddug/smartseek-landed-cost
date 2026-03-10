@@ -95,7 +95,7 @@ export function DashboardPreviewMock() {
       <div className="flex flex-col sm:flex-row h-auto sm:h-72">
         <div className="hidden sm:flex w-40 bg-slate-900 p-3 flex-col gap-1 shrink-0">
           <div className="flex items-center gap-2 mb-3">
-            <Logo size="sm" className="rounded-md w-20 h-20" />
+            <Logo size="sm" className="w-5 h-5 rounded" />
             <span className="text-[10px] text-white font-semibold">SmartSeek</span>
           </div>
           {[
@@ -105,12 +105,15 @@ export function DashboardPreviewMock() {
             { icon: Shield, label: t("dashboardMock.riskMonitor"), active: false },
             { icon: Package, label: t("dashboardMock.rfqManager"), active: false },
             { icon: DollarSign, label: t("dashboardMock.costCalculator"), active: false },
-          ].map((item, i) => (
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
             <div key={i} className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-[9px] ${item.active ? 'bg-blue-600/20 text-blue-400' : 'text-slate-500 hover:text-slate-300'}`}>
-              <item.icon className="w-3 h-3 shrink-0" />
+              <Icon className="w-3 h-3 shrink-0" />
               <span className="truncate">{item.label}</span>
             </div>
-          ))}
+            );
+          })}
         </div>
         <div className="flex-1 p-3 sm:p-4 bg-slate-50 overflow-hidden min-w-0">
           <div className="flex items-center justify-between mb-3 gap-2">
@@ -172,6 +175,30 @@ export function DashboardPreviewMock() {
 }
 
 export function ReportPreviewMock() {
+  const { t } = useTranslation();
+
+  const sidebarSections = [
+    t("reportMock.execSummary"),
+    t("reportMock.supplierProfile"),
+    t("reportMock.costAnalysis"),
+    t("reportMock.riskAssessment"),
+    t("reportMock.complianceCheck"),
+    t("reportMock.recommendations"),
+  ];
+
+  const riskCards = [
+    { labelKey: "reportMock.financialStability", score: 91, levelKey: "reportMock.lowRisk", color: "emerald" },
+    { labelKey: "reportMock.geopoliticalRisk",   score: 72, levelKey: "reportMock.medium",  color: "amber"   },
+    { labelKey: "reportMock.supplyChain",         score: 88, levelKey: "reportMock.lowRisk", color: "emerald" },
+  ];
+
+  const certifications = [
+    { cert: "ISO 9001:2015",   status: true  },
+    { cert: "ISO 14001:2015",  status: true  },
+    { cert: "RoHS Compliant",  status: true  },
+    { cert: "SA8000 (Social)", status: false },
+  ];
+
   return (
     <div className="relative rounded-2xl shadow-2xl border border-slate-200 w-full mx-auto max-w-5xl bg-white overflow-hidden" data-testid="img-preview-report">
       <div className="bg-slate-800 px-4 py-2 flex items-center gap-2">
@@ -187,16 +214,16 @@ export function ReportPreviewMock() {
       <div className="flex flex-col sm:flex-row h-auto sm:h-72">
         <div className="hidden sm:block w-44 bg-white border-r border-slate-200 p-3 shrink-0">
           <div className="flex items-center gap-2 mb-4">
-            <Logo size="sm" className="rounded-md w-20 h-20" />
-            <span className="text-[10px] text-slate-800 font-semibold">Intelligence Report</span>
+            <Logo size="sm" className="w-5 h-5 rounded" />
+            <span className="text-[10px] text-slate-800 font-semibold">{t("reportMock.intelligenceReport")}</span>
           </div>
           <div className="space-y-1">
-            {["Executive Summary", "Supplier Profile", "Cost Analysis", "Risk Assessment", "Compliance Check", "Recommendations"].map((s, i) => (
+            {sidebarSections.map((s, i) => (
               <div key={i} className={`text-[9px] px-2 py-1.5 rounded-md ${i === 3 ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-500'}`}>{s}</div>
             ))}
           </div>
           <div className="mt-4 pt-3 border-t border-slate-100">
-            <p className="text-[8px] text-slate-400 mb-1">Report Score</p>
+            <p className="text-[8px] text-slate-400 mb-1">{t("reportMock.reportScore")}</p>
             <div className="flex items-center gap-2">
               <div className="flex-1 h-2 bg-slate-100 rounded-full">
                 <div className="h-full bg-emerald-500 rounded-full" style={{ width: '87%' }} />
@@ -208,29 +235,25 @@ export function ReportPreviewMock() {
         <div className="flex-1 p-3 sm:p-4 bg-slate-50 overflow-hidden min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
             <div className="min-w-0">
-              <p className="text-xs font-semibold text-slate-800 truncate">Risk Assessment</p>
-              <p className="text-[9px] text-slate-500 truncate">Wenzhou Neo Electric Co. — Chongqing, China</p>
+              <p className="text-xs font-semibold text-slate-800 truncate">{t("reportMock.riskAssessment")}</p>
+              <p className="text-[9px] text-slate-500 truncate">{t("reportMock.supplierSubtitle")}</p>
             </div>
             <div className="flex gap-1.5 shrink-0">
               <div className="bg-emerald-100 text-emerald-700 text-[9px] px-2 py-1 rounded-md font-medium flex items-center gap-1 whitespace-nowrap">
-                <CheckCircle2 className="w-3 h-3 shrink-0" /> Verified
+                <CheckCircle2 className="w-3 h-3 shrink-0" /> {t("reportMock.verified")}
               </div>
-              <div className="bg-white border border-slate-200 text-[9px] px-2 py-1 rounded-md text-slate-600 whitespace-nowrap hidden sm:block">Download PDF</div>
+              <div className="bg-white border border-slate-200 text-[9px] px-2 py-1 rounded-md text-slate-600 whitespace-nowrap hidden sm:block">{t("reportMock.downloadPdf")}</div>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mb-3">
-            {[
-              { label: "Financial Stability", score: 91, level: "Low Risk", color: "emerald" },
-              { label: "Geopolitical Risk", score: 72, level: "Medium", color: "amber" },
-              { label: "Supply Chain", score: 88, level: "Low Risk", color: "emerald" },
-            ].map((risk, i) => (
+            {riskCards.map((risk, i) => (
               <div key={i} className="bg-white rounded-lg p-2.5 border border-slate-200/80">
-                <p className="text-[9px] text-slate-500 mb-1">{risk.label}</p>
+                <p className="text-[9px] text-slate-500 mb-1">{t(risk.labelKey)}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-800">{risk.score}</span>
                   <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium ${
                     risk.color === 'emerald' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
-                  }`}>{risk.level}</span>
+                  }`}>{t(risk.levelKey)}</span>
                 </div>
                 <div className="h-1 bg-slate-100 rounded-full mt-1.5">
                   <div className={`h-full rounded-full ${risk.color === 'emerald' ? 'bg-emerald-500' : 'bg-amber-500'}`} style={{ width: `${risk.score}%` }} />
@@ -239,14 +262,9 @@ export function ReportPreviewMock() {
             ))}
           </div>
           <div className="bg-white rounded-lg p-3 border border-slate-200/80">
-            <p className="text-[10px] font-medium text-slate-700 mb-2">Compliance & Certifications</p>
+            <p className="text-[10px] font-medium text-slate-700 mb-2">{t("reportMock.complianceCerts")}</p>
             <div className="grid grid-cols-2 gap-2">
-              {[
-                { cert: "ISO 9001:2015", status: true },
-                { cert: "ISO 14001:2015", status: true },
-                { cert: "RoHS Compliant", status: true },
-                { cert: "SA8000 (Social)", status: false },
-              ].map((c, i) => (
+              {certifications.map((c, i) => (
                 <div key={i} className="flex items-center gap-1.5 text-[9px]">
                   {c.status ? (
                     <CheckCircle2 className="w-3 h-3 text-emerald-500" />

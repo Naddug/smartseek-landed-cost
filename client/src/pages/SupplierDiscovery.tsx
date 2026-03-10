@@ -4,6 +4,7 @@ import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, 
 import { Logo } from "@/components/Logo";
 import { useProfile } from "@/lib/hooks";
 import { Link, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -59,12 +60,16 @@ function useSuppliers(params: {
   verified: boolean;
   sortBy: string;
   page: number;
+  minOrderValue?: number | null;
+  minScore?: number | null;
 }) {
   const searchParams = new URLSearchParams();
   if (params.q) searchParams.set("q", params.q);
   if (params.country) searchParams.set("country", params.country);
   if (params.industry) searchParams.set("industry", params.industry);
   if (params.verified) searchParams.set("verified", "true");
+  if (params.minOrderValue != null) searchParams.set("minOrderValue", params.minOrderValue.toString());
+  if (params.minScore != null) searchParams.set("minScore", params.minScore.toString());
   searchParams.set("sortBy", params.sortBy);
   searchParams.set("page", params.page.toString());
   searchParams.set("limit", "20");
@@ -148,6 +153,7 @@ function getEmployeeBadgeClass(count: number): string {
 // ─── Supplier Card ───────────────────────────────────────────────────
 
 function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () => void }) {
+  const { t } = useTranslation();
   const [hover, setHover] = useState(false);
   const isVerified = supplier.verified || supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR";
   const qualityScore = Math.round((supplier.rating || 0) * 20);
@@ -244,7 +250,7 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
 
       {hover && (
         <div className="absolute inset-x-0 bottom-0 bg-blue-600 text-white py-2.5 flex items-center justify-center gap-2 text-sm font-medium transition-all animate-in slide-in-from-bottom-2">
-          View Details <ChevronRight className="w-4 h-4" />
+          {t("supplier.viewDetails")} <ChevronRight className="w-4 h-4" />
         </div>
       )}
     </div>
@@ -262,6 +268,7 @@ function SupplierDetail({
   onClose: () => void;
   openContactForm?: boolean;
 }) {
+  const { t } = useTranslation();
   const { data: profile } = useProfile();
   const isPaid = !!profile && profile.plan !== "free";
   const { data: supplier, isLoading } = useQuery<Supplier & {
@@ -353,7 +360,7 @@ function SupplierDetail({
                       <span className="ml-0.5 font-medium">{(supplier.rating || 0).toFixed(1)}</span>
                     </div>
                     <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded font-medium">
-                      Quality Score: {qualityScore}/100
+                      {t("supplier.qualityScore")}: {qualityScore}/100
                     </span>
                     {supplier.employeeCount != null && (
                       <span className={`px-2 py-0.5 rounded-full text-sm font-medium ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
@@ -379,7 +386,7 @@ function SupplierDetail({
               <p className="text-gray-700">{descFormatted}</p>
 
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-2">Products</h4>
+                <h4 className="text-sm font-semibold text-gray-900 mb-2">{t("supplier.products")}</h4>
                 <div className="flex flex-wrap gap-2">
                   {Array.isArray(supplier.products) && supplier.products.length > 0
                     ? supplier.products.map((p, i) => (
@@ -391,7 +398,7 @@ function SupplierDetail({
 
               {supplier.certifications && supplier.certifications.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-2">Certifications</h4>
+                  <h4 className="text-sm font-semibold text-gray-900 mb-2">{t("supplier.certifications")}</h4>
                   <div className="flex flex-wrap gap-2">
                     {supplier.certifications.map((c) => (
                       <span key={c} className="text-sm bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded inline-flex items-center gap-1">
@@ -405,13 +412,13 @@ function SupplierDetail({
               <div className="grid grid-cols-2 gap-4">
                 {supplier.paymentTerms && supplier.paymentTerms.length > 0 && (
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="text-xs font-semibold text-gray-600 uppercase mb-2">Payment Terms</h4>
+                    <h4 className="text-xs font-semibold text-gray-600 uppercase mb-2">{t("supplier.paymentTerms")}</h4>
                     <p className="text-sm text-gray-900">{formatList(supplier.paymentTerms)}</p>
                   </div>
                 )}
                 {supplier.exportMarkets && supplier.exportMarkets.length > 0 && (
                   <div className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="text-xs font-semibold text-gray-600 uppercase mb-2">Key Markets</h4>
+                    <h4 className="text-xs font-semibold text-gray-600 uppercase mb-2">{t("supplier.keyMarkets")}</h4>
                     <p className="text-sm text-gray-900">{formatList(supplier.exportMarkets)}</p>
                   </div>
                 )}
@@ -419,7 +426,7 @@ function SupplierDetail({
 
               {/* Contact Section */}
               <div className="border-t border-gray-100 pt-4">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">Contact</h4>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">{t("supplier.contactSection")}</h4>
                 {isPaid ? (
                   (supplier.contactEmail || supplier.contactPhone || supplier.website) ? (
                     <div className="space-y-2 bg-gray-50 rounded-lg p-4">
@@ -454,7 +461,7 @@ function SupplierDetail({
                       )}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">Contact information not available for this supplier.</p>
+                    <p className="text-sm text-gray-500">{t("supplier.noContactInfo")}</p>
                   )
                 ) : (
                   <div className="relative bg-gray-100 rounded-lg p-6 overflow-hidden">
@@ -464,11 +471,11 @@ function SupplierDetail({
                       <div className="h-4 bg-gray-300 rounded w-56" />
                     </div>
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
-                      <span className="text-gray-600 font-medium">🔒 Sign in to view</span>
-                      <p className="text-sm text-gray-500 mt-1">Upgrade to access supplier contact details</p>
+                      <span className="text-gray-600 font-medium">🔒 {t("supplier.signInToView")}</span>
+                      <p className="text-sm text-gray-500 mt-1">{t("supplier.upgradeAccess")}</p>
                       <Link href="/billing">
                         <button className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
-                          Upgrade
+                          {t("supplier.upgrade")}
                         </button>
                       </Link>
                     </div>
@@ -489,42 +496,50 @@ function SupplierDetail({
 
               {/* Contact Form */}
               {!showContactForm ? (
-                <button
-                  onClick={() => setShowContactForm(true)}
-                  className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition flex items-center justify-center gap-2"
-                >
-                  <Send className="w-4 h-4" /> Contact Supplier
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowContactForm(true)}
+                    className="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-4 h-4" /> {t("supplier.contactSupplier")}
+                  </button>
+                  <button
+                    onClick={() => setShowContactForm(true)}
+                    className="flex-1 bg-green-600 text-white py-2.5 rounded-lg font-medium hover:bg-green-700 transition flex items-center justify-center gap-2"
+                  >
+                    {t("supplier.requestQuote")}
+                  </button>
+                </div>
               ) : submitStatus === "sent" ? (
                 <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg p-4 text-center">
-                  Your inquiry has been sent to {supplier.companyName}. They typically respond within {supplier.responseTime || "1-3 days"}.
+                  {t("supplier.inquirySent")} {supplier.companyName}. They typically respond within {supplier.responseTime || "1-3 days"}.
                 </div>
               ) : (
                 <div className="space-y-3 border-t border-gray-100 pt-4">
-                  <h4 className="font-semibold text-gray-900">Send Inquiry</h4>
+                  <h4 className="font-semibold text-gray-900">{t("supplier.sendInquiry")}</h4>
                   <input
                     type="text"
-                    placeholder="Your Name *"
+                    placeholder={t("supplier.yourName")}
                     value={contactForm.buyerName}
                     onChange={(e) => setContactForm((f) => ({ ...f, buyerName: e.target.value }))}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <input
                     type="email"
-                    placeholder="Your Email *"
+                    placeholder={t("supplier.yourEmail")}
                     value={contactForm.buyerEmail}
                     onChange={(e) => setContactForm((f) => ({ ...f, buyerEmail: e.target.value }))}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <input
                     type="text"
-                    placeholder="Company Name"
+                    placeholder={t("supplier.companyName")}
                     value={contactForm.buyerCompany}
                     onChange={(e) => setContactForm((f) => ({ ...f, buyerCompany: e.target.value }))}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <textarea
-                    placeholder="Your message to the supplier... *"
+                    placeholder={t("supplier.yourMessage")}
                     value={contactForm.message}
                     onChange={(e) => setContactForm((f) => ({ ...f, message: e.target.value }))}
                     rows={3}
@@ -536,7 +551,7 @@ function SupplierDetail({
                       disabled={submitStatus === "sending" || !contactForm.buyerName || !contactForm.buyerEmail || !contactForm.message}
                       className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {submitStatus === "sending" ? "Sending..." : "Send Inquiry"}
+                      {submitStatus === "sending" ? t("supplier.sending") : t("supplier.sendInquiry")}
                     </button>
                     <button
                       onClick={() => setShowContactForm(false)}
@@ -589,6 +604,7 @@ function GhostCard() {
 }
 
 function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) {
+  const { t } = useTranslation();
   const locked = total - freeLimit;
   const ghostCount = Math.min(locked, 6);
   const [, navigate] = useLocation();
@@ -612,15 +628,14 @@ function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) 
             {locked.toLocaleString()} more supplier{locked !== 1 ? "s" : ""} found
           </h3>
           <p className="text-gray-600 text-sm mb-6">
-            You're seeing {freeLimit} of {total.toLocaleString()} results.
-            Sign up free to unlock all suppliers, contact details, and filters.
+            {t("supplier.suppliersFound", { shown: freeLimit, total: total.toLocaleString() })}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => navigate("/signup")}
               className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition"
             >
-              Sign up free
+              {t("supplier.signUpToSeeAll")}
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
@@ -630,7 +645,7 @@ function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) 
               Log in
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-4">No credit card required · Free plan available</p>
+          <p className="text-xs text-gray-400 mt-4">{t("supplier.freeNoCard")}</p>
         </div>
       </div>
     </div>
@@ -646,6 +661,7 @@ interface SupplierDiscoveryProps {
 }
 
 export default function SupplierDiscovery({ embedded, initialIndustry, initialQuery }: SupplierDiscoveryProps = {}) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState(initialQuery || "");
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery || "");
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -653,6 +669,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("rating");
   const [page, setPage] = useState(1);
+  const [minOrderValue, setMinOrderValue] = useState<number | null>(null);
+  const [minScore, setMinScore] = useState<number | null>(null);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get("slug");
@@ -686,7 +704,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   // Reset page on filter change
   useEffect(() => {
     setPage(1);
-  }, [selectedCountry, selectedIndustry, verifiedOnly, sortBy]);
+  }, [selectedCountry, selectedIndustry, verifiedOnly, sortBy, minOrderValue, minScore]);
 
   const { data, isLoading, isFetching, isError, error } = useSuppliers({
     q: debouncedQuery,
@@ -695,6 +713,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
     verified: verifiedOnly,
     sortBy,
     page,
+    minOrderValue,
+    minScore,
   });
 
   const { data: filters } = useFilters();
@@ -706,10 +726,12 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
     setSelectedIndustry("");
     setVerifiedOnly(false);
     setSortBy("rating");
+    setMinOrderValue(null);
+    setMinScore(null);
     setPage(1);
   };
 
-  const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery;
+  const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery || minOrderValue != null || minScore != null;
   const { data: stats } = useStats();
   const supplierCount = stats?.suppliers ?? 23200000;
   const countryCount = stats?.countries ?? 220;
@@ -731,7 +753,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-white group-focus-within:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-200" />
               <input
                 type="text"
-                placeholder="Search suppliers, products, or industries..."
+                placeholder={t("supplier.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder:text-slate-400 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -742,7 +764,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition"
             >
               <Filter className="w-4 h-4" />
-              Filters
+              {t("supplier.filters")}
               {hasActiveFilters && (
                 <span className="bg-white text-blue-600 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
                   !
@@ -758,28 +780,31 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         <div className="bg-slate-800/60 border-b border-slate-700 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="flex flex-wrap items-center gap-3">
+              {/* Country filter */}
               <select
                 value={selectedCountry}
                 onChange={(e) => setSelectedCountry(e.target.value)}
                 className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">All Countries</option>
+                <option value="">{t("supplier.allCountries")}</option>
                 {filters?.countries.map((c) => (
                   <option key={c.name} value={c.name}>{formatLocation(c.name)} ({c.count.toLocaleString()})</option>
                 ))}
               </select>
 
+              {/* Industry filter */}
               <select
                 value={selectedIndustry}
                 onChange={(e) => setSelectedIndustry(e.target.value)}
                 className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">All Industries</option>
+                <option value="">{t("supplier.allIndustries")}</option>
                 {filters?.industries.map((i) => (
                   <option key={i.name} value={i.name}>{toTitleCase(i.name)} ({i.count.toLocaleString()})</option>
                 ))}
               </select>
 
+              {/* Verified only */}
               <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
                 <input
                   type="checkbox"
@@ -788,23 +813,57 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <Shield className="w-3.5 h-3.5 text-blue-600" />
-                Verified Only
+                {t("supplier.verifiedOnly")}
               </label>
 
+              {/* Sort */}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="rating">Top Rated</option>
-                <option value="reviewCount">Most Reviewed</option>
-                <option value="yearEstablished">Established</option>
-                <option value="companyName">Name A-Z</option>
+                <option value="rating">{t("supplier.sortTopRated")}</option>
+                <option value="reviewCount">{t("supplier.sortMostReviewed")}</option>
+                <option value="yearEstablished">{t("supplier.sortEstablished")}</option>
+                <option value="companyName">{t("supplier.sortNameAZ")}</option>
+                <option value="reliability">{t("supplier.sortMostReliable")}</option>
+                <option value="cost">{t("supplier.sortLowestCost")}</option>
+                <option value="tradeVolume">{t("supplier.sortHighestVolume")}</option>
+                <option value="shippingSpeed">{t("supplier.sortFastestShipping")}</option>
+              </select>
+
+              {/* MOQ filter */}
+              <select
+                value={minOrderValue ?? ""}
+                onChange={(e) => setMinOrderValue(e.target.value === "" ? null : Number(e.target.value))}
+                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                title="Minimum Order Quantity"
+              >
+                <option value="">MOQ: Any</option>
+                <option value="0">MOQ: $0+</option>
+                <option value="500">MOQ: $500+</option>
+                <option value="1000">MOQ: $1,000+</option>
+                <option value="5000">MOQ: $5,000+</option>
+                <option value="10000">MOQ: $10,000+</option>
+              </select>
+
+              {/* Supplier Score filter */}
+              <select
+                value={minScore ?? ""}
+                onChange={(e) => setMinScore(e.target.value === "" ? null : Number(e.target.value))}
+                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                title={t("supplier.qualityScore")}
+              >
+                <option value="">{t("supplier.qualityScore")}: Any</option>
+                <option value="60">{t("supplier.qualityScore")}: 60+</option>
+                <option value="70">{t("supplier.qualityScore")}: 70+</option>
+                <option value="80">{t("supplier.qualityScore")}: 80+</option>
+                <option value="90">{t("supplier.qualityScore")}: 90+</option>
               </select>
 
               {hasActiveFilters && (
                 <button onClick={clearFilters} className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1">
-                  <X className="w-3.5 h-3.5" /> Clear All
+                  <X className="w-3.5 h-3.5" /> {t("supplier.clearAll")}
                 </button>
               )}
             </div>
@@ -817,14 +876,18 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-700">
-            {isFetching ? "Searching..." : data ? `${data.pagination.total.toLocaleString()} suppliers found` : "Loading..."}
+            {isFetching
+              ? "Searching..."
+              : data
+              ? t("supplier.suppliersFound", { count: data.pagination.total, total: data.pagination.total.toLocaleString() })
+              : "Loading..."}
             {!isFetching && debouncedQuery && ` for "${debouncedQuery}"`}
           </p>
           {data?.guestLimited && (
             <Link href="/signup">
               <span className="flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 cursor-pointer">
                 <Lock className="w-3.5 h-3.5" />
-                Sign up to see all results
+                {t("supplier.signUpToSeeAll")}
               </span>
             </Link>
           )}
@@ -850,7 +913,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             {data.fallback && (
               <div className="mb-4 flex items-center gap-3 px-4 py-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium">
                 <svg className="w-4 h-4 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" /></svg>
-                No exact matches — showing top verified suppliers instead
+                {t("supplier.noExactMatches")}
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -897,9 +960,9 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         ) : isError ? (
           <div className="text-center py-16">
             <Search className="w-12 h-12 text-red-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-700 mb-1">Failed to load suppliers</h3>
+            <h3 className="text-lg font-medium text-gray-700 mb-1">{t("supplier.failedLoad")}</h3>
             <p className="text-gray-600 mb-4">
-              {error instanceof Error ? error.message : "Check that the server is running on the same port (e.g. http://localhost:3000)"}
+              {error instanceof Error ? error.message : t("supplier.serverRunning")}
             </p>
             <p className="text-sm text-gray-500 mb-4">Visit http://localhost:3000/suppliers if using port 3000</p>
             <button onClick={() => window.location.reload()} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
@@ -909,10 +972,10 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         ) : (
           <div className="text-center py-16">
             <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-700 mb-1">No suppliers found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your search or filters</p>
+            <h3 className="text-lg font-medium text-gray-700 mb-1">{t("supplier.noSuppliers")}</h3>
+            <p className="text-gray-600 mb-4">{t("supplier.adjustSearch")}</p>
             <button onClick={clearFilters} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
-              Clear all filters
+              {t("supplier.clearFilters")}
             </button>
           </div>
         )}
@@ -931,7 +994,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
       <footer className="mt-12 py-6 border-t border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <p className="text-xs text-gray-500 text-center max-w-2xl mx-auto">
-            Registry-verified suppliers link to official sources (Companies House, SEC EDGAR, OpenCorporates). AI-generated report examples may include illustrative supplier names for comparison. &quot;Registry Verified&quot; = official source.
+            {t("supplier.disclaimer")}
           </p>
         </div>
       </footer>

@@ -83,7 +83,7 @@ export default function Home() {
 
   const tabs = [
     {
-      label: "Find Suppliers",
+      label: t("home.tabs.findSuppliers"),
       icon: <Globe className="w-4 h-4" />,
       color: "blue",
       preview: (
@@ -115,7 +115,7 @@ export default function Home() {
       ),
     },
     {
-      label: "Calculate Costs",
+      label: t("home.tabs.calculateCosts"),
       icon: <DollarSign className="w-4 h-4" />,
       color: "emerald",
       preview: (
@@ -143,7 +143,7 @@ export default function Home() {
       ),
     },
     {
-      label: "Assess Risk",
+      label: t("home.tabs.assessRisk"),
       icon: <Shield className="w-4 h-4" />,
       color: "violet",
       preview: (
@@ -225,7 +225,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="relative z-10 text-slate-400 text-sm font-mono mb-4 tracking-wider"
         >
-          <AnimatedCounter to={25_234_891} duration={2.5} /> suppliers indexed
+          <AnimatedCounter to={25_234_891} duration={2.5} /> {t("home.suppliersIndexed")}
         </motion.div>
 
         {/* Headline */}
@@ -355,21 +355,17 @@ export default function Home() {
           <div className="md:col-span-3">
             <p className="text-xs font-semibold text-red-500 uppercase tracking-[0.2em] mb-4">{t("home.features.badge")}</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-6">
-              {t("home.pain.stat2desc") ? (
-                <>Procurement Teams Lose<br /><span className="text-red-400">14 Hours a Week</span><br />to Bad Data</>
-              ) : (
-                <>{t("home.features.title")}</>
-              )}
+              {t("home.pain.headingLine1")}<br /><span className="text-red-400">{t("home.pain.headingHighlight")}</span><br />{t("home.pain.headingLine2")}
             </h2>
             <p className="text-slate-400 text-base leading-relaxed max-w-xl">
-              {t("home.hero.subtitleBase", { suppliers: formatStat(suppliers) })} Every day without the right supplier data costs your business more than you think.
+              {t("home.pain.desc")}
             </p>
           </div>
           <div className="md:col-span-2 flex flex-col gap-4">
             {[
-              { stat: "$2.3M", desc: "lost per company annually to hidden import costs", color: "border-red-500/30 bg-red-950/20" },
-              { stat: "67%", desc: "of supplier relationships fail in year 1", color: "border-orange-500/30 bg-orange-950/20" },
-              { stat: "3 weeks", desc: "average to qualify a new supplier without our platform", color: "border-yellow-500/30 bg-yellow-950/20" },
+              { stat: t("home.pain.card1stat"), desc: t("home.pain.card1desc"), color: "border-red-500/30 bg-red-950/20" },
+              { stat: t("home.pain.card2stat"), desc: t("home.pain.card2desc"), color: "border-orange-500/30 bg-orange-950/20" },
+              { stat: t("home.pain.card3stat"), desc: t("home.pain.card3desc"), color: "border-yellow-500/30 bg-yellow-950/20" },
             ].map((s, i) => (
               <div key={i} className={`border rounded-xl p-5 ${s.color}`}>
                 <div className="text-2xl font-bold text-white mb-1">{s.stat}</div>
@@ -417,7 +413,7 @@ export default function Home() {
             <div className="mt-4 text-center">
               <Link href={activeTab === 0 ? "/suppliers" : activeTab === 1 ? "/landed-cost" : "/risk-intelligence"}>
                 <span className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium cursor-pointer">
-                  Try it free <ArrowRight className="w-4 h-4" />
+                  {t("home.tabs.tryFree")} <ArrowRight className="w-4 h-4" />
                 </span>
               </Link>
             </div>
@@ -494,9 +490,9 @@ export default function Home() {
       {/* ── G) PRICING TEASER ───────────────────────────────────────────────── */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">Pricing</p>
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.pricing.title")}</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-10">
-            Start Free. Scale When Ready.
+            {t("home.pricing.heading")}
           </h2>
           <div className="flex flex-col gap-3 mb-8">
             {[
@@ -558,7 +554,7 @@ export default function Home() {
               className="flex-1 pl-3 pr-4 py-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
             />
             <button type="submit" className="shrink-0 m-1.5 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm rounded-lg transition">
-              Search
+              {t("home.pricing.search")}
             </button>
           </form>
 

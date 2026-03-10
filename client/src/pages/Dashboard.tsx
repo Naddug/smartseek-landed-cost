@@ -234,7 +234,7 @@ export default function Dashboard() {
           </button>
         )}
         <Button type="submit" size="sm" className="shrink-0 h-8 px-4 bg-blue-600 hover:bg-blue-700">
-          Search
+          {t('dashboard.search')}
         </Button>
       </form>
 
@@ -248,7 +248,7 @@ export default function Dashboard() {
           warning={totalCredits === 0}
           footer={
             totalCredits === 0
-              ? <Link href="/billing"><span className="text-amber-600 font-semibold hover:underline">Buy credits →</span></Link>
+              ? <Link href="/billing"><span className="text-amber-600 font-semibold hover:underline">{t('dashboard.buyCredits')}</span></Link>
               : isPro
               ? <span className="text-slate-400">{t("dashboard.refreshesMonthly")}</span>
               : <Link href="/billing"><span className="text-blue-500 hover:underline text-[11px]">+ {t("dashboard.buyMore")}</span></Link>
@@ -261,8 +261,8 @@ export default function Dashboard() {
           label={t("dashboard.reportsGenerated")}
           footer={
             completedReports > 0
-              ? <span className="text-slate-400">{completedReports} completed</span>
-              : <span className="text-slate-300">No reports yet</span>
+              ? <span className="text-slate-400">{t('dashboard.completedReports', { count: completedReports })}</span>
+              : <span className="text-slate-300">{t('dashboard.noReportsGenerated')}</span>
           }
         />
         <KpiCard
@@ -276,8 +276,8 @@ export default function Dashboard() {
           accent="#f59e0b"
           icon={<Activity className="w-4 h-4 text-amber-500" />}
           value={String(activityTotal)}
-          label="This Week"
-          footer={<span className="text-slate-400">searches &amp; reports</span>}
+          label={t('dashboard.thisWeek')}
+          footer={<span className="text-slate-400">{t('dashboard.searchesAndReports')}</span>}
         />
       </div>
 
@@ -286,15 +286,15 @@ export default function Dashboard() {
         <div className="rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 border border-blue-100 p-7">
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4 text-blue-500" />
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">Get Started</p>
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">{t('dashboard.getStarted')}</p>
           </div>
-          <h2 className="text-lg font-bold text-slate-800 mb-1">Welcome to SmartSeek</h2>
-          <p className="text-sm text-slate-500 mb-6">Three steps to find the perfect supplier.</p>
+          <h2 className="text-lg font-bold text-slate-800 mb-1">{t('dashboard.welcomeToSmartSeek')}</h2>
+          <p className="text-sm text-slate-500 mb-6">{t('dashboard.threeStepsToFind')}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { step: "1", icon: <Sparkles className="w-5 h-5 text-blue-500" />, title: "Run an AI Search", desc: "Describe your product and let our AI find the best suppliers worldwide.", href: "/smart-finder", cta: "Start searching" },
-              { step: "2", icon: <FileText className="w-5 h-5 text-violet-500" />, title: "Generate a Report", desc: "Get a detailed analysis with costs, risks, and supplier comparisons.", href: "/smart-finder", cta: "Generate report" },
-              { step: "3", icon: <FileQuestion className="w-5 h-5 text-emerald-500" />, title: "Submit an RFQ", desc: "Request quotes from multiple verified suppliers with a single form.", href: "/rfq", cta: "Submit RFQ" },
+              { step: "1", icon: <Sparkles className="w-5 h-5 text-blue-500" />, title: t('dashboard.runAISearch'), desc: t('dashboard.runAISearchDesc'), href: "/smart-finder", cta: t('dashboard.startSearching') },
+              { step: "2", icon: <FileText className="w-5 h-5 text-violet-500" />, title: t('dashboard.generateReportTitle'), desc: t('dashboard.generateReportDesc'), href: "/smart-finder", cta: t('dashboard.generateReportCta') },
+              { step: "3", icon: <FileQuestion className="w-5 h-5 text-emerald-500" />, title: t('dashboard.submitRFQTitle'), desc: t('dashboard.submitRFQDesc2'), href: "/rfq", cta: t('dashboard.submitRFQCta') },
             ].map(({ step, icon, title, desc, href, cta }) => (
               <Link key={step} href={href}>
                 <div className="bg-white/70 hover:bg-white rounded-xl border border-white/80 hover:border-blue-100 hover:shadow-sm p-5 transition-all cursor-pointer group">
@@ -343,7 +343,7 @@ export default function Dashboard() {
               </div>
               <div className="text-center">
                 <p className="text-sm font-medium text-slate-500">{t("dashboard.noActivityYet")}</p>
-                <p className="text-xs text-slate-400 mt-0.5">Your activity will show up here after your first search.</p>
+                <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.activityAfterSearch')}</p>
               </div>
               <Link href="/smart-finder">
                 <Button size="sm" variant="outline" className="mt-1">{t("dashboard.startFirstSearch")}</Button>
@@ -381,16 +381,16 @@ export default function Dashboard() {
 
         {/* Quick actions */}
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
-          <h2 className="font-semibold text-slate-800 text-[15px] mb-1">Quick Actions</h2>
-          <p className="text-xs text-slate-400 mb-4">Jump to any tool instantly</p>
+          <h2 className="font-semibold text-slate-800 text-[15px] mb-1">{t('dashboard.quickActions')}</h2>
+          <p className="text-xs text-slate-400 mb-4">{t('dashboard.jumpToTool')}</p>
           <div className="space-y-0.5">
             {[
-              { href: "/smart-finder",        icon: <Sparkles className="w-4 h-4" />, label: "AI Sourcing",    desc: "Find suppliers with AI",  color: "blue"   },
-              { href: "/find-leads",           icon: <Target    className="w-4 h-4" />, label: "Find Leads",    desc: "Qualified buyer contacts", color: "teal"   },
-              { href: "/ai-agent",             icon: <Bot       className="w-4 h-4" />, label: "AI Agent",      desc: "Chat with sourcing AI",    color: "indigo" },
-              { href: "/landed-cost",          icon: <Calculator className="w-4 h-4" />, label: "Landed Cost",   desc: "True import cost calc",   color: "amber"  },
-              { href: "/risk-intelligence",    icon: <Shield    className="w-4 h-4" />, label: "Risk Check",    desc: "Supplier risk analysis",   color: "violet" },
-              { href: "/customs-calculator",   icon: <Landmark  className="w-4 h-4" />, label: "Customs",       desc: "Duty & tax estimator",     color: "orange" },
+              { href: "/smart-finder",        icon: <Sparkles className="w-4 h-4" />, label: t('dashboard.aiSourcing'),    desc: t('dashboard.findSuppliersWithAI'),  color: "blue"   },
+              { href: "/find-leads",           icon: <Target    className="w-4 h-4" />, label: t('dashboard.findLeads'),    desc: t('dashboard.qualifiedContacts'), color: "teal"   },
+              { href: "/ai-agent",             icon: <Bot       className="w-4 h-4" />, label: t('dashboard.aiAgent'),      desc: t('dashboard.chatWithAI'),    color: "indigo" },
+              { href: "/landed-cost",          icon: <Calculator className="w-4 h-4" />, label: t('dashboard.landedCost'),   desc: t('dashboard.trueImportCost'),   color: "amber"  },
+              { href: "/risk-intelligence",    icon: <Shield    className="w-4 h-4" />, label: t('dashboard.riskCheck'),    desc: t('dashboard.supplierRiskAnalysis'),   color: "violet" },
+              { href: "/customs-calculator",   icon: <Landmark  className="w-4 h-4" />, label: t('dashboard.customs'),       desc: t('dashboard.dutyTaxEstimator'),     color: "orange" },
             ].map((a) => <ActionRow key={a.href} {...a} />)}
           </div>
         </div>
@@ -403,12 +403,12 @@ export default function Dashboard() {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-slate-50">
             <div>
-              <h2 className="font-semibold text-slate-800 text-[15px]">Recent Reports</h2>
-              <p className="text-xs text-slate-400 mt-0.5">{reports.length > 0 ? `${reports.length} total` : "No reports yet"}</p>
+              <h2 className="font-semibold text-slate-800 text-[15px]">{t('dashboard.recentReports')}</h2>
+              <p className="text-xs text-slate-400 mt-0.5">{reports.length > 0 ? t('dashboard.totalReports', { count: reports.length }) : t('dashboard.noReportsGenerated')}</p>
             </div>
             <Link href="/reports">
               <button className="text-xs text-slate-400 hover:text-blue-500 transition-colors font-medium flex items-center gap-0.5">
-                View all <ChevronRight className="w-3.5 h-3.5" />
+                {t('dashboard.viewAll')} <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </Link>
           </div>
@@ -419,11 +419,11 @@ export default function Dashboard() {
                 <FileText className="w-5 h-5 text-slate-300" />
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-500">No reports yet</p>
-                <p className="text-xs text-slate-400 mt-0.5">Generate your first AI sourcing report.</p>
+                <p className="text-sm font-medium text-slate-500">{t('dashboard.noReportsGenerated')}</p>
+                <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.generateReportDesc')}</p>
               </div>
               <Link href="/smart-finder">
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700 mt-1">Generate Report</Button>
+                <Button size="sm" className="bg-blue-600 hover:bg-blue-700 mt-1">{t('dashboard.generateReport')}</Button>
               </Link>
             </div>
           ) : (
@@ -443,7 +443,7 @@ export default function Dashboard() {
                         <p className="text-sm font-medium text-slate-700 group-hover:text-slate-900 truncate capitalize">{commodity}</p>
                         <div className="flex items-center gap-2 mt-0.5">
                           {country && <span className="text-[11px] text-slate-400">{country}</span>}
-                          {margin && <><span className="text-slate-200">·</span><span className="text-[11px] text-emerald-600 font-medium">{margin} margin</span></>}
+                          {margin && <><span className="text-slate-200">·</span><span className="text-[11px] text-emerald-600 font-medium">{margin} {t('dashboard.marginLabel')}</span></>}
                         </div>
                       </div>
                       <div className="text-right shrink-0">
@@ -477,7 +477,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <p className="text-sm font-medium text-slate-500">{t("dashboard.noReportsYet")}</p>
-                <p className="text-xs text-slate-400 mt-0.5">Your sourcing regions will appear here.</p>
+                <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.sourcingRegions')}</p>
               </div>
             </div>
           ) : (
@@ -516,13 +516,13 @@ export default function Dashboard() {
                   <Users className="w-5 h-5 text-blue-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-800">Supplier Discovery</h3>
-                  <p className="text-xs text-slate-400">Verified global suppliers</p>
+                  <h3 className="font-semibold text-slate-800">{t('dashboard.supplierDiscovery')}</h3>
+                  <p className="text-xs text-slate-400">{t('dashboard.verifiedGlobalSuppliers')}</p>
                 </div>
               </div>
             </div>
             <p className="text-sm text-slate-500 mb-4 leading-relaxed">
-              Search and connect with verified suppliers. Filter by industry, region, and certifications.
+              {t('dashboard.searchConnectSuppliers')}
             </p>
             <div className="flex flex-wrap gap-2 mb-5">
               {["Electronics", "Textiles", "Machinery", "Chemicals", "Plastics", "Automotive"].map((industry) => (
@@ -540,7 +540,7 @@ export default function Dashboard() {
               size="sm"
               className="gap-1.5 bg-blue-600 hover:bg-blue-700 shadow-sm"
             >
-              Browse All Suppliers <ArrowRight className="w-3.5 h-3.5" />
+              {t('dashboard.browseAllSuppliers')} <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
@@ -554,19 +554,19 @@ export default function Dashboard() {
                   <FileQuestion className="w-5 h-5 text-emerald-500" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-800">Request for Quotation</h3>
-                  <p className="text-xs text-slate-400">Get competitive quotes</p>
+                  <h3 className="font-semibold text-slate-800">{t('dashboard.requestForQuotation')}</h3>
+                  <p className="text-xs text-slate-400">{t('dashboard.getCompetitiveQuotes')}</p>
                 </div>
               </div>
             </div>
             <p className="text-sm text-slate-500 mb-5 leading-relaxed">
-              Submit an RFQ and receive competitive quotes from verified suppliers worldwide. Fast turnaround, transparent pricing.
+              {t('dashboard.submitRFQDesc')}
             </p>
             <div className="flex gap-6 mb-5 text-center">
               {[
-                { value: "48h", label: "Avg response" },
-                { value: "5+", label: "Quotes per RFQ" },
-                { value: "100%", label: "Verified" },
+                { value: "48h", label: t('dashboard.avgResponse') },
+                { value: "5+", label: t('dashboard.quotesPerRFQ') },
+                { value: "100%", label: t('dashboard.verified') },
               ].map(({ value, label }) => (
                 <div key={label}>
                   <p className="text-lg font-bold text-slate-800">{value}</p>
@@ -576,7 +576,7 @@ export default function Dashboard() {
             </div>
             <Link href="/rfq">
               <Button size="sm" className="gap-1.5 bg-emerald-600 hover:bg-emerald-700 shadow-sm">
-                Submit New RFQ <ArrowRight className="w-3.5 h-3.5" />
+                {t('dashboard.submitNewRFQ')} <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
           </div>
@@ -588,12 +588,12 @@ export default function Dashboard() {
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-slate-50">
             <div>
-              <h2 className="font-semibold text-slate-800 text-[15px]">Credit Activity</h2>
-              <p className="text-xs text-slate-400 mt-0.5">Recent credits used and purchased</p>
+              <h2 className="font-semibold text-slate-800 text-[15px]">{t('dashboard.creditActivity')}</h2>
+              <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.recentCredits')}</p>
             </div>
             <Link href="/billing">
               <button className="text-xs text-slate-400 hover:text-blue-500 transition-colors font-medium flex items-center gap-0.5">
-                Manage <ChevronRight className="w-3.5 h-3.5" />
+                {t('dashboard.manageBilling')} <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </Link>
           </div>

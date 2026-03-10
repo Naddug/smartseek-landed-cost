@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useProfile, useUser } from "@/lib/hooks";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,7 @@ import { Wordmark } from "@/components/Logo";
 const CREDITS_BANNER_DISMISSED = "smartseek_credits_banner_dismissed";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   const { data: user } = useUser();
   const { data: profile } = useProfile();
@@ -57,21 +59,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const getPageTitle = (path: string) => {
     const slug = path.split('/')[1] || 'dashboard';
     const titles: Record<string, string> = {
-      dashboard: 'Home',
-      'smart-finder': 'SmartSeek AI',
-      'ai-agent': 'AI Agent',
-      'find-leads': 'Find Leads',
-      suppliers: 'Suppliers',
-      reports: 'Reports',
-      billing: 'Billing',
-      'trade-data': 'Trade Data',
-      'landed-cost': 'Landed Cost',
-      'customs-calculator': 'Customs',
-      'shipping-estimator': 'Shipping',
-      'risk-intelligence': 'Risk',
-      compliance: 'Compliance',
-      tools: 'Tools',
-      admin: 'Admin',
+      dashboard: t('nav.app.home'),
+      'smart-finder': t('nav.app.smartFinder'),
+      'ai-agent': t('nav.app.aiAgent'),
+      'find-leads': t('nav.app.findLeads'),
+      suppliers: t('nav.app.suppliers'),
+      reports: t('nav.app.reports'),
+      billing: t('nav.app.billing'),
+      'trade-data': t('nav.app.tradeData'),
+      'landed-cost': t('nav.app.landedCost'),
+      'customs-calculator': t('nav.app.customs'),
+      'shipping-estimator': t('nav.app.shipping'),
+      'risk-intelligence': t('nav.app.risk'),
+      compliance: t('nav.app.compliance'),
+      tools: t('nav.app.tools'),
+      admin: t('nav.app.admin'),
     };
     return titles[slug] || slug.replace(/-/g, ' ');
   };
@@ -96,27 +98,27 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 px-4 space-y-2">
-          <NavItem href="/dashboard" icon={<LayoutDashboard size={20} />} label="Dashboard" active={isActive('/dashboard')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/smart-finder" icon={<Sparkles size={20} />} label="SmartSeek AI" active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/ai-agent" icon={<Bot size={20} />} label="AI Agent" active={isActive('/ai-agent')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/find-leads" icon={<Target size={20} />} label="Find Leads" active={isActive('/find-leads')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/suppliers" icon={<Users size={20} />} label="Suppliers" active={isActive('/suppliers')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/reports" icon={<FileText size={20} />} label="My Reports" active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/billing" icon={<CreditCard size={20} />} label="Billing" active={isActive('/billing')} onClick={() => setMobileOpen(false)} />
-          
-          <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">Trade Tools</div>
-          <NavItem href="/trade-data" icon={<BarChart3 size={20} />} label="Trade Data" active={isActive('/trade-data')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/landed-cost" icon={<Calculator size={20} />} label="Landed Cost" active={isActive('/landed-cost')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/customs-calculator" icon={<Landmark size={20} />} label="Customs Calculator" active={isActive('/customs-calculator')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/shipping-estimator" icon={<Ship size={20} />} label="Shipping Estimator" active={isActive('/shipping-estimator')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/risk-intelligence" icon={<Shield size={20} />} label="Risk Intelligence" active={isActive('/risk-intelligence')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/compliance" icon={<ClipboardCheck size={20} />} label="Compliance" active={isActive('/compliance')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/tools" icon={<Calculator size={20} />} label="All Tools" active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
-          
+          <NavItem href="/dashboard" icon={<LayoutDashboard size={20} />} label={t('nav.app.dashboard')} active={isActive('/dashboard')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/smart-finder" icon={<Sparkles size={20} />} label={t('nav.app.smartFinder')} active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/ai-agent" icon={<Bot size={20} />} label={t('nav.app.aiAgent')} active={isActive('/ai-agent')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/find-leads" icon={<Target size={20} />} label={t('nav.app.findLeads')} active={isActive('/find-leads')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/suppliers" icon={<Users size={20} />} label={t('nav.app.suppliers')} active={isActive('/suppliers')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/reports" icon={<FileText size={20} />} label={t('nav.app.reports')} active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/billing" icon={<CreditCard size={20} />} label={t('nav.app.billing')} active={isActive('/billing')} onClick={() => setMobileOpen(false)} />
+
+          <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">{t('nav.app.tradeTools')}</div>
+          <NavItem href="/trade-data" icon={<BarChart3 size={20} />} label={t('nav.app.tradeData')} active={isActive('/trade-data')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/landed-cost" icon={<Calculator size={20} />} label={t('nav.app.landedCost')} active={isActive('/landed-cost')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/customs-calculator" icon={<Landmark size={20} />} label={t('nav.app.customs')} active={isActive('/customs-calculator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/shipping-estimator" icon={<Ship size={20} />} label={t('nav.app.shipping')} active={isActive('/shipping-estimator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/risk-intelligence" icon={<Shield size={20} />} label={t('nav.app.risk')} active={isActive('/risk-intelligence')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/compliance" icon={<ClipboardCheck size={20} />} label={t('nav.app.compliance')} active={isActive('/compliance')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/tools" icon={<Calculator size={20} />} label={t('nav.app.tools')} active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
+
           {profile?.role === 'admin' && (
             <>
-              <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">Admin</div>
-              <NavItem href="/admin" icon={<ShieldCheck size={20} />} label="Admin Panel" active={isActive('/admin')} onClick={() => setMobileOpen(false)} />
+              <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">{t('nav.app.admin')}</div>
+              <NavItem href="/admin" icon={<ShieldCheck size={20} />} label={t('nav.app.admin')} active={isActive('/admin')} onClick={() => setMobileOpen(false)} />
             </>
           )}
         </nav>
@@ -124,7 +126,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="p-4 border-t border-sidebar-border">
           <div className={`rounded-lg p-4 mb-4 ${totalCredits === 0 ? 'bg-amber-500/20 border border-amber-500/50' : 'bg-sidebar-accent/50'}`}>
             <div className="flex items-center justify-between mb-2">
-              <div className="text-xs text-sidebar-foreground/70">Available Credits</div>
+              <div className="text-xs text-sidebar-foreground/70">{t('nav.app.availableCredits')}</div>
               {profile?.plan === 'monthly' && (
                 <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 text-xs h-5">
                   <Crown className="w-3 h-3 mr-1" />
@@ -135,17 +137,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div className="flex items-end justify-between">
               <div>
                 <span className="text-2xl font-bold text-sidebar-foreground">{(profile?.monthlyCredits || 0) + (profile?.topupCredits || 0)}</span>
-                {profile?.plan === 'monthly' && <span className="block text-[10px] text-sidebar-foreground/60">Refreshes monthly</span>}
+                {profile?.plan === 'monthly' && <span className="block text-[10px] text-sidebar-foreground/60">{t('nav.app.refreshesMonthly')}</span>}
               </div>
               <Button size="sm" variant="secondary" className="h-6 px-2 text-xs" onClick={() => setLocation('/billing')}>
-                {profile?.plan === 'monthly' ? 'Manage' : '+ Buy more'}
+                {profile?.plan === 'monthly' ? t('nav.app.manage') : t('nav.app.buyMore')}
               </Button>
             </div>
           </div>
           
           <Button variant="ghost" className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" onClick={handleLogout}>
             <LogOut size={18} className="mr-2" />
-            Log Out
+            {t('nav.app.logOut')}
           </Button>
         </div>
       </aside>
