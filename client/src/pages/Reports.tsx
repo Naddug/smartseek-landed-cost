@@ -515,7 +515,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
             )}
             <Button
               variant="outline"
-              className="w-full bg-slate-800 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
+              className="w-full bg-slate-800 text-slate-100 border-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
               onClick={(e) => { e.stopPropagation(); onView(); }}
             >
               View Full Report

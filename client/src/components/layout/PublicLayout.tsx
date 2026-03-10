@@ -100,11 +100,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-400">
           <span className="hidden sm:inline">{t("trust.strip1")}</span>
           <span className="hidden md:inline">•</span>
-          <span>{stats ? `${formatStat(stats.suppliers)} ${t("trust.suppliersWord")}` : t("trust.strip2", { suppliers: "25.2M+" })}</span>
-          <span className="hidden lg:inline">•</span>
-          <span className="hidden lg:inline">{stats ? `${formatStat(stats.leads)} ${t("trust.leadsWord")}` : t("trust.leads", { leads: "7M+" })}</span>
-          <span className="hidden lg:inline">•</span>
-          <span>{stats ? `${stats.countries}+ ${t("trust.countriesWord")}` : t("trust.strip4")}</span>
+          {stats && stats.suppliers > 0 && <span>{`${formatStat(stats.suppliers)} ${t("trust.suppliersWord")}`}</span>}
+          {stats && stats.suppliers > 0 && stats.leads > 0 && <span className="hidden lg:inline">•</span>}
+          {stats && stats.leads > 0 && <span className="hidden lg:inline">{`${formatStat(stats.leads)} ${t("trust.leadsWord")}`}</span>}
+          {stats && stats.countries > 0 && <><span className="hidden lg:inline">•</span><span>{`${stats.countries}+ ${t("trust.countriesWord")}`}</span></>}
         </div>
       </div>
       )}
@@ -164,19 +163,19 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats ? formatStat(stats.suppliers) : "25.2M+"}
+                  {stats && stats.suppliers > 0 ? formatStat(stats.suppliers) : "—"}
                 </div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats ? `${stats.countries}+` : "220+"}
+                  {stats && stats.countries > 0 ? `${stats.countries}+` : "—"}
                 </div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statCountries")}</div>
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats ? formatStat(stats.leads) : "7M+"}
+                  {stats && stats.leads > 0 ? formatStat(stats.leads) : "—"}
                 </div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statLeads")}</div>
               </div>

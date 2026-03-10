@@ -285,10 +285,10 @@ export default function Home() {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [, navigate] = useLocation();
-  const [suppliers, setSuppliers] = useState(25_200_000);
-  const [leads, setLeads] = useState(7_000_000);
-  const [countries, setCountries] = useState(220);
-  const [industries, setIndustries] = useState(20);
+  const [suppliers, setSuppliers] = useState(0);
+  const [leads, setLeads] = useState(0);
+  const [countries, setCountries] = useState(0);
+  const [industries, setIndustries] = useState(0);
   const [placeholderIdx, setPlaceholderIdx] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
 
@@ -485,7 +485,7 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8"
         >
-          {t("home.hero.subtitleBase", { suppliers: formatStat(suppliers) })}<span className="text-white font-medium">{t("home.hero.subtitleHighlight")}</span>
+          {t("home.hero.subtitleBase", { suppliers: suppliers > 0 ? formatStat(suppliers) : "Verified" })}<span className="text-white font-medium">{t("home.hero.subtitleHighlight")}</span>
         </motion.p>
 
         {/* Search bar */}
@@ -651,10 +651,10 @@ export default function Home() {
                 accent: "from-blue-500 to-indigo-500",
                 border: "border-slate-200 hover:border-blue-300",
                 title: "Find Suppliers",
-                desc: "Search 25M+ verified global suppliers by product, country, certification, and size. Contact-ready with quality scores.",
+                desc: "Search verified global suppliers by product, country, certification, and size. Contact-ready with quality scores.",
                 href: "/suppliers",
                 cta: "Search Suppliers",
-                chips: ["25M+ suppliers", "220+ countries", "Registry-verified"],
+                chips: ["Verified suppliers", "220+ countries", "Registry-verified"],
                 chipColor: "bg-blue-50 border-blue-100 text-blue-700",
               },
               {
@@ -663,10 +663,10 @@ export default function Home() {
                 accent: "from-emerald-500 to-teal-500",
                 border: "border-slate-200 hover:border-emerald-300",
                 title: "Find Leads",
-                desc: "7M+ qualified buyer and trade leads. Filter by intent, industry, region, and company size. Built for B2B outreach.",
+                desc: "Qualified buyer and trade leads. Filter by intent, industry, region, and company size. Built for B2B outreach.",
                 href: "/signup",
                 cta: "Explore Leads",
-                chips: ["7M+ leads", "High intent signals", "B2B verified"],
+                chips: ["High-intent leads", "Intent signals", "B2B verified"],
                 chipColor: "bg-emerald-50 border-emerald-100 text-emerald-700",
               },
               {
@@ -851,7 +851,7 @@ export default function Home() {
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search 25M+ suppliers..."
+              placeholder="Search verified global suppliers..."
               className="flex-1 pl-3 pr-4 py-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
             />
             <button type="submit" className="shrink-0 m-1.5 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm rounded-lg transition">

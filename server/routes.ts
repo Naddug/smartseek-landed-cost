@@ -2577,11 +2577,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       let [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
       const total = typeof totalRaw === "number" ? totalRaw : totalRaw;
 
-      // Fallback: if search returned 0 results, show top-rated verified suppliers
+      // Fallback: if exact search returned 0 results, try loose match on industry+description only
+      // Never fall back to unrelated top-rated suppliers — return empty if no match.
       let isFallback = false;
       if (hasSearchQuery && suppliers.length === 0) {
-        isFallback = true;
-        // Try looser match: search only industry + description
         const looseWhere: any = {
           OR: [
             { industry: { contains: (q as string).trim(), mode: "insensitive" as const } },
@@ -2596,17 +2595,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           select: selectFields,
         });
         if (looseSuppliers.length > 0) {
+          isFallback = true;
           suppliers = looseSuppliers;
-        } else {
-          // Final fallback: top-rated verified suppliers
-          suppliers = await prisma.supplier.findMany({
-            where: { verified: true },
-            orderBy: [{ rating: "desc" }, { reviewCount: "desc" }],
-            skip: 0,
-            take: 12,
-            select: selectFields,
-          });
         }
+        // If loose match also returns 0 → suppliers stays empty → frontend shows "No suppliers found"
       }
 
       // Format company names and locations for display (title case)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight, Crown } from "lucide-react";
+import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight, Crown, Loader2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useProfile } from "@/lib/hooks";
 import { Link, useLocation } from "wouter";
@@ -77,12 +77,21 @@ function useSuppliers(params: {
   return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number; fallback?: boolean }>({
     queryKey: ["suppliers", params],
     queryFn: async () => {
-      const res = await fetch(`/api/suppliers?${searchParams.toString()}`);
-      if (!res.ok) throw new Error("Failed to fetch suppliers");
-      return res.json();
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10_000);
+      try {
+        const res = await fetch(`/api/suppliers?${searchParams.toString()}`, { signal: controller.signal });
+        if (!res.ok) throw new Error("Failed to fetch suppliers");
+        return res.json();
+      } catch (err: any) {
+        if (err?.name === "AbortError") throw new Error("Search timed out. Please try again.");
+        throw err;
+      } finally {
+        clearTimeout(timeout);
+      }
     },
     staleTime: 30000,
-    placeholderData: (prev) => prev,
+    retry: 1,
   });
 }
 
@@ -781,7 +790,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
 
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery || minOrderValue != null || minScore != null;
   const { data: stats } = useStats();
-  const supplierCount = stats?.suppliers ?? 23200000;
+  const supplierCount = stats?.suppliers ?? 0;
   const countryCount = stats?.countries ?? 220;
 
   return (
@@ -794,7 +803,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
-          <p className="text-blue-100 mb-2">AI-powered search across {formatStat(supplierCount)} verified and trusted suppliers in {countryCount}+ countries</p>
+          <p className="text-blue-100 mb-2">AI-powered search across {supplierCount > 0 ? `${formatStat(supplierCount)} verified` : "verified"} suppliers{countryCount > 0 ? ` in ${countryCount}+ countries` : " worldwide"}</p>
           <p className="text-blue-200/90 text-sm mb-6">100% real companies from government registries • Every supplier links to official source • No fake or scraped data</p>
           <div className="flex gap-2">
             <div className="flex-1 relative group">
@@ -923,13 +932,20 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-gray-700">
-            {isFetching
-              ? "Searching..."
-              : data
-              ? t("supplier.suppliersFound", { total: data.pagination.total.toLocaleString() })
-              : "Loading..."}
-            {!isFetching && debouncedQuery && ` for "${debouncedQuery}"`}
+          <p className="text-sm text-gray-700 flex items-center gap-2">
+            {isFetching ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+                <span>Searching suppliers...</span>
+              </>
+            ) : isError ? (
+              <span className="text-red-600">{t("supplier.failedLoad")}</span>
+            ) : data ? (
+              <>
+                {t("supplier.suppliersFound", { total: data.pagination.total.toLocaleString() })}
+                {debouncedQuery && <span className="text-gray-500"> for &ldquo;{debouncedQuery}&rdquo;</span>}
+              </>
+            ) : null}
           </p>
           {data?.guestLimited && (
             <Link href="/signup">
@@ -1020,7 +1036,6 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             <p className="text-gray-600 mb-4">
               {error instanceof Error ? error.message : t("supplier.serverRunning")}
             </p>
-            <p className="text-sm text-gray-500 mb-4">Visit http://localhost:3000/suppliers if using port 3000</p>
             <button onClick={() => window.location.reload()} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
               Retry
             </button>
