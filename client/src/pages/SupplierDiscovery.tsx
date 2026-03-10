@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight } from "lucide-react";
+import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight, Crown } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useProfile } from "@/lib/hooks";
 import { Link, useLocation } from "wouter";
@@ -154,9 +154,13 @@ function getEmployeeBadgeClass(count: number): string {
 
 function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () => void }) {
   const { t } = useTranslation();
-  const [hover, setHover] = useState(false);
   const isVerified = supplier.verified || supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR";
   const qualityScore = Math.round((supplier.rating || 0) * 20);
+  const scoreColor = qualityScore >= 80
+    ? "text-emerald-600 bg-emerald-50 border-emerald-200"
+    : qualityScore >= 60
+    ? "text-blue-600 bg-blue-50 border-blue-200"
+    : "text-amber-600 bg-amber-50 border-amber-200";
 
   const descFormatted = supplier.description
     ? (() => {
@@ -175,84 +179,85 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
   return (
     <div
       onClick={onClick}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      className={`relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all cursor-pointer
-        ${isVerified ? "border-t-4 border-t-blue-500" : ""}
-        hover:shadow-lg hover:-translate-y-0.5`}
+      className="group relative bg-white border border-slate-200 rounded-xl overflow-hidden transition-all cursor-pointer hover:shadow-lg hover:-translate-y-0.5 hover:border-blue-200"
     >
+      {/* Top accent strip */}
+      <div className={`h-1 ${isVerified ? "bg-gradient-to-r from-teal-400 to-blue-500" : "bg-gradient-to-r from-slate-100 to-slate-200"}`} />
+
       <div className="p-5">
-        <div className="flex items-start justify-between mb-2">
+        <div className="flex items-start justify-between mb-2 gap-2">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-lg font-semibold text-gray-900 truncate">{toTitleCase(supplier.companyName)}</h3>
-              {supplier.verified && (
-                <span className="inline-flex items-center gap-1 bg-teal-100 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
-                  <Check className="w-3 h-3" /> Verified
-                </span>
-              )}
+            <h3 className="text-base font-semibold text-slate-900 truncate leading-snug">{toTitleCase(supplier.companyName)}</h3>
+            <div className="flex items-center gap-1 mt-0.5 text-xs text-slate-500">
+              <MapPin className="w-3 h-3 shrink-0" />
+              <span className="truncate">{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
             </div>
-            <div className="flex items-center gap-1 mt-1 text-sm text-gray-600">
-              <span>📍</span>
-              <span>{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
-            </div>
+          </div>
+          {/* Quality score badge */}
+          <div className={`shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-xl border text-sm font-bold ${scoreColor}`}>
+            <span>{qualityScore}</span>
+            <span className="text-[9px] font-normal leading-none opacity-70">score</span>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 mb-2">
+        <div className="flex flex-wrap gap-1.5 mb-2.5">
           <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
             {toTitleCase(supplier.industry)}
           </span>
+          {isVerified && (
+            <span className="inline-flex items-center gap-1 bg-teal-50 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full">
+              <Check className="w-3 h-3" /> Verified
+            </span>
+          )}
           {supplier.subIndustry && (
-            <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">
+            <span className="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">
               {toTitleCase(supplier.subIndustry)}
             </span>
           )}
         </div>
 
-        <p className="text-sm text-gray-700 line-clamp-2 mb-3">{descFormatted}</p>
+        <p className="text-sm text-slate-600 line-clamp-2 mb-3 leading-relaxed">{descFormatted}</p>
 
         {products.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {productDisplay.map((p, i) => (
-              <span key={i} className="text-xs bg-gray-50 text-gray-600 px-2 py-0.5 rounded">
+              <span key={i} className="text-xs bg-slate-50 text-slate-600 px-2 py-0.5 rounded border border-slate-100">
                 {toTitleCase(String(p))}
               </span>
             ))}
             {productOverflow > 0 && (
-              <span className="text-xs text-gray-500">+{productOverflow} more</span>
+              <span className="text-xs text-slate-400">+{productOverflow} more</span>
             )}
           </div>
         )}
 
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             {[1, 2, 3, 4, 5].map((i) => (
               <Star
                 key={i}
-                className={`w-4 h-4 ${i <= (supplier.rating || 0) ? "text-amber-500 fill-amber-500" : "text-gray-200"}`}
+                className={`w-3.5 h-3.5 ${i <= (supplier.rating || 0) ? "text-amber-400 fill-amber-400" : "text-slate-200"}`}
               />
             ))}
-            <span className="ml-0.5 font-medium text-gray-700">{(supplier.rating || 0).toFixed(1)}</span>
+            <span className="ml-1 font-medium text-slate-600">{(supplier.rating || 0).toFixed(1)}</span>
           </div>
           {supplier.employeeCount != null && (
             <span className={`px-2 py-0.5 rounded-full font-medium ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
-              {supplier.employeeCount <= 1000 ? supplier.employeeCount.toLocaleString() : `${(supplier.employeeCount / 1000).toFixed(1)}K+`} employees
+              {supplier.employeeCount <= 1000 ? supplier.employeeCount.toLocaleString() : `${(supplier.employeeCount / 1000).toFixed(1)}K+`} emp.
             </span>
           )}
           {supplier.responseTime && (
-            <span className="inline-flex items-center gap-0.5 bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+            <span className="inline-flex items-center gap-0.5 bg-green-50 text-green-700 px-2 py-0.5 rounded-full border border-green-100">
               ⚡ {supplier.responseTime}
             </span>
           )}
         </div>
       </div>
 
-      {hover && (
-        <div className="absolute inset-x-0 bottom-0 bg-blue-600 text-white py-2.5 flex items-center justify-center gap-2 text-sm font-medium transition-all animate-in slide-in-from-bottom-2">
-          {t("supplier.viewDetails")} <ChevronRight className="w-4 h-4" />
-        </div>
-      )}
+      {/* Hover CTA */}
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 flex items-center justify-center gap-2 text-sm font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-200">
+        {t("supplier.viewDetails")} <ChevronRight className="w-4 h-4" />
+      </div>
     </div>
   );
 }
@@ -652,6 +657,45 @@ function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) 
   );
 }
 
+// ─── Free User Upgrade Wall ───────────────────────────────────────────
+
+function FreeUserUpgradeWall({ total, freeLimit }: { total: number; freeLimit: number }) {
+  const locked = Math.max(0, total - freeLimit);
+  const ghostCount = Math.min(locked, 6);
+  const [, navigate] = useLocation();
+
+  return (
+    <div className="relative mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 blur-sm pointer-events-none">
+        {Array.from({ length: ghostCount }).map((_, i) => (
+          <GhostCard key={i} />
+        ))}
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-white/95 backdrop-blur-sm border border-amber-200 rounded-2xl shadow-xl p-8 text-center max-w-md mx-4">
+          <div className="flex items-center justify-center w-12 h-12 bg-amber-100 rounded-full mx-auto mb-4">
+            <Crown className="w-6 h-6 text-amber-600" />
+          </div>
+          <h3 className="text-xl font-bold text-slate-900 mb-2">
+            {locked.toLocaleString()} more supplier{locked !== 1 ? "s" : ""} available
+          </h3>
+          <p className="text-slate-500 text-sm mb-6">
+            Upgrade to Pro to unlock all {total.toLocaleString()} results, contact details, and advanced filters.
+          </p>
+          <button
+            onClick={() => navigate("/billing")}
+            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition w-full sm:w-auto"
+          >
+            <Crown className="w-4 h-4" /> Upgrade to Pro
+            <ArrowRight className="w-4 h-4" />
+          </button>
+          <p className="text-xs text-slate-400 mt-4">Cancel anytime</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Page ───────────────────────────────────────────────────────
 
 interface SupplierDiscoveryProps {
@@ -705,6 +749,10 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   useEffect(() => {
     setPage(1);
   }, [selectedCountry, selectedIndustry, verifiedOnly, sortBy, minOrderValue, minScore]);
+
+  const { data: profile } = useProfile();
+  const isFreeUser = !!profile && profile.plan === "free";
+  const FREE_LIMIT = 5;
 
   const { data, isLoading, isFetching, isError, error } = useSuppliers({
     q: debouncedQuery,
@@ -917,7 +965,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {data.suppliers.map((supplier) => (
+              {(isFreeUser ? data.suppliers.slice(0, FREE_LIMIT) : data.suppliers).map((supplier) => (
                 <SupplierCard
                   key={supplier.id}
                   supplier={supplier}
@@ -934,8 +982,16 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               />
             )}
 
-            {/* Pagination — only for authenticated users */}
-            {!data.guestLimited && data.pagination.totalPages > 1 && (
+            {/* Upgrade wall for authenticated free users */}
+            {!data.guestLimited && isFreeUser && data.pagination.total > FREE_LIMIT && (
+              <FreeUserUpgradeWall
+                total={data.pagination.total}
+                freeLimit={FREE_LIMIT}
+              />
+            )}
+
+            {/* Pagination — only for pro users */}
+            {!data.guestLimited && !isFreeUser && data.pagination.totalPages > 1 && (
               <div className="flex items-center justify-center gap-3 mt-8 pb-4">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}

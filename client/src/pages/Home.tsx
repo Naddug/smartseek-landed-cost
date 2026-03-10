@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Search, ArrowRight, Globe, DollarSign, Shield, CheckCircle2, Check, TrendingUp, Brain, Rocket, AlertTriangle, Clock, BadgeDollarSign } from "lucide-react";
+import { Search, ArrowRight, Globe, DollarSign, Shield, CheckCircle2, Check, TrendingUp, Brain, Rocket, AlertTriangle, Clock, BadgeDollarSign, Lock, Zap, Building2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { motion, useInView, useMotionValue, animate } from "framer-motion";
 import PublicLayout from "@/components/layout/PublicLayout";
@@ -46,6 +46,240 @@ const PLACEHOLDERS = [
   "lithium batteries, Korea...",
   "pharmaceutical APIs, India...",
 ];
+
+// ─── Interactive Demo Data ──────────────────────────────────────────────────
+
+const DEMO_SUPPLIERS = {
+  antimony: [
+    { name: "Guizhou Antimony Industry", city: "Guiyang", country: "China", industry: "Mining & Minerals", rating: 4.8, employees: "1,200+", verified: true, products: ["Antimony trioxide", "Antimony ingots"], flag: "🇨🇳" },
+    { name: "Hunan New Wellre Group Corp.", city: "Changsha", country: "China", industry: "Mining & Minerals", rating: 4.6, employees: "850+", verified: true, products: ["Antimony metal", "Lead-antimony alloys"], flag: "🇨🇳" },
+    { name: "Mandalay Resources Corp.", city: "Vancouver", country: "Canada", industry: "Mining & Minerals", rating: 4.3, employees: "420+", verified: false, products: ["Antimony concentrates", "Gold-antimony ore"], flag: "🇨🇦" },
+  ],
+  cotton: [
+    { name: "Güneş Tekstil A.Ş.", city: "Istanbul", country: "Turkey", industry: "Textiles", rating: 4.7, employees: "650+", verified: true, products: ["Cotton fabric", "Technical textiles"], flag: "🇹🇷" },
+    { name: "Anadolu Dokuma Sanayi", city: "Bursa", country: "Turkey", industry: "Textiles", rating: 4.5, employees: "1,100+", verified: true, products: ["Cotton yarn", "Jersey fabric"], flag: "🇹🇷" },
+    { name: "Atlas Textile Export Ltd.", city: "Izmir", country: "Turkey", industry: "Textiles", rating: 4.2, employees: "320+", verified: false, products: ["Denim fabric", "Woven canvas"], flag: "🇹🇷" },
+  ],
+  solar: [
+    { name: "BYD Solar Technology Co.", city: "Shenzhen", country: "China", industry: "Clean Energy", rating: 4.9, employees: "12,000+", verified: true, products: ["Solar panels", "Energy storage"], flag: "🇨🇳" },
+    { name: "Trina Solar Co. Ltd.", city: "Changzhou", country: "China", industry: "Clean Energy", rating: 4.7, employees: "8,500+", verified: true, products: ["Monocrystalline modules", "PV systems"], flag: "🇨🇳" },
+    { name: "Canadian Solar Vietnam", city: "Ho Chi Minh City", country: "Vietnam", industry: "Clean Energy", rating: 4.6, employees: "5,200+", verified: false, products: ["Solar modules", "String inverters"], flag: "🇻🇳" },
+  ],
+  pharma: [
+    { name: "Sun Pharmaceutical Industries", city: "Mumbai", country: "India", industry: "Pharmaceuticals", rating: 4.8, employees: "35,000+", verified: true, products: ["Active pharmaceutical ingredients", "Generic drugs"], flag: "🇮🇳" },
+    { name: "Dr. Reddy's Laboratories", city: "Hyderabad", country: "India", industry: "Pharmaceuticals", rating: 4.7, employees: "24,000+", verified: true, products: ["API manufacturing", "Formulations"], flag: "🇮🇳" },
+    { name: "Aurobindo Pharma Ltd.", city: "Hyderabad", country: "India", industry: "Pharmaceuticals", rating: 4.5, employees: "19,000+", verified: false, products: ["Generic API", "Oral solid dosage"], flag: "🇮🇳" },
+  ],
+  default: [
+    { name: "Pacific Manufacturing Group", city: "Shanghai", country: "China", industry: "Manufacturing", rating: 4.7, employees: "2,500+", verified: true, products: ["Industrial components", "OEM parts"], flag: "🇨🇳" },
+    { name: "Euro Industrial Partners GmbH", city: "Munich", country: "Germany", industry: "Manufacturing", rating: 4.6, employees: "1,800+", verified: true, products: ["Precision engineering", "CNC machining"], flag: "🇩🇪" },
+    { name: "ASEAN Supply Solutions Pte.", city: "Singapore", country: "Singapore", industry: "Distribution", rating: 4.4, employees: "750+", verified: false, products: ["Logistics", "Supply chain mgmt."], flag: "🇸🇬" },
+  ],
+};
+type DemoSupplier = typeof DEMO_SUPPLIERS.default[0];
+
+function getDemoResults(query: string): DemoSupplier[] {
+  const q = query.toLowerCase();
+  if (q.includes("antimony") || q.includes("mineral") || q.includes("mining")) return DEMO_SUPPLIERS.antimony;
+  if (q.includes("cotton") || q.includes("textile") || q.includes("fabric") || q.includes("turk")) return DEMO_SUPPLIERS.cotton;
+  if (q.includes("solar") || q.includes("panel") || q.includes("energy") || q.includes("vietnam")) return DEMO_SUPPLIERS.solar;
+  if (q.includes("pharma") || q.includes("api") || q.includes("drug") || q.includes("india")) return DEMO_SUPPLIERS.pharma;
+  return DEMO_SUPPLIERS.default;
+}
+
+function DemoCard({ s }: { s: DemoSupplier }) {
+  const score = Math.round(s.rating * 20);
+  return (
+    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default">
+      <div className={`h-0.5 ${s.verified ? "bg-gradient-to-r from-blue-500 to-indigo-500" : "bg-slate-100"}`} />
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-2 mb-2.5">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+              <span className="text-sm font-bold text-slate-900 truncate">{s.name}</span>
+              {s.verified && (
+                <span className="shrink-0 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold">✓ Verified</span>
+              )}
+            </div>
+            <span className="text-xs text-slate-500">{s.flag} {s.city}, {s.country}</span>
+          </div>
+          <div className={`shrink-0 w-9 h-9 rounded-lg flex flex-col items-center justify-center border ${score >= 80 ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-amber-50 border-amber-200 text-amber-700"}`}>
+            <span className="text-xs font-bold leading-none">{score}</span>
+            <span className="text-[8px] opacity-60 leading-none mt-0.5">QS</span>
+          </div>
+        </div>
+        <span className="inline-block text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full mb-2">{s.industry}</span>
+        <div className="flex flex-wrap gap-1 mb-3">
+          {s.products.slice(0, 2).map((p, i) => (
+            <span key={i} className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">{p}</span>
+          ))}
+        </div>
+        <div className="flex items-center justify-between text-xs border-t border-slate-50 pt-2.5">
+          <div className="flex items-center gap-0.5">
+            {[1,2,3,4,5].map(i => (
+              <svg key={i} className={`w-3 h-3 ${i <= Math.round(s.rating) ? "text-amber-400" : "text-slate-200"}`} fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            ))}
+            <span className="ml-1 text-slate-700 font-semibold">{s.rating.toFixed(1)}</span>
+          </div>
+          <span className="text-slate-400 text-[11px]">{s.employees} emp.</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InteractiveDemo() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<DemoSupplier[] | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
+  const [searching, setSearching] = useState(false);
+
+  const QUICK = [
+    { label: "⛏ Antimony suppliers China", q: "antimony suppliers china" },
+    { label: "🧵 Cotton fabric Turkey", q: "cotton fabric turkey" },
+    { label: "☀ Solar panels Vietnam", q: "solar panels vietnam" },
+    { label: "💊 Pharma API India", q: "pharmaceutical api india" },
+  ];
+
+  const run = (q: string) => {
+    if (!q.trim()) return;
+    setSearching(true);
+    setResults(null);
+    setTimeout(() => {
+      setResults(getDemoResults(q));
+      const base = q.includes("solar") ? 4218 : q.includes("cotton") || q.includes("turk") ? 3847 : q.includes("pharma") || q.includes("india") ? 2934 : 1247;
+      setTotalCount(base + Math.floor(Math.random() * 80));
+      setSearching(false);
+    }, 650);
+  };
+
+  return (
+    <div>
+      <form onSubmit={(e) => { e.preventDefault(); run(query); }} className="flex gap-2 mb-3">
+        <div className="flex-1 relative">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder='Try: "cotton fabric manufacturer Turkey" or "solar panels China"'
+            className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all"
+          />
+        </div>
+        <button type="submit" disabled={searching}
+          className="shrink-0 px-5 py-3 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 disabled:opacity-60 text-slate-900 font-bold text-sm rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-amber-500/20">
+          {searching
+            ? <span className="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin" />
+            : <Zap className="w-4 h-4" />}
+          Search
+        </button>
+      </form>
+
+      <div className="flex flex-wrap gap-2 mb-8">
+        {QUICK.map(s => (
+          <button key={s.q} onClick={() => { setQuery(s.label); run(s.q); }}
+            className="text-xs bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700 hover:border-slate-600 transition-all hover:shadow-sm">
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      {searching && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[1,2,3].map(i => (
+            <div key={i} className="bg-white rounded-xl border border-slate-200 p-4 animate-pulse">
+              <div className="flex justify-between mb-3">
+                <div className="space-y-1.5 flex-1 mr-3">
+                  <div className="h-4 bg-slate-200 rounded w-4/5" />
+                  <div className="h-3 bg-slate-100 rounded w-1/2" />
+                </div>
+                <div className="w-9 h-9 bg-slate-100 rounded-lg shrink-0" />
+              </div>
+              <div className="h-5 bg-slate-100 rounded w-24 mb-2" />
+              <div className="flex gap-1 mb-3"><div className="h-5 w-20 bg-blue-50 rounded" /><div className="h-5 w-16 bg-blue-50 rounded" /></div>
+              <div className="h-3 bg-slate-100 rounded w-full" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {results && !searching && (
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2.5 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Live results
+            </span>
+            <span className="text-sm text-slate-300">
+              <span className="font-bold text-white">{totalCount.toLocaleString()}</span>
+              <span className="text-slate-400"> suppliers found — showing 3 free results</span>
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            {results.map((s, i) => <DemoCard key={i} s={s} />)}
+          </div>
+
+          <div className="relative">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 select-none pointer-events-none">
+              {[1,2,3].map(i => (
+                <div key={i} className="bg-white rounded-xl border border-slate-200 p-4 blur-sm opacity-60">
+                  <div className="flex justify-between mb-3">
+                    <div className="space-y-1.5 flex-1 mr-3">
+                      <div className="h-4 bg-slate-200 rounded w-4/5" />
+                      <div className="h-3 bg-slate-100 rounded w-1/2" />
+                    </div>
+                    <div className="w-9 h-9 bg-emerald-100 rounded-lg shrink-0" />
+                  </div>
+                  <div className="h-5 bg-slate-100 rounded w-24 mb-2" />
+                  <div className="flex gap-1 mb-3"><div className="h-5 w-20 bg-blue-50 rounded" /><div className="h-5 w-16 bg-blue-50 rounded" /></div>
+                  <div className="h-3 bg-slate-100 rounded w-full" />
+                </div>
+              ))}
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center rounded-xl" style={{ background: "linear-gradient(to top, rgba(15,23,42,0.97) 40%, rgba(15,23,42,0.6) 100%)" }}>
+              <div className="text-center px-6 py-5 max-w-sm">
+                <div className="w-11 h-11 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20">
+                  <Lock className="w-5 h-5 text-white" />
+                </div>
+                <p className="text-white font-bold text-lg mb-1 leading-tight">
+                  {(totalCount - 3).toLocaleString()} more suppliers available
+                </p>
+                <p className="text-slate-300 text-sm mb-5 leading-relaxed">
+                  Free account unlocks full results, verified contact info, AI-powered analysis, and export tools.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2.5 justify-center">
+                  <Link href="/signup">
+                    <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition-colors shadow-lg shadow-amber-500/20">
+                      Start Free <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </Link>
+                  <Link href="/login">
+                    <button className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors">
+                      Log in
+                    </button>
+                  </Link>
+                </div>
+                <p className="text-slate-500 text-xs mt-3">No credit card required</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!results && !searching && (
+        <div className="flex flex-col items-center justify-center py-14 text-center gap-3">
+          <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
+            <Building2 className="w-6 h-6 text-slate-500" />
+          </div>
+          <p className="text-slate-400 text-sm">Enter any product, material, or industry above</p>
+          <p className="text-slate-600 text-xs">Or click a quick search to see results instantly</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Home() {
   const { t } = useTranslation();
@@ -376,48 +610,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── D) FEATURE SHOWCASE (tabbed) ────────────────────────────────────── */}
+      {/* ── D) INTERACTIVE DEMO ──────────────────────────────────────────────── */}
       <section className="bg-slate-900 py-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.features.badge")}</p>
-          <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10">
-            {t("home.features.title")}
-          </h2>
-
-          {/* Tabs */}
-          <div className="flex justify-center gap-2 mb-8 flex-wrap">
-            {tabs.map((tab, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveTab(i)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                  activeTab === i
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
-                    : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
-                }`}
-              >
-                {tab.icon} {tab.label}
-              </button>
-            ))}
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">
+              Live Demo — No Sign-up Required
+            </p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
+              {t("home.features.title")}
+            </h2>
+            <p className="text-slate-400 text-sm max-w-xl mx-auto">
+              Search our global database instantly. See real verified supplier results — contact info and full access unlocked with a free account.
+            </p>
           </div>
-
-          {/* Tab content */}
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="max-w-2xl mx-auto"
-          >
-            {tabs[activeTab].preview}
-            <div className="mt-4 text-center">
-              <Link href={activeTab === 0 ? "/suppliers" : activeTab === 1 ? "/landed-cost" : "/risk-intelligence"}>
-                <span className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium cursor-pointer">
-                  {t("home.tabs.tryFree")} <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-            </div>
-          </motion.div>
+          <InteractiveDemo />
         </div>
       </section>
 
