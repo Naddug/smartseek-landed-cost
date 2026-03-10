@@ -67,7 +67,8 @@ function ProtectedRoute({ component: Component, adminOnly = false, requireVerifi
   }
 
   if (error || !user) {
-    window.location.replace('/login');
+    const current = window.location.pathname + window.location.search;
+    window.location.replace('/login?redirect=' + encodeURIComponent(current));
     return null;
   }
 

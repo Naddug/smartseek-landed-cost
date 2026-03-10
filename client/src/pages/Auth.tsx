@@ -157,7 +157,8 @@ export default function Auth() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Signup failed");
         toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
-        setLocation("/dashboard");
+        const signupRedirect = new URLSearchParams(window.location.search).get("redirect");
+        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/dashboard");
         return;
       }
 
@@ -173,7 +174,8 @@ export default function Auth() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
       toast({ title: t("auth.loginSuccessTitle"), description: t("auth.loginSuccessDesc") });
-      setLocation("/dashboard");
+      const loginRedirect = new URLSearchParams(window.location.search).get("redirect");
+      setLocation(loginRedirect && loginRedirect.startsWith("/") ? loginRedirect : "/dashboard");
     } catch (err: any) {
       const title = mode === "forgot" ? t("auth.error") : mode === "signup" ? t("auth.signupFailed") : t("auth.loginFailed");
       toast({ title, description: err.message, variant: "destructive" });

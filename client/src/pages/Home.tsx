@@ -353,7 +353,7 @@ export default function Home() {
       <section className="bg-slate-950 py-20 px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10 items-center">
           <div className="md:col-span-3">
-            <p className="text-xs font-semibold text-red-500 uppercase tracking-[0.2em] mb-4">{t("home.features.badge")}</p>
+            <p className="text-xs font-semibold text-red-500 uppercase tracking-[0.2em] mb-4">{t("home.pain.badge")}</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.1] mb-6">
               {t("home.pain.headingLine1")}<br /><span className="text-red-400">{t("home.pain.headingHighlight")}</span><br />{t("home.pain.headingLine2")}
             </h2>
