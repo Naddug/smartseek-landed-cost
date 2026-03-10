@@ -54,6 +54,7 @@ import About from "@/pages/About";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import Integrations from "@/pages/Integrations";
+import AdminIndexes from "@/pages/AdminIndexes";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -198,6 +199,7 @@ function Router() {
       <Route path="/admin">
         <ProtectedRoute component={Admin} adminOnly />
       </Route>
+      <Route path="/admin-indexes" component={AdminIndexes} />
 
       <Route component={NotFound} />
     </Switch>

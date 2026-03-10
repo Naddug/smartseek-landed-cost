@@ -2,18 +2,27 @@
 
 Railway'de SQL arayüzü olmadığı için **uygulama içinden** indeksler oluşturulur.
 
-## Yöntem: Admin endpoint
+## Yöntem 1: Admin sayfası (önerilen)
 
 1. **Deploy** edin (git push ile)
 2. Tarayıcıda açın:
    ```
-   https://smartseek-landed-cost-production.up.railway.app/api/admin/run-trigram-indexes?secret=smartseek-index-2025
+   https://smartseek-landed-cost-production.up.railway.app/admin-indexes?secret=smartseek-index-2025
    ```
-3. Sayfa yüklenene kadar bekleyin (5–20 dakika sürebilir; 25M satırda her indeks 5–15 dk)
-4. Timeout olursa **aynı URL'yi tekrar açın** — zaten oluşan indeksler atlanır (`IF NOT EXISTS`)
-5. Tüm indeksler `OK` veya `SKIP` olana kadar tekrarlayın
+3. Her indeks için **"Oluştur"** butonuna tıklayın (tek tek; her biri 5–15 dk sürebilir)
+4. Timeout olursa sayfayı yenileyip **"Durumu yenile"** ile devam edin — zaten oluşanlar atlanır
 
----
+## Yöntem 2: API endpoint (tek tek)
+
+```
+?index=0  → extension (hızlı)
+?index=1  → companyName
+?index=2  → products
+...
+?index=7  → country
+```
+
+Örnek: `.../api/admin/run-trigram-indexes?secret=smartseek-index-2025&index=1`
 
 ## Alternatif: TablePlus / DBeaver / pgAdmin
 

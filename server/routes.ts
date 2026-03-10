@@ -2432,8 +2432,9 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
   // ============================================================================
   // Admin: Run trigram indexes (Railway'de SQL arayüzü yok; uygulama içinden çalıştır)
-  // Kullanım: Tarayıcıda aç: https://SITE.up.railway.app/api/admin/run-trigram-indexes?secret=smartseek-index-2025
-  // Her indeks 5-15 dk sürebilir; tek seferde hepsi çalışır.
+  // ?status=1 → hangi indekslerin mevcut olduğunu göster
+  // ?index=N → sadece N numaralı indeksi oluştur (0=extension, 1-7=indeksler)
+  // Örnek: index=0, sonra index=1, index=2, ... (her biri ayrı istek; timeout riskini azaltır)
   // ============================================================================
   app.get("/api/admin/run-trigram-indexes", async (req: Request, res: Response) => {
     const secret = process.env.RUN_INDEXES_SECRET || "smartseek-index-2025";
@@ -2441,6 +2442,34 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       return res.status(403).json({ error: "Forbidden" });
     }
     res.setHeader("Cache-Control", "no-store");
+
+    if (req.query.status === "1") {
+      const ext = await prisma.$queryRawUnsafe<[{ exists: boolean }][]>(
+        `SELECT EXISTS(SELECT 1 FROM pg_extension WHERE extname = 'pg_trgm') as exists`
+      );
+      const extOk = ext[0]?.exists ?? false;
+      const names = [
+        "Supplier_companyName_trgm_idx",
+        "Supplier_products_trgm_idx",
+        "Supplier_industry_trgm_idx",
+        "Supplier_subIndustry_trgm_idx",
+        "Supplier_description_trgm_idx",
+        "Supplier_city_trgm_idx",
+        "Supplier_country_trgm_idx",
+      ];
+      const rows = await prisma.$queryRawUnsafe<{ indexname: string }[]>(
+        `SELECT indexname FROM pg_indexes WHERE tablename = 'Supplier' AND indexname LIKE '%trgm%'`
+      );
+      const existing = new Set(rows.map((r) => r.indexname));
+      const indexStatus = names.map((n) => ({ name: n, exists: existing.has(n) }));
+      const next = !extOk ? 0 : (indexStatus.findIndex((i) => !i.exists) >= 0 ? indexStatus.findIndex((i) => !i.exists) + 1 : 8);
+      return res.json({
+        extensionOk: extOk,
+        indexes: indexStatus,
+        next,
+      });
+    }
+
     const statements = [
       `CREATE EXTENSION IF NOT EXISTS pg_trgm`,
       `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_companyName_trgm_idx" ON "Supplier" USING gin ("companyName" gin_trgm_ops)`,
@@ -2451,6 +2480,17 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_city_trgm_idx" ON "Supplier" USING gin ("city" gin_trgm_ops)`,
       `CREATE INDEX CONCURRENTLY IF NOT EXISTS "Supplier_country_trgm_idx" ON "Supplier" USING gin ("country" gin_trgm_ops)`,
     ];
+    const idx = req.query.index !== undefined ? parseInt(String(req.query.index), 10) : -1;
+    if (idx >= 0 && idx < statements.length) {
+      try {
+        await prisma.$executeRawUnsafe(statements[idx]);
+        return res.json({ ok: true, index: idx, msg: "OK" });
+      } catch (e: any) {
+        if (e?.code === "42P07") return res.json({ ok: true, index: idx, msg: "Already exists" });
+        return res.status(500).json({ ok: false, index: idx, error: e?.message || String(e) });
+      }
+    }
+
     const results: string[] = [];
     for (let i = 0; i < statements.length; i++) {
       try {
@@ -2497,12 +2537,17 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       // Build where clause
       const where: any = {};
 
+      // Text search on 25M+ rows needs trigram indexes OR country/industry filter to avoid full scan
+      const hasSearchQuery = !!(q && typeof q === "string" && q.trim());
+      const hasNarrowFilter = !!(country && typeof country === "string" && country !== "Undefined") ||
+        !!(industry && typeof industry === "string" && industry.trim());
+      const searchNeedsFilter = !hasNarrowFilter;
+
       if (q && typeof q === "string" && q.trim()) {
         const search = q.trim();
-        // Require min 2 chars for text search (pg_trgm needs 3 for index; short queries are slow on millions)
         const terms = search.length >= 2 ? search.split(/\s+/).filter(Boolean) : [];
 
-        if (terms.length > 0) {
+        if (terms.length > 0 && !searchNeedsFilter) {
           // Primary match: product-relevant fields only (uses trigram indexes)
           const primaryMatch = (term: string) => ({
             OR: [
@@ -2594,7 +2639,6 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       // Build orderBy — when a search query is active and user hasn't manually
       // chosen a sort, prioritise verified suppliers then rating (most relevant first)
       const validSortFields = ["rating", "reviewCount", "yearEstablished", "companyName", "createdAt"];
-      const hasSearchQuery = !!(q && typeof q === "string" && q.trim());
       const sortField = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
       const order = sortOrder === "asc" ? "asc" : "desc";
       const orderBy: any = hasSearchQuery && sortBy === "rating"
@@ -2627,6 +2671,18 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         sicCode: true,
         contactVerified: true,
       };
+
+      // 25M+ satırda metin araması filtresiz timeout olur; ülke veya sektör zorunlu
+      if (searchNeedsFilter && hasSearchQuery) {
+        return res.json({
+          suppliers: [],
+          pagination: { page: pageNum, limit: limitNum, total: 0, totalPages: 0 },
+          guestLimited: isGuest,
+          freeLimit: FREE_LIMIT,
+          needFilter: true,
+          message: "Ülke veya sektör seçerek aramayı hızlandırın (25M+ kayıtta filtre gerekli)",
+        });
+      }
 
       const suppliersPromise = prisma.supplier.findMany({
         where,

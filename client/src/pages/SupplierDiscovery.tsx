@@ -74,7 +74,7 @@ function useSuppliers(params: {
   searchParams.set("page", params.page.toString());
   searchParams.set("limit", "20");
 
-  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number; fallback?: boolean }>({
+  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number; fallback?: boolean; needFilter?: boolean; message?: string }>({
     queryKey: ["suppliers", params],
     queryFn: async () => {
       const controller = new AbortController();
@@ -775,6 +775,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   };
 
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery || minOrderValue != null || minScore != null;
+  const needFilter = data?.needFilter === true;
   const { data: stats } = useStats();
   const supplierCount = stats?.suppliers ?? 0;
   const countryCount = stats?.countries ?? 220;
@@ -820,8 +821,18 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         </div>
       </div>
 
+      {/* needFilter: metin araması için ülke/sektör zorunlu */}
+      {needFilter && (
+        <div className="bg-amber-50 border-b border-amber-200">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+            <span className="text-amber-600 font-medium">{data?.message || "Ülke veya sektör seçerek aramayı hızlandırın (25M+ kayıtta filtre gerekli)"}</span>
+            <button onClick={() => setShowFilters(true)} className="text-amber-700 underline text-sm font-medium">Filtreleri aç</button>
+          </div>
+        </div>
+      )}
+
       {/* Filters Bar */}
-      {showFilters && (
+      {(showFilters || needFilter) && (
         <div className="bg-slate-50 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 py-3">
             <div className="flex flex-wrap items-center gap-2">
@@ -928,6 +939,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               </>
             ) : isError ? (
               <span className="text-red-600">{t("supplier.failedLoad")}</span>
+            ) : needFilter ? (
+              <span className="text-amber-600">Ülke veya sektör seçerek aramayı hızlandırın</span>
             ) : data ? (
               <>
                 {t("supplier.suppliersFound", { total: data.pagination.total.toLocaleString() })}
@@ -1030,6 +1043,17 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             </p>
             <button onClick={() => window.location.reload()} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
               Retry
+            </button>
+          </div>
+        ) : needFilter ? (
+          <div className="text-center py-16">
+            <Filter className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-700 mb-1">Ülke veya sektör seçin</h3>
+            <p className="text-gray-600 mb-4 max-w-md mx-auto">
+              25M+ tedarikçi arasında metin araması filtre olmadan çok yavaş. Üstteki filtrelerden bir ülke veya sektör seçerek aramayı hızlandırın.
+            </p>
+            <button onClick={() => setShowFilters(true)} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
+              Filtreleri aç
             </button>
           </div>
         ) : (
