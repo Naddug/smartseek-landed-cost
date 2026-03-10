@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 
 interface Lead {
@@ -131,6 +132,7 @@ export default function FindLeads() {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [showCreditsDialog, setShowCreditsDialog] = useState(false);
 
+  const { t } = useTranslation();
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isAdmin = profile?.role === 'admin';
   const isPaid = !!profile && profile.plan !== "free";
@@ -154,7 +156,7 @@ export default function FindLeads() {
 
   const handleSearch = async () => {
     if (!industry || !location) {
-      toast.error("Please select an industry and location");
+      toast.error(t("findLeads.validation.selectIndustryAndLocation"));
       return;
     }
 
@@ -184,16 +186,16 @@ export default function FindLeads() {
         setLeads(data.leads);
         setSelectedIds(new Set());
         if (data.leads.length > 0) {
-          toast.success(`Found ${data.leads.length} leads`);
+          toast.success(t("findLeads.success.leadsFound", { count: data.leads.length }));
         } else {
-          toast.info("No leads matched your criteria. Try broadening your search.");
+          toast.info(t("findLeads.info.noLeadsMatched"));
         }
       } else {
-        toast.error("Invalid response from server");
+        toast.error(t("findLeads.error.invalidResponse"));
       }
     } catch (error: any) {
       console.error("Lead search error:", error);
-      toast.error(error.message || "Failed to search for leads");
+      toast.error(error.message || t("findLeads.error.searchFailed"));
     } finally {
       setIsSearching(false);
     }
@@ -206,18 +208,18 @@ export default function FindLeads() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CreditCard className="w-5 h-5 text-orange-500" />
-              Credits Required
+              {t("findLeads.creditsDialog.title")}
             </DialogTitle>
             <DialogDescription>
-              You need at least 1 credit to search for leads. Subscribe to our monthly plan or purchase credits to continue.
+              {t("findLeads.creditsDialog.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-4">
             <Button onClick={() => setLocation("/billing")} className="w-full">
-              View Plans & Get Credits
+              {t("findLeads.creditsDialog.viewPlansButton")}
             </Button>
             <Button variant="outline" onClick={() => setShowCreditsDialog(false)}>
-              Cancel
+              {t("common.cancel")}
             </Button>
           </div>
         </DialogContent>
@@ -229,7 +231,7 @@ export default function FindLeads() {
             <Target className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-heading font-bold text-white">Find Buyer Leads</h1>
+            <h1 className="text-2xl font-heading font-bold text-white">{t("findLeads.header.title")}</h1>
             <p className="text-slate-400 break-words">{stats ? `${formatStat(stats.leads)} buyer & trade leads` : "7M+ buyer & trade leads"} • AI-ranked, high-signal • Intent & firmographics from {stats ? formatStat(stats.suppliers) : "25.2M+"} verified and trusted suppliers</p>
           </div>
         </div>
@@ -239,16 +241,16 @@ export default function FindLeads() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-slate-800">
             <Search className="w-5 h-5" />
-            Search Criteria
+            {t("findLeads.searchCriteria.title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="industry" className="text-slate-700 font-medium">Industry *</Label>
+              <Label htmlFor="industry" className="text-slate-700 font-medium">{t("findLeads.filter.industryLabel")}</Label>
               <Select value={industry} onValueChange={setIndustry}>
                 <SelectTrigger id="industry" data-testid="select-industry" className="text-slate-800 placeholder:text-slate-500 data-[placeholder]:text-slate-500">
-                  <SelectValue placeholder="Select industry" />
+                  <SelectValue placeholder={t("findLeads.filter.industryPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {INDUSTRIES.map((ind) => (
@@ -259,10 +261,10 @@ export default function FindLeads() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="location">Region *</Label>
+              <Label htmlFor="location">{t("findLeads.filter.regionLabel")}</Label>
               <Select value={location} onValueChange={setLeadLocation}>
                 <SelectTrigger id="location" data-testid="select-location">
-                  <SelectValue placeholder="Select region" />
+                  <SelectValue placeholder={t("findLeads.filter.regionPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {REGIONS.map((reg) => (
@@ -273,13 +275,13 @@ export default function FindLeads() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="companySize" className="text-slate-700 font-medium">Company Size</Label>
+              <Label htmlFor="companySize" className="text-slate-700 font-medium">{t("findLeads.filter.companySizeLabel")}</Label>
               <Select value={companySize} onValueChange={setCompanySize}>
                 <SelectTrigger id="companySize" data-testid="select-company-size" className="text-slate-800 placeholder:text-slate-500 data-[placeholder]:text-slate-500">
                   <SelectValue placeholder="Any size" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="any">Any size</SelectItem>
+                  <SelectItem value="any">{t("findLeads.filter.anySizeOption")}</SelectItem>
                   {COMPANY_SIZES.map((size) => (
                     <SelectItem key={size} value={size}>{size}</SelectItem>
                   ))}
@@ -288,10 +290,10 @@ export default function FindLeads() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="keywords" className="text-slate-700 font-medium">Keywords</Label>
+              <Label htmlFor="keywords" className="text-slate-700 font-medium">{t("findLeads.filter.keywordsLabel")}</Label>
               <Input 
                 id="keywords" 
-                placeholder="e.g., automotive parts, packaging"
+                placeholder={t("findLeads.filter.keywordsPlaceholder")}
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
                 data-testid="input-keywords"
@@ -306,20 +308,20 @@ export default function FindLeads() {
             className="flex items-center gap-2 text-sm text-slate-300 px-4 py-2 rounded-lg border border-slate-600 bg-slate-800 hover:bg-slate-700 transition-colors mt-4"
           >
             <SlidersHorizontal className="w-4 h-4 shrink-0" />
-            <span>⚙ Advanced filters {showAdvancedFilters ? "▴" : "▾"}</span>
+            <span>{t("findLeads.advancedFilters.toggleLabel")} {showAdvancedFilters ? "▴" : "▾"}</span>
             <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${showAdvancedFilters ? "rotate-180" : ""}`} />
           </button>
 
           {showAdvancedFilters && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-200">
               <div className="space-y-2">
-                <Label htmlFor="revenueRange">Revenue Range</Label>
+                <Label htmlFor="revenueRange">{t("findLeads.advancedFilters.revenueRangeLabel")}</Label>
                 <Select value={revenueRange} onValueChange={setRevenueRange}>
                   <SelectTrigger id="revenueRange">
-                    <SelectValue placeholder="Any" />
+                    <SelectValue placeholder={t("findLeads.advancedFilters.anyOption")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any</SelectItem>
+                    <SelectItem value="">{t("findLeads.advancedFilters.anyOption")}</SelectItem>
                     {REVENUE_RANGES.map((r) => (
                       <SelectItem key={r} value={r}>{r}</SelectItem>
                     ))}
@@ -327,13 +329,13 @@ export default function FindLeads() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="fundingStage">Funding Stage</Label>
+                <Label htmlFor="fundingStage">{t("findLeads.advancedFilters.fundingStageLabel")}</Label>
                 <Select value={fundingStage} onValueChange={setFundingStage}>
                   <SelectTrigger id="fundingStage">
-                    <SelectValue placeholder="Any" />
+                    <SelectValue placeholder={t("findLeads.advancedFilters.anyOption")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Any</SelectItem>
+                    <SelectItem value="">{t("findLeads.advancedFilters.anyOption")}</SelectItem>
                     {FUNDING_STAGES.map((f) => (
                       <SelectItem key={f} value={f}>{f}</SelectItem>
                     ))}
@@ -341,11 +343,11 @@ export default function FindLeads() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="foundedAfter">Founded After</Label>
+                <Label htmlFor="foundedAfter">{t("findLeads.advancedFilters.foundedAfterLabel")}</Label>
                 <Input
                   id="foundedAfter"
                   type="number"
-                  placeholder="e.g. 2015"
+                  placeholder={t("findLeads.advancedFilters.foundedAfterPlaceholder")}
                   min={1900}
                   max={new Date().getFullYear()}
                   value={foundedAfter}
@@ -359,14 +361,14 @@ export default function FindLeads() {
             <div className="flex items-center gap-4">
               <p className="text-sm text-slate-700">
                 {isAdmin ? (
-                <span className="text-emerald-700 font-semibold">Admin: Unlimited searches</span>
+                <span className="text-emerald-700 font-semibold">{t("findLeads.search.adminUnlimitedText")}</span>
               ) : (
-                <>Uses 1 credit • You have <span className="font-semibold text-slate-900">{totalCredits}</span> credits</>
+                <>{t("findLeads.search.creditUsageText", { count: totalCredits })}</>
               )}
             </p>
               {estimatedCount != null && (
                 <p className="text-sm text-slate-600">
-                  ~{estimatedCount.toLocaleString()} matching companies
+                  {t("findLeads.search.matchingCompaniesText", { n: estimatedCount.toLocaleString() })}
                 </p>
               )}
             </div>
@@ -379,12 +381,12 @@ export default function FindLeads() {
               {isSearching ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Searching...
+                  {t("findLeads.search.searchingButton")}
                 </>
               ) : (
                 <>
                   <Search className="w-4 h-4 mr-2" />
-                  Find Leads
+                  {t("findLeads.search.findButton")}
                 </>
               )}
             </Button>
@@ -400,8 +402,8 @@ export default function FindLeads() {
                 <div className="w-16 h-16 rounded-full border-4 border-emerald-200 border-t-emerald-500 animate-spin mx-auto"></div>
                 <Target className="w-6 h-6 text-emerald-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
               </div>
-              <p className="text-slate-600 mt-4 font-medium">Analyzing market data and finding leads...</p>
-              <p className="text-slate-400 text-sm mt-1">This may take a few seconds</p>
+              <p className="text-slate-600 mt-4 font-medium">{t("findLeads.loading.analyzing")}</p>
+              <p className="text-slate-400 text-sm mt-1">{t("findLeads.loading.duration")}</p>
             </div>
           </CardContent>
         </Card>
@@ -411,7 +413,7 @@ export default function FindLeads() {
         <Card className="bg-white border-slate-200 shadow-lg overflow-hidden">
           <div className="flex items-center justify-between p-4 border-b">
             <h2 className="text-xl font-semibold text-slate-800">
-              Found {leads.length} Leads
+              {t("findLeads.results.foundTitle", { count: leads.length })}
             </h2>
             {selectedIds.size > 0 && isPaid && (
               <Button
@@ -442,12 +444,12 @@ export default function FindLeads() {
                 }}
               >
                 <Download className="w-4 h-4 mr-2" />
-                Export CSV
+                {t("findLeads.results.exportCsvButton")}
               </Button>
             )}
             {selectedIds.size > 0 && !isPaid && (
               <Badge variant="secondary" className="bg-amber-100 text-amber-800">
-                🔒 Export CSV — Upgrade to Pro
+                🔒 {t("findLeads.results.exportLocked")}
               </Badge>
             )}
           </div>
@@ -464,13 +466,13 @@ export default function FindLeads() {
                       }}
                     />
                   </TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Industry</TableHead>
-                  <TableHead>Employees</TableHead>
-                  <TableHead>Revenue</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead className="w-16">LinkedIn</TableHead>
+                  <TableHead>{t("findLeads.table.companyHeader")}</TableHead>
+                  <TableHead>{t("findLeads.table.locationHeader")}</TableHead>
+                  <TableHead>{t("findLeads.table.industryHeader")}</TableHead>
+                  <TableHead>{t("findLeads.table.employeesHeader")}</TableHead>
+                  <TableHead>{t("findLeads.table.revenueHeader")}</TableHead>
+                  <TableHead>{t("findLeads.table.contactHeader")}</TableHead>
+                  <TableHead className="w-16">{t("findLeads.table.linkedinHeader")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -529,7 +531,7 @@ export default function FindLeads() {
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                           </a>
                         ) : (
-                          <span className="text-gray-400 text-xs">🔒 Pro</span>
+                          <span className="text-gray-400 text-xs">🔒 {t("findLeads.table.proLocked")}</span>
                         )}
                       </TableCell>
                     </TableRow>
@@ -562,28 +564,28 @@ export default function FindLeads() {
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                     <MapPin className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs font-medium text-slate-700">Location</p>
+                      <p className="text-xs font-medium text-slate-700">{t("findLeads.detailsModal.locationLabel")}</p>
                       <p className="font-medium text-slate-900">{selectedLead.location}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                     <Users className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs font-medium text-slate-700">Company Size</p>
+                      <p className="text-xs font-medium text-slate-700">{t("findLeads.detailsModal.companySizeLabel")}</p>
                       <p className="font-medium text-slate-900">{selectedLead.employeeRange}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                     <TrendingUp className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs font-medium text-slate-700">Revenue</p>
+                      <p className="text-xs font-medium text-slate-700">{t("findLeads.detailsModal.revenueLabel")}</p>
                       <p className="font-medium text-slate-900">{selectedLead.revenueRange}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                     <Globe className="w-5 h-5 text-slate-600" />
                     <div>
-                      <p className="text-xs font-medium text-slate-700">Website</p>
+                      <p className="text-xs font-medium text-slate-700">{t("findLeads.detailsModal.websiteLabel")}</p>
                       {selectedLead.website ? (
                         <a
                           href={selectedLead.website.startsWith("http") ? selectedLead.website : `https://${selectedLead.website}`}
@@ -603,7 +605,7 @@ export default function FindLeads() {
                 <div className="border-t pt-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Briefcase className="w-4 h-4" />
-                    Key Contact
+                    {t("findLeads.detailsModal.keyContactTitle")}
                   </h4>
                   <div className="bg-gradient-to-r from-slate-50 to-emerald-50 p-4 rounded-lg border border-slate-200">
                     <p className="font-semibold text-slate-800">{selectedLead.contactName}</p>
@@ -619,7 +621,7 @@ export default function FindLeads() {
                   <div className="border-t pt-4">
                     <h4 className="font-semibold mb-3 flex items-center gap-2">
                       <Target className="w-4 h-4" />
-                      Sourcing Focus
+                      {t("findLeads.detailsModal.sourcingFocusTitle")}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {selectedLead.sourcingFocus.map((focus, i) => (
@@ -634,7 +636,7 @@ export default function FindLeads() {
                 <div className="border-t pt-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-500" />
-                    AI Insights
+                    {t("findLeads.detailsModal.aiInsightsTitle")}
                   </h4>
                   <p className="text-slate-600 text-sm leading-relaxed">{selectedLead.aiSummary}</p>
                 </div>
@@ -643,22 +645,22 @@ export default function FindLeads() {
                   <div className="border-t pt-4">
                     <h4 className="font-semibold mb-3 flex items-center gap-2">
                       <TrendingUp className="w-4 h-4 text-blue-500" />
-                      Intent Signals
+                      {t("findLeads.detailsModal.intentSignalsTitle")}
                     </h4>
                     <div className="space-y-2 text-sm">
                       {selectedLead.intentSignals.recentActivity && (
                         <p className="text-slate-600">
-                          <span className="font-medium">Recent Activity:</span> {selectedLead.intentSignals.recentActivity}
+                          <span className="font-medium">{t("findLeads.detailsModal.recentActivityLabel")}</span> {selectedLead.intentSignals.recentActivity}
                         </p>
                       )}
                       {selectedLead.intentSignals.importTrends && (
                         <p className="text-slate-600">
-                          <span className="font-medium">Import Trends:</span> {selectedLead.intentSignals.importTrends}
+                          <span className="font-medium">{t("findLeads.detailsModal.importTrendsLabel")}</span> {selectedLead.intentSignals.importTrends}
                         </p>
                       )}
                       {selectedLead.intentSignals.growthIndicators && (
                         <p className="text-slate-600">
-                          <span className="font-medium">Growth Indicators:</span> {selectedLead.intentSignals.growthIndicators}
+                          <span className="font-medium">{t("findLeads.detailsModal.growthIndicatorsLabel")}</span> {selectedLead.intentSignals.growthIndicators}
                         </p>
                       )}
                     </div>

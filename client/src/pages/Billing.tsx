@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearch } from "wouter";
+import { useTranslation } from "react-i18next";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -52,6 +53,7 @@ function CheckoutForm({
   type: 'credit' | 'subscription';
   subscriptionId?: string | null;
 }) {
+  const { t } = useTranslation();
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -150,7 +152,7 @@ function CheckoutForm({
           className="flex-1"
           data-testid="button-cancel-payment"
         >
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button
           type="submit"
@@ -159,9 +161,9 @@ function CheckoutForm({
           data-testid="button-confirm-payment"
         >
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {type === 'credit' 
-            ? `Pay $${quantity * 10}` 
-            : 'Subscribe - $80/month'}
+          {type === 'credit'
+            ? t("billing.checkout.payButton", { amount: quantity * 10 })
+            : t("billing.checkout.subscribeButton")}
         </Button>
       </div>
     </form>
@@ -169,6 +171,7 @@ function CheckoutForm({
 }
 
 export default function Billing() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const search = useSearch();
@@ -267,8 +270,8 @@ export default function Billing() {
   const startCreditCheckout = async () => {
     if (!checkoutReady) {
       toast({
-        title: "Loading",
-        description: "Please wait while we load the checkout...",
+        title: t("common.loading"),
+        description: t("billing.checkout.loadingMessage"),
         variant: "default",
       });
       return;
@@ -281,14 +284,14 @@ export default function Billing() {
         throw new Error(data.error);
       }
       if (!data.clientSecret) {
-        throw new Error("Failed to initialize payment. Please try again.");
+        throw new Error(t("billing.error.initializePaymentFailed"));
       }
       setClientSecret(data.clientSecret);
       setCheckoutType('credit');
     } catch (err: any) {
       toast({
-        title: "Checkout Error",
-        description: err.message || "Failed to start checkout. Please try again.",
+        title: t("billing.error.checkoutErrorTitle"),
+        description: err.message || t("billing.error.startCheckoutFailed"),
         variant: "destructive",
       });
     }
@@ -298,39 +301,39 @@ export default function Billing() {
   const startSubscriptionCheckout = async () => {
     if (!checkoutReady) {
       toast({
-        title: "Loading",
-        description: "Please wait while we load the checkout...",
+        title: t("common.loading"),
+        description: t("billing.checkout.loadingMessage"),
         variant: "default",
       });
       return;
     }
     if (!subscriptionPriceId) {
       toast({
-        title: "Products Not Available",
-        description: "Subscription product hasn't been set up yet. Please try refreshing the page.",
+        title: t("billing.error.productsNotAvailable"),
+        description: t("billing.error.subscriptionNotSetup"),
         variant: "destructive",
       });
       return;
     }
     setLoadingCheckout(true);
     try {
-      const res = await apiRequest('POST', '/api/stripe/create-embedded-subscription', { 
-        priceId: subscriptionPriceId 
+      const res = await apiRequest('POST', '/api/stripe/create-embedded-subscription', {
+        priceId: subscriptionPriceId
       });
       const data = await res.json();
       if (data.error) {
         throw new Error(data.error);
       }
       if (!data.clientSecret) {
-        throw new Error("Failed to initialize subscription. Please try again.");
+        throw new Error(t("billing.error.initializeSubscriptionFailed"));
       }
       setClientSecret(data.clientSecret);
       setSubscriptionId(data.subscriptionId);
       setCheckoutType('subscription');
     } catch (err: any) {
       toast({
-        title: "Subscription Error",
-        description: err.message || "Failed to start checkout. Please try again.",
+        title: t("billing.error.subscriptionErrorTitle"),
+        description: err.message || t("billing.error.startCheckoutFailed"),
         variant: "destructive",
       });
     }
@@ -365,32 +368,32 @@ export default function Billing() {
   return (
     <div className="space-y-8 max-w-5xl mx-auto" data-testid="billing-page">
       <div>
-        <h1 className="text-3xl font-heading font-bold">Billing & Credits</h1>
-        <p className="text-muted-foreground">Manage your subscription and credit balance.</p>
+        <h1 className="text-3xl font-heading font-bold">{t("billing.page.title")}</h1>
+        <p className="text-muted-foreground">{t("billing.page.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="bg-sidebar-primary text-sidebar-primary-foreground border-none">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg font-medium opacity-90">Credit Balance</CardTitle>
+            <CardTitle className="text-lg font-medium opacity-90">{t("billing.creditBalance.title")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-5xl font-bold mb-2" data-testid="text-total-credits">{totalCredits}</div>
-            <div className="text-sm opacity-80">Total Credits Available</div>
+            <div className="text-sm opacity-80">{t("billing.creditBalance.subtitle")}</div>
             <div className="mt-4 pt-4 border-t border-white/20 space-y-1 text-sm">
               <div className="flex justify-between">
-                <span className="opacity-80">Monthly credits:</span>
+                <span className="opacity-80">{t("billing.creditBalance.monthlyLabel")}</span>
                 <span className="font-medium" data-testid="text-monthly-credits">{profile?.monthlyCredits || 0}</span>
               </div>
               <div className="flex justify-between">
-                <span className="opacity-80">Top-up credits:</span>
+                <span className="opacity-80">{t("billing.creditBalance.topupLabel")}</span>
                 <span className="font-medium" data-testid="text-topup-credits">{profile?.topupCredits || 0}</span>
               </div>
             </div>
             {isSubscribed && profile?.currentPeriodEnd && (
               <div className="mt-4 pt-4 border-t border-white/20 text-sm flex items-center gap-2">
                 <Calendar size={14} className="opacity-80" />
-                <span className="opacity-80">Next refresh:</span>
+                <span className="opacity-80">{t("billing.creditBalance.nextRefreshLabel")}</span>
                 <span className="font-medium">
                   {new Date(profile.currentPeriodEnd).toLocaleDateString()}
                 </span>
@@ -403,21 +406,21 @@ export default function Billing() {
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle>Current Plan</CardTitle>
+                <CardTitle>{t("billing.currentPlan.title")}</CardTitle>
                 <CardDescription>
                   {isSubscribed ? (
-                    <>You're on the <span className="font-bold text-primary">Monthly Plan</span></>
+                    <>{t("billing.currentPlan.monthlyText")}</>
                   ) : (
-                    <>You're on the <span className="font-bold text-amber-600">Free Trial</span></>
+                    <>{t("billing.currentPlan.freeTrialText")}</>
                   )}
                 </CardDescription>
               </div>
               {isSubscribed ? (
-                <Badge className="bg-primary text-primary-foreground">Active Subscriber</Badge>
+                <Badge className="bg-primary text-primary-foreground">{t("billing.currentPlan.activeBadge")}</Badge>
               ) : (
                 <Badge variant="outline" className="text-amber-600 border-amber-200 bg-amber-50">
                   <Gift size={12} className="mr-1" />
-                  Free Trial
+                  {t("billing.currentPlan.freeBadge")}
                 </Badge>
               )}
             </div>
@@ -426,9 +429,9 @@ export default function Billing() {
             {isSubscribed ? (
               <div className="flex items-center justify-between bg-muted/30 p-4 rounded-lg">
                 <div className="space-y-1">
-                  <div className="font-bold text-lg">Monthly Plan - $80/month</div>
+                  <div className="font-bold text-lg">{t("billing.plans.monthlyTitle")}</div>
                   <div className="text-sm text-muted-foreground">
-                    10 credits refreshed each billing month. Cancel anytime.
+                    {t("billing.plans.monthlyDescription")}
                   </div>
                 </div>
                 <Button 
@@ -438,7 +441,7 @@ export default function Billing() {
                   data-testid="button-manage-subscription"
                 >
                   {portalMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Manage Subscription
+                  {t("billing.plans.manageButton")}
                   <ExternalLink size={14} className="ml-2" />
                 </Button>
               </div>
@@ -447,10 +450,10 @@ export default function Billing() {
                 <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-4 rounded-lg border border-primary/20">
                   <div className="flex items-center gap-2 mb-2">
                     <Gift size={18} className="text-primary" />
-                    <span className="font-bold text-lg">Free Trial: {profile?.topupCredits || 2} Credits</span>
+                    <span className="font-bold text-lg">{t("billing.plans.freeCreditsBadge", { count: profile?.topupCredits || 2 })}</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Every new user gets 2 free credits to try SmartSeek. No credit card required.
+                    {t("billing.plans.freeTrialDescription")}
                   </p>
                 </div>
                 <div className="space-y-3">
@@ -462,7 +465,7 @@ export default function Billing() {
                         billingInterval === 'monthly' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'
                       }`}
                     >
-                      Monthly
+                      {t("billing.interval.monthly")}
                     </button>
                     <button
                       type="button"
@@ -471,21 +474,21 @@ export default function Billing() {
                         billingInterval === 'annual' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted/80'
                       }`}
                     >
-                      Annual
-                      <span className="text-xs bg-emerald-500/90 text-white px-1.5 py-0.5 rounded">Save 20%</span>
+                      {t("billing.interval.annual")}
+                      <span className="text-xs bg-emerald-500/90 text-white px-1.5 py-0.5 rounded">{t("billing.interval.saveBadge")}</span>
                     </button>
                   </div>
                   <div className="flex items-center justify-between bg-muted/30 p-4 rounded-lg">
                     <div className="space-y-1">
                       <div className="font-bold text-lg">
                         {billingInterval === 'annual' ? (
-                          <>$64/mo <span className="text-sm font-normal text-muted-foreground">billed as $768/year</span></>
+                          <>{t("billing.plans.annualPrice")}</>
                         ) : (
-                          <>$80/month</>
+                          <>{t("billing.plans.monthlyPrice")}</>
                         )}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        Get 10 credits refreshed every month. Cancel anytime.
+                        {t("billing.plans.refreshDescription")}
                       </div>
                     </div>
                     <Button
@@ -494,7 +497,7 @@ export default function Billing() {
                       data-testid="button-subscribe"
                     >
                       {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      {!checkoutReady ? "Loading..." : "Subscribe Now"}
+                      {!checkoutReady ? t("common.loading") : t("billing.plans.subscribeButton")}
                     </Button>
                   </div>
                 </div>
@@ -506,56 +509,56 @@ export default function Billing() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Plan Comparison</CardTitle>
-          <CardDescription>Compare plans and choose what works for you</CardDescription>
+          <CardTitle>{t("billing.comparison.title")}</CardTitle>
+          <CardDescription>{t("billing.comparison.subtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[140px]">Feature</TableHead>
-                  <TableHead className="text-center">Free</TableHead>
-                  <TableHead className="text-center">Pro Monthly</TableHead>
-                  <TableHead className="text-center">Pro Annual</TableHead>
-                  <TableHead className="text-center">Enterprise</TableHead>
+                  <TableHead className="w-[140px]">{t("billing.comparison.featureHeader")}</TableHead>
+                  <TableHead className="text-center">{t("billing.comparison.freeHeader")}</TableHead>
+                  <TableHead className="text-center">{t("billing.comparison.monthlyHeader")}</TableHead>
+                  <TableHead className="text-center">{t("billing.comparison.annualHeader")}</TableHead>
+                  <TableHead className="text-center">{t("billing.comparison.enterpriseHeader")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium">Credits</TableCell>
-                  <TableCell className="text-center">2 trial</TableCell>
-                  <TableCell className="text-center">10/mo</TableCell>
-                  <TableCell className="text-center">10/mo</TableCell>
-                  <TableCell className="text-center">Custom</TableCell>
+                  <TableCell className="font-medium">{t("billing.comparison.creditsRow")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.freeCredits")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.monthlyCredits")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.annualCredits")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.enterpriseCredits")}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">Price</TableCell>
-                  <TableCell className="text-center">$0</TableCell>
-                  <TableCell className="text-center">$80/mo</TableCell>
-                  <TableCell className="text-center">$64/mo</TableCell>
-                  <TableCell className="text-center">Contact</TableCell>
+                  <TableCell className="font-medium">{t("billing.comparison.priceRow")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.freePrice")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.monthlyPriceValue")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.annualPriceValue")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.enterprisePrice")}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">AI Reports</TableCell>
-                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
-                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
-                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
-                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium">Find Leads</TableCell>
+                  <TableCell className="font-medium">{t("billing.comparison.aiReportsRow")}</TableCell>
                   <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
                   <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
                   <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
                   <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">Support</TableCell>
-                  <TableCell className="text-center">Community</TableCell>
-                  <TableCell className="text-center">Email</TableCell>
-                  <TableCell className="text-center">Email</TableCell>
-                  <TableCell className="text-center">Dedicated</TableCell>
+                  <TableCell className="font-medium">{t("billing.comparison.findLeadsRow")}</TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                  <TableCell className="text-center"><Check size={16} className="inline text-green-500" /></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">{t("billing.comparison.supportRow")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.freeSupport")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.monthlySupport")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.annualSupport")}</TableCell>
+                  <TableCell className="text-center">{t("billing.comparison.enterpriseSupport")}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -565,8 +568,8 @@ export default function Billing() {
 
       <Tabs defaultValue="topup" className="w-full">
         <TabsList>
-          <TabsTrigger value="topup" data-testid="tab-buy-credits">Buy Credits</TabsTrigger>
-          <TabsTrigger value="history" data-testid="tab-history">Transaction History</TabsTrigger>
+          <TabsTrigger value="topup" data-testid="tab-buy-credits">{t("billing.tabs.buyCreditsTab")}</TabsTrigger>
+          <TabsTrigger value="history" data-testid="tab-history">{t("billing.tabs.historyTab")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="topup" className="mt-6">
@@ -576,8 +579,8 @@ export default function Billing() {
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
                   <Zap className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-2xl font-bold">Pay-as-you-go Credits</CardTitle>
-                <CardDescription>$10 per credit - Never expires</CardDescription>
+                <CardTitle className="text-2xl font-bold">{t("billing.credits.title")}</CardTitle>
+                <CardDescription>{t("billing.credits.subtitle")}</CardDescription>
               </CardHeader>
               <CardContent className="text-center">
                 <div className="text-3xl font-bold mb-4">
@@ -607,13 +610,13 @@ export default function Billing() {
                 </div>
                 <ul className="text-sm text-muted-foreground space-y-2 mb-6">
                   <li className="flex items-center justify-center gap-2">
-                    <Check size={14} className="text-green-500"/> Credits never expire
+                    <Check size={14} className="text-green-500"/> {t("billing.credits.neverExpiresFeature")}
                   </li>
                   <li className="flex items-center justify-center gap-2">
-                    <Check size={14} className="text-green-500"/> Use for any sourcing report
+                    <Check size={14} className="text-green-500"/> {t("billing.credits.useAnyReportFeature")}
                   </li>
                   <li className="flex items-center justify-center gap-2">
-                    <Check size={14} className="text-green-500"/> Buy anytime you need more
+                    <Check size={14} className="text-green-500"/> {t("billing.credits.buyAnytimeFeature")}
                   </li>
                 </ul>
                 <Button 
@@ -624,36 +627,33 @@ export default function Billing() {
                 >
                   {loadingCheckout && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   <CreditCard className="mr-2 h-4 w-4" />
-                  Buy {creditQuantity} Credit{creditQuantity > 1 ? 's' : ''} - ${(10 * creditQuantity).toFixed(0)}
+                  {t("billing.credits.buyButton", { count: creditQuantity, s: creditQuantity > 1 ? 's' : '', amount: (10 * creditQuantity).toFixed(0) })}
                 </Button>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>How Credits Work</CardTitle>
-                <CardDescription>Understanding your credit system</CardDescription>
+                <CardTitle>{t("billing.creditsInfo.title")}</CardTitle>
+                <CardDescription>{t("billing.creditsInfo.subtitle")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="p-4 bg-muted/30 rounded-lg">
-                  <h4 className="font-semibold mb-2">Credit Deduction Order</h4>
+                  <h4 className="font-semibold mb-2">{t("billing.creditsInfo.deductionTitle")}</h4>
                   <p className="text-sm text-muted-foreground">
-                    When you generate a report, monthly credits are used first. 
-                    Top-up credits are only used after monthly credits are exhausted.
+                    {t("billing.creditsInfo.deductionDescription")}
                   </p>
                 </div>
                 <div className="p-4 bg-muted/30 rounded-lg">
-                  <h4 className="font-semibold mb-2">Monthly Credits</h4>
+                  <h4 className="font-semibold mb-2">{t("billing.creditsInfo.monthlyTitle")}</h4>
                   <p className="text-sm text-muted-foreground">
-                    With the Monthly Plan ($80/mo), you get 10 credits refreshed each billing cycle. 
-                    Monthly credits do <strong>not</strong> roll over.
+                    {t("billing.creditsInfo.monthlyDescription")}
                   </p>
                 </div>
                 <div className="p-4 bg-muted/30 rounded-lg">
-                  <h4 className="font-semibold mb-2">Top-up Credits</h4>
+                  <h4 className="font-semibold mb-2">{t("billing.creditsInfo.topupTitle")}</h4>
                   <p className="text-sm text-muted-foreground">
-                    Pay-as-you-go credits at $10 each. These credits <strong>never expire</strong> 
-                    and roll over indefinitely.
+                    {t("billing.creditsInfo.topupDescription")}
                   </p>
                 </div>
               </CardContent>
@@ -663,23 +663,23 @@ export default function Billing() {
 
         <TabsContent value="history" className="mt-6">
           <Card>
-            <CardHeader><CardTitle>Transaction History</CardTitle></CardHeader>
+            <CardHeader><CardTitle>{t("billing.history.title")}</CardTitle></CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Source</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead>{t("billing.history.dateHeader")}</TableHead>
+                    <TableHead>{t("billing.history.descriptionHeader")}</TableHead>
+                    <TableHead>{t("billing.history.typeHeader")}</TableHead>
+                    <TableHead>{t("billing.history.sourceHeader")}</TableHead>
+                    <TableHead className="text-right">{t("billing.history.amountHeader")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {transactions.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
-                        No transactions yet.
+                        {t("billing.history.noTransactions")}
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -719,9 +719,9 @@ export default function Billing() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {checkoutType === 'credit' 
-                ? `Purchase ${creditQuantity} Credit${creditQuantity > 1 ? 's' : ''}`
-                : 'Subscribe to Monthly Plan'}
+              {checkoutType === 'credit'
+                ? t("billing.checkout.purchaseTitle", { count: creditQuantity, s: creditQuantity > 1 ? 's' : '' })
+                : t("billing.checkout.subscribeTitle")}
             </DialogTitle>
           </DialogHeader>
           {clientSecret && stripePromise && (
@@ -751,10 +751,10 @@ export default function Billing() {
         <DialogContent className="sm:max-w-md">
           <div className="py-8 text-center">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-xl font-bold mb-2">Payment Successful!</h3>
+            <h3 className="text-xl font-bold mb-2">{t("billing.success.title")}</h3>
             <p className="text-muted-foreground mb-6">{showSuccess}</p>
             <Button onClick={() => setShowSuccess(null)} data-testid="button-payment-done">
-              Done
+              {t("common.done")}
             </Button>
           </div>
         </DialogContent>

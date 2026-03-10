@@ -31,6 +31,7 @@ import { format } from "date-fns";
 import { jsPDF } from "jspdf";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocation, Link } from "wouter";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
 const EXAMPLE_PROMPTS = [
@@ -113,6 +114,7 @@ function ContactQuoteModal({ slug, supplierName, onClose }: { slug: string; supp
   });
   const [form, setForm] = useState({ buyerName: "", buyerEmail: "", buyerCompany: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const { t } = useTranslation();
 
   const handleSubmit = async () => {
     if (!supplier?.id || !form.buyerName || !form.buyerEmail || !form.message) return;
@@ -134,28 +136,28 @@ function ContactQuoteModal({ slug, supplierName, onClose }: { slug: string; supp
     <Dialog open={!!slug} onOpenChange={(open) => { if (!open) onClose(); }}>
       <DialogContent className="sm:max-w-md" onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
-          <DialogTitle>Request Quote from {toTitleCase(supplierName)}</DialogTitle>
-          <DialogDescription>Your inquiry will be sent directly to the supplier.</DialogDescription>
+          <DialogTitle>{t("smartFinder.contactModal.title", { supplierName: toTitleCase(supplierName) })}</DialogTitle>
+          <DialogDescription>{t("smartFinder.contactModal.description")}</DialogDescription>
         </DialogHeader>
         {isLoading ? (
           <div className="py-8 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-slate-400" /></div>
         ) : status === "sent" ? (
           <div className="py-4 bg-green-50 border border-green-200 rounded-lg text-green-800 text-center">
-            Your inquiry has been sent. The supplier typically responds within 1–3 business days.
+            {t("smartFinder.contactModal.sentMessage")}
           </div>
         ) : (
           <div className="space-y-3 pt-2">
-            <Input placeholder="Your Name *" value={form.buyerName} onChange={(e) => setForm((f) => ({ ...f, buyerName: e.target.value }))} className="bg-white" />
-            <Input type="email" placeholder="Your Email *" value={form.buyerEmail} onChange={(e) => setForm((f) => ({ ...f, buyerEmail: e.target.value }))} className="bg-white" />
-            <Input placeholder="Company Name" value={form.buyerCompany} onChange={(e) => setForm((f) => ({ ...f, buyerCompany: e.target.value }))} className="bg-white" />
-            <Textarea placeholder="Your message / product requirements *" value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} rows={3} className="bg-white" />
-            {status === "error" && <p className="text-sm text-red-600">Failed to send. Please try again.</p>}
+            <Input placeholder={t("smartFinder.contactModal.namePlaceholder")} value={form.buyerName} onChange={(e) => setForm((f) => ({ ...f, buyerName: e.target.value }))} className="bg-white" />
+            <Input type="email" placeholder={t("smartFinder.contactModal.emailPlaceholder")} value={form.buyerEmail} onChange={(e) => setForm((f) => ({ ...f, buyerEmail: e.target.value }))} className="bg-white" />
+            <Input placeholder={t("smartFinder.contactModal.companyPlaceholder")} value={form.buyerCompany} onChange={(e) => setForm((f) => ({ ...f, buyerCompany: e.target.value }))} className="bg-white" />
+            <Textarea placeholder={t("smartFinder.contactModal.messagePlaceholder")} value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} rows={3} className="bg-white" />
+            {status === "error" && <p className="text-sm text-red-600">{t("smartFinder.contactModal.errorMessage")}</p>}
             <div className="flex gap-2 pt-2">
               <Button onClick={handleSubmit} disabled={status === "sending" || !form.buyerName || !form.buyerEmail || !form.message} className="flex-1">
                 {status === "sending" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-                {status === "sending" ? "Sending..." : "Send Inquiry"}
+                {status === "sending" ? t("smartFinder.contactModal.sendingButton") : t("smartFinder.contactModal.sendButton")}
               </Button>
-              <Button variant="outline" onClick={onClose}>Cancel</Button>
+              <Button variant="outline" onClick={onClose}>{t("common.cancel")}</Button>
             </div>
           </div>
         )}
@@ -195,6 +197,7 @@ export default function SmartFinder() {
   const refetchRef = useRef(refetch);
   useEffect(() => { refetchRef.current = refetch; }, [refetch]);
 
+  const { t } = useTranslation();
   const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
   const isAdmin = profile?.role === 'admin';
   const canGenerateReport = isAdmin || totalCredits >= 1 || (profile && !profile.hasUsedFreeTrial);
@@ -203,7 +206,7 @@ export default function SmartFinder() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        toast.error("Image size must be less than 10MB");
+        toast.error(t("smartFinder.validation.imageSizeTooLarge"));
         return;
       }
       setSelectedImage(file);
@@ -298,10 +301,10 @@ export default function SmartFinder() {
           setView('results');
         } else if (latestReport?.status === 'failed') {
           const errData = (latestReport?.reportData as any)?.error;
-          let msg = "Report generation failed. Please try again.";
+          let msg = t("smartFinder.error.reportGenerationFailed");
           if (typeof errData === "string") {
             if (errData.includes("API key") || errData.includes("OPENAI")) {
-              msg = "AI service not configured. Please contact support or check server environment.";
+              msg = t("smartFinder.error.aiServiceNotConfigured");
             } else if (errData.length < 200) {
               msg = errData;
             }
@@ -345,11 +348,11 @@ export default function SmartFinder() {
         
         const result = await response.json();
         searchQuery = result.productName || result.description || 'Unknown product';
-        toast.success(`Identified: ${searchQuery}`);
+        toast.success(t("smartFinder.success.imageIdentified", { productName: searchQuery }));
         removeImage();
       } catch (error) {
         console.error('Image analysis error:', error);
-        toast.error('Failed to analyze image. Please try again or enter product name manually.');
+        toast.error(t("smartFinder.error.imageAnalysisFailed"));
         setView('empty');
         setIsAnalyzingImage(false);
         return;
@@ -358,7 +361,7 @@ export default function SmartFinder() {
     }
 
     if (!searchQuery.trim()) {
-      toast.error("Please enter a product or sourcing query.");
+      toast.error(t("smartFinder.validation.emptyQuery"));
       return;
     }
 
@@ -392,7 +395,7 @@ export default function SmartFinder() {
       onError: (err: Error) => {
         setView('empty');
         const msg = err?.message || "Failed to start report";
-        toast.error(msg.includes("402") ? "Insufficient credits. Please upgrade or buy more credits." : msg);
+        toast.error(msg.includes("402") ? t("smartFinder.error.insufficientCredits") : msg);
       }
     });
   };
@@ -1201,10 +1204,10 @@ export default function SmartFinder() {
       
       const fileName = `SmartSeek_Report_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
       pdf.save(fileName);
-      toast.success("Professional PDF report downloaded successfully!");
+      toast.success(t("smartFinder.success.pdfDownloaded"));
     } catch (error) {
       console.error('PDF export failed:', error);
-      toast.error("Failed to export PDF. Please try again.");
+      toast.error(t("smartFinder.error.pdfExportFailed"));
     } finally {
       setIsExporting(false);
     }
@@ -1250,7 +1253,7 @@ export default function SmartFinder() {
       '[&>div]:bg-red-500';
 
     const exportCSV = () => {
-      if (!sellers.length) { toast.info('No supplier data to export'); return; }
+      if (!sellers.length) { toast.info(t("smartFinder.validation.noSupplierData")); return; }
       const headers = ['Supplier', 'Platform', 'Location', 'Price', 'MOQ', 'Lead Time', 'Rating', 'Certifications'];
       const rows = sellers.map((s: any) => [s.sellerName||'', s.platform||'', s.location||'', s.unitPrice||'', s.moq||'', s.leadTime||'', s.rating??'', (s.certifications||[]).join('; ')]);
       const csv = [headers.join(','), ...rows.map((r: string[]) => r.map((c) => `"${String(c).replace(/"/g,'""')}"`).join(','))].join('\n');
@@ -1261,7 +1264,7 @@ export default function SmartFinder() {
       a.download = `SmartSeek_Suppliers_${report.title.replace(/[^a-zA-Z0-9]/g,'_')}_${format(new Date(),'yyyy-MM-dd')}.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      toast.success('Supplier list exported');
+      toast.success(t("smartFinder.success.supplierListExported"));
     };
 
     return (
@@ -1273,7 +1276,7 @@ export default function SmartFinder() {
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-semibold text-xs">
-                  <CheckCircle className="w-3 h-3 mr-1" /> Intelligence Report Ready
+                  <CheckCircle className="w-3 h-3 mr-1" /> {t("smartFinder.report.readyBadge")}
                 </Badge>
                 <span className="text-slate-400 text-xs">{format(new Date(report.createdAt), 'MMM d, yyyy · HH:mm')}</span>
               </div>
@@ -1290,14 +1293,14 @@ export default function SmartFinder() {
             </div>
             <div className="flex flex-wrap gap-2 shrink-0">
               <Button onClick={handleNewSearch} variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700 text-xs">
-                <Sparkles className="w-3.5 h-3.5 mr-1" /> New Search
+                <Sparkles className="w-3.5 h-3.5 mr-1" /> {t("smartFinder.report.newSearchButton")}
               </Button>
               <Button onClick={exportCSV} variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700 text-xs">
-                <FileText className="w-3.5 h-3.5 mr-1" /> CSV
+                <FileText className="w-3.5 h-3.5 mr-1" /> {t("smartFinder.report.csvButton")}
               </Button>
               <Button onClick={exportToPDF} disabled={isExporting} size="sm" className="bg-blue-600 hover:bg-blue-500 text-white border-0 text-xs" data-testid="button-download-pdf">
                 {isExporting ? <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" /> : <Download className="w-3.5 h-3.5 mr-1" />}
-                {isExporting ? 'Generating…' : 'PDF Report'}
+                {isExporting ? t("smartFinder.report.generatingPdf") : t("smartFinder.report.pdfButton")}
               </Button>
             </div>
           </div>
@@ -1335,18 +1338,18 @@ export default function SmartFinder() {
                 <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
                   <FileText className="w-4 h-4 text-blue-600" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg">Executive Summary</h3>
+                <h3 className="font-bold text-slate-900 text-lg">{t("smartFinder.report.executiveSummaryTitle")}</h3>
               </div>
               <p className="text-slate-700 leading-relaxed text-[15px]">{reportData.executiveSummary}</p>
 
               {productClass && (
                 <div className="mt-5 pt-5 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div className="p-3 bg-blue-50 rounded-lg">
-                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-1">HS Code</div>
+                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-1">{t("smartFinder.report.hsCodeLabel")}</div>
                     <div className="font-bold font-mono text-blue-900">{productClass.hsCode}</div>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg">
-                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Category</div>
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">{t("smartFinder.report.categoryLabel")}</div>
                     <div className="font-semibold text-sm text-slate-800">{productClass.productCategory || '—'}</div>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-lg col-span-2">
@@ -1922,7 +1925,7 @@ export default function SmartFinder() {
             </div>
             
             <div>
-              <h3 className="text-xl font-semibold mb-1">Generating Intelligence Report</h3>
+              <h3 className="text-xl font-semibold mb-1">{t("smartFinder.loading.generatingReport")}</h3>
               <p className="text-sm text-slate-700">AI is analyzing markets, customs duties, and supplier data</p>
             </div>
             
@@ -2066,7 +2069,7 @@ export default function SmartFinder() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={selectedImage ? "Analyzing image..." : "What product are you sourcing?"}
+                  placeholder={selectedImage ? t("smartFinder.loading.analyzingImage") : t("smartFinder.input.productQueryPlaceholder")}
                   className="min-h-[52px] max-h-32 resize-none pr-12 rounded-xl border-gray-300 shadow-sm focus:border-primary focus:ring-primary text-gray-900 placeholder:text-gray-500"
                   rows={1}
                   data-testid="input-search-query"
@@ -2091,7 +2094,7 @@ export default function SmartFinder() {
                 <Label className="text-xs font-medium text-slate-700">Origin</Label>
                 <Select value={originCountry} onValueChange={setOriginCountry}>
                   <SelectTrigger className="h-9 text-sm text-slate-800">
-                    <SelectValue placeholder="Origin country" />
+                    <SelectValue placeholder={t("smartFinder.input.originCountryPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {COUNTRIES.map((c) => (
