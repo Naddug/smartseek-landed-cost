@@ -2466,27 +2466,50 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       if (q && typeof q === "string" && q.trim()) {
         const search = q.trim();
         const terms = search.split(/\s+/).filter(Boolean);
-        const fieldMatch = (term: string) => ({
+
+        // Primary match: only product-relevant fields (no description/city/country)
+        // This prevents unrelated companies appearing just because their description
+        // mentions the search term in passing (e.g. "antimony-free" or "antimony dopant")
+        const primaryMatch = (term: string) => ({
           OR: [
             { companyName: { contains: term, mode: "insensitive" as const } },
-            { products: { contains: term, mode: "insensitive" as const } },
-            { industry: { contains: term, mode: "insensitive" as const } },
+            { products:    { contains: term, mode: "insensitive" as const } },
+            { industry:    { contains: term, mode: "insensitive" as const } },
             { subIndustry: { contains: term, mode: "insensitive" as const } },
-            { description: { contains: term, mode: "insensitive" as const } },
-            { city: { contains: term, mode: "insensitive" as const } },
-            { country: { contains: term, mode: "insensitive" as const } },
           ],
         });
+
+        // Full match: all fields — used only when primary returns nothing
+        const fullMatch = (term: string) => ({
+          OR: [
+            { companyName: { contains: term, mode: "insensitive" as const } },
+            { products:    { contains: term, mode: "insensitive" as const } },
+            { industry:    { contains: term, mode: "insensitive" as const } },
+            { subIndustry: { contains: term, mode: "insensitive" as const } },
+            { description: { contains: term, mode: "insensitive" as const } },
+            { city:        { contains: term, mode: "insensitive" as const } },
+            { country:     { contains: term, mode: "insensitive" as const } },
+          ],
+        });
+
+        const primaryWhere = terms.length === 1
+          ? { OR: primaryMatch(terms[0]).OR }
+          : { AND: terms.map(primaryMatch) };
+
+        const fullWhere = terms.length === 1
+          ? { OR: fullMatch(terms[0]).OR }
+          : { AND: terms.map(fullMatch) };
+
+        // Two-pass: try primary (strict) first; fall back to full fields only if zero hits
+        const primaryProbe = await prisma.supplier.findFirst({ where: primaryWhere, select: { id: true } });
+        const searchWhere = primaryProbe ? primaryWhere : fullWhere;
+
         if (terms.length === 1) {
-          // Single term: standard OR across all fields
-          where.OR = fieldMatch(terms[0]).OR;
+          where.OR = (searchWhere as any).OR;
         } else {
-          // Multi-term: every word must appear somewhere in the record (AND of ORs)
-          // This makes "cotton fabric Turkey" correctly find suppliers that mention
-          // cotton AND fabric AND Turkey across any combination of fields
           where.AND = [
             ...(Array.isArray(where.AND) ? where.AND : []),
-            ...terms.map(fieldMatch),
+            ...(searchWhere as any).AND,
           ];
         }
       }

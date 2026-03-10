@@ -933,7 +933,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-700 flex items-center gap-2">
-            {isFetching ? (
+            {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
                 <span>Searching suppliers...</span>
@@ -944,6 +944,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <>
                 {t("supplier.suppliersFound", { total: data.pagination.total.toLocaleString() })}
                 {debouncedQuery && <span className="text-gray-500"> for &ldquo;{debouncedQuery}&rdquo;</span>}
+                {isFetching && <Loader2 className="w-3 h-3 animate-spin text-slate-400 inline-block" />}
               </>
             ) : null}
           </p>
