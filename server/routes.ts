@@ -2500,15 +2500,16 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           ? { OR: fullMatch(terms[0]).OR }
           : { AND: terms.map(fullMatch) };
 
-        // Primary pass only (products/industry/companyName — no description)
-        // Description matches cause irrelevant results (e.g. TSMC mentioning "antimony" in passing)
+        // Two-pass: try primary (strict) first; fall back to full fields only if zero hits
+        const primaryProbe = await prisma.supplier.findFirst({ where: primaryWhere, select: { id: true } });
+        const searchWhere = primaryProbe ? primaryWhere : fullWhere;
+
         if (terms.length === 1) {
-          where.OR = primaryWhere.OR;
+          where.OR = (searchWhere as any).OR;
         } else {
-          const primaryAnd = "AND" in primaryWhere ? primaryWhere.AND : [];
           where.AND = [
             ...(Array.isArray(where.AND) ? where.AND : []),
-            ...(Array.isArray(primaryAnd) ? primaryAnd : []),
+            ...(searchWhere as any).AND,
           ];
         }
       }
@@ -2616,7 +2617,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
             .catch(() => prisma.supplier.count({ where }));
 
       let [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
-      let total = typeof totalRaw === "number" ? totalRaw : totalRaw;
+      const total = typeof totalRaw === "number" ? totalRaw : totalRaw;
 
       // Fallback: if exact search returned 0 results, try loose match on industry+description only
       // Never fall back to unrelated top-rated suppliers — return empty if no match.
@@ -2638,14 +2639,8 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         if (looseSuppliers.length > 0) {
           isFallback = true;
           suppliers = looseSuppliers;
-          total = Math.max(total, looseSuppliers.length);
         }
         // If loose match also returns 0 → suppliers stays empty → frontend shows "No suppliers found"
-      }
-
-      // Ensure total is never 0 when we have suppliers (prevents "0 suppliers found" with visible cards)
-      if (suppliers.length > 0 && total === 0) {
-        total = suppliers.length;
       }
 
       // Format company names and locations for display (title case)
@@ -2779,79 +2774,12 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     }
   });
 
-  // GET /api/suppliers/by-id/:id — Supplier detail by ID (fallback when slug lookup fails)
-  app.get("/api/suppliers/by-id/:id", async (req: Request, res: Response) => {
-    try {
-      const supplier = await prisma.supplier.findUnique({
-        where: { id: req.params.id },
-      });
-      if (!supplier) {
-        return res.status(404).json({ error: "Supplier not found" });
-      }
-      const userId = getUserId(req);
-      let canViewContact = false;
-      if (userId) {
-        const profile = await storage.getUserProfile(userId);
-        canViewContact = profile ? profile.plan !== "free" : false;
-      }
-      const safeParse = (val: string | null, fallback: unknown) => {
-        if (!val || typeof val !== "string") return fallback;
-        try {
-          const parsed = JSON.parse(val);
-          return Array.isArray(parsed) ? parsed : fallback;
-        } catch {
-          return fallback;
-        }
-      };
-      const toTitleCase = (str: string | null | undefined): string => {
-        if (!str || typeof str !== "string") return str || "";
-        const abbr = new Set(["pt", "tbk", "gmbh", "llc", "ltd", "inc", "co", "lp", "plc", "sa", "ag", "nv", "bv", "corp", "pvt", "uk", "us"]);
-        return str.replace(/\w\S*/g, (w) => {
-          const lower = w.toLowerCase();
-          if (abbr.has(lower)) return lower === "gmbh" ? "GmbH" : lower.toUpperCase();
-          return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
-        });
-      };
-      const formatLocation = (str: string | null | undefined): string => {
-        if (!str || typeof str !== "string") return str || "";
-        return str.split(",").map((p) => toTitleCase(p.trim())).filter(Boolean).join(", ");
-      };
-      const payload: Record<string, unknown> = {
-        ...supplier,
-        companyName: toTitleCase(supplier.companyName),
-        city: formatLocation(supplier.city),
-        country: formatLocation(supplier.country),
-        industry: toTitleCase(supplier.industry),
-        subIndustry: supplier.subIndustry ? toTitleCase(supplier.subIndustry) : supplier.subIndustry,
-        products: safeParse(supplier.products, []),
-        certifications: safeParse(supplier.certifications, []),
-        paymentTerms: safeParse(supplier.paymentTerms, []),
-        exportMarkets: safeParse(supplier.exportMarkets, []),
-      };
-      if (!canViewContact) {
-        delete payload.contactEmail;
-        delete payload.contactPhone;
-        delete payload.website;
-      }
-      res.json(payload);
-    } catch (error) {
-      console.error("GET /api/suppliers/by-id/:id error:", error);
-      res.status(500).json({ error: "Failed to fetch supplier" });
-    }
-  });
-
-  // GET /api/suppliers/:slug — Supplier detail (contact fields only for paid users)
+  // GET /api/suppliers/:slug Ã¢ÂÂ Supplier detail (contact fields only for paid users)
   app.get("/api/suppliers/:slug", async (req: Request, res: Response) => {
     try {
-      let supplier = await prisma.supplier.findUnique({
+      const supplier = await prisma.supplier.findUnique({
         where: { slug: req.params.slug },
       });
-
-      if (!supplier) {
-        supplier = await prisma.supplier.findFirst({
-          where: { slug: { equals: req.params.slug, mode: "insensitive" } },
-        });
-      }
 
       if (!supplier) {
         return res.status(404).json({ error: "Supplier not found" });
