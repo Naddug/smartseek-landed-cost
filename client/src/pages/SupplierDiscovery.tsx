@@ -166,20 +166,10 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
   const isVerified = supplier.verified || supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR";
   const qualityScore = Math.round((supplier.rating || 0) * 20);
   const scoreColor = qualityScore >= 80
-    ? "text-emerald-600 bg-emerald-50 border-emerald-200"
+    ? "text-emerald-700 bg-emerald-50 border-emerald-200"
     : qualityScore >= 60
-    ? "text-blue-600 bg-blue-50 border-blue-200"
-    : "text-amber-600 bg-amber-50 border-amber-200";
-
-  const descFormatted = supplier.description
-    ? (() => {
-        let d = supplier.description;
-        d = d.replace(new RegExp(supplier.companyName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), toTitleCase(supplier.companyName));
-        d = d.replace(new RegExp(supplier.city.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.city));
-        d = d.replace(new RegExp(supplier.country.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), formatLocation(supplier.country));
-        return d.charAt(0).toUpperCase() + d.slice(1);
-      })()
-    : "";
+    ? "text-blue-700 bg-blue-50 border-blue-200"
+    : "text-amber-700 bg-amber-50 border-amber-200";
 
   const products = Array.isArray(supplier.products) ? supplier.products : [];
   const productDisplay = products.slice(0, 3);
@@ -188,84 +178,76 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
   return (
     <div
       onClick={onClick}
-      className="group relative bg-white border border-slate-200 rounded-xl overflow-hidden transition-all cursor-pointer hover:shadow-lg hover:-translate-y-0.5 hover:border-blue-200"
+      className="group bg-white border border-slate-200 rounded-xl overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5"
     >
-      {/* Top accent strip */}
-      <div className={`h-1 ${isVerified ? "bg-gradient-to-r from-teal-400 to-blue-500" : "bg-gradient-to-r from-slate-100 to-slate-200"}`} />
-
       <div className="p-5">
-        <div className="flex items-start justify-between mb-2 gap-2">
+        {/* Header row */}
+        <div className="flex items-start gap-3 mb-3">
+          {/* Company initials avatar */}
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm">
+            {toTitleCase(supplier.companyName).split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()}
+          </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-semibold text-slate-900 truncate leading-snug">{toTitleCase(supplier.companyName)}</h3>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h3 className="text-sm font-semibold text-slate-900 truncate leading-snug">{toTitleCase(supplier.companyName)}</h3>
+              {isVerified && (
+                <span className="inline-flex items-center gap-0.5 shrink-0 text-[10px] font-semibold text-teal-700 bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded-full">
+                  <Check className="w-2.5 h-2.5" /> {t('supplier.verified')}
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-1 mt-0.5 text-xs text-slate-500">
-              <MapPin className="w-3 h-3 shrink-0" />
+              <MapPin className="w-3 h-3 shrink-0 text-slate-400" />
               <span className="truncate">{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
             </div>
           </div>
-          {/* Quality score badge */}
-          <div className={`shrink-0 flex flex-col items-center justify-center w-12 h-12 rounded-xl border text-sm font-bold ${scoreColor}`}>
-            <span>{qualityScore}</span>
-            <span className="text-[9px] font-normal leading-none opacity-70">score</span>
+          {/* Score badge */}
+          <div className={`shrink-0 flex flex-col items-center justify-center w-11 h-11 rounded-xl border text-xs font-bold ${scoreColor}`}>
+            <span className="text-sm leading-none">{qualityScore}</span>
+            <span className="text-[9px] font-normal leading-none opacity-60 mt-0.5">QS</span>
           </div>
         </div>
 
+        {/* Industry + sub */}
         <div className="flex flex-wrap gap-1.5 mb-2.5">
-          <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
+          <span className="inline-block bg-slate-100 text-slate-600 text-xs font-medium px-2 py-0.5 rounded-md">
             {toTitleCase(supplier.industry)}
           </span>
-          {isVerified && (
-            <span className="inline-flex items-center gap-1 bg-teal-50 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full">
-              <Check className="w-3 h-3" /> Verified
-            </span>
-          )}
           {supplier.subIndustry && (
-            <span className="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">
+            <span className="inline-block bg-slate-50 text-slate-500 text-xs px-2 py-0.5 rounded-md border border-slate-200">
               {toTitleCase(supplier.subIndustry)}
             </span>
           )}
         </div>
 
-        <p className="text-sm text-slate-600 line-clamp-2 mb-3 leading-relaxed">{descFormatted}</p>
-
+        {/* Products */}
         {products.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
             {productDisplay.map((p, i) => (
-              <span key={i} className="text-xs bg-slate-50 text-slate-600 px-2 py-0.5 rounded border border-slate-100">
+              <span key={i} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md border border-blue-100">
                 {toTitleCase(String(p))}
               </span>
             ))}
             {productOverflow > 0 && (
-              <span className="text-xs text-slate-400">+{productOverflow} more</span>
+              <span className="text-xs text-slate-400 self-center">+{productOverflow}</span>
             )}
           </div>
         )}
 
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        {/* Footer: rating + employees */}
+        <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 text-xs">
           <div className="flex items-center gap-0.5">
             {[1, 2, 3, 4, 5].map((i) => (
-              <Star
-                key={i}
-                className={`w-3.5 h-3.5 ${i <= (supplier.rating || 0) ? "text-amber-400 fill-amber-400" : "text-slate-200"}`}
-              />
+              <Star key={i} className={`w-3 h-3 ${i <= Math.round(supplier.rating || 0) ? "text-amber-400 fill-amber-400" : "text-slate-200 fill-slate-200"}`} />
             ))}
-            <span className="ml-1 font-medium text-slate-600">{(supplier.rating || 0).toFixed(1)}</span>
+            <span className="ml-1 text-slate-600 font-medium">{(supplier.rating || 0).toFixed(1)}</span>
           </div>
           {supplier.employeeCount != null && (
-            <span className={`px-2 py-0.5 rounded-full font-medium ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
-              {supplier.employeeCount <= 1000 ? supplier.employeeCount.toLocaleString() : `${(supplier.employeeCount / 1000).toFixed(1)}K+`} emp.
-            </span>
-          )}
-          {supplier.responseTime && (
-            <span className="inline-flex items-center gap-0.5 bg-green-50 text-green-700 px-2 py-0.5 rounded-full border border-green-100">
-              ⚡ {supplier.responseTime}
+            <span className={`px-2 py-0.5 rounded-full font-medium text-[10px] ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
+              {supplier.employeeCount >= 1000 ? `${(supplier.employeeCount / 1000).toFixed(1)}K+` : supplier.employeeCount.toLocaleString()} emp.
             </span>
           )}
         </div>
-      </div>
-
-      {/* Hover CTA */}
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2.5 flex items-center justify-center gap-2 text-sm font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-200">
-        {t("supplier.viewDetails")} <ChevronRight className="w-4 h-4" />
       </div>
     </div>
   );
@@ -796,36 +778,38 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   return (
     <div className={`bg-gray-50 ${embedded ? "min-h-0 rounded-xl" : "min-h-screen"}`}>
       {/* Hero / Search Bar */}
-      <div className={`bg-gradient-to-r from-blue-600 to-blue-800 text-white ${embedded ? "rounded-t-xl" : ""}`}>
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="flex items-center gap-3 mb-4">
-            <Logo size="lg" variant="light" className="w-10 h-10" />
-            <span className="text-white/80 text-sm font-medium">SmartSeek Supplier Discovery</span>
+      <div className={`bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white ${embedded ? "rounded-t-xl" : ""}`}>
+        <div className="max-w-7xl mx-auto px-4 py-14">
+          <div className="mb-2">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+              {t('supplier.pageSubtitle')}
+            </span>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Find Verified Global Suppliers</h1>
-          <p className="text-blue-100 mb-2">AI-powered search across {supplierCount > 0 ? `${formatStat(supplierCount)} verified` : "verified"} suppliers{countryCount > 0 ? ` in ${countryCount}+ countries` : " worldwide"}</p>
-          <p className="text-blue-200/90 text-sm mb-6">100% real companies from government registries • Every supplier links to official source • No fake or scraped data</p>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3 tracking-tight">{t('supplier.pageTitle')}</h1>
+          <p className="text-slate-300 mb-1.5 text-sm max-w-2xl">
+            {supplierCount > 0 ? `AI-powered search across ${formatStat(supplierCount)} verified suppliers${countryCount > 0 ? ` in ${countryCount}+ countries` : ' worldwide'}` : `AI-powered global supplier discovery`}
+          </p>
+          <p className="text-slate-500 text-xs mb-8">{t('supplier.pageTrustLine')}</p>
           <div className="flex gap-2">
-            <div className="flex-1 relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70 group-focus-within:text-white group-focus-within:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-200" />
+            <div className="flex-1 relative group max-w-2xl">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-400 transition-colors" />
               <input
                 type="text"
                 placeholder={t("supplier.searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder:text-slate-400 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/30 focus:bg-white/8 transition-all"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-3 rounded-lg transition"
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-all text-sm font-medium ${showFilters || hasActiveFilters ? 'bg-blue-500/20 border-blue-500/40 text-blue-300' : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'}`}
             >
               <Filter className="w-4 h-4" />
               {t("supplier.filters")}
               {hasActiveFilters && (
-                <span className="bg-white text-blue-600 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                  !
-                </span>
+                <span className="bg-blue-500 text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">!</span>
               )}
             </button>
           </div>
@@ -834,14 +818,14 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
 
       {/* Filters Bar */}
       {showFilters && (
-        <div className="bg-slate-800/60 border-b border-slate-700 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <div className="flex flex-wrap items-center gap-3">
+        <div className="bg-slate-50 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <div className="flex flex-wrap items-center gap-2">
               {/* Country filter */}
               <select
                 value={selectedCountry}
                 onChange={(e) => setSelectedCountry(e.target.value)}
-                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">{t("supplier.allCountries")}</option>
                 {filters?.countries.map((c) => (
@@ -853,7 +837,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <select
                 value={selectedIndustry}
                 onChange={(e) => setSelectedIndustry(e.target.value)}
-                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">{t("supplier.allIndustries")}</option>
                 {filters?.industries.map((i) => (
@@ -862,7 +846,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               </select>
 
               {/* Verified only */}
-              <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={verifiedOnly}
@@ -877,7 +861,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="rating">{t("supplier.sortTopRated")}</option>
                 <option value="reviewCount">{t("supplier.sortMostReviewed")}</option>
@@ -893,22 +877,22 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <select
                 value={minOrderValue ?? ""}
                 onChange={(e) => setMinOrderValue(e.target.value === "" ? null : Number(e.target.value))}
-                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 title="Minimum Order Quantity"
               >
-                <option value="">MOQ: Any</option>
-                <option value="0">MOQ: $0+</option>
-                <option value="500">MOQ: $500+</option>
-                <option value="1000">MOQ: $1,000+</option>
-                <option value="5000">MOQ: $5,000+</option>
-                <option value="10000">MOQ: $10,000+</option>
+                <option value="">{t('supplier.moqAny')}</option>
+                <option value="0">{t('supplier.moqRange', { min: '$0' })}</option>
+                <option value="500">{t('supplier.moqRange', { min: '$500' })}</option>
+                <option value="1000">{t('supplier.moqRange', { min: '$1,000' })}</option>
+                <option value="5000">{t('supplier.moqRange', { min: '$5,000' })}</option>
+                <option value="10000">{t('supplier.moqRange', { min: '$10,000' })}</option>
               </select>
 
               {/* Supplier Score filter */}
               <select
                 value={minScore ?? ""}
                 onChange={(e) => setMinScore(e.target.value === "" ? null : Number(e.target.value))}
-                className="border border-slate-700 rounded-lg px-3 py-2 text-sm bg-slate-800 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 title={t("supplier.qualityScore")}
               >
                 <option value="">{t("supplier.qualityScore")}: Any</option>
@@ -919,7 +903,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               </select>
 
               {hasActiveFilters && (
-                <button onClick={clearFilters} className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1">
+                <button onClick={clearFilters} className="text-sm text-red-500 hover:text-red-600 flex items-center gap-1">
                   <X className="w-3.5 h-3.5" /> {t("supplier.clearAll")}
                 </button>
               )}

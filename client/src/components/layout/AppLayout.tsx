@@ -163,7 +163,7 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
 
       {/* Main Content */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen min-w-0 w-full">
-        <header className="h-14 sm:h-16 border-b border-slate-600/60 bg-slate-700/90 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between pt-[env(safe-area-inset-top)]">
+        <header className="h-14 sm:h-16 border-b border-border/60 bg-background/95 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between pt-[env(safe-area-inset-top)]">
           <div className="md:hidden w-10 shrink-0"></div>
           <h1 className="font-heading font-semibold text-base sm:text-lg capitalize flex-1 min-w-0 mx-2 overflow-hidden text-ellipsis whitespace-nowrap">{getPageTitle(location)}</h1>
           <div className="flex items-center gap-2 sm:gap-4 shrink-0">
@@ -175,14 +175,14 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
                 Pro
               </Badge>
             ) : (
-              <span className="bg-slate-700 text-slate-300 text-[10px] px-2 py-0.5 rounded uppercase font-medium">Free Plan</span>
+              <span className="bg-slate-700 text-slate-300 text-[10px] px-2 py-0.5 rounded uppercase font-medium">{t('nav.app.freePlan')}</span>
             )}
           </div>
         </header>
         <main className="flex-1 p-4 md:p-8 overflow-x-hidden min-w-0">
           {unverifiedEmail && !emailBannerDismissed && (
             <div className="mb-4 flex items-center justify-between gap-4 rounded-lg border border-blue-500/50 bg-blue-500/10 px-4 py-3 text-blue-800 dark:text-blue-200">
-              <span>✉ Please verify your email address. Check your inbox for a verification link.</span>
+              <span>{t('nav.app.verifyEmailBanner')}</span>
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={async () => {
@@ -190,7 +190,7 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
                   }}
                   className="text-sm underline hover:no-underline text-blue-700 dark:text-blue-300"
                 >
-                  Resend
+                  {t('nav.app.resend')}
                 </button>
                 <button onClick={() => setEmailBannerDismissed(true)} className="text-blue-600 hover:text-blue-800 p-1" aria-label="Dismiss">×</button>
               </div>
@@ -199,12 +199,12 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
           {showCreditsBanner && (
             <div className="mb-4 flex items-center justify-between gap-4 rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-amber-800 dark:text-amber-200">
               <span>
-                ⚠ You have {totalCredits} credit{totalCredits === 1 ? "" : "s"} left. Buy more to keep sourcing.
+                {t('nav.app.creditsWarning', { count: totalCredits })}
               </span>
               <div className="flex items-center gap-2 shrink-0">
                 <Link href="/billing">
                   <Button size="sm" variant="outline" className="border-amber-600 text-amber-700 hover:bg-amber-500/20">
-                    Buy Credits →
+                    {t('nav.app.buyCredits')}
                   </Button>
                 </Link>
                 <button
@@ -230,17 +230,18 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
 function NavItem({ href, icon, label, active, onClick }: { href: string, icon: React.ReactNode, label: string, active: boolean, onClick?: () => void }) {
   return (
     <Link href={href}>
-      <span 
-        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all cursor-pointer ${
-          active 
-            ? 'bg-sidebar-primary text-sidebar-primary-foreground font-medium shadow-md' 
-            : 'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+      <span
+        className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150 cursor-pointer text-sm ${
+          active
+            ? 'bg-sidebar-primary/90 text-sidebar-primary-foreground font-medium shadow-sm'
+            : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground hover:pl-4'
         }`}
         onClick={onClick}
         data-testid={`nav-${href.replace('/', '')}`}
       >
-        {icon}
-        <span>{label}</span>
+        <span className="shrink-0 opacity-80">{icon}</span>
+        <span className="truncate">{label}</span>
+        {active && <span className="ml-auto w-1 h-4 rounded-full bg-sidebar-primary-foreground/40" />}
       </span>
     </Link>
   );
