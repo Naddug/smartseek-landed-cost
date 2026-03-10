@@ -2574,8 +2574,40 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
             .then((rows: [{ cnt: number }]) => Number(rows[0]?.cnt || 0))
             .catch(() => prisma.supplier.count({ where }));
 
-      const [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
+      let [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
       const total = typeof totalRaw === "number" ? totalRaw : totalRaw;
+
+      // Fallback: if search returned 0 results, show top-rated verified suppliers
+      let isFallback = false;
+      if (hasSearchQuery && suppliers.length === 0) {
+        isFallback = true;
+        // Try looser match: search only industry + description
+        const looseWhere: any = {
+          OR: [
+            { industry: { contains: (q as string).trim(), mode: "insensitive" as const } },
+            { description: { contains: (q as string).trim(), mode: "insensitive" as const } },
+          ],
+        };
+        const looseSuppliers = await prisma.supplier.findMany({
+          where: looseWhere,
+          orderBy: [{ verified: "desc" }, { rating: "desc" }],
+          skip: 0,
+          take: 12,
+          select: selectFields,
+        });
+        if (looseSuppliers.length > 0) {
+          suppliers = looseSuppliers;
+        } else {
+          // Final fallback: top-rated verified suppliers
+          suppliers = await prisma.supplier.findMany({
+            where: { verified: true },
+            orderBy: [{ rating: "desc" }, { reviewCount: "desc" }],
+            skip: 0,
+            take: 12,
+            select: selectFields,
+          });
+        }
+      }
 
       // Format company names and locations for display (title case)
       const toTitleCase = (str: string | null | undefined): string => {
@@ -2638,6 +2670,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         },
         guestLimited: isGuest,
         freeLimit: FREE_LIMIT,
+        fallback: isFallback,
       });
     } catch (error) {
       console.error("GET /api/suppliers error:", error);

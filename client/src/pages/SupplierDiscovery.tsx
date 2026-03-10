@@ -69,7 +69,7 @@ function useSuppliers(params: {
   searchParams.set("page", params.page.toString());
   searchParams.set("limit", "20");
 
-  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number }>({
+  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number; fallback?: boolean }>({
     queryKey: ["suppliers", params],
     queryFn: async () => {
       const res = await fetch(`/api/suppliers?${searchParams.toString()}`);
@@ -847,6 +847,12 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
           </div>
         ) : data && data.suppliers.length > 0 ? (
           <>
+            {data.fallback && (
+              <div className="mb-4 flex items-center gap-3 px-4 py-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium">
+                <svg className="w-4 h-4 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" /></svg>
+                No exact matches — showing top verified suppliers instead
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.suppliers.map((supplier) => (
                 <SupplierCard
