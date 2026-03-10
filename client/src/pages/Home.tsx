@@ -459,7 +459,11 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="relative z-10 text-slate-400 text-sm font-mono mb-4 tracking-wider"
         >
-          <AnimatedCounter to={25_234_891} duration={2.5} /> {t("home.suppliersIndexed")}
+          {suppliers > 0 ? (
+            <><AnimatedCounter to={suppliers} duration={2.5} /> {t("home.suppliersIndexed")}</>
+          ) : (
+            <span className="text-slate-400 text-sm font-mono tracking-wider">{t("home.globalEngine")}</span>
+          )}
         </motion.div>
 
         {/* Headline */}
@@ -541,35 +545,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── B) LIVE DATA TICKER ─────────────────────────────────────────────── */}
-      <div className="bg-slate-900 border-y border-slate-800 py-2.5 overflow-hidden">
-        <div
-          className="flex gap-12 whitespace-nowrap text-xs font-medium text-slate-400"
-          style={{
-            animation: "ticker 40s linear infinite",
-            display: "inline-flex",
-          }}
-        >
-          {[...Array(3)].map((_, rep) => (
-            <span key={rep} className="flex gap-12">
-              <span><span className="text-red-400 font-bold">● LIVE</span> &nbsp;847 new suppliers added today</span>
-              <span className="text-slate-600">•</span>
-              <span>Turkey exports <span className="text-emerald-400">+12%</span> this week</span>
-              <span className="text-slate-600">•</span>
-              <span><span className="text-yellow-400">⚠ Risk alert:</span> Red Sea shipping delays</span>
-              <span className="text-slate-600">•</span>
-              <span>23 new solar panel suppliers from Vietnam</span>
-              <span className="text-slate-600">•</span>
-              <span>Antimony spot price <span className="text-red-400">+8.3%</span> MTD</span>
-              <span className="text-slate-600">•</span>
-              <span>India pharma API exports at record high</span>
-              <span className="text-slate-600">•</span>
-              <span>New verified: 12 German automotive suppliers</span>
-              <span className="text-slate-600">•</span>
-            </span>
-          ))}
+      {/* ── B) DATA TRUST BAR ─────────────────────────────────────────────── */}
+      <div className="bg-slate-900 border-y border-slate-800 py-3 px-4">
+        <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-6 text-xs text-slate-500">
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> Registry-verified data</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> No fabricated entries</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> Real company records</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Direct source links</span>
         </div>
-        <style>{`@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }`}</style>
       </div>
 
       {/* ── B2) TRUSTED BY ──────────────────────────────────────────────────── */}

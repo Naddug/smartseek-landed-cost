@@ -2444,6 +2444,8 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         industry,
         verified,
         minRating,
+        minScore,
+        minOrderValue,
         sortBy = "rating",
         sortOrder = "desc",
         page = "1",
@@ -2518,6 +2520,23 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         const rating = parseFloat(minRating);
         if (!isNaN(rating)) {
           where.rating = { gte: rating };
+        }
+      }
+
+      // minScore: quality score (0-100) maps to rating (rating = score / 20)
+      if (minScore && typeof minScore === "string") {
+        const score = parseFloat(minScore);
+        if (!isNaN(score) && score > 0) {
+          const ratingFromScore = score / 20;
+          where.rating = { gte: ratingFromScore };
+        }
+      }
+
+      // minOrderValue: filter by minimum order value
+      if (minOrderValue && typeof minOrderValue === "string") {
+        const mov = parseFloat(minOrderValue);
+        if (!isNaN(mov) && mov > 0) {
+          where.minOrderValue = { gte: mov };
         }
       }
 

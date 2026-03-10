@@ -114,7 +114,7 @@ function useStats() {
       const res = await fetch("/api/stats");
       if (!res.ok) throw new Error("Failed to fetch stats");
       const data = await res.json();
-      return { suppliers: data.suppliers ?? 23200000, countries: data.countries ?? 220 };
+      return { suppliers: data.suppliers ?? 0, countries: data.countries ?? 0 };
     },
     staleTime: 60000,
   });

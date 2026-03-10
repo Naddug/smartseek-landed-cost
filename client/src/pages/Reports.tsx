@@ -494,19 +494,19 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
       <CardContent>
         {isComplete && (
           <>
-            <div className="rounded-lg bg-slate-800/40 p-3 mb-3 space-y-2 text-sm">
+            <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 mb-3 space-y-2 text-sm">
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <div>
-                  <div className="text-muted-foreground">Landed Cost/Unit</div>
-                  <div className="font-medium">{landedCostPerUnit || "—"}</div>
+                  <div className="text-slate-500">Landed Cost/Unit</div>
+                  <div className="text-slate-800 font-semibold">{landedCostPerUnit || "—"}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground">Est. Margin %</div>
-                  <div className="font-medium">{estimatedMargin || "—"}</div>
+                  <div className="text-slate-500">Est. Margin %</div>
+                  <div className="text-slate-800 font-semibold">{estimatedMargin || "—"}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground">Suppliers</div>
-                  <div className="font-medium">{suppliersFound || "—"}</div>
+                  <div className="text-slate-500">Suppliers</div>
+                  <div className="text-slate-800 font-semibold">{suppliersFound || "—"}</div>
                 </div>
               </div>
             </div>
@@ -515,7 +515,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
             )}
             <Button
               variant="outline"
-              className="w-full bg-slate-800 text-slate-100 border-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
+              className="w-full bg-white text-slate-700 border-slate-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
               onClick={(e) => { e.stopPropagation(); onView(); }}
             >
               View Full Report
