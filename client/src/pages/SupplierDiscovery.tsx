@@ -62,9 +62,11 @@ function useSuppliers(params: {
   page: number;
   minOrderValue?: number | null;
   minScore?: number | null;
+  lang?: string;
 }) {
   const searchParams = new URLSearchParams();
   if (params.q) searchParams.set("q", params.q);
+  if (params.lang) searchParams.set("lang", params.lang);
   if (params.country) searchParams.set("country", params.country);
   if (params.industry) searchParams.set("industry", params.industry);
   if (params.verified) searchParams.set("verified", "true");
@@ -712,7 +714,7 @@ interface SupplierDiscoveryProps {
 }
 
 export default function SupplierDiscovery({ embedded, initialIndustry, initialQuery }: SupplierDiscoveryProps = {}) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState(initialQuery || "");
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery || "");
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -769,6 +771,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
     page,
     minOrderValue,
     minScore,
+    lang: i18n.language?.split("-")[0] || undefined,
   });
 
   const { data: filters } = useFilters();

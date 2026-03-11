@@ -10,6 +10,7 @@ import { withTimeout } from "./lib/asyncUtils";
 import { stripeService } from "./stripeService";
 import { getStripePublishableKey, getUncachableStripeClient } from "./stripeClient";
 import { getOpenAIClient, isOpenAIConfigured, chatWithRetry, getUsageLog, LIGHT_MODEL } from "./services/openaiClient";
+import { expandSearchQueryForMultilingual } from "./services/multilingualSearch";
 import { calculateLandedCost } from "./services/landedCost";
 import type { LandedCostInput, LandedCostResult } from "./services/landedCost";
 import { generateRiskAnalysis, generateComplianceCheck } from "./services/riskIntelligence";
@@ -2524,6 +2525,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         sortOrder = "desc",
         page = "1",
         limit = "20",
+        lang,
       } = req.query;
 
       // Growth loop: guests see only the first FREE_LIMIT results
@@ -2543,10 +2545,11 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
       if (q && typeof q === "string" && q.trim()) {
         const search = q.trim();
-        const terms = search.length >= 2 ? search.split(/\s+/).filter(Boolean) : [];
+        const uiLang = typeof lang === "string" ? lang.split("-")[0] : undefined;
+        const { terms, usedExpansion } = await expandSearchQueryForMultilingual(search, uiLang);
+        const effectiveTerms = terms.length >= 1 ? terms : (search.length >= 2 ? search.split(/\s+/).filter(Boolean) : []);
 
-        if (terms.length > 0) {
-          // Arama: companyName, products, industry, subIndustry, description (antimony vb. description'da da olabilir)
+        if (effectiveTerms.length > 0) {
           const primaryMatch = (term: string) => ({
             OR: [
               { companyName: { contains: term, mode: "insensitive" as const } },
@@ -2557,27 +2560,13 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
             ],
           });
 
-          // Full match: all fields — used only when primary returns nothing
-          const fullMatch = (term: string) => ({
-            OR: [
-              { companyName: { contains: term, mode: "insensitive" as const } },
-              { products:    { contains: term, mode: "insensitive" as const } },
-              { industry:    { contains: term, mode: "insensitive" as const } },
-              { subIndustry: { contains: term, mode: "insensitive" as const } },
-              { description: { contains: term, mode: "insensitive" as const } },
-              { city:        { contains: term, mode: "insensitive" as const } },
-              { country:     { contains: term, mode: "insensitive" as const } },
-            ],
-          });
-
-          const primaryWhere = terms.length === 1
-            ? { OR: primaryMatch(terms[0]).OR }
-            : { AND: terms.map(primaryMatch) };
-
-          // Use primary first (no expensive probe); fallback to full happens in second pass below
-          if (terms.length === 1) {
-            where.OR = (primaryWhere as any).OR;
+          // Multilingual expansion: use OR across all terms (match any)
+          // Original query: use AND (all terms must match)
+          if (usedExpansion || effectiveTerms.length === 1) {
+            const allOrs = effectiveTerms.flatMap((t) => primaryMatch(t).OR);
+            where.OR = allOrs;
           } else {
+            const primaryWhere = { AND: effectiveTerms.map(primaryMatch) };
             where.AND = [
               ...(Array.isArray(where.AND) ? where.AND : []),
               ...(primaryWhere as any).AND,

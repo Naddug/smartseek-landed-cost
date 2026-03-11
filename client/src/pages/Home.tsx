@@ -131,6 +131,7 @@ function DemoCard({ s }: { s: DemoSupplier }) {
 }
 
 function InteractiveDemo() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<DemoSupplier[] | null>(null);
   const [totalCount, setTotalCount] = useState(0);
@@ -164,7 +165,7 @@ function InteractiveDemo() {
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder='Try: "cotton fabric manufacturer Turkey" or "solar panels China"'
+            placeholder={t("home.demo.placeholder")}
             className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all"
           />
         </div>
@@ -173,7 +174,7 @@ function InteractiveDemo() {
           {searching
             ? <span className="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin" />
             : <Zap className="w-4 h-4" />}
-          Search
+          {t("home.demo.searchBtn")}
         </button>
       </form>
 
@@ -209,11 +210,11 @@ function InteractiveDemo() {
         <div>
           <div className="flex items-center gap-2 mb-4">
             <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2.5 py-1 rounded-full">
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Live results
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> {t("home.demo.liveResults")}
             </span>
             <span className="text-sm text-slate-300">
               <span className="font-bold text-white">{totalCount.toLocaleString()}</span>
-              <span className="text-slate-400"> suppliers found — showing 3 free results</span>
+              <span className="text-slate-400"> {t("home.demo.suppliersFound")}</span>
             </span>
           </div>
 
@@ -410,10 +411,10 @@ export default function Home() {
   ];
 
   const testimonials = [
-    { initials: "MK", name: "Marcus Klein", role: "CPO, AutoTech GmbH", quote: "We cut supplier qualification from 3 weeks to 2 days. The verified data alone is worth 10x the $49/month — saved us €40K on one project.", bg: "bg-slate-800", text: "text-white" },
-    { initials: "SP", name: "Sunita Patel", role: "Procurement Lead, Reliance", quote: "Finally a platform that understands landed cost complexity. The duty calculations are spot-on for India imports.", bg: "bg-amber-500", text: "text-slate-900" },
-    { initials: "JL", name: "Jason Liu", role: "VP Sourcing, TechCo Inc", quote: "SmartSeek found us 40+ qualified antimony suppliers in under a minute. Our old database had 3.", bg: "bg-slate-800", text: "text-white" },
-    { initials: "EF", name: "Elena Ferretti", role: "Head of Supply Chain, Moda", quote: "The risk intelligence flagged our Turkish supplier's financial issues 6 weeks before we would have found out.", bg: "bg-blue-600", text: "text-white" },
+    { initials: "MK", name: t("home.testimonialCard1.name"), role: t("home.testimonialCard1.role"), quote: t("home.testimonialCard1.quote"), bg: "bg-slate-800", text: "text-white" },
+    { initials: "SP", name: t("home.testimonialCard2.name"), role: t("home.testimonialCard2.role"), quote: t("home.testimonialCard2.quote"), bg: "bg-amber-500", text: "text-slate-900" },
+    { initials: "JL", name: t("home.testimonialCard3.name"), role: t("home.testimonialCard3.role"), quote: t("home.testimonialCard3.quote"), bg: "bg-slate-800", text: "text-white" },
+    { initials: "EF", name: t("home.testimonialCard4.name"), role: t("home.testimonialCard4.role"), quote: t("home.testimonialCard4.quote"), bg: "bg-blue-600", text: "text-white" },
   ];
 
   return (
@@ -548,10 +549,10 @@ export default function Home() {
       {/* ── B) DATA TRUST BAR ─────────────────────────────────────────────── */}
       <div className="bg-slate-900 border-y border-slate-800 py-3 px-4">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-6 text-xs text-slate-500">
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> Registry-verified data</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> No fabricated entries</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> Real company records</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Direct source links</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> {t("home.trust.registryVerified")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> {t("home.trust.noFabricated")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> {t("home.trust.realRecords")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> {t("home.trust.directSource")}</span>
         </div>
       </div>
 
@@ -559,7 +560,7 @@ export default function Home() {
       <div className="bg-slate-900 border-b border-slate-800 py-8 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-center text-[11px] font-semibold text-slate-600 uppercase tracking-[0.18em] mb-5">
-            Integrates with your existing tools
+            {t("home.integrations.title")}
           </p>
           <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3">
             {["Google Workspace", "SAP Ariba", "Salesforce", "Oracle", "Microsoft Dynamics", "Coupa"].map(name => (
@@ -601,13 +602,13 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">
-              Live Demo — No Sign-up Required
+              {t("home.demo.badge")}
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
               {t("home.features.title")}
             </h2>
             <p className="text-slate-400 text-sm max-w-xl mx-auto">
-              Search our global database instantly. See real verified supplier results — contact info and full access unlocked with a free account.
+              {t("home.demo.desc")}
             </p>
           </div>
           <InteractiveDemo />
@@ -618,12 +619,12 @@ export default function Home() {
       <section className="bg-white py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-[0.2em] mb-3">Platform Capabilities</p>
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-[0.2em] mb-3">{t("home.capabilities.badge")}</p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Three intelligence engines. One platform.
+              {t("home.capabilities.title")}
             </h2>
             <p className="text-slate-500 text-base max-w-xl mx-auto">
-              From supplier discovery to AI-powered market intelligence — everything your sourcing team needs.
+              {t("home.capabilities.subtitle")}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -633,11 +634,11 @@ export default function Home() {
                 bg: "bg-blue-50",
                 accent: "from-blue-500 to-indigo-500",
                 border: "border-slate-200 hover:border-blue-300",
-                title: "Find Suppliers",
-                desc: "Search verified global suppliers by product, country, certification, and size. Contact-ready with quality scores.",
+                title: t("home.capabilities.findSuppliers"),
+                desc: t("home.capabilities.findSuppliersDesc"),
                 href: "/suppliers",
-                cta: "Search Suppliers",
-                chips: ["Verified suppliers", "220+ countries", "Registry-verified"],
+                cta: t("home.capabilities.searchSuppliers"),
+                chips: [t("home.capabilities.findSuppliersChip1"), t("home.capabilities.findSuppliersChip2"), t("home.capabilities.findSuppliersChip3")],
                 chipColor: "bg-blue-50 border-blue-100 text-blue-700",
               },
               {
@@ -645,11 +646,11 @@ export default function Home() {
                 bg: "bg-emerald-50",
                 accent: "from-emerald-500 to-teal-500",
                 border: "border-slate-200 hover:border-emerald-300",
-                title: "Find Leads",
-                desc: "Qualified buyer and trade leads. Filter by intent, industry, region, and company size. Built for B2B outreach.",
+                title: t("home.capabilities.findLeads"),
+                desc: t("home.capabilities.findLeadsDesc"),
                 href: "/signup",
-                cta: "Explore Leads",
-                chips: ["High-intent leads", "Intent signals", "B2B verified"],
+                cta: t("home.capabilities.exploreLeads"),
+                chips: [t("home.capabilities.findLeadsChip1"), t("home.capabilities.findLeadsChip2"), t("home.capabilities.findLeadsChip3")],
                 chipColor: "bg-emerald-50 border-emerald-100 text-emerald-700",
               },
               {
@@ -657,11 +658,11 @@ export default function Home() {
                 bg: "bg-violet-50",
                 accent: "from-violet-500 to-purple-500",
                 border: "border-slate-200 hover:border-violet-300",
-                title: "AI Market Intelligence",
-                desc: "Real-time risk scoring, landed cost calculations, trade compliance checks, and predictive supply chain analysis.",
+                title: t("home.capabilities.aiIntel"),
+                desc: t("home.capabilities.aiIntelDesc"),
                 href: "/signup",
-                cta: "Try AI Analysis",
-                chips: ["Risk intelligence", "Landed cost AI", "Trade compliance"],
+                cta: t("home.capabilities.tryAI"),
+                chips: [t("home.capabilities.aiIntelChip1"), t("home.capabilities.aiIntelChip2"), t("home.capabilities.aiIntelChip3")],
                 chipColor: "bg-violet-50 border-violet-100 text-violet-700",
               },
             ].map((cap) => (
@@ -763,16 +764,16 @@ export default function Home() {
             {t("home.integrations.label")}
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
-            Connects to the tools you already use
+            {t("home.integrations.sectionTitle")}
           </h2>
           <p className="text-slate-500 text-sm mb-12 max-w-xl mx-auto leading-relaxed">
-            Sync suppliers, leads, and sourcing data directly into your existing ERP, CRM, and procurement systems. No manual exports.
+            {t("home.integrations.sectionDesc")}
           </p>
           <IntegrationLogos variant="compact" />
           <div className="mt-10">
             <Link href="/integrations">
               <button className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 border border-blue-200 hover:border-blue-400 px-5 py-2.5 rounded-xl transition-colors">
-                View all integrations <ArrowRight className="w-3.5 h-3.5" />
+                {t("home.integrations.viewAll")} <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </Link>
           </div>
@@ -786,12 +787,12 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
             {t("home.pricing.heading")}
           </h2>
-          <p className="text-slate-500 text-sm mb-10">14-day free trial · No credit card required · Full refund if not satisfied</p>
+          <p className="text-slate-500 text-sm mb-10">{t("home.pricing.subtitle")}</p>
           <div className="flex flex-col gap-3 mb-8">
             {[
-              { tier: "Free", desc: "Search suppliers, 3 results per query", color: "bg-slate-100 border-slate-200", badge: "" },
-              { tier: "Professional — $49/mo", desc: "Unlimited search, landed cost calculator, export — 14-day free trial", color: "bg-blue-600 border-blue-600", badge: "Most Popular", textWhite: true },
-              { tier: "Enterprise", desc: "Custom integrations, dedicated support, bulk data access", color: "bg-slate-900 border-slate-800", textWhite: true },
+              { tier: t("home.pricing.tierFree"), desc: t("home.pricing.tierFreeDesc"), color: "bg-slate-100 border-slate-200", badge: "" },
+              { tier: t("home.pricing.tierPro"), desc: t("home.pricing.tierProDesc"), color: "bg-blue-600 border-blue-600", badge: t("home.pricing.tierProBadge"), textWhite: true },
+              { tier: t("home.pricing.tierEnterprise"), desc: t("home.pricing.tierEnterpriseDesc"), color: "bg-slate-900 border-slate-800", textWhite: true },
             ].map((p, i) => (
               <div key={i} className={`flex items-center justify-between px-6 py-4 rounded-xl border ${p.color} ${(p as any).textWhite ? "text-white" : "text-slate-900"}`}>
                 <div className="flex items-center gap-4">
@@ -804,7 +805,7 @@ export default function Home() {
           </div>
           <Link href="/signup">
             <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-amber-500/20 text-base">
-              Get Started Free <ArrowRight className="w-4 h-4" />
+              {t("home.pricing.getStarted")} <ArrowRight className="w-4 h-4" />
             </button>
           </Link>
         </div>
@@ -835,7 +836,7 @@ export default function Home() {
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search verified global suppliers..."
+              placeholder={t("home.searchPlaceholder")}
               className="flex-1 pl-3 pr-4 py-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
             />
             <button type="submit" className="shrink-0 m-1.5 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm rounded-lg transition">
