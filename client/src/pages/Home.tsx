@@ -410,7 +410,7 @@ export default function Home() {
   ];
 
   const testimonials = [
-    { initials: "MK", name: "Marcus Klein", role: "CPO, AutoTech GmbH", quote: "We cut supplier qualification time from 3 weeks to 2 days. The verified data alone is worth 10x the subscription cost.", bg: "bg-slate-800", text: "text-white" },
+    { initials: "MK", name: "Marcus Klein", role: "CPO, AutoTech GmbH", quote: "We cut supplier qualification from 3 weeks to 2 days. The verified data alone is worth 10x the $49/month — saved us €40K on one project.", bg: "bg-slate-800", text: "text-white" },
     { initials: "SP", name: "Sunita Patel", role: "Procurement Lead, Reliance", quote: "Finally a platform that understands landed cost complexity. The duty calculations are spot-on for India imports.", bg: "bg-amber-500", text: "text-slate-900" },
     { initials: "JL", name: "Jason Liu", role: "VP Sourcing, TechCo Inc", quote: "SmartSeek found us 40+ qualified antimony suppliers in under a minute. Our old database had 3.", bg: "bg-slate-800", text: "text-white" },
     { initials: "EF", name: "Elena Ferretti", role: "Head of Supply Chain, Moda", quote: "The risk intelligence flagged our Turkish supplier's financial issues 6 weeks before we would have found out.", bg: "bg-blue-600", text: "text-white" },
@@ -555,11 +555,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── B2) TRUSTED BY ──────────────────────────────────────────────────── */}
+      {/* ── B2) INTEGRATIONS ──────────────────────────────────────────────────── */}
       <div className="bg-slate-900 border-b border-slate-800 py-8 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-center text-[11px] font-semibold text-slate-600 uppercase tracking-[0.18em] mb-5">
-            Trusted by sourcing teams that use
+            Integrates with your existing tools
           </p>
           <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3">
             {["Google Workspace", "SAP Ariba", "Salesforce", "Oracle", "Microsoft Dynamics", "Coupa"].map(name => (
@@ -783,13 +783,14 @@ export default function Home() {
       <section className="bg-white py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">{t("home.pricing.title")}</p>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
             {t("home.pricing.heading")}
           </h2>
+          <p className="text-slate-500 text-sm mb-10">14-day free trial · No credit card required · Full refund if not satisfied</p>
           <div className="flex flex-col gap-3 mb-8">
             {[
               { tier: "Free", desc: "Search suppliers, 3 results per query", color: "bg-slate-100 border-slate-200", badge: "" },
-              { tier: "Professional", desc: "Unlimited search, landed cost calculator, export tools", color: "bg-blue-600 border-blue-600", badge: "Most Popular", textWhite: true },
+              { tier: "Professional — $49/mo", desc: "Unlimited search, landed cost calculator, export — 14-day free trial", color: "bg-blue-600 border-blue-600", badge: "Most Popular", textWhite: true },
               { tier: "Enterprise", desc: "Custom integrations, dedicated support, bulk data access", color: "bg-slate-900 border-slate-800", textWhite: true },
             ].map((p, i) => (
               <div key={i} className={`flex items-center justify-between px-6 py-4 rounded-xl border ${p.color} ${(p as any).textWhite ? "text-white" : "text-slate-900"}`}>

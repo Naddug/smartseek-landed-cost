@@ -37,16 +37,16 @@ const tiers: PricingTier[] = [
     name: "Professional",
     price: "$49",
     period: "/mo",
-    description: "For serious buyers and sourcing teams",
+    description: "For serious buyers — typically pays for itself with 1 saved sourcing cycle",
     features: [
-      "Unlimited supplier searches",
+      "Unlimited supplier searches (25M+ database)",
       "Advanced landed cost calculator",
       "20 RFQs per month",
-      "Verified supplier contacts",
+      "Verified supplier contacts & export",
       "Priority support",
-      "Export reports & data"
+      "14-day free trial — cancel anytime"
     ],
-    cta: "Start Free Trial",
+    cta: "Start 14-Day Free Trial",
     ctaHref: "/signup",
     popular: true,
     icon: <Crown className="w-6 h-6" />,
@@ -93,9 +93,9 @@ export default function Pricing() {
             <div className="flex flex-wrap justify-center gap-6 text-slate-400 text-sm">
               <span>No credit card for free tier</span>
               <span>•</span>
-              <span>Cancel anytime</span>
+              <span>14-day free trial — no charge upfront</span>
               <span>•</span>
-              <span>Full refund within 14 days</span>
+              <span>Full refund within 14 days — no questions asked</span>
             </div>
           </div>
         </section>

@@ -258,18 +258,20 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
 function SupplierDetail({
   slug,
   supplierId,
+  initialSupplier,
   onClose,
   openContactForm = false,
 }: {
   slug: string;
   supplierId?: string;
+  initialSupplier?: Supplier;
   onClose: () => void;
   openContactForm?: boolean;
 }) {
   const { t } = useTranslation();
   const { data: profile } = useProfile();
   const isPaid = !!profile && profile.plan !== "free";
-  const { data: supplier, isLoading } = useQuery<Supplier & {
+  const { data: fetched } = useQuery<Supplier & {
     contactEmail?: string;
     contactPhone?: string | null;
     website?: string | null;
@@ -279,15 +281,25 @@ function SupplierDetail({
   }>({
     queryKey: ["supplier", slug, supplierId],
     queryFn: async () => {
-      const res = await fetch(`/api/suppliers/${slug}`, { credentials: "include" });
-      if (res.ok) return res.json();
-      if (res.status === 404 && supplierId) {
+      // Prefer by-id (primary key) when available — more reliable than slug
+      if (supplierId) {
         const byId = await fetch(`/api/suppliers/by-id/${supplierId}`, { credentials: "include" });
         if (byId.ok) return byId.json();
       }
+      const res = await fetch(`/api/suppliers/${slug}`, { credentials: "include" });
+      if (res.ok) return res.json();
       throw new Error("Failed to fetch supplier");
     },
+    staleTime: 60000,
   });
+  // Use fetched data when available; fall back to list data so modal always shows content
+  const supplier = (fetched ?? initialSupplier) as (Supplier & {
+    paymentTerms?: string[];
+    exportMarkets?: string[];
+    contactEmail?: string;
+    contactPhone?: string | null;
+    website?: string | null;
+  }) | undefined;
 
   const [showContactForm, setShowContactForm] = useState(openContactForm);
   const [contactForm, setContactForm] = useState({
@@ -335,9 +347,9 @@ function SupplierDetail({
         className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto m-4"
         onClick={(e) => e.stopPropagation()}
       >
-        {isLoading ? (
-          <div className="p-12 text-center text-gray-600">Loading...</div>
-        ) : supplier ? (
+        {!supplier ? (
+          <div className="p-12 text-center text-gray-600">Supplier details could not be loaded.</div>
+        ) : (
           <>
             {/* Sticky Header */}
             <div className="sticky top-0 z-10 bg-white border-b border-gray-100 p-6">
@@ -569,8 +581,6 @@ function SupplierDetail({
               )}
             </div>
           </>
-        ) : (
-          <div className="p-12 text-center text-gray-600">Supplier not found</div>
         )}
       </div>
     </div>
@@ -714,6 +724,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const [minScore, setMinScore] = useState<number | null>(null);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [selectedSupplierId, setSelectedSupplierId] = useState<string | null>(null);
+  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
   // Read URL params or initialIndustry/initialQuery prop on mount
@@ -987,6 +998,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
                   onClick={() => {
                     setSelectedSlug(supplier.slug);
                     setSelectedSupplierId(supplier.id);
+                    setSelectedSupplier(supplier);
                   }}
                 />
               ))}
@@ -1059,9 +1071,11 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
         <SupplierDetail
           slug={selectedSlug}
           supplierId={selectedSupplierId ?? undefined}
+          initialSupplier={selectedSupplier ?? undefined}
           onClose={() => {
             setSelectedSlug(null);
             setSelectedSupplierId(null);
+            setSelectedSupplier(null);
           }}
           openContactForm={new URLSearchParams(window.location.search).get("contact") === "1"}
         />
