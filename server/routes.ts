@@ -2537,24 +2537,23 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       // Build where clause
       const where: any = {};
 
-      // Text search on 25M+ rows needs trigram indexes OR country/industry filter to avoid full scan
       const hasSearchQuery = !!(q && typeof q === "string" && q.trim());
       const hasNarrowFilter = !!(country && typeof country === "string" && country !== "Undefined") ||
         !!(industry && typeof industry === "string" && industry.trim());
-      const searchNeedsFilter = !hasNarrowFilter;
 
       if (q && typeof q === "string" && q.trim()) {
         const search = q.trim();
         const terms = search.length >= 2 ? search.split(/\s+/).filter(Boolean) : [];
 
-        if (terms.length > 0 && !searchNeedsFilter) {
-          // Primary match: product-relevant fields only (uses trigram indexes)
+        if (terms.length > 0) {
+          // Arama: companyName, products, industry, subIndustry, description (antimony vb. description'da da olabilir)
           const primaryMatch = (term: string) => ({
             OR: [
               { companyName: { contains: term, mode: "insensitive" as const } },
               { products:    { contains: term, mode: "insensitive" as const } },
               { industry:    { contains: term, mode: "insensitive" as const } },
               { subIndustry: { contains: term, mode: "insensitive" as const } },
+              { description: { contains: term, mode: "insensitive" as const } },
             ],
           });
 
@@ -2604,8 +2603,14 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         }
       }
 
-      if (industry && typeof industry === "string") {
-        where.industry = { equals: industry, mode: "insensitive" as const };
+      if (industry && typeof industry === "string" && industry.trim()) {
+        const ind = industry.trim();
+        where.AND = [...(Array.isArray(where.AND) ? where.AND : []), {
+          OR: [
+            { industry: { equals: ind, mode: "insensitive" as const } },
+            { industry: { contains: ind, mode: "insensitive" as const } },
+          ],
+        }];
       }
 
       if (verified === "true") {
@@ -2671,18 +2676,6 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         sicCode: true,
         contactVerified: true,
       };
-
-      // 25M+ satırda metin araması filtresiz timeout olur; ülke veya sektör zorunlu
-      if (searchNeedsFilter && hasSearchQuery) {
-        return res.json({
-          suppliers: [],
-          pagination: { page: pageNum, limit: limitNum, total: 0, totalPages: 0 },
-          guestLimited: isGuest,
-          freeLimit: FREE_LIMIT,
-          needFilter: true,
-          message: "Ülke veya sektör seçerek aramayı hızlandırın (25M+ kayıtta filtre gerekli)",
-        });
-      }
 
       const suppliersPromise = prisma.supplier.findMany({
         where,
@@ -2851,7 +2844,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
     try {
       const { getCountryCode, getDisplayForCode } = await import("./lib/countryCodes");
 
-      const timeoutMs = 10000;
+      const timeoutMs = 30000;
       const withTimeout = <T>(p: Promise<T>, fallback: T): Promise<T> =>
         Promise.race([p, new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs))]);
 
