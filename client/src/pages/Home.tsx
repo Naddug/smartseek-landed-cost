@@ -38,14 +38,7 @@ function AnimatedCounter({ to, duration = 2, suffix = "" }: { to: number; durati
 
 // ─── Cycling placeholder ─────────────────────────────────────────────────────
 
-const PLACEHOLDERS = [
-  "antimony suppliers...",
-  "cotton fabric, Vietnam...",
-  "solar panels, China...",
-  "steel coils, Turkey...",
-  "lithium batteries, Korea...",
-  "pharmaceutical APIs, India...",
-];
+const PLACEHOLDER_KEYS = ["home.placeholder1", "home.placeholder2", "home.placeholder3", "home.placeholder4", "home.placeholder5", "home.placeholder6"];
 
 // ─── Interactive Demo Data ──────────────────────────────────────────────────
 
@@ -88,6 +81,7 @@ function getDemoResults(query: string): DemoSupplier[] {
 }
 
 function DemoCard({ s }: { s: DemoSupplier }) {
+  const { t } = useTranslation();
   const score = Math.round(s.rating * 20);
   return (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-default">
@@ -98,7 +92,7 @@ function DemoCard({ s }: { s: DemoSupplier }) {
             <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
               <span className="text-sm font-bold text-slate-900 truncate">{s.name}</span>
               {s.verified && (
-                <span className="shrink-0 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold">✓ Verified</span>
+                <span className="shrink-0 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold">✓ {t("home.demo.verified")}</span>
               )}
             </div>
             <span className="text-xs text-slate-500">{s.flag} {s.city}, {s.country}</span>
@@ -138,10 +132,10 @@ function InteractiveDemo() {
   const [searching, setSearching] = useState(false);
 
   const QUICK = [
-    { label: "⛏ Antimony suppliers China", q: "antimony suppliers china" },
-    { label: "🧵 Cotton fabric Turkey", q: "cotton fabric turkey" },
-    { label: "☀ Solar panels Vietnam", q: "solar panels vietnam" },
-    { label: "💊 Pharma API India", q: "pharmaceutical api india" },
+    { label: t("home.demo.quick1"), q: "antimony suppliers china", icon: "⛏" },
+    { label: t("home.demo.quick2"), q: "cotton fabric turkey", icon: "🧵" },
+    { label: t("home.demo.quick3"), q: "solar panels vietnam", icon: "☀" },
+    { label: t("home.demo.quick4"), q: "pharmaceutical api india", icon: "💊" },
   ];
 
   const run = (q: string) => {
@@ -182,7 +176,7 @@ function InteractiveDemo() {
         {QUICK.map(s => (
           <button key={s.q} onClick={() => { setQuery(s.label); run(s.q); }}
             className="text-xs bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700 hover:border-slate-600 transition-all hover:shadow-sm">
-            {s.label}
+            {s.icon} {s.label}
           </button>
         ))}
       </div>
@@ -245,24 +239,24 @@ function InteractiveDemo() {
                   <Lock className="w-5 h-5 text-white" />
                 </div>
                 <p className="text-white font-bold text-lg mb-1 leading-tight">
-                  {(totalCount - 3).toLocaleString()} more suppliers available
+                  {t("home.demo.moreSuppliers", { count: (totalCount - 3).toLocaleString() })}
                 </p>
                 <p className="text-slate-300 text-sm mb-5 leading-relaxed">
-                  Free account unlocks full results, verified contact info, AI-powered analysis, and export tools.
+                  {t("home.demo.freeUnlocks")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2.5 justify-center">
                   <Link href="/signup">
                     <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition-colors shadow-lg shadow-amber-500/20">
-                      Start Free <ArrowRight className="w-4 h-4" />
+                      {t("home.demo.startFree")} <ArrowRight className="w-4 h-4" />
                     </button>
                   </Link>
                   <Link href="/login">
                     <button className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors">
-                      Log in
+                      {t("home.demo.logIn")}
                     </button>
                   </Link>
                 </div>
-                <p className="text-slate-500 text-xs mt-3">No credit card required</p>
+                <p className="text-slate-500 text-xs mt-3">{t("home.demo.noCreditCard")}</p>
               </div>
             </div>
           </div>
@@ -274,8 +268,8 @@ function InteractiveDemo() {
           <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
             <Building2 className="w-6 h-6 text-slate-500" />
           </div>
-          <p className="text-slate-400 text-sm">Enter any product, material, or industry above</p>
-          <p className="text-slate-600 text-xs">Or click a quick search to see results instantly</p>
+          <p className="text-slate-400 text-sm">{t("home.demo.enterProduct")}</p>
+          <p className="text-slate-600 text-xs">{t("home.demo.clickQuick")}</p>
         </div>
       )}
     </div>
@@ -306,7 +300,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const id = setInterval(() => setPlaceholderIdx(i => (i + 1) % PLACEHOLDERS.length), 2500);
+    const id = setInterval(() => setPlaceholderIdx(i => (i + 1) % PLACEHOLDER_KEYS.length), 2500);
     return () => clearInterval(id);
   }, []);
 
@@ -341,11 +335,11 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-amber-400">{r.rating}</span>
-                {r.verified && <span className="text-emerald-400 text-[10px] bg-emerald-900/40 px-1.5 py-0.5 rounded">✓ Verified</span>}
+                {r.verified && <span className="text-emerald-400 text-[10px] bg-emerald-900/40 px-1.5 py-0.5 rounded">✓ {t("home.demo.verified")}</span>}
               </div>
             </div>
           ))}
-          <div className="mt-2 text-slate-500">→ 1,247 results for "antimony suppliers"</div>
+          <div className="mt-2 text-slate-500">{t("home.demo.resultsFor", { count: "1,247", query: "antimony suppliers" })}</div>
         </div>
       ),
     },
@@ -506,7 +500,7 @@ export default function Home() {
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder={PLACEHOLDERS[placeholderIdx]}
+            placeholder={t(PLACEHOLDER_KEYS[placeholderIdx])}
             className="flex-1 pl-12 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent transition-all"
           />
           <button
