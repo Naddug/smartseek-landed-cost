@@ -70,12 +70,12 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const [location, setLocation] = useLocation();
   const { data: user } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [stats, setStats] = useState<{ suppliers: number; countries: number; leads: number } | null>(null);
+  const [stats, setStats] = useState<{ suppliers: number; countries: number } | null>(null);
 
   useEffect(() => {
     fetch("/api/stats")
       .then((r) => r.json())
-      .then((d) => setStats({ suppliers: d.suppliers, countries: d.countries, leads: d.leads }))
+      .then((d) => setStats({ suppliers: d.suppliers, countries: d.countries }))
       .catch(() => setStats(null));
   }, []);
 
@@ -101,8 +101,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <span className="hidden sm:inline">{t("trust.strip1")}</span>
           <span className="hidden md:inline">•</span>
           {stats && stats.suppliers > 0 && <span>{`${formatStat(stats.suppliers)} ${t("trust.suppliersWord")}`}</span>}
-          {stats && stats.suppliers > 0 && stats.leads > 0 && <span className="hidden lg:inline">•</span>}
-          {stats && stats.leads > 0 && <span className="hidden lg:inline">{`${formatStat(stats.leads)} ${t("trust.leadsWord")}`}</span>}
+
           {stats && stats.countries > 0 && <><span className="hidden lg:inline">•</span><span>{`${stats.countries}+ ${t("trust.countriesWord")}`}</span></>}
         </div>
       </div>
@@ -162,26 +161,20 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats && stats.suppliers > 0 ? formatStat(stats.suppliers) : "—"}
-                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">25M+</div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats && stats.countries > 0 ? `${stats.countries}+` : "—"}
-                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">220+</div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statCountries")}</div>
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                  {stats && stats.leads > 0 ? formatStat(stats.leads) : "—"}
-                </div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statLeads")}</div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">Registry</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("home.trust.registryVerified")}</div>
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">AI</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statReports")}</div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">Direct</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("home.trust.directSource")}</div>
               </div>
             </div>
           </div>
