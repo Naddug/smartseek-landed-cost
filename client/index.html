@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1e293b">
-    <meta name="description" content="SmartSeek – 25.2M+ verified suppliers, 7M+ high-signal leads, 220+ countries. AI-powered sourcing & trade intelligence. Landed cost, risk analysis. Quality over volume." />
+    <meta name="theme-color" content="#1e293b">
 
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EG8T5S08Z7"></script>
@@ -15,15 +14,27 @@
       gtag('config', 'G-EG8T5S08Z7');
     </script>
 
-    <meta property="og:title" content="SmartSeek - Leading Sourcing & Lead Intelligence AI Platform" />
-    <meta property="og:description" content="25.2M+ verified suppliers, 7M+ buyer & trade leads in 220+ countries. AI-driven trade intelligence, landed cost, risk analysis. Supplier-first sourcing platform." />
+    <!--
+      SEO_META_INJECT
+      In production, the Express server replaces this comment with page-specific:
+        <title>, <meta name="description">, Open Graph, Twitter Card,
+        <link rel="canonical">, and <script type="application/ld+json"> tags.
+      In development (Vite), the static fallback tags below are used instead.
+    -->
+    <!-- SEO_META_INJECT -->
+
+    <!-- Static fallback meta for Vite dev mode (overridden in production) -->
+    <title>SmartSeek – Find Real Suppliers Anywhere in the World</title>
+    <meta name="description" content="Search manufacturers, exporters and verified suppliers instantly. SmartSeek is Google for Suppliers — verified global supplier data across 220+ countries." />
+    <meta property="og:title" content="SmartSeek – Find Real Suppliers Anywhere in the World" />
+    <meta property="og:description" content="Search manufacturers, exporters and verified suppliers instantly. SmartSeek is Google for Suppliers." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="/opengraph.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@smartsekai" />
-    <meta name="twitter:title" content="SmartSeek - Leading Sourcing & Lead Intelligence AI Platform" />
-    <meta name="twitter:description" content="25.2M+ verified suppliers, 7M+ high-signal leads. Trade intelligence, landed cost, risk analysis." />
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:title" content="SmartSeek – Find Real Suppliers Anywhere in the World" />
+    <meta name="twitter:description" content="Search manufacturers, exporters and verified suppliers instantly across 220+ countries." />
+    <meta name="twitter:image" content="/opengraph.jpg" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
@@ -36,7 +47,6 @@
     <!-- HubSpot Tracking -->
     <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/147972530.js"></script>
   </head>
-  <title>SmartSeek – Sourcing & Lead Intelligence</title>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

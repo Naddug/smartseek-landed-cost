@@ -23,6 +23,7 @@ import {
   type IntegrationProvider,
 } from "./services/integrations";
 import { prisma } from "../lib/prisma";
+import { SUPPLIER_CATEGORIES } from "./seo";
 import { getMineralPurityOptions, MINERAL_FORMS } from "@shared/mineralConfig";
 import { detectProductFamily } from "@shared/productFamilies";
 import { getMarketMetalPrices } from "./services/marketPrices";
@@ -48,6 +49,46 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  // ── Sitemap ───────────────────────────────────────────────────────────────
+  app.get("/sitemap.xml", (_req: Request, res: Response) => {
+    const SITE_URL = (process.env.SITE_URL || "https://smartseek.io").replace(/\/$/, "");
+    const now = new Date().toISOString().split("T")[0];
+
+    const staticRoutes = [
+      { path: "/", priority: "1.0", changefreq: "daily" },
+      { path: "/pricing", priority: "0.9", changefreq: "weekly" },
+      { path: "/about", priority: "0.8", changefreq: "monthly" },
+      { path: "/faq", priority: "0.8", changefreq: "monthly" },
+      { path: "/contact", priority: "0.6", changefreq: "monthly" },
+      { path: "/integrations", priority: "0.7", changefreq: "monthly" },
+      { path: "/rfq", priority: "0.7", changefreq: "monthly" },
+      { path: "/sample-report", priority: "0.7", changefreq: "monthly" },
+      { path: "/signup", priority: "0.9", changefreq: "monthly" },
+      { path: "/login", priority: "0.5", changefreq: "monthly" },
+    ];
+
+    const categoryRoutes = SUPPLIER_CATEGORIES.map((cat) => ({
+      path: `/suppliers/${cat}`,
+      priority: "0.9",
+      changefreq: "daily",
+    }));
+
+    const allRoutes = [...staticRoutes, ...categoryRoutes];
+
+    const urlEntries = allRoutes
+      .map(
+        (r) =>
+          `  <url>\n    <loc>${SITE_URL}${r.path}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`
+      )
+      .join("\n");
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>`;
+
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.send(xml);
+  });
 
   // Mineral purity options (for SmartFinder when user searches copper, tin, antimony, etc.)
   app.get("/api/minerals/options", (req: Request, res: Response) => {

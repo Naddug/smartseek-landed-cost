@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Disallow private app routes
+Disallow: /dashboard
+Disallow: /smart-finder
+Disallow: /ai-agent
+Disallow: /find-leads
+Disallow: /reports
+Disallow: /billing
+Disallow: /tools
+Disallow: /admin
+Disallow: /admin-indexes
+Disallow: /landed-cost
+Disallow: /customs-calculator
+Disallow: /shipping-estimator
+Disallow: /trade-data
+Disallow: /risk-intelligence
+Disallow: /compliance
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://smartseek.io/sitemap.xml

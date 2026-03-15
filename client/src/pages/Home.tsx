@@ -493,26 +493,51 @@ export default function Home() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           onSubmit={handleSearch}
-          className="relative z-10 w-full max-w-2xl flex items-center bg-white rounded-xl shadow-[0_0_80px_rgba(59,130,246,0.2)] overflow-hidden mb-3 border border-white/10"
+          className="relative z-10 w-full max-w-3xl flex items-center bg-white rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.25)] overflow-hidden mb-4 border border-white/10"
         >
-          <Search className="absolute left-4 w-5 h-5 text-slate-400 pointer-events-none" />
+          <Search className="absolute left-5 w-5 h-5 text-slate-400 pointer-events-none" />
           <input
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={t(PLACEHOLDER_KEYS[placeholderIdx])}
-            className="flex-1 pl-12 pr-4 py-4 text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent transition-all"
+            className="flex-1 pl-14 pr-4 py-5 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent transition-all"
+            autoFocus
           />
           <button
             type="submit"
-            className="shrink-0 m-1.5 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 text-sm font-bold rounded-lg transition flex items-center gap-2 shadow-lg shadow-amber-500/25"
+            className="shrink-0 m-2 px-7 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 text-base font-bold rounded-xl transition flex items-center gap-2 shadow-lg shadow-amber-500/25"
           >
             {t("home.hero.searchBtn")} <ArrowRight className="w-4 h-4" />
           </button>
         </motion.form>
 
-        <p className="relative z-10 text-slate-600 text-xs mb-10">
-          {t("home.hero.proofLine", { matches: "200+" })}
+        {/* Example query chips */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="relative z-10 flex flex-wrap justify-center gap-2 mb-4"
+        >
+          {[
+            { label: "copper cathode suppliers", icon: "⚙️" },
+            { label: "antimony manufacturers", icon: "⛏️" },
+            { label: "olive oil bulk suppliers", icon: "🫒" },
+            { label: "solar panel exporters", icon: "☀️" },
+          ].map(chip => (
+            <button
+              key={chip.label}
+              type="button"
+              onClick={() => { setQuery(chip.label); navigate(`/suppliers?q=${encodeURIComponent(chip.label)}`); }}
+              className="text-xs bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 hover:border-white/20 px-3 py-1.5 rounded-full transition-all"
+            >
+              {chip.icon} {chip.label}
+            </button>
+          ))}
+        </motion.div>
+
+        <p className="relative z-10 text-slate-600 text-xs mb-8">
+          {t("home.hero.proofLine", { matches: "200+" })} · No login required
         </p>
 
         {/* Trust chips */}
@@ -540,6 +565,58 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── D) INTERACTIVE DEMO ──────────────────────────────────────────────── */}
+      <section className="bg-slate-900 py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">
+              Live Preview
+            </p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
+              See real supplier results instantly
+            </h2>
+            <p className="text-slate-400 text-sm max-w-xl mx-auto">
+              Try a search below — no account needed. Thousands of verified manufacturers and exporters at your fingertips.
+            </p>
+          </div>
+          <InteractiveDemo />
+        </div>
+      </section>
+
+      {/* ── F) HOW IT WORKS (numbered, linear) ──────────────────────────────── */}
+      <section className="bg-white py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">{t("home.hiw.badge")}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">
+            {t("home.hiw.title")}
+          </h2>
+
+          <div className="relative flex flex-col gap-0">
+            {/* Vertical connector */}
+            <div className="absolute left-8 top-10 bottom-10 w-px bg-gradient-to-b from-blue-200 via-purple-200 to-emerald-200 hidden md:block" />
+
+            {[
+              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: t("home.hiw.step1.title"), desc: t("home.hiw.step1.desc") },
+              { step: "02", icon: <Brain className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50", title: t("home.hiw.step2.title"), desc: t("home.hiw.step2.desc") },
+              { step: "03", icon: <Rocket className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: t("home.hiw.step3.title"), desc: t("home.hiw.step3.desc") },
+            ].map((s, i) => (
+              <div key={s.step} className="flex items-start gap-8 pb-12 relative">
+                <div className="shrink-0 flex flex-col items-center">
+                  <div className={`w-16 h-16 rounded-2xl ${s.bg} flex items-center justify-center shadow-sm border border-slate-100 z-10 relative`}>
+                    {s.icon}
+                  </div>
+                </div>
+                <div className="pt-3">
+                  <div className="text-4xl font-bold text-slate-100 leading-none mb-2 select-none">{s.step}</div>
+                  <h3 className="font-bold text-slate-900 text-lg mb-2 -mt-2">{s.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-lg">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── B) DATA TRUST BAR ─────────────────────────────────────────────── */}
       <div className="bg-slate-900 border-y border-slate-800 py-3 px-4">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-6 text-xs text-slate-500">
@@ -549,6 +626,38 @@ export default function Home() {
           <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> {t("home.trust.directSource")}</span>
         </div>
       </div>
+
+      {/* ── G) SOCIAL PROOF (2x2 grid) ──────────────────────────────────────── */}
+      <section className="bg-slate-50 border-y border-slate-100 py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-8 mx-auto flex w-fit">
+            <TrendingUp className="w-4 h-4" /> {t("home.testimonial.badge")}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {testimonials.map((t, i) => (
+              <div key={i} className={`${t.bg} rounded-2xl p-6 flex flex-col gap-4`}>
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, j) => (
+                    <svg key={j} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <blockquote className={`text-sm leading-relaxed font-medium ${t.text} opacity-90`}>"{t.quote}"</blockquote>
+                <div className="flex items-center gap-3 mt-auto">
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm ${i === 1 ? "bg-slate-900 text-amber-500" : "bg-blue-600 text-white"}`}>
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${t.text}`}>{t.name}</p>
+                    <p className={`text-xs opacity-60 ${t.text}`}>{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── B2) INTEGRATIONS ──────────────────────────────────────────────────── */}
       <div className="bg-slate-900 border-b border-slate-800 py-8 px-4">
@@ -588,24 +697,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── D) INTERACTIVE DEMO ──────────────────────────────────────────────── */}
-      <section className="bg-slate-900 py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">
-              {t("home.demo.badge")}
-            </p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
-              {t("home.features.title")}
-            </h2>
-            <p className="text-slate-400 text-sm max-w-xl mx-auto">
-              {t("home.demo.desc")}
-            </p>
-          </div>
-          <InteractiveDemo />
         </div>
       </section>
 
@@ -680,72 +771,6 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── F) HOW IT WORKS (numbered, linear) ──────────────────────────────── */}
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">{t("home.hiw.badge")}</p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">
-            {t("home.hiw.title")}
-          </h2>
-
-          <div className="relative flex flex-col gap-0">
-            {/* Vertical connector */}
-            <div className="absolute left-8 top-10 bottom-10 w-px bg-gradient-to-b from-blue-200 via-purple-200 to-emerald-200 hidden md:block" />
-
-            {[
-              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: t("home.hiw.step1.title"), desc: t("home.hiw.step1.desc") },
-              { step: "02", icon: <Brain className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50", title: t("home.hiw.step2.title"), desc: t("home.hiw.step2.desc") },
-              { step: "03", icon: <Rocket className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: t("home.hiw.step3.title"), desc: t("home.hiw.step3.desc") },
-            ].map((s, i) => (
-              <div key={s.step} className="flex items-start gap-8 pb-12 relative">
-                <div className="shrink-0 flex flex-col items-center">
-                  <div className={`w-16 h-16 rounded-2xl ${s.bg} flex items-center justify-center shadow-sm border border-slate-100 z-10 relative`}>
-                    {s.icon}
-                  </div>
-                </div>
-                <div className="pt-3">
-                  <div className="text-4xl font-bold text-slate-100 leading-none mb-2 select-none">{s.step}</div>
-                  <h3 className="font-bold text-slate-900 text-lg mb-2 -mt-2">{s.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed max-w-lg">{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── G) SOCIAL PROOF (2x2 grid) ──────────────────────────────────────── */}
-      <section className="bg-slate-50 border-y border-slate-100 py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-8 mx-auto flex w-fit">
-            <TrendingUp className="w-4 h-4" /> {t("home.testimonial.badge")}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {testimonials.map((t, i) => (
-              <div key={i} className={`${t.bg} rounded-2xl p-6 flex flex-col gap-4`}>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, j) => (
-                    <svg key={j} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <blockquote className={`text-sm leading-relaxed font-medium ${t.text} opacity-90`}>"{t.quote}"</blockquote>
-                <div className="flex items-center gap-3 mt-auto">
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm ${i === 1 ? "bg-slate-900 text-amber-500" : "bg-blue-600 text-white"}`}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <p className={`text-sm font-semibold ${t.text}`}>{t.name}</p>
-                    <p className={`text-xs opacity-60 ${t.text}`}>{t.role}</p>
-                  </div>
-                </div>
-              </div>
             ))}
           </div>
         </div>

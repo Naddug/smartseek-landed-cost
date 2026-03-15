@@ -55,6 +55,7 @@ import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import Integrations from "@/pages/Integrations";
 import AdminIndexes from "@/pages/AdminIndexes";
+import SupplierCategoryPage from "@/pages/SupplierCategoryPage";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -101,7 +102,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/shipping-estimator": "Shipping Estimator | SmartSeek",
   "/risk-intelligence": "Risk Intelligence | SmartSeek",
   "/compliance": "Compliance Check | SmartSeek",
-  "/suppliers": "Suppliers | SmartSeek",
+  "/suppliers": "Supplier Search | SmartSeek",
   "/tools": "Tools | SmartSeek",
   "/admin": "Admin | SmartSeek",
   "/login": "Login | SmartSeek",
@@ -126,6 +127,8 @@ function Router() {
       <Route path="/signup" component={Auth} />
       <Route path="/forgot-password" component={Auth} />
       <Route path="/sample-report" component={SampleReport} />
+      {/* Public SEO-friendly category landing pages — must be before the protected /suppliers route */}
+      <Route path="/suppliers/:category" component={SupplierCategoryPage} />
       <Route path="/suppliers">
         <ProtectedRoute component={SupplierDiscovery} />
       </Route>
