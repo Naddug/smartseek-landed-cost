@@ -7,27 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { LANGUAGES } from "@/lib/i18n";
-
-const LANGUAGE_NAMES: Record<string, string> = {
-  en: "English", tr: "Türkçe", es: "Español", ru: "Русский", zh: "中文", th: "ไทย",
-  fr: "Français", ar: "العربية", de: "Deutsch", ja: "日本語", ko: "한국어", pt: "Português",
-  it: "Italiano", nl: "Nederlands", pl: "Polski", vi: "Tiếng Việt", id: "Bahasa Indonesia",
-  hi: "हिन्दी", bn: "বাংলা", uk: "Українська", he: "עברית", fa: "فارسی", ms: "Bahasa Melayu",
-  // Extended coverage
-  cs: "Čeština", el: "Ελληνικά", hu: "Magyar", ro: "Română", sv: "Svenska",
-  da: "Dansk", fi: "Suomi", no: "Norsk", ta: "தமிழ்", te: "తెలుగు",
-  mr: "मराठी", gu: "ગુજરાતી", kn: "ಕನ್ನಡ", ml: "മലയാളം", pa: "ਪੰਜਾਬੀ",
-  si: "සිංහල", my: "မြန်မာဘာသာ", km: "ខ្មែរ", lo: "ລາວ", ne: "नेपाली",
-  ur: "اردو", sw: "Kiswahili", am: "አማርኛ", ha: "Hausa", yo: "Yorùbá",
-  ig: "Igbo", zu: "isiZulu", xh: "isiXhosa", af: "Afrikaans", sq: "Shqip",
-  hy: "Հայերեն", az: "Azərbaycan", be: "Беларуская", bs: "Bosanski",
-  bg: "Български", hr: "Hrvatski", ka: "ქართული", mk: "Македонски",
-  sr: "Српски", sk: "Slovenčina", sl: "Slovenščina", et: "Eesti",
-  lv: "Latviešu", lt: "Lietuvių", mt: "Malti", cy: "Cymraeg", ga: "Gaeilge",
-  is: "Íslenska", lb: "Lëtzebuergesch", jv: "Basa Jawa", su: "Basa Sunda",
-  tl: "Filipino",
-};
+import { LANGUAGES, LANGUAGE_NAMES } from "@/lib/i18n";
 
 export function LanguageSwitcher() {
   const { i18n, t } = useTranslation();
@@ -36,10 +16,10 @@ export function LanguageSwitcher() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
           <Globe className="w-4 h-4" />
-          <span className="hidden sm:inline">{LANGUAGE_NAMES[i18n.language?.split("-")[0]] || i18n.language}</span>
+          <span className="hidden sm:inline">{LANGUAGE_NAMES[i18n.language?.split("-")[0] as keyof typeof LANGUAGE_NAMES] || i18n.language}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="max-h-[70vh] overflow-y-auto w-52">
+      <DropdownMenuContent align="end" className="w-44">
         <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
           {t("lang.selectLanguage")}
         </div>
@@ -49,7 +29,7 @@ export function LanguageSwitcher() {
             onClick={() => i18n.changeLanguage(lang)}
             className={i18n.language?.startsWith(lang) ? "bg-accent" : ""}
           >
-            {LANGUAGE_NAMES[lang] || lang}
+            {LANGUAGE_NAMES[lang]}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

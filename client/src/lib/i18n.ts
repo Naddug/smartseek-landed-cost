@@ -3,18 +3,18 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpBackend from "i18next-http-backend";
 
-// Top languages shown first in UI
-export const TOP_LANGUAGES = ["en", "zh", "tr", "ru", "es", "fr"];
+// Production languages — full translation coverage guaranteed for all five
+export const LANGUAGES = ["en", "es", "zh", "ru", "tr"] as const;
+export type SupportedLang = (typeof LANGUAGES)[number];
 
-// All supported languages
-const ALL_LANG_CODES = [
-  ...TOP_LANGUAGES,
-  "de", "ar", "ja", "pt", "ko", "it", "nl", "pl", "vi", "id", "hi", "bn", "uk", "cs", "el", "hu", "ro", "sv", "da", "fi", "no", "he", "fa",
-  "ms", "ta", "te", "mr", "gu", "kn", "ml", "pa", "si", "my", "km", "lo", "ne", "ur", "sw",
-  "am", "ha", "yo", "ig", "zu", "af", "sq", "hy", "az", "be", "bs", "bg", "hr", "ka", "mk",
-  "sr", "sk", "sl", "et", "lv", "lt", "mt", "cy", "ga", "is", "lb",
-];
-export const LANGUAGES = Array.from(new Set(ALL_LANG_CODES));
+// Display names for the language switcher
+export const LANGUAGE_NAMES: Record<SupportedLang, string> = {
+  en: "English",
+  es: "Español",
+  zh: "中文",
+  ru: "Русский",
+  tr: "Türkçe",
+};
 
 i18n
   .use(HttpBackend)
@@ -22,7 +22,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: "en",
-    supportedLngs: LANGUAGES,
+    supportedLngs: [...LANGUAGES],
     ns: ["translation"],
     defaultNS: "translation",
     backend: {
@@ -37,12 +37,11 @@ i18n
     },
   });
 
-// Update html lang and dir (RTL for Arabic) when language changes
+// Update html lang attribute when language changes
 i18n.on("languageChanged", (lng) => {
-  const html = document.documentElement;
-  const code = lng.split("-")[0];
-  html.lang = lng;
-  html.dir = code === "ar" ? "rtl" : "ltr";
+  document.documentElement.lang = lng;
+  // RTL is not needed for the 5 production languages; keep hook for safety
+  document.documentElement.dir = "ltr";
 });
 
 export default i18n;
