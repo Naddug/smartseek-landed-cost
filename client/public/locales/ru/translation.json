@@ -894,6 +894,7 @@
   "category.totalResults": "Всего {{count}} результатов",
   "category.suppliersManufacturers": "Поставщики и производители",
   "category.andManufacturers": "и производители",
+  "category.findVerifiedManufacturers": "Найти проверенных производителей",
   "category.description": "Найдите проверенных поставщиков {{name}}, производителей и экспортёров по всему миру. Сравнивайте сертификаты, рейтинги и контактные данные — мгновенно.",
   "category.searchFree": "Бесплатный поиск",
   "category.noCreditCard": "Без кредитной карты",

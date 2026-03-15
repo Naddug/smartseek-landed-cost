@@ -894,6 +894,7 @@
   "category.totalResults": "{{count}} resultados totales",
   "category.suppliersManufacturers": "Proveedores y Fabricantes",
   "category.andManufacturers": "y Fabricantes",
+  "category.findVerifiedManufacturers": "Encuentra Fabricantes Verificados",
   "category.description": "Encuentra proveedores verificados de {{name}}, fabricantes y exportadores en todo el mundo. Compara certificaciones, valoraciones y datos de contacto — al instante.",
   "category.searchFree": "Buscar Gratis",
   "category.noCreditCard": "Sin tarjeta de crédito",

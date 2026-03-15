@@ -894,6 +894,7 @@
   "category.totalResults": "Toplam {{count}} sonuç",
   "category.suppliersManufacturers": "Tedarikçiler ve Üreticiler",
   "category.andManufacturers": "ve Üreticiler",
+  "category.findVerifiedManufacturers": "Doğrulanmış Üreticileri Bul",
   "category.description": "Dünya genelinde doğrulanmış {{name}} tedarikçilerini, üreticilerini ve ihracatçılarını bulun. Sertifikaları, değerlendirmeleri ve iletişim bilgilerini anında karşılaştırın.",
   "category.searchFree": "Ücretsiz Ara",
   "category.noCreditCard": "Kredi kartı gerekmez",

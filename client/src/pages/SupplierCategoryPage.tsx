@@ -193,7 +193,7 @@ export default function SupplierCategoryPage() {
 
   // Update document title on client-side navigation (server injects it on first load)
   useEffect(() => {
-    document.title = `${displayName} ${t("category.suppliersManufacturers")} – SmartSeek`;
+    document.title = `${displayName} Suppliers – Find Verified Manufacturers | SmartSeek`;
   }, [displayName, t]);
 
   // Client-side JSON-LD breadcrumb for SPA navigation
@@ -254,7 +254,7 @@ export default function SupplierCategoryPage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
             {displayName} {t("category.breadcrumb.suppliers")}<br />
             <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
-              {t("category.andManufacturers")}
+              {t("category.findVerifiedManufacturers")}
             </span>
           </h1>
 

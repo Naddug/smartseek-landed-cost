@@ -153,8 +153,8 @@ function getMetaForPath(pathname: string): MetaConfig {
     const slug = catMatch[1];
     const displayName = slugToTitle(slug);
     return {
-      title: `${displayName} Suppliers & Manufacturers – ${SITE_NAME}`,
-      description: `Find verified ${displayName.toLowerCase()} suppliers, manufacturers and exporters worldwide. Compare certifications, ratings, and contact details on SmartSeek.`,
+      title: `${displayName} Suppliers – Find Verified Manufacturers | ${SITE_NAME}`,
+      description: `Discover verified ${displayName.toLowerCase()} suppliers worldwide. Compare manufacturers and exporters instantly on SmartSeek.`,
       canonical: `${SITE_URL}/suppliers/${slug}`,
       jsonLd: [
         {

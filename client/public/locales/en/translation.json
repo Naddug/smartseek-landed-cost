@@ -894,6 +894,7 @@
   "category.totalResults": "{{count}} total results",
   "category.suppliersManufacturers": "Suppliers & Manufacturers",
   "category.andManufacturers": "& Manufacturers",
+  "category.findVerifiedManufacturers": "Find Verified Manufacturers",
   "category.description": "Find verified {{name}} suppliers, manufacturers and exporters worldwide. Compare certifications, ratings, and contact details — instantly.",
   "category.searchFree": "Search Free",
   "category.noCreditCard": "No credit card required",

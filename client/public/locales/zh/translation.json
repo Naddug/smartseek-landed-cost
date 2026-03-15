@@ -894,6 +894,7 @@
   "category.totalResults": "共 {{count}} 条结果",
   "category.suppliersManufacturers": "供应商和制造商",
   "category.andManufacturers": "和制造商",
+  "category.findVerifiedManufacturers": "查找认证制造商",
   "category.description": "在全球找到经过验证的{{name}}供应商、制造商和出口商。立即比较认证、评级和联系方式。",
   "category.searchFree": "免费搜索",
   "category.noCreditCard": "无需信用卡",
