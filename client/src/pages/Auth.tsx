@@ -14,6 +14,10 @@ import { Logo } from "@/components/Logo";
 
 type AuthMode = "login" | "signup" | "forgot";
 
+// OAuth is disabled by default on Railway preview domains.
+// Set VITE_OAUTH_ENABLED=true in environment variables to enable.
+const OAUTH_ENABLED = import.meta.env.VITE_OAUTH_ENABLED === "true";
+
 function getPasswordStrength(password: string): number {
   if (!password) return 0;
   let score = 0;
@@ -217,7 +221,7 @@ export default function Auth() {
                 <p className="text-center mt-2 text-xs">{t("auth.tryAgainOrEmail")}</p>
               </div>
             )}
-            {mode !== "forgot" && (
+            {mode !== "forgot" && OAUTH_ENABLED && (
               <>
                 <div className="space-y-2">
                   <a

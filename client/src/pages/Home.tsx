@@ -377,7 +377,7 @@ export default function Home() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 text-violet-400 mb-1">
               <CheckCircle2 className="w-5 h-5" />
-              <span className="text-xl sm:text-2xl font-bold">Registry</span>
+              <span className="text-xl sm:text-2xl font-bold">Multi-source</span>
             </div>
             <div className="text-slate-500 text-xs">{t("home.trust.registryVerified")}</div>
           </div>

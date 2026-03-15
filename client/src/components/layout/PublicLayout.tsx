@@ -68,7 +68,7 @@ function formatStat(n: number): string {
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
-  const { data: user } = useUser();
+  const { data: user, isLoading: authLoading } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [stats, setStats] = useState<{ suppliers: number; countries: number } | null>(null);
 
@@ -132,9 +132,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             <div className="hidden sm:block"><LanguageSwitcher /></div>
-            {user ? (
+            {!authLoading && user ? (
               <Button onClick={() => setLocation('/dashboard')} size="sm" className="font-medium text-sm sm:text-base">{t("nav.dashboard")}</Button>
-            ) : (
+            ) : !authLoading ? (
               <>
                 <Link href="/login">
                   <Button variant="ghost" size="sm" className="font-medium text-sm sm:text-base px-2 sm:px-3">{t("nav.login")}</Button>
@@ -143,7 +143,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                   <Button size="sm" className="font-medium text-sm sm:text-base shadow-lg shadow-primary/25 px-3 sm:px-4">{t("nav.tryFree")}</Button>
                 </Link>
               </>
-            )}
+            ) : null}
           </div>
         </div>
       </header>
@@ -169,11 +169,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statCountries")}</div>
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">Registry</div>
+                <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">Multi-source</div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("home.trust.registryVerified")}</div>
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">Direct</div>
+                <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">Direct</div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("home.trust.directSource")}</div>
               </div>
             </div>
