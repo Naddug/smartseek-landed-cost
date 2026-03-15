@@ -208,7 +208,7 @@ export default function SupplierCategoryPage() {
     ],
   });
 
-  const { data, isLoading, isError } = useQuery<SuppliersResponse>({
+  const { data, status, isError } = useQuery<SuppliersResponse>({
     queryKey: ["supplierCategory", category],
     queryFn: async () => {
       const res = await fetch(`/api/suppliers?q=${encodeURIComponent(searchQuery)}&limit=6`);
@@ -219,6 +219,10 @@ export default function SupplierCategoryPage() {
     retry: 1,
     enabled: !!category,
   });
+
+  // status === 'pending' covers both "fetching initial data" and "query disabled with no cache"
+  // This prevents the empty-state from flashing before the first response arrives.
+  const isLoading = status === "pending";
 
   const suppliers = data?.suppliers ?? [];
   const total = data?.pagination?.total ?? 0;

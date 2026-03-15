@@ -341,7 +341,7 @@ export default function Home() {
             <button
               key={chip.slug}
               type="button"
-              onClick={() => navigate(`/suppliers/${chip.slug}`)}
+              onClick={() => setQuery(chip.label)}
               className="text-xs bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 hover:border-white/20 px-3 py-1.5 rounded-full transition-all"
             >
               {chip.icon} {chip.label}
@@ -375,18 +375,16 @@ export default function Home() {
             <div className="text-slate-500 text-xs mt-1">{t("home.hero.statCountries")}</div>
           </div>
           <div className="text-center">
-            <div className="flex items-center justify-center gap-1 text-violet-400 mb-1">
-              <CheckCircle2 className="w-5 h-5" />
-              <span className="text-xl sm:text-2xl font-bold">Multi-source</span>
+            <div className="flex items-center justify-center text-violet-400 mb-1">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
-            <div className="text-slate-500 text-xs">{t("home.trust.registryVerified")}</div>
+            <div className="text-slate-300 text-xs font-semibold">{t("home.trust.registryVerified")}</div>
           </div>
           <div className="text-center">
-            <div className="flex items-center justify-center gap-1 text-amber-400 mb-1">
-              <CheckCircle2 className="w-5 h-5" />
-              <span className="text-xl sm:text-2xl font-bold">Direct</span>
+            <div className="flex items-center justify-center text-amber-400 mb-1">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
-            <div className="text-slate-500 text-xs">{t("home.trust.directSource")}</div>
+            <div className="text-slate-300 text-xs font-semibold">{t("home.trust.directSource")}</div>
           </div>
         </div>
       </section>
