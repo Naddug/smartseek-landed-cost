@@ -163,6 +163,9 @@ export default function Auth() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Signup failed");
         queryClient.setQueryData(["user"], data);
+        queryClient.removeQueries({ queryKey: ["profile"] });
+        queryClient.removeQueries({ queryKey: ["reports"] });
+        queryClient.removeQueries({ queryKey: ["credits"] });
         toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
         const signupRedirect = new URLSearchParams(window.location.search).get("redirect");
         setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/app/dashboard");
@@ -181,6 +184,9 @@ export default function Auth() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
       queryClient.setQueryData(["user"], data);
+      queryClient.removeQueries({ queryKey: ["profile"] });
+      queryClient.removeQueries({ queryKey: ["reports"] });
+      queryClient.removeQueries({ queryKey: ["credits"] });
       toast({ title: t("auth.loginSuccessTitle"), description: t("auth.loginSuccessDesc") });
       const loginRedirect = new URLSearchParams(window.location.search).get("redirect");
       setLocation(loginRedirect && loginRedirect.startsWith("/") ? loginRedirect : "/app/dashboard");

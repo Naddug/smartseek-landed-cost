@@ -252,13 +252,19 @@ export function setupOAuth(app: Express) {
       if (!user) {
         return res.redirect("/login?error=Authentication%20failed");
       }
-      req.session.userId = user.id;
-      req.session.save((saveErr: Error) => {
-        if (saveErr) {
-          console.error("Session save error:", saveErr);
+      req.session.regenerate((err: Error) => {
+        if (err) {
+          console.error("Session regenerate error:", err);
           return res.redirect("/login?error=Session%20error");
         }
-        res.redirect("/dashboard");
+        req.session.userId = user.id;
+        req.session.save((saveErr: Error) => {
+          if (saveErr) {
+            console.error("Session save error:", saveErr);
+            return res.redirect("/login?error=Session%20error");
+          }
+          res.redirect("/app/dashboard");
+        });
       });
     })(req, res);
   };

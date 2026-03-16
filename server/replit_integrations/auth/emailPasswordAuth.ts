@@ -155,19 +155,26 @@ export async function setupAuth(app: Express) {
         // Continue anyway - user can request resend
       }
 
-      req.session.userId = user.id;
-      req.session.save((err) => {
+      // Destroy any existing session to prevent inheriting previous user's data
+      req.session.regenerate((err) => {
         if (err) {
-          console.error("Session save error:", err);
+          console.error("Session regenerate error:", err);
           return res.status(500).json({ error: "Failed to create session" });
         }
-        res.json({ 
-          id: user.id, 
-          email: user.email, 
-          firstName: user.firstName, 
-          lastName: user.lastName,
-          emailVerified: false,
-          message: "Account created. Please check your email to verify your account."
+        req.session.userId = user.id;
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error("Session save error:", saveErr);
+            return res.status(500).json({ error: "Failed to create session" });
+          }
+          res.json({ 
+            id: user.id, 
+            email: user.email, 
+            firstName: user.firstName, 
+            lastName: user.lastName,
+            emailVerified: false,
+            message: "Account created. Please check your email to verify your account."
+          });
         });
       });
     } catch (error) {
@@ -195,13 +202,20 @@ export async function setupAuth(app: Express) {
         return res.status(401).json({ error: "Invalid email or password" });
       }
 
-      req.session.userId = user.id;
-      req.session.save((err) => {
+      // Regenerate session to prevent inheriting previous user's data
+      req.session.regenerate((err) => {
         if (err) {
-          console.error("Session save error:", err);
-          return res.status(500).json({ error: "Failed to create session" });
+          console.error("Session regenerate error:", err);
+          return res.status(500).json({ error: "Failed to login" });
         }
-        res.json({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName });
+        req.session.userId = user.id;
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error("Session save error:", saveErr);
+            return res.status(500).json({ error: "Failed to login" });
+          }
+          res.json({ id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, emailVerified: user.emailVerified });
+        });
       });
     } catch (error: any) {
       console.error("Login error:", error);

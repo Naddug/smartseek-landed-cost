@@ -164,11 +164,13 @@ export default function PublicSearchResults() {
   const { data, status, isError } = useQuery<SuppliersResponse>({
     queryKey: ["publicSearch", query],
     queryFn: async () => {
-      const res = await fetch(`/api/suppliers?q=${encodeURIComponent(query)}&limit=6`);
+      const res = await fetch(`/api/suppliers?q=${encodeURIComponent(query)}&limit=3`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
     },
     enabled: !!query.trim(),
+    retry: 2,
+    retryDelay: 1000,
   });
 
   const suppliers = data?.suppliers ?? [];
