@@ -205,10 +205,11 @@ function Router() {
       </Route>
       <Route path="/suppliers">
         {() => {
-          const params = new URLSearchParams(window.location.search);
-          const q = params.get("q");
-          if (q) window.location.replace("/search?q=" + encodeURIComponent(q));
-          else window.location.replace("/app/suppliers" + window.location.search);
+          // Always funnel /suppliers to the public /search page.
+          // Sending guests to /app/suppliers triggered ProtectedRoute's login redirect —
+          // the "search redirects to /app routes" symptom.
+          const q = new URLSearchParams(window.location.search).get("q");
+          window.location.replace(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
           return null;
         }}
       </Route>

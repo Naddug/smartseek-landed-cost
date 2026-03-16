@@ -1,19 +1,25 @@
 /**
- * PublicSearchResults — public search results page at /search?q=query
+ * PublicSearchResults — /search?q=query
  *
- * No auth required. Uses /api/suppliers (same as SupplierDiscovery).
- * Guests see limited results; sign-up CTA for full access.
- * Uses PublicLayout — no dashboard UI.
+ * Works for both guests and authenticated users.
+ * - Guest:          3 supplier preview + locked overlay + signup CTA
+ * - Authenticated:  up to 6 results preview + link to full /app/suppliers search
+ *
+ * Key design decisions:
+ * - `query` is derived synchronously from the URL on every render (no useEffect delay).
+ * - Uses `usePublicSupplierSearch` from hooks.ts — shared, cached, auth-aware.
+ * - `status === "pending"` used instead of TanStack v5's `isLoading` (= isPending && isFetching),
+ *   which could falsely return false before the first fetch completes.
  */
-import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {
   Search, CheckCircle2, ArrowRight, Building2, Star,
   MapPin, ShieldCheck, Lock, Users,
 } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
+import { usePublicSupplierSearch } from "@/lib/hooks";
+import { useUser } from "@/lib/hooks";
 
 interface Supplier {
   id: string;
@@ -26,13 +32,6 @@ interface Supplier {
   verified: boolean;
   rating: number;
   employeeCount: number | null;
-}
-
-interface SuppliersResponse {
-  suppliers: Supplier[];
-  pagination: { total: number };
-  guestLimited?: boolean;
-  freeLimit?: number;
 }
 
 function countryFlag(country: string): string {
@@ -102,6 +101,22 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
   );
 }
 
+function SkeletonCard() {
+  return (
+    <div className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse">
+      <div className="space-y-2">
+        <div className="h-4 bg-slate-200 rounded w-4/5" />
+        <div className="h-3 bg-slate-100 rounded w-1/2" />
+        <div className="h-5 bg-slate-100 rounded w-24 mt-3" />
+        <div className="flex gap-1 mt-2">
+          <div className="h-5 w-20 bg-blue-50 rounded" />
+          <div className="h-5 w-16 bg-blue-50 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function LockedOverlay({ total, query }: { total: number; query: string }) {
   const { t } = useTranslation();
   return (
@@ -113,7 +128,10 @@ function LockedOverlay({ total, query }: { total: number; query: string }) {
               <div className="h-4 bg-slate-200 rounded w-4/5" />
               <div className="h-3 bg-slate-100 rounded w-1/2" />
               <div className="h-5 bg-slate-100 rounded w-24 mt-3" />
-              <div className="flex gap-1 mt-2"><div className="h-5 w-20 bg-blue-50 rounded" /><div className="h-5 w-16 bg-blue-50 rounded" /></div>
+              <div className="flex gap-1 mt-2">
+                <div className="h-5 w-20 bg-blue-50 rounded" />
+                <div className="h-5 w-16 bg-blue-50 rounded" />
+              </div>
             </div>
           </div>
         ))}
@@ -153,58 +171,47 @@ function LockedOverlay({ total, query }: { total: number; query: string }) {
 
 export default function PublicSearchResults() {
   const { t } = useTranslation();
+  // Derive query directly from the current URL — no useEffect, no render-cycle delay.
+  // wouter's useLocation triggers a re-render on navigation, keeping window.location.search current.
   const [location] = useLocation();
-  const [query, setQuery] = useState("");
+  // Re-compute on every render triggered by navigation (location is the reactive dependency).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const query = new URLSearchParams(
+    typeof window !== "undefined" ? window.location.search : ""
+  ).get("q") ?? "";
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setQuery(params.get("q") || "");
-  }, [location]);
+  const { data: user } = useUser();
+  const isAuthenticated = !!user;
 
-  const { data, status, isError, isFetching } = useQuery<SuppliersResponse>({
-    queryKey: ["publicSearch", query],
-    queryFn: async () => {
-      const res = await fetch(`/api/suppliers?q=${encodeURIComponent(query)}&limit=3`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      if (!json || typeof json !== "object") throw new Error("Invalid response");
-      return {
-        suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
-        pagination: json.pagination && typeof json.pagination === "object"
-          ? { ...json.pagination, total: Number(json.pagination.total) || 0 }
-          : { total: 0 },
-        guestLimited: json.guestLimited !== false,
-        freeLimit: Number(json.freeLimit) || 3,
-      };
-    },
-    enabled: !!query.trim(),
-    retry: 2,
-    retryDelay: 1000,
-    staleTime: 30000,
-  });
+  const { data, status, isError } = usePublicSupplierSearch(query);
+
+  // Update document title
+  if (typeof document !== "undefined") {
+    document.title = query
+      ? `${query} Suppliers – Search Results | SmartSeek`
+      : "Search Suppliers | SmartSeek";
+  }
 
   const suppliers = data?.suppliers ?? [];
   const total = data?.pagination?.total ?? 0;
-  const guestLimited = data?.guestLimited ?? true;
+  const guestLimited = data?.guestLimited ?? !isAuthenticated;
   const hasMore = total > suppliers.length;
-  const showSkeleton = !!query.trim() && (status === "pending" || isFetching) && !data && !isError;
 
-  useEffect(() => {
-    if (query) {
-      document.title = `${query} Suppliers – Search Results | SmartSeek`;
-    } else {
-      document.title = "Search Suppliers | SmartSeek";
-    }
-  }, [query]);
+  // Use status === "pending" (not isLoading = isPending && isFetching).
+  // TanStack v5 can return isLoading=false before the first fetch resolves if
+  // isFetching briefly becomes false during a query-key transition.
+  const isPending = status === "pending";
+  const showSkeleton = query.trim().length > 0 && isPending && !isError;
 
+  // No query — prompt the user to search
   if (!query.trim()) {
     return (
       <PublicLayout>
         <section className="min-h-[60vh] flex flex-col items-center justify-center bg-slate-950 px-4 text-center">
           <Search className="w-12 h-12 text-slate-600 mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">{t("category.noPreview")}</h1>
+          <h1 className="text-2xl font-bold text-white mb-2">{t("home.hero.title1")}</h1>
           <p className="text-slate-400 text-sm mb-6 max-w-md">
-            Enter a search term in the URL: /search?q=your+query
+            {t("home.hero.subtitleBase", { suppliers: "25M+" })}{t("home.hero.subtitleHighlight")}
           </p>
           <Link href="/">
             <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition">
@@ -231,25 +238,18 @@ export default function PublicSearchResults() {
             )}
           </div>
 
+          {/* Loading skeleton */}
           {showSkeleton && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse">
-                  <div className="space-y-2">
-                    <div className="h-4 bg-slate-200 rounded w-4/5" />
-                    <div className="h-3 bg-slate-100 rounded w-1/2" />
-                    <div className="h-5 bg-slate-100 rounded w-24 mt-3" />
-                    <div className="flex gap-1 mt-2"><div className="h-5 w-20 bg-blue-50 rounded" /><div className="h-5 w-16 bg-blue-50 rounded" /></div>
-                  </div>
-                </div>
-              ))}
+              {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
             </div>
           )}
 
+          {/* Error state */}
           {isError && (
             <div className="text-center py-10">
               <Building2 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-400 text-sm">{t("category.cannotLoad")}</p>
+              <p className="text-slate-400 text-sm mb-1">{t("category.cannotLoad")}</p>
               <Link href="/signup">
                 <button className="mt-4 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2 rounded-xl text-sm transition">
                   {t("category.signupToSearch")} <ArrowRight className="w-4 h-4" />
@@ -258,17 +258,33 @@ export default function PublicSearchResults() {
             </div>
           )}
 
+          {/* Results */}
           {!showSkeleton && !isError && suppliers.length > 0 && (
             <>
+              {/* Show the supplier cards (guests see 3 from server, auth users see up to 6) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                 {suppliers.map((s) => (
-                  <SupplierCard key={String(s.id)} supplier={s} />
+                  <SupplierCard key={String(s.id)} supplier={s as Supplier} />
                 ))}
               </div>
+
+              {/* Guest lock overlay — server sets guestLimited=true for unauthenticated requests */}
               {guestLimited && hasMore && <LockedOverlay total={total} query={query} />}
+
+              {/* Authenticated users: link to full advanced search */}
+              {isAuthenticated && (
+                <div className="mt-6 text-center">
+                  <Link href={`/app/suppliers?q=${encodeURIComponent(query)}`}>
+                    <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl text-sm transition">
+                      View all results with filters <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </Link>
+                </div>
+              )}
             </>
           )}
 
+          {/* No results */}
           {!showSkeleton && !isError && suppliers.length === 0 && (
             <div className="text-center py-14">
               <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
@@ -283,6 +299,7 @@ export default function PublicSearchResults() {
         </div>
       </section>
 
+      {/* Bottom CTA */}
       <section className="bg-slate-900 border-t border-slate-800 py-12 px-4 text-center">
         <div className="max-w-lg mx-auto">
           <p className="text-slate-400 text-sm mb-6">
@@ -294,7 +311,7 @@ export default function PublicSearchResults() {
                 {t("category.cta.primary")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-            <Link href={`/signup?redirect=${encodeURIComponent(`/app/suppliers?q=${encodeURIComponent(query)}`)}`}>
+            <Link href={`/app/suppliers?q=${encodeURIComponent(query)}`}>
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-7 py-3.5 rounded-xl transition text-base">
                 {t("category.browseAllResults")}
               </button>

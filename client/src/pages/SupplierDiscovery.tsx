@@ -762,7 +762,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const isFreeUser = !!profile && profile.plan === "free";
   const FREE_LIMIT = 5;
 
-  const { data, isLoading, isFetching, isError, error } = useSuppliers({
+  const { data, status, isFetching, isError, error } = useSuppliers({
     q: debouncedQuery,
     country: selectedCountry,
     industry: selectedIndustry,
@@ -773,6 +773,10 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
     minScore,
     lang: i18n.language?.split("-")[0] || undefined,
   });
+  // TanStack Query v5: isLoading = isPending && isFetching — can return false before the
+  // first fetch resolves if isFetching briefly becomes false during a query-key transition,
+  // causing empty state to flash instead of the skeleton. Use status === "pending" instead.
+  const isLoading = status === "pending";
 
   const { data: filters } = useFilters();
 

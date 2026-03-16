@@ -161,3 +161,52 @@ export function useShippingEstimates() {
     queryFn: calculationsAPI.getShipping,
   });
 }
+
+// Public supplier search — used by /search page.
+// Auth-aware: guests get guestLimited=true from server; authenticated users see more.
+// Query is enabled only when q is non-empty.
+interface PublicSupplierSearchResult {
+  suppliers: {
+    id: string;
+    companyName: string;
+    slug: string;
+    country: string;
+    city: string;
+    industry: string;
+    products: string[];
+    verified: boolean;
+    rating: number;
+    employeeCount: number | null;
+    dataSource?: string | null;
+  }[];
+  pagination: { total: number; page: number; limit: number; totalPages: number };
+  guestLimited: boolean;
+  freeLimit: number;
+  fallback: boolean;
+}
+
+export function usePublicSupplierSearch(q: string) {
+  return useQuery<PublicSupplierSearchResult>({
+    queryKey: ["publicSearch", q.trim()],
+    queryFn: async () => {
+      // limit=6: server caps guests at FREE_LIMIT (3) via guestLimited flag.
+      // Authenticated users get up to 6 previews; full search is at /app/suppliers.
+      const res = await fetch(
+        `/api/suppliers?q=${encodeURIComponent(q.trim())}&limit=6`,
+        { credentials: "include" },
+      );
+      if (!res.ok) throw new Error(`Search failed: HTTP ${res.status}`);
+      const json = await res.json();
+      return {
+        suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
+        pagination: json.pagination ?? { total: 0, page: 1, limit: 6, totalPages: 0 },
+        guestLimited: json.guestLimited === true,
+        freeLimit: Number(json.freeLimit) || 3,
+        fallback: json.fallback === true,
+      };
+    },
+    enabled: q.trim().length > 0,
+    staleTime: 30_000,
+    retry: 1,
+  });
+}
