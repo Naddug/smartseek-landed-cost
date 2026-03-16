@@ -58,7 +58,7 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
   };
 
   const getPageTitle = (path: string) => {
-    const slug = path.split('/')[1] || 'dashboard';
+    const slug = path.split('/')[2] || path.split('/')[1] || 'dashboard';
     const titles: Record<string, string> = {
       dashboard: t('nav.app.dashboard'),
       'smart-finder': t('nav.app.smartFinder'),
@@ -99,27 +99,27 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
         </div>
 
         <nav className="flex-1 px-4 space-y-2">
-          <NavItem href="/dashboard" icon={<LayoutDashboard size={20} />} label={t('nav.app.dashboard')} active={isActive('/dashboard')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/smart-finder" icon={<Sparkles size={20} />} label={t('nav.app.smartFinder')} active={isActive('/smart-finder')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/ai-agent" icon={<Bot size={20} />} label={t('nav.app.aiAgent')} active={isActive('/ai-agent')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/find-leads" icon={<Target size={20} />} label={t('nav.app.findLeads')} active={isActive('/find-leads')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/suppliers" icon={<Users size={20} />} label={t('nav.app.suppliers')} active={isActive('/suppliers')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/reports" icon={<FileText size={20} />} label={t('nav.app.reports')} active={isActive('/reports')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/billing" icon={<CreditCard size={20} />} label={t('nav.app.billing')} active={isActive('/billing')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/dashboard" icon={<LayoutDashboard size={20} />} label={t('nav.app.dashboard')} active={isActive('/app/dashboard')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/smart-finder" icon={<Sparkles size={20} />} label={t('nav.app.smartFinder')} active={isActive('/app/smart-finder')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/ai-agent" icon={<Bot size={20} />} label={t('nav.app.aiAgent')} active={isActive('/app/ai-agent')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/find-leads" icon={<Target size={20} />} label={t('nav.app.findLeads')} active={isActive('/app/find-leads')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/suppliers" icon={<Users size={20} />} label={t('nav.app.suppliers')} active={isActive('/app/suppliers')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/reports" icon={<FileText size={20} />} label={t('nav.app.reports')} active={isActive('/app/reports')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/billing" icon={<CreditCard size={20} />} label={t('nav.app.billing')} active={isActive('/app/billing')} onClick={() => setMobileOpen(false)} />
 
           <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">{t('nav.app.tradeTools')}</div>
-          <NavItem href="/trade-data" icon={<BarChart3 size={20} />} label={t('nav.app.tradeData')} active={isActive('/trade-data')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/landed-cost" icon={<Calculator size={20} />} label={t('nav.app.landedCost')} active={isActive('/landed-cost')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/customs-calculator" icon={<Landmark size={20} />} label={t('nav.app.customs')} active={isActive('/customs-calculator')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/shipping-estimator" icon={<Ship size={20} />} label={t('nav.app.shipping')} active={isActive('/shipping-estimator')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/risk-intelligence" icon={<Shield size={20} />} label={t('nav.app.risk')} active={isActive('/risk-intelligence')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/compliance" icon={<ClipboardCheck size={20} />} label={t('nav.app.compliance')} active={isActive('/compliance')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/tools" icon={<Calculator size={20} />} label={t('nav.app.tools')} active={isActive('/tools')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/trade-data" icon={<BarChart3 size={20} />} label={t('nav.app.tradeData')} active={isActive('/app/trade-data')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/landed-cost" icon={<Calculator size={20} />} label={t('nav.app.landedCost')} active={isActive('/app/landed-cost')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/customs-calculator" icon={<Landmark size={20} />} label={t('nav.app.customs')} active={isActive('/app/customs-calculator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/shipping-estimator" icon={<Ship size={20} />} label={t('nav.app.shipping')} active={isActive('/app/shipping-estimator')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/risk-intelligence" icon={<Shield size={20} />} label={t('nav.app.risk')} active={isActive('/app/risk-intelligence')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/compliance" icon={<ClipboardCheck size={20} />} label={t('nav.app.compliance')} active={isActive('/app/compliance')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/tools" icon={<Calculator size={20} />} label={t('nav.app.tools')} active={isActive('/app/tools')} onClick={() => setMobileOpen(false)} />
 
           {profile?.role === 'admin' && (
             <>
               <div className="pt-4 pb-2 px-2 text-xs font-semibold text-sidebar-muted-foreground uppercase tracking-wider">{t('nav.app.admin')}</div>
-              <NavItem href="/admin" icon={<ShieldCheck size={20} />} label={t('nav.app.admin')} active={isActive('/admin')} onClick={() => setMobileOpen(false)} />
+              <NavItem href="/app/admin" icon={<ShieldCheck size={20} />} label={t('nav.app.admin')} active={isActive('/app/admin')} onClick={() => setMobileOpen(false)} />
             </>
           )}
         </nav>
@@ -140,7 +140,7 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
                 <span className="text-2xl font-bold text-sidebar-foreground">{(profile?.monthlyCredits || 0) + (profile?.topupCredits || 0)}</span>
                 {profile?.plan === 'monthly' && <span className="block text-[10px] text-sidebar-foreground/60">{t('nav.app.refreshesMonthly')}</span>}
               </div>
-              <Button size="sm" variant="secondary" className="h-6 px-2 text-xs" onClick={() => setLocation('/billing')}>
+              <Button size="sm" variant="secondary" className="h-6 px-2 text-xs" onClick={() => setLocation('/app/billing')}>
                 {profile?.plan === 'monthly' ? t('nav.app.manage') : t('nav.app.buyMore')}
               </Button>
             </div>
@@ -202,7 +202,7 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
                 {t('nav.app.creditsWarning', { count: totalCredits })}
               </span>
               <div className="flex items-center gap-2 shrink-0">
-                <Link href="/billing">
+                <Link href="/app/billing">
                   <Button size="sm" variant="outline" className="border-amber-600 text-amber-700 hover:bg-amber-500/20">
                     {t('nav.app.buyCredits')}
                   </Button>

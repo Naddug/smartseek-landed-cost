@@ -489,7 +489,7 @@ function SupplierDetail({
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
                       <span className="text-gray-600 font-medium">🔒 {t("supplier.signInToView")}</span>
                       <p className="text-sm text-gray-500 mt-1">{t("supplier.upgradeAccess")}</p>
-                      <Link href="/billing">
+                      <Link href="/app/billing">
                         <button className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">
                           {t("supplier.upgrade")}
                         </button>

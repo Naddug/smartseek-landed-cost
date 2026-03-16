@@ -146,13 +146,13 @@ export default function Reports() {
           <p className="text-muted-foreground">{t("reports.pageSubtitle")}</p>
         </div>
         <div className="flex gap-2">
-          <Link href="/find-leads">
+          <Link href="/app/find-leads">
             <Button variant="outline" data-testid="button-new-lead-report">
               <UserSearch className="w-4 h-4 mr-2" />
               {t("reports.findLeads")}
             </Button>
           </Link>
-          <Link href="/smart-finder">
+          <Link href="/app/smart-finder">
             <Button data-testid="button-new-report">
               <Sparkles className="w-4 h-4 mr-2" />
               {t("reports.generateReport")}
@@ -184,7 +184,7 @@ export default function Reports() {
                 <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                 <h3 className="text-lg font-medium mb-2">{t("reports.noSourcingYet")}</h3>
                 <p className="text-muted-foreground mb-4">{t("reports.useSmartseekai")}</p>
-                <Link href="/smart-finder">
+                <Link href="/app/smart-finder">
                   <Button>{t("reports.getStarted")}</Button>
                 </Link>
               </CardContent>
@@ -223,7 +223,7 @@ export default function Reports() {
                 <UserSearch className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                 <h3 className="text-lg font-medium mb-2">{t("reports.noLeadsYet")}</h3>
                 <p className="text-muted-foreground mb-4">{t("reports.useFindLeads")}</p>
-                <Link href="/find-leads">
+                <Link href="/app/find-leads">
                   <Button>{t("reports.findLeads")}</Button>
                 </Link>
               </CardContent>
@@ -290,10 +290,10 @@ export default function Reports() {
                 <h3 className="text-lg font-medium mb-2">{t("reports.noCalculationsYet")}</h3>
                 <p className="text-muted-foreground mb-4">{t("reports.useCalculators")}</p>
                 <div className="flex gap-2 justify-center">
-                  <Link href="/customs-calculator">
+                  <Link href="/app/customs-calculator">
                     <Button variant="outline">{t("reports.customsCalculator")}</Button>
                   </Link>
-                  <Link href="/shipping-estimator">
+                  <Link href="/app/shipping-estimator">
                     <Button variant="outline">{t("reports.shippingEstimator")}</Button>
                   </Link>
                 </div>
@@ -731,7 +731,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           } else {
             const searchTerm = (reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '';
             addText(`   Contact: Visit SmartSeek Suppliers to find verified companies with contact details.`, 10);
-            if (searchTerm) addText(`   Search: smartseek.com/suppliers?q=${encodeURIComponent(String(searchTerm).slice(0, 50))}`, 9);
+            if (searchTerm) addText(`   Search: smartseek.com/search?q=${encodeURIComponent(String(searchTerm).slice(0, 50))}`, 9);
           }
           y += 2;
         });
@@ -1246,7 +1246,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                               )}
                             </div>
           ) : (
-            <Link href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
+            <Link href={`/search?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
               <Button variant="outline" size="sm" className="mt-3">
                 Find verified suppliers →
               </Button>

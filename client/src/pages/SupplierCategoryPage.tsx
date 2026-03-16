@@ -203,7 +203,7 @@ export default function SupplierCategoryPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: t("category.breadcrumb.home"), item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: t("category.breadcrumb.suppliers"), item: `${SITE_URL}/suppliers` },
+      { "@type": "ListItem", position: 2, name: t("category.breadcrumb.suppliers"), item: `${SITE_URL}/search` },
       { "@type": "ListItem", position: 3, name: displayName, item: `${SITE_URL}/suppliers/${category}` },
     ],
   });
@@ -272,7 +272,7 @@ export default function SupplierCategoryPage() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              navigate(`/suppliers?q=${encodeURIComponent(searchQuery)}`);
+              navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
             }}
             className="flex items-center bg-white rounded-xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.15)] max-w-xl mx-auto mb-5"
           >
@@ -282,7 +282,7 @@ export default function SupplierCategoryPage() {
               defaultValue={searchQuery}
               readOnly
               className="flex-1 pl-3 pr-4 py-4 text-sm text-slate-900 bg-transparent focus:outline-none cursor-pointer"
-              onClick={() => navigate(`/suppliers?q=${encodeURIComponent(searchQuery)}`)}
+              onClick={() => navigate(`/search?q=${encodeURIComponent(searchQuery)}`)}
             />
             <button
               type="submit"
@@ -431,7 +431,7 @@ export default function SupplierCategoryPage() {
                 {t("category.cta.primary")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-            <Link href={`/suppliers?q=${encodeURIComponent(searchQuery)}`}>
+            <Link href={`/search?q=${encodeURIComponent(searchQuery)}`}>
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-7 py-3.5 rounded-xl transition text-base">
                 {t("category.browseAllResults")}
               </button>

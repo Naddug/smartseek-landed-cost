@@ -211,7 +211,7 @@ export default function LandedCostCalculator() {
         </Link>
         {!userLoading && (
           user ? (
-            <Link href="/dashboard">
+            <Link href="/app/dashboard">
               <Button variant="outline" size="sm">Dashboard</Button>
             </Link>
           ) : (

@@ -461,12 +461,12 @@ function ProductCard({ product }: { product: typeof mockProducts[0] }) {
           </div>
         </div>
         <div className="flex gap-2 mt-4">
-          <Link href="/smart-finder" className="flex-1">
+          <Link href="/app/smart-finder" className="flex-1">
             <Button variant="outline" size="sm" className="w-full">
               Get Quote
             </Button>
           </Link>
-          <Link href="/customs-calculator">
+          <Link href="/app/customs-calculator">
             <Button variant="ghost" size="sm">
               Calc Duty
             </Button>
@@ -496,7 +496,7 @@ function HsCodeCard({ hsCode }: { hsCode: typeof mockHsCodes[0] }) {
             <div className="text-sm text-muted-foreground">Duty Rate</div>
             <div className="font-semibold text-primary">{hsCode.dutyRate}</div>
           </div>
-          <Link href="/customs-calculator">
+          <Link href="/app/customs-calculator">
             <Button variant="outline" size="sm">
               Calculate
             </Button>

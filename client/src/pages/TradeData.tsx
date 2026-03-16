@@ -437,13 +437,13 @@ export default function TradeData() {
               )}
             </div>
             <div className="flex gap-2 mt-4">
-              <Link href="/smart-finder">
+              <Link href="/app/smart-finder">
                 <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
                   <Sparkles className="w-4 h-4 mr-2" />
                   New AI Sourcing Report
                 </Button>
               </Link>
-              <Link href="/reports">
+              <Link href="/app/reports">
                 <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
                   View My Reports →
                 </Button>
@@ -743,7 +743,7 @@ export default function TradeData() {
           <CardContent>
             <div className="space-y-3">
               {regionData.topSuppliers.map((supplier) => (
-                <Link key={supplier.rank} href={`/suppliers?q=${encodeURIComponent(supplier.category)}&industry=${encodeURIComponent(supplier.category)}`}>
+                <Link key={supplier.rank} href={`/search?q=${encodeURIComponent(supplier.category)}`}>
                   <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer group">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
                       #{supplier.rank}
@@ -893,7 +893,7 @@ export default function TradeData() {
                 <ExternalLink className="w-3.5 h-3.5" />
                 UN Comtrade
               </a>
-              <Link href="/smart-finder">
+              <Link href="/app/smart-finder">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium transition-colors cursor-pointer">
                   <Sparkles className="w-3.5 h-3.5" />
                   AI Sourcing Report
@@ -918,13 +918,13 @@ export default function TradeData() {
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <Link href="/smart-finder">
+              <Link href="/app/smart-finder">
                 <Button className="gap-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold">
                   <Sparkles className="w-4 h-4" />
                   Get AI Sourcing Report
                 </Button>
               </Link>
-              <Link href="/suppliers">
+              <Link href="/search">
                 <Button variant="outline" className="gap-2 border-white/30 text-white hover:bg-white/10">
                   <Search className="w-4 h-4" />
                   Search Suppliers

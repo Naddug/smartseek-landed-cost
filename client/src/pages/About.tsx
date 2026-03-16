@@ -96,7 +96,7 @@ export default function About() {
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="text-xl font-heading font-bold text-slate-900 mb-6">Explore SmartSeek</h2>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/suppliers" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">
+            <Link href="/search" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">
               <Users className="w-4 h-4" /> Supplier Directory
             </Link>
             <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">

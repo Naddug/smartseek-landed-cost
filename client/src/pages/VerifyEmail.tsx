@@ -73,7 +73,7 @@ export default function VerifyEmail() {
         </CardHeader>
         <CardContent className="text-center space-y-4">
           {status === "success" && (
-            <Link href="/dashboard">
+            <Link href="/app/dashboard">
               <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500">
                 Go to Dashboard
               </Button>

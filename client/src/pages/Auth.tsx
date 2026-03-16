@@ -165,7 +165,7 @@ export default function Auth() {
         queryClient.setQueryData(["user"], data);
         toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
         const signupRedirect = new URLSearchParams(window.location.search).get("redirect");
-        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/dashboard");
+        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/app/dashboard");
         return;
       }
 
@@ -183,7 +183,7 @@ export default function Auth() {
       queryClient.setQueryData(["user"], data);
       toast({ title: t("auth.loginSuccessTitle"), description: t("auth.loginSuccessDesc") });
       const loginRedirect = new URLSearchParams(window.location.search).get("redirect");
-      setLocation(loginRedirect && loginRedirect.startsWith("/") ? loginRedirect : "/dashboard");
+      setLocation(loginRedirect && loginRedirect.startsWith("/") ? loginRedirect : "/app/dashboard");
     } catch (err: any) {
       const title = mode === "forgot" ? t("auth.error") : mode === "signup" ? t("auth.signupFailed") : t("auth.loginFailed");
       toast({ title, description: err.message, variant: "destructive" });

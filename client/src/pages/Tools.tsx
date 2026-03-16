@@ -206,7 +206,7 @@ function LandedCostCalculator() {
           </div>
         </div>
 
-        <Link href="/customs-calculator">
+        <Link href="/app/customs-calculator">
           <Button variant="outline" className="w-full">
             Open Full Customs Calculator
             <ArrowRight className="w-4 h-4 ml-2" />

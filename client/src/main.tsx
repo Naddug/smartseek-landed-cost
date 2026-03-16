@@ -6,7 +6,7 @@ import "./index.css";
 import { queryClient } from "./lib/queryClient";
 
 /** Prevent back-button bypass: when page restored from bfcache on a protected route, force reload to re-verify auth */
-const PROTECTED_PATHS = ['/dashboard', '/suppliers', '/smart-finder', '/ai-agent', '/find-leads', '/reports', '/tools', '/landed-cost', '/customs-calculator', '/shipping-estimator', '/trade-data', '/risk-intelligence', '/compliance', '/billing', '/admin'];
+const PROTECTED_PATHS = ['/app/dashboard', '/app/suppliers', '/app/smart-finder', '/app/ai-agent', '/app/find-leads', '/app/reports', '/app/tools', '/app/landed-cost', '/app/customs-calculator', '/app/shipping-estimator', '/app/trade-data', '/app/risk-intelligence', '/app/compliance', '/app/billing', '/app/admin'];
 if (typeof window !== "undefined") {
   window.addEventListener("pageshow", (e: PageTransitionEvent) => {
     if (e.persisted) {

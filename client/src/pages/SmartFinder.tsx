@@ -1403,7 +1403,7 @@ export default function SmartFinder() {
                             )}
                             <h4 className="font-bold text-slate-900 text-sm leading-tight">
                               {seller.slug ? (
-                                <Link href={`/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-blue-600 hover:underline">{toTitleCase(seller.sellerName)}</Link>
+                                <Link href={`/app/suppliers?slug=${encodeURIComponent(seller.slug)}`} className="hover:text-blue-600 hover:underline">{toTitleCase(seller.sellerName)}</Link>
                               ) : toTitleCase(seller.sellerName)}
                             </h4>
                             <div className="flex flex-wrap items-center gap-2 mt-0.5">
@@ -1462,7 +1462,7 @@ export default function SmartFinder() {
                               {seller.website && <Button size="sm" variant="outline" className="text-xs h-8" asChild><a href={seller.website.startsWith('http') ? seller.website : `https://${seller.website}`} target="_blank" rel="noopener noreferrer">Website</a></Button>}
                             </>
                           ) : (
-                            <a href={`/suppliers?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
+                            <a href={`/search?q=${encodeURIComponent((reportData?.metadata?.inputs as any)?.productName || seller.sellerName || '')}`}>
                               <Button size="sm" variant="outline" className="text-xs h-8">Browse Suppliers <ArrowRight className="w-3 h-3 ml-1" /></Button>
                             </a>
                           )}

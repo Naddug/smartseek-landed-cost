@@ -192,13 +192,13 @@ export default function Dashboard() {
           <p className="text-sm text-slate-400 mt-1">{t("dashboard.subtitle")}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <Link href="/reports">
+          <Link href="/app/reports">
             <Button variant="outline" size="sm" className="gap-1.5 h-9 text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50">
               <FileText className="w-3.5 h-3.5" />
               {t("dashboard.myReports")}
             </Button>
           </Link>
-          <Link href="/smart-finder">
+          <Link href="/app/smart-finder">
             <Button size="sm" className="gap-1.5 h-9 bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-200" data-testid="button-new-search">
               <Sparkles className="w-3.5 h-3.5" />
               {t("dashboard.newAISearch")}
@@ -248,10 +248,10 @@ export default function Dashboard() {
           warning={totalCredits === 0}
           footer={
             totalCredits === 0
-              ? <Link href="/billing"><span className="text-amber-600 font-semibold hover:underline">{t('dashboard.buyCredits')}</span></Link>
+              ? <Link href="/app/billing"><span className="text-amber-600 font-semibold hover:underline">{t('dashboard.buyCredits')}</span></Link>
               : isPro
               ? <span className="text-slate-400">{t("dashboard.refreshesMonthly")}</span>
-              : <Link href="/billing"><span className="text-blue-500 hover:underline text-[11px]">+ {t("dashboard.buyMore")}</span></Link>
+              : <Link href="/app/billing"><span className="text-blue-500 hover:underline text-[11px]">+ {t("dashboard.buyMore")}</span></Link>
           }
         />
         <KpiCard
@@ -345,7 +345,7 @@ export default function Dashboard() {
                 <p className="text-sm font-medium text-slate-500">{t("dashboard.noActivityYet")}</p>
                 <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.activityAfterSearch')}</p>
               </div>
-              <Link href="/smart-finder">
+              <Link href="/app/smart-finder">
                 <Button size="sm" variant="outline" className="mt-1">{t("dashboard.startFirstSearch")}</Button>
               </Link>
             </div>
@@ -385,12 +385,12 @@ export default function Dashboard() {
           <p className="text-xs text-slate-400 mb-4">{t('dashboard.jumpToTool')}</p>
           <div className="space-y-0.5">
             {[
-              { href: "/smart-finder",        icon: <Sparkles className="w-4 h-4" />, label: t('dashboard.aiSourcing'),    desc: t('dashboard.findSuppliersWithAI'),  color: "blue"   },
-              { href: "/find-leads",           icon: <Target    className="w-4 h-4" />, label: t('dashboard.findLeads'),    desc: t('dashboard.qualifiedContacts'), color: "teal"   },
-              { href: "/ai-agent",             icon: <Bot       className="w-4 h-4" />, label: t('dashboard.aiAgent'),      desc: t('dashboard.chatWithAI'),    color: "indigo" },
-              { href: "/landed-cost",          icon: <Calculator className="w-4 h-4" />, label: t('dashboard.landedCost'),   desc: t('dashboard.trueImportCost'),   color: "amber"  },
-              { href: "/risk-intelligence",    icon: <Shield    className="w-4 h-4" />, label: t('dashboard.riskCheck'),    desc: t('dashboard.supplierRiskAnalysis'),   color: "violet" },
-              { href: "/customs-calculator",   icon: <Landmark  className="w-4 h-4" />, label: t('dashboard.customs'),       desc: t('dashboard.dutyTaxEstimator'),     color: "orange" },
+              { href: "/app/smart-finder",        icon: <Sparkles className="w-4 h-4" />, label: t('dashboard.aiSourcing'),    desc: t('dashboard.findSuppliersWithAI'),  color: "blue"   },
+              { href: "/app/find-leads",           icon: <Target    className="w-4 h-4" />, label: t('dashboard.findLeads'),    desc: t('dashboard.qualifiedContacts'), color: "teal"   },
+              { href: "/app/ai-agent",             icon: <Bot       className="w-4 h-4" />, label: t('dashboard.aiAgent'),      desc: t('dashboard.chatWithAI'),    color: "indigo" },
+              { href: "/app/landed-cost",          icon: <Calculator className="w-4 h-4" />, label: t('dashboard.landedCost'),   desc: t('dashboard.trueImportCost'),   color: "amber"  },
+              { href: "/app/risk-intelligence",    icon: <Shield    className="w-4 h-4" />, label: t('dashboard.riskCheck'),    desc: t('dashboard.supplierRiskAnalysis'),   color: "violet" },
+              { href: "/app/customs-calculator",   icon: <Landmark  className="w-4 h-4" />, label: t('dashboard.customs'),       desc: t('dashboard.dutyTaxEstimator'),     color: "orange" },
             ].map((a) => <ActionRow key={a.href} {...a} />)}
           </div>
         </div>
@@ -406,7 +406,7 @@ export default function Dashboard() {
               <h2 className="font-semibold text-slate-800 text-[15px]">{t('dashboard.recentReports')}</h2>
               <p className="text-xs text-slate-400 mt-0.5">{reports.length > 0 ? t('dashboard.totalReports', { count: reports.length }) : t('dashboard.noReportsGenerated')}</p>
             </div>
-            <Link href="/reports">
+            <Link href="/app/reports">
               <button className="text-xs text-slate-400 hover:text-blue-500 transition-colors font-medium flex items-center gap-0.5">
                 {t('dashboard.viewAll')} <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -422,7 +422,7 @@ export default function Dashboard() {
                 <p className="text-sm font-medium text-slate-500">{t('dashboard.noReportsGenerated')}</p>
                 <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.generateReportDesc')}</p>
               </div>
-              <Link href="/smart-finder">
+              <Link href="/app/smart-finder">
                 <Button size="sm" className="bg-blue-600 hover:bg-blue-700 mt-1">{t('dashboard.generateReport')}</Button>
               </Link>
             </div>
@@ -436,7 +436,7 @@ export default function Dashboard() {
                 const margin = rd?.sellerComparison?.[0]?.profitMargin || rd?.profitAnalysis?.estimatedMargin;
                 const country = fd.originCountry || fd.targetRegion;
                 return (
-                  <Link key={report.id} href={`/reports?open=${report.id}`}>
+                  <Link key={report.id} href={`/app/reports?open=${report.id}`}>
                     <div className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 transition-colors cursor-pointer group" data-testid={`card-report-${report.id}`}>
                       <ReportStatusIcon status={report.status} />
                       <div className="flex-1 min-w-0">
@@ -591,7 +591,7 @@ export default function Dashboard() {
               <h2 className="font-semibold text-slate-800 text-[15px]">{t('dashboard.creditActivity')}</h2>
               <p className="text-xs text-slate-400 mt-0.5">{t('dashboard.recentCredits')}</p>
             </div>
-            <Link href="/billing">
+            <Link href="/app/billing">
               <button className="text-xs text-slate-400 hover:text-blue-500 transition-colors font-medium flex items-center gap-0.5">
                 {t('dashboard.manageBilling')} <ChevronRight className="w-3.5 h-3.5" />
               </button>

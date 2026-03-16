@@ -79,7 +79,7 @@ function getMetaForPath(pathname: string): MetaConfig {
             "@type": "SearchAction",
             target: {
               "@type": "EntryPoint",
-              urlTemplate: `${SITE_URL}/suppliers?q={search_term_string}`,
+              urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
             },
             "query-input": "required name=search_term_string",
           },
@@ -126,6 +126,11 @@ function getMetaForPath(pathname: string): MetaConfig {
       description:
         "Log in to SmartSeek to access your supplier search, trade leads, and AI-powered sourcing intelligence tools.",
     },
+    "/search": {
+      title: `Search Suppliers – ${SITE_NAME}`,
+      description:
+        "Search verified manufacturers and exporters worldwide. Find real suppliers by product, industry, or region. No login required.",
+    },
     "/sample-report": {
       title: `Sample Supplier Intelligence Report – ${SITE_NAME}`,
       description:
@@ -162,7 +167,7 @@ function getMetaForPath(pathname: string): MetaConfig {
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-            { "@type": "ListItem", position: 2, name: "Suppliers", item: `${SITE_URL}/suppliers` },
+            { "@type": "ListItem", position: 2, name: "Suppliers", item: `${SITE_URL}/search` },
             { "@type": "ListItem", position: 3, name: displayName, item: `${SITE_URL}/suppliers/${slug}` },
           ],
         },

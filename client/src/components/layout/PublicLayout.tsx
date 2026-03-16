@@ -82,7 +82,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const navLinks = (
     <>
       <a href="/#how-it-works" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.howItWorks")}</a>
-      <Link href="/suppliers" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.suppliers")}</Link>
+      <Link href="/search" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.suppliers")}</Link>
       <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.rfq")}</Link>
       <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.pricing")}</Link>
       <Link href="/faq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.faq")}</Link>
@@ -199,9 +199,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li><Link href="/pricing" className="hover:text-foreground transition-colors">{t("footer.pricing")}</Link></li>
                 <li><Link href="/faq" className="hover:text-foreground transition-colors">{t("footer.faq")}</Link></li>
-                <li><Link href="/suppliers" className="hover:text-foreground transition-colors">{t("footer.supplierDirectory")}</Link></li>
-                <li><Link href="/smart-finder" className="hover:text-foreground transition-colors">{t("footer.smartSeekAI")}</Link></li>
-                <li><Link href="/landed-cost" className="hover:text-foreground transition-colors">{t("footer.landedCost")}</Link></li>
+                <li><Link href="/search" className="hover:text-foreground transition-colors">{t("footer.supplierDirectory")}</Link></li>
+                <li><Link href="/app/smart-finder" className="hover:text-foreground transition-colors">{t("footer.smartSeekAI")}</Link></li>
+                <li><Link href="/app/landed-cost" className="hover:text-foreground transition-colors">{t("footer.landedCost")}</Link></li>
                 <li><Link href="/integrations" className="hover:text-foreground transition-colors">{t("footer.integrations")}</Link></li>
               </ul>
             </div>

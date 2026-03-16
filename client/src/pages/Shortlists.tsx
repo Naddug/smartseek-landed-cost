@@ -64,7 +64,7 @@ export default function Shortlists() {
           <p className="text-muted-foreground">Vetted suppliers by category. Hand-picked by our experts.</p>
         </div>
         {!isPro && (
-          <Link href="/billing">
+          <Link href="/app/billing">
             <div className="bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-primary/15 transition-colors">
               <Lock size={16} />
               Upgrade to Pro to access Premium lists <ArrowUpRight size={16} />
@@ -82,7 +82,7 @@ export default function Shortlists() {
             <Card key={list.id} className={`flex flex-col ${isLocked ? 'opacity-80' : ''} hover:shadow-lg transition-shadow relative overflow-hidden`} data-testid={`card-shortlist-${list.id}`}>
               {isLocked && (
                 <div className="absolute inset-0 bg-background/50 backdrop-blur-[1px] z-10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                   <Link href="/billing">
+                   <Link href="/app/billing">
                      <Button>Upgrade to Unlock</Button>
                    </Link>
                 </div>
