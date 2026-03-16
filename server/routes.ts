@@ -23,6 +23,7 @@ import {
   type IntegrationProvider,
 } from "./services/integrations";
 import { prisma } from "../lib/prisma";
+import { sqltag as pSql, join as pJoin, raw as pRaw, empty as pEmpty, type Sql as PrismaSQL } from "@prisma/client/runtime/library.js";
 import { SUPPLIER_CATEGORIES } from "./seo";
 import { getMineralPurityOptions, MINERAL_FORMS } from "@shared/mineralConfig";
 import { detectProductFamily } from "@shared/productFamilies";
@@ -2578,216 +2579,133 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const limitNum = isGuest ? FREE_LIMIT : Math.min(50, Math.max(1, parseInt(limit as string, 10) || 20));
       const skip = isGuest ? 0 : (pageNum - 1) * limitNum;
 
-      // Build where clause
-      const where: any = {};
+      const searchTerm = (q && typeof q === "string") ? q.trim() : "";
+      const hasSearchQuery = searchTerm.length > 0;
 
-      const hasSearchQuery = !!(q && typeof q === "string" && q.trim());
-      const hasNarrowFilter = !!(country && typeof country === "string" && country !== "Undefined") ||
-        !!(industry && typeof industry === "string" && industry.trim());
+      // Build raw SQL conditions (pg_trgm similarity operators use GIN indexes)
+      const conditions: PrismaSQL[] = [];
 
-      if (q && typeof q === "string" && q.trim()) {
-        const search = q.trim();
-        const uiLang = typeof lang === "string" ? lang.split("-")[0] : undefined;
-        const { terms, usedExpansion } = await expandSearchQueryForMultilingual(search, uiLang);
-        const effectiveTerms = terms.length >= 1 ? terms : (search.length >= 2 ? search.split(/\s+/).filter(Boolean) : []);
-
-        if (effectiveTerms.length > 0) {
-          const primaryMatch = (term: string) => ({
-            OR: [
-              { companyName: { contains: term, mode: "insensitive" as const } },
-              { products:    { contains: term, mode: "insensitive" as const } },
-              { industry:    { contains: term, mode: "insensitive" as const } },
-              { subIndustry: { contains: term, mode: "insensitive" as const } },
-              { description: { contains: term, mode: "insensitive" as const } },
-            ],
-          });
-
-          // Multilingual expansion: use OR across all terms (match any)
-          // Original query: use AND (all terms must match)
-          if (usedExpansion || effectiveTerms.length === 1) {
-            const allOrs = effectiveTerms.flatMap((t) => primaryMatch(t).OR);
-            where.OR = allOrs;
-          } else {
-            const primaryWhere = { AND: effectiveTerms.map(primaryMatch) };
-            where.AND = [
-              ...(Array.isArray(where.AND) ? where.AND : []),
-              ...(primaryWhere as any).AND,
-            ];
-          }
-        }
+      if (hasSearchQuery) {
+        // % operator: similarity(col, query) >= pg_trgm.similarity_threshold (default 0.3)
+        // GIN trigram index on each column makes this sub-100ms on 25M rows
+        conditions.push(pSql`(
+          "companyName" % ${searchTerm}
+          OR products % ${searchTerm}
+          OR description % ${searchTerm}
+          OR industry % ${searchTerm}
+          OR "subIndustry" % ${searchTerm}
+        )`);
       }
 
       if (country && typeof country === "string") {
         if (country === "Undefined") {
-          where.AND = [...(Array.isArray(where.AND) ? where.AND : []), { OR: [{ country: "" }, { country: null }] }];
+          conditions.push(pSql`(country = '' OR country IS NULL)`);
         } else {
           const { getCountryCode } = await import("./lib/countryCodes");
           const countryCode = getCountryCode(country);
-          const countryConditions: object[] = [
-            { country: { equals: country, mode: "insensitive" as const } },
-            { country: { contains: country, mode: "insensitive" as const } },
-          ];
+          const countryParts: PrismaSQL[] = [pSql`country ILIKE ${country}`];
           if (countryCode && countryCode !== "XX" && countryCode !== "SKIP") {
-            countryConditions.push({ countryCode: { equals: countryCode, mode: "insensitive" as const } });
+            countryParts.push(pSql`"countryCode" ILIKE ${countryCode}`);
           }
-          where.AND = [...(Array.isArray(where.AND) ? where.AND : []), { OR: countryConditions }];
+          conditions.push(pSql`(${pJoin(countryParts, ' OR ')})`);
         }
       }
 
       if (industry && typeof industry === "string" && industry.trim()) {
-        const ind = industry.trim();
-        where.AND = [...(Array.isArray(where.AND) ? where.AND : []), {
-          OR: [
-            { industry: { equals: ind, mode: "insensitive" as const } },
-            { industry: { contains: ind, mode: "insensitive" as const } },
-          ],
-        }];
+        const ind = `%${industry.trim()}%`;
+        conditions.push(pSql`industry ILIKE ${ind}`);
       }
 
       if (verified === "true") {
-        where.verified = true;
+        conditions.push(pSql`verified = true`);
       }
 
+      // Rating threshold: take most restrictive of minRating and minScore
+      let ratingThreshold: number | null = null;
       if (minRating && typeof minRating === "string") {
-        const rating = parseFloat(minRating);
-        if (!isNaN(rating)) {
-          where.rating = { gte: rating };
-        }
+        const r = parseFloat(minRating);
+        if (!isNaN(r)) ratingThreshold = r;
       }
-
-      // minScore: quality score (0-100) maps to rating (rating = score / 20)
       if (minScore && typeof minScore === "string") {
-        const score = parseFloat(minScore);
-        if (!isNaN(score) && score > 0) {
-          const ratingFromScore = score / 20;
-          where.rating = { gte: ratingFromScore };
+        const s = parseFloat(minScore);
+        if (!isNaN(s) && s > 0) {
+          const r = s / 20;
+          ratingThreshold = ratingThreshold !== null ? Math.max(ratingThreshold, r) : r;
         }
       }
+      if (ratingThreshold !== null) {
+        conditions.push(pSql`rating >= ${ratingThreshold}`);
+      }
 
-      // minOrderValue: filter by minimum order value
       if (minOrderValue && typeof minOrderValue === "string") {
         const mov = parseFloat(minOrderValue);
         if (!isNaN(mov) && mov > 0) {
-          where.minOrderValue = { gte: mov };
+          conditions.push(pSql`"minOrderValue" >= ${mov}`);
         }
       }
 
-      // Build orderBy — when a search query is active and user hasn't manually
-      // chosen a sort, prioritise verified suppliers then rating (most relevant first)
-      const validSortFields = ["rating", "reviewCount", "yearEstablished", "companyName", "createdAt"];
-      const sortField = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
-      const order = sortOrder === "asc" ? "asc" : "desc";
-      const orderBy: any = hasSearchQuery && sortBy === "rating"
-        ? [{ verified: "desc" }, { rating: "desc" }, { reviewCount: "desc" }]
-        : [{ [sortField]: order }];
+      const whereClause = conditions.length > 0
+        ? pSql`WHERE ${pJoin(conditions, ' AND ')}`
+        : pEmpty;
 
-      const selectFields = {
-        id: true,
-        companyName: true,
-        slug: true,
-        country: true,
-        countryCode: true,
-        city: true,
-        industry: true,
-        subIndustry: true,
-        products: true,
-        certifications: true,
-        description: true,
-        verified: true,
-        rating: true,
-        reviewCount: true,
-        responseTime: true,
-        minOrderValue: true,
-        yearEstablished: true,
-        employeeCount: true,
-        annualRevenue: true,
-        dataSource: true,
-        registryUrl: true,
-        registryId: true,
-        sicCode: true,
-        contactVerified: true,
+      // ORDER BY: trigram relevance when searching, fallback to sort params otherwise
+      const validSortFields = ["rating", "reviewCount", "yearEstablished", "companyName", "createdAt"];
+      const sortFieldSafe = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
+      const sortDirSafe = sortOrder === "asc" ? "ASC" : "DESC";
+      const orderClause = hasSearchQuery && sortBy === "rating"
+        ? pSql`ORDER BY
+            GREATEST(
+              similarity("companyName", ${searchTerm}),
+              similarity(products, ${searchTerm}),
+              similarity(description, ${searchTerm}),
+              similarity(industry, ${searchTerm})
+            ) DESC,
+            verified DESC,
+            rating DESC`
+        : pSql`ORDER BY ${pRaw(`"${sortFieldSafe}"`)} ${pRaw(sortDirSafe)}`;
+
+      type SupplierRow = {
+        id: number; companyName: string | null; slug: string | null;
+        country: string | null; countryCode: string | null; city: string | null;
+        industry: string | null; subIndustry: string | null;
+        products: string | null; certifications: string | null; description: string | null;
+        verified: boolean | null; rating: number | null; reviewCount: number | null;
+        responseTime: string | null; minOrderValue: number | null;
+        yearEstablished: number | null; employeeCount: number | null;
+        annualRevenue: number | null; dataSource: string | null;
+        registryUrl: string | null; registryId: string | null;
+        sicCode: string | null; contactVerified: boolean | null;
       };
 
-      const suppliersPromise = prisma.supplier.findMany({
-        where,
-        orderBy,
-        skip,
-        take: limitNum,
-        select: selectFields,
-      });
-
-      // For search queries: skip expensive count (25M+ rows) — return results immediately
-      const hasFilters = q || country || industry || verified === "true" || minRating;
-      const countPromise =
+      const hasFilters = hasSearchQuery || country || industry || verified === "true" || ratingThreshold !== null || minOrderValue;
+      const [suppliers, countResult] = await Promise.all([
+        prisma.$queryRaw<SupplierRow[]>`
+          SELECT id, "companyName", slug, country, "countryCode", city,
+                 industry, "subIndustry", products, certifications,
+                 description, verified, rating, "reviewCount", "responseTime",
+                 "minOrderValue", "yearEstablished", "employeeCount",
+                 "annualRevenue", "dataSource", "registryUrl", "registryId",
+                 "sicCode", "contactVerified"
+          FROM "Supplier"
+          ${whereClause}
+          ${orderClause}
+          LIMIT ${limitNum} OFFSET ${skip}
+        `,
         hasSearchQuery
-          ? Promise.resolve(10000) // Skip count for search — show "10,000+"
+          ? Promise.resolve(10000)
           : hasFilters
             ? Promise.race([
-                prisma.supplier.count({ where }),
-                new Promise<number>((_, reject) =>
-                  setTimeout(() => reject(new Error("count_timeout")), 12000)
-                ),
+                prisma.$queryRaw<[{ cnt: bigint }]>`SELECT COUNT(*)::bigint AS cnt FROM "Supplier" ${whereClause}`
+                  .then((rows: [{ cnt: bigint }]) => Number(rows[0]?.cnt ?? 0)),
+                new Promise<number>((_, reject) => setTimeout(() => reject(new Error("count_timeout")), 8000)),
               ]).catch(() => 10000)
-            : prisma.$queryRaw<[{ cnt: number }]>`SELECT reltuples::bigint as cnt FROM pg_class WHERE relname = 'Supplier'`
-                .then((rows: [{ cnt: number }]) => Number(rows[0]?.cnt || 0))
-                .catch(() => prisma.supplier.count({ where }));
+            : prisma.$queryRaw<[{ cnt: bigint }]>`SELECT reltuples::bigint AS cnt FROM pg_class WHERE relname = 'Supplier'`
+                .then((rows: [{ cnt: bigint }]) => Number(rows[0]?.cnt ?? 0))
+                .catch(() => 10000),
+      ]);
 
-      let [suppliers, totalRaw] = await Promise.all([suppliersPromise, countPromise]);
-      let total = typeof totalRaw === "number" ? totalRaw : totalRaw;
-
-      // Fallback: if primary returned 0, try full match (description, city, country); then loose
-      let isFallback = false;
-      if (hasSearchQuery && suppliers.length === 0 && q && typeof q === "string") {
-        const search = (q as string).trim();
-        const terms = search.split(/\s+/).filter(Boolean);
-        if (terms.length > 0) {
-          const fullMatch = (term: string) => ({
-            OR: [
-              { companyName: { contains: term, mode: "insensitive" as const } },
-              { products:    { contains: term, mode: "insensitive" as const } },
-              { industry:    { contains: term, mode: "insensitive" as const } },
-              { subIndustry: { contains: term, mode: "insensitive" as const } },
-              { description: { contains: term, mode: "insensitive" as const } },
-              { city:        { contains: term, mode: "insensitive" as const } },
-              { country:     { contains: term, mode: "insensitive" as const } },
-            ],
-          });
-          const fullWhere = terms.length === 1
-            ? { OR: fullMatch(terms[0]).OR }
-            : { AND: terms.map(fullMatch) };
-          const fullSuppliers = await prisma.supplier.findMany({
-            where: fullWhere,
-            orderBy: [{ verified: "desc" }, { rating: "desc" }],
-            skip: 0,
-            take: limitNum,
-            select: selectFields,
-          });
-          if (fullSuppliers.length > 0) {
-            isFallback = true;
-            suppliers = fullSuppliers;
-            total = await prisma.supplier.count({ where: fullWhere }).catch(() => suppliers.length);
-          } else {
-            const looseWhere: any = {
-              OR: [
-                { industry: { contains: search, mode: "insensitive" as const } },
-                { description: { contains: search, mode: "insensitive" as const } },
-              ],
-            };
-            const looseSuppliers = await prisma.supplier.findMany({
-              where: looseWhere,
-              orderBy: [{ verified: "desc" }, { rating: "desc" }],
-              skip: 0,
-              take: 12,
-              select: selectFields,
-            });
-            if (looseSuppliers.length > 0) {
-              isFallback = true;
-              suppliers = looseSuppliers;
-              total = Math.max(total, looseSuppliers.length);
-            }
-          }
-        }
-      }
+      let total = typeof countResult === "number" ? countResult : Number(countResult);
+      const isFallback = false;
 
       // Never show "0 suppliers found" when we have results
       if (suppliers.length > 0 && total === 0) total = suppliers.length;
