@@ -161,23 +161,33 @@ export default function PublicSearchResults() {
     setQuery(params.get("q") || "");
   }, [location]);
 
-  const { data, status, isError } = useQuery<SuppliersResponse>({
+  const { data, status, isError, isFetching } = useQuery<SuppliersResponse>({
     queryKey: ["publicSearch", query],
     queryFn: async () => {
       const res = await fetch(`/api/suppliers?q=${encodeURIComponent(query)}&limit=3`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
+      const json = await res.json();
+      if (!json || typeof json !== "object") throw new Error("Invalid response");
+      return {
+        suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
+        pagination: json.pagination && typeof json.pagination === "object"
+          ? { ...json.pagination, total: Number(json.pagination.total) || 0 }
+          : { total: 0 },
+        guestLimited: json.guestLimited !== false,
+        freeLimit: Number(json.freeLimit) || 3,
+      };
     },
     enabled: !!query.trim(),
     retry: 2,
     retryDelay: 1000,
+    staleTime: 30000,
   });
 
   const suppliers = data?.suppliers ?? [];
   const total = data?.pagination?.total ?? 0;
   const guestLimited = data?.guestLimited ?? true;
   const hasMore = total > suppliers.length;
-  const isLoading = status === "pending" && !!query.trim();
+  const showSkeleton = !!query.trim() && (status === "pending" || isFetching) && !data && !isError;
 
   useEffect(() => {
     if (query) {
@@ -214,14 +224,14 @@ export default function PublicSearchResults() {
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               {t("category.topSuppliers", { name: query })}
             </h1>
-            {!isLoading && total > 0 && (
+            {!showSkeleton && total > 0 && (
               <span className="inline-block text-xs text-slate-400 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
                 {t("category.totalResults", { count: total.toLocaleString() })}
               </span>
             )}
           </div>
 
-          {isLoading && (
+          {showSkeleton && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse">
@@ -248,18 +258,18 @@ export default function PublicSearchResults() {
             </div>
           )}
 
-          {!isLoading && !isError && suppliers.length > 0 && (
+          {!showSkeleton && !isError && suppliers.length > 0 && (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                 {suppliers.map((s) => (
-                  <SupplierCard key={s.id} supplier={s} />
+                  <SupplierCard key={String(s.id)} supplier={s} />
                 ))}
               </div>
               {guestLimited && hasMore && <LockedOverlay total={total} query={query} />}
             </>
           )}
 
-          {!isLoading && !isError && suppliers.length === 0 && (
+          {!showSkeleton && !isError && suppliers.length === 0 && (
             <div className="text-center py-14">
               <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
               <p className="text-slate-400 mb-2">{t("category.noPreview")}</p>
@@ -284,7 +294,7 @@ export default function PublicSearchResults() {
                 {t("category.cta.primary")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-            <Link href={`/app/suppliers?q=${encodeURIComponent(query)}`}>
+            <Link href={`/signup?redirect=${encodeURIComponent(`/app/suppliers?q=${encodeURIComponent(query)}`)}`}>
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-7 py-3.5 rounded-xl transition text-base">
                 {t("category.browseAllResults")}
               </button>

@@ -208,21 +208,28 @@ export default function SupplierCategoryPage() {
     ],
   });
 
-  const { data, status, isError } = useQuery<SuppliersResponse>({
+  const { data, status, isError, isFetching } = useQuery<SuppliersResponse>({
     queryKey: ["supplierCategory", category],
     queryFn: async () => {
-      const res = await fetch(`/api/suppliers?q=${encodeURIComponent(searchQuery)}&limit=6`);
+      const res = await fetch(`/api/suppliers?q=${encodeURIComponent(searchQuery)}&limit=3`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
+      const json = await res.json();
+      if (!json || typeof json !== "object") throw new Error("Invalid response");
+      return {
+        suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
+        pagination: json.pagination && typeof json.pagination === "object"
+          ? { ...json.pagination, total: Number(json.pagination.total) || 0 }
+          : { total: 0 },
+        guestLimited: json.guestLimited !== false,
+        freeLimit: Number(json.freeLimit) || 3,
+      };
     },
     staleTime: 5 * 60 * 1000,
     retry: 1,
     enabled: !!category,
   });
 
-  // status === 'pending' covers both "fetching initial data" and "query disabled with no cache"
-  // This prevents the empty-state from flashing before the first response arrives.
-  const isLoading = status === "pending";
+  const showSkeleton = !!category && (status === "pending" || isFetching) && !data && !isError;
 
   const suppliers = data?.suppliers ?? [];
   const total = data?.pagination?.total ?? 0;
@@ -250,7 +257,7 @@ export default function SupplierCategoryPage() {
 
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-5">
             <Globe className="w-3.5 h-3.5" />
-            {isLoading
+            {showSkeleton
               ? t("category.loading")
               : total > 0
                 ? t("category.suppliersFound", { count: total.toLocaleString() })
@@ -305,16 +312,16 @@ export default function SupplierCategoryPage() {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-white font-bold text-lg">
-              {isLoading ? t("category.searching") : t("category.topSuppliers", { name: displayName })}
+              {showSkeleton ? t("category.searching") : t("category.topSuppliers", { name: displayName })}
             </h2>
-            {!isLoading && total > 0 && (
+            {!showSkeleton && total > 0 && (
               <span className="text-xs text-slate-400 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
                 {t("category.totalResults", { count: total.toLocaleString() })}
               </span>
             )}
           </div>
 
-          {isLoading && (
+          {showSkeleton && (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse">
@@ -345,7 +352,7 @@ export default function SupplierCategoryPage() {
             </div>
           )}
 
-          {!isLoading && !isError && previewSuppliers.length > 0 && (
+          {!showSkeleton && !isError && previewSuppliers.length > 0 && (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
                 {previewSuppliers.map((s) => (
@@ -356,7 +363,7 @@ export default function SupplierCategoryPage() {
             </>
           )}
 
-          {!isLoading && !isError && previewSuppliers.length === 0 && (
+          {!showSkeleton && !isError && previewSuppliers.length === 0 && (
             <div className="text-center py-14">
               <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
               <p className="text-slate-400 mb-2">{t("category.noPreview")}</p>

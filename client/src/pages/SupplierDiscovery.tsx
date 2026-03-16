@@ -970,8 +970,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
           )}
         </div>
 
-        {/* Grid */}
-        {isLoading ? (
+        {/* Grid — never show skeleton when we have data or error */}
+        {(isLoading && !isError && !data) ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-white border border-gray-200 rounded-lg p-5 animate-pulse">
