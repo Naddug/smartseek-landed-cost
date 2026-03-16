@@ -2586,14 +2586,15 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const conditions: PrismaSQL[] = [];
 
       if (hasSearchQuery) {
-        // % operator: similarity(col, query) >= pg_trgm.similarity_threshold (default 0.3)
-        // GIN trigram index on each column makes this sub-100ms on 25M rows
+        // similarity() > threshold — explicit function form, no operator overloading,
+        // safe even if pg_trgm.similarity_threshold hasn't been tuned.
+        // GIN trigram indexes on each column make this sub-100ms on 25M rows.
         conditions.push(pSql`(
-          "companyName" % ${searchTerm}
-          OR products % ${searchTerm}
-          OR description % ${searchTerm}
-          OR industry % ${searchTerm}
-          OR "subIndustry" % ${searchTerm}
+          similarity("companyName", ${searchTerm}) > 0.1
+          OR similarity(products, ${searchTerm}) > 0.1
+          OR similarity(description, ${searchTerm}) > 0.1
+          OR similarity(industry, ${searchTerm}) > 0.1
+          OR similarity("subIndustry", ${searchTerm}) > 0.1
         )`);
       }
 
@@ -2678,34 +2679,50 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       };
 
       const hasFilters = hasSearchQuery || country || industry || verified === "true" || ratingThreshold !== null || minOrderValue;
-      const [suppliers, countResult] = await Promise.all([
-        prisma.$queryRaw<SupplierRow[]>`
-          SELECT id, "companyName", slug, country, "countryCode", city,
-                 industry, "subIndustry", products, certifications,
-                 description, verified, rating, "reviewCount", "responseTime",
-                 "minOrderValue", "yearEstablished", "employeeCount",
-                 "annualRevenue", "dataSource", "registryUrl", "registryId",
-                 "sicCode", "contactVerified"
-          FROM "Supplier"
-          ${whereClause}
-          ${orderClause}
-          LIMIT ${limitNum} OFFSET ${skip}
-        `,
-        hasSearchQuery
-          ? Promise.resolve(10000)
-          : hasFilters
-            ? Promise.race([
-                prisma.$queryRaw<[{ cnt: bigint }]>`SELECT COUNT(*)::bigint AS cnt FROM "Supplier" ${whereClause}`
-                  .then((rows: [{ cnt: bigint }]) => Number(rows[0]?.cnt ?? 0)),
-                new Promise<number>((_, reject) => setTimeout(() => reject(new Error("count_timeout")), 8000)),
-              ]).catch(() => 10000)
-            : prisma.$queryRaw<[{ cnt: bigint }]>`SELECT reltuples::bigint AS cnt FROM pg_class WHERE relname = 'Supplier'`
-                .then((rows: [{ cnt: bigint }]) => Number(rows[0]?.cnt ?? 0))
-                .catch(() => 10000),
-      ]);
 
-      let total = typeof countResult === "number" ? countResult : Number(countResult);
+      let suppliers: SupplierRow[] = [];
+      let total = 0;
       const isFallback = false;
+
+      try {
+        const [rows, countResult] = await Promise.all([
+          prisma.$queryRaw<SupplierRow[]>`
+            SELECT id, "companyName", slug, country, "countryCode", city,
+                   industry, "subIndustry", products, certifications,
+                   description, verified, rating, "reviewCount", "responseTime",
+                   "minOrderValue", "yearEstablished", "employeeCount",
+                   "annualRevenue", "dataSource", "registryUrl", "registryId",
+                   "sicCode", "contactVerified"
+            FROM "Supplier"
+            ${whereClause}
+            ${orderClause}
+            LIMIT ${limitNum} OFFSET ${skip}
+          `,
+          hasSearchQuery
+            ? Promise.resolve(10000)
+            : hasFilters
+              ? Promise.race([
+                  prisma.$queryRaw<[{ cnt: bigint }]>`SELECT COUNT(*)::bigint AS cnt FROM "Supplier" ${whereClause}`
+                    .then((r: [{ cnt: bigint }]) => Number(r[0]?.cnt ?? 0)),
+                  new Promise<number>((_, reject) => setTimeout(() => reject(new Error("count_timeout")), 8000)),
+                ]).catch(() => 10000)
+              : prisma.$queryRaw<[{ cnt: bigint }]>`SELECT reltuples::bigint AS cnt FROM pg_class WHERE relname = 'Supplier'`
+                  .then((r: [{ cnt: bigint }]) => Number(r[0]?.cnt ?? 0))
+                  .catch(() => 10000),
+        ]);
+        suppliers = rows;
+        total = typeof countResult === "number" ? countResult : Number(countResult);
+      } catch (sqlErr) {
+        console.error("GET /api/suppliers SQL error:", sqlErr);
+        return res.json({
+          suppliers: [],
+          pagination: { page: pageNum, limit: limitNum, total: 0, totalPages: 0 },
+          totalResults: 0,
+          guestLimited: isGuest,
+          freeLimit: FREE_LIMIT,
+          fallback: false,
+        });
+      }
 
       // Never show "0 suppliers found" when we have results
       if (suppliers.length > 0 && total === 0) total = suppliers.length;
@@ -2728,7 +2745,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       // Parse JSON string fields and apply formatting (bulletproof: handle strings, objects, null)
       const safeString = (v: unknown): string =>
         v == null ? "" : typeof v === "string" ? v : typeof (v as { name?: string }).name === "string" ? (v as { name: string }).name : String(v);
-      const parsed = suppliers.map((s: { products: string | null; certifications: string | null; companyName?: string; city?: string; country?: string; industry?: string; subIndustry?: string } & Record<string, unknown>) => {
+      const parsed = (suppliers as (SupplierRow & Record<string, unknown>)[]).map((s) => {
         let products: unknown[] = [];
         let certifications: unknown[] = [];
         try {
