@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Search, ArrowRight, CheckCircle2, TrendingUp, Rocket, Lock } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { Search, ArrowRight, CheckCircle2, Rocket, Lock } from "lucide-react";
+import { Link } from "wouter";
 import { motion, useInView, useMotionValue, animate } from "framer-motion";
 import PublicLayout from "@/components/layout/PublicLayout";
 
@@ -26,10 +26,6 @@ function AnimatedCounter({ to, duration = 2, suffix = "" }: { to: number; durati
 
   return <span ref={ref}>0{suffix}</span>;
 }
-
-// ─── Cycling placeholder ──────────────────────────────────────────────────────
-
-const PLACEHOLDER_KEYS = ["home.placeholder1", "home.placeholder2", "home.placeholder3", "home.placeholder4", "home.placeholder5", "home.placeholder6"];
 
 // ─── Demo supplier data ───────────────────────────────────────────────────────
 
@@ -208,27 +204,6 @@ function StaticPreview() {
 
 export default function Home() {
   const { t } = useTranslation();
-  const [query, setQuery] = useState("");
-  const [, navigate] = useLocation();
-  const [placeholderIdx, setPlaceholderIdx] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setPlaceholderIdx(i => (i + 1) % PLACEHOLDER_KEYS.length), 2500);
-    return () => clearInterval(id);
-  }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = query.trim();
-    navigate(`/search${q ? `?q=${encodeURIComponent(q)}` : ""}`);
-  };
-
-  const testimonials = [
-    { initials: "MK", name: t("home.testimonialCard1.name"), role: t("home.testimonialCard1.role"), quote: t("home.testimonialCard1.quote"), bg: "bg-slate-800", text: "text-white" },
-    { initials: "SP", name: t("home.testimonialCard2.name"), role: t("home.testimonialCard2.role"), quote: t("home.testimonialCard2.quote"), bg: "bg-amber-500", text: "text-slate-900" },
-    { initials: "JL", name: t("home.testimonialCard3.name"), role: t("home.testimonialCard3.role"), quote: t("home.testimonialCard3.quote"), bg: "bg-slate-800", text: "text-white" },
-    { initials: "EF", name: t("home.testimonialCard4.name"), role: t("home.testimonialCard4.role"), quote: t("home.testimonialCard4.quote"), bg: "bg-blue-600", text: "text-white" },
-  ];
 
   return (
     <PublicLayout>
@@ -271,7 +246,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="relative z-10 text-slate-400 text-sm font-mono mb-4 tracking-wider"
         >
-          <AnimatedCounter to={25_000_000} duration={2.5} /> {t("home.suppliersIndexed")}
+          25.2M+ {t("home.suppliersIndexed")}
         </motion.div>
 
         {/* H1 */}
@@ -281,13 +256,9 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="relative z-10 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight max-w-5xl mb-6"
         >
-          {t("home.hero.title1")}{" "}
+          Know your real landed cost
           <br className="hidden sm:block" />
-          {t("home.hero.title2")}{" "}
-          <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
-            {t("home.hero.title3")}
-          </span>
+          before you commit
         </motion.h1>
 
         {/* Subheadline */}
@@ -297,60 +268,30 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8"
         >
-          {t("home.hero.subtitleBase", { suppliers: "25M+" })}<span className="text-white font-medium">{t("home.hero.subtitleHighlight")}</span>
+          Find suppliers, calculate true import cost (freight, customs, taxes, inland), and decide with confidence.
         </motion.p>
 
-        {/* Search bar */}
-        <motion.form
+        {/* Primary actions */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          onSubmit={handleSearch}
-          className="relative z-10 w-full max-w-3xl flex items-center bg-white rounded-2xl shadow-[0_0_100px_rgba(59,130,246,0.25)] overflow-hidden mb-4 border border-white/10"
+          className="relative z-10 flex flex-col sm:flex-row gap-3 mb-6"
         >
-          <Search className="absolute left-5 w-5 h-5 text-slate-400 pointer-events-none" />
-          <input
-            type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder={t(PLACEHOLDER_KEYS[placeholderIdx])}
-            className="flex-1 pl-14 pr-4 py-5 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent transition-all"
-            autoFocus
-          />
-          <button
-            type="submit"
-            className="shrink-0 m-2 px-7 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 text-base font-bold rounded-xl transition flex items-center gap-2 shadow-lg shadow-amber-500/25"
-          >
-            {t("home.hero.searchBtn")} <ArrowRight className="w-4 h-4" />
-          </button>
-        </motion.form>
-
-        {/* Example query chips */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="relative z-10 flex flex-wrap justify-center gap-2 mb-4"
-        >
-          {[
-            { label: "copper cathode suppliers", slug: "copper-cathode", icon: "⚙️" },
-            { label: "antimony manufacturers", slug: "antimony", icon: "⛏️" },
-            { label: "olive oil bulk suppliers", slug: "olive-oil", icon: "🫒" },
-            { label: "solar panel exporters", slug: "solar-panels", icon: "☀️" },
-          ].map(chip => (
-            <button
-              key={chip.slug}
-              type="button"
-              onClick={() => setQuery(chip.label)}
-              className="text-xs bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 hover:border-white/20 px-3 py-1.5 rounded-full transition-all"
-            >
-              {chip.icon} {chip.label}
+          <Link href="/landed-cost">
+            <button className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 text-base font-bold rounded-xl transition shadow-lg shadow-amber-500/25">
+              Try the calculator <ArrowRight className="w-4 h-4" />
             </button>
-          ))}
+          </Link>
+          <Link href="/suppliers">
+            <button className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white text-base font-semibold rounded-xl transition">
+              Browse suppliers
+            </button>
+          </Link>
         </motion.div>
 
         <p className="relative z-10 text-slate-600 text-xs mb-8">
-          {t("home.hero.proofLine", { matches: "200+" })} · No login required
+          Sourcing intelligence for procurement teams
         </p>
 
         {/* Trust chips */}
@@ -364,7 +305,7 @@ export default function Home() {
         <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl w-full mb-20">
           <div className="text-center">
             <div className="text-2xl sm:text-3xl font-bold text-blue-400">
-              <AnimatedCounter to={25_000_000} duration={2.5} />
+              25.2M+
             </div>
             <div className="text-slate-500 text-xs mt-1">{t("home.hero.statSuppliers")}</div>
           </div>
@@ -451,31 +392,26 @@ export default function Home() {
 
       <section className="bg-slate-50 border-b border-slate-100 py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold px-4 py-1.5 rounded-full mb-8 flex w-fit">
-            <TrendingUp className="w-4 h-4" /> {t("home.testimonial.badge")}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {testimonials.map((t, i) => (
-              <div key={i} className={`${t.bg} rounded-2xl p-6 flex flex-col gap-4`}>
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, j) => (
-                    <svg key={j} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <blockquote className={`text-sm leading-relaxed font-medium ${t.text} opacity-90`}>"{t.quote}"</blockquote>
-                <div className="flex items-center gap-3 mt-auto">
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm ${i === 1 ? "bg-slate-900 text-amber-500" : "bg-blue-600 text-white"}`}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <p className={`text-sm font-semibold ${t.text}`}>{t.name}</p>
-                    <p className={`text-xs opacity-60 ${t.text}`}>{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3">{t("home.trustBlock.badge")}</p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+              {t("home.trustBlock.heading")}
+            </h3>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+              {t("home.trustBlock.body")}
+            </p>
+            <div className="grid sm:grid-cols-3 gap-3 text-sm text-slate-700">
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.trustBlock.bullet1")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.trustBlock.bullet2")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.trustBlock.bullet3")}</div>
+            </div>
+            <div className="mt-6">
+              <Link href="/pricing?waitlist=1">
+                <button className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">
+                  {t("home.trustBlock.cta")}
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

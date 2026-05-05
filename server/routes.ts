@@ -216,6 +216,48 @@ export async function registerRoutes(
     }
   });
 
+  // Waitlist signup — used while checkout is disabled on Pricing page
+  app.post("/api/waitlist-signups", async (req: Request, res: Response) => {
+    try {
+      const { fullName, email, company, tier_interest, source_page } = req.body ?? {};
+      if (!fullName || typeof fullName !== "string" || !fullName.trim()) {
+        return res.status(400).json({ error: "fullName is required" });
+      }
+      if (!email || typeof email !== "string") {
+        return res.status(400).json({ error: "email is required" });
+      }
+      const trimmedEmail = email.trim().toLowerCase();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(trimmedEmail)) {
+        return res.status(400).json({ error: "Invalid email format" });
+      }
+
+      const { pool } = await import("./db");
+
+      await pool.query(
+        `INSERT INTO waitlist_signups (full_name, email, company, tier_interest, source_page, source)
+         VALUES ($1, $2, $3, $4, $5, 'pricing_page')
+         ON CONFLICT (email) DO UPDATE SET
+           full_name = EXCLUDED.full_name,
+           company = EXCLUDED.company,
+           tier_interest = EXCLUDED.tier_interest,
+           source_page = EXCLUDED.source_page`,
+        [
+          fullName.trim(),
+          trimmedEmail,
+          typeof company === "string" ? company.trim() || null : null,
+          typeof tier_interest === "string" && tier_interest.trim() ? tier_interest.trim() : "professional",
+          typeof source_page === "string" && source_page.trim() ? source_page.trim() : "pricing",
+        ]
+      );
+
+      res.json({ success: true });
+    } catch (e) {
+      console.error("Waitlist signup error:", e);
+      res.status(500).json({ error: "Failed to join waitlist" });
+    }
+  });
+
   // Freight benchmark rates Ã¢ÂÂ real market data (2024 indices: FBX, Xeneta, Drewry)
   // Routes keyed by origin-destination; rates in USD
   app.get("/api/freight/benchmark-rates", async (req: Request, res: Response) => {
@@ -2582,20 +2624,11 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const searchTerm = (q && typeof q === "string") ? q.trim() : "";
       const hasSearchQuery = searchTerm.length > 0;
 
-      // Build raw SQL conditions (pg_trgm similarity operators use GIN indexes)
+      // Build raw SQL conditions
       const conditions: PrismaSQL[] = [];
 
       if (hasSearchQuery) {
-        // similarity() > threshold — explicit function form, no operator overloading,
-        // safe even if pg_trgm.similarity_threshold hasn't been tuned.
-        // GIN trigram indexes on each column make this sub-100ms on 25M rows.
-        conditions.push(pSql`(
-          similarity("companyName", ${searchTerm}) > 0.1
-          OR similarity(products, ${searchTerm}) > 0.1
-          OR similarity(description, ${searchTerm}) > 0.1
-          OR similarity(industry, ${searchTerm}) > 0.1
-          OR similarity("subIndustry", ${searchTerm}) > 0.1
-        )`);
+        conditions.push(pSql`search_vector @@ websearch_to_tsquery('simple', ${searchTerm})`);
       }
 
       if (country && typeof country === "string") {
@@ -2649,18 +2682,13 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
         ? pSql`WHERE ${pJoin(conditions, ' AND ')}`
         : pEmpty;
 
-      // ORDER BY: trigram relevance when searching, fallback to sort params otherwise
+      // ORDER BY: FTS relevance when searching, fallback to sort params otherwise
       const validSortFields = ["rating", "reviewCount", "yearEstablished", "companyName", "createdAt"];
       const sortFieldSafe = validSortFields.includes(sortBy as string) ? (sortBy as string) : "rating";
       const sortDirSafe = sortOrder === "asc" ? "ASC" : "DESC";
-      const orderClause = hasSearchQuery && sortBy === "rating"
+      const orderClause = hasSearchQuery
         ? pSql`ORDER BY
-            GREATEST(
-              similarity("companyName", ${searchTerm}),
-              similarity(products, ${searchTerm}),
-              similarity(description, ${searchTerm}),
-              similarity(industry, ${searchTerm})
-            ) DESC,
+            ts_rank(search_vector, websearch_to_tsquery('simple', ${searchTerm})) DESC,
             verified DESC,
             rating DESC`
         : pSql`ORDER BY ${pRaw(`"${sortFieldSafe}"`)} ${pRaw(sortDirSafe)}`;

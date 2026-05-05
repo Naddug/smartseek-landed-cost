@@ -33,7 +33,11 @@ interface Supplier {
 
 interface SuppliersResponse {
   suppliers: Supplier[];
-  pagination: { total: number };
+  pagination: { total: number | null };
+  totalResults: number | null;
+  totalKnown: boolean;
+  guestLimited: boolean;
+  freeLimit: number;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -218,8 +222,10 @@ export default function SupplierCategoryPage() {
       return {
         suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
         pagination: json.pagination && typeof json.pagination === "object"
-          ? { ...json.pagination, total: Number(json.pagination.total) || 0 }
-          : { total: 0 },
+          ? { ...json.pagination, total: json.pagination.total == null ? null : Number(json.pagination.total) || 0 }
+          : { total: null },
+        totalResults: json.totalResults == null ? null : Number(json.totalResults) || 0,
+        totalKnown: json.totalKnown !== false,
         guestLimited: json.guestLimited !== false,
         freeLimit: Number(json.freeLimit) || 3,
       };
@@ -232,9 +238,11 @@ export default function SupplierCategoryPage() {
   const showSkeleton = !!category && (status === "pending" || isFetching) && !data && !isError;
 
   const suppliers = data?.suppliers ?? [];
-  const total = data?.pagination?.total ?? 0;
+  const totalKnown = data?.totalKnown !== false;
+  const total = data?.pagination?.total ?? data?.totalResults;
+  const totalDisplay = totalKnown ? (total ?? 0).toLocaleString() : "1000+";
   const previewSuppliers = suppliers.slice(0, 3);
-  const hasMore = total > 3;
+  const hasMore = totalKnown ? (total ?? 0) > 3 : previewSuppliers.length >= 3;
 
   const related = [
     "copper-cathode", "lithium-batteries", "antimony", "solar-panels",
@@ -259,8 +267,8 @@ export default function SupplierCategoryPage() {
             <Globe className="w-3.5 h-3.5" />
             {showSkeleton
               ? t("category.loading")
-              : total > 0
-                ? t("category.suppliersFound", { count: total.toLocaleString() })
+              : (totalKnown ? (total ?? 0) > 0 : previewSuppliers.length > 0)
+                ? t("category.suppliersFound", { count: totalDisplay })
                 : t("category.globalDirectory")}
           </div>
 
@@ -314,9 +322,9 @@ export default function SupplierCategoryPage() {
             <h2 className="text-white font-bold text-lg">
               {showSkeleton ? t("category.searching") : t("category.topSuppliers", { name: displayName })}
             </h2>
-            {!showSkeleton && total > 0 && (
+            {!showSkeleton && (totalKnown ? (total ?? 0) > 0 : previewSuppliers.length > 0) && (
               <span className="text-xs text-slate-400 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
-                {t("category.totalResults", { count: total.toLocaleString() })}
+                {t("category.totalResults", { count: totalDisplay })}
               </span>
             )}
           </div>
@@ -359,7 +367,7 @@ export default function SupplierCategoryPage() {
                   <SupplierCard key={s.id} supplier={s} />
                 ))}
               </div>
-              {hasMore && <LockedOverlay total={total} category={category} />}
+              {hasMore && <LockedOverlay total={totalKnown ? (total ?? previewSuppliers.length) : 1000} category={category} />}
             </>
           )}
 

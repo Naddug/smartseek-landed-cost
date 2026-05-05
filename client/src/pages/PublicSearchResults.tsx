@@ -171,14 +171,10 @@ function LockedOverlay({ total, query }: { total: number; query: string }) {
 
 export default function PublicSearchResults() {
   const { t } = useTranslation();
-  // Derive query directly from the current URL — no useEffect, no render-cycle delay.
-  // wouter's useLocation triggers a re-render on navigation, keeping window.location.search current.
+  // Derive query from wouter's location so it updates reactively on navigation.
   const [location] = useLocation();
-  // Re-compute on every render triggered by navigation (location is the reactive dependency).
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const query = new URLSearchParams(
-    typeof window !== "undefined" ? window.location.search : ""
-  ).get("q") ?? "";
+  const searchPart = location.includes("?") ? location.split("?")[1] ?? "" : "";
+  const query = new URLSearchParams(searchPart).get("q") ?? "";
 
   const { data: user } = useUser();
   const isAuthenticated = !!user;
@@ -193,15 +189,23 @@ export default function PublicSearchResults() {
   }
 
   const suppliers = data?.suppliers ?? [];
-  const total = data?.pagination?.total ?? 0;
+  const totalKnown = data?.totalKnown !== false;
+  const total = data?.pagination?.total ?? data?.totalResults;
+  const totalDisplay = totalKnown
+    ? (total ?? 0).toLocaleString()
+    : "1000+";
   const guestLimited = data?.guestLimited ?? !isAuthenticated;
-  const hasMore = total > suppliers.length;
+  const hasMore = totalKnown
+    ? (total ?? 0) > suppliers.length
+    : suppliers.length >= 3;
 
-  // Use status === "pending" (not isLoading = isPending && isFetching).
-  // TanStack v5 can return isLoading=false before the first fetch resolves if
-  // isFetching briefly becomes false during a query-key transition.
+  // Never show skeleton when we have data or error — prevents infinite loading loop.
   const isPending = status === "pending";
-  const showSkeleton = query.trim().length > 0 && isPending && !isError;
+  const showSkeleton = query.trim().length > 0 && isPending && !isError && !data;
+
+  if (typeof window !== "undefined" && query.trim()) {
+    console.log("[PublicSearchResults] render:", { query, status, isError, suppliersCount: suppliers.length, total, totalKnown, showSkeleton });
+  }
 
   // No query — prompt the user to search
   if (!query.trim()) {
@@ -211,7 +215,7 @@ export default function PublicSearchResults() {
           <Search className="w-12 h-12 text-slate-600 mb-4" />
           <h1 className="text-2xl font-bold text-white mb-2">{t("home.hero.title1")}</h1>
           <p className="text-slate-400 text-sm mb-6 max-w-md">
-            {t("home.hero.subtitleBase", { suppliers: "25M+" })}{t("home.hero.subtitleHighlight")}
+            {t("home.hero.subtitleBase", { suppliers: "25.2M+" })}{t("home.hero.subtitleHighlight")}
           </p>
           <Link href="/">
             <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition">
@@ -231,9 +235,9 @@ export default function PublicSearchResults() {
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               {t("category.topSuppliers", { name: query })}
             </h1>
-            {!showSkeleton && total > 0 && (
+            {!showSkeleton && (totalKnown ? (total ?? 0) > 0 : suppliers.length > 0) && (
               <span className="inline-block text-xs text-slate-400 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
-                {t("category.totalResults", { count: total.toLocaleString() })}
+                {t("category.totalResults", { count: totalDisplay })}
               </span>
             )}
           </div>
@@ -269,7 +273,7 @@ export default function PublicSearchResults() {
               </div>
 
               {/* Guest lock overlay — server sets guestLimited=true for unauthenticated requests */}
-              {guestLimited && hasMore && <LockedOverlay total={total} query={query} />}
+              {guestLimited && hasMore && <LockedOverlay total={totalKnown ? (total ?? suppliers.length) : 1000} query={query} />}
 
               {/* Authenticated users: link to full advanced search */}
               {isAuthenticated && (

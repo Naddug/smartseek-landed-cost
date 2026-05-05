@@ -57,6 +57,7 @@ import Integrations from "@/pages/Integrations";
 import AdminIndexes from "@/pages/AdminIndexes";
 import SupplierCategoryPage from "@/pages/SupplierCategoryPage";
 import PublicSearchResults from "@/pages/PublicSearchResults";
+import SupplierDetailPage from "@/pages/SupplierDetailPage";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -132,6 +133,9 @@ function Router() {
       {/* Public search results — no auth required */}
       <Route path="/search" component={PublicSearchResults} />
       {/* Public SEO-friendly category landing pages: /suppliers/copper, /suppliers/antimony, etc. */}
+      <Route path="/supplier/:slug">
+        <PublicLayout><SupplierDetailPage /></PublicLayout>
+      </Route>
       <Route path="/suppliers/:category" component={SupplierCategoryPage} />
       <Route path="/rfq">
         <PublicLayout><RequestQuote /></PublicLayout>

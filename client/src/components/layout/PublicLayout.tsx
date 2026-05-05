@@ -81,12 +81,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
   const navLinks = (
     <>
-      <a href="/#how-it-works" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.howItWorks")}</a>
       <Link href="/search" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.suppliers")}</Link>
-      <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.rfq")}</Link>
+      <Link href="/landed-cost" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Calculator</Link>
       <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.pricing")}</Link>
-      <Link href="/faq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.faq")}</Link>
-      <Link href="/integrations" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.integrations")}</Link>
     </>
   );
 
@@ -161,7 +158,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">25M+</div>
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">25.2M+</div>
                 <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
               </div>
               <div>

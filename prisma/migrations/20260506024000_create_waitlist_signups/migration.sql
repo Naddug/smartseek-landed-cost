@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS waitlist_signups (
+  id SERIAL PRIMARY KEY,
+  full_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  company VARCHAR(255),
+  source VARCHAR(64) NOT NULL DEFAULT 'pricing_page',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

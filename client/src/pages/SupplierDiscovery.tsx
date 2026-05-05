@@ -37,8 +37,8 @@ interface Supplier {
 interface Pagination {
   page: number;
   limit: number;
-  total: number;
-  totalPages: number;
+  total: number | null;
+  totalPages: number | null;
 }
 
 interface FilterOption {
@@ -76,7 +76,7 @@ function useSuppliers(params: {
   searchParams.set("page", params.page.toString());
   searchParams.set("limit", "20");
 
-  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; guestLimited?: boolean; freeLimit?: number; fallback?: boolean; needFilter?: boolean; message?: string }>({
+  return useQuery<{ suppliers: Supplier[]; pagination: Pagination; totalResults?: number | null; totalKnown?: boolean; guestLimited?: boolean; freeLimit?: number; fallback?: boolean; needFilter?: boolean; message?: string }>({
     queryKey: ["suppliers", params],
     queryFn: async () => {
       const controller = new AbortController();
@@ -777,6 +777,15 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   // first fetch resolves if isFetching briefly becomes false during a query-key transition,
   // causing empty state to flash instead of the skeleton. Use status === "pending" instead.
   const isLoading = status === "pending";
+  const totalKnown = data?.totalKnown !== false;
+  const totalValue = data?.pagination.total ?? data?.totalResults ?? null;
+  const totalDisplay = totalKnown ? (totalValue ?? 0).toLocaleString() : "1000+";
+  const currentPageSize = data?.suppliers?.length ?? 0;
+  const canGoNext = !data
+    ? false
+    : totalKnown
+      ? data.pagination.totalPages != null && page < data.pagination.totalPages
+      : currentPageSize >= data.pagination.limit;
 
   const { data: filters } = useFilters();
 
@@ -958,7 +967,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <span className="text-red-600">{t("supplier.failedLoad")}</span>
             ) : data ? (
               <>
-                {t("supplier.suppliersFound", { total: data.pagination.total.toLocaleString() })}
+                {t("supplier.suppliersFound", { total: totalDisplay })}
                 {debouncedQuery && <span className="text-gray-500"> for &ldquo;{debouncedQuery}&rdquo;</span>}
                 {isFetching && <Loader2 className="w-3 h-3 animate-spin text-slate-400 inline-block" />}
               </>
@@ -1012,23 +1021,23 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             </div>
 
             {/* Growth loop: show signup wall for guests */}
-            {data.guestLimited && data.pagination.total > (data.freeLimit ?? 3) && (
+            {data.guestLimited && (totalKnown ? (totalValue ?? 0) > (data.freeLimit ?? 3) : data.suppliers.length >= (data.freeLimit ?? 3)) && (
               <SignupWall
-                total={data.pagination.total}
+                total={totalKnown ? (totalValue ?? 0) : 1000}
                 freeLimit={data.freeLimit ?? 3}
               />
             )}
 
             {/* Upgrade wall for authenticated free users */}
-            {!data.guestLimited && isFreeUser && data.pagination.total > FREE_LIMIT && (
+            {!data.guestLimited && isFreeUser && (totalKnown ? (totalValue ?? 0) > FREE_LIMIT : data.suppliers.length >= FREE_LIMIT) && (
               <FreeUserUpgradeWall
-                total={data.pagination.total}
+                total={totalKnown ? (totalValue ?? 0) : 1000}
                 freeLimit={FREE_LIMIT}
               />
             )}
 
             {/* Pagination — only for pro users */}
-            {!data.guestLimited && !isFreeUser && data.pagination.totalPages > 1 && (
+            {!data.guestLimited && !isFreeUser && (totalKnown ? (data.pagination.totalPages ?? 0) > 1 : data.pagination.page >= 1) && (
               <div className="flex items-center justify-center gap-3 mt-8 pb-4">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -1038,11 +1047,12 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
                   Previous
                 </button>
                 <span className="text-sm text-gray-700 font-medium">
-                  Page {data.pagination.page.toLocaleString()} of {data.pagination.totalPages.toLocaleString()}
+                  Page {data.pagination.page.toLocaleString()}
+                  {totalKnown && data.pagination.totalPages != null ? ` of ${data.pagination.totalPages.toLocaleString()}` : ""}
                 </span>
                 <button
-                  onClick={() => setPage((p) => Math.min(data.pagination.totalPages, p + 1))}
-                  disabled={page === data.pagination.totalPages}
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={!canGoNext}
                   className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-800 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
                 >
                   Next

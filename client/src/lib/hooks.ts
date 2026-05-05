@@ -166,6 +166,8 @@ export function useShippingEstimates() {
 // Auth-aware: guests get guestLimited=true from server; authenticated users see more.
 // Query is enabled only when q is non-empty.
 interface PublicSupplierSearchResult {
+  totalResults: number | null;
+  totalKnown: boolean;
   suppliers: {
     id: string;
     companyName: string;
@@ -179,33 +181,52 @@ interface PublicSupplierSearchResult {
     employeeCount: number | null;
     dataSource?: string | null;
   }[];
-  pagination: { total: number; page: number; limit: number; totalPages: number };
+  pagination: { total: number | null; page: number; limit: number; totalPages: number | null };
   guestLimited: boolean;
   freeLimit: number;
   fallback: boolean;
 }
 
 export function usePublicSupplierSearch(q: string) {
+  const trimmed = q.trim();
   return useQuery<PublicSupplierSearchResult>({
-    queryKey: ["publicSearch", q.trim()],
+    queryKey: ["publicSearch", trimmed],
     queryFn: async () => {
-      // limit=6: server caps guests at FREE_LIMIT (3) via guestLimited flag.
-      // Authenticated users get up to 6 previews; full search is at /app/suppliers.
-      const res = await fetch(
-        `/api/suppliers?q=${encodeURIComponent(q.trim())}&limit=6`,
-        { credentials: "include" },
-      );
-      if (!res.ok) throw new Error(`Search failed: HTTP ${res.status}`);
+      const url = `/api/suppliers?q=${encodeURIComponent(trimmed)}&limit=6`;
+      console.log("[usePublicSupplierSearch] API request triggered:", url);
+      const res = await fetch(url, { credentials: "include" });
+      if (!res.ok) {
+        console.error("[usePublicSupplierSearch] API error:", res.status, await res.text());
+        throw new Error(`Search failed: HTTP ${res.status}`);
+      }
       const json = await res.json();
-      return {
+      console.log("[usePublicSupplierSearch] API response arrived:", {
+        suppliersCount: Array.isArray(json.suppliers) ? json.suppliers.length : 0,
+        total: json.pagination?.total ?? json.totalResults ?? null,
+        totalKnown: json.totalKnown !== false,
+        guestLimited: json.guestLimited,
+      });
+      const totalKnown = json.totalKnown !== false;
+      const result = {
         suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
-        pagination: json.pagination ?? { total: 0, page: 1, limit: 6, totalPages: 0 },
+        pagination: json.pagination && typeof json.pagination === "object"
+          ? {
+              total: json.pagination.total == null ? null : Math.max(0, Number(json.pagination.total) || 0),
+              page: Math.max(1, Number(json.pagination.page) || 1),
+              limit: Math.max(1, Number(json.pagination.limit) || 6),
+              totalPages: json.pagination.totalPages == null ? null : Math.max(0, Number(json.pagination.totalPages) || 0),
+            }
+          : { total: null, page: 1, limit: 6, totalPages: null },
+        totalResults: json.totalResults == null ? null : Math.max(0, Number(json.totalResults) || 0),
+        totalKnown,
         guestLimited: json.guestLimited === true,
         freeLimit: Number(json.freeLimit) || 3,
         fallback: json.fallback === true,
       };
+      console.log("[usePublicSupplierSearch] Normalized result.suppliers.length:", result.suppliers.length);
+      return result;
     },
-    enabled: q.trim().length > 0,
+    enabled: trimmed.length > 0,
     staleTime: 30_000,
     retry: 1,
   });

@@ -1,6 +1,8 @@
-import { Check, Zap, Crown, Building2, Shield } from "lucide-react";
-import { Link } from "wouter";
-import { TrustBadges } from "@/components/trust/TrustBadges";
+import { useEffect, useState } from "react";
+import { Check, Zap, Crown, Building2 } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface PricingTier {
   name: string;
@@ -10,6 +12,7 @@ interface PricingTier {
   features: string[];
   cta: string;
   ctaHref: string;
+  waitlistOnly?: boolean;
   popular?: boolean;
   icon: React.ReactNode;
   gradient: string;
@@ -39,7 +42,7 @@ const tiers: PricingTier[] = [
     period: "/mo",
     description: "For serious buyers — typically pays for itself with 1 saved sourcing cycle",
     features: [
-      "Unlimited supplier searches (25M+ database)",
+      "Unlimited supplier searches (25.2M+ database)",
       "Advanced landed cost calculator",
       "20 RFQs per month",
       "Verified supplier contacts & export",
@@ -47,7 +50,8 @@ const tiers: PricingTier[] = [
       "14-day free trial — cancel anytime"
     ],
     cta: "Start 14-Day Free Trial",
-    ctaHref: "/signup",
+    ctaHref: "#",
+    waitlistOnly: true,
     popular: true,
     icon: <Crown className="w-6 h-6" />,
     gradient: "from-blue-600 to-indigo-600"
@@ -73,6 +77,51 @@ const tiers: PricingTier[] = [
 ];
 
 export default function Pricing() {
+  const [location] = useLocation();
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const submitWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/waitlist-signups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          email,
+          company,
+          tier_interest: "professional",
+          source_page: "pricing",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Could not submit");
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err?.message || "Could not submit");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    const search = location.includes("?") ? location.split("?")[1] ?? "" : "";
+    const shouldOpenWaitlist = new URLSearchParams(search).get("waitlist") === "1";
+    if (shouldOpenWaitlist) {
+      setSubmitted(false);
+      setError("");
+      setWaitlistOpen(true);
+    }
+  }, [location]);
+
   return (
     <div className="min-h-screen">
         {/* Header */}
@@ -81,8 +130,7 @@ export default function Pricing() {
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="container mx-auto px-4 relative z-10 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white/90 text-sm font-medium mb-6">
-              <Shield className="w-4 h-4" />
-              Trusted by procurers worldwide • Enterprise security
+              Trusted by procurers worldwide
             </div>
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
               Simple, Transparent Pricing
@@ -136,16 +184,30 @@ export default function Pricing() {
                         </li>
                       ))}
                     </ul>
-                    <Link
-                      href={tier.ctaHref}
-                      className={`block w-full py-3 rounded-lg font-semibold transition-colors text-center ${
-                        tier.popular
-                          ? "bg-blue-600 hover:bg-blue-700 text-white"
-                          : "bg-slate-100 hover:bg-slate-200 text-slate-900"
-                      }`}
-                    >
-                      {tier.cta}
-                    </Link>
+                    {tier.waitlistOnly ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSubmitted(false);
+                          setError("");
+                          setWaitlistOpen(true);
+                        }}
+                        className="block w-full py-3 rounded-lg font-semibold transition-colors text-center bg-blue-600 hover:bg-blue-700 text-white"
+                      >
+                        Join Waitlist
+                      </button>
+                    ) : (
+                      <Link
+                        href={tier.ctaHref}
+                        className={`block w-full py-3 rounded-lg font-semibold transition-colors text-center ${
+                          tier.popular
+                            ? "bg-blue-600 hover:bg-blue-700 text-white"
+                            : "bg-slate-100 hover:bg-slate-200 text-slate-900"
+                        }`}
+                      >
+                        {tier.cta}
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}
@@ -153,13 +215,50 @@ export default function Pricing() {
           </div>
         </section>
 
-        {/* Trust strip */}
-        <section className="py-12 bg-white border-t border-slate-200">
-          <div className="container mx-auto px-4">
-            <p className="text-center text-sm text-slate-500 mb-8">Your data is protected</p>
-            <TrustBadges />
-          </div>
-        </section>
+        <Dialog open={waitlistOpen} onOpenChange={setWaitlistOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Join Professional Waitlist</DialogTitle>
+              <DialogDescription>
+                Professional checkout is temporarily disabled. Leave your details and we will notify you at launch.
+              </DialogDescription>
+            </DialogHeader>
+            {submitted ? (
+              <div className="text-sm text-slate-700">
+                You are on the waitlist. We will reach out soon.
+              </div>
+            ) : (
+              <form onSubmit={submitWaitlist} className="space-y-3">
+                <input
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  placeholder="Full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+                <input
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  type="email"
+                  placeholder="Work email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <input
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  placeholder="Company (optional)"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+                {error && <p className="text-xs text-red-600">{error}</p>}
+                <Button type="submit" disabled={submitting} className="w-full">
+                  {submitting ? "Submitting..." : "Join Waitlist"}
+                </Button>
+              </form>
+            )}
+          </DialogContent>
+        </Dialog>
+
     </div>
   );
 }

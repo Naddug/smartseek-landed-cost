@@ -141,6 +141,7 @@ model Supplier {
   contactPhone    String?
   website         String?
   description     String
+  searchVector    Unsupported("tsvector")? @map("search_vector")
   employeeCount   Int?
   annualRevenue   String?
   yearEstablished Int
@@ -169,6 +170,7 @@ model Supplier {
   @@index([companyName])
   @@index([rating(sort: Desc)])
   @@index([countryCode])
+  @@index([searchVector], type: Gin, map: "supplier_search_vector_idx")
 }
 
 // WARNING: NEVER run `prisma db push --accept-data-loss` in production.
