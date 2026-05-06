@@ -63,6 +63,11 @@ import Trust from "@/pages/Trust";
 import Verification from "@/pages/Verification";
 import Methodology from "@/pages/Methodology";
 import RfqStatus from "@/pages/RfqStatus";
+import type { ReactNode } from "react";
+
+function PublicPage({ children }: { children: ReactNode }) {
+  return <PublicLayout>{children}</PublicLayout>;
+}
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -144,47 +149,47 @@ function Router() {
       <Route path="/search" component={PublicSearchResults} />
       {/* Public SEO-friendly category landing pages: /suppliers/copper, /suppliers/antimony, etc. */}
       <Route path="/supplier/:slug">
-        <PublicLayout><SupplierDetailPage /></PublicLayout>
+        <PublicPage><SupplierDetailPage /></PublicPage>
       </Route>
       <Route path="/suppliers/:category" component={SupplierCategoryPage} />
       <Route path="/rfq">
-        <PublicLayout><RequestQuote /></PublicLayout>
+        <PublicPage><RequestQuote /></PublicPage>
       </Route>
       <Route path="/rfq-status">
-        <PublicLayout><RfqStatus /></PublicLayout>
+        <RfqStatus />
       </Route>
       <Route path="/become-a-supplier">
-        <PublicLayout><BecomeASupplier /></PublicLayout>
+        <BecomeASupplier />
       </Route>
       <Route path="/trust">
-        <PublicLayout><Trust /></PublicLayout>
+        <Trust />
       </Route>
       <Route path="/verification">
-        <PublicLayout><Verification /></PublicLayout>
+        <Verification />
       </Route>
       <Route path="/methodology">
-        <PublicLayout><Methodology /></PublicLayout>
+        <Methodology />
       </Route>
       <Route path="/faq">
-        <PublicLayout><FAQ /></PublicLayout>
+        <PublicPage><FAQ /></PublicPage>
       </Route>
       <Route path="/pricing">
-        <PublicLayout><Pricing /></PublicLayout>
+        <PublicPage><Pricing /></PublicPage>
       </Route>
       <Route path="/contact">
-        <PublicLayout><Contact /></PublicLayout>
+        <PublicPage><Contact /></PublicPage>
       </Route>
       <Route path="/about">
-        <PublicLayout><About /></PublicLayout>
+        <PublicPage><About /></PublicPage>
       </Route>
       <Route path="/privacy">
-        <PublicLayout><Privacy /></PublicLayout>
+        <PublicPage><Privacy /></PublicPage>
       </Route>
       <Route path="/terms">
-        <PublicLayout><Terms /></PublicLayout>
+        <PublicPage><Terms /></PublicPage>
       </Route>
       <Route path="/integrations">
-        <PublicLayout><Integrations /></PublicLayout>
+        <PublicPage><Integrations /></PublicPage>
       </Route>
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/reset-password" component={ResetPassword} />

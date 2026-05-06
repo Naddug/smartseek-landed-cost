@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { Link } from "wouter";
+import { useTranslation } from "react-i18next";
 
 interface FAQItem {
   question: string;
@@ -135,6 +136,7 @@ function FAQAccordionItem({ item, isOpen, onToggle }: { item: FAQItem; isOpen: b
 }
 
 export default function FAQ() {
+  const { t } = useTranslation();
   const [openKeys, setOpenKeys] = useState<Record<string, boolean>>({});
 
   const toggle = (sectionIndex: number, itemIndex: number) => {
@@ -154,13 +156,13 @@ export default function FAQ() {
                 <div className="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center">
                   <HelpCircle className="w-6 h-6 text-blue-300" />
                 </div>
-                <span className="text-blue-300 font-medium">Support</span>
+                <span className="text-blue-300 font-medium">{t("faq.support")}</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
-                Frequently Asked Questions
+                {t("faq.title")}
               </h1>
               <p className="text-slate-300 text-lg">
-                Find answers to common questions about SmartSeek, our platform, and how we can help procurers, entrepreneurs, suppliers, and producers.
+                {t("faq.subtitle")}
               </p>
             </div>
           </div>
@@ -190,12 +192,12 @@ export default function FAQ() {
             </div>
 
             <div className="mt-12 text-center">
-              <p className="text-slate-600 mb-4">Still have questions?</p>
+              <p className="text-slate-600 mb-4">{t("faq.stillQuestions")}</p>
               <Link
                 href="/contact"
                 className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
               >
-                Contact Us
+                {t("faq.contactUs")}
               </Link>
             </div>
           </div>

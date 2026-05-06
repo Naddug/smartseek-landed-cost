@@ -184,6 +184,50 @@ export async function sendSubscribeConfirmationEmail(toEmail: string): Promise<b
   return true;
 }
 
+export async function sendRfqConfirmationEmail(
+  toEmail: string,
+  rfqId: string,
+  productName: string
+): Promise<boolean> {
+  const html = emailWrapper(`
+    <h2 style="color: #1f2937; margin: 0 0 16px 0; font-size: 20px;">RFQ received</h2>
+    <p style="color: #6b7280; line-height: 1.6; margin: 0 0 16px 0;">
+      Your sourcing request has been received for <strong>${productName}</strong>.
+    </p>
+    <p style="color: #6b7280; line-height: 1.6; margin: 0 0 16px 0;">
+      RFQ ID: <strong>${rfqId}</strong><br/>
+      Our sourcing operator will review and route it to relevant verified suppliers.
+    </p>
+  `);
+
+  await sendMail({
+    to: toEmail,
+    subject: "SmartSeek RFQ received",
+    html,
+    text: `RFQ received\n\nProduct: ${productName}\nRFQ ID: ${rfqId}\n\nOur sourcing operator will review and route your request to relevant verified suppliers.`,
+  });
+  return true;
+}
+
+export async function sendOpsAlertEmail(subject: string, details: Record<string, unknown>): Promise<boolean> {
+  const opsEmail = process.env.OPS_ALERT_EMAIL || process.env.FROM_EMAIL || process.env.BREVO_SMTP_USER;
+  if (!opsEmail) return false;
+  const body = Object.entries(details)
+    .map(([k, v]) => `<p style="margin:0 0 8px 0;"><strong>${k}:</strong> ${String(v ?? "")}</p>`)
+    .join("");
+  const html = emailWrapper(`
+    <h2 style="color: #1f2937; margin: 0 0 16px 0; font-size: 20px;">${subject}</h2>
+    ${body}
+  `);
+  await sendMail({
+    to: opsEmail,
+    subject,
+    html,
+    text: `${subject}\n\n${Object.entries(details).map(([k, v]) => `${k}: ${String(v ?? "")}`).join("\n")}`,
+  });
+  return true;
+}
+
 /**
  * Verify SMTP connectivity. Call this on startup to surface misconfigurations early.
  * Returns true if OK, false (with logged warning) if not.

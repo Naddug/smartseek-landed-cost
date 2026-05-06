@@ -3,8 +3,8 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpBackend from "i18next-http-backend";
 
-// Production languages — full translation coverage guaranteed for all five
-export const LANGUAGES = ["en", "es", "zh", "ru", "tr"] as const;
+// Production languages — full translation coverage guaranteed for all six
+export const LANGUAGES = ["en", "es", "zh", "ja", "ru", "tr"] as const;
 export type SupportedLang = (typeof LANGUAGES)[number];
 
 // Display names for the language switcher
@@ -12,6 +12,7 @@ export const LANGUAGE_NAMES: Record<SupportedLang, string> = {
   en: "English",
   es: "Español",
   zh: "中文",
+  ja: "日本語",
   ru: "Русский",
   tr: "Türkçe",
 };

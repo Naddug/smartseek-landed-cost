@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { FileText, ArrowRight, Clock, CheckCircle2, AlertCircle, Search } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
+import { useTranslation } from "react-i18next";
 
 type RfqInfo = {
   id: string;
@@ -43,6 +44,7 @@ function StatusPill({ status }: { status: string }) {
 }
 
 export default function RfqStatus() {
+  const { t } = useTranslation();
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [data, setData] = useState<RfqInfo | null>(null);
@@ -67,12 +69,12 @@ export default function RfqStatus() {
     setData(null);
     setLoading(true);
     try {
-      const res = await fetch(`/api/rfqs/${encodeURIComponent(rfqId)}?email=${encodeURIComponent(buyerEmail)}`);
+      const res = await fetch(`/api/rfq/${encodeURIComponent(rfqId)}?email=${encodeURIComponent(buyerEmail)}`);
       const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json.error || "RFQ not found");
+      if (!res.ok) throw new Error(json.error || t("rfqStatus.notFound"));
       setData(json as RfqInfo);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Could not load RFQ");
+      setError(err instanceof Error ? err.message : t("rfqStatus.loadError"));
     } finally {
       setLoading(false);
     }
@@ -81,7 +83,7 @@ export default function RfqStatus() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!id.trim() || !email.trim()) {
-      setError("Enter both RFQ ID and the email you submitted with.");
+      setError(t("rfqStatus.enterBoth"));
       return;
     }
     void lookup(id.trim(), email.trim());
@@ -92,10 +94,10 @@ export default function RfqStatus() {
       <section className="bg-gradient-to-b from-slate-950 via-blue-950 to-slate-900 py-14 px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold mb-4">
-            <FileText className="w-3.5 h-3.5" /> RFQ tracker
+            <FileText className="w-3.5 h-3.5" /> {t("rfqStatus.badge")}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Check the status of your RFQ</h1>
-          <p className="text-slate-400 text-sm">Enter your RFQ ID and the email you used to submit. We&apos;ll show the latest status from our sourcing operator.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("rfqStatus.title")}</h1>
+          <p className="text-slate-400 text-sm">{t("rfqStatus.subtitle")}</p>
         </div>
       </section>
 
@@ -106,19 +108,19 @@ export default function RfqStatus() {
               <input
                 value={id}
                 onChange={(e) => setId(e.target.value)}
-                placeholder="RFQ ID"
+                placeholder={t("rfqStatus.rfqId")}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email used to submit"
+                placeholder={t("rfqStatus.emailUsed")}
                 type="email"
                 className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-2.5 rounded-lg text-sm inline-flex items-center justify-center gap-2 transition">
-              {loading ? "Loading..." : (<>Look up RFQ <ArrowRight className="w-4 h-4" /></>)}
+              {loading ? t("common.loading") : (<>{t("rfqStatus.lookup")} <ArrowRight className="w-4 h-4" /></>)}
             </button>
             {error && <p className="text-xs text-red-600">{error}</p>}
           </form>
@@ -127,7 +129,7 @@ export default function RfqStatus() {
             <div className="mt-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">RFQ #{data.id}</p>
+                  <p className="text-xs text-slate-500 mb-1">{t("rfqStatus.rfq")} #{data.id}</p>
                   <h2 className="text-lg font-bold text-slate-900">{data.productName}</h2>
                   {data.productCategory && <p className="text-xs text-slate-500">{data.productCategory}</p>}
                 </div>
@@ -135,18 +137,18 @@ export default function RfqStatus() {
               </div>
               <p className="text-xs text-slate-600 mb-4">{(STATUS_LABEL[data.status] ?? STATUS_LABEL.pending).help}</p>
               <div className="grid grid-cols-2 gap-3 text-xs text-slate-700">
-                <KV k="Quantity" v={`${data.quantity} ${data.unit}`} />
-                {data.targetPrice && <KV k="Target price" v={`${data.targetPrice} ${data.currency}`} />}
-                {data.incoterm && <KV k="Incoterm" v={data.incoterm} />}
-                {data.destinationPort && <KV k="Destination" v={data.destinationPort} />}
-                {data.deliveryDate && <KV k="Delivery" v={data.deliveryDate} />}
-                {data.buyerCompany && <KV k="Buyer" v={data.buyerCompany} />}
-                <KV k="Submitted" v={new Date(data.createdAt).toLocaleString()} />
-                <KV k="Last update" v={new Date(data.updatedAt).toLocaleString()} />
+                <KV k={t("rfqStatus.quantity")} v={`${data.quantity} ${data.unit}`} />
+                {data.targetPrice && <KV k={t("rfqStatus.targetPrice")} v={`${data.targetPrice} ${data.currency}`} />}
+                {data.incoterm && <KV k={t("rfqStatus.incoterm")} v={data.incoterm} />}
+                {data.destinationPort && <KV k={t("rfqStatus.destination")} v={data.destinationPort} />}
+                {data.deliveryDate && <KV k={t("rfqStatus.delivery")} v={data.deliveryDate} />}
+                {data.buyerCompany && <KV k={t("rfqStatus.buyer")} v={data.buyerCompany} />}
+                <KV k={t("rfqStatus.submitted")} v={new Date(data.createdAt).toLocaleString()} />
+                <KV k={t("rfqStatus.lastUpdate")} v={new Date(data.updatedAt).toLocaleString()} />
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3 text-xs">
-                <Link href="/rfq" className="text-blue-700 underline underline-offset-2">Submit another RFQ</Link>
-                <Link href="/methodology" className="text-blue-700 underline underline-offset-2">How RFQs are routed</Link>
+                <Link href="/rfq" className="text-blue-700 underline underline-offset-2">{t("rfqStatus.submitAnother")}</Link>
+                <Link href="/methodology" className="text-blue-700 underline underline-offset-2">{t("rfq.header.linkMethodology")}</Link>
               </div>
             </div>
           )}

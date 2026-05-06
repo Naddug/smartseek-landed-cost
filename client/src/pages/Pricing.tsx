@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, ShieldCheck, FileText, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 type FormState = {
   fullName: string;
@@ -20,6 +21,7 @@ const INITIAL_FORM: FormState = {
 };
 
 export default function Pricing() {
+  const { t } = useTranslation();
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -38,7 +40,7 @@ export default function Pricing() {
     e.preventDefault();
     setError(null);
     if (!form.fullName.trim() || !form.email.trim()) {
-      setError("Name and work email are required.");
+      setError(t("pricing.errors.required"));
       return;
     }
     setSubmitting(true);
@@ -58,10 +60,10 @@ export default function Pricing() {
         }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || "Could not submit");
+      if (!res.ok) throw new Error(data.error || t("pricing.errors.submit"));
       setSubmitted(true);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Could not submit");
+      setError(err instanceof Error ? err.message : t("pricing.errors.submit"));
     } finally {
       setSubmitting(false);
     }
@@ -74,15 +76,15 @@ export default function Pricing() {
         <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-xs font-semibold mb-6">
             <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
-            Free during beta · Founding users program
+            {t("pricing.banner")}
           </div>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-            SmartSeek is free during beta
+            {t("pricing.title")}
           </h1>
           <p className="text-slate-300 text-base md:text-lg mb-2 leading-relaxed">
-            We&apos;re onboarding a small group of procurement teams. There is no payment system during beta. Founding users get priority sourcing support and locked-in pricing when we launch paid plans.
+            {t("pricing.subtitle")}
           </p>
-          <p className="text-slate-500 text-sm">No credit card. No upgrade prompts. No usage caps during beta.</p>
+          <p className="text-slate-500 text-sm">{t("pricing.noCard")}</p>
         </div>
       </section>
 
@@ -92,19 +94,19 @@ export default function Pricing() {
             {/* Founding User card */}
             <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-8">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">Founding user</span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100">Beta only</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">{t("pricing.foundingUser")}</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100">{t("pricing.betaOnly")}</span>
               </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-2">Full access · free during beta</h2>
-              <p className="text-slate-600 text-sm mb-6">For procurement teams sourcing strategic metals, industrial inputs, or specialty materials.</p>
+              <h2 className="text-xl font-bold text-slate-900 mb-2">{t("pricing.cardTitle")}</h2>
+              <p className="text-slate-600 text-sm mb-6">{t("pricing.cardDesc")}</p>
               <ul className="space-y-3 text-sm text-slate-700 mb-8">
                 {[
-                  "Full curated supplier directory access",
-                  "Unlimited RFQ submissions during beta",
-                  "Operator-led RFQ routing — a real human screens your request",
-                  "Registry-verified suppliers only",
-                  "Direct sourcing-team support via email",
-                  "Locked-in founding-user pricing when paid plans launch",
+                  t("pricing.feature1"),
+                  t("pricing.feature2"),
+                  t("pricing.feature3"),
+                  t("pricing.feature4"),
+                  t("pricing.feature5"),
+                  t("pricing.feature6"),
                 ].map((line, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
@@ -113,18 +115,18 @@ export default function Pricing() {
                 ))}
               </ul>
               <div className="rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-xs text-slate-600">
-                We accept founding users on a rolling basis. Most applications are reviewed within one business day.
+                {t("pricing.reviewNote")}
               </div>
             </div>
 
             {/* Application form */}
             <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl p-8 text-white">
-              <h2 className="text-xl font-bold mb-2">Request beta access</h2>
-              <p className="text-slate-400 text-sm mb-6">Tell us briefly what you source. We&apos;ll get back to you with onboarding details.</p>
+              <h2 className="text-xl font-bold mb-2">{t("pricing.requestTitle")}</h2>
+              <p className="text-slate-400 text-sm mb-6">{t("pricing.requestDesc")}</p>
               {submitted ? (
                 <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-4 py-6 text-sm text-emerald-100">
-                  <div className="flex items-center gap-2 font-semibold mb-1"><CheckCircle2 className="w-4 h-4" /> You&apos;re on the list</div>
-                  <p className="text-emerald-200/80">We&apos;ll reach out from sourcing@smartseek.com within one business day.</p>
+                  <div className="flex items-center gap-2 font-semibold mb-1"><CheckCircle2 className="w-4 h-4" /> {t("pricing.successTitle")}</div>
+                  <p className="text-emerald-200/80">{t("pricing.successDesc")}</p>
                 </div>
               ) : (
                 <form onSubmit={submit} className="space-y-3">
@@ -132,7 +134,7 @@ export default function Pricing() {
                     name="fullName"
                     value={form.fullName}
                     onChange={handleChange}
-                    placeholder="Full name *"
+                    placeholder={t("pricing.fullName")}
                     className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2.5 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -141,7 +143,7 @@ export default function Pricing() {
                     type="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="Work email *"
+                    placeholder={t("pricing.workEmail")}
                     className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2.5 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -149,7 +151,7 @@ export default function Pricing() {
                     name="company"
                     value={form.company}
                     onChange={handleChange}
-                    placeholder="Company"
+                    placeholder={t("pricing.company")}
                     className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2.5 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <select
@@ -158,27 +160,27 @@ export default function Pricing() {
                     onChange={handleChange}
                     className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2.5 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="">Role (optional)</option>
-                    <option value="procurement">Procurement / Sourcing</option>
+                    <option value="">{t("pricing.roleOptional")}</option>
+                    <option value="procurement">{t("pricing.roleProcurement")}</option>
                     <option value="supply_chain">Supply Chain</option>
                     <option value="founder_ops">Founder / Ops</option>
                     <option value="trader">Trader / Distributor</option>
-                    <option value="other">Other</option>
+                    <option value="other">{t("common.other")}</option>
                   </select>
                   <textarea
                     name="useCase"
                     value={form.useCase}
                     onChange={handleChange}
-                    placeholder="What do you source? (e.g. antimony ingot from Asia, copper cathode for EU)"
+                    placeholder={t("pricing.useCase")}
                     rows={3}
                     className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2.5 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   />
                   {error && <p className="text-xs text-red-400">{error}</p>}
                   <Button type="submit" disabled={submitting} className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold">
-                    {submitting ? "Submitting..." : (<>Request access <ArrowRight className="w-4 h-4 ml-1" /></>)}
+                    {submitting ? t("pricing.submitting") : (<>{t("pricing.requestAccess")} <ArrowRight className="w-4 h-4 ml-1" /></>)}
                   </Button>
                   <p className="text-[11px] text-slate-500 leading-relaxed text-center pt-1">
-                    Submitting this form is not a contract. We&apos;ll only use your details to contact you about beta onboarding.
+                    {t("pricing.footnote")}
                   </p>
                 </form>
               )}
@@ -192,18 +194,18 @@ export default function Pricing() {
         <div className="max-w-4xl mx-auto grid sm:grid-cols-3 gap-6 text-center">
           <div>
             <ShieldCheck className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <div className="text-sm font-semibold text-slate-900">Registry-verified suppliers</div>
-            <div className="text-xs text-slate-500 mt-1"><Link href="/verification" className="underline underline-offset-2">Verification standards</Link></div>
+            <div className="text-sm font-semibold text-slate-900">{t("pricing.trust1")}</div>
+            <div className="text-xs text-slate-500 mt-1"><Link href="/verification" className="underline underline-offset-2">{t("publicFooter.verificationStandards")}</Link></div>
           </div>
           <div>
             <FileText className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
-            <div className="text-sm font-semibold text-slate-900">Operator-led RFQ routing</div>
-            <div className="text-xs text-slate-500 mt-1"><Link href="/methodology" className="underline underline-offset-2">Sourcing methodology</Link></div>
+            <div className="text-sm font-semibold text-slate-900">{t("pricing.trust2")}</div>
+            <div className="text-xs text-slate-500 mt-1"><Link href="/methodology" className="underline underline-offset-2">{t("publicFooter.methodology")}</Link></div>
           </div>
           <div>
             <CheckCircle2 className="w-6 h-6 text-amber-600 mx-auto mb-2" />
-            <div className="text-sm font-semibold text-slate-900">No marketplace spam</div>
-            <div className="text-xs text-slate-500 mt-1"><Link href="/trust" className="underline underline-offset-2">Trust &amp; transparency</Link></div>
+            <div className="text-sm font-semibold text-slate-900">{t("pricing.trust3")}</div>
+            <div className="text-xs text-slate-500 mt-1"><Link href="/trust" className="underline underline-offset-2">{t("publicNav.trustVerification")}</Link></div>
           </div>
         </div>
       </section>

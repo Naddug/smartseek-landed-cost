@@ -147,21 +147,21 @@ export default function PublicSearchResults() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] font-semibold mb-3">
-              <ShieldCheck className="w-3 h-3" /> Curated · registry-verified suppliers
+              <ShieldCheck className="w-3 h-3" /> {t("publicSearch.hero.badge")}
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Supplier directory</h1>
-            <p className="text-slate-400 text-sm">Search a sample of registry-verified suppliers across strategic metals and industrial inputs. Full directory is unlocked for founding users during beta.</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("publicSearch.hero.title")}</h1>
+            <p className="text-slate-400 text-sm">{t("publicSearch.hero.subtitle")}</p>
           </div>
 
           <form onSubmit={onSubmit} className="max-w-xl mx-auto mb-5 flex gap-2">
             <input
               className="flex-1 rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Search by commodity, product, or HS keyword (e.g. antimony ingot)"
+              placeholder={t("publicSearch.hero.placeholder")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
             <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl text-sm transition">
-              <Search className="w-4 h-4" /> Search
+              <Search className="w-4 h-4" /> {t("common.search")}
             </button>
           </form>
 
@@ -184,17 +184,17 @@ export default function PublicSearchResults() {
           {!isPending && !isError && submittedQuery && (
             <div className="mb-4 text-center">
               <span className="inline-block text-xs text-slate-300 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
-                {total} curated supplier{total === 1 ? "" : "s"} matching "{submittedQuery}"
+                {t("publicSearch.results.matchingCount", { count: total, query: submittedQuery })}
               </span>
             </div>
           )}
 
           {isPending && (
-            <div className="text-center py-12 text-slate-400">Loading...</div>
+            <div className="text-center py-12 text-slate-400">{t("common.loading")}</div>
           )}
 
           {isError && (
-            <div className="text-center py-12 text-slate-300">Could not load results. Please retry.</div>
+            <div className="text-center py-12 text-slate-300">{t("publicSearch.error")}</div>
           )}
 
           {!isPending && !isError && suppliers.length > 0 && (
@@ -209,19 +209,23 @@ export default function PublicSearchResults() {
             <div className="max-w-2xl mx-auto py-10">
               <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 text-center">
                 <Building2 className="w-10 h-10 text-slate-500 mx-auto mb-4" />
-                <h2 className="text-lg font-bold text-white mb-2">No public matches{submittedQuery ? ` for "${submittedQuery}"` : ""}</h2>
+                <h2 className="text-lg font-bold text-white mb-2">
+                  {submittedQuery
+                    ? t("publicSearch.empty.titleWithQuery", { query: submittedQuery })
+                    : t("publicSearch.empty.title")}
+                </h2>
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  Our public directory is intentionally curated. If you can&apos;t find a supplier here, submit an RFQ and a sourcing operator will tap our internal index and verified network for you.
+                  {t("publicSearch.empty.body")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link href={`/rfq${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
                     <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
-                      <FileText className="w-4 h-4" /> Submit an RFQ
+                      <FileText className="w-4 h-4" /> {t("publicSearch.empty.submitRfq")}
                     </button>
                   </Link>
                   <Link href="/pricing">
                     <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition">
-                      Request beta access <ArrowRight className="w-4 h-4" />
+                      {t("publicSearch.empty.requestBeta")} <ArrowRight className="w-4 h-4" />
                     </button>
                   </Link>
                 </div>
@@ -232,10 +236,10 @@ export default function PublicSearchResults() {
           {/* Persistent "didn't find it?" footer CTA — visible even on result hits */}
           {!isPending && !isError && suppliers.length > 0 && (
             <div className="mt-10 text-center">
-              <p className="text-xs text-slate-400 mb-3">Need a supplier we haven&apos;t listed publicly?</p>
+              <p className="text-xs text-slate-400 mb-3">{t("publicSearch.footer.needSupplier")}</p>
               <Link href={`/rfq${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
                 <button className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium px-4 py-2 rounded-lg text-xs transition">
-                  <FileText className="w-3.5 h-3.5" /> Submit an RFQ — we&apos;ll source it for you
+                  <FileText className="w-3.5 h-3.5" /> {t("publicSearch.footer.submitRfq")}
                 </button>
               </Link>
             </div>

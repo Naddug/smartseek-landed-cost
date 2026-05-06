@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FileText, CheckCircle, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
+import { useTranslation } from "react-i18next";
 
 const PRODUCT_CATEGORIES = [
   "Strategic Metals (Antimony, Tungsten, Cobalt, etc.)",
@@ -23,6 +24,7 @@ const CURRENCIES = ["USD", "EUR", "GBP", "CHF", "CNY", "JPY"];
 const INCOTERMS = ["EXW", "FCA", "FOB", "CFR", "CIF", "CPT", "CIP", "DAP", "DDP"];
 
 export default function RequestQuote() {
+  const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [submittedRfqId, setSubmittedRfqId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -67,20 +69,20 @@ export default function RequestQuote() {
     setIsSubmitting(true);
 
     if (!form.buyerName.trim() || !form.buyerEmail.trim() || !form.productName.trim() || !form.quantity.trim()) {
-      setError("Please fill in required fields: Name, Email, Product Name, and Quantity.");
+      setError(t("rfq.errors.required"));
       setIsSubmitting(false);
       return;
     }
 
     const quantity = parseInt(form.quantity, 10);
     if (isNaN(quantity) || quantity < 1) {
-      setError("Quantity must be a positive number.");
+      setError(t("rfq.errors.quantityPositive"));
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const res = await fetch("/api/rfqs", {
+      const res = await fetch("/api/rfq", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -106,13 +108,13 @@ export default function RequestQuote() {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || "Failed to submit RFQ");
+        throw new Error(data.error || t("rfq.errors.submitFailed"));
       }
 
       if (data && typeof data.id === "string") setSubmittedRfqId(data.id);
       setSubmitted(true);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
+      setError(err instanceof Error ? err.message : t("rfq.errors.submitFailedTryAgain"));
     } finally {
       setIsSubmitting(false);
     }
@@ -123,18 +125,18 @@ export default function RequestQuote() {
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="flex items-center gap-3 mb-4">
           <Logo size="lg" variant="light" className="w-10 h-10" />
-          <span className="text-white/70 text-sm font-medium">SmartSeek · Request for Quotation</span>
+          <span className="text-white/70 text-sm font-medium">{t("rfq.header.badge")}</span>
         </div>
-        <h1 className="text-3xl font-bold mb-2">Submit a sourcing request</h1>
-        <p className="text-blue-100 mb-2">A SmartSeek sourcing operator will route your RFQ to registry-verified suppliers and return structured quotes.</p>
+        <h1 className="text-3xl font-bold mb-2">{t("rfq.header.title")}</h1>
+        <p className="text-blue-100 mb-2">{t("rfq.header.subtitle")}</p>
         <p className="text-blue-200/80 text-xs flex flex-wrap gap-x-3 gap-y-1 items-center">
-          <span className="inline-flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /> Operator-led routing</span>
+          <span className="inline-flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /> {t("rfq.header.pointOperator")}</span>
           <span>·</span>
-          <span>No account required during beta</span>
+          <span>{t("rfq.header.pointNoAccount")}</span>
           <span>·</span>
-          <span>Typical turnaround: 1–3 business days</span>
+          <span>{t("rfq.header.pointTurnaround")}</span>
           <span>·</span>
-          <Link href="/methodology" className="underline underline-offset-2 hover:text-white">How RFQs are routed</Link>
+          <Link href="/methodology" className="underline underline-offset-2 hover:text-white">{t("rfq.header.linkMethodology")}</Link>
         </p>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Building2, CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
+import { useTranslation } from "react-i18next";
 
 const INDUSTRIES = [
   "Mining & Strategic Metals",
@@ -78,6 +79,7 @@ const INITIAL: Form = {
 };
 
 export default function BecomeASupplier() {
+  const { t } = useTranslation();
   const [form, setForm] = useState<Form>(INITIAL);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -92,7 +94,7 @@ export default function BecomeASupplier() {
     e.preventDefault();
     setError(null);
     if (!form.companyName.trim() || !form.country.trim() || !form.industry.trim() || !form.products.trim() || !form.contactName.trim() || !form.contactEmail.trim()) {
-      setError("Please fill required fields: company, country, industry, products, contact name, contact email.");
+      setError(t("becomeSupplier.errors.required"));
       return;
     }
     setSubmitting(true);
@@ -107,11 +109,11 @@ export default function BecomeASupplier() {
         }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || "Submission failed");
+      if (!res.ok) throw new Error(data.error || t("becomeSupplier.errors.submitFailed"));
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Submission failed");
+      setError(err instanceof Error ? err.message : t("becomeSupplier.errors.submitFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -125,14 +127,14 @@ export default function BecomeASupplier() {
             <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-5">
               <CheckCircle2 className="w-7 h-7 text-emerald-400" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">Application received</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">{t("becomeSupplier.success.title")}</h1>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
-              Thank you. A SmartSeek sourcing operator will review your application and verify your registry details. We typically respond within 1–3 business days at <strong className="text-slate-200">{form.contactEmail}</strong>.
+              {t("becomeSupplier.success.body1")} <strong className="text-slate-200">{form.contactEmail}</strong>.
             </p>
-            <p className="text-slate-500 text-xs mb-8">If we need additional documents (registry extract, ISO certificates, recent invoices) we&apos;ll request them by email.</p>
+            <p className="text-slate-500 text-xs mb-8">{t("becomeSupplier.success.body2")}</p>
             <Link href="/">
               <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl text-sm transition">
-                Back to homepage <ArrowRight className="w-4 h-4" />
+                {t("becomeSupplier.success.backHome")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
           </div>
@@ -146,11 +148,11 @@ export default function BecomeASupplier() {
       <section className="bg-gradient-to-b from-slate-950 via-blue-950 to-slate-900 py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-semibold mb-5">
-            <Building2 className="w-3.5 h-3.5" /> Supplier application
+            <Building2 className="w-3.5 h-3.5" /> {t("becomeSupplier.header.badge")}
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">List your company on SmartSeek</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">{t("becomeSupplier.header.title")}</h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            We accept applications from manufacturers, traders, and distributors operating across strategic metals and industrial supply chains. Listings are free during beta. Each application is reviewed manually and verified against company registry records.
+            {t("becomeSupplier.header.subtitle")}
           </p>
         </div>
       </section>
@@ -158,9 +160,9 @@ export default function BecomeASupplier() {
       <section className="bg-slate-50 py-12 px-4 border-b border-slate-100">
         <div className="max-w-4xl mx-auto grid sm:grid-cols-3 gap-4 text-sm">
           {[
-            { icon: <ShieldCheck className="w-5 h-5 text-blue-600" />, title: "Registry-verified only", body: "We confirm legal entity status against an official company registry before listing." },
-            { icon: <CheckCircle2 className="w-5 h-5 text-emerald-600" />, title: "No pay-to-list", body: "We don&apos;t sell placement. Listing is based on verification, not budget." },
-            { icon: <ArrowRight className="w-5 h-5 text-amber-600" />, title: "Real RFQs", body: "Buyer requests are screened by an operator and routed only to relevant suppliers." },
+            { icon: <ShieldCheck className="w-5 h-5 text-blue-600" />, title: t("becomeSupplier.cards.verifyTitle"), body: t("becomeSupplier.cards.verifyBody") },
+            { icon: <CheckCircle2 className="w-5 h-5 text-emerald-600" />, title: t("becomeSupplier.cards.nopayTitle"), body: t("becomeSupplier.cards.nopayBody") },
+            { icon: <ArrowRight className="w-5 h-5 text-amber-600" />, title: t("becomeSupplier.cards.rfqTitle"), body: t("becomeSupplier.cards.rfqBody") },
           ].map((c, i) => (
             <div key={i} className="bg-white border border-slate-200 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1.5">{c.icon}<span className="font-semibold text-slate-900">{c.title}</span></div>
@@ -176,7 +178,7 @@ export default function BecomeASupplier() {
             {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">{error}</div>}
 
             <div>
-              <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">Company</h2>
+              <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">{t("becomeSupplier.sections.company")}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Company name *" name="companyName" value={form.companyName} onChange={onChange} placeholder="Legal entity name" required />
                 <Field label="Website" name="website" value={form.website} onChange={onChange} placeholder="https://example.com" />
@@ -188,8 +190,8 @@ export default function BecomeASupplier() {
             </div>
 
             <div>
-              <h2 className="text-base font-bold text-slate-900 mb-1 pb-2 border-b border-slate-100">Registry verification</h2>
-              <p className="text-xs text-slate-500 mb-4">We verify against an official registry. Provide your number — we&apos;ll cross-check.</p>
+              <h2 className="text-base font-bold text-slate-900 mb-1 pb-2 border-b border-slate-100">{t("becomeSupplier.sections.registry")}</h2>
+              <p className="text-xs text-slate-500 mb-4">{t("becomeSupplier.sections.registryDesc")}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <SelectField label="Registry authority" name="registryAuthority" value={form.registryAuthority} onChange={onChange} options={REGISTRY_HINTS} placeholder="Select registry" />
                 <Field label="Registry / company number" name="registryNumber" value={form.registryNumber} onChange={onChange} placeholder="e.g. HRB 12345" />
@@ -197,7 +199,7 @@ export default function BecomeASupplier() {
             </div>
 
             <div>
-              <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">Offering</h2>
+              <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">{t("becomeSupplier.sections.offering")}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <SelectField label="Industry *" name="industry" value={form.industry} onChange={onChange} options={INDUSTRIES} placeholder="Select industry" required />
                 <Field label="Sub-industry / specialty" name="subIndustry" value={form.subIndustry} onChange={onChange} placeholder="e.g. Antimony refining" />
@@ -220,7 +222,7 @@ export default function BecomeASupplier() {
             </div>
 
             <div>
-              <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">Primary contact</h2>
+              <h2 className="text-base font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">{t("becomeSupplier.sections.contact")}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Full name *" name="contactName" value={form.contactName} onChange={onChange} required />
                 <Field label="Role" name="contactRole" value={form.contactRole} onChange={onChange} placeholder="e.g. Sales Director" />
@@ -235,10 +237,10 @@ export default function BecomeASupplier() {
                 disabled={submitting}
                 className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-3 rounded-xl text-sm sm:text-base inline-flex items-center justify-center gap-2 transition"
               >
-                {submitting ? "Submitting..." : (<>Submit application <ArrowRight className="w-4 h-4" /></>)}
+                {submitting ? t("becomeSupplier.actions.submitting") : (<>{t("becomeSupplier.actions.submit")} <ArrowRight className="w-4 h-4" /></>)}
               </button>
               <p className="text-[11px] text-slate-500 text-center mt-3">
-                By submitting, you confirm the information is accurate. We may contact you for registry documents or certificates before publishing your listing.
+                {t("becomeSupplier.actions.footnote")}
               </p>
             </div>
           </form>

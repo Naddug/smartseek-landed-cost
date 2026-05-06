@@ -39,7 +39,7 @@ import { crawlAndSave, getCrawlResult, listEnrichments } from "./scrapers/websit
 import { scoreCompany, scoreDomain, scoreBatch, getTopLeads } from "./services/leadScoringEngine";
 import PLATFORM_STATS from "./data/stats.json";
 import FEATURED_SUPPLIERS from "./data/featured-suppliers.json";
-import { sendSubscribeConfirmationEmail } from "./sendgridClient";
+import { sendSubscribeConfirmationEmail, sendRfqConfirmationEmail, sendOpsAlertEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
 
 // Helper to get user ID from session
@@ -2721,15 +2721,45 @@ Format as plain text, professional tone. Keep it concise but complete.`,
 
     if (typeof q === "string" && q.trim()) {
       const query = q.toLowerCase().trim();
-      results = results.filter((s) =>
-        s.company_name.toLowerCase().includes(query) ||
-        s.industry.toLowerCase().includes(query) ||
-        s.sub_industry.toLowerCase().includes(query) ||
-        s.country.toLowerCase().includes(query) ||
-        s.city.toLowerCase().includes(query) ||
-        s.products.some((p) => p.toLowerCase().includes(query)) ||
-        s.tagline.toLowerCase().includes(query)
-      );
+      const tokens = query.split(/\s+/).filter(Boolean);
+      const searchable = (s: FeaturedSupplier) =>
+        [
+          s.company_name,
+          s.industry,
+          s.sub_industry,
+          s.country,
+          s.city,
+          s.tagline,
+          ...s.products,
+        ]
+          .join(" ")
+          .toLowerCase();
+
+      // Primary: all tokens must be present somewhere (handles multi-word queries reliably).
+      let filtered = results
+        .map((s) => {
+          const haystack = searchable(s);
+          const matchedTokenCount = tokens.filter((t) => haystack.includes(t)).length;
+          return { s, matchedTokenCount };
+        })
+        .filter(({ matchedTokenCount }) => matchedTokenCount === tokens.length)
+        .sort((a, b) => b.matchedTokenCount - a.matchedTokenCount)
+        .map(({ s }) => s);
+
+      // Fallback: if strict match returns nothing, allow partial token matches.
+      if (filtered.length === 0 && tokens.length > 1) {
+        filtered = results
+          .map((s) => {
+            const haystack = searchable(s);
+            const matchedTokenCount = tokens.filter((t) => haystack.includes(t)).length;
+            return { s, matchedTokenCount };
+          })
+          .filter(({ matchedTokenCount }) => matchedTokenCount > 0)
+          .sort((a, b) => b.matchedTokenCount - a.matchedTokenCount)
+          .map(({ s }) => s);
+      }
+
+      results = filtered;
     }
 
     if (typeof country === "string" && country.trim()) {
@@ -3273,29 +3303,46 @@ Format as plain text, professional tone. Keep it concise but complete.`,
         return res.status(400).json({ error: "Missing required fields: buyerName, buyerEmail, productName, quantity" });
       }
 
-      const rfq = await prisma.rFQ.create({
-        data: {
-          supplierId: supplierId || null,
-          buyerName,
-          buyerEmail,
-          buyerPhone: buyerPhone || null,
-          buyerCompany: buyerCompany || null,
-          buyerCountry: buyerCountry || null,
-          productName,
-          productCategory: productCategory || null,
-          hsCode: hsCode || null,
-          originPreference: originPreference || null,
-          quantity: parseInt(quantity, 10),
-          unit: unit || "pcs",
-          targetPrice: targetPrice ? parseFloat(targetPrice) : null,
-          currency: currency || "USD",
-          specifications: specifications || null,
-          incoterm: incoterm || null,
-          destinationPort: destinationPort || null,
-          deliveryDate: deliveryDate || null,
-          notes: notes || null,
-        },
-      });
+      const qty = typeof quantity === "number" ? quantity : parseInt(String(quantity), 10);
+      if (!Number.isFinite(qty) || qty < 1) {
+        return res.status(400).json({ error: "Quantity must be a positive number" });
+      }
+
+      const created = await prisma.$queryRawUnsafe(
+        `INSERT INTO "RFQ" ("id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt")
+         VALUES (gen_random_uuid()::text,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,'pending',$17,NOW(),NOW())
+         RETURNING "id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt"`,
+        supplierId || null,
+        buyerName,
+        String(buyerEmail).trim().toLowerCase(),
+        buyerPhone || null,
+        buyerCompany || null,
+        buyerCountry || null,
+        productName,
+        productCategory || null,
+        qty,
+        unit || "pcs",
+        targetPrice ? parseFloat(targetPrice) : null,
+        currency || "USD",
+        specifications || null,
+        incoterm || null,
+        destinationPort || null,
+        deliveryDate || null,
+        notes || null
+      );
+      const rfq = created[0];
+
+      sendRfqConfirmationEmail(String(buyerEmail).trim().toLowerCase(), rfq.id, String(productName))
+        .catch((err) => console.warn("sendRfqConfirmationEmail failed:", err));
+      sendOpsAlertEmail("New RFQ submitted (/api/rfqs)", {
+        rfqId: rfq.id,
+        buyerName,
+        buyerEmail,
+        buyerCompany: buyerCompany || "",
+        productName,
+        quantity: qty,
+        source: "api/rfqs",
+      }).catch((err) => console.warn("sendOpsAlertEmail failed:", err));
 
       res.status(201).json(rfq);
     } catch (error) {
@@ -3309,15 +3356,12 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     try {
       const email = (req.query.email as string | undefined)?.trim().toLowerCase();
       if (!email) return res.status(400).json({ error: "email query param required" });
-      const rfq = await prisma.rFQ.findUnique({
-        where: { id: req.params.id },
-        select: {
-          id: true, status: true, productName: true, productCategory: true,
-          quantity: true, unit: true, currency: true, targetPrice: true,
-          incoterm: true, destinationPort: true, deliveryDate: true,
-          buyerEmail: true, buyerCompany: true, createdAt: true, updatedAt: true,
-        },
-      });
+      const rows = await prisma.$queryRawUnsafe(
+        `SELECT "id","status","productName","productCategory","quantity","unit","currency","targetPrice","incoterm","destinationPort","deliveryDate","buyerEmail","buyerCompany","createdAt","updatedAt"
+         FROM "RFQ" WHERE "id" = $1 LIMIT 1`,
+        req.params.id
+      );
+      const rfq = rows[0];
       if (!rfq || rfq.buyerEmail.toLowerCase() !== email) {
         return res.status(404).json({ error: "RFQ not found" });
       }
@@ -3337,11 +3381,11 @@ Format as plain text, professional tone. Keep it concise but complete.`,
         return res.status(400).json({ error: "Email query parameter required" });
       }
 
-      const rfqs = await prisma.rFQ.findMany({
-        where: { buyerEmail: email },
-        include: { supplier: { select: { companyName: true, slug: true, country: true } } },
-        orderBy: { createdAt: "desc" },
-      });
+      const rfqs = await prisma.$queryRawUnsafe(
+        `SELECT "id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt"
+         FROM "RFQ" WHERE "buyerEmail" = $1 ORDER BY "createdAt" DESC`,
+        email
+      );
 
       res.json(rfqs);
     } catch (error) {
@@ -3415,6 +3459,15 @@ Format as plain text, professional tone. Keep it concise but complete.`,
         },
         select: { id: true, status: true, createdAt: true },
       });
+
+      sendOpsAlertEmail("New supplier application", {
+        applicationId: app_.id,
+        companyName: b.companyName,
+        country: b.country,
+        industry: b.industry,
+        contactName: b.contactName,
+        contactEmail: email,
+      }).catch((err) => console.warn("sendOpsAlertEmail failed:", err));
 
       res.status(201).json(app_);
     } catch (error) {
@@ -4057,35 +4110,81 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     }
 
     try {
-      const rfq = await prisma.rfqRequest.create({
-        data: {
-          buyerUserId:       getUserId(req) ?? null,
+      const qty = typeof quantity === "number" ? quantity : parseInt(String(quantity), 10);
+      if (!Number.isFinite(qty) || qty < 1) {
+        return res.status(400).json({ error: "Quantity must be a positive number" });
+      }
+
+      let rfq: any;
+      try {
+        rfq = await prisma.rfqRequest.create({
+          data: {
+            buyerUserId:       getUserId(req) ?? null,
+            buyerName,
+            buyerEmail:        buyerEmail.trim().toLowerCase(),
+            buyerPhone:        buyerPhone ?? null,
+            buyerCompany:      buyerCompany ?? null,
+            buyerCountry:      buyerCountry ?? null,
+            buyerWebsite:      buyerWebsite ?? null,
+            productName,
+            productCategory:   productCategory ?? null,
+            hsCode:            hsCode ?? null,
+            quantity:          qty,
+            unit:              unit ?? "pcs",
+            targetPrice:       targetPrice != null ? parseFloat(targetPrice) : null,
+            currency:          currency ?? "USD",
+            specifications:    specifications ?? null,
+            sampleRequired:    Boolean(sampleRequired),
+            incoterm:          incoterm ?? null,
+            originCountry:     originCountry ?? null,
+            destinationCountry: destinationCountry ?? null,
+            destinationPort:   destinationPort ?? null,
+            deliveryDeadline:  deliveryDeadline ?? null,
+            supplierId:        supplierId ?? null,
+            priority:          priority ?? "normal",
+            notes:             notes ?? null,
+            source:            source ?? "web",
+          },
+        });
+      } catch (e: any) {
+        if (e?.code !== "P2021") throw e;
+        // Fallback to legacy RFQ table if new rfq_requests table isn't deployed yet.
+        const created = await prisma.$queryRawUnsafe(
+          `INSERT INTO "RFQ" ("id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt")
+           VALUES (gen_random_uuid()::text,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,'pending',$17,NOW(),NOW())
+           RETURNING "id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt"`,
+          supplierId || null,
           buyerName,
-          buyerEmail:        buyerEmail.trim().toLowerCase(),
-          buyerPhone:        buyerPhone ?? null,
-          buyerCompany:      buyerCompany ?? null,
-          buyerCountry:      buyerCountry ?? null,
-          buyerWebsite:      buyerWebsite ?? null,
+          buyerEmail.trim().toLowerCase(),
+          buyerPhone || null,
+          buyerCompany || null,
+          buyerCountry || null,
           productName,
-          productCategory:   productCategory ?? null,
-          hsCode:            hsCode ?? null,
-          quantity:          parseInt(quantity, 10),
-          unit:              unit ?? "pcs",
-          targetPrice:       targetPrice != null ? parseFloat(targetPrice) : null,
-          currency:          currency ?? "USD",
-          specifications:    specifications ?? null,
-          sampleRequired:    Boolean(sampleRequired),
-          incoterm:          incoterm ?? null,
-          originCountry:     originCountry ?? null,
-          destinationCountry: destinationCountry ?? null,
-          destinationPort:   destinationPort ?? null,
-          deliveryDeadline:  deliveryDeadline ?? null,
-          supplierId:        supplierId ?? null,
-          priority:          priority ?? "normal",
-          notes:             notes ?? null,
-          source:            source ?? "web",
-        },
-      });
+          productCategory || null,
+          qty,
+          unit || "pcs",
+          targetPrice != null ? parseFloat(targetPrice) : null,
+          currency || "USD",
+          specifications || null,
+          incoterm || null,
+          destinationPort || null,
+          deliveryDeadline || null,
+          notes || null
+        );
+        rfq = created[0];
+      }
+
+      sendRfqConfirmationEmail(String(buyerEmail).trim().toLowerCase(), rfq.id, String(productName))
+        .catch((err) => console.warn("sendRfqConfirmationEmail failed:", err));
+      sendOpsAlertEmail("New RFQ submitted (/api/rfq)", {
+        rfqId: rfq.id,
+        buyerName,
+        buyerEmail,
+        buyerCompany: buyerCompany || "",
+        productName,
+        quantity: qty,
+        source: "api/rfq",
+      }).catch((err) => console.warn("sendOpsAlertEmail failed:", err));
       res.status(201).json(rfq);
     } catch (e) {
       console.error("POST /api/rfq error:", e);
@@ -4103,15 +4202,104 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     }
 
     try {
-      const rfqs = await prisma.rfqRequest.findMany({
-        where: userId ? { buyerUserId: userId } : { buyerEmail: emailQ },
-        orderBy: { createdAt: "desc" },
-        include: { supplier: { select: { companyName: true, country: true, contactEmail: true } } },
-      });
-      res.json(rfqs);
+      try {
+        const rfqs = await prisma.rfqRequest.findMany({
+          where: userId ? { buyerUserId: userId } : { buyerEmail: emailQ },
+          orderBy: { createdAt: "desc" },
+          include: { supplier: { select: { companyName: true, country: true, contactEmail: true } } },
+        });
+        return res.json(rfqs);
+      } catch (e: any) {
+        if (e?.code !== "P2021") throw e;
+        const rfqs = await prisma.$queryRawUnsafe(
+          `SELECT "id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt"
+           FROM "RFQ" WHERE "buyerEmail" = $1 ORDER BY "createdAt" DESC`,
+          emailQ
+        );
+        return res.json(rfqs);
+      }
     } catch (e) {
       console.error("GET /api/rfq error:", e);
       res.status(500).json({ error: "Failed to fetch RFQs" });
+    }
+  });
+
+  /** GET /api/rfq/:id — public RFQ lookup by id + email */
+  app.get("/api/rfq/:id", async (req: Request, res: Response) => {
+    try {
+      const email = (req.query.email as string | undefined)?.trim().toLowerCase();
+      if (!email) return res.status(400).json({ error: "email query param required" });
+      try {
+        const rfq = await prisma.rfqRequest.findUnique({ where: { id: req.params.id } });
+        if (!rfq || rfq.buyerEmail.toLowerCase() !== email) {
+          return res.status(404).json({ error: "RFQ not found" });
+        }
+        const { buyerEmail: _omit, ...safe } = rfq;
+        return res.json(safe);
+      } catch (e: any) {
+        if (e?.code !== "P2021") throw e;
+        const rows = await prisma.$queryRawUnsafe(
+          `SELECT "id","supplierId","buyerName","buyerEmail","buyerPhone","buyerCompany","buyerCountry","productName","productCategory","quantity","unit","targetPrice","currency","specifications","incoterm","destinationPort","deliveryDate","status","notes","createdAt","updatedAt"
+           FROM "RFQ" WHERE "id" = $1 LIMIT 1`,
+          req.params.id
+        );
+        const rfq = rows[0];
+        if (!rfq || rfq.buyerEmail.toLowerCase() !== email) {
+          return res.status(404).json({ error: "RFQ not found" });
+        }
+        const { buyerEmail: _omit, ...safe } = rfq;
+        return res.json(safe);
+      }
+    } catch (e) {
+      console.error("GET /api/rfq/:id error:", e);
+      res.status(500).json({ error: "Failed to fetch RFQ" });
+    }
+  });
+
+  /** GET /api/admin/rfqs — admin inbox to see who requested what */
+  app.get("/api/admin/rfqs", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    const profile = await storage.getUserProfile(userId).catch(() => null);
+    if (!profile || profile.role !== "admin") return res.status(403).json({ error: "Admin only" });
+    const status = (req.query.status as string | undefined) || undefined;
+    try {
+      const rfqs = await prisma.rfqRequest.findMany({
+        where: status ? { status } : undefined,
+        orderBy: { createdAt: "desc" },
+        take: 300,
+        select: {
+          id: true,
+          status: true,
+          buyerName: true,
+          buyerEmail: true,
+          buyerCompany: true,
+          productName: true,
+          productCategory: true,
+          quantity: true,
+          unit: true,
+          createdAt: true,
+        },
+      });
+      return res.json(rfqs);
+    } catch (e: any) {
+      try {
+        if (e?.code !== "P2021") throw e;
+        const rfqs = status
+          ? await prisma.$queryRawUnsafe(
+              `SELECT "id","status","buyerName","buyerEmail","buyerCompany","productName","productCategory","quantity","unit","createdAt"
+               FROM "RFQ" WHERE "status" = $1 ORDER BY "createdAt" DESC LIMIT 300`,
+              status
+            )
+          : await prisma.$queryRawUnsafe(
+              `SELECT "id","status","buyerName","buyerEmail","buyerCompany","productName","productCategory","quantity","unit","createdAt"
+               FROM "RFQ" ORDER BY "createdAt" DESC LIMIT 300`
+            );
+        return res.json(rfqs);
+      } catch (inner) {
+        console.error("GET /api/admin/rfqs error:", inner);
+        return res.status(500).json({ error: "Failed to fetch RFQs" });
+      }
     }
   });
 
