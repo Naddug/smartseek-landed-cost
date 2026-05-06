@@ -166,25 +166,27 @@ export function useShippingEstimates() {
 // Auth-aware: guests get guestLimited=true from server; authenticated users see more.
 // Query is enabled only when q is non-empty.
 interface PublicSupplierSearchResult {
-  totalResults: number | null;
-  totalKnown: boolean;
   suppliers: {
-    id: string;
-    companyName: string;
+    id: number;
     slug: string;
+    company_name: string;
     country: string;
+    country_code: string;
     city: string;
     industry: string;
+    sub_industry: string;
     products: string[];
+    tagline: string;
+    type: "manufacturer" | "trader" | "distributor";
     verified: boolean;
     rating: number;
-    employeeCount: number | null;
-    dataSource?: string | null;
+    employee_count_band: "10-50" | "50-200" | "200-500" | "500-1000" | "1000-5000" | "5000+";
+    year_founded: number;
+    is_curated: boolean;
   }[];
-  pagination: { total: number | null; page: number; limit: number; totalPages: number | null };
-  guestLimited: boolean;
-  freeLimit: number;
-  fallback: boolean;
+  total: number;
+  is_curated_sample: boolean;
+  note: string;
 }
 
 export function usePublicSupplierSearch(q: string) {
@@ -192,7 +194,10 @@ export function usePublicSupplierSearch(q: string) {
   return useQuery<PublicSupplierSearchResult>({
     queryKey: ["publicSearch", trimmed],
     queryFn: async () => {
-      const url = `/api/suppliers?q=${encodeURIComponent(trimmed)}&limit=6`;
+      const params = new URLSearchParams();
+      if (trimmed) params.set("q", trimmed);
+      params.set("limit", "30");
+      const url = `/api/public/suppliers?${params.toString()}`;
       console.log("[usePublicSupplierSearch] API request triggered:", url);
       const res = await fetch(url, { credentials: "include" });
       if (!res.ok) {
@@ -200,33 +205,14 @@ export function usePublicSupplierSearch(q: string) {
         throw new Error(`Search failed: HTTP ${res.status}`);
       }
       const json = await res.json();
-      console.log("[usePublicSupplierSearch] API response arrived:", {
-        suppliersCount: Array.isArray(json.suppliers) ? json.suppliers.length : 0,
-        total: json.pagination?.total ?? json.totalResults ?? null,
-        totalKnown: json.totalKnown !== false,
-        guestLimited: json.guestLimited,
-      });
-      const totalKnown = json.totalKnown !== false;
-      const result = {
+      return {
         suppliers: Array.isArray(json.suppliers) ? json.suppliers : [],
-        pagination: json.pagination && typeof json.pagination === "object"
-          ? {
-              total: json.pagination.total == null ? null : Math.max(0, Number(json.pagination.total) || 0),
-              page: Math.max(1, Number(json.pagination.page) || 1),
-              limit: Math.max(1, Number(json.pagination.limit) || 6),
-              totalPages: json.pagination.totalPages == null ? null : Math.max(0, Number(json.pagination.totalPages) || 0),
-            }
-          : { total: null, page: 1, limit: 6, totalPages: null },
-        totalResults: json.totalResults == null ? null : Math.max(0, Number(json.totalResults) || 0),
-        totalKnown,
-        guestLimited: json.guestLimited === true,
-        freeLimit: Number(json.freeLimit) || 3,
-        fallback: json.fallback === true,
+        total: Number(json.total) || 0,
+        is_curated_sample: json.is_curated_sample === true,
+        note: typeof json.note === "string" ? json.note : "",
       };
-      console.log("[usePublicSupplierSearch] Normalized result.suppliers.length:", result.suppliers.length);
-      return result;
     },
-    enabled: trimmed.length > 0,
+    enabled: true,
     staleTime: 30_000,
     retry: 1,
   });

@@ -38,6 +38,7 @@ import { scrapeSource, scrapeAll, getCompanyStats, type ScraperSource } from "./
 import { crawlAndSave, getCrawlResult, listEnrichments } from "./scrapers/websiteCrawler";
 import { scoreCompany, scoreDomain, scoreBatch, getTopLeads } from "./services/leadScoringEngine";
 import PLATFORM_STATS from "./data/stats.json";
+import FEATURED_SUPPLIERS from "./data/featured-suppliers.json";
 import { sendSubscribeConfirmationEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
 
@@ -2593,6 +2594,81 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
   // ============================================================================
   // Supplier Discovery API
   // ============================================================================
+
+  type FeaturedSupplier = {
+    id: number;
+    slug: string;
+    company_name: string;
+    country: string;
+    country_code: string;
+    city: string;
+    industry: string;
+    sub_industry: string;
+    products: string[];
+    tagline: string;
+    type: "manufacturer" | "trader" | "distributor";
+    verified: boolean;
+    rating: number;
+    employee_count_band: "10-50" | "50-200" | "200-500" | "500-1000" | "1000-5000" | "5000+";
+    year_founded: number;
+    is_curated: boolean;
+  };
+
+  const featuredSuppliers = FEATURED_SUPPLIERS as FeaturedSupplier[];
+
+  app.get("/api/public/suppliers", (req: Request, res: Response) => {
+    const { q, country, industry, limit = "30" } = req.query;
+    let results = [...featuredSuppliers];
+
+    if (typeof q === "string" && q.trim()) {
+      const query = q.toLowerCase().trim();
+      results = results.filter((s) =>
+        s.company_name.toLowerCase().includes(query) ||
+        s.industry.toLowerCase().includes(query) ||
+        s.sub_industry.toLowerCase().includes(query) ||
+        s.country.toLowerCase().includes(query) ||
+        s.city.toLowerCase().includes(query) ||
+        s.products.some((p) => p.toLowerCase().includes(query)) ||
+        s.tagline.toLowerCase().includes(query)
+      );
+    }
+
+    if (typeof country === "string" && country.trim()) {
+      const c = country.toLowerCase();
+      results = results.filter((s) => s.country.toLowerCase() === c || s.country_code.toLowerCase() === c);
+    }
+
+    if (typeof industry === "string" && industry.trim()) {
+      const i = industry.toLowerCase();
+      results = results.filter((s) => s.industry.toLowerCase().includes(i));
+    }
+
+    results.sort((a, b) => b.rating - a.rating);
+    const total = results.length;
+    const limitNum = Math.min(100, Math.max(1, parseInt(String(limit), 10) || 30));
+    const suppliers = results.slice(0, limitNum);
+
+    res.json({
+      suppliers,
+      total,
+      is_curated_sample: true,
+      note: "Featured suppliers — full directory of 25.2M+ available in-app",
+    });
+  });
+
+  app.get("/api/public/suppliers/:slug", (req: Request, res: Response) => {
+    const { slug } = req.params;
+    const supplier = featuredSuppliers.find((s) => s.slug === slug);
+
+    if (!supplier) {
+      return res.status(404).json({
+        error: "Supplier not found",
+        message: "This supplier is not in our featured directory. Sign up to access 25.2M+ suppliers.",
+      });
+    }
+
+    res.json({ supplier, is_curated_sample: true });
+  });
 
   // GET /api/suppliers Ã¢ÂÂ Search, filter, paginate
   app.get("/api/suppliers", async (req: Request, res: Response) => {
