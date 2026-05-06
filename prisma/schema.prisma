@@ -212,6 +212,8 @@ model RFQ {
 
   productName     String
   productCategory String?
+  hsCode          String?
+  originPreference String?
   quantity        Int
   unit            String    @default("pcs")
   targetPrice     Float?
@@ -326,6 +328,64 @@ model RfqRequest {
   @@index([productCategory])
   @@index([createdAt])
   @@map("rfq_requests")
+}
+
+// ============================================================================
+// Public supplier application — "Become a Supplier" intake (no auth required)
+// Reviewed manually by ops; on approval, promoted to Supplier / SupplierProfile.
+// ============================================================================
+
+model SupplierApplication {
+  id String @id @default(cuid())
+
+  // Company
+  companyName     String  @map("company_name")
+  website         String?
+  country         String
+  countryCode     String? @map("country_code")
+  city            String?
+  registryNumber  String? @map("registry_number")
+  registryAuthority String? @map("registry_authority")
+  yearEstablished Int?    @map("year_established")
+  employeeBand    String? @map("employee_band") // 1-10, 10-50, 50-200, 200-500, 500-1000, 1000-5000, 5000+
+
+  // Offering
+  industry      String
+  subIndustry   String? @map("sub_industry")
+  products      String  // comma-separated; freeform during beta
+  certifications String? // comma-separated freeform
+  exportMarkets String? @map("export_markets")
+  minOrderValue Float?  @map("min_order_value")
+  currency      String  @default("USD")
+  leadTimeDays  Int?    @map("lead_time_days")
+  paymentTerms  String? @map("payment_terms")
+  incoterms     String? // e.g. "FOB,CIF,EXW"
+
+  // Contact (the human)
+  contactName  String  @map("contact_name")
+  contactRole  String? @map("contact_role")
+  contactEmail String  @map("contact_email")
+  contactPhone String? @map("contact_phone")
+
+  // Moderation
+  status     String  @default("pending") // pending | approved | rejected | needs_info
+  reviewer   String? // admin user id / handle
+  reviewNote String? @map("review_note")
+  promotedSupplierId String? @map("promoted_supplier_id") // points at suppliers.id once approved
+
+  source    String   @default("web")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt     @map("updated_at")
+
+  @@index([status])
+  @@index([country])
+  @@index([industry])
+  @@index([contactEmail])
+  @@index([createdAt])
+  @@map("supplier_applications")
 }
 
 model UserIntegration {

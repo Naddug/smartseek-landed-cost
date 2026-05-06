@@ -59,31 +59,20 @@ function NewsletterForm() {
   );
 }
 
-function formatStat(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`;
-  if (n >= 1_000) return `${Math.round(n / 1_000)}K+`;
-  return `${n}+`;
-}
-
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   const { data: user, isLoading: authLoading } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [stats, setStats] = useState<{ suppliers: number; countries: number } | null>(null);
-
-  useEffect(() => {
-    fetch("/api/stats")
-      .then((r) => r.json())
-      .then((d) => setStats({ suppliers: d.suppliers, countries: d.countries }))
-      .catch(() => setStats(null));
-  }, []);
+  // Stats fetch removed: do not expose scale publicly during beta.
 
   const navLinks = (
     <>
-      <Link href="/search" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.suppliers")}</Link>
-      <Link href="/landed-cost" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Calculator</Link>
-      <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("nav.pricing")}</Link>
+      <Link href="/search" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Suppliers</Link>
+      <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Submit RFQ</Link>
+      <Link href="/become-a-supplier" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Become a Supplier</Link>
+      <Link href="/trust" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Trust &amp; Verification</Link>
+      <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">Beta Access</Link>
     </>
   );
 
@@ -91,15 +80,18 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans antialiased">
-      {/* Top bar - Trust strip (hidden on Integrations to avoid double header) */}
+      {/* Top bar - Beta status strip */}
       {!isIntegrationsPage && (
       <div className="bg-slate-900/95 border-b border-slate-700/50 py-2">
-        <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-400">
-          <span className="hidden sm:inline">{t("trust.strip1")}</span>
-          <span className="hidden md:inline">•</span>
-          {stats && stats.suppliers > 0 && <span>{`${formatStat(stats.suppliers)} ${t("trust.suppliersWord")}`}</span>}
-
-          {stats && stats.countries > 0 && <><span className="hidden lg:inline">•</span><span>{`${stats.countries}+ ${t("trust.countriesWord")}`}</span></>}
+        <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs text-slate-300">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
+            <span className="font-semibold text-amber-300">Free during beta</span>
+          </span>
+          <span className="hidden sm:inline text-slate-500">•</span>
+          <span className="hidden sm:inline">Founding users get priority sourcing support</span>
+          <span className="hidden md:inline text-slate-500">•</span>
+          <Link href="/pricing" className="hidden md:inline underline underline-offset-2 hover:text-white">Request access</Link>
         </div>
       </div>
       )}
@@ -137,7 +129,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                   <Button variant="ghost" size="sm" className="font-medium text-sm sm:text-base px-2 sm:px-3">{t("nav.login")}</Button>
                 </Link>
                 <Link href="/signup">
-                  <Button size="sm" className="font-medium text-sm sm:text-base shadow-lg shadow-primary/25 px-3 sm:px-4">{t("nav.tryFree")}</Button>
+                  <Button size="sm" className="font-medium text-sm sm:text-base shadow-lg shadow-primary/25 px-3 sm:px-4">Request Beta Access</Button>
                 </Link>
               </>
             ) : null}
@@ -150,30 +142,29 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </main>
 
       <footer className="border-t border-border bg-slate-50/80 dark:bg-slate-900/30">
-        {/* Platform overview - IndexBox-style stats strip (no duplicate CTA) */}
+        {/* Beta methodology strip — credibility without fake scale */}
         <div className="border-b border-border bg-slate-100/80 dark:bg-slate-800/50 py-8 sm:py-10">
           <div className="container mx-auto px-4">
             <p className="text-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em] mb-6">
-              {t("footer.platformOverview")}
+              How SmartSeek works
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-center max-w-4xl mx-auto">
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">25.2M+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statSuppliers")}</div>
+                <div className="text-base font-bold text-slate-900 dark:text-slate-100">Curated supplier network</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-2 leading-relaxed">Sourced from public registries, trade data, and direct supplier applications — not scraped at scale.</div>
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tabular-nums">220+</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("footer.statCountries")}</div>
+                <div className="text-base font-bold text-slate-900 dark:text-slate-100">Verification-first</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-2 leading-relaxed">Each supplier we publish is checked against company registry records and confirmed contact channels.</div>
               </div>
               <div>
-                <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">Multi-source</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("home.trust.registryVerified")}</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">Direct</div>
-                <div className="text-xs sm:text-sm text-muted-foreground mt-1">{t("home.trust.directSource")}</div>
+                <div className="text-base font-bold text-slate-900 dark:text-slate-100">Operator-led RFQs</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-2 leading-relaxed">A real sourcing operator routes your RFQ — no automated email blasts, no marketplace spam.</div>
               </div>
             </div>
+            <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-6">
+              <Link href="/methodology" className="underline underline-offset-2 hover:text-slate-700 dark:hover:text-slate-200">Read our sourcing methodology</Link>
+            </p>
           </div>
         </div>
 
@@ -192,28 +183,30 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               </div>
             </div>
             <div className="lg:col-span-2">
-              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">{t("footer.platform")}</h4>
+              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">Sourcing</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/pricing" className="hover:text-foreground transition-colors">{t("footer.pricing")}</Link></li>
-                <li><Link href="/faq" className="hover:text-foreground transition-colors">{t("footer.faq")}</Link></li>
-                <li><Link href="/search" className="hover:text-foreground transition-colors">{t("footer.supplierDirectory")}</Link></li>
-                <li><Link href="/app/smart-finder" className="hover:text-foreground transition-colors">{t("footer.smartSeekAI")}</Link></li>
-                <li><Link href="/app/landed-cost" className="hover:text-foreground transition-colors">{t("footer.landedCost")}</Link></li>
-                <li><Link href="/integrations" className="hover:text-foreground transition-colors">{t("footer.integrations")}</Link></li>
+                <li><Link href="/search" className="hover:text-foreground transition-colors">Supplier Directory</Link></li>
+                <li><Link href="/rfq" className="hover:text-foreground transition-colors">Submit RFQ</Link></li>
+                <li><Link href="/become-a-supplier" className="hover:text-foreground transition-colors">Become a Supplier</Link></li>
+                <li><Link href="/pricing" className="hover:text-foreground transition-colors">Beta Access</Link></li>
               </ul>
             </div>
             <div className="lg:col-span-2">
-              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">{t("footer.company")}</h4>
+              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">Trust</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/about" className="hover:text-foreground transition-colors">{t("footer.about")}</Link></li>
-                <li><Link href="/contact" className="hover:text-foreground transition-colors">{t("footer.contact")}</Link></li>
+                <li><Link href="/trust" className="hover:text-foreground transition-colors">Trust &amp; Verification</Link></li>
+                <li><Link href="/methodology" className="hover:text-foreground transition-colors">Sourcing Methodology</Link></li>
+                <li><Link href="/verification" className="hover:text-foreground transition-colors">Verification Standards</Link></li>
+                <li><Link href="/faq" className="hover:text-foreground transition-colors">FAQ</Link></li>
               </ul>
             </div>
             <div className="lg:col-span-2">
-              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">{t("footer.legal")}</h4>
+              <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 mb-4 uppercase tracking-wider">Company</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
-                <li><Link href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</Link></li>
-                <li><Link href="/terms" className="hover:text-foreground transition-colors">{t("footer.terms")}</Link></li>
+                <li><Link href="/about" className="hover:text-foreground transition-colors">About</Link></li>
+                <li><Link href="/contact" className="hover:text-foreground transition-colors">Contact</Link></li>
+                <li><Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link></li>
+                <li><Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link></li>
               </ul>
             </div>
           </div>

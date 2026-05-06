@@ -1,23 +1,30 @@
-import { useState } from "react";
-import { FileText, CheckCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FileText, CheckCircle, ShieldCheck } from "lucide-react";
+import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
 
 const PRODUCT_CATEGORIES = [
-  "Electronics",
-  "Textiles",
-  "Machinery",
-  "Chemicals",
+  "Strategic Metals (Antimony, Tungsten, Cobalt, etc.)",
+  "Base Metals (Copper, Aluminium, Zinc, Nickel, Lead)",
+  "Steel & Alloys",
+  "Rare Earths & Critical Minerals",
+  "Chemicals & Polymers",
+  "Industrial Machinery",
+  "Electronics & Components",
+  "Textiles & Apparel",
   "Food & Agriculture",
+  "Other",
 ];
 
-const UNITS = ["pcs", "kg", "tons", "meters", "sets", "boxes"];
+const UNITS = ["kg", "tons (MT)", "lbs", "pcs", "sets", "boxes", "containers (20ft)", "containers (40ft)", "litres", "m³", "meters"];
 
-const CURRENCIES = ["USD", "EUR", "GBP"];
+const CURRENCIES = ["USD", "EUR", "GBP", "CHF", "CNY", "JPY"];
 
-const INCOTERMS = ["FOB", "CIF", "EXW", "DDP"];
+const INCOTERMS = ["EXW", "FCA", "FOB", "CFR", "CIF", "CPT", "CIP", "DAP", "DDP"];
 
 export default function RequestQuote() {
   const [submitted, setSubmitted] = useState(false);
+  const [submittedRfqId, setSubmittedRfqId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -28,8 +35,10 @@ export default function RequestQuote() {
     buyerCountry: "",
     productName: "",
     productCategory: "",
+    hsCode: "",
+    originPreference: "",
     quantity: "",
-    unit: "pcs",
+    unit: "kg",
     targetPrice: "",
     currency: "USD",
     specifications: "",
@@ -37,6 +46,15 @@ export default function RequestQuote() {
     destinationPort: "",
     deliveryDate: "",
   });
+
+  // Prefill productName from ?product= query param (set by /search empty state)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const p = new URLSearchParams(window.location.search).get("product");
+    if (p) {
+      setForm((prev) => ({ ...prev, productName: p }));
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -73,6 +91,8 @@ export default function RequestQuote() {
           buyerCountry: form.buyerCountry.trim() || undefined,
           productName: form.productName.trim(),
           productCategory: form.productCategory || undefined,
+          hsCode: form.hsCode.trim() || undefined,
+          originPreference: form.originPreference.trim() || undefined,
           quantity,
           unit: form.unit,
           targetPrice: form.targetPrice ? parseFloat(form.targetPrice) : undefined,
@@ -84,11 +104,12 @@ export default function RequestQuote() {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Failed to submit RFQ");
       }
 
+      if (data && typeof data.id === "string") setSubmittedRfqId(data.id);
       setSubmitted(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
@@ -98,15 +119,23 @@ export default function RequestQuote() {
   };
 
   const headerBlock = (
-    <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+    <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="flex items-center gap-3 mb-4">
           <Logo size="lg" variant="light" className="w-10 h-10" />
-          <span className="text-white/80 text-sm font-medium">SmartSeek Request for Quotation</span>
+          <span className="text-white/70 text-sm font-medium">SmartSeek · Request for Quotation</span>
         </div>
-        <h1 className="text-3xl font-bold mb-2">Request for Quotation</h1>
-        <p className="text-blue-100 mb-2">Submit your sourcing inquiry to receive quotes from verified suppliers</p>
-        <p className="text-blue-200/90 text-sm">No account required • Quotes within 1–3 business days • Verified suppliers across 24+ countries</p>
+        <h1 className="text-3xl font-bold mb-2">Submit a sourcing request</h1>
+        <p className="text-blue-100 mb-2">A SmartSeek sourcing operator will route your RFQ to registry-verified suppliers and return structured quotes.</p>
+        <p className="text-blue-200/80 text-xs flex flex-wrap gap-x-3 gap-y-1 items-center">
+          <span className="inline-flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /> Operator-led routing</span>
+          <span>·</span>
+          <span>No account required during beta</span>
+          <span>·</span>
+          <span>Typical turnaround: 1–3 business days</span>
+          <span>·</span>
+          <Link href="/methodology" className="underline underline-offset-2 hover:text-white">How RFQs are routed</Link>
+        </p>
       </div>
     </div>
   );
@@ -118,13 +147,26 @@ export default function RequestQuote() {
         <div className="max-w-2xl mx-auto px-4 py-12">
           <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-lg text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Request Submitted Successfully</h2>
-            <p className="text-gray-700 mb-6">
-              Thank you for your inquiry. Our team will share your RFQ with relevant suppliers, and you can expect to receive quotes within 1–3 business days at <strong>{form.buyerEmail}</strong>.
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">RFQ received</h2>
+            <p className="text-gray-700 mb-4">
+              A SmartSeek sourcing operator will route your request to relevant verified suppliers. Quotes are returned to <strong>{form.buyerEmail}</strong> typically within 1–3 business days.
             </p>
+            {submittedRfqId && (
+              <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 mb-5 text-left text-sm">
+                <p className="text-slate-500 text-xs mb-1">Your RFQ ID</p>
+                <p className="font-mono text-slate-900 break-all">{submittedRfqId}</p>
+                <Link
+                  href={`/rfq-status?id=${encodeURIComponent(submittedRfqId)}&email=${encodeURIComponent(form.buyerEmail)}`}
+                  className="inline-block mt-2 text-blue-700 underline underline-offset-2 text-xs"
+                >
+                  Track this RFQ →
+                </Link>
+              </div>
+            )}
             <button
               onClick={() => {
                 setSubmitted(false);
+                setSubmittedRfqId(null);
                 setForm({
                   buyerName: "",
                   buyerEmail: "",
@@ -133,8 +175,10 @@ export default function RequestQuote() {
                   buyerCountry: "",
                   productName: "",
                   productCategory: "",
+                  hsCode: "",
+                  originPreference: "",
                   quantity: "",
-                  unit: "pcs",
+                  unit: "kg",
                   targetPrice: "",
                   currency: "USD",
                   specifications: "",
@@ -262,6 +306,28 @@ export default function RequestQuote() {
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">HS Code</label>
+                  <input
+                    type="text"
+                    name="hsCode"
+                    value={form.hsCode}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Optional, e.g. 8110.10"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Origin preference</label>
+                  <input
+                    type="text"
+                    name="originPreference"
+                    value={form.originPreference}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g. EU, ex-China, Turkey"
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>

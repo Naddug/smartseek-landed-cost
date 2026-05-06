@@ -148,7 +148,7 @@ function LockedOverlay({ total, category }: { total: number; category: string })
             <Lock className="w-5 h-5 text-white" />
           </div>
           <p className="text-white font-bold text-lg mb-1 leading-tight">
-            {t("category.moreSuppliers", { count: (total - 3).toLocaleString(), name: slugToTitle(category).toLowerCase() })}
+            {t("category.moreSuppliers", { count: Math.max(total - 3, 0), name: slugToTitle(category).toLowerCase() })}
           </p>
           <p className="text-slate-300 text-sm mb-5 leading-relaxed">
             {t("category.freeUnlocks", { total: total.toLocaleString() })}
@@ -268,7 +268,7 @@ export default function SupplierCategoryPage() {
             {showSkeleton
               ? t("category.loading")
               : (totalKnown ? (total ?? 0) > 0 : previewSuppliers.length > 0)
-                ? t("category.suppliersFound", { count: totalDisplay })
+                ? (totalKnown ? t("category.suppliersFound", { count: total ?? 0 }) : `${totalDisplay} ${t("category.breadcrumb.suppliers").toLowerCase()}`)
                 : t("category.globalDirectory")}
           </div>
 
@@ -324,7 +324,7 @@ export default function SupplierCategoryPage() {
             </h2>
             {!showSkeleton && (totalKnown ? (total ?? 0) > 0 : previewSuppliers.length > 0) && (
               <span className="text-xs text-slate-400 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
-                {t("category.totalResults", { count: totalDisplay })}
+                {totalKnown ? t("category.totalResults", { count: total ?? 0 }) : `${totalDisplay} results`}
               </span>
             )}
           </div>

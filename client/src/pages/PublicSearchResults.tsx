@@ -1,9 +1,20 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Search, Star, MapPin, ShieldCheck, Users, ArrowRight, Building2 } from "lucide-react";
+import { Search, Star, MapPin, ShieldCheck, Users, ArrowRight, Building2, FileText } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { usePublicSupplierSearch } from "@/lib/hooks";
 import { useTranslation } from "react-i18next";
+
+const CATEGORY_CHIPS: { label: string; q: string; icon: string }[] = [
+  { label: "Antimony", q: "antimony", icon: "⛏️" },
+  { label: "Copper", q: "copper", icon: "🟠" },
+  { label: "Steel", q: "steel", icon: "🏗️" },
+  { label: "Rare earths", q: "rare earth", icon: "🔬" },
+  { label: "Aluminium", q: "aluminium", icon: "🥈" },
+  { label: "Nickel", q: "nickel", icon: "⚙️" },
+  { label: "Lithium", q: "lithium", icon: "🔋" },
+  { label: "Tungsten", q: "tungsten", icon: "🔩" },
+];
 
 type Supplier = {
   id: number;
@@ -124,41 +135,66 @@ export default function PublicSearchResults() {
     setLocation(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : "/search");
   };
 
+  const runChip = (q: string) => {
+    setInput(q);
+    setSubmittedQuery(q);
+    setLocation(`/search?q=${encodeURIComponent(q)}`);
+  };
+
   return (
     <PublicLayout>
       <section className="bg-slate-950 py-14 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("publicSearch.title")}</h1>
-            <p className="text-slate-400 text-sm">{t("publicSearch.subtitle")}</p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-[11px] font-semibold mb-3">
+              <ShieldCheck className="w-3 h-3" /> Curated · registry-verified suppliers
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Supplier directory</h1>
+            <p className="text-slate-400 text-sm">Search a sample of registry-verified suppliers across strategic metals and industrial inputs. Full directory is unlocked for founding users during beta.</p>
           </div>
 
-          <form onSubmit={onSubmit} className="max-w-xl mx-auto mb-8 flex gap-2">
+          <form onSubmit={onSubmit} className="max-w-xl mx-auto mb-5 flex gap-2">
             <input
               className="flex-1 rounded-xl border border-slate-700 bg-slate-900 text-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder={t("publicSearch.searchPlaceholder")}
+              placeholder="Search by commodity, product, or HS keyword (e.g. antimony ingot)"
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
             <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl text-sm transition">
-              <Search className="w-4 h-4" /> {t("common.search")}
+              <Search className="w-4 h-4" /> Search
             </button>
           </form>
 
-          {!isPending && !isError && (
+          <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-3xl mx-auto">
+            {CATEGORY_CHIPS.map((c) => (
+              <button
+                key={c.q}
+                onClick={() => runChip(c.q)}
+                className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
+                  submittedQuery.toLowerCase() === c.q.toLowerCase()
+                    ? "bg-blue-600 border-blue-600 text-white"
+                    : "bg-slate-800/80 border-slate-700 text-slate-300 hover:text-white hover:border-slate-600"
+                }`}
+              >
+                {c.icon} {c.label}
+              </button>
+            ))}
+          </div>
+
+          {!isPending && !isError && submittedQuery && (
             <div className="mb-4 text-center">
               <span className="inline-block text-xs text-slate-300 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
-                {t("publicSearch.resultsCount", { count: total })}
+                {total} curated supplier{total === 1 ? "" : "s"} matching "{submittedQuery}"
               </span>
             </div>
           )}
 
           {isPending && (
-            <div className="text-center py-12 text-slate-400">{t("publicSearch.loading")}</div>
+            <div className="text-center py-12 text-slate-400">Loading...</div>
           )}
 
           {isError && (
-            <div className="text-center py-12 text-slate-300">{t("publicSearch.loadError")}</div>
+            <div className="text-center py-12 text-slate-300">Could not load results. Please retry.</div>
           )}
 
           {!isPending && !isError && suppliers.length > 0 && (
@@ -170,12 +206,36 @@ export default function PublicSearchResults() {
           )}
 
           {!isPending && !isError && suppliers.length === 0 && (
-            <div className="text-center py-14">
-              <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-              <p className="text-slate-300 mb-4">{t("publicSearch.noResults")}</p>
-              <Link href="/signup">
-                <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition">
-                  {t("publicSearch.signupCta")} <ArrowRight className="w-4 h-4" />
+            <div className="max-w-2xl mx-auto py-10">
+              <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 text-center">
+                <Building2 className="w-10 h-10 text-slate-500 mx-auto mb-4" />
+                <h2 className="text-lg font-bold text-white mb-2">No public matches{submittedQuery ? ` for "${submittedQuery}"` : ""}</h2>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  Our public directory is intentionally curated. If you can&apos;t find a supplier here, submit an RFQ and a sourcing operator will tap our internal index and verified network for you.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Link href={`/rfq${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
+                    <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
+                      <FileText className="w-4 h-4" /> Submit an RFQ
+                    </button>
+                  </Link>
+                  <Link href="/pricing">
+                    <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition">
+                      Request beta access <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Persistent "didn't find it?" footer CTA — visible even on result hits */}
+          {!isPending && !isError && suppliers.length > 0 && (
+            <div className="mt-10 text-center">
+              <p className="text-xs text-slate-400 mb-3">Need a supplier we haven&apos;t listed publicly?</p>
+              <Link href={`/rfq${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
+                <button className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium px-4 py-2 rounded-lg text-xs transition">
+                  <FileText className="w-3.5 h-3.5" /> Submit an RFQ — we&apos;ll source it for you
                 </button>
               </Link>
             </div>

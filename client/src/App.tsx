@@ -58,6 +58,11 @@ import AdminIndexes from "@/pages/AdminIndexes";
 import SupplierCategoryPage from "@/pages/SupplierCategoryPage";
 import PublicSearchResults from "@/pages/PublicSearchResults";
 import SupplierDetailPage from "@/pages/SupplierDetailPage";
+import BecomeASupplier from "@/pages/BecomeASupplier";
+import Trust from "@/pages/Trust";
+import Verification from "@/pages/Verification";
+import Methodology from "@/pages/Methodology";
+import RfqStatus from "@/pages/RfqStatus";
 function ProtectedRoute({ component: Component, adminOnly = false, requireVerified = true }: { component: React.ComponentType, adminOnly?: boolean, requireVerified?: boolean }) {
   const { data: user, isLoading, error } = useUser();
   const { data: profile } = useProfile();
@@ -114,6 +119,11 @@ const PAGE_TITLES: Record<string, string> = {
   "/pricing": "Pricing | SmartSeek",
   "/faq": "FAQ | SmartSeek",
   "/about": "About | SmartSeek",
+  "/become-a-supplier": "Become a Supplier | SmartSeek",
+  "/trust": "Trust & Verification | SmartSeek",
+  "/verification": "Verification Standards | SmartSeek",
+  "/methodology": "Sourcing Methodology | SmartSeek",
+  "/rfq-status": "RFQ Status | SmartSeek",
 };
 
 function Router() {
@@ -139,6 +149,21 @@ function Router() {
       <Route path="/suppliers/:category" component={SupplierCategoryPage} />
       <Route path="/rfq">
         <PublicLayout><RequestQuote /></PublicLayout>
+      </Route>
+      <Route path="/rfq-status">
+        <PublicLayout><RfqStatus /></PublicLayout>
+      </Route>
+      <Route path="/become-a-supplier">
+        <PublicLayout><BecomeASupplier /></PublicLayout>
+      </Route>
+      <Route path="/trust">
+        <PublicLayout><Trust /></PublicLayout>
+      </Route>
+      <Route path="/verification">
+        <PublicLayout><Verification /></PublicLayout>
+      </Route>
+      <Route path="/methodology">
+        <PublicLayout><Methodology /></PublicLayout>
       </Route>
       <Route path="/faq">
         <PublicLayout><FAQ /></PublicLayout>

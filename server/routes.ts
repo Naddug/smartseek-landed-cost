@@ -1301,7 +1301,7 @@ Format as plain text, professional tone. Keep it concise but complete.`,
 
       const count = await Promise.race([
         prisma.$queryRaw<[{ cnt: bigint }]>`SELECT COUNT(*)::bigint AS cnt FROM "Supplier" ${whereClause}`
-          .then((r) => Number(r[0]?.cnt ?? 0)),
+          .then((r: [{ cnt: bigint }]) => Number(r[0]?.cnt ?? 0)),
         new Promise<number>((resolve) => setTimeout(() => resolve(0), 5000)),
       ]).catch(() => 0);
 
@@ -2630,9 +2630,9 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     res.setHeader("Cache-Control", "no-store");
 
     if (req.query.status === "1") {
-      const ext = await prisma.$queryRawUnsafe<[{ exists: boolean }][]>(
+      const ext = (await prisma.$queryRawUnsafe(
         `SELECT EXISTS(SELECT 1 FROM pg_extension WHERE extname = 'pg_trgm') as exists`
-      );
+      )) as [{ exists: boolean }];
       const extOk = ext[0]?.exists ?? false;
       const names = [
         "Supplier_companyName_trgm_idx",
@@ -2643,9 +2643,9 @@ Format as plain text, professional tone. Keep it concise but complete.`,
         "Supplier_city_trgm_idx",
         "Supplier_country_trgm_idx",
       ];
-      const rows = await prisma.$queryRawUnsafe<{ indexname: string }[]>(
+      const rows = (await prisma.$queryRawUnsafe(
         `SELECT indexname FROM pg_indexes WHERE tablename = 'Supplier' AND indexname LIKE '%trgm%'`
-      );
+      )) as { indexname: string }[];
       const existing = new Set(rows.map((r) => r.indexname));
       const indexStatus = names.map((n) => ({ name: n, exists: existing.has(n) }));
       const next = !extOk ? 0 : (indexStatus.findIndex((i) => !i.exists) >= 0 ? indexStatus.findIndex((i) => !i.exists) + 1 : 8);
@@ -3264,7 +3264,8 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     try {
       const {
         supplierId, buyerName, buyerEmail, buyerPhone, buyerCompany, buyerCountry,
-        productName, productCategory, quantity, unit, targetPrice, currency,
+        productName, productCategory, hsCode, originPreference,
+        quantity, unit, targetPrice, currency,
         specifications, incoterm, destinationPort, deliveryDate, notes,
       } = req.body;
 
@@ -3282,6 +3283,8 @@ Format as plain text, professional tone. Keep it concise but complete.`,
           buyerCountry: buyerCountry || null,
           productName,
           productCategory: productCategory || null,
+          hsCode: hsCode || null,
+          originPreference: originPreference || null,
           quantity: parseInt(quantity, 10),
           unit: unit || "pcs",
           targetPrice: targetPrice ? parseFloat(targetPrice) : null,
@@ -3301,7 +3304,32 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     }
   });
 
-  // GET /api/rfqs Ã¢ÂÂ Get RFQs by buyer email
+  // GET /api/rfqs/:id - public RFQ status lookup (id + email match required)
+  app.get("/api/rfqs/:id", async (req: Request, res: Response) => {
+    try {
+      const email = (req.query.email as string | undefined)?.trim().toLowerCase();
+      if (!email) return res.status(400).json({ error: "email query param required" });
+      const rfq = await prisma.rFQ.findUnique({
+        where: { id: req.params.id },
+        select: {
+          id: true, status: true, productName: true, productCategory: true,
+          quantity: true, unit: true, currency: true, targetPrice: true,
+          incoterm: true, destinationPort: true, deliveryDate: true,
+          buyerEmail: true, buyerCompany: true, createdAt: true, updatedAt: true,
+        },
+      });
+      if (!rfq || rfq.buyerEmail.toLowerCase() !== email) {
+        return res.status(404).json({ error: "RFQ not found" });
+      }
+      const { buyerEmail: _omit, ...safe } = rfq;
+      res.json(safe);
+    } catch (error) {
+      console.error("GET /api/rfqs/:id error:", error);
+      res.status(500).json({ error: "Failed to fetch RFQ" });
+    }
+  });
+
+  // GET /api/rfqs - Get RFQs by buyer email
   app.get("/api/rfqs", async (req: Request, res: Response) => {
     try {
       const { email } = req.query;
@@ -3320,6 +3348,117 @@ Format as plain text, professional tone. Keep it concise but complete.`,
       console.error("GET /api/rfqs error:", error);
       res.status(500).json({ error: "Failed to fetch RFQs" });
     }
+  });
+
+  // ============================================================================
+  // Supplier Applications — "Become a Supplier" public intake
+  // ============================================================================
+
+  app.post("/api/supplier-applications", async (req: Request, res: Response) => {
+    try {
+      const b = req.body ?? {};
+      const required = ["companyName", "country", "industry", "products", "contactName", "contactEmail"];
+      for (const k of required) {
+        if (!b[k] || (typeof b[k] === "string" && !b[k].trim())) {
+          return res.status(400).json({ error: `Missing required field: ${k}` });
+        }
+      }
+      const email = String(b.contactEmail).trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: "Invalid contact email" });
+      }
+
+      // Lightweight rate-limit: 1 application per email per 60s window
+      const recent = await prisma.supplierApplication.findFirst({
+        where: { contactEmail: email, createdAt: { gt: new Date(Date.now() - 60_000) } },
+        select: { id: true },
+      });
+      if (recent) {
+        return res.status(429).json({ error: "Application already received. Please wait a moment before resubmitting." });
+      }
+
+      const ip = (req.headers["x-forwarded-for"] as string | undefined)?.split(",")[0]?.trim() || req.socket.remoteAddress || null;
+      const ua = (req.headers["user-agent"] as string | undefined) || null;
+
+      const app_ = await prisma.supplierApplication.create({
+        data: {
+          companyName: String(b.companyName).trim(),
+          website: b.website ? String(b.website).trim() : null,
+          country: String(b.country).trim(),
+          countryCode: b.countryCode ? String(b.countryCode).trim().toUpperCase() : null,
+          city: b.city ? String(b.city).trim() : null,
+          registryNumber: b.registryNumber ? String(b.registryNumber).trim() : null,
+          registryAuthority: b.registryAuthority ? String(b.registryAuthority).trim() : null,
+          yearEstablished: b.yearEstablished ? parseInt(String(b.yearEstablished), 10) || null : null,
+          employeeBand: b.employeeBand ? String(b.employeeBand).trim() : null,
+
+          industry: String(b.industry).trim(),
+          subIndustry: b.subIndustry ? String(b.subIndustry).trim() : null,
+          products: String(b.products).trim(),
+          certifications: b.certifications ? String(b.certifications).trim() : null,
+          exportMarkets: b.exportMarkets ? String(b.exportMarkets).trim() : null,
+          minOrderValue: b.minOrderValue ? parseFloat(String(b.minOrderValue)) || null : null,
+          currency: b.currency ? String(b.currency).trim().toUpperCase() : "USD",
+          leadTimeDays: b.leadTimeDays ? parseInt(String(b.leadTimeDays), 10) || null : null,
+          paymentTerms: b.paymentTerms ? String(b.paymentTerms).trim() : null,
+          incoterms: b.incoterms ? String(b.incoterms).trim() : null,
+
+          contactName: String(b.contactName).trim(),
+          contactRole: b.contactRole ? String(b.contactRole).trim() : null,
+          contactEmail: email,
+          contactPhone: b.contactPhone ? String(b.contactPhone).trim() : null,
+
+          status: "pending",
+          source: "web",
+          ipAddress: ip,
+          userAgent: ua,
+        },
+        select: { id: true, status: true, createdAt: true },
+      });
+
+      res.status(201).json(app_);
+    } catch (error) {
+      console.error("POST /api/supplier-applications error:", error);
+      res.status(500).json({ error: "Failed to submit application" });
+    }
+  });
+
+  // Admin: list + moderate supplier applications
+  app.get("/api/admin/supplier-applications", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    const profile = await storage.getUserProfile(userId).catch(() => null);
+    if (!profile || profile.role !== "admin") return res.status(403).json({ error: "Admin only" });
+
+    const status = (req.query.status as string | undefined) || undefined;
+    const apps = await prisma.supplierApplication.findMany({
+      where: status ? { status } : undefined,
+      orderBy: { createdAt: "desc" },
+      take: 200,
+    });
+    res.json(apps);
+  });
+
+  app.patch("/api/admin/supplier-applications/:id", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) return res.status(401).json({ error: "Not authenticated" });
+    const profile = await storage.getUserProfile(userId).catch(() => null);
+    if (!profile || profile.role !== "admin") return res.status(403).json({ error: "Admin only" });
+
+    const { status, reviewNote } = req.body ?? {};
+    const allowed = new Set(["pending", "approved", "rejected", "needs_info"]);
+    if (status && !allowed.has(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+    const updated = await prisma.supplierApplication.update({
+      where: { id: req.params.id },
+      data: {
+        ...(status ? { status } : {}),
+        ...(reviewNote !== undefined ? { reviewNote } : {}),
+        reviewer: userId,
+      },
+    });
+    res.json(updated);
   });
 
   // ============================================================================
