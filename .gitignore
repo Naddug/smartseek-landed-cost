@@ -16,3 +16,9 @@ vite.config.ts.*
 .local/
 prisma/dev.db
 Untitledscripts/data-import/import-suppliers.log
+
+# Local runtime artefacts
+index.pid
+migration.pid
+index_creation.log
+migration.log
