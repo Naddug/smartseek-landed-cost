@@ -6,14 +6,41 @@ import type { LandedCostInput, LandedCostResult, CostBreakdownItem, CalculationN
 const CALCULATION_VERSION = "v1.0.0";
 const DATA_SNAPSHOT_TIMESTAMP = new Date().toISOString();
 
+/** Thrown for user-input validation failures (parity with typed API errors). */
+export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+function validateHsCodeFormat(input: LandedCostInput): void {
+  if (!input.hsCode?.trim()) {
+    throw new ValidationError('HS code is required');
+  }
+  const hsClean = input.hsCode.replace(/[.\s-]/g, '');
+  if (!/^\d{6,10}$/.test(hsClean)) {
+    throw new ValidationError(
+      'HS Code must be 6-10 digits (e.g., 740110 or 7401.10.00)'
+    );
+  }
+}
+
 function validateBaseCost(input: LandedCostInput): void {
-  if (!input?.baseCost || input.baseCost <= 0) throw new Error('Base cost must be greater than 0');
-  if (!input?.quantity || input.quantity <= 0) throw new Error('Quantity must be greater than 0');
-  if (!input?.currency?.trim()) throw new Error('Currency is required');
-  if (!['FOB', 'EXW', 'CIF', 'DDP'].includes(input.incoterm)) throw new Error('Invalid incoterm');
-  if (!input?.originCountry?.trim()) throw new Error('Origin country is required');
-  if (!input?.destinationCountry?.trim()) throw new Error('Destination country is required');
-  if (!input?.hsCode?.trim()) throw new Error('HS code is required');
+  if (!input?.baseCost || input.baseCost <= 0) {
+    throw new ValidationError('Base cost must be greater than 0');
+  }
+  if (!Number.isFinite(input.quantity) || input.quantity <= 0) {
+    throw new ValidationError('Quantity must be a positive number');
+  }
+  if (!Number.isInteger(input.quantity)) {
+    throw new ValidationError('Quantity must be a whole number');
+  }
+  if (!input?.currency?.trim()) throw new ValidationError('Currency is required');
+  if (!['FOB', 'EXW', 'CIF', 'DDP'].includes(input.incoterm)) throw new ValidationError('Invalid incoterm');
+  if (!input?.originCountry?.trim()) throw new ValidationError('Origin country is required');
+  if (!input?.destinationCountry?.trim()) throw new ValidationError('Destination country is required');
+  validateHsCodeFormat(input);
 }
 
 function calculateBaseCost(input: LandedCostInput) {
@@ -27,6 +54,20 @@ function calculateBaseCost(input: LandedCostInput) {
 }
 
 function calculateFreight(input: LandedCostInput) {
+  if (input.originCountry === input.destinationCountry) {
+    return {
+      oceanFCL: undefined as any,
+      oceanLCL: undefined as any,
+      airFreight: undefined as any,
+      express: undefined as any,
+      selectedMethod: input.shippingMethod,
+      selectedCost: 0,
+      notes: [
+        'Domestic shipment — international freight not applicable. Use Inland Transport for domestic logistics costs.',
+      ],
+    };
+  }
+
   const notes: string[] = [];
   let selectedCost: number;
   let oceanFCL: any, oceanLCL: any, airFreight: any, express: any;
@@ -63,7 +104,7 @@ function calculateFreight(input: LandedCostInput) {
     express = { costPerKg, totalCost: selectedCost };
     notes.push(`Express for ${w} kg`);
   } else {
-    throw new Error(`Unsupported shipping: ${input.shippingMethod}`);
+    throw new ValidationError(`Unsupported shipping: ${input.shippingMethod}`);
   }
 
   return { oceanFCL, oceanLCL, airFreight, express, selectedMethod: input.shippingMethod, selectedCost, notes };
@@ -90,6 +131,19 @@ function getCountryConfig(country: string) {
 
 function calculateCustoms(input: LandedCostInput, cifValue: number) {
   const notes: string[] = [];
+
+  if (input.originCountry === input.destinationCountry) {
+    return {
+      importDuty: { rate: 0, amount: 0, baseValue: cifValue },
+      vat: { rate: 0, amount: 0, baseValue: cifValue },
+      additionalTariffs: [],
+      mpf: undefined,
+      hmf: undefined,
+      totalCustomsFees: 0,
+      notes: ['Domestic shipment — no customs/duty applicable.'],
+    };
+  }
+
   const cfg = getCountryConfig(input.destinationCountry);
   const tariffRate = 0.05;
   const importDutyAmount = cifValue * tariffRate;
@@ -123,6 +177,14 @@ function calculateCustoms(input: LandedCostInput, cifValue: number) {
 
 function calculateInsurance(input: LandedCostInput, cifValue: number) {
   const rate = input.insuranceRate ?? 0.005;
+
+  if (rate < 0) {
+    throw new ValidationError('Insurance rate cannot be negative');
+  }
+  if (rate > 0.5) {
+    throw new ValidationError('Insurance rate cannot exceed 50% (0.5)');
+  }
+
   const amount = cifValue * rate;
   return { rate, amount, cifValue, notes: [`Insurance: ${(rate * 100).toFixed(2)}% on CIF`] };
 }
@@ -164,6 +226,13 @@ function generateNotes(input: LandedCostInput, components: any): CalculationNote
     { category: 'info', component: 'Calculation', message: `Version: ${CALCULATION_VERSION}` },
     { category: 'info', component: 'Route', message: `${input.originCountry} → ${input.destinationCountry} via ${input.shippingMethod}` },
   ];
+  if (input.originCountry === input.destinationCountry) {
+    notes.push({
+      category: 'warning',
+      component: 'Domestic',
+      message: 'Domestic — international freight and customs shown as $0; use Inland Transport fields for domestic logistics.',
+    });
+  }
   components.baseCost.notes.forEach((m: string) => notes.push({ category: 'info', component: 'Base Cost', message: m }));
   components.freight.notes.forEach((m: string) => notes.push({ category: 'info', component: 'Freight', message: m }));
   components.insurance.notes.forEach((m: string) => notes.push({ category: 'info', component: 'Insurance', message: m }));

@@ -20,7 +20,6 @@ import {
   Percent,
   ArrowRight,
   Info,
-  AlertTriangle,
   CheckCircle2,
   BarChart3,
   FileText,
@@ -30,7 +29,7 @@ import {
   Loader2,
   Sparkles,
 } from "lucide-react";
-import { calculateLandedCost } from "@/lib/landedCost/calculator";
+import { calculateLandedCost, ValidationError } from "@/lib/landedCost/calculator";
 import type { LandedCostInput, LandedCostResult } from "@/lib/landedCost/types";
 import { useUser } from "@/lib/hooks";
 
@@ -167,13 +166,16 @@ export default function LandedCostCalculator() {
         : undefined;
       const computedVol = dims ? (dims.length * dims.width * dims.height) / 1_000_000 : vol;
 
+      const qtyRaw = formData.quantity.trim();
+      const quantityParsed = qtyRaw === "" ? NaN : Number.parseInt(qtyRaw, 10);
+
       const input: LandedCostInput = {
         productName: formData.productName || "Product",
-        hsCode: formData.hsCode || "000000",
+        hsCode: formData.hsCode.trim() || "",
         category: formData.category || undefined,
-        baseCost: parseFloat(formData.baseCost) || 0,
+        baseCost: Number.parseFloat(formData.baseCost) || 0,
         incoterm: formData.incoterm,
-        quantity: parseInt(formData.quantity) || 1,
+        quantity: quantityParsed,
         currency: formData.currency || "USD",
         originCountry: formData.originCountry,
         destinationCountry: formData.destinationCountry,
@@ -192,8 +194,14 @@ export default function LandedCostCalculator() {
 
       const res = calculateLandedCost(input);
       setResult(res);
+      setError(null);
     } catch (e: any) {
-      setError(e?.message || "Calculation failed");
+      if (e instanceof ValidationError) {
+        setError(e.message);
+      } else {
+        setError("Calculation failed. Please check your inputs.");
+        console.error("Landed cost error:", e);
+      }
       setResult(null);
     }
   };
@@ -283,6 +291,9 @@ export default function LandedCostCalculator() {
               {hsLookupResult && hsLookupResult.description && (
                 <p className="text-xs text-slate-600">{hsLookupResult.description}</p>
               )}
+              <p className="text-xs text-muted-foreground">
+                6-10 digit code. Use 6-digit HS for general, full code for accurate duty.
+              </p>
             </div>
             <div className="space-y-2">
               <Label>Category</Label>
@@ -431,6 +442,7 @@ export default function LandedCostCalculator() {
               <Input
                 type="number"
                 min="0"
+                max="50"
                 step="0.01"
                 placeholder="Default 0.5%"
                 value={formData.insuranceRate}
@@ -463,17 +475,19 @@ export default function LandedCostCalculator() {
               <Calculator className="w-4 h-4 mr-2" />
               Calculate Landed Cost
             </Button>
-            {error && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-                <AlertTriangle className="w-4 h-4 shrink-0" />
-                {error}
-              </div>
-            )}
           </CardContent>
         </Card>
 
         {/* Results */}
         <div className="lg:col-span-2 space-y-6">
+          {error && (
+            <div
+              role="alert"
+              className="rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-800 dark:text-red-300 mb-4"
+            >
+              <strong>Cannot calculate:</strong> {error}
+            </div>
+          )}
           {result ? (
             <>
               <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-background">

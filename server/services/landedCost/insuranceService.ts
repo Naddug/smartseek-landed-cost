@@ -43,7 +43,10 @@ export function getInsuranceRate(input: LandedCostInput): number {
   // If user provided override rate, use it
   if (input.insuranceRate !== undefined && input.insuranceRate !== null) {
     if (input.insuranceRate < 0) {
-      throw new Error('Insurance rate must be >= 0');
+      throw new Error('Insurance rate cannot be negative');
+    }
+    if (input.insuranceRate > 0.5) {
+      throw new Error('Insurance rate cannot exceed 50% (0.5)');
     }
     return input.insuranceRate;
   }
