@@ -12,28 +12,54 @@
  * fast enough to run synchronously on every non-API GET request.
  */
 
-const SITE_URL = (process.env.SITE_URL || "https://smartseek.io").replace(/\/$/, "");
+const SITE_URL = (process.env.SITE_URL || "https://smartseek.com").replace(/\/$/, "");
 const SITE_NAME = "SmartSeek";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/opengraph.jpg`;
 
 // ─── Popular supplier categories (used in sitemap + JSON-LD breadcrumbs) ─────
+// Slugs must stay in sync with client/src/pages/SuppliersIndex.tsx.
 export const SUPPLIER_CATEGORIES = [
-  "copper-cathode",
-  "lithium-batteries",
+  // Strategic metals & critical minerals
   "antimony",
-  "solar-panels",
-  "cotton-fabric",
-  "olive-oil",
-  "pharmaceutical-api",
-  "steel",
+  "tungsten",
+  "tin",
+  "lithium-batteries",
+  "rare-earths",
+  // Base metals
+  "copper-cathode",
   "aluminum",
+  "steel",
+  // Industrial verticals
   "electronics",
-  "textiles",
-  "chemicals",
-  "food-ingredients",
-  "plastics",
   "machinery",
+  "chemicals",
   "automotive-parts",
+  "plastics",
+  // Materials & inputs
+  "textiles",
+  "cotton-fabric",
+  "food-ingredients",
+  "pharmaceutical-api",
+];
+
+// Public top-level routes — used by sitemap.xml.
+export const PUBLIC_STATIC_ROUTES = [
+  "/",
+  "/search",
+  "/suppliers",
+  "/rfq",
+  "/rfq-status",
+  "/become-a-supplier",
+  "/trust",
+  "/verification",
+  "/methodology",
+  "/pricing",
+  "/about",
+  "/contact",
+  "/faq",
+  "/privacy",
+  "/terms",
+  "/integrations",
 ];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -66,9 +92,9 @@ function getMetaForPath(pathname: string): MetaConfig {
 
   const staticMeta: Record<string, Omit<MetaConfig, "canonical">> = {
     "/": {
-      title: `${SITE_NAME} – Find Real Suppliers Anywhere in the World`,
+      title: `${SITE_NAME} – Strategic Sourcing Intelligence for Procurement Teams`,
       description:
-        "Search manufacturers, exporters and verified suppliers instantly. SmartSeek is Google for Suppliers — 220+ countries, AI-powered sourcing intelligence.",
+        "Discover verified suppliers, run structured RFQs, and source strategic metals and industrial inputs with confidence.",
       jsonLd: [
         {
           "@context": "https://schema.org",
@@ -91,25 +117,30 @@ function getMetaForPath(pathname: string): MetaConfig {
           url: SITE_URL,
           logo: `${SITE_URL}/logo.png`,
           description:
-            "Global supplier discovery platform connecting buyers with verified manufacturers and exporters across 220+ countries.",
-          sameAs: [`https://twitter.com/smartsekai`],
+            "Strategic sourcing intelligence and supplier discovery platform for industrial procurement teams.",
+          sameAs: [`https://twitter.com/smartseek`],
         },
       ],
     },
-    "/pricing": {
-      title: `Pricing – ${SITE_NAME} Supplier Discovery`,
+    "/register": {
+      title: `Register – ${SITE_NAME} Beta Access`,
       description:
-        "Start for free. Access verified global suppliers with SmartSeek's flexible pricing plans. No credit card required to begin searching.",
+        "Create your SmartSeek beta account to access supplier discovery, RFQ workflows, and procurement onboarding.",
+    },
+    "/pricing": {
+      title: `Beta Access – ${SITE_NAME}`,
+      description:
+        "SmartSeek is free during beta. Request access for supplier discovery and strategic sourcing workflows.",
     },
     "/about": {
-      title: `About ${SITE_NAME} – Google for Suppliers`,
+      title: `About ${SITE_NAME} – Strategic Sourcing Platform`,
       description:
-        "SmartSeek helps procurement teams find verified manufacturers and exporters globally. Learn how we make supplier discovery instant and reliable.",
+        "Learn how SmartSeek helps procurement teams discover verified suppliers and run operator-led RFQ workflows.",
     },
     "/faq": {
-      title: `FAQ – ${SITE_NAME} Supplier Platform`,
+      title: `FAQ – ${SITE_NAME}`,
       description:
-        "Common questions about SmartSeek's supplier discovery, verification standards, pricing, and AI trade intelligence features.",
+        "Common questions about SmartSeek's supplier discovery, verification standards, and RFQ workflows.",
     },
     "/contact": {
       title: `Contact ${SITE_NAME}`,
@@ -117,19 +148,19 @@ function getMetaForPath(pathname: string): MetaConfig {
         "Get in touch with the SmartSeek team for enterprise inquiries, partnerships, or platform support.",
     },
     "/signup": {
-      title: `Sign Up Free – ${SITE_NAME} Supplier Discovery`,
+      title: `Sign Up – ${SITE_NAME} Beta`,
       description:
-        "Create a free SmartSeek account and start discovering verified global suppliers instantly. No credit card required.",
+        "Create a SmartSeek beta account for strategic sourcing, supplier discovery, and RFQ management.",
     },
     "/login": {
       title: `Login – ${SITE_NAME}`,
       description:
-        "Log in to SmartSeek to access your supplier search, trade leads, and AI-powered sourcing intelligence tools.",
+        "Log in to SmartSeek to manage supplier discovery, RFQs, and procurement workflows.",
     },
     "/search": {
       title: `Search Suppliers – ${SITE_NAME}`,
       description:
-        "Search verified manufacturers and exporters worldwide. Find real suppliers by product, industry, or region. No login required.",
+        "Search curated, registry-verified suppliers by commodity, region, and industrial category. No login required.",
     },
     "/sample-report": {
       title: `Sample Supplier Intelligence Report – ${SITE_NAME}`,
@@ -141,10 +172,76 @@ function getMetaForPath(pathname: string): MetaConfig {
       description:
         "Connect SmartSeek to your existing procurement stack. Integrations with SAP Ariba, Salesforce, Oracle, Coupa, and more.",
     },
-    "/rfq": {
-      title: `Request a Quote – ${SITE_NAME}`,
+    "/privacy": {
+      title: `Privacy Policy – ${SITE_NAME}`,
       description:
-        "Send a sourcing request to multiple verified suppliers at once. SmartSeek routes your RFQ to the best-matched manufacturers.",
+        "Review how SmartSeek handles account, supplier discovery, and RFQ data during beta.",
+    },
+    "/terms": {
+      title: `Terms of Service – ${SITE_NAME}`,
+      description:
+        "Read SmartSeek terms for using supplier discovery and RFQ workflows.",
+    },
+    "/become-a-supplier": {
+      title: `Become a Supplier – ${SITE_NAME}`,
+      description:
+        "Apply to list your company on SmartSeek and receive relevant RFQ opportunities from procurement teams.",
+    },
+    "/trust": {
+      title: `Trust & Verification – ${SITE_NAME}`,
+      description:
+        "See how SmartSeek verifies suppliers, routes RFQs, and avoids marketplace spam.",
+    },
+    "/verification": {
+      title: `Verification Standards – ${SITE_NAME}`,
+      description:
+        "Understand SmartSeek supplier verification tiers and evidence requirements.",
+    },
+    "/methodology": {
+      title: `Sourcing Methodology – ${SITE_NAME}`,
+      description:
+        "See how SmartSeek operators screen and route RFQs to qualified suppliers.",
+    },
+    "/rfq": {
+      title: `Create RFQ – ${SITE_NAME}`,
+      description:
+        "Submit a sourcing request and SmartSeek operators route it to verified suppliers with structured quote responses.",
+    },
+    "/rfq/new": {
+      title: `Create RFQ – ${SITE_NAME}`,
+      description:
+        "Submit a sourcing request and SmartSeek operators route it to verified suppliers with structured quote responses.",
+    },
+    "/rfq-status": {
+      title: `RFQ status – ${SITE_NAME}`,
+      description:
+        "Check the status of your SmartSeek RFQ. Enter your RFQ ID and submission email.",
+    },
+    "/suppliers": {
+      title: `Supplier directory by category – ${SITE_NAME}`,
+      description:
+        "Browse curated, registry-verified suppliers by commodity: antimony, tungsten, tin, copper, lithium, rare earths, steel, and more.",
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+            { "@type": "ListItem", position: 2, name: "Suppliers", item: `${SITE_URL}/suppliers` },
+          ],
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Supplier categories on SmartSeek",
+          itemListElement: SUPPLIER_CATEGORIES.map((slug, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: `${slugToTitle(slug)} suppliers`,
+            url: `${SITE_URL}/suppliers/${slug}`,
+          })),
+        },
+      ],
     },
   };
 
@@ -158,8 +255,8 @@ function getMetaForPath(pathname: string): MetaConfig {
     const slug = catMatch[1];
     const displayName = slugToTitle(slug);
     return {
-      title: `${displayName} Suppliers – Find Verified Manufacturers | ${SITE_NAME}`,
-      description: `Discover verified ${displayName.toLowerCase()} suppliers worldwide. Compare manufacturers and exporters instantly on SmartSeek.`,
+      title: `${displayName} suppliers – registry-verified manufacturers | ${SITE_NAME}`,
+      description: `Curated ${displayName.toLowerCase()} suppliers on SmartSeek. Registry-verified manufacturers and traders, with operator-led RFQ routing.`,
       canonical: `${SITE_URL}/suppliers/${slug}`,
       jsonLd: [
         {
@@ -167,15 +264,15 @@ function getMetaForPath(pathname: string): MetaConfig {
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-            { "@type": "ListItem", position: 2, name: "Suppliers", item: `${SITE_URL}/search` },
+            { "@type": "ListItem", position: 2, name: "Suppliers", item: `${SITE_URL}/suppliers` },
             { "@type": "ListItem", position: 3, name: displayName, item: `${SITE_URL}/suppliers/${slug}` },
           ],
         },
         {
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: `${displayName} Suppliers`,
-          description: `Verified ${displayName.toLowerCase()} manufacturers and exporters on SmartSeek`,
+          name: `${displayName} suppliers`,
+          description: `Registry-verified ${displayName.toLowerCase()} suppliers curated on SmartSeek.`,
           url: `${SITE_URL}/suppliers/${slug}`,
           isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
         },
@@ -185,9 +282,9 @@ function getMetaForPath(pathname: string): MetaConfig {
 
   // Default fallback for any other path
   return {
-    title: `${SITE_NAME} – Global Supplier Discovery`,
+    title: `${SITE_NAME} – Strategic sourcing intelligence`,
     description:
-      "Find real suppliers anywhere in the world. Search manufacturers, exporters and verified suppliers instantly with SmartSeek.",
+      "SmartSeek is a curated supplier discovery and operator-led RFQ platform for strategic metals and industrial inputs.",
     canonical: `${SITE_URL}${base}`,
   };
 }
@@ -205,7 +302,7 @@ function buildMetaHtml(meta: MetaConfig): string {
     `<meta property="og:url" content="${esc(meta.canonical)}" />`,
     `<meta property="og:image" content="${esc(ogImage)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
-    `<meta name="twitter:site" content="@smartsekai" />`,
+    `<meta name="twitter:site" content="@smartseek" />`,
     `<meta name="twitter:title" content="${esc(meta.title)}" />`,
     `<meta name="twitter:description" content="${esc(meta.description)}" />`,
     `<meta name="twitter:image" content="${esc(ogImage)}" />`,

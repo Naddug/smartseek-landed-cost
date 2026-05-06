@@ -410,7 +410,7 @@ export async function crawlDomain(
     timeout     = 8_000,
     delay       = 300,
     followLinks = true,
-    userAgent   = "Mozilla/5.0 (compatible; SmartSeekBot/1.0; +https://smartseek.io)",
+    userAgent   = "Mozilla/5.0 (compatible; SmartSeekBot/1.0; +https://smartseek.com)",
   } = opts;
 
   const domain = normaliseDomain(domainOrUrl);
