@@ -20,15 +20,15 @@ const faqSections: FAQSection[] = [
     items: [
       {
         question: "What is SmartSeek?",
-        answer: "SmartSeek is an AI-powered sourcing platform that helps buyers discover verified global suppliers, calculate landed costs, submit RFQs, and make data-driven procurement decisions. We combine market intelligence with automation to save time and reduce risk."
+        answer: "SmartSeek is a strategic sourcing platform for procurement teams. It helps buyers discover verified suppliers, submit RFQs, and compare structured quotes across industrial categories."
       },
       {
-        question: "How does AI-powered sourcing work?",
-        answer: "Our AI analyzes supplier profiles, market data, and trade flows to surface the best matches for your requirements. It helps you compare options, estimate costs, and identify qualified suppliers faster than manual research."
+        question: "How does supplier discovery work?",
+        answer: "You search by commodity, category, and region, then review curated supplier profiles. For specific demand, submit an RFQ and a SmartSeek sourcing operator routes it to relevant verified suppliers."
       },
       {
         question: "Is SmartSeek free?",
-        answer: "We offer a free tier with limited searches and features. Professional and Enterprise plans unlock unlimited access, advanced tools, and priority support. See our Pricing page for details."
+        answer: "Yes. SmartSeek is free during beta and there is no payment flow enabled right now."
       }
     ]
   },
@@ -38,15 +38,15 @@ const faqSections: FAQSection[] = [
     items: [
       {
         question: "How are suppliers verified?",
-        answer: "Suppliers undergo verification checks including business registration, trade history, and compliance documentation. Verified suppliers display a badge and have completed our verification process. We aggregate data from trade registries, certifications, and verified business sources; validate trade history and compliance; score on response time and quality; and continuously monitor risk signals. See our homepage for the full methodology."
+        answer: "Every supplier we publish is matched to an entry in an official company registry (e.g. SAIC, Companies House, SEC EDGAR, Handelsregister, MERSIS, ASIC, KRS, DART, SEDAR). Where available, we add a Trade Verified or Operator Verified tier. See /verification for the full criteria and re-verification cadence."
       },
       {
-        question: "How many suppliers are in the database?",
-        answer: "Our database covers verified and trusted suppliers and buyer trade leads across 220+ countries and territories, spanning 20+ industries including Mining & Minerals, Electronics, Textiles, Machinery, Chemicals, and Food & Agriculture. We emphasize quality, intent, and trade signals over sheer volume."
+        question: "How many suppliers are in the public directory?",
+        answer: "During beta, the public directory is intentionally curated rather than scraped at scale. It focuses on strategic metals, base metals, and industrial inputs. If a supplier you need isn't listed publicly, submit an RFQ — a SmartSeek operator routes the request through our internal index and verified network."
       },
       {
-        question: "What countries do you cover?",
-        answer: "We cover 220+ countries and territories worldwide. Major sourcing regions include China, India, Vietnam, Turkey, Bangladesh, Indonesia, Pakistan, Thailand, Poland, Malaysia, South Korea, Egypt, Brazil, Mexico, United States, United Kingdom, Germany, France, Japan, and many more. Our database is continuously expanding with real registry data."
+        question: "What countries are covered?",
+        answer: "We work across the major industrial sourcing regions, including China, India, Vietnam, Turkey, Indonesia, Thailand, South Korea, Japan, Poland, Germany, the UK, the US, Mexico, Brazil, Australia, and Canada. Coverage scales as we verify more suppliers — we do not publish unverified bulk records."
       }
     ]
   },
@@ -76,7 +76,7 @@ const faqSections: FAQSection[] = [
       },
       {
         question: "How quickly will I get quotes?",
-        answer: "Most suppliers respond within 24–72 hours. Response times vary by industry and complexity. Pro users get priority routing for faster responses."
+        answer: "Most RFQs receive first responses within 1–3 business days. Timing depends on product complexity and supplier availability."
       },
       {
         question: "Is my information shared?",
@@ -89,15 +89,15 @@ const faqSections: FAQSection[] = [
     items: [
       {
         question: "How do I create an account?",
-        answer: "Click Get Started or Sign Up, enter your email and password, and verify your email. You can start using the free tier immediately."
+        answer: "Click Start Free or Sign Up, enter your work email and password, then verify your email to activate your account."
       },
       {
         question: "Can I cancel anytime?",
-        answer: "Yes. You can cancel your subscription at any time from the Billing page. Access continues until the end of your billing period."
+        answer: "There is no billing during beta. If paid plans are introduced later, cancellation terms will be published in advance."
       },
       {
         question: "What payment methods?",
-        answer: "We accept major credit cards (Visa, Mastercard, Amex) and PayPal. Enterprise plans can be invoiced. All payments are processed securely via Stripe."
+        answer: "Payments are not enabled during beta."
       }
     ]
   },
@@ -106,7 +106,7 @@ const faqSections: FAQSection[] = [
     items: [
       {
         question: "Is my data secure?",
-        answer: "Yes. SmartSeek is SOC 2 Type II certified, uses 256-bit encryption, and is GDPR compliant. We never sell your data. Enterprise customers can use SSO and SAML."
+        answer: "We treat buyer and supplier data as confidential by default. Communications are encrypted in transit (TLS), data is encrypted at rest, and we don't sell your details. RFQs are only shared with suppliers we route them to. SOC 2 attestation work is in progress; we'll publish status when available."
       },
       {
         question: "Who can use SmartSeek?",

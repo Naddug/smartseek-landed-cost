@@ -2,6 +2,7 @@ import { useEffect, useState, FormEvent } from "react";
 import { ArrowRight, CheckCircle2, ShieldCheck, FileText, Search, Building2, Lock } from "lucide-react";
 import { Link } from "wouter";
 import PublicLayout from "@/components/layout/PublicLayout";
+import { useTranslation } from "react-i18next";
 
 // ─── Curated category previews ────────────────────────────────────────────────
 // Sample-based preview only. We do NOT advertise totals or "X suppliers found".
@@ -112,9 +113,9 @@ function CuratedPreview() {
             </div>
             <p className="text-white font-bold text-base mb-1 leading-tight">Full directory available to founding users</p>
             <p className="text-slate-300 text-sm mb-4 leading-relaxed">Free during beta. We onboard buyers manually so every account gets sourcing support.</p>
-            <Link href="/pricing">
+            <Link href="/signup">
               <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                Start free in beta <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
           </div>
@@ -127,6 +128,7 @@ function CuratedPreview() {
 // ─── Hero RFQ shortcut: typed product → /rfq ─────────────────────────────────
 
 function HeroSearch() {
+  const { t } = useTranslation();
   const [q, setQ] = useState("");
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -141,12 +143,12 @@ function HeroSearch() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search a commodity, HS code, or material — e.g. antimony ingot, copper cathode"
+          placeholder={t("home.hero.searchPlaceholder")}
           className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40"
         />
       </div>
       <button type="submit" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition shadow-lg shadow-amber-500/20 text-sm">
-        Search suppliers <ArrowRight className="w-4 h-4" />
+        {t("home.hero.searchButton")} <ArrowRight className="w-4 h-4" />
       </button>
     </form>
   );
@@ -155,6 +157,7 @@ function HeroSearch() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const { t } = useTranslation();
   // Inject JSON-LD for SEO
   useEffect(() => {
     const ld = {
@@ -190,38 +193,41 @@ export default function Home() {
 
         <div className="relative z-10 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-xs font-semibold mb-6 tracking-wide">
           <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
-          Free during beta · Founding users program open
+          {t("home.hero.banner")}
         </div>
 
         <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl mb-5">
-          Strategic sourcing intelligence
+          {t("home.hero.titleLine1")}
           <br className="hidden sm:block" />
-          for industrial procurement teams
+          {t("home.hero.titleLine2")}
         </h1>
 
         <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
-          Discover verified suppliers for strategic metals and industrial inputs. Submit an RFQ and a sourcing operator routes it to qualified suppliers — no marketplace spam, no automated blasts.
+          {t("home.hero.subtitle")}
         </p>
 
         <HeroSearch />
 
-        <div className="relative z-10 flex flex-col sm:flex-row gap-3 mb-6">
-          <Link href="/rfq">
+        <div className="relative z-10 flex flex-col sm:flex-row gap-3 mb-3">
+          <Link href="/rfq/new">
             <button className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
-              <FileText className="w-4 h-4" /> Submit an RFQ
+              <FileText className="w-4 h-4" /> {t("home.hero.submitRfq")}
             </button>
           </Link>
           <Link href="/become-a-supplier">
             <button className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white text-sm font-semibold rounded-xl transition">
-              <Building2 className="w-4 h-4" /> Become a supplier
+              <Building2 className="w-4 h-4" /> {t("home.hero.becomeSupplier")}
             </button>
           </Link>
         </div>
+        <p className="relative z-10 text-xs text-slate-500 mb-8">
+          Built for industrial procurement teams handling specification-driven sourcing workflows.
+        </p>
 
         <div className="relative z-10 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-slate-500 mb-12">
           <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Registry-verified suppliers</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> No fabricated profiles</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Operator-led RFQ routing</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Operator-reviewed RFQ routing</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Structured quote fields (MOQ, lead time, Incoterms)</span>
         </div>
       </section>
 
@@ -230,7 +236,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">Curated supplier preview</p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Suppliers across strategic metals and industrial inputs</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Supplier discovery across strategic metals and industrial inputs</h2>
             <p className="text-slate-400 text-sm max-w-xl mx-auto">A sample of registry-verified suppliers across our priority commodities. Full directory unlocked for founding users during beta.</p>
           </div>
           <CuratedPreview />
@@ -241,7 +247,7 @@ export default function Home() {
       <section className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">How it works</p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">Sourcing without marketplace noise</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">Procurement workflow without marketplace noise</h2>
 
           <div className="relative flex flex-col gap-0">
             <div className="absolute left-8 top-10 bottom-10 w-px bg-gradient-to-b from-blue-200 via-emerald-200 to-amber-200 hidden md:block" />
@@ -306,15 +312,15 @@ export default function Home() {
             Priority sourcing support.
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">
-            We&apos;re onboarding a small group of procurement teams during the beta. Every founding user gets direct access to a sourcing operator and locked-in pricing when we launch paid plans.
+            We&apos;re onboarding a focused set of procurement teams during beta so each account receives direct sourcing support and faster supplier routing.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
-            <Link href="/pricing">
+            <Link href="/signup">
               <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-amber-500/20 text-base">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                Start free in beta <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
-            <Link href="/rfq">
+            <Link href="/rfq/new">
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-8 py-3.5 rounded-xl transition text-base">
                 Submit an RFQ
               </button>
@@ -323,6 +329,23 @@ export default function Home() {
           <p className="text-xs text-slate-600">No credit card. No payment system during beta.</p>
         </div>
       </section>
+      <div className="sm:hidden h-16" aria-hidden="true" />
+
+      {/* Mobile sticky action bar */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-800 bg-slate-950/95 backdrop-blur px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <div className="grid grid-cols-2 gap-2">
+          <Link href="/signup">
+            <button className="w-full inline-flex items-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5 rounded-lg text-xs">
+              Start Free
+            </button>
+          </Link>
+          <Link href="/rfq/new">
+            <button className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-lg text-xs">
+              Create RFQ
+            </button>
+          </Link>
+        </div>
+      </div>
     </PublicLayout>
   );
 }

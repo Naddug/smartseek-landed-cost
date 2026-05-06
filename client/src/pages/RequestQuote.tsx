@@ -40,27 +40,45 @@ export default function RequestQuote() {
     hsCode: "",
     originPreference: "",
     quantity: "",
+    targetQuantityRange: "",
     unit: "kg",
     targetPrice: "",
     currency: "USD",
     specifications: "",
+    certificationRequirements: "",
+    paymentTerms: "",
     incoterm: "",
+    destinationCountry: "",
     destinationPort: "",
     deliveryDate: "",
+    attachmentName: "",
   });
 
   // Prefill productName from ?product= query param (set by /search empty state)
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const p = new URLSearchParams(window.location.search).get("product");
+    const params = new URLSearchParams(window.location.search);
+    const p = params.get("product");
+    const supplier = params.get("supplier");
     if (p) {
       setForm((prev) => ({ ...prev, productName: p }));
+    }
+    if (supplier) {
+      setForm((prev) => ({
+        ...prev,
+        specifications: prev.specifications || `Preferred supplier to invite: ${supplier}`,
+      }));
     }
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setForm((prev) => ({ ...prev, attachmentName: file?.name || "" }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -100,9 +118,19 @@ export default function RequestQuote() {
           targetPrice: form.targetPrice ? parseFloat(form.targetPrice) : undefined,
           currency: form.currency,
           specifications: form.specifications.trim() || undefined,
+          paymentTerms: form.paymentTerms.trim() || undefined,
           incoterm: form.incoterm || undefined,
+          destinationCountry: form.destinationCountry.trim() || undefined,
           destinationPort: form.destinationPort.trim() || undefined,
           deliveryDate: form.deliveryDate || undefined,
+          deliveryDeadline: form.deliveryDate || undefined,
+          notes: [
+            form.targetQuantityRange ? `Target quantity range: ${form.targetQuantityRange}` : "",
+            form.certificationRequirements ? `Certification requirements: ${form.certificationRequirements}` : "",
+            form.attachmentName ? `Attachment provided by buyer (filename): ${form.attachmentName}` : "",
+          ]
+            .filter(Boolean)
+            .join(" | ") || undefined,
         }),
       });
 
@@ -180,13 +208,18 @@ export default function RequestQuote() {
                   hsCode: "",
                   originPreference: "",
                   quantity: "",
+                  targetQuantityRange: "",
                   unit: "kg",
                   targetPrice: "",
                   currency: "USD",
                   specifications: "",
+                  certificationRequirements: "",
+                  paymentTerms: "",
                   incoterm: "",
+                  destinationCountry: "",
                   destinationPort: "",
                   deliveryDate: "",
+                  attachmentName: "",
                 });
               }}
               className="text-blue-600 hover:text-blue-700 font-medium"
@@ -345,6 +378,17 @@ export default function RequestQuote() {
                   />
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Target Quantity Range (optional)</label>
+                  <input
+                    type="text"
+                    name="targetQuantityRange"
+                    value={form.targetQuantityRange}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g. 20–50 MT per month"
+                  />
+                </div>
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
                   <select
                     name="unit"
@@ -394,6 +438,28 @@ export default function RequestQuote() {
                     placeholder="Describe your product requirements, dimensions, materials, certifications, etc."
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Certification Requirements (optional)</label>
+                  <input
+                    type="text"
+                    name="certificationRequirements"
+                    value={form.certificationRequirements}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g. ISO 9001, REACH, RoHS"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Terms (optional)</label>
+                  <input
+                    type="text"
+                    name="paymentTerms"
+                    value={form.paymentTerms}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g. 30% TT advance, 70% against B/L"
+                  />
+                </div>
               </div>
             </div>
 
@@ -413,6 +479,17 @@ export default function RequestQuote() {
                       <option key={i} value={i}>{i}</option>
                     ))}
                   </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Destination Country (optional)</label>
+                  <input
+                    type="text"
+                    name="destinationCountry"
+                    value={form.destinationCountry}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="e.g. Thailand"
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Destination Port</label>
@@ -436,6 +513,17 @@ export default function RequestQuote() {
                     placeholder="e.g. Q2 2025 or specific date"
                   />
                 </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Attachment (optional)</label>
+                  <input
+                    type="file"
+                    onChange={handleAttachmentChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-slate-100 file:text-slate-700"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">
+                    Attachment UI is captured for operator context. For sensitive files, our team will provide a secure upload channel by email.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -453,6 +541,17 @@ export default function RequestQuote() {
                   </>
                 )}
               </button>
+              <p className="mt-3 text-center text-[11px] text-slate-500">
+                By submitting, you agree to our{" "}
+                <Link href="/privacy" className="underline underline-offset-2">
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link href="/terms" className="underline underline-offset-2">
+                  Terms of Service
+                </Link>
+                . RFQs are reviewed by a sourcing operator before routing.
+              </p>
             </div>
           </form>
         </div>

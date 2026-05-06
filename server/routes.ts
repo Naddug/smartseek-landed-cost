@@ -54,21 +54,28 @@ export async function registerRoutes(
 
   // ── Sitemap ───────────────────────────────────────────────────────────────
   app.get("/sitemap.xml", (_req: Request, res: Response) => {
-    const SITE_URL = (process.env.SITE_URL || "https://smartseek.io").replace(/\/$/, "");
+    const SITE_URL = (process.env.SITE_URL || "https://smartseek.com").replace(/\/$/, "");
     const now = new Date().toISOString().split("T")[0];
 
     const staticRoutes = [
       { path: "/", priority: "1.0", changefreq: "daily" },
       { path: "/search", priority: "0.95", changefreq: "daily" },
-      { path: "/pricing", priority: "0.9", changefreq: "weekly" },
-      { path: "/about", priority: "0.8", changefreq: "monthly" },
-      { path: "/faq", priority: "0.8", changefreq: "monthly" },
+      { path: "/suppliers", priority: "0.95", changefreq: "weekly" },
+      { path: "/rfq", priority: "0.9", changefreq: "weekly" },
+      { path: "/rfq/new", priority: "0.85", changefreq: "weekly" },
+      { path: "/become-a-supplier", priority: "0.9", changefreq: "weekly" },
+      { path: "/trust", priority: "0.85", changefreq: "weekly" },
+      { path: "/verification", priority: "0.85", changefreq: "monthly" },
+      { path: "/methodology", priority: "0.85", changefreq: "monthly" },
+      { path: "/pricing", priority: "0.85", changefreq: "weekly" },
+      { path: "/about", priority: "0.7", changefreq: "monthly" },
+      { path: "/faq", priority: "0.7", changefreq: "monthly" },
       { path: "/contact", priority: "0.6", changefreq: "monthly" },
-      { path: "/integrations", priority: "0.7", changefreq: "monthly" },
-      { path: "/rfq", priority: "0.7", changefreq: "monthly" },
-      { path: "/sample-report", priority: "0.7", changefreq: "monthly" },
-      { path: "/signup", priority: "0.9", changefreq: "monthly" },
-      { path: "/login", priority: "0.5", changefreq: "monthly" },
+      { path: "/integrations", priority: "0.6", changefreq: "monthly" },
+      { path: "/sample-report", priority: "0.6", changefreq: "monthly" },
+      { path: "/privacy", priority: "0.4", changefreq: "monthly" },
+      { path: "/terms", priority: "0.4", changefreq: "monthly" },
+      // Auth/transactional pages intentionally omitted: /login, /signup, /register, /rfq-status
     ];
 
     const categoryRoutes = SUPPLIER_CATEGORIES.map((cat) => ({
@@ -91,6 +98,35 @@ export async function registerRoutes(
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=3600");
     res.send(xml);
+  });
+
+  // ── robots.txt ────────────────────────────────────────────────────────────
+  app.get("/robots.txt", (_req: Request, res: Response) => {
+    const SITE_URL = (process.env.SITE_URL || "https://smartseek.com").replace(/\/$/, "");
+    const lines = [
+      "User-agent: *",
+      "Allow: /",
+      // Authenticated app surface — keep crawlers out
+      "Disallow: /app/",
+      "Disallow: /admin",
+      "Disallow: /admin-indexes",
+      // Auth / transactional surfaces
+      "Disallow: /login",
+      "Disallow: /signup",
+      "Disallow: /register",
+      "Disallow: /forgot-password",
+      "Disallow: /reset-password",
+      "Disallow: /verify-email",
+      "Disallow: /rfq-status",
+      // API surface
+      "Disallow: /api/",
+      "",
+      `Sitemap: ${SITE_URL}/sitemap.xml`,
+      "",
+    ];
+    res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.send(lines.join("\n"));
   });
 
   // Mineral purity options (for SmartFinder when user searches copper, tin, antimony, etc.)
@@ -666,7 +702,7 @@ Always structure your response with:
 
 Your capabilities include:
 - **Market Intelligence**: Analyze market trends, price movements, supply-demand dynamics, and competitive landscapes
-- **Supplier Discovery**: Find, evaluate, and compare suppliers across 220+ countries with quality scoring
+- **Supplier Discovery**: Find, evaluate, and compare registry-verified suppliers across major industrial sourcing regions
 - **Cost Optimization**: Calculate landed costs, identify savings opportunities, optimize trade routes and logistics
 - **Risk Analysis**: Assess geopolitical, financial, supply chain, and regulatory risks with mitigation strategies
 - **Trade Compliance**: Navigate HS codes, customs duties, trade agreements, and regulatory requirements
@@ -2781,7 +2817,7 @@ Format as plain text, professional tone. Keep it concise but complete.`,
       suppliers,
       total,
       is_curated_sample: true,
-      note: "Featured suppliers — full directory of 25.2M+ available in-app",
+      note: "Curated public directory. Submit an RFQ to source from our internal verified network.",
     });
   });
 
@@ -2792,7 +2828,7 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     if (!supplier) {
       return res.status(404).json({
         error: "Supplier not found",
-        message: "This supplier is not in our featured directory. Sign up to access 25.2M+ suppliers.",
+        message: "This supplier is not in our public directory. Submit an RFQ and a SmartSeek operator will source it for you.",
       });
     }
 
@@ -3351,7 +3387,11 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     }
   });
 
-  // GET /api/rfqs/:id - public RFQ status lookup (id + email match required)
+  // GET /api/rfqs/:id — legacy public RFQ status lookup against the older RFQ table.
+  // NOTE: the modern /api/rfq/:id handler is defined later in this file and queries
+  // the RfqRequest model first (with fallback on P2021). Frontend RfqStatus.tsx
+  // calls /api/rfq/:id, which is the correct path for the current submit flow.
+  // This /api/rfqs/:id remains for any legacy clients that still target it.
   app.get("/api/rfqs/:id", async (req: Request, res: Response) => {
     try {
       const email = (req.query.email as string | undefined)?.trim().toLowerCase();

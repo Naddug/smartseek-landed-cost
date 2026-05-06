@@ -71,6 +71,9 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
 
         <span className="inline-block text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full mb-2">{supplier.industry}</span>
         <p className="text-xs text-slate-600 mb-3 line-clamp-2">{supplier.tagline}</p>
+        <p className="text-[11px] text-slate-500 mb-2">
+          Best for: {supplier.type === "manufacturer" ? "direct production sourcing" : supplier.type === "trader" ? "trade procurement workflows" : "distribution and replenishment"}
+        </p>
 
         <div className="flex flex-wrap gap-1 mb-3">
           {supplier.products.slice(0, 3).map((p, i) => (
@@ -92,10 +95,16 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
             {supplier.employee_count_band}
           </span>
         </div>
+        <p className="text-[11px] text-slate-500 mt-2">Response speed: Contact supplier for details</p>
 
         <Link href={`/supplier/${supplier.slug}`}>
           <button className="mt-3 text-sm font-semibold text-blue-700 hover:text-blue-800 inline-flex items-center gap-1">
             {t("supplier.viewDetails")} <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </Link>
+        <Link href={`/rfq/new?supplier=${encodeURIComponent(supplier.company_name)}`}>
+          <button className="mt-2 text-xs font-semibold text-slate-700 hover:text-slate-900 inline-flex items-center gap-1">
+            <FileText className="w-3.5 h-3.5" /> Invite to RFQ
           </button>
         </Link>
       </div>
@@ -112,6 +121,9 @@ export default function PublicSearchResults() {
       : "";
   const [input, setInput] = useState(queryFromUrl);
   const [submittedQuery, setSubmittedQuery] = useState(queryFromUrl);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [savedCount, setSavedCount] = useState(0);
+  const [compareCount, setCompareCount] = useState(0);
 
   useEffect(() => {
     const latestQuery =
@@ -121,6 +133,43 @@ export default function PublicSearchResults() {
     setInput(latestQuery);
     setSubmittedQuery(latestQuery);
   }, [location]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const recent = JSON.parse(window.localStorage.getItem("recent_supplier_searches") || "[]") as string[];
+    const saved = JSON.parse(window.localStorage.getItem("saved_suppliers") || "[]") as string[];
+    const compare = JSON.parse(window.localStorage.getItem("compare_suppliers") || "[]") as string[];
+    setRecentSearches(recent.slice(0, 5));
+    setSavedCount(saved.length);
+    setCompareCount(compare.length);
+  }, [location]);
+
+  useEffect(() => {
+    const q = submittedQuery.trim();
+    if (!q || typeof window === "undefined") return;
+    const key = "recent_supplier_searches";
+    const current = JSON.parse(window.localStorage.getItem(key) || "[]") as string[];
+    const next = [q, ...current.filter((item) => item.toLowerCase() !== q.toLowerCase())].slice(0, 8);
+    window.localStorage.setItem(key, JSON.stringify(next));
+    setRecentSearches(next.slice(0, 5));
+  }, [submittedQuery]);
+
+  useEffect(() => {
+    const title = submittedQuery
+      ? `Supplier search: ${submittedQuery} | SmartSeek`
+      : "Supplier directory search | SmartSeek";
+    const description = submittedQuery
+      ? `Find supplier options for ${submittedQuery} with procurement-oriented RFQ next steps on SmartSeek.`
+      : "Search suppliers by material, process, region, or certification. Continue to RFQ when no public result is available.";
+    document.title = title;
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!metaDesc) {
+      metaDesc = document.createElement("meta");
+      metaDesc.name = "description";
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = description;
+  }, [submittedQuery]);
 
   const { data, status, isError } = usePublicSupplierSearch(submittedQuery);
 
@@ -151,6 +200,10 @@ export default function PublicSearchResults() {
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("publicSearch.hero.title")}</h1>
             <p className="text-slate-400 text-sm">{t("publicSearch.hero.subtitle")}</p>
+            <div className="mt-3 flex flex-wrap justify-center gap-2 text-[11px]">
+              <span className="px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">Saved suppliers: {savedCount}</span>
+              <span className="px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">Compare list: {compareCount}/3</span>
+            </div>
           </div>
 
           <form onSubmit={onSubmit} className="max-w-xl mx-auto mb-5 flex gap-2">
@@ -180,6 +233,23 @@ export default function PublicSearchResults() {
               </button>
             ))}
           </div>
+
+          {recentSearches.length > 0 && (
+            <div className="mb-6 text-center">
+              <p className="text-xs text-slate-500 mb-2">Recent sourcing queries</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {recentSearches.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => runChip(q)}
+                    className="text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {!isPending && !isError && submittedQuery && (
             <div className="mb-4 text-center">
@@ -217,18 +287,35 @@ export default function PublicSearchResults() {
                 <p className="text-slate-400 text-sm leading-relaxed mb-6">
                   {t("publicSearch.empty.body")}
                 </p>
+                <div className="mb-6">
+                  <p className="text-xs text-slate-400 mb-2">Try a narrower query</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {["antimony ingot", "copper cathode", "lead concentrate", "tin solder"].map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        onClick={() => runChip(suggestion)}
+                        className="text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link href={`/rfq${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
+                  <Link href={`/rfq/new${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
                     <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
                       <FileText className="w-4 h-4" /> {t("publicSearch.empty.submitRfq")}
                     </button>
                   </Link>
-                  <Link href="/pricing">
-                    <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition">
-                      {t("publicSearch.empty.requestBeta")} <ArrowRight className="w-4 h-4" />
+                  <Link href="/contact">
+                    <button className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold px-5 py-2.5 rounded-xl text-sm transition border border-slate-300">
+                      Request supplier support <ArrowRight className="w-4 h-4" />
                     </button>
                   </Link>
                 </div>
+                <p className="text-xs text-slate-500 mt-4">
+                  Tip: add region, certification, or process terms to reduce ambiguity.
+                </p>
               </div>
             </div>
           )}
@@ -237,7 +324,7 @@ export default function PublicSearchResults() {
           {!isPending && !isError && suppliers.length > 0 && (
             <div className="mt-10 text-center">
               <p className="text-xs text-slate-400 mb-3">{t("publicSearch.footer.needSupplier")}</p>
-              <Link href={`/rfq${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
+              <Link href={`/rfq/new${submittedQuery ? `?product=${encodeURIComponent(submittedQuery)}` : ""}`}>
                 <button className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium px-4 py-2 rounded-lg text-xs transition">
                   <FileText className="w-3.5 h-3.5" /> {t("publicSearch.footer.submitRfq")}
                 </button>

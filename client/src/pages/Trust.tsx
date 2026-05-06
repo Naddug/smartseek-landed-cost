@@ -35,6 +35,20 @@ export default function Trust() {
             <p className="text-sm text-slate-700 leading-relaxed">
               {t("trustPage.rfqBody")}
             </p>
+            <div className="mt-4 grid sm:grid-cols-3 gap-2 text-xs">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                <p className="font-semibold text-slate-900">Intake check</p>
+                <p className="text-slate-600">Specification, volume, delivery constraints</p>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                <p className="font-semibold text-slate-900">Qualification check</p>
+                <p className="text-slate-600">Commodity fit, geography, compliance scope</p>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                <p className="font-semibold text-slate-900">Quote normalization</p>
+                <p className="text-slate-600">MOQ, lead time, Incoterms, provenance</p>
+              </div>
+            </div>
             <p className="text-sm text-slate-600 mt-3"><Link href="/methodology" className="text-blue-700 underline underline-offset-2">{t("trustPage.rfqLink")}</Link></p>
           </Block>
 
@@ -57,6 +71,17 @@ export default function Trust() {
               <li>{t("trustPage.notDo5")}</li>
             </ul>
           </Block>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-6">
+            <h2 className="text-lg font-bold text-slate-900 mb-3">Evidence scope and limitations</h2>
+            <p className="text-sm text-slate-700 leading-relaxed mb-3">
+              SmartSeek provides sourcing intelligence and verification signals, not legal, sanctions, or financial advice.
+              Buyers remain responsible for final contracting, payment security, inspection, and jurisdiction-specific compliance checks.
+            </p>
+            <p className="text-xs text-slate-500">
+              This transparency is intentional: procurement confidence improves when evidence boundaries are explicit.
+            </p>
+          </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center">
             <p className="text-sm text-slate-700 mb-4">{t("trustPage.reportText")}</p>

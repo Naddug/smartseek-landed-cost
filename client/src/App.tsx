@@ -63,6 +63,7 @@ import Trust from "@/pages/Trust";
 import Verification from "@/pages/Verification";
 import Methodology from "@/pages/Methodology";
 import RfqStatus from "@/pages/RfqStatus";
+import SuppliersIndex from "@/pages/SuppliersIndex";
 import type { ReactNode } from "react";
 
 function PublicPage({ children }: { children: ReactNode }) {
@@ -101,7 +102,7 @@ function ProtectedRoute({ component: Component, adminOnly = false, requireVerifi
 }
 
 const PAGE_TITLES: Record<string, string> = {
-  "/": "SmartSeek – Sourcing & Lead Intelligence",
+  "/": "SmartSeek – Strategic Sourcing Intelligence",
   "/search": "Search Suppliers | SmartSeek",
   "/app/dashboard": "Dashboard | SmartSeek",
   "/app/smart-finder": "SmartSeek AI | SmartSeek",
@@ -119,16 +120,20 @@ const PAGE_TITLES: Record<string, string> = {
   "/app/tools": "Tools | SmartSeek",
   "/app/admin": "Admin | SmartSeek",
   "/login": "Login | SmartSeek",
+  "/register": "Register | SmartSeek",
   "/signup": "Sign Up | SmartSeek",
   "/forgot-password": "Reset Password | SmartSeek",
   "/pricing": "Pricing | SmartSeek",
   "/faq": "FAQ | SmartSeek",
   "/about": "About | SmartSeek",
+  "/suppliers": "Supplier Directory | SmartSeek",
   "/become-a-supplier": "Become a Supplier | SmartSeek",
   "/trust": "Trust & Verification | SmartSeek",
   "/verification": "Verification Standards | SmartSeek",
+  "/verification-standard": "Verification Standards | SmartSeek",
   "/methodology": "Sourcing Methodology | SmartSeek",
   "/rfq-status": "RFQ Status | SmartSeek",
+  "/rfq/new": "Create RFQ | SmartSeek",
 };
 
 function Router() {
@@ -142,6 +147,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/login" component={Auth} />
+      <Route path="/register" component={Auth} />
       <Route path="/signup" component={Auth} />
       <Route path="/forgot-password" component={Auth} />
       <Route path="/sample-report" component={SampleReport} />
@@ -155,6 +161,9 @@ function Router() {
       <Route path="/rfq">
         <PublicPage><RequestQuote /></PublicPage>
       </Route>
+      <Route path="/rfq/new">
+        <PublicPage><RequestQuote /></PublicPage>
+      </Route>
       <Route path="/rfq-status">
         <RfqStatus />
       </Route>
@@ -165,6 +174,9 @@ function Router() {
         <Trust />
       </Route>
       <Route path="/verification">
+        <Verification />
+      </Route>
+      <Route path="/verification-standard">
         <Verification />
       </Route>
       <Route path="/methodology">
@@ -190,6 +202,9 @@ function Router() {
       </Route>
       <Route path="/integrations">
         <PublicPage><Integrations /></PublicPage>
+      </Route>
+      <Route path="/page/custom-privacy-and-policy">
+        {() => { window.location.replace("/privacy"); return null; }}
       </Route>
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/reset-password" component={ResetPassword} />
@@ -239,12 +254,15 @@ function Router() {
       </Route>
       <Route path="/suppliers">
         {() => {
-          // Always funnel /suppliers to the public /search page.
-          // Sending guests to /app/suppliers triggered ProtectedRoute's login redirect —
-          // the "search redirects to /app routes" symptom.
-          const q = new URLSearchParams(window.location.search).get("q");
-          window.location.replace(q ? `/search?q=${encodeURIComponent(q)}` : "/search");
-          return null;
+          // If a search query is present, funnel to /search; otherwise render the public category index.
+          const q = typeof window !== "undefined"
+            ? new URLSearchParams(window.location.search).get("q")
+            : null;
+          if (q) {
+            window.location.replace(`/search?q=${encodeURIComponent(q)}`);
+            return null;
+          }
+          return <SuppliersIndex />;
         }}
       </Route>
       

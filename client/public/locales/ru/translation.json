@@ -1145,5 +1145,13 @@
   "faq.title": "Frequently Asked Questions",
   "faq.subtitle": "Find answers to common questions about SmartSeek, our platform, and how we can help procurers, entrepreneurs, suppliers, and producers.",
   "faq.stillQuestions": "Still have questions?",
-  "faq.contactUs": "Contact Us"
+  "faq.contactUs": "Contact Us",
+  "home.hero.banner": "Бесплатно в бета · Программа для первых пользователей открыта",
+  "home.hero.titleLine1": "Стратегическая аналитика закупок",
+  "home.hero.titleLine2": "для промышленных команд закупок",
+  "home.hero.subtitle": "Находите проверенных поставщиков стратегических металлов и промышленных материалов. Отправьте RFQ, и оператор направит его подходящим поставщикам.",
+  "home.hero.submitRfq": "Отправить RFQ",
+  "home.hero.becomeSupplier": "Стать поставщиком",
+  "home.hero.searchPlaceholder": "Поиск по товару, HS-коду или материалу",
+  "home.hero.searchButton": "Поиск поставщиков"
 }

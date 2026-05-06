@@ -975,5 +975,13 @@
   "faq.title": "よくある質問",
   "faq.subtitle": "SmartSeekに関する一般的な質問への回答です。",
   "faq.stillQuestions": "まだ質問がありますか？",
-  "faq.contactUs": "お問い合わせ"
+  "faq.contactUs": "お問い合わせ",
+  "home.hero.banner": "ベータ期間無料 · 創業ユーザープログラム受付中",
+  "home.hero.titleLine1": "戦略調達インテリジェンス",
+  "home.hero.titleLine2": "産業調達チーム向け",
+  "home.hero.subtitle": "戦略金属・産業資材の検証済みサプライヤーを探索。RFQ送信後、運用担当が適切なサプライヤーへルーティングします。",
+  "home.hero.submitRfq": "RFQを送信",
+  "home.hero.becomeSupplier": "サプライヤー登録",
+  "home.hero.searchPlaceholder": "商品・HSコード・材料で検索",
+  "home.hero.searchButton": "サプライヤー検索"
 }

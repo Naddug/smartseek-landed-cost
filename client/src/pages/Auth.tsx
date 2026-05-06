@@ -13,6 +13,7 @@ import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 type AuthMode = "login" | "signup" | "forgot";
+type SignupRole = "buyer" | "supplier";
 
 // OAuth is disabled by default on Railway preview domains.
 // Set VITE_OAUTH_ENABLED=true in environment variables to enable.
@@ -71,9 +72,10 @@ export default function Auth() {
   const [, setLocation] = useLocation();
   const [matchForgot] = useRoute("/forgot-password");
   const [matchSignup] = useRoute("/signup");
+  const [matchRegister] = useRoute("/register");
   const searchString = typeof window !== "undefined" ? window.location.search : "";
   const { toast } = useToast();
-  const routeMode: AuthMode = matchForgot ? "forgot" : matchSignup ? "signup" : "login";
+  const routeMode: AuthMode = matchForgot ? "forgot" : (matchSignup || matchRegister) ? "signup" : "login";
   const [mode, setMode] = useState<AuthMode>(routeMode);
 
   useEffect(() => {
@@ -87,6 +89,13 @@ export default function Auth() {
     confirmPassword: "",
     firstName: "",
     lastName: "",
+    signupRole: "buyer" as SignupRole,
+    supplierCompanyName: "",
+    supplierCountry: "",
+    supplierCategories: "",
+    supplierMinOrderCapability: "",
+    supplierCertifications: "",
+    supplierWebsite: "",
     rememberMe: false,
     acceptTerms: false,
   });
@@ -114,10 +123,17 @@ export default function Auth() {
     if (mode === "signup") {
       if (!formData.firstName?.trim()) errs.firstName = t("auth.validation.firstNameRequired");
       if (!formData.lastName?.trim()) errs.lastName = t("auth.validation.lastNameRequired");
+      if (!formData.signupRole) errs.signupRole = "Please select account type";
       if (!formData.password) errs.password = t("auth.validation.passwordRequired");
       else if (formData.password.length < 6) errs.password = t("auth.validation.passwordLength");
       else if (!passwordsMatch) errs.confirmPassword = t("auth.validation.passwordsNoMatch");
       if (!formData.acceptTerms) errs.acceptTerms = t("auth.validation.acceptTerms");
+      if (formData.signupRole === "supplier") {
+        if (!formData.supplierCompanyName.trim()) errs.supplierCompanyName = "Legal company name is required";
+        if (!formData.supplierCountry.trim()) errs.supplierCountry = "Country or region is required";
+        if (!formData.supplierCategories.trim()) errs.supplierCategories = "Categories supplied are required";
+        if (!formData.supplierMinOrderCapability.trim()) errs.supplierMinOrderCapability = "Minimum order capability is required";
+      }
     }
 
     if (mode === "forgot" && !formData.email) errs.email = t("auth.validation.emailRequired");
@@ -168,7 +184,8 @@ export default function Auth() {
         queryClient.removeQueries({ queryKey: ["credits"] });
         toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
         const signupRedirect = new URLSearchParams(window.location.search).get("redirect");
-        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/app/dashboard");
+        const roleDefault = formData.signupRole === "supplier" ? "/become-a-supplier" : "/rfq/new";
+        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : roleDefault);
         return;
       }
 
@@ -271,30 +288,57 @@ export default function Auth() {
             )}
 
             {mode === "signup" && (
-              <div className="grid grid-cols-2 gap-4">
+              <>
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">{t("auth.firstName")}</Label>
-                  <Input
-                    id="firstName"
-                    placeholder="John"
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    className={fieldErrors.firstName ? "border-red-500" : ""}
-                  />
-                  {fieldErrors.firstName && <p className="text-xs text-red-500">{fieldErrors.firstName}</p>}
+                  <Label>Account Type</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, signupRole: "buyer" })}
+                      className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+                        formData.signupRole === "buyer" ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-300"
+                      }`}
+                    >
+                      Procurement Buyer
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, signupRole: "supplier" })}
+                      className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+                        formData.signupRole === "supplier" ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-300"
+                      }`}
+                    >
+                      Supplier
+                    </button>
+                  </div>
+                  {fieldErrors.signupRole && <p className="text-xs text-red-500">{fieldErrors.signupRole}</p>}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">{t("auth.lastName")}</Label>
-                  <Input
-                    id="lastName"
-                    placeholder="Doe"
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    className={fieldErrors.lastName ? "border-red-500" : ""}
-                  />
-                  {fieldErrors.lastName && <p className="text-xs text-red-500">{fieldErrors.lastName}</p>}
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">{t("auth.firstName")}</Label>
+                    <Input
+                      id="firstName"
+                      placeholder="John"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      className={fieldErrors.firstName ? "border-red-500" : ""}
+                    />
+                    {fieldErrors.firstName && <p className="text-xs text-red-500">{fieldErrors.firstName}</p>}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">{t("auth.lastName")}</Label>
+                    <Input
+                      id="lastName"
+                      placeholder="Doe"
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      className={fieldErrors.lastName ? "border-red-500" : ""}
+                    />
+                    {fieldErrors.lastName && <p className="text-xs text-red-500">{fieldErrors.lastName}</p>}
+                  </div>
                 </div>
-              </div>
+              </>
             )}
 
             <div className="space-y-2">
@@ -390,10 +434,81 @@ export default function Auth() {
                         className={fieldErrors.acceptTerms ? "border-red-500" : ""}
                       />
                       <Label htmlFor="acceptTerms" className="text-sm font-normal cursor-pointer leading-tight">
-                        {t("auth.agreeToTerms")} <Link href="/terms" className="text-primary hover:underline">{t("auth.termsOfService")}</Link>
+                        {t("auth.agreeToTerms")}{" "}
+                        <Link href="/terms" className="text-primary hover:underline">{t("auth.termsOfService")}</Link>{" "}
+                        and{" "}
+                        <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
                       </Label>
                     </div>
                     {fieldErrors.acceptTerms && <p className="text-xs text-red-500">{fieldErrors.acceptTerms}</p>}
+                  </div>
+                )}
+
+                {mode === "signup" && formData.signupRole === "supplier" && (
+                  <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+                    <p className="text-xs font-semibold text-slate-700">Supplier onboarding details</p>
+                    <div className="space-y-2">
+                      <Label htmlFor="supplierCompanyName">Company legal name *</Label>
+                      <Input
+                        id="supplierCompanyName"
+                        placeholder="e.g. Aurubis AG"
+                        value={formData.supplierCompanyName}
+                        onChange={(e) => setFormData({ ...formData, supplierCompanyName: e.target.value })}
+                        className={fieldErrors.supplierCompanyName ? "border-red-500" : ""}
+                      />
+                      {fieldErrors.supplierCompanyName && <p className="text-xs text-red-500">{fieldErrors.supplierCompanyName}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="supplierCountry">Country / region *</Label>
+                      <Input
+                        id="supplierCountry"
+                        placeholder="e.g. Germany"
+                        value={formData.supplierCountry}
+                        onChange={(e) => setFormData({ ...formData, supplierCountry: e.target.value })}
+                        className={fieldErrors.supplierCountry ? "border-red-500" : ""}
+                      />
+                      {fieldErrors.supplierCountry && <p className="text-xs text-red-500">{fieldErrors.supplierCountry}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="supplierCategories">Categories supplied *</Label>
+                      <Input
+                        id="supplierCategories"
+                        placeholder="e.g. copper cathode, steel coils"
+                        value={formData.supplierCategories}
+                        onChange={(e) => setFormData({ ...formData, supplierCategories: e.target.value })}
+                        className={fieldErrors.supplierCategories ? "border-red-500" : ""}
+                      />
+                      {fieldErrors.supplierCategories && <p className="text-xs text-red-500">{fieldErrors.supplierCategories}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="supplierMinOrderCapability">Minimum order capability *</Label>
+                      <Input
+                        id="supplierMinOrderCapability"
+                        placeholder="e.g. 25 MT / month"
+                        value={formData.supplierMinOrderCapability}
+                        onChange={(e) => setFormData({ ...formData, supplierMinOrderCapability: e.target.value })}
+                        className={fieldErrors.supplierMinOrderCapability ? "border-red-500" : ""}
+                      />
+                      {fieldErrors.supplierMinOrderCapability && <p className="text-xs text-red-500">{fieldErrors.supplierMinOrderCapability}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="supplierCertifications">Certifications (optional)</Label>
+                      <Input
+                        id="supplierCertifications"
+                        placeholder="e.g. ISO 9001, ISO 14001"
+                        value={formData.supplierCertifications}
+                        onChange={(e) => setFormData({ ...formData, supplierCertifications: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="supplierWebsite">Website or profile URL (optional)</Label>
+                      <Input
+                        id="supplierWebsite"
+                        placeholder="https://example.com"
+                        value={formData.supplierWebsite}
+                        onChange={(e) => setFormData({ ...formData, supplierWebsite: e.target.value })}
+                      />
+                    </div>
                   </div>
                 )}
               </>
@@ -401,6 +516,11 @@ export default function Auth() {
           </CardContent>
 
           <CardFooter className="flex flex-col gap-4">
+            {mode === "signup" && (
+              <p className="text-xs text-muted-foreground text-center">
+                Supplier applications are verification-first. We may request registry documents before listing.
+              </p>
+            )}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               {mode === "login" && t("auth.signIn")}

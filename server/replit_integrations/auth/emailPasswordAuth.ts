@@ -101,7 +101,8 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 }
 
 export async function setupAuth(app: Express) {
-  app.set("trust proxy", true);
+  // Use first proxy hop to avoid permissive trust-proxy=true bypass warnings with express-rate-limit.
+  app.set("trust proxy", 1);
   app.use(getSession());
 
   const { setupOAuth } = await import("../../auth/oauth");
@@ -313,8 +314,13 @@ export async function setupAuth(app: Express) {
       const verificationToken = await authStorage.setVerificationToken(user.id);
       const baseUrl = `${req.protocol}://${req.get('host')}`;
       
-      await sendVerificationEmail(user.email, verificationToken, baseUrl);
-      res.json({ success: true, message: "Verification email sent" });
+      try {
+        await sendVerificationEmail(user.email, verificationToken, baseUrl);
+      } catch (emailError: any) {
+        console.warn("Resend verification email failed:", emailError?.message || emailError);
+        // Keep response successful to avoid UX dead-end when provider is temporarily unavailable.
+      }
+      res.json({ success: true, message: "If delivery is available, a verification email has been queued." });
     } catch (error) {
       console.error("Resend verification error:", error);
       res.status(500).json({ error: "Failed to send verification email" });

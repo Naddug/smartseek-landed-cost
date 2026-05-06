@@ -1061,5 +1061,13 @@
   "faq.title": "常见问题",
   "faq.subtitle": "查看关于 SmartSeek 与平台使用的常见问题解答。",
   "faq.stillQuestions": "还有问题？",
-  "faq.contactUs": "联系我们"
+  "faq.contactUs": "联系我们",
+  "home.hero.banner": "Beta 期间免费 · 创始用户计划开放中",
+  "home.hero.titleLine1": "战略采购情报",
+  "home.hero.titleLine2": "面向工业采购团队",
+  "home.hero.subtitle": "发现战略金属与工业投入领域的验证供应商。提交 RFQ 后由采购运营路由到合格供应商 —— 无市场垃圾信息，无自动群发。",
+  "home.hero.submitRfq": "提交 RFQ",
+  "home.hero.becomeSupplier": "成为供应商",
+  "home.hero.searchPlaceholder": "按商品、HS 编码或材料搜索",
+  "home.hero.searchButton": "搜索供应商"
 }

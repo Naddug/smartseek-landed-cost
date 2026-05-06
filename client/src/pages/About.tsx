@@ -101,8 +101,8 @@ export default function About() {
             <Link href="/search" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">
               <Users className="w-4 h-4" /> {t("publicNav.suppliers")}
             </Link>
-            <Link href="/pricing" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-              <Target className="w-4 h-4" /> {t("nav.pricing")}
+            <Link href="/signup" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">
+              <Target className="w-4 h-4" /> Start Free in Beta
             </Link>
             <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
               <Building2 className="w-4 h-4" /> {t("footer.contact")}

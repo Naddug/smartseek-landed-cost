@@ -72,7 +72,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.submitRfq")}</Link>
       <Link href="/become-a-supplier" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.becomeSupplier")}</Link>
       <Link href="/trust" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.trustVerification")}</Link>
-      <Link href="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.betaAccess")}</Link>
+      <Link href="/signup" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.betaAccess")}</Link>
     </>
   );
 
@@ -91,7 +91,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <span className="hidden sm:inline text-slate-500">•</span>
           <span className="hidden sm:inline">{t("publicBanner.foundingSupport")}</span>
           <span className="hidden md:inline text-slate-500">•</span>
-          <Link href="/pricing" className="hidden md:inline underline underline-offset-2 hover:text-white">{t("publicBanner.requestAccess")}</Link>
+          <Link href="/signup" className="hidden md:inline underline underline-offset-2 hover:text-white">{t("publicBanner.requestAccess")}</Link>
         </div>
       </div>
       )}
@@ -122,7 +122,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             <div className="hidden sm:block"><LanguageSwitcher /></div>
             {!authLoading && user ? (
-              <Button onClick={() => setLocation('/dashboard')} size="sm" className="font-medium text-sm sm:text-base">{t("nav.dashboard")}</Button>
+              <Button onClick={() => setLocation('/app/dashboard')} size="sm" className="font-medium text-sm sm:text-base">{t("nav.dashboard")}</Button>
             ) : !authLoading ? (
               <>
                 <Link href="/login">
@@ -188,7 +188,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <li><Link href="/search" className="hover:text-foreground transition-colors">{t("publicNav.suppliers")}</Link></li>
                 <li><Link href="/rfq" className="hover:text-foreground transition-colors">{t("publicNav.submitRfq")}</Link></li>
                 <li><Link href="/become-a-supplier" className="hover:text-foreground transition-colors">{t("publicNav.becomeSupplier")}</Link></li>
-                <li><Link href="/pricing" className="hover:text-foreground transition-colors">{t("publicNav.betaAccess")}</Link></li>
+                <li><Link href="/signup" className="hover:text-foreground transition-colors">{t("publicNav.betaAccess")}</Link></li>
               </ul>
             </div>
             <div className="lg:col-span-2">

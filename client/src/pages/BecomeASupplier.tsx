@@ -170,6 +170,23 @@ export default function BecomeASupplier() {
             </div>
           ))}
         </div>
+        <div className="max-w-4xl mx-auto mt-5 rounded-xl border border-slate-200 bg-white p-4">
+          <p className="text-xs font-semibold text-slate-800 mb-2 uppercase tracking-wider">What to expect after applying</p>
+          <div className="grid sm:grid-cols-3 gap-3 text-xs text-slate-600">
+            <div className="rounded-lg bg-slate-50 border border-slate-200 px-3 py-2">
+              <p className="font-semibold text-slate-900">1. Intake review</p>
+              <p>Basic profile check for category fit and industrial relevance.</p>
+            </div>
+            <div className="rounded-lg bg-slate-50 border border-slate-200 px-3 py-2">
+              <p className="font-semibold text-slate-900">2. Verification</p>
+              <p>Registry details and contact channels are validated by an operator.</p>
+            </div>
+            <div className="rounded-lg bg-slate-50 border border-slate-200 px-3 py-2">
+              <p className="font-semibold text-slate-900">3. RFQ eligibility</p>
+              <p>Qualified suppliers are matched to relevant buyer RFQs.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="bg-white py-12 px-4">
@@ -237,10 +254,13 @@ export default function BecomeASupplier() {
                 disabled={submitting}
                 className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white font-semibold py-3 rounded-xl text-sm sm:text-base inline-flex items-center justify-center gap-2 transition"
               >
-                {submitting ? t("becomeSupplier.actions.submitting") : (<>{t("becomeSupplier.actions.submit")} <ArrowRight className="w-4 h-4" /></>)}
+                {submitting ? t("becomeSupplier.actions.submitting") : (<>Submit supplier application <ArrowRight className="w-4 h-4" /></>)}
               </button>
               <p className="text-[11px] text-slate-500 text-center mt-3">
                 {t("becomeSupplier.actions.footnote")}
+              </p>
+              <p className="text-[11px] text-slate-500 text-center mt-2">
+                SmartSeek does not charge for listing during beta and does not sell ranking placement.
               </p>
             </div>
           </form>

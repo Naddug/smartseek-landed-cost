@@ -1145,5 +1145,13 @@
   "faq.title": "Frequently Asked Questions",
   "faq.subtitle": "Find answers to common questions about SmartSeek, our platform, and how we can help procurers, entrepreneurs, suppliers, and producers.",
   "faq.stillQuestions": "Still have questions?",
-  "faq.contactUs": "Contact Us"
+  "faq.contactUs": "Contact Us",
+  "home.hero.banner": "Programa de usuarios fundadores abierto · Gratis durante beta",
+  "home.hero.titleLine1": "Inteligencia estratégica de abastecimiento",
+  "home.hero.titleLine2": "para equipos industriales de compras",
+  "home.hero.subtitle": "Descubre proveedores verificados para metales estratégicos e insumos industriales. Envía un RFQ y un operador de sourcing lo enruta a proveedores calificados.",
+  "home.hero.submitRfq": "Enviar RFQ",
+  "home.hero.becomeSupplier": "Conviértete en proveedor",
+  "home.hero.searchPlaceholder": "Busca por commodity, HS code o material",
+  "home.hero.searchButton": "Buscar proveedores"
 }
