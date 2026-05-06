@@ -93,6 +93,7 @@ function useSuppliers(params: {
       }
     },
     staleTime: 30000,
+    placeholderData: (previousData) => previousData,
     retry: 1,
   });
 }

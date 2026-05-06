@@ -1267,18 +1267,48 @@ Format as plain text, professional tone. Keep it concise but complete.`,
   // ===== Find Leads =====
   
   app.get("/api/leads/count", async (req: Request, res: Response) => {
+    const userId = getUserId(req);
+    if (!userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+
     try {
-      const { industry, location, companySize, keywords, revenueRange, fundingStage, foundedAfter } = req.query;
-      const base = 42000;
-      const hash = [industry, location, companySize, keywords, revenueRange, fundingStage, foundedAfter]
-        .filter(Boolean)
-        .join("|")
-        .split("")
-        .reduce((acc, c) => ((acc << 5) - acc + c.charCodeAt(0)) | 0, 0);
-      const count = Math.max(500, base + (hash % 15000));
+      const { industry, location, companySize, keywords } = req.query;
+      if (!industry || !location) {
+        return res.json({ count: 0 });
+      }
+
+      const conditions: PrismaSQL[] = [
+        pSql`industry ILIKE ${`%${String(industry).trim()}%`}`,
+        pSql`(country ILIKE ${String(location).trim()} OR city ILIKE ${`%${String(location).trim()}%`})`,
+      ];
+
+      const size = typeof companySize === "string" ? companySize : "";
+      if (size) {
+        if (size === "1-50 employees") conditions.push(pSql`"employeeCount" BETWEEN 1 AND 50`);
+        if (size === "51-200 employees") conditions.push(pSql`"employeeCount" BETWEEN 51 AND 200`);
+        if (size === "201-500 employees") conditions.push(pSql`"employeeCount" BETWEEN 201 AND 500`);
+        if (size === "501-1000 employees") conditions.push(pSql`"employeeCount" BETWEEN 501 AND 1000`);
+        if (size === "1000+ employees") conditions.push(pSql`"employeeCount" >= 1001`);
+      }
+
+      if (typeof keywords === "string" && keywords.trim()) {
+        const k = keywords.trim();
+        conditions.push(pSql`search_vector @@ websearch_to_tsquery('simple', ${k})`);
+      }
+
+      const whereClause = conditions.length > 0 ? pSql`WHERE ${pJoin(conditions, ' AND ')}` : pEmpty;
+
+      const count = await Promise.race([
+        prisma.$queryRaw<[{ cnt: bigint }]>`SELECT COUNT(*)::bigint AS cnt FROM "Supplier" ${whereClause}`
+          .then((r) => Number(r[0]?.cnt ?? 0)),
+        new Promise<number>((resolve) => setTimeout(() => resolve(0), 5000)),
+      ]).catch(() => 0);
+
       res.json({ count });
-    } catch {
-      res.json({ count: 42000 });
+    } catch (error) {
+      console.error("Error counting leads:", error);
+      res.status(500).json({ error: "Failed to estimate leads" });
     }
   });
 
@@ -1287,109 +1317,178 @@ Format as plain text, professional tone. Keep it concise but complete.`,
     if (!userId) {
       return res.status(401).json({ error: "Not authenticated" });
     }
-    
+
     try {
-      const { industry, location, companySize, keywords, revenueRange, fundingStage, foundedAfter } = req.body;
-      
+      const { industry, location, companySize, keywords, revenueRange, fundingStage, foundedAfter } = req.body ?? {};
+
       if (!industry || !location) {
         return res.status(400).json({ error: "Industry and location are required" });
       }
-      
+
       const profile = await storage.getUserProfile(userId);
       const totalCredits = (profile?.monthlyCredits || 0) + (profile?.topupCredits || 0);
-      const isAdmin = profile?.role === 'admin';
-      
+      const isAdmin = profile?.role === "admin";
+
       if (!isAdmin && (!profile || totalCredits < 1)) {
         return res.status(402).json({ error: "Insufficient credits" });
       }
-      
+
       const searchCriteria = { industry, location, companySize, keywords, revenueRange, fundingStage, foundedAfter };
-      
-      const prompt = `Generate at least 12-15 realistic B2B buyer leads for sourcing/import purposes based on these criteria:
-- Industry: ${industry}
-- Location: ${location}
-${companySize ? `- Company Size: ${companySize}` : ''}
-${keywords ? `- Keywords/Focus: ${keywords}` : ''}
-${revenueRange ? `- Revenue Range: ${revenueRange}` : ''}
-${fundingStage ? `- Funding Stage: ${fundingStage}` : ''}
-${foundedAfter ? `- Founded After: ${foundedAfter}` : ''}
 
-Return a JSON object with a "leads" array. You MUST return at least 12 leads. Each lead should have:
-- companyName: string (realistic company name - use real companies when possible)
-- industry: string (specific industry)
-- location: string (city, state/country)
-- employeeRange: string (e.g., "50-100", "100-500", "500-1000")
-- revenueRange: string (e.g., "$5M-$10M", "$10M-$50M", "$50M-$100M")
-- website: string (MUST be a real, working company website - use actual domains like companyname.com, no fake domains. Prefer real Fortune 500, FTSE 100, or well-known companies in the industry/location)
-- contactName: string (realistic full name)
-- contactTitle: string (procurement/sourcing title)
-- contactEmail: string (professional email matching the company domain when possible)
-- sourcingFocus: array of strings (what they typically source/import)
-- aiSummary: string (2-3 sentences on why they're a good lead for sourcing)
-- intentSignals: object with keys like recentActivity, importTrends, expansionPlans (string values describing buying signals)
+      const conditions: PrismaSQL[] = [
+        pSql`industry ILIKE ${`%${String(industry).trim()}%`}`,
+        pSql`(country ILIKE ${String(location).trim()} OR city ILIKE ${`%${String(location).trim()}%`})`,
+        pSql`slug IS NOT NULL`,
+      ];
 
-CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com, bmwgroup.com, johnsoncontrols.com, caterpillar.com). No invented domains.`;
-
-      const response = await getOpenAIClient().chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" },
-        max_tokens: 4000
-      });
-      
-      const content = response.choices[0]?.message?.content;
-      if (!content) {
-        return res.status(500).json({ error: "Failed to generate leads" });
+      const size = typeof companySize === "string" ? companySize : "";
+      if (size) {
+        if (size === "1-50 employees") conditions.push(pSql`"employeeCount" BETWEEN 1 AND 50`);
+        if (size === "51-200 employees") conditions.push(pSql`"employeeCount" BETWEEN 51 AND 200`);
+        if (size === "201-500 employees") conditions.push(pSql`"employeeCount" BETWEEN 201 AND 500`);
+        if (size === "501-1000 employees") conditions.push(pSql`"employeeCount" BETWEEN 501 AND 1000`);
+        if (size === "1000+ employees") conditions.push(pSql`"employeeCount" >= 1001`);
       }
-      
-      const result = JSON.parse(content);
-      const generatedLeads = result.leads || [];
-      
-      // Create search query first to get the ID (with resultsCount = 0 initially)
+
+      if (typeof foundedAfter === "string" && foundedAfter.trim()) {
+        const year = parseInt(foundedAfter, 10);
+        if (!Number.isNaN(year)) conditions.push(pSql`"yearEstablished" >= ${year}`);
+      }
+
+      if (typeof keywords === "string" && keywords.trim()) {
+        const k = keywords.trim();
+        conditions.push(pSql`search_vector @@ websearch_to_tsquery('simple', ${k})`);
+      }
+
+      const whereClause = conditions.length > 0 ? pSql`WHERE ${pJoin(conditions, ' AND ')}` : pEmpty;
+
+      type LeadSupplierRow = {
+        id: number;
+        companyName: string | null;
+        industry: string | null;
+        country: string | null;
+        city: string | null;
+        employeeCount: number | null;
+        annualRevenue: number | null;
+        website: string | null;
+        products: string | null;
+        description: string | null;
+        rating: number | null;
+        verified: boolean | null;
+        slug: string | null;
+      };
+
+      const keywordForRank = typeof keywords === "string" && keywords.trim() ? keywords.trim() : String(industry).trim();
+
+      const rows = await Promise.race([
+        prisma.$queryRaw<LeadSupplierRow[]>`
+          SELECT id, "companyName", industry, country, city, "employeeCount", "annualRevenue", website,
+                 products, description, rating, verified, slug,
+                 (
+                   ts_rank(search_vector, websearch_to_tsquery('simple', ${keywordForRank})) * 1.4
+                   + GREATEST(
+                       similarity(coalesce(products, ''), ${keywordForRank}),
+                       similarity(coalesce("companyName", ''), ${keywordForRank}),
+                       similarity(coalesce(industry, ''), ${String(industry).trim()})
+                     ) * 1.1
+                   + COALESCE(rating, 0) * 0.25
+                   + CASE WHEN verified THEN 0.6 ELSE 0 END
+                   + CASE WHEN coalesce(products, '') <> '' THEN 0.2 ELSE 0 END
+                   + CASE WHEN coalesce(description, '') <> '' THEN 0.1 ELSE 0 END
+                 ) AS relevance_score
+          FROM "Supplier"
+          ${whereClause}
+          ORDER BY relevance_score DESC, verified DESC, rating DESC
+          LIMIT 20
+        `,
+        new Promise<LeadSupplierRow[]>((resolve) => setTimeout(() => resolve([]), 12000)),
+      ]);
+
+      const dedup = new Map<string, LeadSupplierRow>();
+      for (const row of rows) {
+        const key = (row.slug || row.companyName || "").toLowerCase();
+        if (!key) continue;
+        if (!dedup.has(key)) dedup.set(key, row);
+      }
+
+      const parseProducts = (raw: string | null): string[] => {
+        if (!raw) return [];
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed.map((v) => String(v)).filter(Boolean);
+        } catch {}
+        return [];
+      };
+
+      const employeeRange = (n: number | null) => {
+        if (!n || n <= 0) return "Unknown";
+        if (n <= 50) return "1-50";
+        if (n <= 200) return "51-200";
+        if (n <= 500) return "201-500";
+        if (n <= 1000) return "501-1000";
+        return "1000+";
+      };
+
+      const revenueBucket = (n: number | null) => {
+        if (!n || n <= 0) return "Unknown";
+        if (n < 1_000_000) return "< $1M";
+        if (n < 10_000_000) return "$1M-$10M";
+        if (n < 50_000_000) return "$10M-$50M";
+        if (n < 250_000_000) return "$50M-$250M";
+        return "$250M+";
+      };
+
       const searchQuery = await storage.createLeadSearchQuery({
         userId,
         searchCriteria,
         resultsCount: 0,
         creditsUsed: isAdmin ? 0 : 1,
       });
-      
-      const leadsToStore = generatedLeads.map((lead: any) => ({
-        userId,
-        searchQueryId: searchQuery.id,
-        companyName: lead.companyName,
-        industry: lead.industry,
-        location: lead.location,
-        employeeRange: lead.employeeRange,
-        revenueRange: lead.revenueRange,
-        website: lead.website,
-        contactName: lead.contactName,
-        contactTitle: lead.contactTitle,
-        contactEmail: lead.contactEmail,
-        sourcingFocus: lead.sourcingFocus,
-        aiSummary: lead.aiSummary,
-        intentSignals: lead.intentSignals,
-      }));
-      
-      const savedLeads = await storage.createLeads(leadsToStore);
-      
-      // Update the search query with the actual number of saved leads
+
+      const leadsToStore = Array.from(dedup.values()).map((row) => {
+        const products = parseProducts(row.products);
+        const locationText = [row.city, row.country].filter(Boolean).join(", ") || (row.country ?? "Unknown");
+        const website = row.website || (row.slug ? `https://www.${row.slug.replace(/[^a-z0-9-]/g, "")}.com` : null);
+        return {
+          userId,
+          searchQueryId: searchQuery.id,
+          companyName: row.companyName || "Unknown Supplier",
+          industry: row.industry || String(industry),
+          location: locationText,
+          employeeRange: employeeRange(row.employeeCount),
+          revenueRange: revenueBucket(row.annualRevenue),
+          website,
+          contactName: null,
+          contactTitle: "Procurement Team",
+          contactEmail: null,
+          sourcingFocus: products.slice(0, 5),
+          aiSummary: row.description || `Ranked supplier match for ${industry} in ${location}.`,
+          intentSignals: {
+            recentActivity: row.verified ? "Verified supplier profile with active listing" : "Supplier profile available",
+            importTrends: `Strong relevance for ${industry}`,
+            growthIndicators: row.rating ? `Supplier rating ${row.rating.toFixed(1)}` : "Rating not available",
+          },
+          dataSource: "SmartSeek Supplier DB",
+        };
+      });
+
+      const savedLeads = leadsToStore.length > 0 ? await storage.createLeads(leadsToStore) : [];
       await storage.updateLeadSearchQuery(searchQuery.id, { resultsCount: savedLeads.length });
-      
-      // Only deduct credits after successful lead generation
+
       if (!isAdmin) {
         const spent = await storage.spendCredits(userId, 1, "Find Leads Search");
         if (!spent) {
           console.error("Failed to deduct credits after lead generation");
         }
       }
-      
-      res.json({ leads: savedLeads, searchQueryId: searchQuery.id });
+
+      res.json({ leads: savedLeads, searchQueryId: searchQuery.id, source: "supplier_db" });
     } catch (error: any) {
       console.error("Error searching leads:", error);
       res.status(500).json({ error: "Failed to search leads" });
     }
   });
-  
+
   app.get("/api/leads/history", async (req: Request, res: Response) => {
     const userId = getUserId(req);
     if (!userId) {
@@ -2699,6 +2798,25 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
       const searchTerm = (q && typeof q === "string") ? q.trim() : "";
       const hasSearchQuery = searchTerm.length > 0;
+      const hasNarrowingFilter = !!(country || industry || verified === "true" || minRating || minScore || minOrderValue);
+
+      if (hasSearchQuery && !hasNarrowingFilter) {
+        const tokenCount = searchTerm.split(/\s+/).filter(Boolean).length;
+        const likelyBroadSingleTerm = tokenCount === 1 && searchTerm.length <= 10;
+        if (likelyBroadSingleTerm) {
+          return res.json({
+            suppliers: [],
+            pagination: { page: pageNum, limit: limitNum, total: null, totalPages: null },
+            totalResults: null,
+            totalKnown: false,
+            guestLimited: isGuest,
+            freeLimit: FREE_LIMIT,
+            fallback: false,
+            needFilter: true,
+            message: "Please add a country or industry filter to speed up broad searches.",
+          });
+        }
+      }
 
       // Build raw SQL conditions
       const conditions: PrismaSQL[] = [];
@@ -2765,6 +2883,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const orderClause = hasSearchQuery
         ? pSql`ORDER BY
             ts_rank(search_vector, websearch_to_tsquery('simple', ${searchTerm})) DESC,
+            GREATEST(
+              similarity(coalesce("companyName", ''), ${searchTerm}),
+              similarity(coalesce(products, ''), ${searchTerm})
+            ) DESC,
             verified DESC,
             rating DESC`
         : pSql`ORDER BY ${pRaw(`"${sortFieldSafe}"`)} ${pRaw(sortDirSafe)}`;
@@ -2785,7 +2907,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
       const hasFilters = hasSearchQuery || country || industry || verified === "true" || ratingThreshold !== null || minOrderValue;
 
       let suppliers: SupplierRow[] = [];
-      let total = 0;
+      let total: number | null = 0;
       const isFallback = false;
 
       try {
@@ -2795,27 +2917,27 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
                    industry, "subIndustry", products, certifications,
                    description, verified, rating, "reviewCount", "responseTime",
                    "minOrderValue", "yearEstablished", "employeeCount",
-                   "annualRevenue", "dataSource", "registryUrl", "registryId",
-                   "sicCode", "contactVerified"
+                   "annualRevenue", data_source AS "dataSource", registry_url AS "registryUrl", registry_id AS "registryId",
+                   sic_code AS "sicCode", contact_verified AS "contactVerified"
             FROM "Supplier"
             ${whereClause}
             ${orderClause}
             LIMIT ${limitNum} OFFSET ${skip}
           `,
           hasSearchQuery
-            ? Promise.resolve(10000)
+            ? Promise.resolve(null)
             : hasFilters
               ? Promise.race([
                   prisma.$queryRaw<[{ cnt: bigint }]>`SELECT COUNT(*)::bigint AS cnt FROM "Supplier" ${whereClause}`
                     .then((r: [{ cnt: bigint }]) => Number(r[0]?.cnt ?? 0)),
-                  new Promise<number>((_, reject) => setTimeout(() => reject(new Error("count_timeout")), 8000)),
-                ]).catch(() => 10000)
+                  new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000)),
+                ]).catch(() => null)
               : prisma.$queryRaw<[{ cnt: bigint }]>`SELECT reltuples::bigint AS cnt FROM pg_class WHERE relname = 'Supplier'`
                   .then((r: [{ cnt: bigint }]) => Number(r[0]?.cnt ?? 0))
-                  .catch(() => 10000),
+                  .catch(() => null),
         ]);
         suppliers = rows;
-        total = typeof countResult === "number" ? countResult : Number(countResult);
+        total = typeof countResult === "number" ? countResult : null;
       } catch (sqlErr) {
         console.error("GET /api/suppliers SQL error:", sqlErr);
         return res.json({
@@ -2830,6 +2952,7 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
 
       // Never show "0 suppliers found" when we have results
       if (suppliers.length > 0 && total === 0) total = suppliers.length;
+      const totalKnown = total !== null;
 
       // Format company names and locations for display (title case)
       const toTitleCase = (str: string | null | undefined): string => {
@@ -2888,9 +3011,10 @@ CRITICAL: Use only real, existing company websites (e.g. siemens.com, bosch.com,
           page: pageNum,
           limit: limitNum,
           total,
-          totalPages: Math.ceil(total / limitNum),
+          totalPages: total == null ? null : Math.ceil(total / limitNum),
         },
         totalResults: total,
+        totalKnown,
         guestLimited: isGuest,
         freeLimit: FREE_LIMIT,
         fallback: isFallback,
