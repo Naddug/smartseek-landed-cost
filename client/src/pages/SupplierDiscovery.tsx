@@ -820,7 +820,14 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 tracking-tight">{t('supplier.pageTitle')}</h1>
           <p className="text-slate-300 mb-1.5 text-sm max-w-2xl">
-            {supplierCount > 0 ? `AI-powered search across ${formatStat(supplierCount)} verified suppliers${countryCount > 0 ? ` in ${countryCount}+ countries` : ' worldwide'}` : `AI-powered global supplier discovery`}
+            {supplierCount > 0
+              ? countryCount > 0
+                ? t("supplier.hero.subtitleWithCountries", {
+                    suppliers: formatStat(supplierCount),
+                    countries: `${countryCount}+`,
+                  })
+                : t("supplier.hero.subtitleWorldwide", { suppliers: formatStat(supplierCount) })
+              : t("supplier.hero.subtitleNoStats")}
           </p>
           <p className="text-slate-500 text-xs mb-8">{t('supplier.pageTrustLine')}</p>
           <div className="flex gap-2">
@@ -852,8 +859,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
       {debouncedQuery && !selectedCountry && !selectedIndustry && (
         <div className="bg-blue-50 border-b border-blue-200">
           <div className="max-w-7xl mx-auto px-4 py-2 flex items-center gap-3 text-sm text-blue-700">
-            <span>Ülke veya sektör seçerek aramayı hızlandırabilirsiniz.</span>
-            <button onClick={() => setShowFilters(true)} className="underline font-medium">Filtreler</button>
+            <span>{t("supplier.banner.narrowSearchHint")}</span>
+            <button onClick={() => setShowFilters(true)} className="underline font-medium">{t("supplier.filters")}</button>
           </div>
         </div>
       )}

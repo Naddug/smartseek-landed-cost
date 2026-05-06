@@ -232,7 +232,15 @@ export default function FindLeads() {
           </div>
           <div>
             <h1 className="text-2xl font-heading font-bold text-white">{t("findLeads.header.title")}</h1>
-            <p className="text-slate-400 break-words">{stats && stats.leads > 0 ? `${formatStat(stats.leads)} buyer & trade leads` : "Buyer & trade leads"} • Ranked from real supplier data • Intent & firmographics from {stats && stats.suppliers > 0 ? `${formatStat(stats.suppliers)}` : "verified"} suppliers</p>
+            <p className="text-slate-400 break-words">
+              {(stats && stats.leads > 0 ? `${formatStat(stats.leads)} ${t("findLeads.header.leadsAndTrade")}` : t("findLeads.header.leadsAndTrade"))}
+              {" • "}
+              {t("findLeads.header.rankedFromRealSupplierData")}
+              {" • "}
+              {stats && stats.suppliers > 0
+                ? t("findLeads.header.intentFromSuppliers", { suppliers: formatStat(stats.suppliers) })
+                : t("findLeads.header.intentFromVerifiedSuppliers")}
+            </p>
           </div>
         </div>
       </div>

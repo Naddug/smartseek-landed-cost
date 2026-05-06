@@ -32,6 +32,7 @@ import {
 import { calculateLandedCost, ValidationError } from "@/lib/landedCost/calculator";
 import type { LandedCostInput, LandedCostResult } from "@/lib/landedCost/types";
 import { useUser } from "@/lib/hooks";
+import { useTranslation } from "react-i18next";
 
 const COUNTRIES = [
   { code: "CN", name: "China" },
@@ -83,6 +84,7 @@ const INCOTERMS = [
 const COLORS = ["#0ea5e9", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16"];
 
 export default function LandedCostCalculator() {
+  const { t } = useTranslation();
   const { data: user, isLoading: userLoading } = useUser();
   const [formData, setFormData] = useState({
     productName: "Sample Product",
@@ -485,7 +487,7 @@ export default function LandedCostCalculator() {
               role="alert"
               className="rounded-lg border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-800 dark:text-red-300 mb-4"
             >
-              <strong>Cannot calculate:</strong> {error}
+              <strong>{t("landedCost.error.cannotCalculate")}:</strong> {error}
             </div>
           )}
           {result ? (
