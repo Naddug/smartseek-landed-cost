@@ -148,7 +148,7 @@ export default function RfqStatus() {
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3 text-xs">
                 <Link href="/rfq" className="text-blue-700 underline underline-offset-2">{t("rfqStatus.submitAnother")}</Link>
-                <Link href="/methodology" className="text-blue-700 underline underline-offset-2">{t("rfq.header.linkMethodology")}</Link>
+                <Link href="/methodology" className="text-blue-700 underline underline-offset-2">How RFQs are routed</Link>
               </div>
             </div>
           )}

@@ -297,3 +297,78 @@ a {
   transition: color 0.15s ease, opacity 0.15s ease;
 }
 
+/* ── Premium polish primitives (CSS-only) ───────────────────────────── */
+
+/* Headings: tighter optical kerning, balanced line breaks where supported.
+   text-balance gracefully falls back to default wrapping on older browsers. */
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
+/* Body copy: avoid orphans on the last line for premium readability. */
+p {
+  text-wrap: pretty;
+}
+
+/* Tabular numerals — keeps numeric chips and stat blocks aligned column-wise.
+   Inter and Outfit both support OpenType 'tnum'. */
+.tabular-nums,
+.font-mono,
+.text-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mobile tap-target floor — WCAG 2.5.5. Apply to inline buttons that may be
+   undersized at xs breakpoint. Opt-in class to avoid breaking dense UI. */
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Honor prefers-reduced-motion across our custom animations and Framer
+   Motion fallbacks. Existing :focus-visible, transitions, and scrollbars
+   remain functional. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .badge-live,
+  .skeleton-shimmer {
+    animation: none !important;
+  }
+  button:active:not(:disabled),
+  [role="button"]:active {
+    transform: none;
+  }
+  .card-hover:hover {
+    transform: none;
+  }
+}
+
+/* Premium button surfaces — opt-in classes used by tightened CTA components.
+   Stops short of replacing inline Tailwind so the change is non-disruptive. */
+.btn-press {
+  transition: transform 0.08s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn-press:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Trust pill — used by registry / verification badges across pages. */
+.trust-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+

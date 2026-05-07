@@ -80,12 +80,12 @@ export default function SuppliersIndex() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
             <Link href="/rfq">
-              <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
+              <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl text-sm transition shadow-lg shadow-blue-600/20">
                 <FileText className="w-4 h-4" /> Submit an RFQ
               </button>
             </Link>
             <Link href="/become-a-supplier">
-              <button className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
+              <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl text-sm transition">
                 Become a supplier
               </button>
             </Link>

@@ -39,6 +39,12 @@ import { crawlAndSave, getCrawlResult, listEnrichments } from "./scrapers/websit
 import { scoreCompany, scoreDomain, scoreBatch, getTopLeads } from "./services/leadScoringEngine";
 import PLATFORM_STATS from "./data/stats.json";
 import FEATURED_SUPPLIERS from "./data/featured-suppliers.json";
+import {
+  featuredToDossier,
+  prismaSupplierToDossier,
+  type FeaturedSupplierShape,
+} from "./lib/supplierDossier";
+import { lookupEnrichmentSnapshot } from "./lib/supplierEnrichment";
 import { sendSubscribeConfirmationEmail, sendRfqConfirmationEmail, sendOpsAlertEmail } from "./sendgridClient";
 import { upsertHubSpotContact } from "./hubspotClient";
 
@@ -2832,7 +2838,8 @@ Format as plain text, professional tone. Keep it concise but complete.`,
       });
     }
 
-    res.json({ supplier, is_curated_sample: true });
+    const dossier = featuredToDossier(supplier as FeaturedSupplierShape);
+    res.json({ supplier, dossier, is_curated_sample: true });
   });
 
   // GET /api/suppliers Ã¢ÂÂ Search, filter, paginate
@@ -3204,7 +3211,14 @@ Format as plain text, professional tone. Keep it concise but complete.`,
         delete payload.contactPhone;
         delete payload.website;
       }
-      res.json(payload);
+      const dossier = prismaSupplierToDossier(payload, { contactReleasable: canViewContact });
+      const enrichment = await lookupEnrichmentSnapshot({
+        website: supplier.website ?? null,
+        registryVerified: supplier.verified === true,
+        contactVerified: supplier.contactVerified === true,
+        contactReleasable: canViewContact,
+      });
+      res.json({ ...payload, dossier: { ...dossier, enrichment } });
     } catch (error) {
       console.error("GET /api/suppliers/by-id/:id error:", error);
       res.status(500).json({ error: "Failed to fetch supplier" });
@@ -3275,7 +3289,14 @@ Format as plain text, professional tone. Keep it concise but complete.`,
         delete payload.website;
       }
 
-      res.json(payload);
+      const dossier = prismaSupplierToDossier(payload, { contactReleasable: canViewContact });
+      const enrichment = await lookupEnrichmentSnapshot({
+        website: supplier.website ?? null,
+        registryVerified: supplier.verified === true,
+        contactVerified: supplier.contactVerified === true,
+        contactReleasable: canViewContact,
+      });
+      res.json({ ...payload, dossier: { ...dossier, enrichment } });
     } catch (error) {
       console.error("GET /api/suppliers/:slug error:", error);
       res.status(500).json({ error: "Failed to fetch supplier" });

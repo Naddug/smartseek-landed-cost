@@ -113,9 +113,9 @@ function CuratedPreview() {
             </div>
             <p className="text-white font-bold text-base mb-1 leading-tight">Full directory available to founding users</p>
             <p className="text-slate-300 text-sm mb-4 leading-relaxed">Free during beta. We onboard buyers manually so every account gets sourcing support.</p>
-            <Link href="/signup">
+            <Link href="/pricing">
               <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
-                Start free in beta <ArrowRight className="w-4 h-4" />
+                Request beta access <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
           </div>
@@ -315,9 +315,9 @@ export default function Home() {
             We&apos;re onboarding a focused set of procurement teams during beta so each account receives direct sourcing support and faster supplier routing.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
-            <Link href="/signup">
+            <Link href="/pricing">
               <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-amber-500/20 text-base">
-                Start free in beta <ArrowRight className="w-4 h-4" />
+                Request beta access <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
             <Link href="/rfq/new">
@@ -331,17 +331,17 @@ export default function Home() {
       </section>
       <div className="sm:hidden h-16" aria-hidden="true" />
 
-      {/* Mobile sticky action bar */}
+      {/* Mobile sticky action bar — procurement-toned labels aligned with the rest of the site */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-800 bg-slate-950/95 backdrop-blur px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <div className="grid grid-cols-2 gap-2">
-          <Link href="/signup">
+          <Link href="/pricing">
             <button className="w-full inline-flex items-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5 rounded-lg text-xs">
-              Start Free
+              Beta access
             </button>
           </Link>
-          <Link href="/rfq/new">
+          <Link href="/rfq">
             <button className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-lg text-xs">
-              Create RFQ
+              Submit RFQ
             </button>
           </Link>
         </div>

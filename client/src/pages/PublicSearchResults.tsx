@@ -260,7 +260,31 @@ export default function PublicSearchResults() {
           )}
 
           {isPending && (
-            <div className="text-center py-12 text-slate-400">{t("common.loading")}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-busy="true" aria-live="polite">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="bg-white rounded-xl border border-slate-200 overflow-hidden animate-pulse">
+                  <div className="h-1 bg-slate-100" />
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="flex-1 space-y-1.5">
+                        <div className="h-4 bg-slate-200 rounded w-4/5" />
+                        <div className="h-3 bg-slate-100 rounded w-1/2" />
+                      </div>
+                      <div className="w-16 h-6 bg-slate-100 rounded-full" />
+                    </div>
+                    <div className="h-5 bg-slate-100 rounded w-24 mb-2" />
+                    <div className="flex gap-1 mb-3">
+                      <div className="h-5 w-20 bg-blue-50 rounded" />
+                      <div className="h-5 w-16 bg-blue-50 rounded" />
+                    </div>
+                    <div className="border-t border-slate-100 pt-2.5">
+                      <div className="h-3 bg-slate-100 rounded w-full" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <span className="sr-only">{t("common.loading")}</span>
+            </div>
           )}
 
           {isError && (
