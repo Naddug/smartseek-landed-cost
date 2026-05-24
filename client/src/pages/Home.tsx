@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 
 const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: string; country: string; flag: string; products: string[]; verified: boolean; registry: string }[] }> = {
   antimony: {
-    label: "Antimony & strategic metals",
+    label: "Metals & mining",
     icon: "⛏️",
     suppliers: [
       { name: "Hunan Chenzhou Mining Group", country: "China", flag: "🇨🇳", products: ["Antimony ingot 99.65%", "Antimony trioxide"], verified: true, registry: "SAIC" },
@@ -18,7 +18,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
     ],
   },
   copper: {
-    label: "Copper & base metals",
+    label: "Manufacturing & industrial",
     icon: "🟠",
     suppliers: [
       { name: "Aurubis AG", country: "Germany", flag: "🇩🇪", products: ["Copper cathode A-grade", "Copper rod"], verified: true, registry: "Handelsregister" },
@@ -27,7 +27,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
     ],
   },
   steel: {
-    label: "Steel & alloys",
+    label: "Chemicals & materials",
     icon: "🏗️",
     suppliers: [
       { name: "voestalpine AG", country: "Austria", flag: "🇦🇹", products: ["Cold-rolled steel", "Tool steel"], verified: true, registry: "Firmenbuch" },
@@ -36,7 +36,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
     ],
   },
   rare_earths: {
-    label: "Rare earths",
+    label: "Textiles & apparel",
     icon: "🔬",
     suppliers: [
       { name: "Lynas Rare Earths Ltd.", country: "Australia", flag: "🇦🇺", products: ["NdPr oxide", "Lanthanum carbonate"], verified: true, registry: "ASIC" },
@@ -197,13 +197,13 @@ export default function Home() {
         </div>
 
         <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl mb-5">
-          {t("home.hero.titleLine1")}
+          Find verified suppliers. Source smarter.
           <br className="hidden sm:block" />
-          {t("home.hero.titleLine2")}
+          Trade with confidence.
         </h1>
 
         <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
-          {t("home.hero.subtitle")}
+          Marketplace workflows powered by sourcing intelligence and real trade expertise. Discover suppliers, verify credentials, run RFQs, and trade globally — without marketplace noise.
         </p>
 
         <HeroSearch />
@@ -236,8 +236,8 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">Curated supplier preview</p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Supplier discovery across strategic metals and industrial inputs</h2>
-            <p className="text-slate-400 text-sm max-w-xl mx-auto">A sample of registry-verified suppliers across our priority commodities. Full directory unlocked for founding users during beta.</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Verified suppliers across industries and global markets</h2>
+            <p className="text-slate-400 text-sm max-w-xl mx-auto">A sample of registry-verified suppliers across metals, manufacturing, chemicals, textiles, and more. Full directory unlocked for founding users during beta.</p>
           </div>
           <CuratedPreview />
         </div>
