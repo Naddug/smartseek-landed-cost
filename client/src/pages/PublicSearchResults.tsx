@@ -5,15 +5,17 @@ import PublicLayout from "@/components/layout/PublicLayout";
 import { usePublicSupplierSearch } from "@/lib/hooks";
 import { useTranslation } from "react-i18next";
 
+// Quick-search chips span the platform's main sourcing categories.
+// Metals stay visible (sourcing wedge) but no longer dominate.
 const CATEGORY_CHIPS: { label: string; q: string; icon: string }[] = [
-  { label: "Antimony", q: "antimony", icon: "⛏️" },
-  { label: "Copper", q: "copper", icon: "🟠" },
   { label: "Steel", q: "steel", icon: "🏗️" },
-  { label: "Rare earths", q: "rare earth", icon: "🔬" },
-  { label: "Aluminium", q: "aluminium", icon: "🥈" },
-  { label: "Nickel", q: "nickel", icon: "⚙️" },
-  { label: "Lithium", q: "lithium", icon: "🔋" },
-  { label: "Tungsten", q: "tungsten", icon: "🔩" },
+  { label: "Copper", q: "copper", icon: "🟠" },
+  { label: "Bearings", q: "bearings", icon: "⚙️" },
+  { label: "Polymers", q: "polymers", icon: "♻️" },
+  { label: "Adhesives", q: "adhesives", icon: "🧪" },
+  { label: "Packaging", q: "packaging", icon: "📦" },
+  { label: "Solar modules", q: "solar panels", icon: "☀️" },
+  { label: "Connectors", q: "connectors", icon: "🔌" },
 ];
 
 type Supplier = {
@@ -314,7 +316,7 @@ export default function PublicSearchResults() {
                 <div className="mb-6">
                   <p className="text-xs text-slate-400 mb-2">Try a narrower query</p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {["antimony ingot", "copper cathode", "lead concentrate", "tin solder"].map((suggestion) => (
+                    {["copper cathode", "industrial bearings", "flexible packaging", "solar modules"].map((suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => runChip(suggestion)}

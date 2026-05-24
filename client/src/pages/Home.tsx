@@ -7,41 +7,55 @@ import { useTranslation } from "react-i18next";
 // ─── Curated category previews ────────────────────────────────────────────────
 // Sample-based preview only. We do NOT advertise totals or "X suppliers found".
 
+// Real, publicly-registered industrial companies used as illustrative anchors
+// for each sourcing category. We do not claim these are customers; we show
+// that their corporate identity can be located in a public registry — the same
+// principle SmartSeek applies to every supplier it publishes. Names and
+// registries are deliberately diverse across continents.
 const PREVIEW: Record<string, { labelKey: string; icon: string; suppliers: { name: string; country: string; flag: string; products: string[]; verified: boolean; registry: string }[] }> = {
-  antimony: {
+  metals: {
     labelKey: "home.preview.tabMetals",
     icon: "⛏️",
     suppliers: [
-      { name: "Hunan Chenzhou Mining Group", country: "China", flag: "🇨🇳", products: ["Antimony ingot 99.65%", "Antimony trioxide"], verified: true, registry: "SAIC" },
-      { name: "Mandalay Resources Corp.", country: "Canada", flag: "🇨🇦", products: ["Antimony concentrates"], verified: true, registry: "SEDAR" },
-      { name: "United States Antimony Corp.", country: "USA", flag: "🇺🇸", products: ["Antimony oxide", "Antimony trisulfide"], verified: true, registry: "SEC EDGAR" },
-    ],
-  },
-  copper: {
-    labelKey: "home.preview.tabManufacturing",
-    icon: "🟠",
-    suppliers: [
       { name: "Aurubis AG", country: "Germany", flag: "🇩🇪", products: ["Copper cathode A-grade", "Copper rod"], verified: true, registry: "Handelsregister" },
-      { name: "KGHM Polska Miedź S.A.", country: "Poland", flag: "🇵🇱", products: ["Electrolytic copper", "Silver granulate"], verified: true, registry: "KRS" },
-      { name: "Jiangxi Copper Co.", country: "China", flag: "🇨🇳", products: ["Cathode copper", "Copper wire rod"], verified: true, registry: "SAIC" },
+      { name: "Outokumpu Oyj", country: "Finland", flag: "🇫🇮", products: ["Stainless steel coil", "Duplex stainless"], verified: true, registry: "PRH" },
+      { name: "POSCO", country: "South Korea", flag: "🇰🇷", products: ["Hot-rolled coil", "Electrical steel"], verified: true, registry: "DART" },
     ],
   },
-  steel: {
+  manufacturing: {
+    labelKey: "home.preview.tabManufacturing",
+    icon: "🏭",
+    suppliers: [
+      { name: "SKF Group", country: "Sweden", flag: "🇸🇪", products: ["Industrial bearings", "Sealing systems"], verified: true, registry: "Bolagsverket" },
+      { name: "Schaeffler AG", country: "Germany", flag: "🇩🇪", products: ["Precision bearings", "Linear motion"], verified: true, registry: "Handelsregister" },
+      { name: "Parker Hannifin", country: "USA", flag: "🇺🇸", products: ["Hydraulic systems", "Pneumatic fittings"], verified: true, registry: "SEC EDGAR" },
+    ],
+  },
+  chemicals: {
     labelKey: "home.preview.tabChemicals",
-    icon: "🏗️",
+    icon: "⚗️",
     suppliers: [
-      { name: "voestalpine AG", country: "Austria", flag: "🇦🇹", products: ["Cold-rolled steel", "Tool steel"], verified: true, registry: "Firmenbuch" },
-      { name: "POSCO", country: "South Korea", flag: "🇰🇷", products: ["Hot-rolled coil", "Stainless plate"], verified: true, registry: "DART" },
-      { name: "Erdemir", country: "Turkey", flag: "🇹🇷", products: ["Hot-rolled flat steel", "Galvanized coil"], verified: true, registry: "MERSIS" },
+      { name: "BASF SE", country: "Germany", flag: "🇩🇪", products: ["Performance chemicals", "Polymer intermediates"], verified: true, registry: "Handelsregister" },
+      { name: "Solvay SA", country: "Belgium", flag: "🇧🇪", products: ["Specialty polymers", "Soda ash"], verified: true, registry: "KBO" },
+      { name: "Wacker Chemie AG", country: "Germany", flag: "🇩🇪", products: ["Silicone elastomers", "Polysilicon"], verified: true, registry: "Handelsregister" },
     ],
   },
-  rare_earths: {
-    labelKey: "home.preview.tabTextiles",
-    icon: "🔬",
+  packaging: {
+    labelKey: "home.preview.tabPackaging",
+    icon: "📦",
     suppliers: [
-      { name: "Lynas Rare Earths Ltd.", country: "Australia", flag: "🇦🇺", products: ["NdPr oxide", "Lanthanum carbonate"], verified: true, registry: "ASIC" },
-      { name: "MP Materials Corp.", country: "USA", flag: "🇺🇸", products: ["Rare-earth concentrate", "NdPr oxide"], verified: true, registry: "SEC EDGAR" },
-      { name: "Iluka Resources", country: "Australia", flag: "🇦🇺", products: ["Monazite concentrate"], verified: false, registry: "ASIC" },
+      { name: "Tetra Pak", country: "Sweden", flag: "🇸🇪", products: ["Aseptic cartons", "Processing systems"], verified: true, registry: "Bolagsverket" },
+      { name: "Mondi Group", country: "Austria", flag: "🇦🇹", products: ["Paper-based packaging", "Flexible films"], verified: true, registry: "Firmenbuch" },
+      { name: "Amcor plc", country: "Australia", flag: "🇦🇺", products: ["Flexible packaging", "Rigid containers"], verified: true, registry: "ASIC" },
+    ],
+  },
+  machinery: {
+    labelKey: "home.preview.tabMachinery",
+    icon: "⚙️",
+    suppliers: [
+      { name: "Atlas Copco AB", country: "Sweden", flag: "🇸🇪", products: ["Industrial compressors", "Pneumatic tools"], verified: true, registry: "Bolagsverket" },
+      { name: "Komatsu Ltd.", country: "Japan", flag: "🇯🇵", products: ["Construction equipment", "Material-handling systems"], verified: true, registry: "MOJ" },
+      { name: "GEA Group AG", country: "Germany", flag: "🇩🇪", products: ["Process equipment", "Industrial mixers"], verified: true, registry: "Handelsregister" },
     ],
   },
 };
@@ -50,7 +64,7 @@ type CategoryKey = keyof typeof PREVIEW;
 
 function CuratedPreview() {
   const { t } = useTranslation();
-  const [active, setActive] = useState<CategoryKey>("antimony");
+  const [active, setActive] = useState<CategoryKey>("metals");
   const cat = PREVIEW[active];
   return (
     <div>

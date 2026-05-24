@@ -4,14 +4,18 @@ import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "react-i18next";
 
+// Category list reflects current sourcing reach: industrial components,
+// chemicals, packaging, and machinery sit alongside metals — metals stays
+// available as a credibility wedge, not as the default identity.
 const PRODUCT_CATEGORIES = [
-  "Strategic Metals (Antimony, Tungsten, Cobalt, etc.)",
-  "Base Metals (Copper, Aluminium, Zinc, Nickel, Lead)",
-  "Steel & Alloys",
-  "Rare Earths & Critical Minerals",
+  "Industrial Components & Bearings",
   "Chemicals & Polymers",
-  "Industrial Machinery",
+  "Packaging & Converting",
+  "Machinery & Industrial Equipment",
   "Electronics & Components",
+  "Metals & Steel",
+  "Strategic & Critical Materials (Antimony, Tungsten, Rare Earths)",
+  "Construction Materials",
   "Textiles & Apparel",
   "Food & Agriculture",
   "Other",
@@ -510,7 +514,7 @@ export default function RequestQuote() {
                     value={form.deliveryDate}
                     onChange={handleChange}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. Q2 2025 or specific date"
+                    placeholder="e.g. within 6–8 weeks of order confirmation"
                   />
                 </div>
                 <div className="md:col-span-2">
