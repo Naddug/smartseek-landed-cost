@@ -198,9 +198,9 @@ export default function Home() {
         </div>
 
         <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl mb-5">
-          {t("home.hero.titleLine1")}
-          <br className="hidden sm:block" />
-          {t("home.hero.titleLine2")}
+          <span className="inline sm:block">{t("home.hero.titleLine1")}</span>
+          <span className="sm:hidden"> </span>
+          <span className="inline sm:block">{t("home.hero.titleLine2")}</span>
         </h1>
 
         <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">

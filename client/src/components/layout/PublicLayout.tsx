@@ -197,7 +197,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 <li><Link href="/trust" className="hover:text-foreground transition-colors">{t("publicNav.trustVerification")}</Link></li>
                 <li><Link href="/methodology" className="hover:text-foreground transition-colors">{t("publicFooter.methodology")}</Link></li>
                 <li><Link href="/verification" className="hover:text-foreground transition-colors">{t("publicFooter.verificationStandards")}</Link></li>
-                <li><Link href="/faq" className="hover:text-foreground transition-colors">FAQ</Link></li>
+                <li><Link href="/faq" className="hover:text-foreground transition-colors">{t("nav.faq")}</Link></li>
               </ul>
             </div>
             <div className="lg:col-span-2">
@@ -205,8 +205,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li><Link href="/about" className="hover:text-foreground transition-colors">{t("footer.about")}</Link></li>
                 <li><Link href="/contact" className="hover:text-foreground transition-colors">{t("footer.contact")}</Link></li>
-                <li><Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link></li>
-                <li><Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link></li>
+                <li><Link href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</Link></li>
+                <li><Link href="/terms" className="hover:text-foreground transition-colors">{t("footer.terms")}</Link></li>
               </ul>
             </div>
           </div>
