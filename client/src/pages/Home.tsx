@@ -221,13 +221,13 @@ export default function Home() {
           </Link>
         </div>
         <p className="relative z-10 text-xs text-slate-500 mb-8">
-          {t("home.hero.builtFor")}
+          Built for industrial procurement teams handling specification-driven sourcing workflows.
         </p>
 
         <div className="relative z-10 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-slate-500 mb-12">
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.registryVerified")}</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.operatorRouting")}</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.structuredQuotes")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Registry-verified suppliers</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Operator-reviewed RFQ routing</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Structured quote fields (MOQ, lead time, Incoterms)</span>
         </div>
       </section>
 
@@ -247,14 +247,14 @@ export default function Home() {
       <section className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">How it works</p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">{t("home.how.title")}</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">Procurement workflow without marketplace noise</h2>
 
           <div className="relative flex flex-col gap-0">
             <div className="absolute left-8 top-10 bottom-10 w-px bg-gradient-to-b from-blue-200 via-emerald-200 to-amber-200 hidden md:block" />
             {[
-              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: t("home.how.step1Title"), desc: t("home.how.step1Desc") },
-              { step: "02", icon: <ShieldCheck className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: t("home.how.step2Title"), desc: t("home.how.step2Desc") },
-              { step: "03", icon: <FileText className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50", title: t("home.how.step3Title"), desc: t("home.how.step3Desc") },
+              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: "Submit your sourcing request", desc: "Describe what you need: commodity, specification, quantity, destination, lead time. Takes 2 minutes." },
+              { step: "02", icon: <ShieldCheck className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: "We route to verified suppliers", desc: "A SmartSeek sourcing operator screens your RFQ and routes it only to suppliers checked against company registries." },
+              { step: "03", icon: <FileText className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50", title: "You receive structured quotes", desc: "Quotes arrive with incoterms, lead time, MOQ, and supplier provenance. You decide who to engage." },
             ].map((s) => (
               <div key={s.step} className="flex items-start gap-8 pb-12 relative">
                 <div className="shrink-0 flex flex-col items-center">
@@ -285,14 +285,14 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10">
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3">Why it&apos;s different</p>
-            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">{t("home.why.title")}</h3>
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">No scraped profiles. No mass blasts. No marketplace theatre.</h3>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-              {t("home.why.body")}
+              Every supplier we publish is checked against a company registry — SAIC, Companies House, SEC EDGAR, Handelsregister, MERSIS, ASIC, KRS, DART, SEDAR — and confirmed via direct contact. RFQs are routed by a human sourcing operator, not by an algorithm.
             </p>
             <div className="grid sm:grid-cols-3 gap-3 text-sm text-slate-700">
-              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill1")}</div>
-              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill2")}</div>
-              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill3")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">Registry-anchored verification</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">Manual RFQ routing</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">Direct supplier contact, no proxy</div>
             </div>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link href="/methodology" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">Read the sourcing methodology</Link>
@@ -308,11 +308,11 @@ export default function Home() {
         <div className="relative z-10 max-w-xl mx-auto">
           <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">Founding users program</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
-            {t("home.founding.title1")}<br className="hidden sm:block" />
-            {t("home.founding.title2")}
+            Free during beta.<br className="hidden sm:block" />
+            Priority sourcing support.
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">
-            {t("home.founding.body")}
+            We&apos;re onboarding a focused set of procurement teams during beta so each account receives direct sourcing support and faster supplier routing.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <Link href="/pricing">
