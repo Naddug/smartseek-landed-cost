@@ -87,7 +87,7 @@ export default function RiskIntelligence() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Risk Intelligence</h1>
-            <p className="text-blue-100">AI-powered geopolitical, financial, supply chain & ESG risk analysis</p>
+            <p className="text-blue-100">Structured geopolitical, financial, supply chain, and ESG risk analysis</p>
           </div>
         </div>
       </div>

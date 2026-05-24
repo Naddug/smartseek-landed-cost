@@ -202,10 +202,20 @@ export default function PublicSearchResults() {
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("publicSearch.hero.title")}</h1>
             <p className="text-slate-400 text-sm">{t("publicSearch.hero.subtitle")}</p>
-            <div className="mt-3 flex flex-wrap justify-center gap-2 text-[11px]">
-              <span className="px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">Saved suppliers: {savedCount}</span>
-              <span className="px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">Compare list: {compareCount}/3</span>
-            </div>
+            {(savedCount > 0 || compareCount > 0) && (
+              <div className="mt-3 flex flex-wrap justify-center gap-2 text-[11px]">
+                {savedCount > 0 && (
+                  <span className="px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+                    Saved suppliers: {savedCount}
+                  </span>
+                )}
+                {compareCount > 0 && (
+                  <span className="px-2 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">
+                    Compare list: {compareCount}/3
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           <form onSubmit={onSubmit} className="max-w-xl mx-auto mb-5 flex gap-2">

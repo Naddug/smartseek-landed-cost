@@ -112,7 +112,7 @@ export function useCreateSourcingRequest() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sourcing-requests"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] }); // Refresh credits
-      toast.success("Sourcing request submitted! Our team will review it shortly.");
+      toast.success("Sourcing request submitted. A SmartSeek sourcing operator will review it shortly.");
     },
     onError: (error: Error) => {
       if (error.message.includes("Insufficient credits")) {

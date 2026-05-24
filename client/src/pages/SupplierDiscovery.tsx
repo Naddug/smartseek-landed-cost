@@ -780,7 +780,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const isLoading = status === "pending";
   const totalKnown = data?.totalKnown !== false;
   const totalValue = data?.pagination.total ?? data?.totalResults ?? null;
-  const totalDisplay = totalKnown ? (totalValue ?? 0).toLocaleString() : "1000+";
+  const totalDisplay =
+    totalKnown && totalValue != null ? totalValue.toLocaleString() : null;
   const currentPageSize = data?.suppliers?.length ?? 0;
   const canGoNext = !data
     ? false
@@ -805,7 +806,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery || minOrderValue != null || minScore != null;
   const { data: stats } = useStats();
   const supplierCount = stats?.suppliers ?? 0;
-  const countryCount = stats?.countries ?? 220;
+  const countryCount = stats?.countries ?? 0;
 
   return (
     <div className={`bg-gray-50 ${embedded ? "min-h-0 rounded-xl" : "min-h-screen"}`}>
@@ -824,7 +825,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               ? countryCount > 0
                 ? t("supplier.hero.subtitleWithCountries", {
                     suppliers: formatStat(supplierCount),
-                    countries: `${countryCount}+`,
+                    countries: String(countryCount),
                   })
                 : t("supplier.hero.subtitleWorldwide", { suppliers: formatStat(supplierCount) })
               : t("supplier.hero.subtitleNoStats")}
@@ -975,7 +976,9 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               <span className="text-red-600">{t("supplier.failedLoad")}</span>
             ) : data ? (
               <>
-                {t("supplier.suppliersFound", { total: totalDisplay })}
+                {totalDisplay != null
+                  ? t("supplier.suppliersFound", { total: totalDisplay })
+                  : t("supplier.resultsMatching")}
                 {debouncedQuery && <span className="text-gray-500"> for &ldquo;{debouncedQuery}&rdquo;</span>}
                 {isFetching && <Loader2 className="w-3 h-3 animate-spin text-slate-400 inline-block" />}
               </>

@@ -54,7 +54,7 @@ const tools = [
   },
   {
     title: "SmartSeek AI",
-    description: "Get AI-powered sourcing reports with supplier recommendations",
+    description: "Structured sourcing reports with registry-verified supplier recommendations",
     icon: Search,
     href: "/smart-finder",
     color: "text-purple-500",

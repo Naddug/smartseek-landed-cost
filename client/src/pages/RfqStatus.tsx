@@ -22,7 +22,7 @@ type RfqInfo = {
 };
 
 const STATUS_LABEL: Record<string, { label: string; color: string; icon: React.ReactNode; help: string }> = {
-  pending:    { label: "Received",     color: "amber",   icon: <Clock className="w-4 h-4" />,        help: "A SmartSeek operator will review your RFQ within one business day." },
+  pending:    { label: "Received",     color: "amber",   icon: <Clock className="w-4 h-4" />,        help: "A SmartSeek sourcing operator will review your RFQ within one business day." },
   routing:    { label: "Routing",      color: "blue",    icon: <Search className="w-4 h-4" />,       help: "We are matching your request to verified suppliers." },
   quoted:     { label: "Quotes ready", color: "emerald", icon: <CheckCircle2 className="w-4 h-4" />, help: "Quotes have been sent to your email." },
   closed:     { label: "Closed",       color: "slate",   icon: <CheckCircle2 className="w-4 h-4" />, help: "This RFQ has been closed." },

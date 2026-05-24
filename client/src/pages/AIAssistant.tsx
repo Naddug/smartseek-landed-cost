@@ -199,7 +199,7 @@ export default function AIAssistant() {
             AI Decision Assistant
           </h1>
           <p className="text-muted-foreground">
-            Get AI-powered insights for smarter sourcing decisions
+            Operator-reviewed sourcing intelligence for procurement decisions
           </p>
         </div>
         {analysisComplete && (

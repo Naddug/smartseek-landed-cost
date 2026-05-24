@@ -82,8 +82,8 @@ export default function Verification() {
         <div className="max-w-3xl mx-auto">
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 mb-5">
             <p className="text-xs text-slate-600">
-              Verification standards are reviewed periodically by the sourcing operations team.
-              <span className="font-medium text-slate-800"> Last reviewed: {new Date().toLocaleDateString()}</span>
+              Verification standards are reviewed periodically by SmartSeek sourcing operators.
+              <span className="font-medium text-slate-800"> {t("verificationPage.lastReviewed")}</span>
             </p>
           </div>
           <h2 className="text-xl font-bold text-slate-900 mb-3">{t("verificationPage.cadenceTitle")}</h2>

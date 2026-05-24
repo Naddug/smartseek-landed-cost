@@ -734,7 +734,7 @@ export default function AIAgent() {
                   </div>
                   <h2 className="text-xl font-semibold text-gray-900 mb-1">Smart Sourcing Agent</h2>
                   <p className="text-sm text-gray-500 mb-8 text-center max-w-md">
-                    Your AI-powered trade intelligence assistant. Search leads, analyze markets, assess risks, and optimize your supply chain.
+                    Operator-reviewed trade intelligence. Search leads, analyze markets, assess risks, and compare suppliers.
                   </p>
 
                   {/* Capabilities */}

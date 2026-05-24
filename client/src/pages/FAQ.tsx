@@ -42,7 +42,7 @@ const faqSections: FAQSection[] = [
       },
       {
         question: "How many suppliers are in the public directory?",
-        answer: "During beta, the public directory is intentionally curated rather than scraped at scale. It focuses on strategic metals, base metals, and industrial inputs. If a supplier you need isn't listed publicly, submit an RFQ — a SmartSeek operator routes the request through our internal index and verified network."
+        answer: "During beta, the public directory is intentionally curated rather than scraped at scale. It spans industrial materials, manufacturing, chemicals, packaging, machinery, and specialty metals. If a supplier you need isn't listed publicly, submit an RFQ — a SmartSeek sourcing operator routes the request through our internal index and verified network."
       },
       {
         question: "What countries are covered?",

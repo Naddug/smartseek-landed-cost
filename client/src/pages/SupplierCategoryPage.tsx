@@ -491,7 +491,7 @@ export default function SupplierCategoryPage() {
             <div className="text-center py-14 max-w-xl mx-auto">
               <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
               <p className="text-slate-300 font-semibold mb-1">No public preview for {displayName.toLowerCase()} yet</p>
-              <p className="text-slate-500 text-sm mb-5">Our public directory is intentionally curated. Submit an RFQ — a SmartSeek operator will tap our internal index and verified network for the right suppliers.</p>
+              <p className="text-slate-500 text-sm mb-5">Our public directory is intentionally curated. Submit an RFQ — a SmartSeek sourcing operator will tap our internal index and verified network for the right suppliers.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href={`/rfq?product=${encodeURIComponent(displayName)}`}>
                   <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">

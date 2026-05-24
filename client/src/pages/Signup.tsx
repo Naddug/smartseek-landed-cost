@@ -90,7 +90,7 @@ export default function Signup() {
           </Link>
           <CardTitle className="text-2xl">Create your account</CardTitle>
           <CardDescription>
-            Start sourcing smarter with AI-powered insights
+            Registry-verified supplier discovery and structured RFQ workflows
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>

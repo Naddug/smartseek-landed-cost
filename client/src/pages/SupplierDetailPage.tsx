@@ -137,18 +137,18 @@ function communicationReadinessBand(d: SupplierProcurementDossier): {
     return {
       label: "Direct after RFQ qualification",
       tone: "emerald",
-      help: "Contact channel will be released to your team once a SmartSeek operator screens your RFQ.",
+      help: "Contact channel will be released to your team once a SmartSeek sourcing operator screens your RFQ.",
     };
   }
   if (d.verification.registryVerified) {
     return {
-      label: "Operator-mediated",
+      label: "SmartSeek sourcing operator",
       tone: "blue",
       help: "Contact details are released after RFQ screening to protect both sides from spam and unsolicited outreach.",
     };
   }
   return {
-    label: "Operator-mediated · verification pending",
+    label: "SmartSeek sourcing operator · verification pending",
     tone: "amber",
     help: "We will confirm the supplier's registry record before releasing direct contact details.",
   };
@@ -564,7 +564,7 @@ export default function SupplierDetailPage() {
           <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 text-center">
             <h1 className="text-xl font-bold text-slate-900 mb-2">Not in the public directory</h1>
             <p className="text-slate-600 mb-5">
-              Our public directory is intentionally curated. Submit an RFQ — a SmartSeek operator will tap our internal index and verified network for the right suppliers.
+              Our public directory is intentionally curated. Submit an RFQ — a SmartSeek sourcing operator will tap our internal index and verified network for the right suppliers.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link href="/rfq">
@@ -840,7 +840,7 @@ export default function SupplierDetailPage() {
                       : NA_RFQ,
                   ],
                   ["Response speed",
-                    dossier.commercial.responseTime || "Routed via SmartSeek operator",
+                    dossier.commercial.responseTime || "Routed via SmartSeek sourcing operator",
                   ],
                 ]}
               />
@@ -949,7 +949,7 @@ export default function SupplierDetailPage() {
                     ))}
                 </ul>
                 <p className="text-[11px] text-slate-500 mt-3">
-                  Email and phone previews are masked until a SmartSeek operator screens your RFQ. We never publish unverified contacts to protect suppliers from spam.
+                  Email and phone previews are masked until a SmartSeek sourcing operator screens your RFQ. We never publish unverified contacts to protect suppliers from spam.
                 </p>
               </Card>
             )}
@@ -1097,7 +1097,7 @@ export default function SupplierDetailPage() {
                   </p>
                 </div>
                 <p className="text-xs text-slate-500 mt-3">
-                  Direct contact details are released after a SmartSeek operator screens your RFQ. This protects suppliers from spam and gives you a clean audit trail.
+                  Direct contact details are released after a SmartSeek sourcing operator screens your RFQ. This protects suppliers from spam and gives you a clean audit trail.
                 </p>
               </div>
             )}

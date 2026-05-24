@@ -1,4 +1,4 @@
-import { Building2, Target, Users, Shield, Globe, Zap } from "lucide-react";
+import { Building2, Target, Users, Shield, Globe, FileText } from "lucide-react";
 import { Link } from "wouter";
 import { TrustBadges } from "@/components/trust/TrustBadges";
 import { useTranslation } from "react-i18next";
@@ -8,7 +8,7 @@ export default function About() {
   const values = [
     { icon: Shield, title: t("about.values.integrityTitle"), desc: t("about.values.integrityDesc") },
     { icon: Globe, title: t("about.values.globalTitle"), desc: t("about.values.globalDesc") },
-    { icon: Zap, title: t("about.values.speedTitle"), desc: t("about.values.speedDesc") },
+    { icon: FileText, title: t("about.values.rfqTitle"), desc: t("about.values.rfqDesc") },
   ];
 
   return (
@@ -50,15 +50,7 @@ export default function About() {
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center shrink-0">
-                    <Zap className="w-4 h-4 text-emerald-600" />
-                  </div>
-                  <div>
-                    <strong className="text-slate-900">{t("about.entrepreneurs")}</strong> — {t("about.entrepreneursDesc")}
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-                    <Users className="w-4 h-4 text-purple-600" />
+                    <Globe className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div>
                     <strong className="text-slate-900">{t("about.suppliers")}</strong> — {t("about.suppliersDesc")}
@@ -72,10 +64,30 @@ export default function About() {
 
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4 max-w-4xl">
+          <h2 className="text-2xl font-heading font-bold text-slate-900 mb-3">{t("about.foundersTitle")}</h2>
+          <p className="text-slate-600 text-sm leading-relaxed mb-10 max-w-2xl">{t("about.foundersIntro")}</p>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("about.founder1Role")}</p>
+              <h3 className="text-lg font-bold text-slate-900 mb-3">{t("about.founder1Name")}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">{t("about.founder1Bio")}</p>
+            </div>
+            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("about.founder2Role")}</p>
+              <h3 className="text-lg font-bold text-slate-900 mb-3">{t("about.founder2Name")}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">{t("about.founder2Bio")}</p>
+            </div>
+          </div>
+          <p className="text-slate-600 text-sm leading-relaxed mt-8 max-w-3xl">{t("about.antiMarketplace")}</p>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 max-w-4xl">
           <h2 className="text-2xl font-heading font-bold text-slate-900 mb-10 text-center">{t("about.standForTitle")}</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((v, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+              <div key={i} className="bg-slate-50 rounded-2xl border border-slate-200 p-8 shadow-sm">
                 <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 mb-4">
                   <v.icon className="w-6 h-6" />
                 </div>
@@ -89,7 +101,7 @@ export default function About() {
 
       <section className="py-16 bg-white border-t border-slate-200">
         <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-slate-500 mb-8">{t("trust.worldwide")}</p>
+          <p className="text-center text-sm text-slate-500 mb-8">{t("about.trustStripLabel")}</p>
           <TrustBadges />
         </div>
       </section>
@@ -102,7 +114,7 @@ export default function About() {
               <Users className="w-4 h-4" /> {t("publicNav.suppliers")}
             </Link>
             <Link href="/signup" className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-lg font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors">
-              <Target className="w-4 h-4" /> Start Free in Beta
+              <Target className="w-4 h-4" /> {t("about.exploreBeta")}
             </Link>
             <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
               <Building2 className="w-4 h-4" /> {t("footer.contact")}

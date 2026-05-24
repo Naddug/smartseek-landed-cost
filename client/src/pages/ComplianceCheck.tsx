@@ -56,7 +56,7 @@ export default function ComplianceCheck() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">Compliance Check</h1>
-            <p className="text-emerald-100">AI-powered certification verification, regulatory compliance & sanctions screening</p>
+            <p className="text-emerald-100">Registry-backed certification checks, regulatory compliance, and sanctions screening</p>
           </div>
         </div>
       </div>

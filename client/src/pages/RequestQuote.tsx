@@ -246,7 +246,7 @@ export default function RequestQuote() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-sm text-gray-700">
               <p className="font-medium text-gray-900 mb-1">How it works</p>
-              <p>Submit your product requirements below. Our team will share your RFQ with relevant verified suppliers. You&apos;ll receive competitive quotes via email within 1–3 business days—no account required. Your data is never shared with third parties.</p>
+              <p>Submit your product requirements below. A SmartSeek sourcing operator will share your RFQ with relevant verified suppliers. You&apos;ll receive competitive quotes via email within 1–3 business days—no account required. Your data is never shared with third parties.</p>
             </div>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
@@ -554,7 +554,7 @@ export default function RequestQuote() {
                 <Link href="/terms" className="underline underline-offset-2">
                   Terms of Service
                 </Link>
-                . RFQs are reviewed by a sourcing operator before routing.
+                . RFQs are reviewed by a SmartSeek sourcing operator before routing.
               </p>
             </div>
           </form>
