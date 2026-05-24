@@ -2,10 +2,10 @@ import { useTranslation } from "react-i18next";
 import { ShieldCheck, FileText, BadgeCheck, Lock } from "lucide-react";
 
 const BADGES = [
-  { icon: ShieldCheck, labelKey: "trustBadge.soc2", subKey: "trustBadge.soc2.sub" },
-  { icon: FileText, labelKey: "trustBadge.encryption", subKey: "trustBadge.encryption.sub" },
-  { icon: BadgeCheck, labelKey: "trustBadge.gdpr", subKey: "trustBadge.gdpr.sub" },
-  { icon: Lock, labelKey: "trustBadge.uptime", subKey: "trustBadge.uptime.sub" },
+  { icon: ShieldCheck, labelKey: "trustBadge.registry", subKey: "trustBadge.registry.sub" },
+  { icon: FileText, labelKey: "trustBadge.operator", subKey: "trustBadge.operator.sub" },
+  { icon: BadgeCheck, labelKey: "trustBadge.structured", subKey: "trustBadge.structured.sub" },
+  { icon: Lock, labelKey: "trustBadge.noBlast", subKey: "trustBadge.noBlast.sub" },
 ];
 
 /** Sourcing-native trust signals — registry verification and operator routing, not fabricated compliance badges. */
