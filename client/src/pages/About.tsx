@@ -69,12 +69,18 @@ export default function About() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("about.founder1Role")}</p>
-              <h3 className="text-lg font-bold text-slate-900 mb-3">{t("about.founder1Name")}</h3>
+              <h3 className="text-lg font-bold text-slate-900 mb-1">{t("about.founder1Name")}</h3>
+              {t("about.founder1Focus") && (
+                <p className="text-xs text-slate-500 mb-3">{t("about.founder1Focus")}</p>
+              )}
               <p className="text-slate-600 text-sm leading-relaxed">{t("about.founder1Bio")}</p>
             </div>
             <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{t("about.founder2Role")}</p>
-              <h3 className="text-lg font-bold text-slate-900 mb-3">{t("about.founder2Name")}</h3>
+              <h3 className="text-lg font-bold text-slate-900 mb-1">{t("about.founder2Name")}</h3>
+              {t("about.founder2Focus") && (
+                <p className="text-xs text-slate-500 mb-3">{t("about.founder2Focus")}</p>
+              )}
               <p className="text-slate-600 text-sm leading-relaxed">{t("about.founder2Bio")}</p>
             </div>
           </div>

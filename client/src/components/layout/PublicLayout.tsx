@@ -211,7 +211,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </div>
           </div>
           <div className="mt-14 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-            <span>© {new Date().getFullYear()} SmartSeek. {t("footer.copyright")}.</span>
+            <div className="text-center sm:text-left">
+              <span>© {new Date().getFullYear()} SmartSeek. {t("footer.copyright")}.</span>
+              <p className="text-xs text-muted-foreground/80 mt-1">{t("footer.operatedDuringBeta")}</p>
+            </div>
             <div className="flex items-center gap-4">
               <Link href="/privacy" className="hover:text-foreground transition-colors">{t("footer.privacy")}</Link>
               <Link href="/terms" className="hover:text-foreground transition-colors">{t("footer.terms")}</Link>

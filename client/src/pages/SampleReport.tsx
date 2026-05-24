@@ -1,198 +1,83 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, AlertTriangle, TrendingUp, DollarSign, Printer, Download, ArrowLeft } from "lucide-react";
+import { ArrowLeft, FileText, ShieldCheck, ClipboardList } from "lucide-react";
 import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
+import { useTranslation } from "react-i18next";
 
+/** Illustrative workflow only — not a live client deliverable. No fabricated suppliers, scores, or economics. */
 export default function SampleReport() {
-  const handlePrint = () => {
-    window.print();
-  };
+  const { t } = useTranslation();
+
+  const steps = [
+    { icon: ClipboardList, title: t("sampleReport.step1Title"), desc: t("sampleReport.step1Desc") },
+    { icon: ShieldCheck, title: t("sampleReport.step2Title"), desc: t("sampleReport.step2Desc") },
+    { icon: FileText, title: t("sampleReport.step3Title"), desc: t("sampleReport.step3Desc") },
+  ];
 
   return (
-    <div className="min-h-screen bg-muted/20 py-8 px-4 print:p-0 print:bg-white">
-      {/* Toolbar - Hidden when printing */}
-      <div className="max-w-[210mm] mx-auto mb-6 flex justify-between items-center print:hidden">
+    <div className="min-h-screen bg-muted/20 py-8 px-4">
+      <div className="max-w-3xl mx-auto mb-6 print:hidden">
         <Link href="/">
           <Button variant="ghost" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Site
+            <ArrowLeft className="w-4 h-4 mr-2" /> {t("sampleReport.back")}
           </Button>
         </Link>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={handlePrint}>
-            <Printer className="w-4 h-4 mr-2" /> Print
-          </Button>
-          <Button size="sm" onClick={handlePrint}>
-            <Download className="w-4 h-4 mr-2" /> Download PDF
-          </Button>
-        </div>
       </div>
 
-      {/* A4 Paper Layout */}
-      <div className="max-w-[210mm] min-h-[297mm] mx-auto bg-white shadow-xl print:shadow-none p-12 text-slate-900 font-sans print:w-full print:max-w-none">
-        
-        {/* Header */}
-        <header className="flex justify-between items-start border-b pb-8 mb-8">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Logo size="sm" className="w-8 h-8" />
-              <span className="text-xl font-bold tracking-tight">SmartSeek</span>
-            </div>
-            <div className="text-sm text-slate-500">AI-Powered Sourcing Intelligence</div>
+      <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl border border-slate-200 p-8 sm:p-12 text-slate-900">
+        <header className="border-b border-slate-200 pb-8 mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Logo size="sm" className="w-8 h-8" />
+            <span className="text-xl font-bold tracking-tight">SmartSeek</span>
           </div>
-          <div className="text-right">
-            <h1 className="text-2xl font-bold text-slate-900">Sourcing Strategy Report</h1>
-            <div className="text-sm text-slate-500 mt-1">Report ID: #SS-2024-8921</div>
-            <div className="text-sm text-slate-500">Date: {new Date().toLocaleDateString()}</div>
-          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">{t("sampleReport.title")}</h1>
+          <p className="text-sm text-slate-600 leading-relaxed">{t("sampleReport.disclaimer")}</p>
         </header>
 
-        {/* Executive Summary */}
         <section className="mb-10">
-          <div className="bg-slate-50 p-6 rounded-lg border border-slate-100">
-            <div className="grid grid-cols-2 gap-8 mb-6">
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-500 mb-1">Target Category</div>
-                <div className="text-xl font-bold">Bamboo Packaging (Eco-Friendly)</div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-500 mb-1">Target Region</div>
-                <div className="text-xl font-bold">Vietnam & Southern China</div>
-              </div>
-            </div>
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">{t("sampleReport.exampleLabel")}</h2>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 space-y-3 text-sm">
+            <div><span className="font-semibold text-slate-800">{t("sampleReport.fieldCommodity")}:</span> {t("sampleReport.exampleCommodity")}</div>
+            <div><span className="font-semibold text-slate-800">{t("sampleReport.fieldSpec")}:</span> {t("sampleReport.exampleSpec")}</div>
+            <div><span className="font-semibold text-slate-800">{t("sampleReport.fieldQuantity")}:</span> {t("sampleReport.exampleQuantity")}</div>
+            <div><span className="font-semibold text-slate-800">{t("sampleReport.fieldDestination")}:</span> {t("sampleReport.exampleDestination")}</div>
+            <div><span className="font-semibold text-slate-800">{t("sampleReport.fieldIncoterm")}:</span> {t("sampleReport.exampleIncoterm")}</div>
+          </div>
+          <p className="text-xs text-slate-500 mt-3 leading-relaxed">{t("sampleReport.exampleNote")}</p>
+        </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-white p-4 rounded border">
-                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Risk Score</div>
-                <div className="text-2xl font-bold text-green-600 flex items-center gap-2">
-                  12/100 <CheckCircle2 size={18} />
+        <section className="mb-10">
+          <h2 className="text-lg font-bold text-slate-900 mb-6">{t("sampleReport.workflowTitle")}</h2>
+          <div className="space-y-6">
+            {steps.map((step, i) => (
+              <div key={i} className="flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                  <step.icon className="w-5 h-5 text-blue-600" />
                 </div>
-                <div className="text-xs text-slate-400 mt-1">Low Risk</div>
-              </div>
-              <div className="bg-white p-4 rounded border">
-                 <div className="text-xs text-slate-500 font-bold uppercase mb-1">Projected Margin</div>
-                <div className="text-2xl font-bold text-blue-600 flex items-center gap-2">
-                  52.4% <TrendingUp size={18} />
+                <div>
+                  <h3 className="font-semibold text-slate-900 mb-1">{step.title}</h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{step.desc}</p>
                 </div>
-                <div className="text-xs text-slate-400 mt-1">Based on $14.50 retail</div>
               </div>
-              <div className="bg-white p-4 rounded border">
-                 <div className="text-xs text-slate-500 font-bold uppercase mb-1">Est. Landed Cost</div>
-                <div className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                  $2.85 <DollarSign size={18} />
-                </div>
-                <div className="text-xs text-slate-400 mt-1">DDP to Los Angeles</div>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* Product Analysis */}
-        <section className="mb-10">
-          <h2 className="text-lg font-bold border-l-4 border-primary pl-3 mb-4 uppercase tracking-wider text-slate-800">1. Market & Product Analysis</h2>
-          <p className="text-slate-600 mb-4 leading-relaxed text-sm">
-            Demand for eco-friendly packaging is trending up 15% YoY. The recommended sourcing strategy is to target 
-            Vietnam for raw bamboo material availability and lower tariff risks compared to mainland China. 
-            However, mature tooling exists in Ningbo, China which offers faster lead times.
-          </p>
-          <div className="grid grid-cols-2 gap-6">
-             <div>
-               <h3 className="font-bold text-sm mb-2">Key Specifications</h3>
-               <ul className="text-sm text-slate-600 space-y-1">
-                 <li>• Material: 100% Biodegradable Moso Bamboo</li>
-                 <li>• Certification Required: FSC, FDA</li>
-                 <li>• Packaging: Plastic-free kraft paper</li>
-                 <li>• Tolerance: +/- 0.5mm</li>
-               </ul>
-             </div>
-             <div>
-               <h3 className="font-bold text-sm mb-2">Compliance Check</h3>
-               <ul className="text-sm text-slate-600 space-y-1">
-                 <li className="flex items-center gap-2 text-green-600"><CheckCircle2 size={14} /> FDA Approved Material</li>
-                 <li className="flex items-center gap-2 text-green-600"><CheckCircle2 size={14} /> Low Tariff Classification (HS 4421.91)</li>
-                 <li className="flex items-center gap-2 text-amber-600"><AlertTriangle size={14} /> Requires Fumigation Cert</li>
-               </ul>
-             </div>
+        <section className="rounded-xl border border-slate-200 bg-slate-50 p-6">
+          <p className="text-sm text-slate-700 leading-relaxed mb-4">{t("sampleReport.closing")}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/rfq/new">
+              <Button size="sm">{t("sampleReport.ctaRfq")}</Button>
+            </Link>
+            <Link href="/methodology">
+              <Button variant="outline" size="sm">{t("sampleReport.ctaMethodology")}</Button>
+            </Link>
           </div>
         </section>
 
-        {/* Supplier Shortlist */}
-        <section className="mb-10">
-          <h2 className="text-lg font-bold border-l-4 border-primary pl-3 mb-4 uppercase tracking-wider text-slate-800">2. Supplier Shortlist</h2>
-          <Table className="border rounded-lg overflow-hidden">
-            <TableHeader className="bg-slate-50">
-              <TableRow>
-                <TableHead className="font-bold text-slate-900">Supplier Name</TableHead>
-                <TableHead className="font-bold text-slate-900">Location</TableHead>
-                <TableHead className="font-bold text-slate-900">MOQ</TableHead>
-                <TableHead className="font-bold text-slate-900">Unit Price</TableHead>
-                <TableHead className="font-bold text-slate-900">Rating</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">VietBamboo Industries</TableCell>
-                <TableCell>Hanoi, VN</TableCell>
-                <TableCell>500</TableCell>
-                <TableCell>$1.95</TableCell>
-                <TableCell className="text-amber-500 font-bold">4.8 ★</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">Ningbo EcoPack Ltd</TableCell>
-                <TableCell>Ningbo, CN</TableCell>
-                <TableCell>1000</TableCell>
-                <TableCell>$1.75</TableCell>
-                <TableCell className="text-amber-500 font-bold">4.6 ★</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-medium">GreenEarth Mfg</TableCell>
-                <TableCell>Ho Chi Minh, VN</TableCell>
-                <TableCell>200</TableCell>
-                <TableCell>$2.10</TableCell>
-                <TableCell className="text-amber-500 font-bold">4.5 ★</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </section>
-
-        {/* Action Plan */}
-        <section className="mb-10">
-          <h2 className="text-lg font-bold border-l-4 border-primary pl-3 mb-4 uppercase tracking-wider text-slate-800">3. Recommended Action Plan</h2>
-          <div className="space-y-4">
-            <div className="flex gap-4 items-start">
-              <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">1</div>
-              <div>
-                <h4 className="font-bold text-sm">Request Samples from VietBamboo</h4>
-                <p className="text-sm text-slate-600">Their quality/price ratio is highest. Verify finish quality and lid fitment.</p>
-              </div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">2</div>
-              <div>
-                <h4 className="font-bold text-sm">Negotiate MOQ with Ningbo EcoPack</h4>
-                <p className="text-sm text-slate-600">Use the Vietnam quote to leverage better terms. Aim for 500 unit trial run.</p>
-              </div>
-            </div>
-             <div className="flex gap-4 items-start">
-              <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
-              <div>
-                <h4 className="font-bold text-sm">Order Fumigation Certificate</h4>
-                <p className="text-sm text-slate-600">Ensure this is included in the PI (Proforma Invoice) to avoid customs delays.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <Separator className="my-8" />
-        
-        <footer className="text-center text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} SmartSeek Intelligence. Confidential Report.</p>
-          <p>Generated by AI. Verified by Data.</p>
+        <footer className="mt-10 pt-6 border-t border-slate-200 text-center text-xs text-slate-400">
+          <p>{t("sampleReport.footer")}</p>
         </footer>
-
       </div>
     </div>
   );
