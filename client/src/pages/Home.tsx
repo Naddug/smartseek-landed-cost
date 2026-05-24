@@ -197,13 +197,13 @@ export default function Home() {
         </div>
 
         <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl mb-5">
-          Find verified suppliers. Source smarter.
+          {t("home.hero.titleLine1")}
           <br className="hidden sm:block" />
-          Trade with confidence.
+          {t("home.hero.titleLine2")}
         </h1>
 
         <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
-          Marketplace workflows powered by sourcing intelligence and real trade expertise. Discover suppliers, verify credentials, run RFQs, and trade globally — without marketplace noise.
+          {t("home.hero.subtitle")}
         </p>
 
         <HeroSearch />
