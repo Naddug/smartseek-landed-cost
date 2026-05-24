@@ -7,9 +7,9 @@ import { useTranslation } from "react-i18next";
 // ─── Curated category previews ────────────────────────────────────────────────
 // Sample-based preview only. We do NOT advertise totals or "X suppliers found".
 
-const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: string; country: string; flag: string; products: string[]; verified: boolean; registry: string }[] }> = {
+const PREVIEW: Record<string, { labelKey: string; icon: string; suppliers: { name: string; country: string; flag: string; products: string[]; verified: boolean; registry: string }[] }> = {
   antimony: {
-    label: "Metals & mining",
+    labelKey: "home.preview.tabMetals",
     icon: "⛏️",
     suppliers: [
       { name: "Hunan Chenzhou Mining Group", country: "China", flag: "🇨🇳", products: ["Antimony ingot 99.65%", "Antimony trioxide"], verified: true, registry: "SAIC" },
@@ -18,7 +18,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
     ],
   },
   copper: {
-    label: "Manufacturing & industrial",
+    labelKey: "home.preview.tabManufacturing",
     icon: "🟠",
     suppliers: [
       { name: "Aurubis AG", country: "Germany", flag: "🇩🇪", products: ["Copper cathode A-grade", "Copper rod"], verified: true, registry: "Handelsregister" },
@@ -27,7 +27,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
     ],
   },
   steel: {
-    label: "Chemicals & materials",
+    labelKey: "home.preview.tabChemicals",
     icon: "🏗️",
     suppliers: [
       { name: "voestalpine AG", country: "Austria", flag: "🇦🇹", products: ["Cold-rolled steel", "Tool steel"], verified: true, registry: "Firmenbuch" },
@@ -36,7 +36,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
     ],
   },
   rare_earths: {
-    label: "Textiles & apparel",
+    labelKey: "home.preview.tabTextiles",
     icon: "🔬",
     suppliers: [
       { name: "Lynas Rare Earths Ltd.", country: "Australia", flag: "🇦🇺", products: ["NdPr oxide", "Lanthanum carbonate"], verified: true, registry: "ASIC" },
@@ -49,6 +49,7 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
 type CategoryKey = keyof typeof PREVIEW;
 
 function CuratedPreview() {
+  const { t } = useTranslation();
   const [active, setActive] = useState<CategoryKey>("antimony");
   const cat = PREVIEW[active];
   return (
@@ -64,7 +65,7 @@ function CuratedPreview() {
                 : "bg-slate-800/80 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600"
             }`}
           >
-            {PREVIEW[k].icon} {PREVIEW[k].label}
+            {PREVIEW[k].icon} {t(PREVIEW[k].labelKey)}
           </button>
         ))}
       </div>
@@ -78,11 +79,11 @@ function CuratedPreview() {
                 <span className="text-sm font-bold text-slate-900 truncate">{s.name}</span>
                 {s.verified && (
                   <span className="shrink-0 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold inline-flex items-center gap-0.5">
-                    <ShieldCheck className="w-2.5 h-2.5" /> Verified
+                    <ShieldCheck className="w-2.5 h-2.5" /> {t("home.preview.verified")}
                   </span>
                 )}
               </div>
-              <div className="text-xs text-slate-500 mb-3">{s.flag} {s.country} · Registry: {s.registry}</div>
+              <div className="text-xs text-slate-500 mb-3">{s.flag} {s.country} · {t("home.preview.registryLabel")} {s.registry}</div>
               <div className="flex flex-wrap gap-1">
                 {s.products.map((p, j) => (
                   <span key={j} className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">{p}</span>
@@ -111,11 +112,11 @@ function CuratedPreview() {
             <div className="w-11 h-11 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3 border border-white/20">
               <Lock className="w-5 h-5 text-white" />
             </div>
-            <p className="text-white font-bold text-base mb-1 leading-tight">Full directory available to founding users</p>
-            <p className="text-slate-300 text-sm mb-4 leading-relaxed">Free during beta. We onboard buyers manually so every account gets sourcing support.</p>
+            <p className="text-white font-bold text-base mb-1 leading-tight">{t("home.preview.lockTitle")}</p>
+            <p className="text-slate-300 text-sm mb-4 leading-relaxed">{t("home.preview.lockBody")}</p>
             <Link href="/pricing">
               <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                {t("home.preview.lockCta")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
           </div>
@@ -165,7 +166,7 @@ export default function Home() {
       "@type": "Organization",
       "name": "SmartSeek",
       "url": "https://smartseek.com",
-      "description": "Strategic sourcing intelligence and supplier discovery platform for industrial procurement teams.",
+      "description": t("home.seo.description"),
       "sameAs": [],
     };
     let el = document.getElementById("smartseek-ld") as HTMLScriptElement | null;
@@ -176,7 +177,7 @@ export default function Home() {
       document.head.appendChild(el);
     }
     el.text = JSON.stringify(ld);
-  }, []);
+  }, [t]);
 
   return (
     <PublicLayout>
@@ -221,13 +222,13 @@ export default function Home() {
           </Link>
         </div>
         <p className="relative z-10 text-xs text-slate-500 mb-8">
-          Built for industrial procurement teams handling specification-driven sourcing workflows.
+          {t("home.hero.builtFor")}
         </p>
 
         <div className="relative z-10 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-slate-500 mb-12">
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Registry-verified suppliers</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Operator-reviewed RFQ routing</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Structured quote fields (MOQ, lead time, Incoterms)</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.registryVerified")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.operatorRouting")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.structuredQuotes")}</span>
         </div>
       </section>
 
@@ -235,9 +236,9 @@ export default function Home() {
       <section className="bg-slate-900 py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">Curated supplier preview</p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Verified suppliers across industries and global markets</h2>
-            <p className="text-slate-400 text-sm max-w-xl mx-auto">A sample of registry-verified suppliers across metals, manufacturing, chemicals, textiles, and more. Full directory unlocked for founding users during beta.</p>
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">{t("home.sections.previewBadge")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">{t("home.sections.previewTitle")}</h2>
+            <p className="text-slate-400 text-sm max-w-xl mx-auto">{t("home.sections.previewBody")}</p>
           </div>
           <CuratedPreview />
         </div>
@@ -246,15 +247,15 @@ export default function Home() {
       {/* ── 3) HOW IT WORKS ──────────────────────────────────────────────── */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">How it works</p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">Procurement workflow without marketplace noise</h2>
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">{t("home.how.badge")}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">{t("home.how.title")}</h2>
 
           <div className="relative flex flex-col gap-0">
             <div className="absolute left-8 top-10 bottom-10 w-px bg-gradient-to-b from-blue-200 via-emerald-200 to-amber-200 hidden md:block" />
             {[
-              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: "Submit your sourcing request", desc: "Describe what you need: commodity, specification, quantity, destination, lead time. Takes 2 minutes." },
-              { step: "02", icon: <ShieldCheck className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: "We route to verified suppliers", desc: "A SmartSeek sourcing operator screens your RFQ and routes it only to suppliers checked against company registries." },
-              { step: "03", icon: <FileText className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50", title: "You receive structured quotes", desc: "Quotes arrive with incoterms, lead time, MOQ, and supplier provenance. You decide who to engage." },
+              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: t("home.how.step1Title"), desc: t("home.how.step1Desc") },
+              { step: "02", icon: <ShieldCheck className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: t("home.how.step2Title"), desc: t("home.how.step2Desc") },
+              { step: "03", icon: <FileText className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50", title: t("home.how.step3Title"), desc: t("home.how.step3Desc") },
             ].map((s) => (
               <div key={s.step} className="flex items-start gap-8 pb-12 relative">
                 <div className="shrink-0 flex flex-col items-center">
@@ -274,29 +275,29 @@ export default function Home() {
       {/* ── 4) TRUST STRIP ────────────────────────────────────────────────── */}
       <div className="bg-slate-900 border-y border-slate-800 py-4 px-4">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs text-slate-500">
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> Registry-verified</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> No fabricated profiles</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> Operator-led routing</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Direct supplier contact</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> {t("home.trustStrip.registryVerified")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> {t("home.trustStrip.noFabricated")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> {t("home.trustStrip.operatorRouting")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> {t("home.trustStrip.directContact")}</span>
         </div>
       </div>
 
       <section className="bg-slate-50 border-b border-slate-100 py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3">Why it&apos;s different</p>
-            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">No scraped profiles. No mass blasts. No marketplace theatre.</h3>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3">{t("home.why.badge")}</p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">{t("home.why.title")}</h3>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-              Every supplier we publish is checked against a company registry — SAIC, Companies House, SEC EDGAR, Handelsregister, MERSIS, ASIC, KRS, DART, SEDAR — and confirmed via direct contact. RFQs are routed by a human sourcing operator, not by an algorithm.
+              {t("home.why.body")}
             </p>
             <div className="grid sm:grid-cols-3 gap-3 text-sm text-slate-700">
-              <div className="rounded-xl border border-slate-200 px-4 py-3">Registry-anchored verification</div>
-              <div className="rounded-xl border border-slate-200 px-4 py-3">Manual RFQ routing</div>
-              <div className="rounded-xl border border-slate-200 px-4 py-3">Direct supplier contact, no proxy</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill1")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill2")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill3")}</div>
             </div>
             <div className="mt-6 flex flex-wrap gap-4">
-              <Link href="/methodology" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">Read the sourcing methodology</Link>
-              <Link href="/verification" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">See verification standards</Link>
+              <Link href="/methodology" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">{t("home.why.methodologyLink")}</Link>
+              <Link href="/verification" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">{t("home.why.verificationLink")}</Link>
             </div>
           </div>
         </div>
@@ -306,27 +307,27 @@ export default function Home() {
       <section className="bg-slate-950 py-20 px-4 text-center relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-600/8 rounded-full blur-[120px] pointer-events-none" />
         <div className="relative z-10 max-w-xl mx-auto">
-          <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">Founding users program</p>
+          <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">{t("home.founding.badge")}</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
-            Free during beta.<br className="hidden sm:block" />
-            Priority sourcing support.
+            {t("home.founding.title1")}<br className="hidden sm:block" />
+            {t("home.founding.title2")}
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">
-            We&apos;re onboarding a focused set of procurement teams during beta so each account receives direct sourcing support and faster supplier routing.
+            {t("home.founding.body")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <Link href="/pricing">
               <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-amber-500/20 text-base">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                {t("home.founding.requestBeta")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
             <Link href="/rfq/new">
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-8 py-3.5 rounded-xl transition text-base">
-                Submit an RFQ
+                {t("home.founding.submitRfq")}
               </button>
             </Link>
           </div>
-          <p className="text-xs text-slate-600">No credit card. No payment system during beta.</p>
+          <p className="text-xs text-slate-600">{t("home.founding.noPayment")}</p>
         </div>
       </section>
       <div className="sm:hidden h-16" aria-hidden="true" />
@@ -336,12 +337,12 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-2">
           <Link href="/pricing">
             <button className="w-full inline-flex items-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5 rounded-lg text-xs">
-              Beta access
+              {t("home.mobile.betaAccess")}
             </button>
           </Link>
           <Link href="/rfq">
             <button className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-lg text-xs">
-              Submit RFQ
+              {t("home.mobile.submitRfq")}
             </button>
           </Link>
         </div>
