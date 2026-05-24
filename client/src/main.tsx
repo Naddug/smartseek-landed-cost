@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
+import { Loader2 } from "lucide-react";
 import App from "./App";
 import "./lib/i18n";
 import "./index.css";
@@ -21,4 +22,21 @@ if (typeof window !== "undefined") {
   });
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+/**
+ * i18n fallback rendered only if the inlined EN bundle plus the user's
+ * locale fetch both fail to resolve synchronously. With EN inlined this should
+ * essentially never appear, but Suspense requires a fallback element.
+ */
+function I18nFallback() {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-slate-950">
+      <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+    </div>
+  );
+}
+
+createRoot(document.getElementById("root")!).render(
+  <Suspense fallback={<I18nFallback />}>
+    <App />
+  </Suspense>
+);
