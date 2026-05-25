@@ -99,7 +99,7 @@ export default function SupplierWorkspace() {
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6">
           <h2 className="font-semibold text-slate-800 mb-2">{t("workspace.noProfileTitle", "Join the verified supplier network")}</h2>
           <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-            {t("workspace.noProfileDesc", "List your company to receive operator-routed RFQs from global buyers. Verification is based on registry records and direct contact — not paid placement.")}
+            {t("workspace.noProfileDesc", "List your company to receive sourcing-team RFQs from global buyers. Verification is based on registry records and direct contact, not paid placement.")}
           </p>
           {applicationStatus && (
             <Badge variant="outline" className="mb-4 capitalize">
