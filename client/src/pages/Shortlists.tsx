@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Lock, Unlock, ArrowUpRight, MapPin, Star, ShieldCheck, Loader2, Mail, ShoppingBag } from "lucide-react";
+import { Lock, ArrowUpRight, MapPin, ShieldCheck, Loader2, Mail, ShoppingBag } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import type { SupplierShortlist } from "@shared/schema";
 
@@ -22,6 +23,7 @@ interface Supplier {
 }
 
 export default function Shortlists() {
+  const { t } = useTranslation();
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: shortlists = [], isLoading: shortlistsLoading } = useShortlists();
   const isPro = profile?.plan === 'monthly';
@@ -49,8 +51,8 @@ export default function Shortlists() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <ShoppingBag className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-          <h2 className="text-xl font-bold mb-2">No Shortlists Available</h2>
-          <p className="text-muted-foreground">Check back later for curated supplier lists.</p>
+          <h2 className="text-xl font-bold mb-2">{t("shortlists.emptyTitle")}</h2>
+          <p className="text-muted-foreground">{t("shortlists.emptyBody")}</p>
         </div>
       </div>
     );
@@ -60,14 +62,14 @@ export default function Shortlists() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-heading font-bold">Curated Shortlists</h1>
-          <p className="text-muted-foreground">Vetted suppliers by category. Hand-picked by our experts.</p>
+          <h1 className="text-3xl font-heading font-bold">{t("shortlists.title")}</h1>
+          <p className="text-muted-foreground">{t("shortlists.subtitle")}</p>
         </div>
         {!isPro && (
           <Link href="/app/billing">
             <div className="bg-primary/10 border border-primary/20 text-primary px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-primary/15 transition-colors">
               <Lock size={16} />
-              Upgrade to Pro to access Premium lists <ArrowUpRight size={16} />
+              {t("shortlists.upgradeBanner")} <ArrowUpRight size={16} />
             </div>
           </Link>
         )}
@@ -83,7 +85,7 @@ export default function Shortlists() {
               {isLocked && (
                 <div className="absolute inset-0 bg-background/50 backdrop-blur-[1px] z-10 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                    <Link href="/app/billing">
-                     <Button>Upgrade to Unlock</Button>
+                     <Button>{t("shortlists.upgradeButton")}</Button>
                    </Link>
                 </div>
               )}
@@ -91,16 +93,16 @@ export default function Shortlists() {
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
                   <Badge variant={list.isPremium ? "default" : "secondary"}>
-                    {list.isPremium ? 'Premium' : 'Free'}
+                    {list.isPremium ? t("shortlists.premium") : t("shortlists.free")}
                   </Badge>
-                  {isLocked ? <Lock size={18} className="text-muted-foreground" /> : <Unlock size={18} className="text-green-500" />}
+                  {isLocked && <Lock size={18} className="text-muted-foreground" />}
                 </div>
                 <CardTitle className="text-xl">{list.title}</CardTitle>
                 <div className="text-sm text-muted-foreground font-normal">{list.category}</div>
               </CardHeader>
               <CardContent className="flex-1">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span className="font-bold text-foreground">{suppliers?.length || 0}</span> Vetted Suppliers
+                  <span className="font-bold text-foreground">{suppliers?.length || 0}</span> {t("shortlists.vettedSuppliers")}
                 </div>
               </CardContent>
               <CardFooter>
@@ -111,7 +113,7 @@ export default function Shortlists() {
                   onClick={() => !isLocked && handleViewSuppliers(list)}
                   data-testid={`button-view-${list.id}`}
                 >
-                  {isLocked ? "Unlock with Pro" : "View Suppliers"}
+                  {isLocked ? t("shortlists.upgradeToAccess") : t("shortlists.viewSuppliers")}
                 </Button>
               </CardFooter>
             </Card>
@@ -119,13 +121,12 @@ export default function Shortlists() {
         })}
       </div>
 
-      {/* Supplier Details Dialog */}
       <Dialog open={!!selectedList} onOpenChange={(open) => !open && setSelectedList(null)}>
         <DialogContent className="max-w-5xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-heading">{selectedList?.title}</DialogTitle>
             <DialogDescription>
-              Verified supplier list for {selectedList?.category}. Contact suppliers directly or use our agent service.
+              {t("shortlists.dialogDesc", { category: selectedList?.category })}
             </DialogDescription>
           </DialogHeader>
 
@@ -133,13 +134,13 @@ export default function Shortlists() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Supplier Name</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Rating</TableHead>
-                  <TableHead>MOQ</TableHead>
-                  <TableHead>Lead Time</TableHead>
-                  <TableHead>Certifications</TableHead>
-                  <TableHead className="text-right">Contact</TableHead>
+                  <TableHead>{t("shortlists.supplierName")}</TableHead>
+                  <TableHead>{t("shortlists.location")}</TableHead>
+                  <TableHead>{t("reports.verificationTier")}</TableHead>
+                  <TableHead>{t("shortlists.moq")}</TableHead>
+                  <TableHead>{t("shortlists.leadTime")}</TableHead>
+                  <TableHead>{t("shortlists.certifications")}</TableHead>
+                  <TableHead className="text-right">{t("shortlists.contact")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -147,7 +148,7 @@ export default function Shortlists() {
                   <TableRow key={idx}>
                     <TableCell>
                       <div className="font-medium">{supplier.name}</div>
-                      <div className="text-xs text-muted-foreground">{supplier.yearsInBusiness} years in business</div>
+                      <div className="text-xs text-muted-foreground">{t("shortlists.yearsInBusiness", { years: supplier.yearsInBusiness })}</div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1 text-sm">
@@ -156,9 +157,9 @@ export default function Shortlists() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1 text-amber-500">
-                        <Star className="w-4 h-4 fill-current" />
-                        <span className="font-medium">{supplier.rating}</span>
+                      <div className="flex items-center gap-1 text-emerald-700">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span className="font-medium text-sm">{t("supplier.signals.registryVerified")}</span>
                       </div>
                     </TableCell>
                     <TableCell>{supplier.moq}</TableCell>
@@ -179,7 +180,7 @@ export default function Shortlists() {
                     <TableCell className="text-right">
                       <Button size="sm" variant="outline" onClick={() => window.open(`mailto:${supplier.contactEmail}`, '_blank')}>
                         <Mail className="w-4 h-4 mr-1" />
-                        Contact
+                        {t("shortlists.contact")}
                       </Button>
                     </TableCell>
                   </TableRow>

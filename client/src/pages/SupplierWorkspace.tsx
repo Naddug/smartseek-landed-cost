@@ -137,7 +137,7 @@ export default function SupplierWorkspace() {
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="px-6 pt-5 pb-4 border-b border-slate-50">
           <h2 className="font-semibold text-slate-800 text-[15px]">{t("workspace.inboundRfqTitle", "Inbound RFQs")}</h2>
-          <p className="text-xs text-slate-400 mt-0.5">{t("workspace.inboundRfqDesc", "Buyer requests routed by sourcing operators")}</p>
+          <p className="text-xs text-slate-400 mt-0.5">{t("workspace.inboundRfqDesc")}</p>
         </div>
         {inboundRfqs.length === 0 ? (
           <div className="py-12 px-6 text-center">

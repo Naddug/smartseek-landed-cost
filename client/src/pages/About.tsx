@@ -45,7 +45,8 @@ export default function About() {
                     <Building2 className="w-4 h-4 text-blue-600" />
                   </div>
                   <div>
-                    <strong className="text-slate-900">{t("about.procurers")}</strong> — {t("about.procurersDesc")}
+                    <strong className="text-slate-900">{t("about.procurers")}</strong>
+                    <span className="text-slate-600"> — {t("about.procurersDesc")}</span>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -53,7 +54,8 @@ export default function About() {
                     <Globe className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div>
-                    <strong className="text-slate-900">{t("about.suppliers")}</strong> — {t("about.suppliersDesc")}
+                    <strong className="text-slate-900">{t("about.suppliers")}</strong>
+                    <span className="text-slate-600"> — {t("about.suppliersDesc")}</span>
                   </div>
                 </li>
               </ul>

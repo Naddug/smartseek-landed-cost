@@ -28,6 +28,10 @@ export default function Privacy() {
             <p>
               {t("privacy.useBody")}
             </p>
+            <h2 className="font-semibold text-slate-900">{t("privacy.disclaimerTitle")}</h2>
+            <p>
+              {t("privacy.disclaimerBody")}
+            </p>
             <h2 className="font-semibold text-slate-900">{t("footer.contact")}</h2>
             <p>
               {t("privacy.contactBody")}

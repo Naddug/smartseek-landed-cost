@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "wouter";
+import { useTranslation } from "react-i18next";
 import { userAPI, tradeAPI } from "@/lib/api";
 
 // Region-specific data - each region has distinct datasets
@@ -283,6 +284,7 @@ const COUNTRIES = [
 ];
 
 export default function TradeData() {
+  const { t } = useTranslation();
   const [timeRange, setTimeRange] = useState("12m");
   const [region, setRegion] = useState("global");
   const [categorySearch, setCategorySearch] = useState("");
@@ -345,16 +347,28 @@ export default function TradeData() {
     a.download = `trade-data-${region}-${timeRange}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Data exported successfully");
+    toast.success(t("tradeData.exportSuccess"));
   };
+
+  const regionSubtitle =
+    region === "asia" ? t("tradeData.subtitleAsia")
+    : region === "europe" ? t("tradeData.subtitleEurope")
+    : region === "americas" ? t("tradeData.subtitleAmericas")
+    : t("tradeData.subtitleGlobal");
+
+  const regionLabel =
+    region === "asia" ? t("tradeData.regionAsia")
+    : region === "europe" ? t("tradeData.regionEurope")
+    : region === "americas" ? t("tradeData.regionAmericas")
+    : t("tradeData.regionGlobal");
 
   return (
     <div className="space-y-4 sm:space-y-6 min-w-0">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-slate-100 truncate">Trade Data Dashboard</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1">
-            {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "European" : "Americas"} trade insights, market trends, and pricing intelligence
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-slate-100 truncate">{t("tradeData.title")}</h1>
+          <p className="text-slate-600 dark:text-slate-300 mt-1">
+            {regionSubtitle}
           </p>
         </div>
         <div className="flex flex-wrap gap-2 w-full sm:w-auto">
@@ -364,10 +378,10 @@ export default function TradeData() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="3m">3 Months</SelectItem>
-              <SelectItem value="6m">6 Months</SelectItem>
-              <SelectItem value="12m">12 Months</SelectItem>
-              <SelectItem value="ytd">YTD</SelectItem>
+              <SelectItem value="3m">{t("tradeData.time3m")}</SelectItem>
+              <SelectItem value="6m">{t("tradeData.time6m")}</SelectItem>
+              <SelectItem value="12m">{t("tradeData.time12m")}</SelectItem>
+              <SelectItem value="ytd">{t("tradeData.timeYtd")}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={region} onValueChange={setRegion}>
@@ -376,15 +390,15 @@ export default function TradeData() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="global">Global</SelectItem>
-              <SelectItem value="asia">Asia Pacific</SelectItem>
-              <SelectItem value="europe">Europe</SelectItem>
-              <SelectItem value="americas">Americas</SelectItem>
+              <SelectItem value="global">{t("tradeData.regionGlobal")}</SelectItem>
+              <SelectItem value="asia">{t("tradeData.regionAsia")}</SelectItem>
+              <SelectItem value="europe">{t("tradeData.regionEurope")}</SelectItem>
+              <SelectItem value="americas">{t("tradeData.regionAmericas")}</SelectItem>
             </SelectContent>
           </Select>
           <Button variant="outline" onClick={handleExport} data-testid="button-export">
             <Download className="w-4 h-4 mr-2" />
-            Export
+            {t("tradeData.export")}
           </Button>
         </div>
       </div>
@@ -395,19 +409,19 @@ export default function TradeData() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-slate-100">
               <Activity className="w-5 h-5 text-primary" />
-              Your Sourcing Activity
+              {t("tradeData.sourcingActivity")}
             </CardTitle>
-            <CardDescription className="text-slate-400">Insights from your SmartSeek reports</CardDescription>
+            <CardDescription className="text-slate-300">{t("tradeData.fromReports")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div>
                 <div className="text-2xl font-bold text-slate-100">{userStats.reportsCount}</div>
-                <div className="text-sm text-slate-400">Reports generated</div>
+                <div className="text-sm text-slate-300">{t("tradeData.reportsGenerated")}</div>
               </div>
               {userStats.topRegions.length > 0 ? (
                 <div>
-                  <div className="text-sm font-medium text-slate-300 mb-2">Top regions</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">{t("tradeData.topRegions")}</div>
                   <div className="flex flex-wrap gap-2">
                     {userStats.topRegions.slice(0, 4).map((r) => (
                       <Badge key={r.name} variant="secondary">{r.name} ({r.count})</Badge>
@@ -416,13 +430,13 @@ export default function TradeData() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-sm font-medium text-slate-300 mb-2">Top regions</div>
-                  <div className="text-sm text-slate-400">No reports generated yet</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">{t("tradeData.topRegions")}</div>
+                  <div className="text-sm text-slate-300">{t("tradeData.noReportsYet")}</div>
                 </div>
               )}
               {userStats.commodities.length > 0 ? (
                 <div>
-                  <div className="text-sm font-medium text-slate-300 mb-2">Commodities sourced</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">{t("tradeData.commoditiesSourced")}</div>
                   <div className="flex flex-wrap gap-2">
                     {userStats.commodities.slice(0, 5).map((c) => (
                       <Badge key={c} variant="outline">{c}</Badge>
@@ -431,8 +445,8 @@ export default function TradeData() {
                 </div>
               ) : (
                 <div>
-                  <div className="text-sm font-medium text-slate-300 mb-2">Commodities sourced</div>
-                  <div className="text-sm text-slate-400">No commodities yet</div>
+                  <div className="text-sm font-medium text-slate-300 mb-2">{t("tradeData.commoditiesSourced")}</div>
+                  <div className="text-sm text-slate-300">{t("tradeData.noCommodities")}</div>
                 </div>
               )}
             </div>
@@ -440,7 +454,7 @@ export default function TradeData() {
               <Link href="/app/smart-finder">
                 <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
                   <Sparkles className="w-4 h-4 mr-2" />
-                  New AI Sourcing Report
+                  New sourcing report
                 </Button>
               </Link>
               <Link href="/app/reports">
@@ -454,7 +468,7 @@ export default function TradeData() {
       )}
 
       {/* Global Trade Intelligence */}
-      <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Global Trade Intelligence</h2>
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Trade data overview</h2>
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -738,7 +752,7 @@ export default function TradeData() {
               <Globe className="w-5 h-5 text-green-500" />
               Top Verified Suppliers
             </CardTitle>
-            <CardDescription>Highest rated suppliers — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+            <CardDescription>Registry-verified suppliers — {regionLabel}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -757,8 +771,8 @@ export default function TradeData() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <Badge variant="secondary">{supplier.rating} ★</Badge>
-                      <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">{supplier.orders} orders</div>
+                      <Badge variant="secondary">{t("tradeData.orders", { count: supplier.orders })}</Badge>
+                      <div className="text-xs text-slate-600 dark:text-slate-300 mt-1">{t("tradeData.registryReviewed")}</div>
                       <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-primary mt-1 ml-auto" />
                     </div>
                   </div>
@@ -769,16 +783,16 @@ export default function TradeData() {
         </Card>
       </div>
 
-      {/* AI-Powered Insights */}
+      {/* Trade analysis insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border-blue-200 dark:border-blue-800 bg-gradient-to-br from-blue-50/80 to-white dark:from-slate-900 dark:to-slate-900">
           <CardHeader>
             <CardTitle className="text-slate-900 dark:text-slate-100 text-xl flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-blue-600" />
-              AI Trade Insights
+              {t("tradeData.insightsTitle")}
             </CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400">
-              Actionable intelligence based on current market data
+            <CardDescription className="text-slate-600 dark:text-slate-300">
+              {t("tradeData.insightsDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -867,9 +881,9 @@ export default function TradeData() {
       {/* Market Insights */}
       <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-slate-100 text-xl">Market Intelligence</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-slate-100 text-xl">Market analysis</CardTitle>
           <CardDescription className="text-slate-600 dark:text-slate-400">
-            Trade intelligence updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}
+            Trade data updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -896,7 +910,7 @@ export default function TradeData() {
               <Link href="/app/smart-finder">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium transition-colors cursor-pointer">
                   <Sparkles className="w-3.5 h-3.5" />
-                  AI Sourcing Report
+                  Sourcing report
                 </span>
               </Link>
             </div>
@@ -914,14 +928,14 @@ export default function TradeData() {
                 Turn insights into action
               </h3>
               <p className="text-blue-100 mt-1">
-                Get AI sourcing reports, find verified suppliers, or analyze landed costs for any product.
+                Get structured sourcing reports, find verified suppliers, or analyze landed costs for any product.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/app/smart-finder">
                 <Button className="gap-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold">
                   <Sparkles className="w-4 h-4" />
-                  Get AI Sourcing Report
+                  Get sourcing report
                 </Button>
               </Link>
               <Link href="/search">

@@ -28,6 +28,10 @@ export default function Terms() {
             <p>
               {t("terms.billingBody")}
             </p>
+            <h2 className="font-semibold text-slate-900">{t("terms.disclaimerTitle")}</h2>
+            <p>
+              {t("terms.disclaimerBody")}
+            </p>
             <h2 className="font-semibold text-slate-900">{t("footer.contact")}</h2>
             <p>
               {t("terms.contactBody")}

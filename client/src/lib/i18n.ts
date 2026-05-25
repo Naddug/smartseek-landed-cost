@@ -23,6 +23,10 @@ export const LANGUAGE_NAMES: Record<SupportedLang, string> = {
 
 const isDev = import.meta.env.DEV;
 
+// Injected at build time — busts browser/CDN cache when locale JSON changes.
+declare const __LOCALE_VERSION__: string;
+const localeVersion = typeof __LOCALE_VERSION__ !== "undefined" ? __LOCALE_VERSION__ : "dev";
+
 i18n
   .use(HttpBackend)
   .use(LanguageDetector)
@@ -40,7 +44,7 @@ i18n
     ns: ["translation"],
     defaultNS: "translation",
     backend: {
-      loadPath: "/locales/{{lng}}/translation.json",
+      loadPath: `/locales/{{lng}}/translation.json?v=${localeVersion}`,
     },
     interpolation: { escapeValue: false },
     detection: {

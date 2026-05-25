@@ -8,8 +8,10 @@ import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { useTranslation } from "react-i18next";
 
 export default function Signup() {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -157,15 +159,15 @@ export default function Signup() {
             <div className="bg-muted/50 p-4 rounded-lg space-y-2">
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>10 free credits to get started</span>
+                <span>{t("signup.benefitCredits")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>Access to SmartSeek AI reports</span>
+                <span>{t("signup.benefitReports")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
-                <span>No credit card required</span>
+                <span>{t("signup.benefitNoCard")}</span>
               </div>
             </div>
           </CardContent>

@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { userAPI, creditsAPI, reportsAPI, shortlistsAPI, sourcingRequestsAPI, leadsAPI, calculationsAPI } from "./api";
 import { toast } from "sonner";
+import i18n from "./i18n";
 
 // User & Profile
 export function useUser() {
@@ -25,10 +26,10 @@ export function useUpdateProfile() {
     mutationFn: userAPI.updateProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast.success("Profile updated successfully");
+      toast.success(i18n.t("hooks.profileUpdated"));
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to update profile");
+      toast.error(error.message || i18n.t("hooks.profileUpdateFailed"));
     },
   });
 }
@@ -68,13 +69,13 @@ export function useCreateReport() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] }); // Refresh credits
-      toast.success("Report generation started! Check back in a moment.");
+      toast.success(i18n.t("hooks.reportStarted"));
     },
     onError: (error: Error) => {
       if (error.message.includes("Insufficient credits")) {
-        toast.error("Insufficient credits. Please upgrade or buy more credits.");
+        toast.error(i18n.t("hooks.insufficientCredits"));
       } else {
-        toast.error(error.message || "Failed to create report");
+        toast.error(error.message || i18n.t("hooks.reportFailed"));
       }
     },
   });
@@ -112,13 +113,13 @@ export function useCreateSourcingRequest() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sourcing-requests"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] }); // Refresh credits
-      toast.success("Sourcing request submitted. A SmartSeek sourcing operator will review it shortly.");
+      toast.success(i18n.t("hooks.sourcingSubmitted"));
     },
     onError: (error: Error) => {
       if (error.message.includes("Insufficient credits")) {
-        toast.error("Insufficient credits (10 required). Please upgrade or buy more credits.");
+        toast.error(i18n.t("hooks.sourcingInsufficientCredits"));
       } else {
-        toast.error(error.message || "Failed to submit sourcing request");
+        toast.error(error.message || i18n.t("hooks.sourcingFailed"));
       }
     },
   });

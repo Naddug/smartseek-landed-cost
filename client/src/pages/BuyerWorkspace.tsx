@@ -214,7 +214,7 @@ export default function BuyerWorkspace() {
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
         <div className="flex items-center gap-2 mb-3">
           <ShieldCheck className="w-4 h-4 text-blue-500" />
-          <h2 className="font-semibold text-slate-800 text-[15px]">{t("workspace.trustWorkflow", "Trust-oriented sourcing")}</h2>
+          <h2 className="font-semibold text-slate-800 text-[15px]">{t("workspace.trustWorkflow")}</h2>
         </div>
         <ul className="space-y-2 mb-4">
           {trustHints.map((hint: string, i: number) => (
@@ -240,9 +240,9 @@ export default function BuyerWorkspace() {
       {/* Quick paths */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { href: "/app/suppliers", icon: Users, label: t("workspace.discover", "Supplier discovery"), desc: t("workspace.discoverDesc", "Search verified global suppliers") },
-          { href: "/app/smart-finder", icon: Search, label: t("workspace.intelligence", "Sourcing intelligence"), desc: t("workspace.intelligenceDesc", "AI-assisted supplier analysis") },
-          { href: "/app/risk-intelligence", icon: ShieldCheck, label: t("workspace.verify", "Verification check"), desc: t("workspace.verifyDesc", "Assess supplier credibility") },
+          { href: "/app/suppliers", icon: Users, label: t("workspace.discover"), desc: t("workspace.discoverDesc") },
+          { href: "/app/smart-finder", icon: Search, label: t("workspace.intelligence"), desc: t("workspace.intelligenceDesc") },
+          { href: "/app/risk-intelligence", icon: ShieldCheck, label: t("workspace.verify"), desc: t("workspace.verifyDesc") },
         ].map(({ href, icon: Icon, label, desc }) => (
           <Link key={href} href={href}>
             <div className="bg-white rounded-xl border border-slate-100 p-4 hover:border-blue-200 hover:shadow-sm transition-all cursor-pointer h-full">

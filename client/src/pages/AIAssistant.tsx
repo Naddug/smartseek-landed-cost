@@ -14,6 +14,7 @@ import {
   Lightbulb, Target, Shield, Clock, ArrowRight, RefreshCw
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface AnalysisResult {
   productScore: number;
@@ -35,7 +36,7 @@ interface AnalysisResult {
     price: number;
     moq: number;
     leadTime: string;
-    rating: number;
+    verified: boolean;
     pros: string[];
     cons: string[];
   }[];
@@ -47,6 +48,7 @@ interface AnalysisResult {
 }
 
 export default function AIAssistant() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("analyze");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -98,7 +100,7 @@ export default function AIAssistant() {
       productScore: 78,
       riskLevel: 'medium',
       marketTrend: 'growing',
-      recommendation: `Based on our AI analysis, "${formData.productName}" shows strong sourcing potential with a favorable market trend. We recommend proceeding with verified suppliers from China or Vietnam for optimal cost-quality balance.`,
+      recommendation: `Registry and trade data suggest "${formData.productName}" is viable for structured sourcing. Proceed with registry-verified suppliers in China or Vietnam after operator review.`,
       keyInsights: [
         "Market demand increased 23% in the last 12 months",
         "Average supplier lead time is 15-25 days for this category",
@@ -121,8 +123,8 @@ export default function AIAssistant() {
           price: (parseFloat(formData.targetPrice) || 15.00) * 0.9,
           moq: 500,
           leadTime: "18-22 days",
-          rating: 4.8,
-          pros: ["Verified supplier", "Fast samples", "Good communication"],
+          verified: true,
+          pros: ["Registry verified", "Fast samples", "Good communication"],
           cons: ["Higher MOQ", "Limited customization"],
         },
         {
@@ -131,7 +133,7 @@ export default function AIAssistant() {
           price: (parseFloat(formData.targetPrice) || 15.00) * 0.95,
           moq: 300,
           leadTime: "20-25 days",
-          rating: 4.6,
+          verified: true,
           pros: ["Lower MOQ", "Flexible terms", "Growing capacity"],
           cons: ["Slightly longer lead time", "Newer supplier"],
         },
@@ -141,7 +143,7 @@ export default function AIAssistant() {
           price: (parseFloat(formData.targetPrice) || 15.00) * 1.05,
           moq: 200,
           leadTime: "15-20 days",
-          rating: 4.5,
+          verified: false,
           pros: ["Lowest MOQ", "Quality focus", "Good for testing"],
           cons: ["Higher unit price", "Smaller scale"],
         },
@@ -166,8 +168,8 @@ export default function AIAssistant() {
     setActiveTab("results");
     
     toast({
-      title: "Analysis Complete",
-      description: "AI insights are ready for review",
+      title: t("assistantPage.insightsReady"),
+      description: t("assistantPage.poweredNote"),
     });
   };
 
@@ -196,10 +198,10 @@ export default function AIAssistant() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            AI Decision Assistant
+            {t("assistantPage.title")}
           </h1>
           <p className="text-muted-foreground">
-            Operator-reviewed sourcing intelligence for procurement decisions
+            {t("assistantPage.subtitle")}
           </p>
         </div>
         {analysisComplete && (
@@ -214,11 +216,11 @@ export default function AIAssistant() {
         <TabsList>
           <TabsTrigger value="analyze">
             <Target className="w-4 h-4 mr-2" />
-            Analyze Product
+            {t("assistantPage.tabAnalyze")}
           </TabsTrigger>
           <TabsTrigger value="results" disabled={!analysisComplete}>
             <Lightbulb className="w-4 h-4 mr-2" />
-            AI Insights
+            {t("assistantPage.tabResults")}
           </TabsTrigger>
           <TabsTrigger value="compare" disabled={!analysisComplete}>
             <BarChart3 className="w-4 h-4 mr-2" />
@@ -235,12 +237,12 @@ export default function AIAssistant() {
             <Card className="lg:col-span-2">
               <CardHeader>
                 <CardTitle>Product Information</CardTitle>
-                <CardDescription>Enter product details for AI analysis</CardDescription>
+                <CardDescription>{t("assistantPage.formDesc")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Product Name *</Label>
+                    <Label>{t("assistantPage.productName")} *</Label>
                     <Input 
                       placeholder="e.g., Bluetooth Wireless Earbuds"
                       value={formData.productName}
@@ -249,7 +251,7 @@ export default function AIAssistant() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Category *</Label>
+                    <Label>{t("assistantPage.category")} *</Label>
                     <Select value={formData.category} onValueChange={(v) => setFormData({...formData, category: v})}>
                       <SelectTrigger data-testid="select-category">
                         <SelectValue placeholder="Select category" />
@@ -269,7 +271,7 @@ export default function AIAssistant() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Product Description</Label>
+                  <Label>{t("assistantPage.description")}</Label>
                   <Textarea 
                     placeholder="Describe the product specifications, features, and requirements..."
                     value={formData.description}
@@ -281,7 +283,7 @@ export default function AIAssistant() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label>Target Unit Price ($)</Label>
+                    <Label>{t("assistantPage.targetPrice")}</Label>
                     <Input 
                       type="number"
                       placeholder="15.00"
@@ -291,7 +293,7 @@ export default function AIAssistant() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Order Quantity</Label>
+                    <Label>{t("assistantPage.quantity")}</Label>
                     <Input 
                       type="number"
                       placeholder="1000"
@@ -301,7 +303,7 @@ export default function AIAssistant() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Destination</Label>
+                    <Label>{t("assistantPage.destination")}</Label>
                     <Select value={formData.destination} onValueChange={(v) => setFormData({...formData, destination: v})}>
                       <SelectTrigger data-testid="select-destination">
                         <SelectValue placeholder="Select country" />
@@ -319,7 +321,7 @@ export default function AIAssistant() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Timeline</Label>
+                  <Label>{t("assistantPage.timeline")}</Label>
                   <Select value={formData.timeline} onValueChange={(v) => setFormData({...formData, timeline: v})}>
                     <SelectTrigger data-testid="select-timeline">
                       <SelectValue placeholder="When do you need this?" />
@@ -335,7 +337,7 @@ export default function AIAssistant() {
                 {isAnalyzing && (
                   <div className="space-y-2 pt-4">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Analyzing product data...</span>
+                      <span className="text-muted-foreground">{t("assistantPage.analyzingProgress")}</span>
                       <span className="font-medium">{progress}%</span>
                     </div>
                     <Progress value={progress} className="h-2" />
@@ -352,12 +354,12 @@ export default function AIAssistant() {
                   {isAnalyzing ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Analyzing...
+                      {t("assistantPage.analyzing")}
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4 mr-2" />
-                      Generate AI Analysis
+                      {t("assistantPage.generate")}
                     </>
                   )}
                 </Button>
@@ -367,16 +369,16 @@ export default function AIAssistant() {
             <div className="space-y-4">
               <Card>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-base">What You'll Get</CardTitle>
+                  <CardTitle className="text-base">{t("assistantPage.whatYouGet")}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {[
-                    { icon: Target, label: "Product viability score", color: "text-purple-500" },
-                    { icon: Globe, label: "Supplier recommendations", color: "text-blue-500" },
-                    { icon: DollarSign, label: "Landed cost breakdown", color: "text-green-500" },
-                    { icon: Shield, label: "Risk assessment", color: "text-amber-500" },
-                    { icon: TrendingUp, label: "Market trend analysis", color: "text-cyan-500" },
-                    { icon: Lightbulb, label: "Alternative suggestions", color: "text-pink-500" },
+                    { icon: Target, label: t("assistantPage.benefitViability"), color: "text-purple-500" },
+                    { icon: Globe, label: t("assistantPage.benefitSuppliers"), color: "text-blue-500" },
+                    { icon: DollarSign, label: t("assistantPage.benefitLandedCost"), color: "text-green-500" },
+                    { icon: Shield, label: t("assistantPage.benefitRisk"), color: "text-amber-500" },
+                    { icon: TrendingUp, label: t("assistantPage.benefitTrends"), color: "text-cyan-500" },
+                    { icon: Lightbulb, label: t("assistantPage.benefitAlternatives"), color: "text-pink-500" },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <item.icon className={`w-4 h-4 ${item.color}`} />
@@ -389,11 +391,11 @@ export default function AIAssistant() {
               <Card className="bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-transparent border-purple-500/20">
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-2 mb-2">
-                    <Sparkles className="w-4 h-4 text-purple-500" />
-                    <span className="font-semibold text-sm">AI-Powered</span>
+                    <Shield className="w-4 h-4 text-emerald-600" />
+                    <span className="font-semibold text-sm">{t("assistantPage.recommendation")}</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Our AI analyzes thousands of data points including supplier ratings, market trends, and cost factors to provide actionable insights.
+                    {t("assistantPage.poweredNote")}
                   </p>
                 </CardContent>
               </Card>
@@ -451,8 +453,8 @@ export default function AIAssistant() {
               <Card className="border-purple-500/30 bg-gradient-to-r from-purple-500/5 to-transparent">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-purple-500" />
-                    AI Recommendation
+                    <Shield className="w-5 h-5 text-emerald-600" />
+                    {t("assistantPage.recommendation")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -512,7 +514,7 @@ export default function AIAssistant() {
               <Card>
                 <CardHeader>
                   <CardTitle>Supplier Comparison</CardTitle>
-                  <CardDescription>AI-ranked suppliers based on your requirements</CardDescription>
+                  <CardDescription>{t("assistantPage.poweredNote")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -521,14 +523,16 @@ export default function AIAssistant() {
                         <div className="flex items-start justify-between mb-3">
                           <div>
                             <div className="flex items-center gap-2">
-                              {i === 0 && <Badge className="bg-primary">Recommended</Badge>}
+                              {i === 0 && <Badge className="bg-primary">{t("smartFinder.primaryMatch")}</Badge>}
                               <h4 className="font-semibold">{supplier.name}</h4>
                             </div>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                               <Globe className="w-3 h-3" />
                               {supplier.country}
                               <span className="mx-1">•</span>
-                              <span className="text-amber-500">{supplier.rating} ★</span>
+                              <span className={supplier.verified ? "text-emerald-700" : "text-slate-500"}>
+                                {supplier.verified ? t("supplier.signals.registryVerified") : t("supplier.signals.verificationPending")}
+                              </span>
                             </div>
                           </div>
                           <div className="text-right">
@@ -551,8 +555,10 @@ export default function AIAssistant() {
                             <div className="font-medium">${(supplier.price * supplier.moq).toLocaleString()}</div>
                           </div>
                           <div>
-                            <span className="text-muted-foreground">Rating</span>
-                            <div className="font-medium">{supplier.rating}/5.0</div>
+                            <span className="text-muted-foreground">{t("reports.verificationTier")}</span>
+                            <div className="font-medium">
+                              {supplier.verified ? t("smartFinder.registryReviewed") : t("supplier.signals.verificationPending")}
+                            </div>
                           </div>
                         </div>
 
@@ -672,7 +678,7 @@ export default function AIAssistant() {
                     <div className="p-4 bg-muted/50 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
                         <Lightbulb className="w-4 h-4 text-amber-500" />
-                        <span className="font-medium text-sm">AI Tip</span>
+                        <span className="font-medium text-sm">{t("assistantPage.tip")}</span>
                       </div>
                       <p className="text-sm text-muted-foreground">
                         Negotiating a 10% lower unit price could increase your margin to 42%. 

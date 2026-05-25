@@ -68,11 +68,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
   const navLinks = (
     <>
-      <Link href="/search" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.suppliers")}</Link>
-      <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.submitRfq")}</Link>
-      <Link href="/become-a-supplier" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.becomeSupplier")}</Link>
-      <Link href="/trust" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.trustVerification")}</Link>
-      <Link href="/signup" onClick={() => setMobileOpen(false)} className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.betaAccess")}</Link>
+      <Link href="/search" onClick={() => setMobileOpen(false)} className="px-3 py-3 min-h-11 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.suppliers")}</Link>
+      <Link href="/rfq" onClick={() => setMobileOpen(false)} className="px-3 py-3 min-h-11 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.submitRfq")}</Link>
+      <Link href="/become-a-supplier" onClick={() => setMobileOpen(false)} className="px-3 py-3 min-h-11 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.becomeSupplier")}</Link>
+      <Link href="/trust" onClick={() => setMobileOpen(false)} className="px-3 py-3 min-h-11 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.trustVerification")}</Link>
+      <Link href="/signup" onClick={() => setMobileOpen(false)} className="px-3 py-3 min-h-11 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-colors block">{t("publicNav.betaAccess")}</Link>
     </>
   );
 
@@ -107,7 +107,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </nav>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild className="lg:hidden shrink-0">
-              <Button variant="ghost" size="icon" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="min-h-11 min-w-11" aria-label="Open menu">
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
@@ -126,10 +126,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             ) : !authLoading ? (
               <>
                 <Link href="/login">
-                  <Button variant="ghost" size="sm" className="font-medium text-sm sm:text-base px-2 sm:px-3">{t("nav.login")}</Button>
+                  <Button variant="ghost" size="sm" className="font-medium text-sm sm:text-base px-2 sm:px-3 min-h-9 sm:min-h-0">{t("nav.login")}</Button>
                 </Link>
                 <Link href="/signup">
-                  <Button size="sm" className="font-medium text-sm sm:text-base shadow-lg shadow-primary/25 px-3 sm:px-4">{t("publicNav.requestBetaAccess")}</Button>
+                  <Button size="sm" className="font-medium text-sm sm:text-base shadow-lg shadow-primary/25 px-3 sm:px-4 min-h-9 sm:min-h-0">{t("publicNav.requestBetaAccess")}</Button>
                 </Link>
               </>
             ) : null}
@@ -210,7 +210,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
               </ul>
             </div>
           </div>
-          <div className="mt-14 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+          <div className="mt-14 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-600 dark:text-slate-400">
             <div className="text-center sm:text-left">
               <span>© {new Date().getFullYear()} SmartSeek. {t("footer.copyright")}.</span>
               <p className="text-xs text-muted-foreground/80 mt-1">{t("footer.operatedDuringBeta")}</p>

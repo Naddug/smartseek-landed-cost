@@ -57,7 +57,7 @@ export default function Verification() {
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           {TIERS.map((t) => (
             <div key={t.name} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <div className={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-full mb-3 ${
+              <div className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-full mb-3 ${
                 t.color === "blue" ? "bg-blue-50 text-blue-700 border border-blue-100" :
                 t.color === "emerald" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" :
                 "bg-violet-50 text-violet-700 border border-violet-100"
