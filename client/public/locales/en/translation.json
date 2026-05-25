@@ -624,7 +624,7 @@
   "home.trust.noFabricated": "No fabricated entries",
   "home.trust.realRecords": "Real company records",
   "home.trust.directSource": "Direct supplier links",
-  "home.trust.operatorRouting": "Operator-reviewed RFQ routing",
+  "home.trust.operatorRouting": "Sourcing-team RFQ routing",
   "home.trust.structuredQuotes": "Structured quote fields (MOQ, lead time, Incoterms)",
   "home.trustBlock.badge": "Built for serious procurement",
   "home.trustBlock.heading": "Real data. Real costs. Real decisions.",
