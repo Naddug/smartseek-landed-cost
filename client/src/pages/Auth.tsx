@@ -123,16 +123,16 @@ export default function Auth() {
     if (mode === "signup") {
       if (!formData.firstName?.trim()) errs.firstName = t("auth.validation.firstNameRequired");
       if (!formData.lastName?.trim()) errs.lastName = t("auth.validation.lastNameRequired");
-      if (!formData.signupRole) errs.signupRole = "Please select account type";
+      if (!formData.signupRole) errs.signupRole = t("auth.validation.accountTypeRequired");
       if (!formData.password) errs.password = t("auth.validation.passwordRequired");
       else if (formData.password.length < 6) errs.password = t("auth.validation.passwordLength");
       else if (!passwordsMatch) errs.confirmPassword = t("auth.validation.passwordsNoMatch");
       if (!formData.acceptTerms) errs.acceptTerms = t("auth.validation.acceptTerms");
       if (formData.signupRole === "supplier") {
-        if (!formData.supplierCompanyName.trim()) errs.supplierCompanyName = "Legal company name is required";
-        if (!formData.supplierCountry.trim()) errs.supplierCountry = "Country or region is required";
-        if (!formData.supplierCategories.trim()) errs.supplierCategories = "Categories supplied are required";
-        if (!formData.supplierMinOrderCapability.trim()) errs.supplierMinOrderCapability = "Minimum order capability is required";
+        if (!formData.supplierCompanyName.trim()) errs.supplierCompanyName = t("auth.validation.supplierCompanyRequired");
+        if (!formData.supplierCountry.trim()) errs.supplierCountry = t("auth.validation.supplierCountryRequired");
+        if (!formData.supplierCategories.trim()) errs.supplierCategories = t("auth.validation.supplierCategoriesRequired");
+        if (!formData.supplierMinOrderCapability.trim()) errs.supplierMinOrderCapability = t("auth.validation.supplierMoqRequired");
       }
     }
 
@@ -184,8 +184,7 @@ export default function Auth() {
         queryClient.removeQueries({ queryKey: ["credits"] });
         toast({ title: t("auth.accountCreated"), description: t("auth.accountCreatedDesc") });
         const signupRedirect = new URLSearchParams(window.location.search).get("redirect");
-        const roleDefault = formData.signupRole === "supplier" ? "/become-a-supplier" : "/rfq/new";
-        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : roleDefault);
+        setLocation(signupRedirect && signupRedirect.startsWith("/") ? signupRedirect : "/app/dashboard");
         return;
       }
 
@@ -290,7 +289,7 @@ export default function Auth() {
             {mode === "signup" && (
               <>
                 <div className="space-y-2">
-                  <Label>Account Type</Label>
+                  <Label>{t("auth.accountType")}</Label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
@@ -299,7 +298,7 @@ export default function Auth() {
                         formData.signupRole === "buyer" ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-300"
                       }`}
                     >
-                      Procurement Buyer
+                      {t("auth.procurementBuyer")}
                     </button>
                     <button
                       type="button"
@@ -308,7 +307,7 @@ export default function Auth() {
                         formData.signupRole === "supplier" ? "border-blue-600 bg-blue-50 text-blue-700" : "border-slate-300"
                       }`}
                     >
-                      Supplier
+                      {t("auth.supplierRole")}
                     </button>
                   </div>
                   {fieldErrors.signupRole && <p className="text-xs text-red-500">{fieldErrors.signupRole}</p>}
@@ -436,8 +435,8 @@ export default function Auth() {
                       <Label htmlFor="acceptTerms" className="text-sm font-normal cursor-pointer leading-tight">
                         {t("auth.agreeToTerms")}{" "}
                         <Link href="/terms" className="text-primary hover:underline">{t("auth.termsOfService")}</Link>{" "}
-                        and{" "}
-                        <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>
+                        {t("auth.and")}{" "}
+                        <Link href="/privacy" className="text-primary hover:underline">{t("auth.privacyPolicy")}</Link>
                       </Label>
                     </div>
                     {fieldErrors.acceptTerms && <p className="text-xs text-red-500">{fieldErrors.acceptTerms}</p>}
@@ -446,7 +445,7 @@ export default function Auth() {
 
                 {mode === "signup" && formData.signupRole === "supplier" && (
                   <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="text-xs font-semibold text-slate-700">Supplier onboarding details</p>
+                    <p className="text-xs font-semibold text-slate-700">{t("auth.supplierOnboardingTitle")}</p>
                     <div className="space-y-2">
                       <Label htmlFor="supplierCompanyName">Company legal name *</Label>
                       <Input
@@ -518,7 +517,7 @@ export default function Auth() {
           <CardFooter className="flex flex-col gap-4">
             {mode === "signup" && (
               <p className="text-xs text-muted-foreground text-center">
-                Supplier applications are verification-first. We may request registry documents before listing.
+                {t("auth.supplierVerificationNote")}
               </p>
             )}
             <Button type="submit" className="w-full" disabled={isLoading}>

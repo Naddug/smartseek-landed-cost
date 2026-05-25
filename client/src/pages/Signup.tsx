@@ -70,7 +70,7 @@ export default function Signup() {
         description: "Welcome to SmartSeek. You've received 10 free credits.",
       });
 
-      setLocation("/dashboard");
+      setLocation("/app/dashboard");
     } catch (error: any) {
       toast({
         title: "Signup failed",

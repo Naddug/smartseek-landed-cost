@@ -54,7 +54,7 @@ export default function Login() {
         description: t("auth.loginSuccessDesc"),
       });
 
-      setLocation("/dashboard");
+      setLocation("/app/dashboard");
     } catch (error: any) {
       console.error("Login error:", error);
       const msg = error?.message || "Please check your credentials and try again.";

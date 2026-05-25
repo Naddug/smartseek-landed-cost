@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -40,6 +41,7 @@ const INCOTERMS = [
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function CustomsCalculator() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     productName: "",
@@ -72,13 +74,13 @@ export default function CustomsCalculator() {
         result,
       });
       toast({
-        title: "Saved!",
-        description: "Calculation saved to your reports.",
+        title: t("customsCalculator.saved"),
+        description: t("customsCalculator.savedDesc"),
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save calculation. Please try again.",
+        title: t("customsCalculator.error", { defaultValue: "Error" }),
+        description: t("customsCalculator.saveFailed"),
         variant: "destructive",
       });
     } finally {
@@ -268,10 +270,8 @@ export default function CustomsCalculator() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
       <div>
-        <h1 className="text-3xl font-heading font-bold mb-2">Customs Fee Calculator</h1>
-        <p className="text-muted-foreground">
-          Calculate import duties, taxes, and total landed cost for any product
-        </p>
+        <h1 className="text-3xl font-heading font-bold mb-2">{t("customsCalculator.title")}</h1>
+        <p className="text-muted-foreground">{t("customsCalculator.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -422,7 +422,7 @@ export default function CustomsCalculator() {
               ) : (
                 <>
                   <Calculator className="w-4 h-4 mr-2" />
-                  Calculate Duties & Fees
+                  {t("customsCalculator.calculate")}
                 </>
               )}
             </Button>
@@ -476,7 +476,7 @@ export default function CustomsCalculator() {
                   ) : (
                     <Save className="w-4 h-4 mr-2" />
                   )}
-                  Save to Reports
+                  {t("customsCalculator.saveToReports")}
                 </Button>
                 <Button 
                   variant="outline" 
@@ -485,7 +485,7 @@ export default function CustomsCalculator() {
                   data-testid="button-download"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Download PDF
+                  {t("customsCalculator.downloadPdf")}
                 </Button>
               </div>
 

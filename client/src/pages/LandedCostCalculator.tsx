@@ -234,10 +234,10 @@ export default function LandedCostCalculator() {
       <div>
         <h1 className="text-3xl font-heading font-bold mb-2 flex items-center gap-2">
           <Calculator className="w-8 h-8 text-primary" />
-          Landed Cost Calculator
+          {t("landedCost.title")}
         </h1>
         <p className="text-muted-foreground">
-          Calculate total landed cost including freight, insurance, customs, and inland transport. Uses real market benchmark rates (Freightos/Xeneta 2024) for your route.
+          {t("landedCost.subtitle")}
         </p>
       </div>
 

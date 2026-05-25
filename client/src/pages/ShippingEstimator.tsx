@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -29,6 +30,7 @@ const PORTS = {
 };
 
 export default function ShippingEstimator() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     originCountry: "China",
@@ -59,13 +61,13 @@ export default function ShippingEstimator() {
         result: results,
       });
       toast({
-        title: "Saved!",
-        description: "Shipping estimate saved to your reports.",
+        title: t("shippingEstimator.saved"),
+        description: t("shippingEstimator.savedDesc"),
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save estimate. Please try again.",
+        title: t("shippingEstimator.error"),
+        description: t("shippingEstimator.saveFailed"),
         variant: "destructive",
       });
     } finally {
@@ -287,9 +289,9 @@ export default function ShippingEstimator() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
       <div>
-        <h1 className="text-3xl font-heading font-bold mb-2">Shipping Cost Estimator</h1>
+        <h1 className="text-3xl font-heading font-bold mb-2">{t("shippingEstimator.title")}</h1>
         <p className="text-muted-foreground">
-          Compare shipping rates for sea freight, air freight, and express courier. Uses real market benchmark rates (Freightos/Xeneta 2024) for your route.
+          {t("shippingEstimator.subtitle")}
         </p>
       </div>
 
@@ -299,13 +301,13 @@ export default function ShippingEstimator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Package className="w-5 h-5 text-primary" />
-              Shipment Details
+              {t("shippingEstimator.shipmentDetails")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label>Origin Country</Label>
+                <Label>{t("shippingEstimator.originCountry")}</Label>
                 <Select value={formData.originCountry} onValueChange={(v) => setFormData({...formData, originCountry: v})}>
                   <SelectTrigger data-testid="select-origin">
                     <SelectValue />
@@ -318,7 +320,7 @@ export default function ShippingEstimator() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Destination Country</Label>
+                <Label>{t("shippingEstimator.destinationCountry")}</Label>
                 <Select value={formData.destinationCountry} onValueChange={(v) => setFormData({...formData, destinationCountry: v})}>
                   <SelectTrigger data-testid="select-destination">
                     <SelectValue />
@@ -334,7 +336,7 @@ export default function ShippingEstimator() {
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label>Total Weight (kg)</Label>
+                <Label>{t("shippingEstimator.totalWeight")}</Label>
                 <div className="relative">
                   <Weight className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
                   <Input 
@@ -349,7 +351,7 @@ export default function ShippingEstimator() {
               </div>
               
               <div className="space-y-2">
-                <Label>Dimensions (cm)</Label>
+                <Label>{t("shippingEstimator.dimensions")}</Label>
                 <div className="grid grid-cols-3 gap-2">
                   <Input 
                     type="number"
@@ -373,7 +375,7 @@ export default function ShippingEstimator() {
               </div>
 
               <div className="space-y-2">
-                <Label>Container Type (Sea)</Label>
+                <Label>{t("shippingEstimator.containerType")}</Label>
                 <Select value={formData.containerType} onValueChange={(v) => setFormData({...formData, containerType: v})}>
                   <SelectTrigger>
                     <SelectValue />
@@ -398,12 +400,12 @@ export default function ShippingEstimator() {
               {isCalculating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Getting Rates...
+                  {t("shippingEstimator.gettingRates")}
                 </>
               ) : (
                 <>
                   <DollarSign className="w-4 h-4 mr-2" />
-                  Get Shipping Rates
+                  {t("shippingEstimator.getRates")}
                 </>
               )}
             </Button>
@@ -455,7 +457,7 @@ export default function ShippingEstimator() {
                   ) : (
                     <Save className="w-4 h-4 mr-2" />
                   )}
-                  Save to Reports
+                  {t("shippingEstimator.saveToReports")}
                 </Button>
                 <Button 
                   variant="outline" 
@@ -464,7 +466,7 @@ export default function ShippingEstimator() {
                   data-testid="button-download"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Download PDF
+                  {t("shippingEstimator.downloadPdf")}
                 </Button>
               </div>
 
@@ -472,15 +474,15 @@ export default function ShippingEstimator() {
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="sea" className="flex items-center gap-2">
                     <Ship className="w-4 h-4" />
-                    Sea Freight
+                    {t("shippingEstimator.seaFreight")}
                   </TabsTrigger>
                   <TabsTrigger value="air" className="flex items-center gap-2">
                     <Plane className="w-4 h-4" />
-                    Air Freight
+                    {t("shippingEstimator.airFreight")}
                   </TabsTrigger>
                   <TabsTrigger value="express" className="flex items-center gap-2">
                     <Truck className="w-4 h-4" />
-                    Express
+                    {t("shippingEstimator.expressCourier")}
                   </TabsTrigger>
                 </TabsList>
 

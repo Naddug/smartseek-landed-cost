@@ -3,6 +3,7 @@ import { FileText, CheckCircle, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "react-i18next";
+import { FileInput } from "@/components/ui/file-input";
 
 // Category list reflects current sourcing reach: industrial components,
 // chemicals, packaging, and machinery sit alongside metals — metals stays
@@ -109,8 +110,7 @@ export default function RequestQuote() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleAttachmentChange = (file: File | null) => {
     setForm((prev) => ({ ...prev, attachmentName: file?.name || "" }));
   };
 
@@ -402,7 +402,7 @@ export default function RequestQuote() {
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.attachment")}</label>
-                  <input type="file" onChange={handleAttachmentChange} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-slate-100 file:text-slate-700" />
+                  <FileInput onChange={handleAttachmentChange} />
                   <p className="text-xs text-slate-500 mt-1">{t("rfq.form.attachmentNote")}</p>
                 </div>
               </div>

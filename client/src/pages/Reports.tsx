@@ -498,15 +498,15 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
             <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 mb-3 space-y-2 text-sm">
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <div>
-                  <div className="text-slate-500">Landed Cost/Unit</div>
+                  <div className="text-slate-500">{t("reports.landedCostPerUnit")}</div>
                   <div className="text-slate-800 font-semibold">{landedCostPerUnit || "—"}</div>
                 </div>
                 <div>
-                  <div className="text-slate-500">Est. Margin %</div>
+                  <div className="text-slate-500">{t("reports.estMargin")}</div>
                   <div className="text-slate-800 font-semibold">{estimatedMargin || "—"}</div>
                 </div>
                 <div>
-                  <div className="text-slate-500">Suppliers</div>
+                  <div className="text-slate-500">{t("reports.suppliersCount")}</div>
                   <div className="text-slate-800 font-semibold">{suppliersFound || "—"}</div>
                 </div>
               </div>
@@ -519,7 +519,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
               className="w-full bg-white text-slate-700 border-slate-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
               onClick={(e) => { e.stopPropagation(); onView(); }}
             >
-              View Full Report
+              {t("reports.viewFullReport")}
             </Button>
           </>
         )}
@@ -527,7 +527,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
         {isFailed && (
           <div className="space-y-3">
             <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-700 dark:text-red-300">
-              {errorMsg || "Report generation failed. Check your query and retry."}
+              {errorMsg || t("reports.generationFailed")}
             </div>
             <div className="flex gap-2">
               <Button
@@ -537,10 +537,10 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
                 onClick={(e) => { e.stopPropagation(); onRetry(); }}
                 disabled={isRetrying}
               >
-                {isRetrying ? <Loader2 className="w-4 h-4 animate-spin" /> : "↻ Retry"}
+                {isRetrying ? <Loader2 className="w-4 h-4 animate-spin" /> : t("reports.retryBtn")}
               </Button>
               <Button variant="outline" size="sm" className="text-muted-foreground" onClick={(e) => { e.stopPropagation(); onView(); }}>
-                View
+                {t("reports.view")}
               </Button>
             </div>
           </div>
@@ -550,7 +550,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
           <div className="py-4 text-center">
             <div className="inline-flex items-center gap-2 text-sm text-muted-foreground animate-pulse">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Generating…
+              {t("reports.generating")}
             </div>
           </div>
         )}
@@ -560,11 +560,12 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
 }
 
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   if (status === "completed") {
     return (
       <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1.5" />
-        Complete
+        {t("reports.statusComplete")}
       </Badge>
     );
   }
@@ -572,7 +573,7 @@ function StatusBadge({ status }: { status: string }) {
     return (
       <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
         <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse mr-1.5" />
-        Processing
+        {t("reports.statusProcessing")}
       </Badge>
     );
   }
@@ -580,14 +581,14 @@ function StatusBadge({ status }: { status: string }) {
     return (
       <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">
         <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5" />
-        Pending
+        {t("reports.statusPending")}
       </Badge>
     );
   }
   return (
     <Badge className="bg-red-100 text-red-700 hover:bg-red-100">
       <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5" />
-      Failed
+      {t("reports.statusFailed")}
     </Badge>
   );
 }
