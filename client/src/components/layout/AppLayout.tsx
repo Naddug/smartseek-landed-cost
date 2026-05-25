@@ -17,10 +17,10 @@ import {
   Landmark,
   Ship,
   BarChart3,
-  Sparkles,
   CreditCard,
   Target,
   Bot,
+  Search,
   Users,
   Home
 } from "lucide-react";
@@ -83,7 +83,7 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
     <div className="min-h-screen bg-background flex min-w-0">
       {/* Mobile menu button - safe area aware */}
       <button 
-        className="md:hidden fixed z-50 p-2.5 bg-background border rounded-lg shadow-sm top-[max(0.5rem,env(safe-area-inset-top))] left-[max(0.5rem,env(safe-area-inset-left))]"
+        className="md:hidden fixed z-50 p-2.5 min-h-11 min-w-11 flex items-center justify-center bg-background border rounded-lg shadow-sm top-[max(0.5rem,env(safe-area-inset-top))] left-[max(0.5rem,env(safe-area-inset-left))]"
         onClick={() => setMobileOpen(!mobileOpen)}
         aria-label={mobileOpen ? t('nav.app.closeMenu') : t('nav.app.openMenu')}
       >
@@ -100,9 +100,8 @@ export default function AppLayout({ children, unverifiedEmail }: { children: Rea
 
         <nav className="flex-1 px-4 space-y-2">
           <NavItem href="/app/dashboard" icon={<LayoutDashboard size={20} />} label={t('nav.app.dashboard')} active={isActive('/app/dashboard')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/app/smart-finder" icon={<Sparkles size={20} />} label={t('nav.app.smartFinder')} active={isActive('/app/smart-finder')} onClick={() => setMobileOpen(false)} />
+          <NavItem href="/app/smart-finder" icon={<Search size={20} />} label={t('nav.app.smartFinder')} active={isActive('/app/smart-finder')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/app/ai-agent" icon={<Bot size={20} />} label={t('nav.app.aiAgent')} active={isActive('/app/ai-agent')} onClick={() => setMobileOpen(false)} />
-          <NavItem href="/app/find-leads" icon={<Target size={20} />} label={t('nav.app.findLeads')} active={isActive('/app/find-leads')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/app/suppliers" icon={<Users size={20} />} label={t('nav.app.suppliers')} active={isActive('/app/suppliers')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/app/reports" icon={<FileText size={20} />} label={t('nav.app.reports')} active={isActive('/app/reports')} onClick={() => setMobileOpen(false)} />
           <NavItem href="/app/billing" icon={<CreditCard size={20} />} label={t('nav.app.billing')} active={isActive('/app/billing')} onClick={() => setMobileOpen(false)} />
@@ -231,7 +230,7 @@ function NavItem({ href, icon, label, active, onClick }: { href: string, icon: R
   return (
     <Link href={href}>
       <span
-        className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150 cursor-pointer text-sm ${
+        className={`flex items-center gap-3 px-3 py-2.5 min-h-11 rounded-lg transition-all duration-150 cursor-pointer text-sm ${
           active
             ? 'bg-sidebar-primary/90 text-sidebar-primary-foreground font-medium shadow-sm'
             : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground hover:pl-4'

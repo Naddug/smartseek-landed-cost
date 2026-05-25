@@ -65,6 +65,7 @@ import {
   Clock,
 } from "lucide-react";
 import { toast } from "sonner";
+import i18n from "@/lib/i18n";
 
 interface AgentSettings {
   agentName: string;
@@ -118,7 +119,7 @@ const INDUSTRIES = [
 ];
 
 const defaultSettings: AgentSettings = {
-  agentName: "Sales Agent",
+  agentName: "Sourcing workspace",
   emailSignature: "Best regards,\nYour Name\nYour Company",
   phoneScriptTone: "professional",
   emailTemplate: "formal",
@@ -126,8 +127,8 @@ const defaultSettings: AgentSettings = {
 };
 
 const CAPABILITIES = [
-  { icon: BarChart3, label: "Market Intelligence", desc: "Trend analysis & price monitoring", tooltip: "Get commodity price trends, market alerts, and trade flow insights.", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
-  { icon: Target, label: "Supplier Discovery", desc: "Find & qualify suppliers globally", tooltip: "Search verified suppliers by product, region, and certification. Get AI-ranked shortlists.", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
+  { icon: BarChart3, label: "Market analysis", desc: "Trend analysis & price monitoring", tooltip: "Get commodity price trends, market alerts, and trade flow insights.", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
+  { icon: Target, label: "Supplier discovery", desc: "Find & qualify suppliers globally", tooltip: "Search registry-verified suppliers by product, region, and certification.", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
   { icon: Shield, label: "Risk Analysis", desc: "Geopolitical & supply chain risks", tooltip: "Assess geopolitical, financial, and ESG risks for suppliers and regions.", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
   { icon: Zap, label: "Cost Optimization", desc: "Landed cost & shipping routes", tooltip: "Calculate landed costs, compare shipping routes, and optimize total cost of ownership.", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
   { icon: FileText, label: "Trade Compliance", desc: "HS codes, customs & regulations", tooltip: "Look up HS codes, check tariffs, and verify regulatory requirements for target markets.", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100" },
@@ -201,7 +202,7 @@ export default function AIAgent() {
             parts.push("\nInclude actionable steps such as: draft outreach emails to these suppliers, prepare call scripts for top 3, or schedule follow-ups.");
           }
           setChatInput(parts.join(""));
-          toast.success("Report context loaded. Hit send to create a pipeline with AI Agent.");
+          toast.success(i18n.t("agentPage.reportContextLoaded"));
         }
       } catch {
         sessionStorage.removeItem("aiAgentPipelineContext");
@@ -222,12 +223,12 @@ export default function AIAgent() {
 
   const handleSaveSettings = () => {
     localStorage.setItem("aiAgentSettings", JSON.stringify(settings));
-    toast.success("Settings saved successfully");
+    toast.success(i18n.t("agentPage.settingsSaved"));
   };
 
   const handleSearchLeads = async () => {
     if (!searchQuery.trim()) {
-      toast.error("Please enter search criteria");
+      toast.error(i18n.t("agentPage.enterSearchCriteria"));
       return;
     }
 
@@ -272,10 +273,10 @@ export default function AIAgent() {
         addChatMessage("agent", content || "Search completed but no structured leads were returned.");
       }
 
-      toast.success("Leads found successfully");
+      toast.success(i18n.t("agentPage.leadsFound"));
     } catch (error: any) {
       const msg = error?.message || "Failed to search leads";
-      toast.error(msg.includes("401") ? "Please log in again" : msg);
+      toast.error(msg.includes("401") ? i18n.t("agentPage.loginAgain") : msg);
       addChatMessage("agent", "Sorry, I encountered an error while searching. Please try again.");
     } finally {
       setIsLoading(false);
@@ -315,9 +316,9 @@ export default function AIAgent() {
       };
       setOutputs((prev) => [newOutput, ...prev]);
       addChatMessage("agent", data.response?.content || "No script generated", "call", newOutput);
-      toast.success("Call script prepared");
+      toast.success(i18n.t("agentPage.callScriptPrepared"));
     } catch (error: any) {
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to prepare call script");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.callScriptFailed"));
       addChatMessage("agent", "Sorry, I couldn't generate the call script. Please try again.");
     } finally {
       setIsLoading(false);
@@ -357,9 +358,9 @@ export default function AIAgent() {
       };
       setOutputs((prev) => [newOutput, ...prev]);
       addChatMessage("agent", data.response?.content || "No email generated", "email", newOutput);
-      toast.success("Email draft prepared");
+      toast.success(i18n.t("agentPage.emailDraftPrepared"));
     } catch (error: any) {
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to prepare email");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.emailFailed"));
       addChatMessage("agent", "Sorry, I couldn't generate the email draft. Please try again.");
     } finally {
       setIsLoading(false);
@@ -370,7 +371,7 @@ export default function AIAgent() {
 
   const handleResearchCompany = async () => {
     if (!companyToResearch.trim()) {
-      toast.error("Please enter a company name");
+      toast.error(i18n.t("agentPage.enterCompanyName"));
       return;
     }
 
@@ -396,9 +397,9 @@ export default function AIAgent() {
       const result = data.response?.content || "No research data available";
       setResearchResult(result);
       addChatMessage("agent", result, "research");
-      toast.success("Company research complete");
+      toast.success(i18n.t("agentPage.researchComplete"));
     } catch (error: any) {
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to research company");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.researchFailed"));
       addChatMessage("agent", "Sorry, I couldn't complete the company research. Please try again.");
     } finally {
       setIsLoading(false);
@@ -409,7 +410,7 @@ export default function AIAgent() {
 
   const handleRunPipeline = async () => {
     if (!searchQuery.trim()) {
-      toast.error("Enter search criteria first.");
+      toast.error(i18n.t("agentPage.enterCriteriaFirst"));
       document.getElementById("chat-input")?.focus();
       return;
     }
@@ -476,11 +477,11 @@ export default function AIAgent() {
         setOutputs((prev) => [...newOutputs, ...prev]);
       }
       addChatMessage("agent", `Pipeline complete! Found ${pipelineLeads.length} leads${data.topLead ? ` — top lead: ${data.topLead.name} at ${data.topLead.company}` : ""}. ${newOutputs.length > 0 ? "Call script and email draft are ready." : ""}`, "leads", pipelineLeads);
-      toast.success(data.summary || "Pipeline complete.");
+      toast.success(data.summary || i18n.t("agentPage.leadsFound"));
     } catch (error: any) {
       setPipelineStep(null);
       setCompletedPipelineSteps([]);
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Pipeline failed. Try again.");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.pipelineFailed"));
       addChatMessage("agent", "The pipeline encountered an error. Please try again.");
     } finally {
       setIsLoading(false);
@@ -491,14 +492,14 @@ export default function AIAgent() {
 
   const handleCopyToClipboard = async (content: string) => {
     await navigator.clipboard.writeText(content);
-    toast.success("Copied to clipboard");
+    toast.success(i18n.t("agentPage.copied"));
   };
 
   const updateOutputStatus = (id: string, status: "draft" | "ready" | "sent") => {
     setOutputs((prev) =>
       prev.map((o) => (o.id === id ? { ...o, status } : o))
     );
-    toast.success(`Status updated to ${status}`);
+    toast.success(i18n.t("agentPage.statusUpdated", { status }));
   };
 
   const toggleIndustry = (industry: string) => {
@@ -637,7 +638,7 @@ export default function AIAgent() {
                 className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm h-9"
                 data-testid="button-save-settings"
               >
-                Save Settings
+                {i18n.t("agentPage.saveSettings")}
               </Button>
             </div>
           </div>
@@ -674,10 +675,10 @@ export default function AIAgent() {
                 <Activity className="w-3 h-3" />
                 {isLoading ? (
                   <span className="text-amber-600 font-medium">
-                    {activeTask === "pipeline" ? `Running pipeline — ${pipelineStep || "Processing"}...` : "Processing..."}
+                    {activeTask === "pipeline" ? i18n.t("agentPage.statusPipeline", { step: pipelineStep || i18n.t("agentPage.statusProcessing") }) : i18n.t("agentPage.statusProcessing")}
                   </span>
                 ) : (
-                  <span className="text-emerald-600">Ready — Trade & Sourcing Intelligence</span>
+                  <span className="text-emerald-600">{i18n.t("agentPage.statusReady")}</span>
                 )}
               </p>
             </div>
@@ -690,7 +691,7 @@ export default function AIAgent() {
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               <Settings className="w-3.5 h-3.5 mr-1.5" />
-              Settings
+              {i18n.t("agentPage.settings")}
             </Button>
           </div>
         </div>
@@ -702,7 +703,7 @@ export default function AIAgent() {
             <div className="w-full px-6 pt-4 pb-2 shrink-0">
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                 <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Live Intelligence
+                {i18n.t("agentPage.liveAnalysis")}
               </p>
               <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-thin">
                 {PROACTIVE_INSIGHTS.map((insight, idx) => (
@@ -1016,7 +1017,7 @@ export default function AIAgent() {
               <div>
                 <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                   <Activity className="w-3.5 h-3.5" />
-                  Market Intelligence
+                  Market analysis
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -1025,12 +1026,12 @@ export default function AIAgent() {
                     data-testid="card-action-search"
                   >
                     <Search className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
-                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-blue-700">Find Leads</span>
+                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-blue-700">{i18n.t("nav.app.findLeads")}</span>
                   </button>
                   <button
                     onClick={() => {
                       if (leads.length === 0) {
-                        toast.error("Search for leads first.");
+                        toast.error(i18n.t("agentPage.searchLeadsFirst"));
                         document.getElementById("chat-input")?.focus();
                       } else {
                         handlePrepareCall(leads[0]);
@@ -1045,7 +1046,7 @@ export default function AIAgent() {
                   <button
                     onClick={() => {
                       if (leads.length === 0) {
-                        toast.error("Search for leads first.");
+                        toast.error(i18n.t("agentPage.searchLeadsFirst"));
                         document.getElementById("chat-input")?.focus();
                       } else {
                         handlePrepareEmail(leads[0]);

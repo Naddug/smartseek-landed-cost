@@ -1,19 +1,39 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRoute, Link } from "wouter";
 import {
-  ArrowLeft, ShieldCheck, Star, FileText, Globe, Phone, Mail, Building2,
+  ArrowLeft, ShieldCheck, FileText, Globe, Phone, Mail, Building2,
   Bookmark, Scale, CheckCircle2, ListChecks, Compass, ClipboardCheck, Lock,
   ExternalLink, Truck, Tags, BadgeCheck, Layers, Activity, Linkedin,
   Network, Gauge, MapPin,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslation } from "react-i18next";
 import type {
   ConfidenceBand,
   EnrichmentChannel,
   EnrichmentSnapshot,
   SupplierProcurementDossier,
-  SupplierType,
 } from "@/types/supplierDossier";
+import {
+  buildBuyerFit,
+  buildExportLogistics,
+  buildOperationalMaturity,
+  buildQualificationChecks,
+  buildRfqRecommendations,
+  buildSourcingScenarios,
+  buildSuitabilityTags,
+  channelDisplay,
+  channelLabel,
+  communicationReadinessBand,
+  confidenceLabel,
+  formatDate,
+  formatLeadTime,
+  formatMoq,
+  profileCompletenessPct,
+  profileStrengthBucket,
+  supplierNa,
+  supplierTypeLabel,
+} from "@/lib/supplierDetailCopy";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -45,219 +65,6 @@ const STRATEGIC_TAG_TO_SLUG: Record<string, string> = {
   Cobalt: "cobalt",
 };
 
-const NA_RFQ = "Available upon RFQ qualification" as const;
-const NA_REGISTRY = "Registry verification pending" as const;
-const NA_DISCLOSED = "Not publicly disclosed" as const;
-
-function buildBuyerFit(type: SupplierType): string[] {
-  const items: string[] = [];
-  if (type === "manufacturer") {
-    items.push("OEM and direct-from-mill procurement");
-    items.push("Programs requiring traceable production origin");
-  }
-  if (type === "trader") {
-    items.push("Spot purchases and blended sourcing programs");
-    items.push("Buyers needing flexible incoterms and origin mix");
-  }
-  if (type === "distributor") {
-    items.push("Recurring replenishment with shorter lead times");
-    items.push("Buyers without container-level minimums");
-  }
-  items.push("Strategic sourcing and category management teams");
-  items.push("Industrial buyers running structured RFQs");
-  return Array.from(new Set(items)).slice(0, 4);
-}
-
-function buildRfqRecommendations(strategicTag: string | undefined): string[] {
-  const generic = [
-    "Exact specification and tolerance (purity, grade, dimensions, alloy content)",
-    "Quantity, packaging, and unit",
-    "Origin / country-of-manufacture preference",
-    "Incoterm and destination port",
-    "Lead time and required delivery window",
-    "Target price reference and currency",
-    "Quality documents required (mill test cert, COA, ISO scope)",
-  ];
-  const tag = (strategicTag ?? "").toLowerCase();
-  const commodityHints: string[] = [];
-  if (tag === "antimony")    commodityHints.push("Form (ingot vs trioxide), purity (99.65% min), packaging (drum / IBC)");
-  if (tag === "copper")      commodityHints.push("Cathode grade (LME Grade A), shape (cathode / rod), origin");
-  if (tag === "steel")       commodityHints.push("Grade (e.g. S235JR), thickness, surface finish, certification scope");
-  if (tag === "tungsten")    commodityHints.push("Form (APT / oxide / ferro), WO3 content, packaging");
-  if (tag === "tin")         commodityHints.push("LME-grade purity, ingot vs solder alloy composition");
-  if (tag === "lithium")     commodityHints.push("Battery vs technical grade, carbonate vs hydroxide, moisture spec");
-  if (tag === "rare earths") commodityHints.push("Specific oxide (NdPr, Dy, Tb), purity, monazite/bastnaesite source");
-  if (tag === "alloys")      commodityHints.push("Alloy designation, composition window, heat treatment");
-  if (tag === "aluminium")   commodityHints.push("Alloy series (e.g. 6061-T6), form (billet / extrusion / sheet)");
-  return [...commodityHints, ...generic].slice(0, 7);
-}
-
-function buildQualificationChecks(d: SupplierProcurementDossier): string[] {
-  const checks = [
-    "Confirm legal entity status against the company registry",
-    "Request three recent buyer references in your destination region",
-    "Request a current mill test certificate or certificate of analysis",
-    "Verify ISO / industry certifications are in scope and unexpired",
-    "Confirm bank account is held in the same legal entity name",
-  ];
-  if (d.type === "trader" || d.type === "distributor") {
-    checks.push("Ask for the underlying producer / mill source for traceability");
-  }
-  if (!d.verification.registryVerified) {
-    checks.unshift("Treat as Verification In Progress — request registry extract before sample order");
-  }
-  return checks.slice(0, 6);
-}
-
-function profileStrengthBucket(pct: number): { label: string; color: string; help: string } {
-  if (pct >= 85) return { label: "Strong",   color: "emerald", help: "Most procurement metadata is present. Ready for RFQ." };
-  if (pct >= 65) return { label: "Workable", color: "blue",    help: "Enough metadata for RFQ; some fields will be confirmed during qualification." };
-  if (pct >= 40) return { label: "Limited",  color: "amber",   help: "Several procurement fields missing. RFQ qualification will fill the gaps." };
-  return { label: "Sparse", color: "slate", help: "Limited published metadata. Submit an RFQ — our operator will collect details directly." };
-}
-
-function buildSuitabilityTags(d: SupplierProcurementDossier): string[] {
-  const tags: string[] = [];
-  if (d.verification.registryVerified) tags.push("Registry-verified");
-  if (d.verification.contactVerified) tags.push("Operator-verified contact");
-  if (d.rating !== null && d.rating >= 4.5) tags.push("High buyer-rating signal");
-  if (d.type === "manufacturer") tags.push("Direct manufacturer");
-  if (d.type === "trader") tags.push("Trader / distribution");
-  if (d.exportMarkets.length > 0) tags.push("Export track record");
-  if (d.country) tags.push(`${d.country} origin`);
-  return Array.from(new Set(tags)).slice(0, 6);
-}
-
-function communicationReadinessBand(d: SupplierProcurementDossier): {
-  label: string;
-  tone: "emerald" | "blue" | "amber" | "slate";
-  help: string;
-} {
-  if (d.contactReleasable) {
-    return {
-      label: "Direct after RFQ qualification",
-      tone: "emerald",
-      help: "Contact channel will be released to your team once a SmartSeek sourcing operator screens your RFQ.",
-    };
-  }
-  if (d.verification.registryVerified) {
-    return {
-      label: "SmartSeek sourcing operator",
-      tone: "blue",
-      help: "Contact details are released after RFQ screening to protect both sides from spam and unsolicited outreach.",
-    };
-  }
-  return {
-    label: "SmartSeek sourcing operator · verification pending",
-    tone: "amber",
-    help: "We will confirm the supplier's registry record before releasing direct contact details.",
-  };
-}
-
-function profileCompletenessPct(d: SupplierProcurementDossier): number {
-  const checks: boolean[] = [
-    !!d.companyName,
-    !!d.country,
-    !!d.city,
-    !!d.industry,
-    !!d.subIndustry,
-    d.products.length > 0,
-    d.certifications.length > 0,
-    d.exportMarkets.length > 0,
-    d.commercial.minOrderValue !== null,
-    d.commercial.paymentTerms.length > 0,
-    d.commercial.incoterms.length > 0,
-    d.commercial.leadTimeDays !== null,
-    d.commercial.responseTime !== null,
-    d.yearEstablished !== null,
-    d.employeeCount !== null || !!d.employeeBand,
-    !!d.tagline || !!d.description,
-    d.rating !== null,
-    d.verification.registryVerified,
-    !!d.provenance.registryUrl,
-  ];
-  const done = checks.filter(Boolean).length;
-  return Math.round((done / checks.length) * 100);
-}
-
-function formatMoq(d: SupplierProcurementDossier): string {
-  const c = d.commercial;
-  if (c.minOrderValue === null) return NA_RFQ;
-  const ccy = c.currency || "USD";
-  return `${ccy} ${c.minOrderValue.toLocaleString()}`;
-}
-
-function formatLeadTime(days: number | null): string {
-  if (days === null) return NA_RFQ;
-  if (days <= 14) return `~${days} days (within 2 weeks)`;
-  if (days <= 30) return `~${days} days (within 1 month)`;
-  if (days <= 60) return `~${days} days (1–2 months)`;
-  return `~${days} days`;
-}
-
-function buildOperationalMaturity(d: SupplierProcurementDossier): string[] {
-  const items: string[] = [];
-  if (d.yearEstablished) {
-    const yrs = new Date().getFullYear() - d.yearEstablished;
-    if (yrs >= 25) items.push(`${yrs}+ years of trading history`);
-    else if (yrs >= 10) items.push(`Established ${yrs} years ago`);
-    else if (yrs >= 0) items.push(`Operating since ${d.yearEstablished}`);
-  }
-  if (d.employeeBand) items.push(`Workforce band ${d.employeeBand}`);
-  else if (d.employeeCount) items.push(`Reported workforce ~${d.employeeCount.toLocaleString()}`);
-  if (d.verification.registryVerified) items.push("Registry record located and verified");
-  if (d.verification.contactVerified) items.push("Operator-confirmed direct contact");
-  if (d.certifications.length > 0) {
-    items.push(`${d.certifications.length} published certification${d.certifications.length === 1 ? "" : "s"} on file`);
-  }
-  return items;
-}
-
-function buildExportLogistics(d: SupplierProcurementDossier): string[] {
-  const items: string[] = [];
-  if (d.exportMarkets.length > 0) {
-    items.push(`Confirmed export to ${d.exportMarkets.slice(0, 4).join(", ")}${d.exportMarkets.length > 4 ? "…" : ""}`);
-  } else {
-    items.push("Export track record will be confirmed during RFQ qualification");
-  }
-  if (d.commercial.incoterms.length > 0) {
-    items.push(`Published incoterms: ${d.commercial.incoterms.join(", ")}`);
-  }
-  if (d.commercial.leadTimeDays !== null) {
-    items.push(`Stated lead time ${formatLeadTime(d.commercial.leadTimeDays).replace(/^~/, "")}`);
-  }
-  if (d.country) {
-    items.push(`Operating from ${d.country}${d.city ? ` (${d.city})` : ""}`);
-  }
-  return items;
-}
-
-function buildSourcingScenarios(d: SupplierProcurementDossier): string[] {
-  const out: string[] = [];
-  const tag = (d.strategicTags[0] || "").toLowerCase();
-  if (d.type === "manufacturer") {
-    out.push("Direct-from-mill / OEM procurement with traceable origin");
-  }
-  if (d.type === "trader") {
-    out.push("Spot market purchases and origin-blended sourcing");
-  }
-  if (d.type === "distributor") {
-    out.push("Recurring industrial replenishment without container minimums");
-  }
-  if (tag === "copper") out.push("Cathode and rod programs benchmarked to LME Grade A");
-  else if (tag === "antimony") out.push("Antimony ingot or trioxide procurement at industrial purity");
-  else if (tag === "tungsten") out.push("Refractory and superalloy feed (APT, oxide, ferro)");
-  else if (tag === "tin") out.push("LME-grade tin ingot and solder alloy procurement");
-  else if (tag === "steel" || tag === "alloys") out.push("Mill-cert backed flat / long products and engineering alloys");
-  else if (tag === "lithium") out.push("Battery-grade carbonate / hydroxide procurement with moisture spec");
-  else if (tag === "rare earths") out.push("Specific oxide programs (NdPr, Dy, Tb) with declared origin");
-  else if (tag === "aluminium") out.push("Alloy-series aluminium (e.g. 6061, 5052) in billet / extrusion / sheet");
-  if (d.exportMarkets.length > 0) {
-    out.push(`Cross-border buyers in ${d.exportMarkets.slice(0, 3).join(", ")} with FCA/FOB/CIF terms`);
-  }
-  return Array.from(new Set(out)).slice(0, 4);
-}
-
 const CHANNEL_ICONS: Record<EnrichmentChannel["kind"], React.ReactNode> = {
   website: <Globe className="w-4 h-4 text-slate-500" />,
   linkedin: <Linkedin className="w-4 h-4 text-blue-600" />,
@@ -266,38 +73,11 @@ const CHANNEL_ICONS: Record<EnrichmentChannel["kind"], React.ReactNode> = {
   address: <MapPin className="w-4 h-4 text-slate-500" />,
 };
 
-const CHANNEL_LABELS: Record<EnrichmentChannel["kind"], string> = {
-  website: "Website",
-  linkedin: "LinkedIn company page",
-  email: "Business email",
-  phone: "Business phone",
-  address: "Registry address",
-};
-
-function maskEmail(email: string): string {
-  const [local, domain] = email.split("@");
-  if (!domain) return "•••";
-  const head = local.slice(0, Math.min(2, local.length));
-  return `${head}${"•".repeat(Math.max(local.length - head.length, 2))}@${domain}`;
-}
-
-function maskPhone(phone: string): string {
-  const cleaned = phone.replace(/[^0-9+]/g, "");
-  if (cleaned.length < 4) return "•••";
-  const tail = cleaned.slice(-3);
-  return `${cleaned.slice(0, Math.min(3, cleaned.length - 3))} ••• ${tail}`;
-}
-
-function channelDisplay(ch: EnrichmentChannel): string {
-  if (!ch.preview) return `${ch.count} on file · released after RFQ qualification`;
-  if (ch.kind === "email") return maskEmail(ch.preview);
-  if (ch.kind === "phone") return maskPhone(ch.preview);
-  return ch.preview;
-}
-
 // ── Component ────────────────────────────────────────────────────────────────
 
 export default function SupplierDetailPage() {
+  const { t } = useTranslation();
+  const na = useMemo(() => supplierNa(t), [t]);
   const [match, params] = useRoute<{ slug: string }>("/supplier/:slug");
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [dossier, setDossier] = useState<SupplierProcurementDossier | null>(null);
@@ -329,44 +109,44 @@ export default function SupplierDetailPage() {
   }, [match, params?.slug, isAuthenticated, authLoading]);
 
   const buyerFit = useMemo(
-    () => (dossier ? buildBuyerFit(dossier.type) : []),
-    [dossier]
+    () => (dossier ? buildBuyerFit(dossier.type, t) : []),
+    [dossier, t]
   );
   const rfqRecs = useMemo(
-    () => (dossier ? buildRfqRecommendations(dossier.strategicTags[0]) : []),
-    [dossier]
+    () => (dossier ? buildRfqRecommendations(dossier.strategicTags[0], t) : []),
+    [dossier, t]
   );
   const qualChecks = useMemo(
-    () => (dossier ? buildQualificationChecks(dossier) : []),
-    [dossier]
+    () => (dossier ? buildQualificationChecks(dossier, t) : []),
+    [dossier, t]
   );
   const suitabilityTags = useMemo(
-    () => (dossier ? buildSuitabilityTags(dossier) : []),
-    [dossier]
+    () => (dossier ? buildSuitabilityTags(dossier, t) : []),
+    [dossier, t]
   );
   const completeness = useMemo(
     () => (dossier ? profileCompletenessPct(dossier) : 0),
     [dossier]
   );
   const strengthBucket = useMemo(
-    () => profileStrengthBucket(completeness),
-    [completeness]
+    () => profileStrengthBucket(completeness, t),
+    [completeness, t]
   );
   const commsBand = useMemo(
-    () => (dossier ? communicationReadinessBand(dossier) : null),
-    [dossier]
+    () => (dossier ? communicationReadinessBand(dossier, t) : null),
+    [dossier, t]
   );
   const operationalMaturity = useMemo(
-    () => (dossier ? buildOperationalMaturity(dossier) : []),
-    [dossier]
+    () => (dossier ? buildOperationalMaturity(dossier, t) : []),
+    [dossier, t]
   );
   const exportLogistics = useMemo(
-    () => (dossier ? buildExportLogistics(dossier) : []),
-    [dossier]
+    () => (dossier ? buildExportLogistics(dossier, t) : []),
+    [dossier, t]
   );
   const sourcingScenarios = useMemo(
-    () => (dossier ? buildSourcingScenarios(dossier) : []),
-    [dossier]
+    () => (dossier ? buildSourcingScenarios(dossier, t) : []),
+    [dossier, t]
   );
   const enrichment: EnrichmentSnapshot | null = dossier?.enrichment ?? null;
 
@@ -382,18 +162,20 @@ export default function SupplierDetailPage() {
   // SEO: title, description, canonical, JSON-LD (Organization + BreadcrumbList)
   useEffect(() => {
     if (!dossier) return;
-    const title = `${dossier.companyName} – supplier profile | SmartSeek`;
-    const locationLabel = [dossier.city, dossier.country].filter(Boolean).join(", ");
-    const typeLabel = dossier.type ? ` ${dossier.type}` : " supplier";
-    const desc = [
-      `${dossier.companyName} is a${typeLabel} based in ${locationLabel || "an undisclosed location"}.`,
-      dossier.industry
-        ? `${dossier.industry}${dossier.subIndustry ? ` · ${dossier.subIndustry}` : ""}.`
-        : "",
-      "Review sourcing fit, verification status, and RFQ guidance on SmartSeek.",
-    ]
-      .filter(Boolean)
-      .join(" ");
+    const title = t("supplierDetail.seo.title", { name: dossier.companyName });
+    const locationLabel = [dossier.city, dossier.country].filter(Boolean).join(", ") || na.disclosed;
+    const typeLabel = dossier.type === "manufacturer"
+      ? t("supplierDetail.seo.typeManufacturer")
+      : t("supplierDetail.seo.typeGeneric");
+    const industryPart = dossier.industry
+      ? `${dossier.industry}${dossier.subIndustry ? ` · ${dossier.subIndustry}` : ""}. `
+      : "";
+    const desc = t("supplierDetail.seo.desc", {
+      name: dossier.companyName,
+      type: typeLabel,
+      location: locationLabel,
+      industry: industryPart,
+    });
     document.title = title;
 
     let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
@@ -446,8 +228,8 @@ export default function SupplierDetailPage() {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://smartseek.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Suppliers", "item": "https://smartseek.com/suppliers" },
+        { "@type": "ListItem", "position": 1, "name": t("supplierDetail.seo.breadcrumbHome"), "item": "https://smartseek.com/" },
+        { "@type": "ListItem", "position": 2, "name": t("supplierDetail.seo.breadcrumbSuppliers"), "item": "https://smartseek.com/suppliers" },
         ...(breadcrumbCategorySlug
           ? [{ "@type": "ListItem", "position": 3, "name": dossier.strategicTags[0], "item": `https://smartseek.com/suppliers/${breadcrumbCategorySlug}` }]
           : []),
@@ -462,7 +244,7 @@ export default function SupplierDetailPage() {
       document.head.appendChild(el);
     }
     el.text = JSON.stringify([orgLd, breadcrumbLd]);
-  }, [dossier]);
+  }, [dossier, t, na.disclosed]);
 
   const toggleSavedSupplier = () => {
     if (!dossier || typeof window === "undefined") return;
@@ -496,11 +278,11 @@ export default function SupplierDetailPage() {
     : "/rfq";
 
   return (
-    <section className="min-h-[70vh] bg-slate-50 py-12 px-4">
+    <section className="min-h-[70vh] bg-slate-50 py-8 sm:py-12 px-4 pb-20 sm:pb-12">
       <div className="max-w-4xl mx-auto">
         <Link href="/search">
-          <button className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back to suppliers
+          <button className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 mb-6 min-h-11 py-2">
+            <ArrowLeft className="w-4 h-4" /> {t("supplierDetail.back")}
           </button>
         </Link>
 
@@ -556,24 +338,24 @@ export default function SupplierDetailPage() {
                 </div>
               ))}
             </div>
-            <span className="sr-only">Loading supplier dossier…</span>
+            <span className="sr-only">{t("supplierDetail.loading")}</span>
           </div>
         )}
 
         {!loading && error && (
           <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 text-center">
-            <h1 className="text-xl font-bold text-slate-900 mb-2">Not in the public directory</h1>
+            <h1 className="text-xl font-bold text-slate-900 mb-2">{t("supplierDetail.notFound.title")}</h1>
             <p className="text-slate-600 mb-5">
-              Our public directory is intentionally curated. Submit an RFQ — a SmartSeek sourcing operator will tap our internal index and verified network for the right suppliers.
+              {t("supplierDetail.notFound.body")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link href="/rfq">
                 <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
-                  <FileText className="w-4 h-4" /> Submit an RFQ
+                  <FileText className="w-4 h-4" /> {t("supplierDetail.notFound.submitRfq")}
                 </button>
               </Link>
               <Link href="/become-a-supplier" className="text-sm font-semibold text-blue-700 underline underline-offset-2">
-                Become a supplier
+                {t("supplierDetail.notFound.becomeSupplier")}
               </Link>
             </div>
           </div>
@@ -585,14 +367,14 @@ export default function SupplierDetailPage() {
             <header>
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{dossier.companyName}</h1>
-                <VerificationChip tier={dossier.verification.tier} />
+                <VerificationChip tier={dossier.verification.tier} t={t} naRegistry={na.registry} />
               </div>
-              <p className="text-slate-500">
-                {countryFlag(dossier.countryCode)} {dossier.city ? `${dossier.city}, ` : ""}{dossier.country || NA_DISCLOSED}
+              <p className="text-slate-600">
+                {countryFlag(dossier.countryCode)} {dossier.city ? `${dossier.city}, ` : ""}{dossier.country || na.disclosed}
                 {dossier.type && (
                   <>
                     <span className="text-slate-400"> · </span>
-                    <span className="capitalize">{dossier.type}</span>
+                    <span>{supplierTypeLabel(dossier.type, t)}</span>
                   </>
                 )}
               </p>
@@ -611,8 +393,8 @@ export default function SupplierDetailPage() {
                   {dossier.strategicTags.map((tag) => {
                     const slug = STRATEGIC_TAG_TO_SLUG[tag];
                     const chip = (
-                      <span className="px-2 py-1 text-[11px] rounded-full bg-amber-50 text-amber-800 border border-amber-100 inline-flex items-center gap-1">
-                        Strategic material: <span className="font-semibold">{tag}</span>
+                      <span className="px-2 py-1 text-xs rounded-full bg-amber-50 text-amber-800 border border-amber-100 inline-flex items-center gap-1">
+                        {t("supplierDetail.strategicMaterial")} <span className="font-semibold">{tag}</span>
                       </span>
                     );
                     return slug ? (
@@ -636,7 +418,7 @@ export default function SupplierDetailPage() {
             {/* PROFILE STRENGTH */}
             <div className="rounded-xl border border-slate-200 p-4">
               <div className="flex items-center justify-between gap-3 mb-2">
-                <p className="text-xs text-slate-500 uppercase tracking-wider">Profile strength</p>
+                <p className="text-xs text-slate-600 uppercase tracking-wider">{t("supplierDetail.profileStrength")}</p>
                 <span
                   className={`text-xs font-bold px-2 py-0.5 rounded-full border ${
                     strengthBucket.color === "emerald"
@@ -665,66 +447,67 @@ export default function SupplierDetailPage() {
                   style={{ width: `${completeness}%` }}
                 />
               </div>
-              <p className="text-xs text-slate-500">{strengthBucket.help}</p>
-              <p className="text-[11px] text-slate-400 mt-2">
-                Profile strength is a UI indicator based on published metadata completeness. It is not a quality rating.
+              <p className="text-xs text-slate-600">{strengthBucket.help}</p>
+              <p className="text-[11px] text-slate-500 mt-2">
+                {t("supplierDetail.profileDisclaimer")}
               </p>
             </div>
 
             {/* QUICK FACTS */}
             <div className="grid sm:grid-cols-3 gap-3 text-sm">
               <Fact
-                label="Buyer rating"
+                label={t("supplierDetail.facts.verificationTier")}
                 value={
-                  dossier.rating !== null ? (
-                    <span className="inline-flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                      {dossier.rating.toFixed(1)}
-                      {dossier.reviewCount ? ` (${dossier.reviewCount})` : ""}
+                  dossier.verification.registryVerified ||
+                  dossier.verification.tier === "Registry Verified" ||
+                  dossier.verification.tier === "Operator Verified" ? (
+                    <span className="inline-flex items-center gap-1 text-emerald-700">
+                      <ShieldCheck className="w-4 h-4" />
+                      {t("supplier.signals.registryVerified")}
                     </span>
                   ) : (
-                    <span className="text-slate-500">{NA_DISCLOSED}</span>
+                    <span className="text-slate-500">{t("supplier.signals.verificationPending")}</span>
                   )
                 }
               />
               <Fact
-                label="Workforce"
+                label={t("supplierDetail.facts.workforce")}
                 value={
                   dossier.employeeBand
                     ? dossier.employeeBand
                     : dossier.employeeCount
-                    ? `${dossier.employeeCount.toLocaleString()} employees`
-                    : <span className="text-slate-500">{NA_DISCLOSED}</span>
+                    ? t("supplierDetail.facts.employees", { count: dossier.employeeCount })
+                    : <span className="text-slate-500">{na.disclosed}</span>
                 }
               />
               <Fact
-                label="Founded"
+                label={t("supplierDetail.facts.founded")}
                 value={
                   dossier.yearEstablished
                     ? String(dossier.yearEstablished)
-                    : <span className="text-slate-500">{NA_DISCLOSED}</span>
+                    : <span className="text-slate-500">{na.disclosed}</span>
                 }
               />
             </div>
 
             {/* VERIFICATION & PROVENANCE */}
             <Card
-              title="Verification & provenance"
-              subtitle={dossier.provenance.dataSource ?? "SmartSeek directory"}
+              title={t("supplierDetail.card.verification.title")}
+              subtitle={dossier.provenance.dataSource ?? t("supplierDetail.card.verification.subtitle")}
               icon={<BadgeCheck className="w-4 h-4 text-blue-600" />}
             >
               <KvList
                 rows={[
-                  ["Verification tier", dossier.verification.tier],
-                  ["Registry record", renderRegistry(dossier)],
-                  ["Industry classification", dossier.provenance.sicCode || NA_DISCLOSED],
-                  ["Last profile update", dossier.lastUpdatedAt ? formatDate(dossier.lastUpdatedAt) : "Tracked internally"],
+                  [t("supplierDetail.kv.tier"), verificationTierLabel(dossier.verification.tier, t)],
+                  [t("supplierDetail.kv.registry"), renderRegistry(dossier, t, na)],
+                  [t("supplierDetail.kv.industry"), dossier.provenance.sicCode || na.disclosed],
+                  [t("supplierDetail.kv.lastUpdate"), dossier.lastUpdatedAt ? formatDate(dossier.lastUpdatedAt, t) : na.trackedInternally],
                 ]}
               />
-              <p className="text-[11px] text-slate-500 mt-3">
-                We never publish suppliers we have not located in a public registry.
+              <p className="text-[11px] text-slate-600 mt-3">
+                {t("supplierDetail.card.verification.footnote")}
                 <Link href="/verification" className="ml-1 text-blue-700 underline underline-offset-2">
-                  See verification standards →
+                  {t("supplierDetail.card.verification.link")}
                 </Link>
               </p>
             </Card>
@@ -732,29 +515,29 @@ export default function SupplierDetailPage() {
             {/* CAPABILITIES & PRODUCTS */}
             <div className="grid gap-4 sm:grid-cols-2">
               <Card
-                title="Capabilities"
-                subtitle="Industries served"
+                title={t("supplierDetail.card.capabilities.title")}
+                subtitle={t("supplierDetail.card.capabilities.subtitle")}
                 icon={<Layers className="w-4 h-4 text-violet-600" />}
               >
                 <ul className="space-y-1.5 text-sm text-slate-700">
                   <li className="flex items-baseline justify-between gap-3">
-                    <span className="text-slate-500 text-xs uppercase tracking-wider">Industry</span>
-                    <span className="text-right">{dossier.industry || NA_DISCLOSED}</span>
+                    <span className="text-slate-500 text-xs uppercase tracking-wider">{t("supplierDetail.kv.industryField")}</span>
+                    <span className="text-right">{dossier.industry || na.disclosed}</span>
                   </li>
                   <li className="flex items-baseline justify-between gap-3">
-                    <span className="text-slate-500 text-xs uppercase tracking-wider">Sub-industry</span>
-                    <span className="text-right">{dossier.subIndustry || NA_DISCLOSED}</span>
+                    <span className="text-slate-500 text-xs uppercase tracking-wider">{t("supplierDetail.kv.subIndustry")}</span>
+                    <span className="text-right">{dossier.subIndustry || na.disclosed}</span>
                   </li>
                   <li className="flex items-baseline justify-between gap-3">
-                    <span className="text-slate-500 text-xs uppercase tracking-wider">Type</span>
-                    <span className="text-right capitalize">{dossier.type || NA_DISCLOSED}</span>
+                    <span className="text-slate-500 text-xs uppercase tracking-wider">{t("supplierDetail.kv.type")}</span>
+                    <span className="text-right">{supplierTypeLabel(dossier.type, t)}</span>
                   </li>
                 </ul>
               </Card>
 
               <Card
-                title="Products & sourcing categories"
-                subtitle="Published catalogue"
+                title={t("supplierDetail.card.products.title")}
+                subtitle={t("supplierDetail.card.products.subtitle")}
                 icon={<Tags className="w-4 h-4 text-blue-600" />}
               >
                 {dossier.products.length > 0 ? (
@@ -769,7 +552,7 @@ export default function SupplierDetailPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-500">{NA_RFQ}</p>
+                  <p className="text-xs text-slate-600">{na.rfq}</p>
                 )}
               </Card>
             </div>
@@ -777,8 +560,8 @@ export default function SupplierDetailPage() {
             {/* CERTIFICATIONS + EXPORT MARKETS */}
             <div className="grid gap-4 sm:grid-cols-2">
               <Card
-                title="Certifications"
-                subtitle="Quality, environmental, and sector standards"
+                title={t("supplierDetail.card.certifications.title")}
+                subtitle={t("supplierDetail.card.certifications.subtitle")}
                 icon={<ShieldCheck className="w-4 h-4 text-emerald-600" />}
               >
                 {dossier.certifications.length > 0 ? (
@@ -793,13 +576,13 @@ export default function SupplierDetailPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-500">{NA_RFQ}</p>
+                  <p className="text-xs text-slate-600">{na.rfq}</p>
                 )}
               </Card>
 
               <Card
-                title="Export markets"
-                subtitle="Where this supplier ships today"
+                title={t("supplierDetail.card.export.title")}
+                subtitle={t("supplierDetail.card.export.subtitle")}
                 icon={<Truck className="w-4 h-4 text-amber-600" />}
               >
                 {dossier.exportMarkets.length > 0 ? (
@@ -814,38 +597,38 @@ export default function SupplierDetailPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-500">{NA_RFQ}</p>
+                  <p className="text-xs text-slate-600">{na.rfq}</p>
                 )}
               </Card>
             </div>
 
             {/* COMMERCIAL PROFILE */}
             <Card
-              title="Commercial profile"
-              subtitle="MOQ, payment, incoterms, lead time"
+              title={t("supplierDetail.card.commercial.title")}
+              subtitle={t("supplierDetail.card.commercial.subtitle")}
               icon={<Activity className="w-4 h-4 text-blue-600" />}
             >
               <KvList
                 rows={[
-                  ["Minimum order value", formatMoq(dossier)],
-                  ["Lead time", formatLeadTime(dossier.commercial.leadTimeDays)],
-                  ["Payment terms",
+                  [t("supplierDetail.kv.moq"), formatMoq(dossier, t)],
+                  [t("supplierDetail.kv.leadTime"), formatLeadTime(dossier.commercial.leadTimeDays, t)],
+                  [t("supplierDetail.kv.payment"),
                     dossier.commercial.paymentTerms.length > 0
                       ? dossier.commercial.paymentTerms.join(", ")
-                      : NA_RFQ,
+                      : na.rfq,
                   ],
-                  ["Incoterms",
+                  [t("supplierDetail.kv.incoterms"),
                     dossier.commercial.incoterms.length > 0
                       ? dossier.commercial.incoterms.join(", ")
-                      : NA_RFQ,
+                      : na.rfq,
                   ],
-                  ["Response speed",
-                    dossier.commercial.responseTime || "Routed via SmartSeek sourcing operator",
+                  [t("supplierDetail.kv.response"),
+                    dossier.commercial.responseTime || na.routedViaTeam,
                   ],
                 ]}
               />
-              <p className="text-[11px] text-slate-500 mt-3">
-                We surface only fields the supplier has published. Anything missing is confirmed during operator-led RFQ qualification.
+              <p className="text-[11px] text-slate-600 mt-3">
+                {t("supplierDetail.card.commercial.footnote")}
               </p>
             </Card>
 
@@ -864,7 +647,7 @@ export default function SupplierDetailPage() {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Lock className="w-4 h-4 text-slate-700" />
-                  <p className="text-sm font-bold text-slate-900">Communication readiness</p>
+                  <p className="text-sm font-bold text-slate-900">{t("supplierDetail.card.comms.title")}</p>
                 </div>
                 <p className="text-[11px] text-slate-500 uppercase tracking-wider mb-2">{commsBand.label}</p>
                 <p className="text-sm text-slate-700">{commsBand.help}</p>
@@ -874,33 +657,33 @@ export default function SupplierDetailPage() {
             {/* DIGITAL PRESENCE — verified-only */}
             {enrichment && (
               <Card
-                title="Digital presence"
-                subtitle={`${enrichment.source} · domain match`}
+                title={t("supplierDetail.card.digital.title")}
+                subtitle={t("supplierDetail.card.digital.subtitle", { source: enrichment.source })}
                 icon={<Network className="w-4 h-4 text-blue-600" />}
               >
                 <div className="grid sm:grid-cols-2 gap-3 text-sm text-slate-700">
                   <p className="inline-flex items-center gap-2">
                     <Globe className="w-4 h-4 text-slate-500" />
                     <span className="font-medium">{enrichment.domain}</span>
-                    <ConfidenceChip band={enrichment.confidence} />
+                    <ConfidenceChip band={enrichment.confidence} t={t} />
                   </p>
                   <p className="inline-flex items-center gap-2">
                     <Activity className="w-4 h-4 text-slate-500" />
                     <span>
                       {enrichment.pagesVisited > 0
-                        ? `${enrichment.pagesVisited} pages indexed`
-                        : "Indexed homepage"}
+                        ? t("supplierDetail.card.digital.pagesIndexed", { count: enrichment.pagesVisited })
+                        : t("supplierDetail.card.digital.homepageIndexed")}
                     </span>
                   </p>
-                  <p className="inline-flex items-center gap-2 sm:col-span-2 text-xs text-slate-500">
-                    Last enrichment update:{" "}
+                  <p className="inline-flex items-center gap-2 sm:col-span-2 text-xs text-slate-600">
+                    {t("supplierDetail.card.digital.lastUpdate")}{" "}
                     {enrichment.lastUpdatedAt
-                      ? formatDate(enrichment.lastUpdatedAt)
-                      : "Tracked internally"}
+                      ? formatDate(enrichment.lastUpdatedAt, t)
+                      : na.trackedInternally}
                   </p>
                 </div>
-                <p className="text-[11px] text-slate-500 mt-3">
-                  Digital presence is matched on a verified website domain. We do not infer or fabricate company profiles.
+                <p className="text-[11px] text-slate-600 mt-3">
+                  {t("supplierDetail.card.digital.footnote")}
                 </p>
               </Card>
             )}
@@ -908,11 +691,11 @@ export default function SupplierDetailPage() {
             {/* VERIFIED COMMUNICATION CHANNELS — gated previews + counts */}
             {enrichment && enrichment.channels.length > 1 && (
               <Card
-                title="Verified communication channels"
+                title={t("supplierDetail.card.channels.title")}
                 subtitle={
                   enrichment.contactReleasable
-                    ? "Operator-screened release after RFQ qualification"
-                    : "Counts only — released after RFQ qualification"
+                    ? t("supplierDetail.card.channels.subtitleRelease")
+                    : t("supplierDetail.card.channels.subtitleMasked")
                 }
                 icon={<Lock className="w-4 h-4 text-emerald-600" />}
               >
@@ -923,8 +706,8 @@ export default function SupplierDetailPage() {
                       <li key={ch.kind} className="flex items-center justify-between gap-3">
                         <span className="inline-flex items-center gap-2">
                           {CHANNEL_ICONS[ch.kind]}
-                          <span className="font-medium">{CHANNEL_LABELS[ch.kind]}</span>
-                          <ConfidenceChip band={ch.confidence} />
+                          <span className="font-medium">{channelLabel(ch.kind, t)}</span>
+                          <ConfidenceChip band={ch.confidence} t={t} />
                         </span>
                         <span className="text-right text-slate-700">
                           {ch.kind === "linkedin" && ch.preview ? (
@@ -934,13 +717,13 @@ export default function SupplierDetailPage() {
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-blue-700 hover:text-blue-800 underline underline-offset-2"
                             >
-                              View company page <ExternalLink className="w-3 h-3" />
+                              {t("supplierDetail.card.channels.viewPage")} <ExternalLink className="w-3 h-3" />
                             </a>
                           ) : (
                             <span className="font-mono text-xs">
-                              {channelDisplay(ch)}
+                              {channelDisplay(ch, t)}
                               {ch.count > 1 ? (
-                                <span className="ml-2 text-slate-400">+{ch.count - 1} more</span>
+                                <span className="ml-2 text-slate-500">{t("supplierDetail.card.channels.more", { count: ch.count - 1 })}</span>
                               ) : null}
                             </span>
                           )}
@@ -948,8 +731,8 @@ export default function SupplierDetailPage() {
                       </li>
                     ))}
                 </ul>
-                <p className="text-[11px] text-slate-500 mt-3">
-                  Email and phone previews are masked until a SmartSeek sourcing operator screens your RFQ. We never publish unverified contacts to protect suppliers from spam.
+                <p className="text-[11px] text-slate-600 mt-3">
+                  {t("supplierDetail.card.channels.footnote")}
                 </p>
               </Card>
             )}
@@ -957,8 +740,8 @@ export default function SupplierDetailPage() {
             {/* OPERATIONAL MATURITY */}
             {operationalMaturity.length > 0 && (
               <Card
-                title="Operational maturity indicators"
-                subtitle="Signals from registry and published data"
+                title={t("supplierDetail.card.maturity.title")}
+                subtitle={t("supplierDetail.card.maturity.subtitle")}
                 icon={<Gauge className="w-4 h-4 text-violet-600" />}
               >
                 <ul className="space-y-1.5 text-sm text-slate-700">
@@ -975,8 +758,8 @@ export default function SupplierDetailPage() {
             {/* EXPORT & LOGISTICS */}
             {exportLogistics.length > 0 && (
               <Card
-                title="Export & logistics considerations"
-                subtitle="Deterministic, derived from published profile"
+                title={t("supplierDetail.card.logistics.title")}
+                subtitle={t("supplierDetail.card.logistics.subtitle")}
                 icon={<Truck className="w-4 h-4 text-amber-600" />}
               >
                 <ul className="space-y-1.5 text-sm text-slate-700">
@@ -993,8 +776,8 @@ export default function SupplierDetailPage() {
             {/* SOURCING SCENARIOS */}
             {sourcingScenarios.length > 0 && (
               <Card
-                title="Likely sourcing scenarios"
-                subtitle="UI interpretation · no fabricated claims"
+                title={t("supplierDetail.card.scenarios.title")}
+                subtitle={t("supplierDetail.card.scenarios.subtitle")}
                 icon={<Compass className="w-4 h-4 text-blue-600" />}
               >
                 <ul className="space-y-1.5 text-sm text-slate-700">
@@ -1010,7 +793,7 @@ export default function SupplierDetailPage() {
 
             {/* INTERPRETATION LAYERS */}
             <div className="grid gap-4 sm:grid-cols-2">
-              <Card title="Best suited for" subtitle="Likely procurement fit · UI interpretation">
+              <Card title={t("supplierDetail.card.buyerFit.title")} subtitle={t("supplierDetail.card.buyerFit.subtitle")}>
                 <ul className="space-y-1.5 text-sm text-slate-700">
                   {buyerFit.map((fit) => (
                     <li key={fit} className="inline-flex items-start gap-2">
@@ -1020,7 +803,7 @@ export default function SupplierDetailPage() {
                   ))}
                 </ul>
               </Card>
-              <Card title="Sourcing suitability indicators" subtitle="Signals from published profile data">
+              <Card title={t("supplierDetail.card.suitability.title")} subtitle={t("supplierDetail.card.suitability.subtitle")}>
                 {suitabilityTags.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {suitabilityTags.map((tag) => (
@@ -1033,15 +816,15 @@ export default function SupplierDetailPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-500">Suitability signals confirmed during RFQ review.</p>
+                  <p className="text-xs text-slate-600">{t("supplierDetail.card.suitability.empty")}</p>
                 )}
               </Card>
             </div>
 
             {/* RFQ READINESS CHECKLIST */}
             <Card
-              title="RFQ readiness checklist"
-              subtitle="What to include for a useful quote"
+              title={t("supplierDetail.card.rfqChecklist.title")}
+              subtitle={t("supplierDetail.card.rfqChecklist.subtitle")}
               icon={<Compass className="w-4 h-4 text-blue-600" />}
             >
               <ul className="space-y-1.5 text-sm text-slate-700">
@@ -1052,15 +835,14 @@ export default function SupplierDetailPage() {
                   </li>
                 ))}
               </ul>
-              <p className="text-[11px] text-slate-500 mt-3">
-                These are operator-suggested fields, not a requirement. The RFQ form lets you submit even if some are unknown.
+              <p className="text-[11px] text-slate-600 mt-3">
+                {t("supplierDetail.card.rfqChecklist.footnote")}
               </p>
             </Card>
 
-            {/* QUALIFICATION CHECKS */}
             <Card
-              title="Suggested qualification checks"
-              subtitle="Procurement due-diligence checklist"
+              title={t("supplierDetail.card.qualification.title")}
+              subtitle={t("supplierDetail.card.qualification.subtitle")}
               icon={<ClipboardCheck className="w-4 h-4 text-violet-600" />}
             >
               <ul className="space-y-1.5 text-sm text-slate-700">
@@ -1071,62 +853,73 @@ export default function SupplierDetailPage() {
                   </li>
                 ))}
               </ul>
-              <p className="text-[11px] text-slate-500 mt-3">
-                We&apos;ll handle several of these during operator-led RFQ routing.
-                <Link href="/methodology" className="ml-1 text-blue-700 underline underline-offset-2">How RFQs are routed →</Link>
+              <p className="text-[11px] text-slate-600 mt-3">
+                {t("supplierDetail.card.qualification.footnote")}
+                <Link href="/methodology" className="ml-1 text-blue-700 underline underline-offset-2">{t("supplierDetail.card.qualification.link")}</Link>
               </p>
             </Card>
 
-            {/* CONTACT — buyer-safe communication path (fallback when no enrichment) */}
             {!enrichment && (
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Buyer-safe communication path</p>
+                <p className="text-xs text-slate-600 uppercase tracking-wider mb-2">{t("supplierDetail.contactPath.title")}</p>
                 <div className="grid sm:grid-cols-2 gap-3 text-sm text-slate-700">
                   <p className="inline-flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-slate-500" /> Type:{" "}
-                    <span className="capitalize">{dossier.type || NA_DISCLOSED}</span>
+                    <Building2 className="w-4 h-4 text-slate-500" /> {t("supplierDetail.contactPath.type")}{" "}
+                    <span>{supplierTypeLabel(dossier.type, t)}</span>
                   </p>
                   <p className="inline-flex items-center gap-2">
-                    <Globe className="w-4 h-4 text-slate-500" /> Website: {NA_RFQ}
+                    <Globe className="w-4 h-4 text-slate-500" /> {t("supplierDetail.contactPath.website")} {na.rfq}
                   </p>
                   <p className="inline-flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-slate-500" /> Email: {NA_RFQ}
+                    <Mail className="w-4 h-4 text-slate-500" /> {t("supplierDetail.contactPath.email")} {na.rfq}
                   </p>
                   <p className="inline-flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-slate-500" /> Phone: {NA_RFQ}
+                    <Phone className="w-4 h-4 text-slate-500" /> {t("supplierDetail.contactPath.phone")} {na.rfq}
                   </p>
                 </div>
-                <p className="text-xs text-slate-500 mt-3">
-                  Direct contact details are released after a SmartSeek sourcing operator screens your RFQ. This protects suppliers from spam and gives you a clean audit trail.
+                <p className="text-xs text-slate-600 mt-3">
+                  {t("supplierDetail.contactPath.footnote")}
                 </p>
               </div>
             )}
 
-            {/* ACTIONS */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href={rfqHref}>
-                <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition w-full sm:w-auto">
-                  <FileText className="w-4 h-4" /> Submit RFQ to engage supplier
+                <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 min-h-11 py-2.5 rounded-xl text-sm transition w-full sm:w-auto">
+                  <FileText className="w-4 h-4" /> {t("supplierDetail.actions.submitRfq")}
                 </button>
               </Link>
               <button
                 onClick={toggleSavedSupplier}
-                className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition border w-full sm:w-auto ${
+                className={`inline-flex items-center justify-center gap-2 px-5 min-h-11 py-2.5 rounded-xl text-sm font-semibold transition border w-full sm:w-auto ${
                   saved ? "bg-amber-50 border-amber-200 text-amber-800" : "bg-white border-slate-300 text-slate-800 hover:bg-slate-50"
                 }`}
               >
-                <Bookmark className="w-4 h-4" /> {saved ? "Saved" : "Save supplier"}
+                <Bookmark className="w-4 h-4" /> {saved ? t("supplierDetail.actions.saved") : t("supplierDetail.actions.save")}
               </button>
               <button
                 onClick={toggleCompareSupplier}
-                className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition border w-full sm:w-auto ${
+                className={`inline-flex items-center justify-center gap-2 px-5 min-h-11 py-2.5 rounded-xl text-sm font-semibold transition border w-full sm:w-auto ${
                   inCompare ? "bg-blue-50 border-blue-200 text-blue-800" : "bg-white border-slate-300 text-slate-800 hover:bg-slate-50"
                 }`}
               >
-                <Scale className="w-4 h-4" /> {inCompare ? "In compare" : "Add to compare (up to 3)"}
+                <Scale className="w-4 h-4" /> {inCompare ? t("supplierDetail.actions.inCompare") : t("supplierDetail.actions.compare")}
               </button>
             </div>
           </div>
+        )}
+
+        {!loading && dossier && (
+          <>
+            <div className="sm:hidden h-16" aria-hidden="true" />
+            <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+              <Link href={rfqHref}>
+                <button className="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold min-h-11 py-3 rounded-xl text-sm transition">
+                  <FileText className="w-4 h-4" /> {t("supplierDetail.actions.submitRfq")}
+                </button>
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </section>
@@ -1135,7 +928,13 @@ export default function SupplierDetailPage() {
 
 // ── Subcomponents ────────────────────────────────────────────────────────────
 
-function ConfidenceChip({ band }: { band: ConfidenceBand }) {
+function verificationTierLabel(tier: SupplierProcurementDossier["verification"]["tier"], t: ReturnType<typeof useTranslation>["t"]): string {
+  if (tier === "Operator Verified") return t("supplierDetail.tier.operatorVerified");
+  if (tier === "Registry Verified") return t("supplierDetail.tier.registryVerified");
+  return t("supplierDetail.tier.verificationPending");
+}
+
+function ConfidenceChip({ band, t }: { band: ConfidenceBand; t: ReturnType<typeof useTranslation>["t"] }) {
   const map: Record<ConfidenceBand, { tone: string; icon: React.ReactNode }> = {
     "Operator Reviewed":   { tone: "bg-emerald-50 text-emerald-800 border-emerald-200", icon: <BadgeCheck className="w-3 h-3" /> },
     "Registry Verified":   { tone: "bg-blue-50 text-blue-700 border-blue-200",         icon: <ShieldCheck className="w-3 h-3" /> },
@@ -1145,40 +944,38 @@ function ConfidenceChip({ band }: { band: ConfidenceBand }) {
   };
   const cfg = map[band];
   return (
-    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full border inline-flex items-center gap-1 ${cfg.tone}`}>
+    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full border inline-flex items-center gap-1 ${cfg.tone}`}>
       {cfg.icon}
-      {band}
+      {confidenceLabel(band, t)}
     </span>
   );
 }
 
-function VerificationChip({ tier }: { tier: SupplierProcurementDossier["verification"]["tier"] }) {
+function VerificationChip({ tier, t, naRegistry }: { tier: SupplierProcurementDossier["verification"]["tier"]; t: ReturnType<typeof useTranslation>["t"]; naRegistry: string }) {
   if (tier === "Operator Verified") {
     return (
       <span className="text-xs bg-emerald-50 text-emerald-800 px-2 py-1 rounded-full border border-emerald-200 font-semibold inline-flex items-center gap-1">
-        <BadgeCheck className="w-3 h-3" /> Operator-verified
+        <BadgeCheck className="w-3 h-3" /> {t("supplierDetail.tier.operatorVerified")}
       </span>
     );
   }
   if (tier === "Registry Verified") {
     return (
       <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full border border-blue-100 font-semibold inline-flex items-center gap-1">
-        <ShieldCheck className="w-3 h-3" /> Registry-verified
+        <ShieldCheck className="w-3 h-3" /> {t("supplierDetail.tier.registryVerified")}
       </span>
     );
   }
   return (
     <span className="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded-full border border-amber-100 font-semibold inline-flex items-center gap-1">
-      <Lock className="w-3 h-3" /> {NA_REGISTRY}
+      <Lock className="w-3 h-3" /> {naRegistry}
     </span>
   );
 }
 
-function renderRegistry(d: SupplierProcurementDossier): React.ReactNode {
+function renderRegistry(d: SupplierProcurementDossier, t: ReturnType<typeof useTranslation>["t"], na: ReturnType<typeof supplierNa>): React.ReactNode {
   if (d.provenance.registryUrl) {
-    const label = d.provenance.registryId
-      ? d.provenance.registryId
-      : "View record";
+    const label = d.provenance.registryId ? d.provenance.registryId : t("supplierDetail.na.viewRecord");
     return (
       <a
         href={d.provenance.registryUrl}
@@ -1191,18 +988,9 @@ function renderRegistry(d: SupplierProcurementDossier): React.ReactNode {
     );
   }
   if (d.provenance.registryId) return d.provenance.registryId;
-  return NA_REGISTRY;
+  return na.registry;
 }
 
-function formatDate(iso: string): string {
-  try {
-    const dt = new Date(iso);
-    if (Number.isNaN(dt.getTime())) return "Tracked internally";
-    return dt.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
-  } catch {
-    return "Tracked internally";
-  }
-}
 
 function Fact({ label, value }: { label: string; value: React.ReactNode }) {
   return (
@@ -1230,7 +1018,7 @@ function Card({
         {icon}
         <p className="text-sm font-bold text-slate-900">{title}</p>
       </div>
-      {subtitle && <p className="text-[11px] text-slate-500 uppercase tracking-wider mb-3">{subtitle}</p>}
+      {subtitle && <p className="text-xs text-slate-600 uppercase tracking-wider mb-3">{subtitle}</p>}
       {children}
     </div>
   );
@@ -1240,9 +1028,9 @@ function KvList({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
     <ul className="space-y-2 text-sm text-slate-700">
       {rows.map(([k, v]) => (
-        <li key={k} className="flex items-baseline justify-between gap-3">
-          <span className="text-slate-500 text-xs uppercase tracking-wider">{k}</span>
-          <span className="text-right">{v}</span>
+        <li key={k} className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-3">
+          <span className="text-slate-600 text-xs uppercase tracking-wider shrink-0">{k}</span>
+          <span className="sm:text-right break-words">{v}</span>
         </li>
       ))}
     </ul>
