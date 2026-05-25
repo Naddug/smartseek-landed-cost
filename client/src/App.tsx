@@ -141,6 +141,7 @@ function Router() {
   useEffect(() => {
     const base = location.split("?")[0];
     document.title = PAGE_TITLES[base] || "SmartSeek – Sourcing & Lead Intelligence";
+    window.scrollTo(0, 0);
   }, [location]);
 
   return (

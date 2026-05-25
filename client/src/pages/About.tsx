@@ -46,7 +46,7 @@ export default function About() {
                   </div>
                   <div>
                     <strong className="text-slate-900">{t("about.procurers")}</strong>
-                    <span className="text-slate-600"> — {t("about.procurersDesc")}</span>
+                    <span className="text-slate-600">. {t("about.procurersDesc")}</span>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -55,7 +55,7 @@ export default function About() {
                   </div>
                   <div>
                     <strong className="text-slate-900">{t("about.suppliers")}</strong>
-                    <span className="text-slate-600"> — {t("about.suppliersDesc")}</span>
+                    <span className="text-slate-600">. {t("about.suppliersDesc")}</span>
                   </div>
                 </li>
               </ul>
