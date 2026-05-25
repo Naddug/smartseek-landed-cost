@@ -4,6 +4,7 @@ import { Search, MapPin, ShieldCheck, ArrowRight, Building2, FileText } from "lu
 import PublicLayout from "@/components/layout/PublicLayout";
 import { SupplierSignalFooter } from "@/components/supplier/SupplierSignalFooter";
 import { usePublicSupplierSearch } from "@/lib/hooks";
+import { translateIndustry, translateProduct, translateTagline } from "@/lib/supplierCardCopy";
 import { useTranslation } from "react-i18next";
 
 // Quick-search chips span the platform's main sourcing categories.
@@ -72,8 +73,10 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
           </div>
         </div>
 
-        <span className="inline-block text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full mb-2">{supplier.industry}</span>
-        <p className="text-xs text-slate-600 mb-3 line-clamp-2">{supplier.tagline}</p>
+        <span className="inline-block text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full mb-2">
+          {translateIndustry(supplier.industry, t)}
+        </span>
+        <p className="text-xs text-slate-600 mb-3 line-clamp-2">{translateTagline(supplier.tagline, t)}</p>
         <p className="text-xs text-slate-600 mb-2">
           {t("publicSearch.card.bestFor")}{" "}
           {supplier.type === "manufacturer"
@@ -86,7 +89,7 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
         <div className="flex flex-wrap gap-1 mb-3">
           {supplier.products.slice(0, 3).map((p, i) => (
             <span key={i} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">
-              {p}
+              {translateProduct(p, t)}
             </span>
           ))}
         </div>
