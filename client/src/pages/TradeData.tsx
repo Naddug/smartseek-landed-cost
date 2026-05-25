@@ -256,11 +256,19 @@ const REGION_DATA: Record<string, {
 };
 
 function getMonthsForRange(timeRange: string): string[] {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const months = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
   if (timeRange === "3m") return months.slice(-3);
   if (timeRange === "6m") return months.slice(-6);
   if (timeRange === "ytd") return months.slice(0, new Date().getMonth() + 1);
-  return months; // 12m
+  return months;
+}
+
+function monthKeyFromLegacy(label: string): string {
+  const map: Record<string, string> = {
+    Jan: "jan", Feb: "feb", Mar: "mar", Apr: "apr", May: "may", Jun: "jun",
+    Jul: "jul", Aug: "aug", Sep: "sep", Oct: "oct", Nov: "nov", Dec: "dec",
+  };
+  return map[label] ?? label.toLowerCase();
 }
 
 const COUNTRIES = [
@@ -326,12 +334,24 @@ export default function TradeData() {
 
   const filteredData = useMemo(() => {
     const base = regionData.importExport;
-    return base.filter((d) => monthFilter.includes(d.month));
-  }, [regionData.importExport, monthFilter]);
+    return base
+      .filter((d) => monthFilter.includes(monthKeyFromLegacy(d.month)))
+      .map((d) => ({
+        ...d,
+        monthKey: monthKeyFromLegacy(d.month),
+        monthLabel: t(`tradeData.month.${monthKeyFromLegacy(d.month)}`),
+      }));
+  }, [regionData.importExport, monthFilter, t]);
 
   const filteredPriceIndex = useMemo(() => {
-    return regionData.priceIndex.filter((d) => monthFilter.includes(d.month));
-  }, [regionData.priceIndex, monthFilter]);
+    return regionData.priceIndex
+      .filter((d) => monthFilter.includes(monthKeyFromLegacy(d.month)))
+      .map((d) => ({
+        ...d,
+        monthKey: monthKeyFromLegacy(d.month),
+        monthLabel: t(`tradeData.month.${monthKeyFromLegacy(d.month)}`),
+      }));
+  }, [regionData.priceIndex, monthFilter, t]);
 
   const handleExport = () => {
     const csv = [
@@ -454,12 +474,12 @@ export default function TradeData() {
               <Link href="/app/smart-finder">
                 <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
                   <Sparkles className="w-4 h-4 mr-2" />
-                  New sourcing report
+                  {t("tradeData.newSourcingReport")}
                 </Button>
               </Link>
               <Link href="/app/reports">
                 <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700/50">
-                  View My Reports →
+                  {t("tradeData.viewMyReports")}
                 </Button>
               </Link>
             </div>
@@ -468,32 +488,32 @@ export default function TradeData() {
       )}
 
       {/* Global Trade Intelligence */}
-      <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Trade data overview</h2>
+      <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{t("tradeData.overviewTitle")}</h2>
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          title="Total Imports"
+          title={t("tradeData.metric.totalImports")}
           value={regionData.metrics.imports}
           change={regionData.metrics.change}
           trend={regionData.metrics.trend}
           icon={<Package className="w-5 h-5" />}
         />
         <MetricCard
-          title="Total Exports"
+          title={t("tradeData.metric.totalExports")}
           value={regionData.metrics.exports}
           change={regionData.metrics.change - 2}
           trend={regionData.metrics.trend}
           icon={<Ship className="w-5 h-5" />}
         />
         <MetricCard
-          title="Trade Balance"
+          title={t("tradeData.metric.tradeBalance")}
           value={regionData.metrics.balance}
           change={region === "europe" ? 2.1 : -3.2}
           trend={region === "europe" ? "up" : "down"}
           icon={<DollarSign className="w-5 h-5" />}
         />
         <MetricCard
-          title="Active Suppliers"
+          title={t("tradeData.metric.activeSuppliers")}
           value={regionData.metrics.suppliers}
           change={15.3}
           trend="up"
@@ -504,24 +524,24 @@ export default function TradeData() {
       {/* Main Charts */}
       <Tabs defaultValue="volume" className="w-full min-w-0">
         <TabsList className="flex w-full overflow-x-auto flex-nowrap sm:flex-wrap justify-start sm:justify-center gap-1 p-1 h-auto">
-          <TabsTrigger value="volume" className="shrink-0">Trade Volume</TabsTrigger>
-          <TabsTrigger value="countries" className="shrink-0">By Country</TabsTrigger>
-          <TabsTrigger value="categories" className="shrink-0">By Category</TabsTrigger>
-          <TabsTrigger value="pricing" className="shrink-0">Price Index</TabsTrigger>
+          <TabsTrigger value="volume" className="shrink-0">{t("tradeData.tab.tradeVolume")}</TabsTrigger>
+          <TabsTrigger value="countries" className="shrink-0">{t("tradeData.tab.byCountry")}</TabsTrigger>
+          <TabsTrigger value="categories" className="shrink-0">{t("tradeData.tab.byCategory")}</TabsTrigger>
+          <TabsTrigger value="pricing" className="shrink-0">{t("tradeData.tab.priceIndex")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="volume" className="mt-4 sm:mt-6">
           <Card className="overflow-hidden bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
             <CardHeader>
-              <CardTitle>Import/Export Trends</CardTitle>
-              <CardDescription>Monthly trade volume in billions USD — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+              <CardTitle>{t("tradeData.chart.importExportTrends")}</CardTitle>
+              <CardDescription>{t("tradeData.chart.importExportDesc", { region: regionLabel })}</CardDescription>
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
               <div className="w-full min-w-0">
               <ResponsiveContainer width="100%" height={280}>
                 <AreaChart data={filteredData}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200" />
-                  <XAxis dataKey="month" className="text-xs" tick={{ fill: "#64748b" }} />
+                  <XAxis dataKey="monthLabel" className="text-xs" tick={{ fill: "#64748b" }} />
                   <YAxis className="text-xs" tick={{ fill: "#64748b" }} />
                   <Tooltip 
                     contentStyle={{ 
@@ -531,8 +551,8 @@ export default function TradeData() {
                     }} 
                   />
                   <Legend />
-                  <Area type="monotone" dataKey="imports" stackId="1" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} name="Imports ($B)" />
-                  <Area type="monotone" dataKey="exports" stackId="2" stroke="#10b981" fill="#10b981" fillOpacity={0.6} name="Exports ($B)" />
+                  <Area type="monotone" dataKey="imports" stackId="1" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} name={t("tradeData.chart.importsB")} />
+                  <Area type="monotone" dataKey="exports" stackId="2" stroke="#10b981" fill="#10b981" fillOpacity={0.6} name={t("tradeData.chart.exportsB")} />
                 </AreaChart>
               </ResponsiveContainer>
               </div>
@@ -545,7 +565,7 @@ export default function TradeData() {
             <Select value={comtradeCountry} onValueChange={(v) => { setComtradeCountry(v); setFetchComtrade(false); }}>
               <SelectTrigger className="w-[180px]">
                 <Globe className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="Country" />
+                <SelectValue placeholder={t("tradeData.countryPlaceholder")} />
               </SelectTrigger>
               <SelectContent>
                 {COUNTRIES.map((c) => (
@@ -556,7 +576,7 @@ export default function TradeData() {
             <div className="relative flex-1 min-w-[160px] max-w-[240px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input
-                placeholder="HS code (e.g. 7408)"
+                placeholder={t("tradeData.hsCodePlaceholder")}
                 value={hsCode}
                 onChange={(e) => setHsCode(e.target.value)}
                 className="pl-9"
@@ -568,24 +588,24 @@ export default function TradeData() {
               onClick={() => setFetchComtrade(true)}
               disabled={comtradeLoading}
             >
-              {comtradeLoading ? "Loading…" : "Fetch UN Comtrade"}
+              {comtradeLoading ? t("tradeData.loading") : t("tradeData.fetchComtrade")}
             </Button>
           </div>
           {comtradeError && (
             <div className="mb-4 p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-sm text-amber-800 dark:text-amber-200">
-              UN Comtrade API not configured or unavailable. Showing regional estimates.
+              {t("tradeData.comtradeUnavailable")}
             </div>
           )}
           {comtradeData?.data && Array.isArray(comtradeData.data) && comtradeData.data.length > 0 && (
             <div className="mb-4 p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-sm text-emerald-800 dark:text-emerald-200">
-              Data from {comtradeData.source}
+              {t("tradeData.dataFrom", { source: comtradeData.source })}
             </div>
           )}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100">Top Import Origins</CardTitle>
-                <CardDescription>Share of total imports by country — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+                <CardTitle className="text-slate-900 dark:text-slate-100">{t("tradeData.topImportOrigins")}</CardTitle>
+                <CardDescription>{t("tradeData.topImportOriginsDesc", { region: regionLabel })}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -611,8 +631,8 @@ export default function TradeData() {
             </Card>
             <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100">Country Rankings</CardTitle>
-                <CardDescription>Trade volume by country</CardDescription>
+                <CardTitle className="text-slate-900 dark:text-slate-100">{t("tradeData.countryRankings")}</CardTitle>
+                <CardDescription>{t("tradeData.countryRankingsDesc")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -643,13 +663,13 @@ export default function TradeData() {
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <CardTitle>Trade by Product Category</CardTitle>
-                  <CardDescription>Import/Export comparison by category (billions USD) — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}</CardDescription>
+                  <CardTitle>{t("tradeData.tradeByCategory")}</CardTitle>
+                  <CardDescription>{t("tradeData.tradeByCategoryDesc", { region: regionLabel })}</CardDescription>
                 </div>
                 <div className="relative w-full sm:w-64">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                   <Input
-                    placeholder="Search categories (e.g. ore, steel, textile)"
+                    placeholder={t("tradeData.searchCategories")}
                     value={categorySearch}
                     onChange={(e) => setCategorySearch(e.target.value)}
                     className="pl-9 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400"
@@ -661,8 +681,8 @@ export default function TradeData() {
               {filteredCategories.length === 0 ? (
                 <div className="py-12 text-center text-slate-600 dark:text-slate-400">
                   <Search className="w-12 h-12 mx-auto mb-2 text-slate-400" />
-                  <p>No categories match &quot;{categorySearch}&quot;</p>
-                  <Button variant="outline" size="sm" className="mt-2" onClick={() => setCategorySearch("")}>Clear search</Button>
+                  <p>{t("tradeData.noCategoriesMatch", { query: categorySearch })}</p>
+                  <Button variant="outline" size="sm" className="mt-2" onClick={() => setCategorySearch("")}>{t("tradeData.clearSearch")}</Button>
                 </div>
               ) : (
               <ResponsiveContainer width="100%" height={350}>
@@ -678,8 +698,8 @@ export default function TradeData() {
                     }} 
                   />
                   <Legend />
-                  <Bar dataKey="imports" fill="#3b82f6" name="Imports" radius={[0, 4, 4, 0]} />
-                  <Bar dataKey="exports" fill="#10b981" name="Exports" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="imports" fill="#3b82f6" name={t("tradeData.chart.imports")} radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="exports" fill="#10b981" name={t("tradeData.chart.exports")} radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
               )}
@@ -690,18 +710,18 @@ export default function TradeData() {
         <TabsContent value="pricing" className="mt-6">
           <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
             <CardHeader>
-              <CardTitle>Commodity Price Index</CardTitle>
-              <CardDescription>Live price trends — coming soon</CardDescription>
+              <CardTitle>{t("tradeData.commodityPriceIndex")}</CardTitle>
+              <CardDescription>{t("tradeData.commodityComingSoon")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg border border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/50 p-12 text-center">
                 <BarChart3 className="w-16 h-16 mx-auto mb-4 text-slate-400" />
-                <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Coming Soon</h3>
+                <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">{t("tradeData.comingSoon")}</h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
-                  Real-time commodity price indices for steel, copper, aluminum, and more. We&apos;re integrating with market data providers.
+                  {t("tradeData.comingSoonDesc")}
                 </p>
                 <div className="inline-block text-left text-sm text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
-                  <p className="font-medium text-slate-800 dark:text-slate-200 mb-2">Reference prices (static)</p>
+                  <p className="font-medium text-slate-800 dark:text-slate-200 mb-2">{t("tradeData.referencePrices")}</p>
                   <ul className="space-y-1">
                     <li>Copper: ~$9,200/t</li>
                     <li>Steel HRC: ~$680/t</li>
@@ -721,9 +741,9 @@ export default function TradeData() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
               <Ship className="w-5 h-5 text-blue-500" />
-              Container Shipping Rates
+              {t("tradeData.shippingRates")}
             </CardTitle>
-            <CardDescription>40ft container rates (USD) — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"} routes</CardDescription>
+            <CardDescription>{t("tradeData.shippingRatesDesc", { region: regionLabel })}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -731,7 +751,7 @@ export default function TradeData() {
                 <div key={route.route} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <div>
                     <div className="font-medium text-slate-800 dark:text-slate-200">{route.route}</div>
-                    <div className="text-sm text-slate-600 dark:text-slate-400">40ft container</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-400">{t("tradeData.container40ft")}</div>
                   </div>
                   <div className="text-right">
                     <div className="font-bold text-slate-900 dark:text-slate-100">${route.current.toLocaleString()}</div>
@@ -750,9 +770,9 @@ export default function TradeData() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
               <Globe className="w-5 h-5 text-green-500" />
-              Top Verified Suppliers
+              {t("tradeData.topSuppliers")}
             </CardTitle>
-            <CardDescription>Registry-verified suppliers — {regionLabel}</CardDescription>
+            <CardDescription>{t("tradeData.topSuppliersDesc", { region: regionLabel })}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -797,20 +817,20 @@ export default function TradeData() {
           </CardHeader>
           <CardContent className="space-y-4">
             {[
-              { title: "Sourcing Opportunity", badge: "High Impact", badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-300", icon: <Target className="w-4 h-4 text-emerald-600" />, text: `${region === "asia" ? "Vietnam and Indonesia" : region === "europe" ? "Poland and Czech Republic" : region === "americas" ? "Mexico and Colombia" : "Southeast Asian"} suppliers show 12-18% cost advantage vs. established markets. Consider diversifying supply chain.` },
-              { title: "Price Alert", badge: "Action Needed", badgeColor: "bg-amber-100 text-amber-800 border-amber-300", icon: <AlertTriangle className="w-4 h-4 text-amber-600" />, text: "Copper prices up 32% YTD. Lock in contracts now or consider aluminum substitutes where possible. Forecast suggests continued upward pressure through Q3." },
-              { title: "Compliance Update", badge: "Regulatory", badgeColor: "bg-blue-100 text-blue-800 border-blue-300", icon: <Shield className="w-4 h-4 text-blue-600" />, text: "New EU Carbon Border Adjustment Mechanism (CBAM) affects steel, aluminum, and cement imports. Factor carbon costs into landed cost calculations." },
-              { title: "Route Optimization", badge: "Cost Saving", badgeColor: "bg-purple-100 text-purple-800 border-purple-300", icon: <Zap className="w-4 h-4 text-purple-600" />, text: "Rail freight via China-Europe corridor is 40% cheaper than air and 60% faster than sea for mid-weight shipments. Consider for time-sensitive orders under 5 tonnes." },
+              { titleKey: "tradeData.insight.sourcingOpportunity", badgeKey: "tradeData.badge.highImpact", icon: <Target className="w-4 h-4 text-emerald-600" />, textKey: "tradeData.analysisInsight.sourcingOpportunity", badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-300" },
+              { titleKey: "tradeData.insight.priceAlert", badgeKey: "tradeData.badge.actionNeeded", icon: <AlertTriangle className="w-4 h-4 text-amber-600" />, textKey: "tradeData.analysisInsight.priceAlert", badgeColor: "bg-amber-100 text-amber-800 border-amber-300" },
+              { titleKey: "tradeData.insight.complianceUpdate", badgeKey: "tradeData.badge.regulatory", icon: <Shield className="w-4 h-4 text-blue-600" />, textKey: "tradeData.analysisInsight.complianceUpdate", badgeColor: "bg-blue-100 text-blue-800 border-blue-300" },
+              { titleKey: "tradeData.insight.routeOptimization", badgeKey: "tradeData.badge.costSaving", icon: <Zap className="w-4 h-4 text-purple-600" />, textKey: "tradeData.analysisInsight.routeOptimization", badgeColor: "bg-purple-100 text-purple-800 border-purple-300" },
             ].map((insight, i) => (
               <div key={i} className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5">{insight.icon}</div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-slate-900 dark:text-slate-100">{insight.title}</span>
-                      <Badge variant="outline" className={`text-xs ${insight.badgeColor}`}>{insight.badge}</Badge>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">{t(insight.titleKey)}</span>
+                      <Badge variant="outline" className={`text-xs ${insight.badgeColor}`}>{t(insight.badgeKey)}</Badge>
                     </div>
-                    <p className="text-sm text-slate-700 leading-relaxed">{insight.text}</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">{t(insight.textKey, { region: regionLabel })}</p>
                   </div>
                 </div>
               </div>
@@ -823,20 +843,20 @@ export default function TradeData() {
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2 text-slate-900 dark:text-slate-100">
                 <Activity className="w-4 h-4 text-blue-500" />
-                Supply Chain Health
+                {t("tradeData.supplyChainHealth")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {[
-                { label: "Logistics", score: 87, color: "bg-emerald-500" },
-                { label: "Supplier Reliability", score: 92, color: "bg-blue-500" },
-                { label: "Port Congestion", score: 64, color: "bg-amber-500" },
-                { label: "Regulatory Risk", score: 78, color: "bg-purple-500" },
-                { label: "Price Stability", score: 55, color: "bg-red-500" },
+                { labelKey: "tradeData.health.logistics", score: 87, color: "bg-emerald-500" },
+                { labelKey: "tradeData.health.supplierReliability", score: 92, color: "bg-blue-500" },
+                { labelKey: "tradeData.health.portCongestion", score: 64, color: "bg-amber-500" },
+                { labelKey: "tradeData.health.regulatoryRisk", score: 78, color: "bg-purple-500" },
+                { labelKey: "tradeData.health.priceStability", score: 55, color: "bg-red-500" },
               ].map((item) => (
-                <div key={item.label}>
+                <div key={item.labelKey}>
                   <div className="flex justify-between text-xs sm:text-sm mb-1 gap-2">
-                    <span className="text-slate-800 dark:text-slate-200 font-medium truncate min-w-0">{item.label}</span>
+                    <span className="text-slate-800 dark:text-slate-200 font-medium truncate min-w-0">{t(item.labelKey)}</span>
                     <span className="font-semibold text-slate-900 dark:text-slate-100 shrink-0">{item.score}/100</span>
                   </div>
                   <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -851,7 +871,7 @@ export default function TradeData() {
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2 text-slate-900 dark:text-slate-100">
                 <BarChart3 className="w-4 h-4 text-amber-500" />
-                Trending Commodities
+                {t("tradeData.trendingCommodities")}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -881,19 +901,19 @@ export default function TradeData() {
       {/* Market Insights */}
       <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900 dark:text-slate-100 text-xl">Market analysis</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-slate-100 text-xl">{t("tradeData.marketAnalysis")}</CardTitle>
           <CardDescription className="text-slate-600 dark:text-slate-400">
-            Trade data updates — {region === "global" ? "Global" : region === "asia" ? "Asia Pacific" : region === "europe" ? "Europe" : "Americas"}
+            {t("tradeData.marketAnalysisDesc", { region: regionLabel })}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {regionData.insights.map((insight, i) => (
-              <InsightCard key={i} title={insight.title} content={insight.content} type={insight.type} />
+              <InsightCard key={i} title={t(getInsightTitleKey(insight.title))} content={t(getInsightContentKey(region, insight.title), { defaultValue: insight.content })} type={insight.type} />
             ))}
           </div>
           <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">External data sources</p>
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t("tradeData.externalSources")}</p>
             <div className="flex flex-wrap gap-2">
               <a href="https://www.trade.gov/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -910,7 +930,7 @@ export default function TradeData() {
               <Link href="/app/smart-finder">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium transition-colors cursor-pointer">
                   <Sparkles className="w-3.5 h-3.5" />
-                  Sourcing report
+                  {t("tradeData.sourcingReportLink")}
                 </span>
               </Link>
             </div>
@@ -925,23 +945,23 @@ export default function TradeData() {
             <div>
               <h3 className="font-bold text-white flex items-center gap-2 text-xl">
                 <Sparkles className="w-6 h-6" />
-                Turn insights into action
+                {t("tradeData.ctaTitle")}
               </h3>
               <p className="text-blue-100 mt-1">
-                Get structured sourcing reports, find verified suppliers, or analyze landed costs for any product.
+                {t("tradeData.ctaDesc")}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/app/smart-finder">
                 <Button className="gap-2 bg-white text-blue-700 hover:bg-blue-50 font-semibold">
                   <Sparkles className="w-4 h-4" />
-                  Get sourcing report
+                  {t("tradeData.getSourcingReport")}
                 </Button>
               </Link>
               <Link href="/search">
                 <Button variant="outline" className="gap-2 border-white/30 text-white hover:bg-white/10">
                   <Search className="w-4 h-4" />
-                  Search Suppliers
+                  {t("tradeData.searchSuppliers")}
                 </Button>
               </Link>
             </div>
@@ -952,6 +972,23 @@ export default function TradeData() {
   );
 }
 
+function getInsightTitleKey(title: string): string {
+  const map: Record<string, string> = {
+    "Shipping Alert": "tradeData.insight.shippingAlert",
+    "Price Trend": "tradeData.insight.priceTrend",
+    "Supplier Update": "tradeData.insight.supplierUpdate",
+    "Asia-Pacific Focus": "tradeData.insight.asiaPacificFocus",
+    "EU Trade Update": "tradeData.insight.euTradeUpdate",
+    "USMCA Update": "tradeData.insight.usmcaUpdate",
+  };
+  return map[title] ?? title;
+}
+
+function getInsightContentKey(region: string, title: string): string {
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+  return `tradeData.insightContent.${region}.${slug}`;
+}
+
 function MetricCard({ title, value, change, trend, icon }: { 
   title: string; 
   value: string; 
@@ -959,6 +996,7 @@ function MetricCard({ title, value, change, trend, icon }: {
   trend: "up" | "down";
   icon: React.ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700" data-testid={`metric-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <CardContent className="pt-4 sm:pt-6 min-w-0">
@@ -971,7 +1009,7 @@ function MetricCard({ title, value, change, trend, icon }: {
         <div className="text-xl sm:text-2xl font-bold mb-1 text-slate-900 dark:text-slate-100 truncate">{value}</div>
         <div className={`text-xs sm:text-sm flex items-center gap-1 ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
           {trend === 'up' ? <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" /> : <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />}
-          <span className="truncate">{Math.abs(change)}% vs last period</span>
+          <span className="truncate">{t("tradeData.vsLastPeriod", { change: Math.abs(change) })}</span>
         </div>
       </CardContent>
     </Card>
