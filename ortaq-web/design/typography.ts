@@ -1,30 +1,53 @@
 import { cn } from "@/lib/cn";
 
-/** Editorial type system — slow, institutional reading */
+/**
+ * Canonical typography contract.
+ *
+ * Strict 7-tier hierarchy, ordered top-down:
+ *
+ *   display     hero / masthead headline
+ *   h1          page-level title
+ *   h2          section title (primary tier)
+ *   h3          sub-section title (secondary tier)
+ *   label       uppercase kicker, used above any heading or above tables
+ *   table       table cells — body-weight with tabular-nums on by default
+ *   meta        timestamps, dimensions, captions inside dense layouts
+ *
+ * Plus essentials:
+ *
+ *   body        default copy
+ *   bodySm      compact copy
+ *   caption     tertiary copy
+ *   link        underline contract for inline links
+ *   metric      large tabular-nums stat (rare; only in summary cards)
+ *
+ * No serif/cinematic tokens. The serif font is opt-in via the explicit
+ * `font-heading` utility class — never the default.
+ *
+ * No `light` variants. Surfaces that need light copy on dark backgrounds
+ * compose `text-ortaq-cream` / `text-ortaq-cream/80` at the call site.
+ */
 export const typography = {
+  // Headings — sans, tight tracking, balanced wrap
   display:
-    "font-heading text-[2.25rem] leading-[1.02] tracking-[-0.035em] text-ortaq-ink sm:text-[3.25rem] lg:text-[3.75rem]",
-  displayLight:
-    "font-heading text-[2.5rem] leading-[1.04] tracking-[-0.04em] text-ortaq-cream sm:text-[3.5rem] lg:text-[4.25rem]",
-  editorial:
-    "font-heading text-[1.75rem] leading-[1.12] tracking-[-0.025em] text-ortaq-ink sm:text-[2.375rem] lg:text-[2.75rem]",
-  editorialLight:
-    "font-heading text-[1.75rem] leading-[1.12] tracking-[-0.025em] text-ortaq-cream sm:text-[2.375rem] lg:text-[2.75rem]",
-  h1: "font-heading text-[2rem] leading-[1.06] tracking-[-0.03em] text-ortaq-ink sm:text-[2.75rem] lg:text-[3rem]",
-  h2: "font-heading text-[1.625rem] leading-[1.1] tracking-[-0.028em] text-ortaq-ink sm:text-[2.125rem]",
-  h3: "font-heading text-[1.125rem] leading-[1.15] tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]",
-  lead: "text-[1.0625rem] leading-[1.72] text-ortaq-ink-muted sm:text-[1.25rem] sm:leading-[1.68]",
-  leadLight: "text-[1.0625rem] leading-[1.72] text-ortaq-cream/85 sm:text-[1.25rem]",
-  prose: "text-[1rem] leading-[1.82] text-ortaq-ink-muted sm:text-[1.0625rem] sm:leading-[1.78]",
-  proseLight: "text-[1rem] leading-[1.82] text-ortaq-cream/78 sm:text-[1.0625rem]",
-  body: "text-[0.9375rem] leading-[1.72] text-ortaq-ink-muted sm:text-base",
-  bodySm: "text-[0.875rem] leading-[1.65] text-ortaq-ink-muted",
-  kicker: "editorial-kicker",
-  kickerLight: "editorial-kicker-light",
-  caption: "figure-note",
-  link: "text-ortaq-ink underline-offset-[3px] decoration-ortaq-border-strong hover:decoration-ortaq-ink transition-colors duration-200",
-  linkLight:
-    "text-ortaq-cream/90 underline-offset-[3px] decoration-white/30 hover:decoration-white/70 transition-colors duration-200",
+    "font-body text-[1.625rem] font-semibold leading-[1.12] tracking-[-0.025em] text-ortaq-ink sm:text-[2rem] lg:text-[2.125rem]",
+  h1: "font-body text-[1.375rem] font-semibold leading-[1.15] tracking-[-0.02em] text-ortaq-ink sm:text-[1.5rem]",
+  h2: "font-body text-[1.125rem] font-semibold leading-[1.2] tracking-[-0.015em] text-ortaq-ink sm:text-[1.1875rem]",
+  h3: "font-body text-[0.9375rem] font-semibold leading-[1.25] text-ortaq-ink sm:text-base",
+
+  // Body
+  body: "text-[0.875rem] leading-[1.55] text-ortaq-ink-muted sm:text-[0.9375rem]",
+  bodySm: "text-[0.8125rem] leading-[1.5] text-ortaq-ink-muted",
+  caption: "text-[0.75rem] leading-[1.45] text-ortaq-ink-soft",
+
+  // Specialist
+  label: "text-[0.6875rem] font-medium uppercase tracking-[0.06em] text-ortaq-ink-soft",
+  table: "text-[0.8125rem] leading-[1.45] tabular-nums text-ortaq-ink",
+  meta: "text-[0.75rem] leading-[1.45] tabular-nums text-ortaq-ink-soft",
+  metric: "font-body text-[1.375rem] font-semibold leading-none tabular-nums text-ortaq-ink sm:text-[1.5rem]",
+
+  // Inline link contract
+  link: "text-ortaq-ink underline-offset-2 decoration-ortaq-border-strong hover:decoration-ortaq-ink transition-colors",
 } as const;
 
 export function typ(classNames: keyof typeof typography, extra?: string) {

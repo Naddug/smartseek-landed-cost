@@ -77,12 +77,26 @@ NEXT_PUBLIC_SITE_URL=https://staging.ortaq.biz
 
 ```bash
 cd ortaq-web
-vercel link
-vercel --prod          # production
-vercel                 # preview
+
+# Pre-flight (run before any deploy)
+npm run validate:staging    # staging build + noindex checks
+npm run validate:prod       # production build + sitemap checks
+
+# After DNS + Vercel deploy
+npm run validate:live:staging
+npm run validate:live:production
+npm run audit:staging       # Lighthouse mobile
+
+# CLI deploy (optional)
+npx vercel login
+npx vercel link
+npx vercel                  # preview → staging branch
+npx vercel --prod           # production — only after QA sign-off
 ```
 
-Or push to `main` with GitHub integration.
+**Full runbook:** [`docs/GODADDY_VERCEL_SETUP.md`](GODADDY_VERCEL_SETUP.md)
+
+Or push to GitHub with Vercel Git integration.
 
 ---
 
@@ -252,9 +266,12 @@ Web stays thin: SSR marketing + client shells. Business logic on API.
 ## Production checklist
 
 - [ ] Vercel project linked, `ortaq-web` root
+- [ ] GoDaddy DNS → staging.ortaq.biz verified first ([runbook](GODADDY_VERCEL_SETUP.md))
+- [ ] Staging QA passed (mobile, Lighthouse, SEO noindex)
 - [ ] `NEXT_PUBLIC_SITE_URL` set per environment
-- [ ] Domain `ortaq.biz` on Vercel
-- [ ] Staging `noindex` verified
+- [ ] Domain `ortaq.biz` on Vercel (after staging sign-off)
+- [ ] Staging `noindex` verified (`npm run validate:live:staging`)
+- [ ] Production crawl verified (`npm run validate:live:production`)
 - [ ] Railway `ortaq-api` health check green
 - [ ] CI green on `main`
 - [ ] Analytics off until legal review

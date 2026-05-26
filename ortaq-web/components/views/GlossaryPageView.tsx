@@ -14,6 +14,7 @@ export function GlossaryPageView() {
       <Section spacing="compact">
         <Container narrow>
           <SectionHeader
+            titleAs="h1"
             title="Sözlük"
             description="Paya dayalı ortaklıkta sık geçen terimler — sade açıklamalar."
           />

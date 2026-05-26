@@ -1,0 +1,92 @@
+import { buildCatalogCampaign } from "../build-campaign";
+
+export const adanaTarimIsleme = buildCatalogCampaign({
+  slug: "adana-tarim-isleme",
+  legalName: "Çukurova Tarım İşleme ve Paketleme A.Ş.",
+  tradeName: "Çukurova Tarım İşleme",
+  sector: "Narenciye ve sebze işleme · tarım paketleme",
+  city: "Adana",
+  region: "Sarıçam OSB",
+  founded: 2010,
+  employees: 93,
+  exportMarkets: ["Irak", "Lübnan", "Suudi Arabistan"],
+  facilityArea: "8.100 m² işleme ve soğuk depo",
+  monthlyCapacity: "Sezon pikinde günlük ~180 ton narenciye işleme",
+  targetTry: 16_800_000,
+  exportShare: "Gelirin ~%62'i",
+  domesticShare: "~%38",
+  reviewStatus: "committee",
+  processDone: 5,
+  fundingPurpose:
+    "İkinci soğuk depo (800 m³) ve otomatik paketleme hattı. Hasat sezonunda Orta Doğu sevkiyat gecikmesini önlemek.",
+  fundingLines: [
+    { label: "Soğuk depo ve nem kontrol ünitesi", amountTry: 5_900_000, percent: 35 },
+    { label: "Otomatik paketleme ve etiketleme hattı", amountTry: 4_200_000, percent: 25 },
+    { label: "Yıkama ve seleksiyon hattı revizyonu", amountTry: 2_800_000, percent: 17 },
+    { label: "Sevkiyat rampası genişlemesi", amountTry: 1_600_000, percent: 10 },
+    { label: "İşletme sermayesi (hasat stoku)", amountTry: 2_300_000, percent: 13 },
+  ],
+  founderName: "Halil Yılmaz",
+  founderNote:
+    "Komite aşamasındayız. Hasat sezonunda soğuk depo yetmiyor — geçen yıl 340 palet dışarıda bekledi. Yatırım acil.",
+  storyOrigin: "2010'da Çukurova narenciye ihracatçıları için paketleme atölyesi olarak kuruldu.",
+  storyToday: "Sarıçam OSB'de narenciye yıkama, seleksiyon, paketleme ve soğuk depolama. Irak ve Lübnan hatları sabit.",
+  productionDetail: "Tarladan kabul → yıkama → seleksiyon (kalibre) → mumlama → paketleme → soğuk depo → TIR sevkiyat.",
+  processes: ["Kabul", "Yıkama", "Seleksiyon", "Mumlama", "Paketleme", "Soğuk depo"],
+  materials: ["Narenciye (Valencia, Washington)", "Mumlama kimyasalı", "Karton kasa"],
+  machines: [
+    { id: "wash", name: "Sormac yıkama hattı", role: "Yıkama", year: 2014, note: "Sezonda 16 saat/gün çalışır." },
+    { id: "pack", name: "Manuel paketleme hattı ×2", role: "Paketleme", year: 2012, note: "Darboğaz — otomasyon yatırım hedefi." },
+    { id: "cold", name: "Bitzer soğuk depo · 520 m³", role: "Depolama", year: 2011, note: "Hasat pikinde %105 doluluk yaşandı." },
+  ],
+  risks: [
+    { title: "Mevsimsel kapasite", text: "Kasım–Mart döneminde kapasite kullanımı %40'a düşebilir. Sabit maliyet yükü yüksek." },
+    { title: "Sınır kapısı gecikmesi", text: "Irak sevkiyatlarında Habur'da ortalama 28 saat bekleme — bozulma riski soğuk zincirde kritik." },
+  ],
+  gateway: {
+    hook: "Adana'da narenciye işleme — hasat sezonunda soğuk depo yetersiz, ihracat gecikiyor.",
+    scale: "93 çalışan · 8.100 m² · 3 Orta Doğu pazarı",
+    tension: "Geçen sezon 340 palet dışarıda bekledi — ikinci soğuk depo yatırımı komite öncesi şart.",
+  },
+  bottleneck: { label: "Soğuk depo kapasitesi", note: "520 m³ hasat pikinde yetersiz · ikinci depo 800 m³ planlandı." },
+  journal: [
+    { date: "2026-05-23", time: "07:30", text: "Paketleme hattında 22 işçi — sezon dışı eğitim vardiyası. Otomasyon alanı zemin hazır.", type: "inspection" },
+    { date: "2026-05-23", time: "08:15", text: "Soğuk depo sıcaklık: +4°C (narenciye). Nem %88 — sınırda.", type: "capacity" },
+    { date: "2026-05-16", time: "12:00", text: "2024 ihracat fatura özeti: Irak %41, Lübnan %21, Suudi %18 — şirket beyanıyla uyumlu.", type: "logistics" },
+    { date: "2026-05-09", time: "09:15", text: "Hasat kapasite planı incelendi — Ekim pikinde 180 ton/gün hedefi, mevcut hat 140 ton/gün.", type: "capacity" },
+    { date: "2026-04-30", time: "14:00", text: "Komite dosyası için finansal özet güncellendi.", type: "observation" },
+  ],
+  updates: [
+    { date: "2026-05-23", time: "08:30", text: "Komite dosyasına soğuk depo ölçüm raporu eklendi." },
+    { date: "2026-05-16", time: "12:45", text: "İhracat fatura özeti onaylandı." },
+    { date: "2026-05-10", time: "11:00", text: "Hasat kapasite planı dosyaya işlendi." },
+    { date: "2026-04-30", time: "15:00", text: "Komite sunum taslağı alındı." },
+  ],
+  timeline: [
+    { year: 2010, event: "Narenciye paketleme atölyesi" },
+    { year: 2015, event: "Irak distribütörü ile sabit hat" },
+    { year: 2020, event: "Suudi market zinciri denemesi" },
+    { year: 2024, event: "Soğuk depo kapasite krizi — 340 palet dışarıda" },
+  ],
+  facilityNotes: [
+    { zone: "Yıkama-seleksiyon", note: "Sezonda 16 saat/gün" },
+    { zone: "Soğuk depo", note: "520 m³ · yetersiz" },
+    { zone: "Sevkiyat rampası", note: "2 TIR aynı anda" },
+  ],
+  exportEvolution: [
+    { year: 2012, market: "Irak", note: "Narenciye toptan" },
+    { year: 2017, market: "Lübnan", note: "Perakende zincir" },
+    { year: 2022, market: "Suudi Arabistan", note: "Deneme sevkiyatları" },
+  ],
+  inspectionLayers: [
+    { layer: "Belge paketi", status: "done", note: "Finansal paket tam" },
+    { layer: "Saha doğrulama", status: "done", note: "İki ziyaret tamamlandı" },
+    { layer: "Komite dosyası", status: "partial", note: "Sunum hazırlanıyor" },
+  ],
+  operationalSignals: [
+    { label: "Sezon pik kapasite", value: "180 ton/gün hedef" },
+    { label: "Mevcut hat limiti", value: "140 ton/gün" },
+    { label: "İhracat payı", value: "Gelirin ~%62'si" },
+    { label: "Soğuk depo", value: "520 m³" },
+  ],
+});

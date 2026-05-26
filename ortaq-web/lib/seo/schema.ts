@@ -5,6 +5,10 @@ import { site } from "@/lib/metadata";
 const ORG_ID = `${site.url}/#organization`;
 const WEBSITE_ID = `${site.url}/#website`;
 
+function schemaName(title: string) {
+  return title.replace(/\s*\|\s*ORTAQ\s*$/i, "").trim();
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
@@ -12,8 +16,15 @@ export function organizationSchema() {
     "@id": ORG_ID,
     name: site.name,
     url: site.url,
+    logo: `${site.url}/brand/ortaq-mark-dark.svg`,
     description: site.defaultDescription,
     areaServed: { "@type": "Country", name: "Turkey" },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "destek@ortaq.biz",
+      availableLanguage: ["Turkish", "English"],
+    },
   };
 }
 
@@ -43,12 +54,18 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
 }
 
 export function faqPageSchema() {
+  const pageUrl = `${site.url}/sss`;
+
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    url: pageUrl,
     mainEntity: FAQ_ITEMS.map((f) => ({
       "@type": "Question",
+      "@id": `${pageUrl}#${f.id}`,
       name: f.question,
+      url: `${pageUrl}#${f.id}`,
       acceptedAnswer: {
         "@type": "Answer",
         text: f.answer,
@@ -94,7 +111,7 @@ export function webPageSchema(title: string, description: string, path: string) 
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: title,
+    name: schemaName(title),
     description,
     url: `${site.url}${path}`,
     inLanguage: "tr-TR",
@@ -103,16 +120,16 @@ export function webPageSchema(title: string, description: string, path: string) 
   };
 }
 
-/** Company/campaign page — illustrative only, no fake Product schema */
 export function illustrativeCampaignSchema(slug: string, title: string, description: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: title,
+    name: schemaName(title),
     description,
     url: `${site.url}/sirket/${slug}`,
     inLanguage: "tr-TR",
     specialty: "illustrative-example",
     isPartOf: { "@id": WEBSITE_ID },
+    publisher: { "@id": ORG_ID },
   };
 }

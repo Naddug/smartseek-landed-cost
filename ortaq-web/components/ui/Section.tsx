@@ -36,13 +36,24 @@ const toneClasses = {
   dark: "bg-ortaq-dark text-ortaq-cream",
 };
 
+/**
+ * Section spacing scale.
+ *
+ * Tight enterprise rhythm. The historical `breath / stage / hero / quiet`
+ * variants are retained as aliases so legacy pages keep compiling, but
+ * every variant now maps to the same enterprise rhythm rather than the
+ * old py-14/py-16/py-20 cinematic spacing.
+ *
+ * Operational pages (homepage, dossier) bypass this entirely and use
+ * inline `.product-section` rhythm or per-section py-5/py-6.
+ */
 const spacingClasses = {
-  breath: "py-14 sm:py-16 lg:py-20",
-  stage: "py-12 sm:py-16 lg:py-20",
-  default: "py-10 sm:py-12",
-  compact: "py-8 sm:py-10",
-  quiet: "py-8 sm:py-10",
-  hero: "pt-8 pb-6 sm:pt-10 sm:pb-8",
+  default: "py-6 sm:py-8",
+  compact: "py-5 sm:py-7",
+  quiet: "py-5 sm:py-7",
+  hero: "py-6 sm:py-8",
+  stage: "py-6 sm:py-8",
+  breath: "py-6 sm:py-8",
 };
 
 export function Section({
@@ -64,6 +75,7 @@ type SectionHeaderProps = {
   title: string;
   description?: string;
   align?: "left" | "center";
+  titleAs?: "h1" | "h2";
   className?: string;
 };
 
@@ -72,19 +84,22 @@ export function SectionHeader({
   title,
   description,
   align = "left",
+  titleAs = "h2",
   className,
 }: SectionHeaderProps) {
+  const TitleTag = titleAs;
+
   return (
     <header
       className={cn(
-        "mb-8 sm:mb-10",
+        "mb-5 sm:mb-6",
         align === "center" && "mx-auto max-w-xl text-center",
         className,
       )}
     >
-      {label && <p className={cn(typography.kicker, "mb-3")}>{label}</p>}
-      <h2 className={typography.h2}>{title}</h2>
-      {description && <p className={cn(typography.lead, "mt-4 max-w-prose")}>{description}</p>}
+      {label && <p className={cn(typography.label, "mb-1.5")}>{label}</p>}
+      <TitleTag className={titleAs === "h1" ? typography.h1 : typography.h2}>{title}</TitleTag>
+      {description && <p className={cn(typography.body, "mt-2 max-w-prose")}>{description}</p>}
     </header>
   );
 }

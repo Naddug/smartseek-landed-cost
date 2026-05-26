@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { Container, Section, SectionHeader } from "@/components/ui/Section";
 import { FAQ_ITEMS } from "@/lib/seo/faq";
@@ -9,13 +10,16 @@ import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
 export function FaqPageView() {
+  const { t } = useTranslation();
+
   return (
     <PublicShell stickyCta={false}>
       <Section spacing="compact">
         <Container narrow>
           <SectionHeader
-            title="Sık sorulan sorular"
-            description="Ortaklık, güven ve risk hakkında kısa yanıtlar. Tavsiye değildir."
+            titleAs="h1"
+            title={t("homeProduct.invest.faq.title")}
+            description={t("homeProduct.invest.faq.lead")}
           />
 
           <dl className="space-y-0 border-y border-ortaq-border">

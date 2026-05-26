@@ -17,7 +17,7 @@ export function RiskPageView() {
     <PublicShell stickyCta={false}>
       <Section spacing="hero">
         <Container narrow>
-          <SectionHeader title={t("riskPage.title")} description={t("riskPage.subtitle")} />
+          <SectionHeader titleAs="h1" title={t("riskPage.title")} description={t("riskPage.subtitle")} />
           <p className="-mt-4 text-sm leading-[1.65] text-ortaq-ink-soft">{t("riskPage.notAdvice")}</p>
         </Container>
       </Section>
@@ -34,8 +34,8 @@ export function RiskPageView() {
             ))}
           </div>
 
-          <div className="mt-8 rounded-ortaq-lg border border-ortaq-border bg-white p-5 sm:p-6">
-            <h2 className="font-heading text-lg text-ortaq-ink">{t("riskPage.help.title")}</h2>
+          <div className="product-card mt-6 p-4 sm:p-5">
+            <h2 className="text-base font-semibold text-ortaq-ink">{t("riskPage.help.title")}</h2>
             <p className="mt-2 text-sm leading-[1.65] text-ortaq-ink-muted">{t("riskPage.help.text")}</p>
             <p className="mt-3 text-sm text-ortaq-ink-soft">{t("riskPage.help.email")}</p>
           </div>

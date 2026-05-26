@@ -1,30 +1,72 @@
 @import "tailwindcss";
 
+/* Explicit scan paths — prevents partial utility generation if auto-detection fails */
+@source "../components/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../lib/**/*.{js,ts,jsx,tsx}";
+@source "./**/*.{js,ts,jsx,tsx,mdx}";
+
 @theme {
+  /*
+   * Fonts.
+   * Body is the default for every heading and body element. The serif
+   * (Fraunces) is opt-in via the explicit `.font-heading` utility — never
+   * the default. The cinematic era is over.
+   */
   --font-heading: var(--font-fraunces), Georgia, "Times New Roman", serif;
   --font-body: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
 
-  --color-ortaq-bg: #f4f1eb;
-  --color-ortaq-bg-alt: #ebe6dd;
-  --color-ortaq-bg-warm: #e2dcd2;
-  --color-ortaq-ink: #0f0e0c;
-  --color-ortaq-ink-muted: #4a4540;
-  --color-ortaq-ink-soft: #7a736a;
-  --color-ortaq-accent: #c4734a;
-  --color-ortaq-accent-hover: #a85f3a;
-  --color-ortaq-trust: #2a5244;
-  --color-ortaq-trust-soft: #dce8e2;
-  --color-ortaq-border: #d8d2c8;
-  --color-ortaq-border-strong: #c4bcb0;
-  --color-ortaq-dark: #121110;
+  /*
+   * Institutional neutrals. Cream / ink / muted ink / soft ink form the
+   * scanning surface. Accent is restrained — used only on the single
+   * "tension" callout in the dossier lead. Trust is the verification color.
+   * Status (blue) is only used on field-journal "active" markers.
+   */
+  --color-ortaq-bg: #f6f4f1;
+  --color-ortaq-bg-alt: #eeece8;
+  --color-ortaq-bg-warm: #e8e4de;
+  --color-ortaq-surface: #ffffff;
+  --color-ortaq-surface-muted: #faf9f7;
+  --color-ortaq-ink: #141310;
+  --color-ortaq-ink-muted: #4a4640;
+  --color-ortaq-ink-soft: #6b6560;
+  --color-ortaq-accent: #b85c38;
+  --color-ortaq-accent-hover: #9a4a2b;
+  --color-ortaq-trust: #1e4d3d;
+  --color-ortaq-trust-deep: #163a2e;
+  --color-ortaq-trust-soft: #e4ede9;
+  --color-ortaq-trust-muted: #3d6b5a;
+  --color-ortaq-border: #ddd8d0;
+  --color-ortaq-border-strong: #c8c1b6;
+  --color-ortaq-dark: #141310;
   --color-ortaq-dark-muted: #2a2826;
-  --color-ortaq-cream: #f7f4ef;
-  --color-ortaq-gold: #b8956a;
+  --color-ortaq-ink-panel: #1c1a17;
+  --color-ortaq-cream: #faf9f7;
+  --color-ortaq-gold: #9a7b4f;
+  --color-ortaq-status: #2563eb;
+  --color-ortaq-status-soft: #eff6ff;
 
-  --radius-ortaq-sm: 0.25rem;
-  --radius-ortaq-md: 0.375rem;
-  --radius-ortaq-lg: 0.5rem;
-  --radius-ortaq-xl: 0.625rem;
+  /*
+   * Radii. One canonical scale; never freelance corner sizes at the call site.
+   *   sm  — small chips, table cells, tags
+   *   md  — cards, tables, status tiles
+   *   lg  — composite/lead-tier surfaces
+   *   xl  — reserved (currently unused, retained for future masthead variants)
+   */
+  --radius-ortaq-sm: 0.375rem;
+  --radius-ortaq-md: 0.5rem;
+  --radius-ortaq-lg: 0.625rem;
+  --radius-ortaq-xl: 0.75rem;
+
+  /*
+   * Shadows. Only two: a default product elevation and its hover state.
+   * No floating "landing page" drop-shadows.
+   */
+  --shadow-product: 0 1px 2px rgb(20 19 16 / 0.04), 0 0 0 1px rgb(20 19 16 / 0.04);
+  --shadow-product-hover: 0 4px 12px rgb(20 19 16 / 0.06), 0 0 0 1px rgb(20 19 16 / 0.06);
+  --shadow-elevated: 0 1px 2px rgb(20 19 16 / 0.03), 0 8px 24px rgb(20 19 16 / 0.06), 0 0 0 1px rgb(20 19 16 / 0.05);
+  --shadow-elevated-hover: 0 4px 16px rgb(20 19 16 / 0.08), 0 12px 32px rgb(26 92 74 / 0.08), 0 0 0 1px rgb(26 92 74 / 0.12);
+  --shadow-intel: 0 1px 2px rgb(20 19 16 / 0.05), 0 12px 32px rgb(20 19 16 / 0.07), 0 0 0 1px rgb(20 19 16 / 0.05);
+  --shadow-intel-inset: inset 0 1px 0 rgb(255 255 255 / 0.65);
 }
 
 @layer base {
@@ -37,14 +79,16 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
   }
 
   body {
     margin: 0;
     min-height: 100dvh;
+    overflow-x: clip;
     font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.65;
+    font-size: 0.9375rem;
+    line-height: 1.55;
     color: var(--color-ortaq-ink);
     background: var(--color-ortaq-bg);
     text-rendering: optimizeLegibility;
@@ -52,14 +96,19 @@
     font-feature-settings: "kern" 1, "liga" 1;
   }
 
+  /*
+   * Default headings render in the body sans family. The serif is opt-in.
+   * Any page that previously rendered <h1> in Fraunces will now render in
+   * DM Sans unless it explicitly opts in via `.font-heading`.
+   */
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-heading);
+    font-family: var(--font-body);
     font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
@@ -86,128 +135,569 @@
     font-family: var(--font-body);
   }
 
+  .font-brand {
+    font-family: var(--font-brand), var(--font-dm-sans), system-ui, sans-serif;
+  }
+
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  .editorial-kicker {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-ortaq-gold);
+  /*
+   * Card system — one canonical card class. Every card on the platform uses
+   * this. No alternates, no per-component override of border / radius / shadow.
+   * Padding stays at the call site (cards differ in density, not in chrome).
+   */
+  .product-card {
+    background: var(--color-ortaq-surface);
+    border: 1px solid var(--color-ortaq-border);
+    border-radius: var(--radius-ortaq-lg);
+    box-shadow: var(--shadow-product);
   }
 
-  .editorial-kicker-light {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    line-height: 1.4;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgb(247 244 239 / 0.65);
-  }
-
-  .figure-note {
-    font-size: 0.6875rem;
-    line-height: 1.55;
-    color: var(--color-ortaq-ink-soft);
-  }
-
-  .prose-measure {
-    max-width: 36rem;
-  }
-
-  .layer-overlap {
-    margin-top: -2.5rem;
-    position: relative;
-    z-index: 1;
+  /*
+   * Spacing rhythm. Sections on operational surfaces breathe at one of two
+   * vertical scales — compact (~1.5rem) and standard (~2.25rem). No more.
+   */
+  .product-section {
+    padding-block: 1.75rem;
   }
 
   @media (min-width: 640px) {
-    .layer-overlap {
-      margin-top: -4.5rem;
+    .product-section {
+      padding-block: 2.25rem;
     }
   }
 
-  .skew-edge {
-    transform: rotate(-0.4deg);
+  .product-divider {
+    border-top: 1px solid var(--color-ortaq-border);
   }
 
-  @media (min-width: 640px) {
-    .skew-edge {
-      transform: rotate(-0.25deg);
-    }
+  /*
+   * Horizontal scroll rows (mobile card carousels, sticky sub-nav).
+   * Snap behaviour is opt-in; the hide-scrollbar pattern is consistent.
+   */
+  .product-scroll-row {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  .access-grain {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-    mix-blend-mode: overlay;
+  .product-scroll-row > * {
+    scroll-snap-align: start;
   }
 
-  .ticker-track {
-    animation: ticker 42s linear infinite;
+  .product-scroll-row::-webkit-scrollbar {
+    display: none;
   }
 
-  @keyframes ticker {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
+  /*
+   * Metric grid — used in the dossier lead and review activity surfaces
+   * where a tight border-collapsed grid of equal cells is required.
+   */
+  .product-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--color-ortaq-border);
+    border: 1px solid var(--color-ortaq-border);
+    border-radius: var(--radius-ortaq-md);
+    overflow: hidden;
   }
 
-  .desire-whisper {
-    font-family: var(--font-heading);
-    font-size: clamp(1.375rem, 4vw, 2rem);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    text-wrap: balance;
+  .product-metric-cell {
+    background: var(--color-ortaq-surface);
+    padding: 0.625rem 0.75rem;
   }
 
-  .signal-pulse {
-    animation: signal-pulse 3s ease-in-out infinite;
+  /*
+   * Intelligence surfaces — asymmetric hierarchy, signal registry, tension bands.
+   * Composition and contrast rhythm; spacing tokens unchanged.
+   */
+  .intel-grid-bg {
+    background-color: var(--color-ortaq-surface);
+    background-image:
+      linear-gradient(to right, rgb(20 19 16 / 0.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(20 19 16 / 0.028) 1px, transparent 1px);
+    background-size: 3rem 3rem;
   }
 
-  @keyframes signal-pulse {
+  .intel-surface-elevated {
+    background: var(--color-ortaq-surface);
+    border: 1px solid var(--color-ortaq-border);
+    border-radius: var(--radius-ortaq-lg);
+    box-shadow: var(--shadow-intel);
+  }
+
+  .intel-band-ink {
+    background: var(--color-ortaq-ink-panel);
+    color: var(--color-ortaq-cream);
+  }
+
+  .intel-band-trust {
+    background: var(--color-ortaq-trust-deep);
+    color: var(--color-ortaq-cream);
+  }
+
+  .intel-signal-panel {
+    background: var(--color-ortaq-surface);
+    border: 1px solid var(--color-ortaq-border-strong);
+    border-radius: var(--radius-ortaq-lg);
+    box-shadow: var(--shadow-product);
+    overflow: hidden;
+  }
+
+  .intel-signal-panel-dark {
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: var(--radius-ortaq-lg);
+    overflow: hidden;
+  }
+
+  .intel-signal-strip {
+    background: var(--color-ortaq-surface);
+    border: 1px solid var(--color-ortaq-border-strong);
+    border-radius: var(--radius-ortaq-lg);
+    box-shadow: var(--shadow-intel);
+    overflow: hidden;
+  }
+
+  .intel-signal-strip-dark {
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: var(--radius-ortaq-lg);
+    overflow: hidden;
+  }
+
+  .intel-signal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--color-ortaq-border);
+    background: var(--color-ortaq-bg-alt);
+    padding: 0.625rem 0.875rem;
+  }
+
+  .intel-signal-header-dark {
+    border-bottom-color: rgb(255 255 255 / 0.08);
+    background: rgb(0 0 0 / 0.18);
+  }
+
+  .intel-live-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .intel-live-dot::before {
+    content: "";
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background: var(--color-ortaq-trust-muted);
+    box-shadow: 0 0 0 2px rgb(61 107 90 / 0.25);
+    animation: intel-pulse 2.4s ease-in-out infinite;
+  }
+
+  .intel-live-dot-dark::before {
+    background: #6db89a;
+    box-shadow: 0 0 0 2px rgb(109 184 154 / 0.2);
+  }
+
+  @keyframes intel-pulse {
     0%,
     100% {
-      opacity: 0.5;
-    }
-    50% {
       opacity: 1;
     }
-  }
-
-  .cinematic-gradient {
-    background: linear-gradient(
-      180deg,
-      rgb(15 14 12 / 0.35) 0%,
-      rgb(15 14 12 / 0.15) 28%,
-      rgb(15 14 12 / 0.55) 58%,
-      rgb(15 14 12 / 0.94) 100%
-    );
-  }
-
-  .editorial-rhythm {
-    letter-spacing: 0.01em;
-  }
-
-  .scroll-hint {
-    animation: scroll-hint 2.4s ease-in-out infinite;
-  }
-
-  @keyframes scroll-hint {
-    0%,
-    100% {
-      opacity: 0.35;
-      transform: translateY(0);
-    }
     50% {
-      opacity: 0.7;
-      transform: translateY(4px);
+      opacity: 0.45;
     }
+  }
+
+  .intel-signal-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--color-ortaq-border);
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease;
+  }
+
+  .intel-signal-row-dark {
+    border-bottom-color: rgb(255 255 255 / 0.07);
+  }
+
+  .intel-signal-row:last-child {
+    border-bottom: none;
+  }
+
+  .intel-signal-row:hover {
+    background: var(--color-ortaq-bg-alt);
+  }
+
+  .intel-signal-row-dark:hover {
+    background: rgb(255 255 255 / 0.05);
+  }
+
+  .intel-image-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-ortaq-lg);
+    border: 1px solid var(--color-ortaq-border-strong);
+    box-shadow: var(--shadow-intel);
+  }
+
+  .intel-image-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(20 19 16 / 0.55) 0%, rgb(20 19 16 / 0.08) 42%, transparent 68%);
+    pointer-events: none;
+  }
+
+  .intel-image-caption {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 0.75rem 0.875rem;
+  }
+
+  .intel-index-mark {
+    font-family: var(--font-body);
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: rgb(20 19 16 / 0.1);
+    transition: color 140ms ease;
+  }
+
+  .group:hover .intel-index-mark {
+    color: rgb(20 19 16 / 0.22);
+  }
+
+  .intel-registry {
+    background: var(--color-ortaq-surface);
+    border: 1px solid var(--color-ortaq-border-strong);
+    border-radius: var(--radius-ortaq-lg);
+    box-shadow: var(--shadow-product);
+    overflow: hidden;
+  }
+
+  .intel-registry-row {
+    display: grid;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-ortaq-border);
+    padding: 1.25rem 1rem;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease;
+  }
+
+  @media (min-width: 640px) {
+    .intel-registry-row {
+      grid-template-columns: 3rem 7rem 1fr auto;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.375rem 1.25rem;
+    }
+  }
+
+  .intel-registry-row:last-child {
+    border-bottom: none;
+  }
+
+  .intel-registry-row:hover {
+    background: var(--color-ortaq-surface-muted);
+    border-bottom-color: var(--color-ortaq-border-strong);
+  }
+
+  .intel-registry-row::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 2px;
+    background: var(--color-ortaq-trust);
+    opacity: 0;
+    transition: opacity 140ms ease;
+  }
+
+  .intel-registry-row {
+    position: relative;
+  }
+
+  .intel-registry-row:hover::before {
+    opacity: 1;
+  }
+
+  .intel-section-mark {
+    font-family: var(--font-body);
+    font-size: 3.5rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    color: rgb(250 249 247 / 0.07);
+    user-select: none;
+  }
+
+  .intel-tension-banner {
+    border-left: 3px solid var(--color-ortaq-accent);
+    background: linear-gradient(90deg, var(--color-ortaq-bg-warm) 0%, var(--color-ortaq-surface) 100%);
+    padding: 0.875rem 1rem;
+    box-shadow: var(--shadow-intel-inset);
+  }
+
+  .intel-header-tension {
+    border-top: 1px solid var(--color-ortaq-border);
+    background: linear-gradient(180deg, var(--color-ortaq-bg-alt) 0%, var(--color-ortaq-surface) 100%);
+    padding-block: 0.75rem;
+  }
+
+  .intel-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .intel-reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .intel-verification-gate {
+    background: var(--color-ortaq-ink-panel);
+    color: var(--color-ortaq-cream);
+    border-block: 1px solid rgb(255 255 255 / 0.06);
+  }
+
+  /*
+   * Discovery polish — composition, hover, rhythm. No spacing-token changes.
+   */
+  .discover-hero-panel {
+    position: relative;
+    background: var(--color-ortaq-surface);
+  }
+
+  @media (min-width: 1024px) {
+    .discover-hero-panel::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      width: 42%;
+      background: var(--color-ortaq-bg-alt);
+      border-left: 1px solid var(--color-ortaq-border);
+      z-index: 0;
+    }
+  }
+
+  .discover-stat-accent {
+    border-left: 2px solid var(--color-ortaq-trust);
+    background: var(--color-ortaq-trust-soft);
+  }
+
+  .discover-image-observed {
+    box-shadow:
+      inset 0 0 0 1px rgb(20 19 16 / 0.06),
+      inset 0 -48px 64px rgb(20 19 16 / 0.12);
+  }
+
+  .discover-image-observed img {
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) {
+    .discover-image-interactive:hover img {
+      transform: scale(1.03);
+    }
+  }
+
+  .discover-card-hover {
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease,
+      background-color 160ms ease;
+  }
+
+  @media (hover: hover) {
+    .discover-card-hover:hover {
+      border-color: var(--color-ortaq-trust-muted);
+      box-shadow: var(--shadow-product-hover);
+    }
+  }
+
+  .discover-feed-row {
+    transition: background-color 120ms ease;
+  }
+
+  @media (hover: hover) {
+    .discover-feed-row:hover {
+      background: var(--color-ortaq-bg-alt);
+    }
+
+    .discover-feed-row:hover td:first-child {
+      box-shadow: inset 2px 0 0 var(--color-ortaq-trust);
+    }
+  }
+
+  .discover-feed-row-latest {
+    background: var(--color-ortaq-trust-soft);
+  }
+
+  .discover-spotlight {
+    transition:
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .discover-spotlight:hover {
+      border-color: var(--color-ortaq-trust-muted);
+      box-shadow: var(--shadow-product-hover);
+    }
+
+    .discover-spotlight:hover .discover-spotlight-image img {
+      transform: scale(1.02);
+    }
+  }
+
+  .discover-spotlight-image img {
+    transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .discover-section-anchor {
+    border-left: 3px solid var(--color-ortaq-trust);
+    padding-left: 0.75rem;
+  }
+
+  /*
+   * Institutional authority — hero bleed, editorial rails, registry rows.
+   */
+  .authority-hero-bleed::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgb(20 19 16 / 0.08);
+  }
+
+  @media (min-width: 1024px) {
+    .authority-hero-bleed::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      left: 0;
+      z-index: 1;
+      width: 28%;
+      background: linear-gradient(to right, rgb(246 244 241 / 0.92), transparent);
+      pointer-events: none;
+    }
+  }
+
+  .authority-image-evidence {
+    box-shadow: inset 0 0 0 1px rgb(20 19 16 / 0.06);
+  }
+
+  .authority-terminal-cell {
+    transition: background-color 140ms ease;
+  }
+
+  @media (hover: hover) {
+    .authority-terminal-cell:hover {
+      background: var(--color-ortaq-trust-soft);
+    }
+
+    .authority-feed-row:hover {
+      background: rgb(255 255 255 / 0.06);
+    }
+
+    .authority-feed-row:hover td:first-child {
+      box-shadow: inset 2px 0 0 var(--color-ortaq-trust-muted);
+    }
+
+    .authority-registry-row:hover {
+      background: var(--color-ortaq-bg-alt);
+    }
+
+    .authority-registry-row:hover td:first-child,
+    .authority-registry-row:hover .relative {
+      box-shadow: none;
+    }
+  }
+
+  .authority-registry-row {
+    transition: background-color 140ms ease;
+  }
+
+  .invest-hero-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 85% 20%, rgb(26 92 74 / 0.1), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 10% 90%, rgb(26 92 74 / 0.05), transparent 50%),
+      linear-gradient(180deg, #faf9f7 0%, #f6f4f1 42%, #eeece8 100%);
+  }
+
+  .invest-stat-tile {
+    transition:
+      box-shadow 180ms ease,
+      transform 180ms ease,
+      border-color 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .invest-stat-tile:hover {
+      border-color: rgb(26 92 74 / 0.18);
+      box-shadow: var(--shadow-elevated-hover);
+      transform: translateY(-1px);
+    }
+  }
+
+  .invest-ecosystem-rail {
+    scrollbar-width: none;
+  }
+
+  .invest-ecosystem-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .invest-opportunity-row {
+    scrollbar-width: none;
+  }
+
+  .invest-opportunity-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .invest-featured-card {
+    transition:
+      box-shadow 200ms ease,
+      transform 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .invest-featured-card:hover {
+      box-shadow: var(--shadow-product-hover);
+      transform: translateY(-2px);
+    }
+
+    .invest-opportunity:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .invest-opportunity {
+    transition:
+      box-shadow 200ms ease,
+      transform 200ms ease;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -215,24 +705,20 @@
       scroll-behavior: auto;
     }
 
-    .scroll-hint {
-      animation: none;
-    }
-
-    .ticker-track {
-      animation: none;
-    }
-
-    .signal-pulse {
-      animation: none;
-      opacity: 1;
-    }
-
     *,
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
+    }
+
+    .intel-live-dot::before {
+      animation: none;
+    }
+
+    .discover-image-observed img,
+    .discover-spotlight-image img {
+      transition: none;
     }
   }
 }

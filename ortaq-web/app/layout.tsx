@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, DM_Sans } from "next/font/google";
+import { Fraunces, DM_Sans, Inter } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/provider";
 import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
 import { MemberProgressTracker } from "@/components/providers/MemberProgressTracker";
@@ -25,11 +25,19 @@ const dmSans = DM_Sans({
   preload: true,
 });
 
+const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700"],
+  display: "swap",
+  variable: "--font-brand",
+  preload: true,
+});
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover" as const,
-  themeColor: "#121110",
+  themeColor: "#0A1310",
 };
 
 export const metadata: Metadata = {
@@ -63,7 +71,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`${fraunces.variable} ${dmSans.variable}`}>
+    <html lang="tr" className={`${fraunces.variable} ${dmSans.variable} ${inter.variable}`}>
       <body>
         <JsonLd data={[organizationSchema(), webSiteSchema()]} />
         <I18nProvider>

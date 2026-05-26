@@ -11,6 +11,7 @@ import { TransparencySection } from "@/components/trust/TransparencySection";
 import { RelatedLinks } from "@/components/seo/RelatedLinks";
 import { Button } from "@/components/ui/Button";
 import { typography } from "@/design/typography";
+import { cn } from "@/lib/cn";
 
 const infrastructureClaims = [
   { titleKey: "trustPage.claims.1.title", textKey: "trustPage.claims.1.text", status: "pending" as const },
@@ -26,7 +27,19 @@ export function TrustPageView() {
       <Section spacing="compact">
         <Container narrow>
           <LicenseBadge className="mb-5" compact />
-          <SectionHeader title={t("trustPage.title")} description={t("trustPage.subtitle")} />
+          <SectionHeader titleAs="h1" title={t("trustPage.title")} description={t("trustPage.subtitle")} />
+          <p className={cn(typography.bodySm, "mt-4 max-w-prose font-medium text-ortaq-trust-muted")}>{t("trustPage.journeyNote")}</p>
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="/degerlendirme" className={cn(typography.bodySm, "font-semibold text-ortaq-trust hover:underline")}>
+              {t("journey.evaluationLink")} →
+            </Link>
+            <Link href="/nasil-calisir" className={cn(typography.bodySm, "font-semibold text-ortaq-trust hover:underline")}>
+              {t("journey.processLink")} →
+            </Link>
+            <Link href="/riskler" className={cn(typography.bodySm, "font-semibold text-ortaq-trust hover:underline")}>
+              {t("journey.riskLink")} →
+            </Link>
+          </div>
         </Container>
       </Section>
 

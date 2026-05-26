@@ -3,12 +3,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef, type ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-ortaq-sm font-medium transition-colors duration-200 disabled:pointer-events-none disabled:opacity-50 min-h-11 px-5 text-[0.9375rem] leading-none tracking-[0.01em]",
+  "inline-flex items-center justify-center gap-2 rounded-ortaq-sm font-medium transition-[color,background-color,box-shadow,transform,border-color] duration-200 disabled:pointer-events-none disabled:opacity-50 min-h-11 px-5 text-[0.9375rem] leading-none tracking-[0.01em] active:scale-[0.99] motion-reduce:active:scale-100",
   {
     variants: {
       variant: {
         primary:
-          "bg-ortaq-ink text-ortaq-bg hover:bg-ortaq-ink-muted active:bg-ortaq-ink-muted",
+          "bg-ortaq-ink text-ortaq-bg shadow-[var(--shadow-product)] hover:bg-ortaq-ink-muted hover:shadow-[var(--shadow-product-hover)] active:bg-ortaq-ink-muted",
         secondary:
           "border border-ortaq-border-strong bg-transparent text-ortaq-ink hover:bg-ortaq-bg-alt active:bg-ortaq-bg-warm",
         ghost: "text-ortaq-ink-muted hover:text-ortaq-ink hover:bg-ortaq-bg-alt",

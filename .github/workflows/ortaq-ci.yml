@@ -34,9 +34,11 @@ jobs:
           cache-dependency-path: ortaq-web/package-lock.json
       - run: npm install --no-audit --no-fund
       - run: npm run validate:prod
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging/predeploy-final'
+        if: github.ref == 'refs/heads/main'
+      - run: npm run validate:staging
+        if: github.ref == 'refs/heads/staging/predeploy-final'
       - run: npm run build
-        if: github.ref != 'refs/heads/main'
+        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/staging/predeploy-final'
         env:
           NEXT_PUBLIC_APP_ENV: staging
           NEXT_PUBLIC_SITE_URL: https://staging.ortaq.biz

@@ -27,7 +27,7 @@ export function VerificationLabel({ label, className }: VerificationLabelProps) 
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center border-l-2 pl-2 text-[11px] leading-snug tracking-[0.04em]",
+        "inline-flex max-w-full shrink items-center border-l-2 pl-2 text-[10px] leading-snug tracking-[0.04em] sm:text-[11px]",
         styles[label],
         className,
       )}

@@ -18,7 +18,7 @@ export const karatParcaKonya: SimulatedCampaign = {
   reviewStatus: "field_verification",
   seoTitle: "Karat Parça Makina | Değerlendirme dosyası",
   seoDescription:
-    "Konya merkezli tarım ve iş makinesi yedek parça üreticisi. Simüle edilmiş değerlendirme dosyası — yatırım teklifi değildir.",
+    "Konya merkezli tarım ve iş makinesi yedek parça üreticisi. Değerlendirme dosyası — yatırım teklifi değildir.",
   story: {
     origin:
       "2008'de Konya'da tek atölye ve üç torna tezgâhıyla başladı. Kurucu Mehmet Karat, tarım makinesi tamiri yaparken yedek parça tedarikindeki boşluğu gördü.",
@@ -218,4 +218,40 @@ export const karatParcaKonya: SimulatedCampaign = {
     { date: "2026-05-19", time: "09:02", text: "Fabrika fotoğrafları arşive alındı — 23 kare." },
     { date: "2026-05-18", time: "17:30", text: "Saha ziyareti tamamlandı. Tutanağın taslağı hazırlanıyor." },
   ],
+  marketMix: {
+    domesticShare: "~%60",
+    exportShare: "~%40",
+    segments: [
+      { label: "OEM tedarik", share: "~%35", note: "Türkiye içi tarım ve iş makinesi üreticileri" },
+      { label: "Yedek parça distribütörleri", share: "~%45", note: "Yurtiçi bayi ağı + ihracat kanalları" },
+      { label: "Doğrudan ihracat", share: "~%20", note: "Almanya, Irak ve Kazakistan ağırlıklı" },
+    ],
+  },
+  operationalFriction: [
+    {
+      label: "4140 çelik tedarik gecikmesi",
+      category: "supply",
+      note: "Tedarikçi teslimatı 4–5 hafta. Stok alanı doluluk ~%85 — acil siparişlerde gecikme riski.",
+    },
+    {
+      label: "Vardiya geçiş kaybı",
+      category: "workforce",
+      note: "Operatör değişiminde ~15 dk hat duruşu. Usta operatör bağımlılığı — 3 kişi kritik.",
+    },
+    {
+      label: "Avrupa teslim baskısı",
+      category: "export",
+      note: "Almanya siparişlerinde 6 haftalık lead time. Tek freze hattı kuyruğu ihracat büyümesini sınırlıyor.",
+    },
+    {
+      label: "Doosan torna bakım penceresi",
+      category: "equipment",
+      note: "6 aylık periyodik bakım Haziran sonu planlandı — 3 gün kapasite kaybı bekleniyor.",
+    },
+  ],
+  gateway: {
+    hook: "Konya OSB'de CNC yedek parça üretimi — gelirin ~%40'ı Almanya ve Orta Doğu'ya gidiyor.",
+    scale: "47 çalışan · 4.200 m² · ayda ~12.000 parça · 6 ihracat pazarı",
+    tension: "Tek freze hattı kuyruğu ihracat büyümesini sınırlıyor — ikinci hat yatırımı gerekçesi.",
+  },
 };

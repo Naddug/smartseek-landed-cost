@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { OgBrandMark } from "@/lib/brand/OgBrandMark";
+import { brand } from "@/lib/brand/identity";
 
 export const alt = "ORTAQ";
 export const size = { width: 180, height: 180 };
@@ -14,11 +16,11 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#1a1814",
-          borderRadius: 36,
+          background: brand.green.deep,
+          borderRadius: 40,
         }}
       >
-        <div style={{ color: "#faf8f5", fontSize: 96, fontWeight: 700 }}>O</div>
+        <OgBrandMark size={120} theme="dark" />
       </div>
     ),
     { ...size },

@@ -10,9 +10,11 @@ Connected to GitHub. Pushes that change `ortaq-web/**` deploy automatically:
 
 | Branch | Vercel target |
 |--------|----------------|
-| `staging/predeploy-final` | Production |
-| `main` | Production |
+| `main` | **Production** → [ortaq-web.vercel.app](https://ortaq-web.vercel.app) |
+| `staging/predeploy-final` | Preview |
 | Other branches | Preview |
+
+Work on `staging/predeploy-final`, merge/cherry-pick to `main` when ready for production.
 
 **Monorepo:** Vercel root directory = `ortaq-web` (not repo root).
 

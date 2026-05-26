@@ -1,14 +1,17 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Gerçek şirketlere ortak olun."
+    "tagline": "Gerçek şirketlere ortak olun.",
+    "navTagline": "Gerçek şirketlere ortaklık"
   },
   "nav": {
     "howItWorks": "Süreç",
     "companies": "Şirketler",
     "trust": "Güven",
     "risk": "Riskler",
+    "evaluation": "Değerlendirme",
     "memberArea": "Alanınız",
+    "explore": "Şirketleri inceleyin",
     "menu": "Menü",
     "langToggle": "Dil değiştir",
     "ariaMain": "Ana menü",
@@ -48,6 +51,36 @@
     },
     "textileFloor": {
       "alt": "Tekstil üretim hattı, stok görsel"
+    },
+    "agrifoodColdchain": {
+      "alt": "Tarım işleme ve soğuk zincir tesisi"
+    },
+    "grainMill": {
+      "alt": "Un ve tahıl değirmen tesisi"
+    },
+    "greenhouse": {
+      "alt": "Seracılık ve iklim kontrollü üretim"
+    },
+    "chemicalPlant": {
+      "alt": "Kimya ve proses tesis interior"
+    },
+    "ceramicKiln": {
+      "alt": "Seramik ve refrakter üretim hattı"
+    },
+    "foodProcessing": {
+      "alt": "Gıda işleme ve paketleme hattı"
+    },
+    "shipyardDock": {
+      "alt": "Gemi ekipmanı ve denizcilik sanayi"
+    },
+    "glassFurnace": {
+      "alt": "Cam ve endüstriyel fırın tesisi"
+    },
+    "spinningMill": {
+      "alt": "İplik ve dokuma üretim hattı"
+    },
+    "plasticExtrusion": {
+      "alt": "Plastik ambalaj ve ekstrüzyon hattı"
     }
   },
   "pulse": {
@@ -76,6 +109,694 @@
       "preliminary": "3 yeni ön başvuru dosyaya alındı",
       "legalUpdate": "Gizlilik metni taslağı güncellendi",
       "partner": "Lisanslı platform görüşmeleri devam ediyor"
+    }
+  },
+  "homeProduct": {
+    "hero": {
+      "label": "Özel sanayi erişimi",
+      "title": "Türkiye üretim ekonomisine doğrulanmış erişim.",
+      "subtitle": "ORTAQ, imalat şirketlerine dair saha incelemeli dosyalar yayınlar — kapasite, ihracat bağımlılığı, makine darboğazları ve inceleme durumu.",
+      "tension": "Halka açık olmayan sanayi varlıklarına kontrollü giriş. Yatırım tavsiyesi değil — işlem öncesi operasyonel istihbarat.",
+      "access": "Altın, döviz ve konut herkes için açık. Üreten şirketler tarihsel olarak kapalı kaldı — ORTAQ bu katmanı okunabilir hale getirir.",
+      "trust": {
+        "1": "Gerçek şirkette pay · MKK kayıtlı ortaklık",
+        "2": "Kapasite, ihracat ve operasyonel büyüme sinyalleri",
+        "3": "SPK çerçevesi · emanet hesabı · lisanslı platform",
+        "4": "Saha incelemesi ve disiplinli şirket seçimi"
+      },
+      "points": {
+        "1": "Doğrulanmış şirket dosyaları, kapasite ve ihracat metrikleri",
+        "2": "Lisanslı platform, emanet hesabı ve MKK kaydı çerçevesi",
+        "3": "İnceleme durumu her adımda görünür — sahte aciliyet yok"
+      },
+      "ctaPrimary": "Dosyalara giriş",
+      "ctaSecondary": "Süreci okuyun",
+      "disclaimer": "Henüz işlem kabul edilmiyor · değerlendirme dosyaları",
+      "imageLabel": "Saha gözlemi",
+      "imageCaption": "CNC işleme · üretim alanı"
+    },
+    "access": {
+      "label": "Ekonomik konum",
+      "title": "Çoğu insan bu tabakayı hiç görmez.",
+      "openLabel": "Herkesin eriştiği",
+      "open": "Altın · döviz · kripto · konut · borsa",
+      "closedLabel": "Kapalı kalan",
+      "closed": "Fabrika · ihracat · makine parkı · halka açık olmayan sanayi ortaklığı",
+      "close": "ORTAQ kapıyı açmadan önce inceler. Acele yok — erişim disiplinli."
+    },
+    "signals": {
+      "label": "Operasyonel kayıt",
+      "live": "Saha türevli"
+    },
+    "discovery": {
+      "hero": {
+        "label": "Özel sanayi istihbaratı",
+        "title": "Türkiye'nin gizli üretim ekonomisini keşfedin.",
+        "lead": "İmalat şirketlerine dair saha doğrulamalı dosyalar — kapasite, ihracat, darboğazlar ve inceleme izleri. Statik dizin değil, canlı bir ağ.",
+        "cta": "İstihbarat akışını keşfet",
+        "secondary": "Dosyalara göz at",
+        "feedLabel": "Canlı izler",
+        "feedLink": "Tam akış",
+        "archiveDepth": "Aktif dosyalarda {{count}} istihbarat izi",
+        "pipelineNote": "Aktif inceleme hattında {{count}} şirket",
+        "imageCaption": "CNC alanı · Konya OSB bölgesi",
+        "imageEvidence": "Saha gözlemi · kampanya fotoğrafı değil"
+      },
+      "feed": {
+        "label": "İstihbarat akışı",
+        "title": "Dosyalar arası operasyonel hareket",
+        "lead": "Saha gözlemleri, dosya güncellemeleri, inceleme notları ve kapasite sinyalleri — incelemedeki her şirketten toplanır.",
+        "archiveFootnote": "{{total}} arşivlenmiş izden {{shown}} tanesi gösteriliyor · tam geçmiş her dosyanın içinde",
+        "queueLabel": "İnceleme kuyruğu",
+        "queueTitle": "Aktif hat",
+        "queueNote": "Yayınlanan dosyalardaki gerçek inceleme aşamaları — yatırımcı sayısı değil.",
+        "criteria": "Seçim kriterleri"
+      },
+      "queue": {
+        "preliminary_review": "Ön inceleme",
+        "document_review": "Belge incelemesi",
+        "field_verification": "Saha doğrulaması",
+        "committee": "Komite kuyruğu"
+      },
+      "sectors": {
+        "label": "Sektör gezgini",
+        "title": "İncelemedeki sanayi kümeleri",
+        "browse": "Tüm dosyalar",
+        "explore": "Dosyaları gör"
+      },
+      "featured": {
+        "label": "Öne çıkan dosyalar",
+        "title": "Aktif operasyonel istihbarat taşıyan şirketler",
+        "lead": "Her dosya farklı gerilim taşır — ihracat bağımlılığı, kapasite sınırı, devir riski, bölgesel ölçek.",
+        "spotlight": "Odak",
+        "related": "İlgili dosyalar"
+      },
+      "compare": {
+        "label": "İstihbarat karşılaştırması",
+        "title": "Operasyonel profiller yan yana",
+        "lead": "İhracat maruziyeti, işgücü bağımlılığı, makine yaşı, karmaşıklık ve üretim ölçeği — saha verisinden türetilir.",
+        "company": "Şirket",
+        "exportExposure": "İhracat",
+        "workforceDependency": "İşgücü",
+        "machineryMaturity": "Makine",
+        "operationalComplexity": "Karmaşıklık",
+        "productionScale": "Ölçek",
+        "level": {
+          "high": "Yüksek",
+          "moderate": "Orta",
+          "contained": "Sınırlı"
+        }
+      },
+      "opportunities": {
+        "label": "Gizli fırsatlar",
+        "title": "Keşfe değer sanayi örüntüleri",
+        "lead": "Operasyonel profile göre kümelenmiş — yatırım tavsiyesi değil, keşif giriş noktaları.",
+        "pattern": "Örüntü",
+        "tags": {
+          "export_heavy": "İhracat ağırlıklı",
+          "capacity_constrained": "Kapasite kısıtlı",
+          "second_generation": "İkinci nesil geçiş",
+          "regional_champion": "Bölgesel sanayi lideri",
+          "field_active": "Aktif saha incelemesi",
+          "under_evaluation": "Değerlendirmede"
+        }
+      },
+      "trust": {
+        "label": "Güven altyapısı",
+        "title": "Operasyonel derinlik güveni ima eder",
+        "lead": "Lisanslı platform, emanet, MKK kaydı ve insan incelemesi — kompakt, hukuk dersi değil."
+      },
+      "access": {
+        "label": "Kontrollü erişim",
+        "title": "Keşfetmeye hazır olduğunuzda girin.",
+        "lead": "Dosyaları okuyun. Operasyonel izleri takip edin. İşlem öncesi üretim gerçeğini anlayın.",
+        "cta": "Dosya kaydına gir"
+      }
+    },
+    "invest": {
+      "hero": {
+        "label": "Gerçek şirket ortaklığı · Türk sanayi yatırımı",
+        "title": "Üretim şirketlerinde pay sahibi olun.",
+        "lead": "ORTAQ, ihracat odaklı üretim KOBİ'lerini saha incelemeli dosyalarla sunar. Satın aldığınız şey: gerçek fabrikada pay — sermaye kapasite, makine ve ihracat büyümesi için çalışır.",
+        "conviction": "Pasif varlıklar fiyat bekler. Üretken şirketler kapasite, ihracat ve operasyonel iyileştirmeyle değer biriktirir — pay sahibi bu büyümenin ortağıdır. Getiri garantisi yoktur; model uzun vadeli sanayi ortaklığıdır.",
+        "ctaPrimary": "Yatırım fırsatlarını keşfet",
+        "ctaSecondary": "Ortaklık nasıl işler?",
+        "featuredBadge": "Öne çıkan fırsat",
+        "location": "Konum",
+        "ecosystemLabel": "Aktif şirket ekosistemi",
+        "activityNote": "{{count}} operasyonel iz · ekosistem genelinde canlı inceleme",
+        "viewRegistry": "Tüm dosya kaydı"
+      },
+      "opportunities": {
+        "label": "Yatırım fırsatları",
+        "title": "İhracat odaklı üretim şirketleri",
+        "lead": "CNC, gıda, lojistik, kimya, tekstil — farklı sanayi kollarında saha incelemeli paya dayalı ortaklık dosyaları. Her biri gerçek üretim tesisi; startup kartı değil.",
+        "capitalLead": "Her dosyada sermayenin nereye gideceği açıkça yazar: hat genişletme, ihracat altyapısı, makine yenileme. Paranız fabrikada çalışır — spekülasyon değil, operasyonel büyüme finansmanı.",
+        "viewAll": "Tüm şirketler",
+        "count": "{{shown}} / {{count}} aktif dosya gösteriliyor"
+      },
+      "card": {
+        "export": "İhracat payı",
+        "purpose": "Hedef tutar",
+        "reviewProgress": "İnceleme ilerlemesi",
+        "cta": "Dosyayı incele"
+      },
+      "sectors": {
+        "label": "Üretim ekonomisi",
+        "title": "Sanayi yatırımı · sektör çeşitliliği",
+        "lead": "Her sektör farklı bir kapasite, ihracat ve operasyonel büyüme hikâyesi taşır — pasif varlıklardan farklı olarak üretim tabanlı değer yaratır.",
+        "explore": "Şirketleri gör"
+      },
+      "process": {
+        "label": "Yatırım yolculuğu",
+        "title": "Keşiften değer oluşumuna — altı adım",
+        "subtitle": "Bireysel yatırımcının yolculuğu: dosya okuma, doğrulama, katılım, izleme ve şirket performansını takip.",
+        "steps": {
+          "1": {
+            "title": "Keşif",
+            "text": "Yatırım fırsatlarını tarayın — üretim, ihracat ve saha notlarıyla zenginleştirilmiş şirket dosyaları."
+          },
+          "2": {
+            "title": "İnceleme",
+            "text": "Kapasite, risk, makine parkı, sermaye kullanım planı ve inceleme adımlarını derinlemesine okuyun."
+          },
+          "3": {
+            "title": "Doğrulama",
+            "text": "SPK çerçevesi, lisanslı platform, emanet hesabı ve MKK pay kaydını anlayın."
+          },
+          "4": {
+            "title": "Katılım",
+            "text": "Hazır olduğunuzda lisanslı platform üzerinden pay alın — para emanet hesabında kalır, acele yok."
+          },
+          "5": {
+            "title": "İzleme",
+            "text": "Saha güncellemeleri, operasyonel izler ve şirket raporlarıyla ortaklığınızı takip edin."
+          },
+          "6": {
+            "title": "Değer oluşumu",
+            "text": "Kapasite artışı, ihracat büyümesi, marj iyileştirmesi — şirket değeri operasyonel performansla gelişir. Temettü, değer artışı veya çıkış kampanyaya göre değişir; garanti yoktur."
+          }
+        }
+      },
+      "ownership": {
+        "label": "Ortaklık modeli",
+        "title": "60 saniyede: ne sahip olursunuz?",
+        "lead": "Spekülasyon değil — gerçek şirkette pay. Sermayeniz üretim hattında, makinede, ihracat altyapısında çalışır.",
+        "items": {
+          "1": {
+            "title": "Pay sahipliği",
+            "text": "Kampanya tamamlandığında MKK kayıtlarında adınıza açılan pay — halka açık borsada işlem görmeyen sanayi şirketine ortaklık."
+          },
+          "2": {
+            "title": "Sermayenin rolü",
+            "text": "Paranız kapasite genişletme, makine yatırımı, ihracat altyapısı veya operasyonel darboğaz çözümü için kullanılır — dosyada açıkça yazar."
+          },
+          "3": {
+            "title": "Değer nasıl oluşur?",
+            "text": "Üretim hacmi, ihracat payı, marj ve şirket değeri operasyonel iyileştirmeyle büyüyebilir. Yatırımcı bu tablonun pay sahibidir."
+          },
+          "4": {
+            "title": "Getiri beklentisi",
+            "text": "Temettü, değer artışı veya stratejik çıkış — kampanya bilgi formunda belirtilir. Kazanç garantisi yoktur; para kaybedebilirsiniz."
+          }
+        },
+        "examplesLabel": "Sermayenin tipik kullanım alanları",
+        "examples": "Kapasite artışı · ihracat büyümesi · makine yenileme · yeni üretim hattı · bölgesel genişleme · marj iyileştirmesi"
+      },
+      "wealth": {
+        "title": "Neden üretim ortaklığı?",
+        "mostLabel": "Pasif varlıklar",
+        "fewLabel": "Üretken sanayi ortaklığı",
+        "most": {
+          "1": "Altın, döviz, konut — fiyat hareketi",
+          "2": "Spekülatif varlıklar — volatilite",
+          "3": "Borsa — likit ama genel endeks",
+          "4": "Getiri piyasa duyarlılığına bağlı"
+        },
+        "few": {
+          "1": "Fabrika üreten, istihdam eden KOBİ'ler",
+          "2": "İhracat odaklı operasyonel büyüme",
+          "3": "Kapasite ve makine yatırımıyla değer birikimi",
+          "4": "Tarihsel olarak bireysel erişime kapalı katman"
+        },
+        "barrier": "Bu katman due diligence maliyeti, kapalı ağlar ve dağınık süreç yüzünden bireysel yatırımcıdan uzak kaldı. ORTAQ disiplinli dosya ve doğrulama ile erişimi görünür kılar.",
+        "positioning": "Bireysel yatırımcı ile Türk sanayi büyümesi arasında ciddi bir köprü — hype değil, operasyonel ortaklık."
+      },
+      "activity": {
+        "label": "Operasyonel momentum",
+        "title": "Şirketler sahadan büyüyor",
+        "lead": "Kapasite artışı, hat kurulumu, ihracat sevkiyatı, makine devreye alma — gerçek operasyonel ilerleme kayıtları.",
+        "link": "Tüm hareketler"
+      },
+      "trust": {
+        "label": "Yatırımcı koruması",
+        "title": "Ciddi yatırım katmanı · güven altyapısı",
+        "lead": "SPK düzenlemesi, emanet hesabı, MKK kaydı ve altı aşamalı şirket incelemesi — güven slogandan değil, katmanlı doğrulamadan gelir. Crowdfunding oyuncağı değil; düzenlenmiş paya dayalı yapı."
+      },
+      "cta": {
+        "title": "Üretken ekonomiye ortaklık yolculuğuna başlayın.",
+        "lead": "Dosyaları keşfedin, ne satın aldığınızı anlayın, güven katmanlarını doğrulayın — hazır olduğunuzda katılın. Acele yok; ciddi yatırım dosya okuması ister.",
+        "primary": "Yatırım fırsatlarını keşfet"
+      },
+      "faq": {
+        "label": "Yatırım & hukuk",
+        "title": "Sık sorulan sorular",
+        "lead": "Ne satın alırsınız, ortaklık nasıl işler, değer nasıl oluşur, riskler neler — kısa, net yanıtlar. Yatırım tavsiyesi değildir; kazanç garantisi yoktur.",
+        "legalTitle": "Yasal yapı özeti",
+        "legal": {
+          "1": "SPK düzenlemesi altında lisanslı kitle fonlama platformu çerçevesi",
+          "2": "Emanet hesabı — kampanya kapanana kadar fonlar şirkete aktarılmaz",
+          "3": "MKK pay kaydı — sermaye artırımı sonrası adınıza açılır",
+          "4": "Altı aşamalı şirket incelemesi — saha, belge ve finans doğrulaması"
+        },
+        "link": "Tüm sorular"
+      }
+    },
+    "visibility": {
+      "label": "Operasyonel görünürlük",
+      "title": "Katman gerçekte neye benziyor.",
+      "lead": "Şirket profili değil — saha incelemesi ve operasyon kayıtlarından çıkarılmış üretim sinyalleri."
+    },
+    "why": {
+      "label": "Neden önemli",
+      "title": "Çoğu insan üretken ekonomiye erişemez.",
+      "lead": "Türkiye'de bireysel yatırım genelde finansal varlıklara gider. Oysa istihdam, ihracat ve üretim kapasitesi fabrikalarda oluşur.",
+      "mostLabel": "Herkesin erişebildiği",
+      "fewLabel": "Neredeyse kimsenin erişemediği",
+      "most": {
+        "1": "Altın ve döviz",
+        "2": "Kripto ve spekülatif varlıklar",
+        "3": "Konut ve arsa",
+        "4": "Halka açık borsa hisseleri"
+      },
+      "few": {
+        "1": "Fabrika üreten KOBİ'ler",
+        "2": "İhracat yapan üretim şirketleri",
+        "3": "Makine parkı ve kapasite büyümesi",
+        "4": "Halka açık olmayan sanayi ortaklığı"
+      },
+      "barrier": "Bu katman opak kaldı: due diligence pahalı, erişim kapalı, süreç dağınık. Büyük fonlar ve yerel ağlar hariç, bireysel katılım neredeyse imkânsız.",
+      "ortaq": "ORTAQ, bu katmanı dosya, saha incelemesi ve doğrulama disipliniyle görünür kılar — acele etmeden, şeffaf biçimde."
+    },
+    "stats": {
+      "dossiers": "Aktif inceleme dosyası",
+      "inReview": "Ön incelemede",
+      "fieldVisits": "Saha günlüğü kaydı",
+      "sectors": "Sanayi sektörü",
+      "cities": "Şehir kapsamı",
+      "reviewLayers": "Doğrulama katmanı",
+      "disclaimer": "Canlı inceleme kapasitesi ve operasyonel iz derinliği — sahte yatırımcı veya getiri metriği yok."
+    },
+    "featured": {
+      "label": "Öne çıkan dosya",
+      "nextGate": "Sonraki adım",
+      "cta": "Dosyayı inceleyin",
+      "criteria": "Seçim kriterleri"
+    },
+    "companies": {
+      "label": "Yatırım dosyaları",
+      "title": "Türk sanayisinde paya dayalı ortaklık fırsatları",
+      "count": "{{count}} aktif inceleme dosyası",
+      "lead": "CNC, gıda, lojistik, kimya, tekstil, seracılık, ambalaj — ihracat odaklı üretim şirketlerinde saha incelemeli dosyalar.",
+      "viewAll": "Tüm şirketler",
+      "enter": "Dosyayı incele",
+      "footnote": "Yatırım teklifi değil. Her dosya sermaye kullanım planı, operasyonel gerilim ve inceleme durumu içerir.",
+      "pipeline": "Değerlendirme hattı",
+      "pipelineText": "Yeni başvurular ön inceleme sürecinden geçiyor. Uygun bulunan dosyalar burada yayınlanır.",
+      "pipelineLink": "Seçim kriterleri"
+    },
+    "sectors": {
+      "label": "Sektör kapsamı",
+      "title": "Türk sanayi kapsamı",
+      "active": "{{count}} dosya",
+      "soon": "Yakında",
+      "aria": "Sektör kapsamı",
+      "coverage": "{{count}} sektör · sadece dosya bulunan kategoriler",
+      "noCities": "—"
+    },
+    "verification": {
+      "gate": "Giriş için gerekli",
+      "label": "Doğrulama",
+      "title": "Güven, operasyonel disiplinden gelir.",
+      "lead": "Her dosya saha, kapasite, belge, operasyon ve ihracat katmanından geçmeden yayınlanmaz.",
+      "link": "Güven çerçevesi",
+      "checks": {
+        "field": {
+          "title": "Saha incelemesi",
+          "text": "Fabrika ziyareti, hat gözlemi, tutanak ve fotoğraf arşivi."
+        },
+        "capacity": {
+          "title": "Kapasite değerlendirmesi",
+          "text": "Makine parkı, vardiya, darboğaz ve üretim hacmi doğrulaması."
+        },
+        "documents": {
+          "title": "Belge doğrulama",
+          "text": "Ticaret sicili, finansal tablolar ve yönetim raporları."
+        },
+        "operations": {
+          "title": "Operasyonel inceleme",
+          "text": "Tedarik, işgücü, kalite protokolü ve saha notları."
+        },
+        "export": {
+          "title": "İhracat kontrolü",
+          "text": "Fatura özetleri, pazar dağılımı ve sevkiyat gözlemleri."
+        }
+      }
+    },
+    "trust": {
+      "label": "Güven sistemi",
+      "title": "Doğrulama katmanları",
+      "lead": "Her iddia etiketlenir, her süreç belgelenir. Güven slogandan değil — operasyonel şeffaflıktan gelir.",
+      "items": {
+        "1": {
+          "title": "Lisanslı platform",
+          "text": "Paya dayalı ortaklık SPK listesindeki kitle fonlama platformu üzerinden yürür — bireysel yatırımcı koruması."
+        },
+        "2": {
+          "title": "Emanet hesabı",
+          "text": "Kampanya bitene kadar para emanet hesabında kalır; hedef tutmazsa iade süreci işler."
+        },
+        "3": {
+          "title": "MKK kaydı",
+          "text": "Sermaye artırımından sonra pay adınıza MKK'da açılır — gerçek ortaklık kaydı."
+        },
+        "4": {
+          "title": "İnsan incelemesi",
+          "text": "Belge, saha ve finansal katmanlar komite öncesi doğrulanır — disiplinli şirket seçimi."
+        }
+      },
+      "evalLink": "Değerlendirme kriterleri"
+    },
+    "activity": {
+      "label": "İnceleme akışı",
+      "title": "Son operasyonel hareketler",
+      "subtitle": "Tüm dosyalardan tarih sırasına göre",
+      "aria": "Çapraz inceleme akışı",
+      "colDate": "Tarih",
+      "colTime": "Saat",
+      "colCompany": "Şirket",
+      "colType": "Tür",
+      "colNote": "Not",
+      "updateChip": "Dosya",
+      "note": "Saha ziyaret notları ve dosya hareketleri burada toplanır. Yatırımcı sayısı değil — inceleme hareketi."
+    },
+    "process": {
+      "label": "Süreç",
+      "title": "Üç adımda",
+      "lead": "Kimlik doğrulamadan pay kaydına — beş adımlı, izlenebilir süreç.",
+      "link": "Detaylı süreci okuyun",
+      "home": {
+        "1": {
+          "title": "Dosyayı okuyun",
+          "text": "Üretim, ihracat, risk ve saha notlarını inceleyin."
+        },
+        "2": {
+          "title": "Süreci anlayın",
+          "text": "Doğrulama, emanet ve ortaklık akışını öğrenin."
+        },
+        "3": {
+          "title": "Hazır olduğunuzda",
+          "text": "Lisanslı platform üzerinden katılım — acele yok."
+        }
+      }
+    },
+    "cta": {
+      "eyebrow": "Giriş",
+      "title": "Kontrollü giriş.",
+      "text": "Dosyaları inceleyin. Operasyonel gerçeği anlayın. Giriş kasıtlıdır.",
+      "subtext": "ORTAQ bir kampanya sitesi değil — Türk sanayisine kontrollü erişim katmanı.",
+      "primary": "Kayda giriş",
+      "secondary": "Başlayın",
+      "note": "Henüz yatırım kabul edilmiyor."
+    },
+    "companyCard": {
+      "location": "Konum",
+      "employees": "Çalışan",
+      "employeesUnit": "çalışan",
+      "capacity": "Kapasite",
+      "exportShare": "İhracat payı",
+      "facility": "Tesis alanı",
+      "facilityStatus": "İnceleme durumu",
+      "reviewProgress": "İnceleme ilerlemesi",
+      "activeStep": "Aktif",
+      "viewDossier": "Dosyayı inceleyin"
+    },
+    "companiesPage": {
+      "label": "Yatırım fırsatları",
+      "title": "Üretim şirketleri · şirket incelemesi",
+      "lead": "Türkiye genelinde sanayi yatırımı dosyaları — kapasite, ihracat, sermaye planı ve saha incelemesi. Yatırım teklifi değil; operasyonel gerçeklik katmanı.",
+      "evalLink": "Şirketler nasıl seçilir?"
+    },
+    "masthead": {
+      "aria": "Platform operasyon durumu",
+      "title": "İncelenmekte olan Türk üretim dosyaları.",
+      "subline": "Her dosya saha ziyareti, belge doğrulama ve operasyonel notlarla katmanlı olarak incelenir. Yatırım teklifi değildir.",
+      "disclaimer": "Henüz işlem kabul edilmiyor · değerlendirme dosyaları · operasyonel izler canlı güncellenir.",
+      "status": {
+        "dossiers": "Aktif dosya",
+        "sectors": "Sektör",
+        "field": "Saha doğrulama",
+        "document": "Belge incelemesi",
+        "preliminary": "Ön inceleme",
+        "lastEvent": "Son hareket"
+      },
+      "feed": {
+        "label": "Canlı inceleme akışı",
+        "viewAll": "Tümü",
+        "update": "Dosya"
+      }
+    },
+    "index": {
+      "aria": "Şirket dosyaları indeksi",
+      "label": "Şirket dosyaları",
+      "title": "İnceleme sürecindeki üretim şirketleri",
+      "resultCount": "{{count}} / {{total}} dosya",
+      "openCompaniesPage": "Tüm şirketler sayfası",
+      "filter": {
+        "stageLabel": "Aşama",
+        "sectorLabel": "Sektör",
+        "all": "Tümü",
+        "stage": {
+          "preliminary_review": "Ön inceleme",
+          "document_review": "Belge incelemesi",
+          "field_verification": "Saha doğrulaması",
+          "committee": "Komite"
+        }
+      },
+      "sort": {
+        "label": "Sırala",
+        "lastEvent": "Son hareket",
+        "city": "Şehir",
+        "founded": "Kuruluş yılı",
+        "employees": "Çalışan sayısı"
+      },
+      "compare": {
+        "label": "Karşılaştırma",
+        "hint": "Yatay kaydırarak tüm sütunları görebilirsiniz",
+        "company": "Şirket",
+        "city": "Şehir",
+        "sector": "Sektör",
+        "stage": "Aşama",
+        "capacity": "Kapasite",
+        "export": "İhracat",
+        "employees": "Çalışan",
+        "lastEvent": "Son hareket",
+        "markets": "pazar",
+        "open": "Dosyayı aç"
+      },
+      "empty": {
+        "title": "Bu filtre kombinasyonuna uyan dosya yok.",
+        "sub": "Filtreleri temizleyerek tüm dosyaları görebilirsiniz.",
+        "reset": "Filtreleri temizle"
+      }
+    },
+    "footerBand": {
+      "aria": "Sayfa altı bilgi şeridi",
+      "text": "ORTAQ, SPK lisanslı kitle fonlama çerçevesinde paya dayalı ortaklık dosyalarını inceleyen bir değerlendirme katmanıdır. Bu sayfada görüntülenen tüm rakamlar simüle edilmiştir.",
+      "trust": "Güven sistemi",
+      "process": "Süreç",
+      "risks": "Riskler"
+    }
+  },
+  "dossier": {
+    "nav": {
+      "aria": "Dosya bölümleri",
+      "snapshot": "Özet",
+      "production": "Üretim",
+      "facility": "Tesis",
+      "machines": "Makine",
+      "export": "İhracat",
+      "customers": "Müşteri",
+      "field": "Saha",
+      "growth": "Büyüme",
+      "risks": "Risk",
+      "review": "İnceleme",
+      "documents": "Belge"
+    },
+    "header": {
+      "label": "Değerlendirme dosyası",
+      "tensionLabel": "Operasyonel gerilim",
+      "employees": "çalışan",
+      "reviewStatus": "İnceleme durumu",
+      "activeStep": "Aktif adım",
+      "nextGate": "Sonraki kapı"
+    },
+    "access": {
+      "preliminary": "Ön inceleme aşamasında",
+      "document_review": "Belge incelemesi devam ediyor",
+      "field_verification": "Saha doğrulaması devam ediyor",
+      "committee": "Komite kuyruğunda",
+      "partial_open": "Kısmi dosya erişimi"
+    },
+    "lead": {
+      "aria": "Dosya özeti — 30 saniyelik anlama bloğu",
+      "primaryTension": "Birincil operasyonel gerilim",
+      "signalsLabel": "Operasyonel sinyaller",
+      "signalsTitle": "Ölçek ve hat durumu",
+      "tensionLabel": "Risk ve gerilim",
+      "tensionTitle": "Görünür belirsizlikler",
+      "bottlenecks": "Kritik darboğazlar",
+      "topRisks": "Öne çıkan risk başlıkları",
+      "allRisks": "Tüm risk profili",
+      "verifyLabel": "Doğrulama",
+      "verifyTitle": "İnceleme katmanları",
+      "fullTimeline": "Tam inceleme zaman çizelgesi"
+    },
+    "snapshot": {
+      "label": "Operasyonel özet",
+      "title": "Şirket profili ve inceleme odağı",
+      "description": "Ne üretiliyor, nerede darboğaz var, ne doğrulandı — öncelik sırasına göre.",
+      "what": "Ne yapıyor",
+      "why": "Neden inceleniyor",
+      "growth": "Büyüme kaynağı",
+      "uncertainty": "Belirsizlik",
+      "bottleneck": "Kritik darboğazlar",
+      "footnote": "Mevcut kapasite {{capacity}} · ihracat payı {{export}} — saha gözlemi ve şirket beyanı.",
+      "footnoteGeneric": "Metrikler saha ziyareti ve şirket beyanına dayanır — bağımsız denetim yapılmamış olabilir."
+    },
+    "production": {
+      "label": "Üretim akışı",
+      "title": "Üretim organizması",
+      "description": "Hat düzeni, malzeme ve vardiya yapısı.",
+      "materials": "Ham malzeme",
+      "shifts": "Vardiya ve köken"
+    },
+    "facility": {
+      "label": "Tesis",
+      "title": "Tesis gözlemleri",
+      "description": "Saha ziyaretinde kaydedilen bölge notları — idealize edilmemiş.",
+      "zone": "Bölge",
+      "observation": "Gözlem"
+    },
+    "machines": {
+      "label": "Makine parkı",
+      "title": "Tezgâh envanteri",
+      "description": "Kapasite ve darboğaz analizi için makine listesi.",
+      "asset": "Varlık",
+      "role": "Rol · yıl",
+      "note": "Operasyon notu"
+    },
+    "export": {
+      "label": "İhracat",
+      "title": "İhracat yapısı",
+      "description": "Pazar dağılımı ve genişleme geçmişi.",
+      "year": "Yıl",
+      "market": "Pazar",
+      "note": "Not"
+    },
+    "customers": {
+      "label": "Müşteri yapısı",
+      "title": "Gelir dağılımı",
+      "description": "Yurtiçi / ihracat mix ve müşteri segmentleri — şirket beyanı.",
+      "domestic": "Yurtiçi pay",
+      "export": "İhracat pay",
+      "segment": "Segment",
+      "share": "Pay",
+      "note": "Açıklama",
+      "disclaimer": "Kesin müşteri listesi paylaşılmadı — segment tahminleri yönetim görüşmesine dayanır."
+    },
+    "field": {
+      "label": "Saha kaydı",
+      "title": "Saha gözlemleri",
+      "description": "ORTAQ saha ekibi ve kurucu notları — kronolojik.",
+      "types": {
+        "observation": "Gözlem",
+        "inspection": "İnceleme",
+        "capacity": "Kapasite",
+        "logistics": "Lojistik",
+        "founder": "Kurucu"
+      }
+    },
+    "growth": {
+      "label": "Sermaye ihtiyacı",
+      "title": "Büyüme gerekçesi",
+      "description": "Planlanan yatırım kalemleri — henüz kampanya açık değil.",
+      "line": "Kalem",
+      "amount": "Tutar",
+      "total": "Toplam hedef",
+      "simulated": "simülasyon"
+    },
+    "risks": {
+      "label": "Risk ve sürtünme",
+      "title": "Operasyonel riskler",
+      "description": "Darboğazlar, tedarik gecikmeleri ve yapısal riskler — filtrelenmemiş.",
+      "bottlenecks": "Üretim darboğazları",
+      "friction": "Operasyonel sürtünme",
+      "profile": "Yapısal risk profili",
+      "generalLink": "Genel riskler",
+      "categories": {
+        "supply": "Tedarik",
+        "capacity": "Kapasite",
+        "workforce": "İşgücü",
+        "export": "İhracat",
+        "equipment": "Ekipman"
+      }
+    },
+    "review": {
+      "label": "İnceleme",
+      "title": "Doğrulama ve süreç",
+      "description": "ORTAQ inceleme zaman çizelgesi, katman durumu ve dosya hareketi.",
+      "timeline": "İnceleme zaman çizelgesi",
+      "companyHistory": "Şirket geçmişi",
+      "verification": "Doğrulama katmanları",
+      "activityLog": "Dosya hareketi",
+      "inProgress": "Devam ediyor",
+      "pending": "Bekliyor",
+      "layerStatus": {
+        "pending": "Bekliyor",
+        "partial": "Kısmi",
+        "done": "Tamam"
+      },
+      "stepStatus": {
+        "done": "Tamam",
+        "active": "Aktif",
+        "pending": "Bekliyor"
+      }
+    },
+    "documents": {
+      "label": "Belge katmanı",
+      "title": "İncelenen belgeler",
+      "description": "Hangi belgeler incelendi, hangileri bekliyor — indirilebilir arşiv değil, inceleme durumu.",
+      "reviewed": "İncelendi",
+      "inReview": "İnceleniyor",
+      "pending": "Bekliyor",
+      "item": "Belge",
+      "status": "Durum",
+      "note": "Not",
+      "statuses": {
+        "available": "İncelendi",
+        "review": "İnceleniyor",
+        "pending": "Bekliyor"
+      },
+      "pendingChecks": "Bekleyen kontroller",
+      "disclaimer": "Belgeler lisanslı platform sürecinde resmi olarak yayınlanır. Burada yalnızca inceleme durumu gösterilir."
+    },
+    "actions": {
+      "track": "Dosyayı takip et",
+      "saved": "Dosya kaydedildi",
+      "criteria": "Değerlendirme kriterleri",
+      "back": "Tüm şirketler",
+      "footer": "Değerlendirme dosyası · Kampanya lisanslı platform üzerinden açılır · Getiri garantisi yoktur."
     }
   },
   "traces": {
@@ -490,29 +1211,39 @@
     "fullPageLink": "Tüm riskler →"
   },
   "process": {
-    "label": "Süreç",
-    "title": "Beş adımda ortaklık",
-    "intro": "Kimlik doğrulamadan pay kaydına — düzenlenmiş ve izlenebilir bir yol.",
+    "label": "Katılım süreci",
+    "title": "Paya dayalı yatırım nasıl tamamlanır?",
+    "intro": "Keşif ve inceleme ORTAQ dosyalarında başlar; şirket seçimi değerlendirme sürecinden geçer; katılım SPK düzenlemesi altındaki lisanslı platformda tamamlanır. Beş adım yasal ortaklık akışını özetler.",
+    "journeyLabel": "Yatırımcı yolculuğu",
+    "journey": {
+      "1": "Keşif",
+      "2": "İnceleme",
+      "3": "Doğrulama",
+      "4": "Katılım",
+      "5": "İzleme",
+      "6": "Değer oluşumu"
+    },
+    "journeyNote": "ORTAQ keşif, inceleme ve doğrulama katmanını sağlar; şirket seçimi altı aşamalı due diligence'den geçer; işlem lisanslı platform üzerinden yürür.",
     "steps": {
       "1": {
         "title": "Üye olun",
-        "text": "e-Devlet ile kimlik ve risk onayı."
+        "text": "e-Devlet ile kimlik doğrulama ve risk bildirimi onayı — yatırımcı kimliğiniz resmileşir."
       },
       "2": {
         "title": "Şirketi okuyun",
-        "text": "Bilgi formu ve paranın nereye gideceği."
+        "text": "Bilgi formu, sermaye kullanım planı ve paranın nereye gideceğini anlayın."
       },
       "3": {
         "title": "Katılın",
-        "text": "Para emanet hesabına gider."
+        "text": "Paranız emanet hesabına gider — kampanya bitene kadar şirkete aktarılmaz."
       },
       "4": {
         "title": "Sermaye artırımı",
-        "text": "Hedef tutarsa işlem tamamlanır."
+        "text": "Hedef tutarsa işlem tamamlanır; şirket sermayesi güçlenir, siz pay sahibi olursunuz."
       },
       "5": {
         "title": "Pay kaydı",
-        "text": "MKK'da adınıza açılır."
+        "text": "MKK'da adınıza açılır. Bundan sonra operasyonel güncellemeleri izlersiniz — değer oluşumu şirket performansına bağlıdır."
       }
     }
   },
@@ -595,14 +1326,26 @@
     }
   },
   "footer": {
-    "tagline": "Ortak olma yolunu sade anlatan site.",
-    "regulatory": "Paya dayalı kitle fonlamasında bireysel katılımcılar için yıllık limit, bilgi formu, risk bildirimi ve cayma hakkı zorunludur.",
-    "notAdvice": "ORTAQ yatırım tavsiyesi vermez. Buradaki yazılar bilgi içindir.",
+    "tagline": "Türk sanayi yatırımı için disiplinli keşif katmanı — gerçek şirketlere ortaklık yolunu sade anlatır.",
+    "protectionLabel": "Yatırımcı koruması",
+    "regulatory": "Paya dayalı kitle fonlamasında bireysel katılımcılar için yıllık limit, bilgi formu, risk bildirimi ve cayma hakkı zorunludur. İşlem SPK düzenlemesi altındaki lisanslı platform üzerinden yürür.",
+    "notAdvice": "ORTAQ yatırım tavsiyesi vermez. Buradaki yazılar bilgi içindir; kazanç garantisi yoktur.",
+    "trustPills": {
+      "1": "SPK uyumlu süreç çerçevesi",
+      "2": "Emanet hesabı koruması",
+      "3": "Şeffaf raporlama ve dosya",
+      "4": "MKK pay kaydı disiplini"
+    },
+    "faqTeaser": {
+      "label": "Yatırım soruları",
+      "title": "Ortaklık, getiri ve risk hakkında net yanıtlar",
+      "link": "Tüm SSS"
+    },
     "trustTitle": "Güven",
     "learnTitle": "Öğren",
     "legalTitle": "Yasal",
     "supportTitle": "İletişim",
-    "supportText": "Sorularınız için destek@ortaq.biz",
+    "supportText": "Sorularınız için",
     "dispute": "Şikâyetler yazıyla alınır. Lisanslı platform süreçleriyle birlikte değerlendirilir.",
     "entity": "ORTAQ · İstanbul",
     "entityNote": "Şirket bilgileri ve sicil kaydı tamamlanınca burada paylaşılır.",
@@ -614,7 +1357,10 @@
       "glossary": "Sözlük",
       "memberArea": "Alanınız",
       "privacy": "Gizlilik",
-      "terms": "Kullanım"
+      "terms": "Kullanım",
+      "evaluation": "Değerlendirme",
+      "companies": "Yatırım fırsatları",
+      "start": "Başlangıç okuması"
     }
   },
   "transparency": {
@@ -622,12 +1368,67 @@
     "intro": "Önemli kararlar burada duyurulur."
   },
   "mobileCta": {
-    "label": "Süreci inceleyin",
-    "sublabel": "Değerlendirme aşamasında"
+    "label": "Yatırım fırsatlarını inceleyin",
+    "sublabel": "Henüz işlem kabul edilmiyor"
+  },
+  "journey": {
+    "label": "Yatırımcı yolculuğu",
+    "note": "Keşif → değerlendirme → güven → ortaklık. ORTAQ sizi adım adım taşır — acele etmeden, dosya okuyarak.",
+    "processLink": "Katılım süreci",
+    "evaluationLink": "Şirket seçimi",
+    "trustLink": "Yatırımcı koruması",
+    "riskLink": "Riskler"
+  },
+  "evaluationPage": {
+    "label": "Şirket seçimi",
+    "title": "Şirketler nasıl değerlendirilir?",
+    "lead": "Her başvuru kabul edilmez. ORTAQ yalnızca üretim yapan, belgelenebilir ve uzun vadeli ekonomik mantığı olan şirketleri dosyalar — yatırımcıya sunulmadan önce altı aşamalı due diligence.",
+    "leadSecondary": "Bu, yatırımcı yolculuğunun doğrulama ayağıdır: keşiften sonra, katılımdan önce. Güven katmanı ve katılım süreci bu incelemenin üzerine inşa edilir.",
+    "journeyContext": "Değerlendirme tamamlandıktan sonra güven çerçevesini okuyun, ardından katılım sürecine geçin.",
+    "stageLabel": "Aşama {{key}}",
+    "rejectLabel": "Red gerekçesi örneği:",
+    "exampleLabel": "Örnek dosya:",
+    "exampleLink": "Karat Parça Makina",
+    "exampleMeta": "Konya · saha doğrulaması aşamasında.",
+    "cta": "Değerlendirme dosyasını inceleyin",
+    "journeyLink": "Yatırım yolculuğunun tamamı →",
+    "stages": {
+      "1": {
+        "title": "Ön eleme",
+        "text": "Sektör uygunluğu, faaliyet süresi, üretim veya ihracat kanıtı, temel finansal tablo.",
+        "reject": "Tek kişilik danışmanlık, spekülatif projeler, belgesiz iddialar."
+      },
+      "2": {
+        "title": "Operasyonel inceleme",
+        "text": "Fabrika veya üretim tesisi ziyareti, makine parkı, sipariş defteri, tedarik zinciri.",
+        "reject": "Sadece ofis adresi, üretimsiz aracı yapılar."
+      },
+      "3": {
+        "title": "Hukuk ve sicil",
+        "text": "Ticaret sicili, MERSİS, vergi uyumu, ortaklık yapısı, dava ve icra taraması.",
+        "reject": "Sicil uyumsuzluğu, açıklanmamayan ortaklık ilişkileri."
+      },
+      "4": {
+        "title": "Finansal inceleme",
+        "text": "Gelir trendi, borç yapısı, nakit akışı, sermaye kullanım planının tutarlılığı.",
+        "reject": "Doğrulanamayan projeksiyonlar, tutarsız kullanım planı."
+      },
+      "5": {
+        "title": "Kurucu görüşmesi",
+        "text": "Yüz yüze veya video mülakat. Operasyonel bilgi, hedefler, risk farkındalığı.",
+        "reject": "Yanıltıcı beyan, basın baskısı, gerçek dışı büyüme iddiası."
+      },
+      "6": {
+        "title": "Komite ve platform",
+        "text": "Finans, saha ve hukuk oylaması. Lisanslı kitle fonlama platformu nihai onay.",
+        "reject": "Komite red kararı veya platform uygun bulmaması."
+      }
+    }
   },
   "trustPage": {
-    "title": "Güven",
-    "subtitle": "Kanıtlayamadığımızı yazmıyoruz. Her başlıkta durum görürsünüz.",
+    "title": "Güven ve yatırımcı koruması",
+    "subtitle": "Ciddi yatırım katmanı: kanıtlayamadığımızı yazmıyoruz. Keşiften değerlendirmeye, güven çerçevesinden katılıma — her adımda yasal koruma ve operasyonel şeffaflık.",
+    "journeyNote": "Şirket seçim sürecini okuduktan sonra burada güven katmanlarını doğrulayın; ardından katılım sürecine geçin.",
     "layersTitle": "Neler var",
     "infrastructure": {
       "title": "Altyapı",
