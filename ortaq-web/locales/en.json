@@ -1,0 +1,568 @@
+{
+  "brand": { "name": "ORTAQ", "tagline": "Become a partner in real companies." },
+  "nav": {
+    "howItWorks": "Process",
+    "companies": "Companies",
+    "trust": "Trust",
+    "risk": "Risks",
+    "memberArea": "Your space",
+    "cta": "Learn the process",
+    "menu": "Menu",
+    "langToggle": "Change language",
+    "ariaMain": "Main menu",
+    "ariaMobile": "Mobile menu"
+  },
+  "media": {
+    "credit": "Image: {{source}} · not a campaign photo",
+    "factoryFloor": { "alt": "Factory production floor, late afternoon light" },
+    "cncWorkshop": { "alt": "CNC machining workshop" },
+    "logisticsDock": { "alt": "Logistics loading dock" },
+    "exportWarehouse": { "alt": "Export warehouse and dispatch" },
+    "machineOperator": { "alt": "Machine operator on production line" },
+    "packagingFloor": { "alt": "Packaging and dispatch floor" },
+    "factoryDetail": { "alt": "Industrial machinery detail" },
+    "industrialLine": { "alt": "Industrial production line, stock image" },
+    "warehouse": { "alt": "Warehouse and logistics area, stock image" },
+    "workshop": { "alt": "Workshop and production floor, stock image" },
+    "textileFloor": { "alt": "Textile production line, stock image" }
+  },
+  "homeOps": {
+    "label": "Operations",
+    "title": "Review activity",
+    "intro": "Numbers reflect review capacity — not investor counts. No fake urgency.",
+    "link": "Read the selection process →",
+    "stats": {
+      "preliminary": "In preliminary review",
+      "fieldVisits": "Field visits completed",
+      "document": "In document review",
+      "committee": "In committee queue"
+    },
+    "logs": {
+      "fieldVisit": "Konya — production line field visit completed",
+      "preliminary": "3 new preliminary applications filed",
+      "legalUpdate": "Privacy draft updated",
+      "partner": "Licensed platform talks ongoing"
+    }
+  },
+  "traces": {
+    "global": {
+      "konyaFieldUpdate": "Konya field note updated — Line A observation.",
+      "capacityReport": "New capacity report added to dossier.",
+      "qualityReview": "First quality review completed — 3 samples.",
+      "shipmentRef": "Shipment ref: 2 pallets DE-labelled.",
+      "dossierRevision": "Dossier revision pending — financial layer.",
+      "preliminaryFile": "Preliminary application filed to archive.",
+      "exportDoc": "2024 export invoice summary verified.",
+      "machineAudit": "Machine park inventory logged in field notes."
+    }
+  },
+  "pulse": {
+    "label": "Process notes",
+    "lastUpdated": "Updated: {{date}}",
+    "more": "Trust page →",
+    "notes": {
+      "platform": "Licensed platform talks ongoing. No transactions until agreement is complete.",
+      "legal": "Privacy and terms under legal review.",
+      "verify": "Pre-campaign verification process published."
+    }
+  },
+  "homeEditorial": {
+    "label": "Real economy",
+    "quote": "Partnership starts on the factory floor — not on paper.",
+    "context": "ORTAQ tells the story of producing companies. These images are samples; live campaigns use company photos.",
+    "caption": "A slice of production and workshop life in Turkey."
+  },
+  "trustStrip": {
+    "status": "No transactions accepted yet",
+    "intro": "These items describe regulatory requirements in the partnership process. ORTAQ does not process live transactions yet.",
+    "mkk": "Under regulation, share records are held at MKK",
+    "escrow": "During the campaign, funds are held in escrow",
+    "edevlet": "Identity verification is done via e-Government",
+    "disclosure": "Information memorandum and risk disclosure are read before any transaction"
+  },
+  "trust": {
+    "status": {
+      "verified": "Regulatory requirement",
+      "illustrative": "Sample content",
+      "planned": "Planned",
+      "pending": "Not yet confirmed"
+    },
+    "verification": {
+      "not_submitted": "Not yet submitted",
+      "under_review": "Under review",
+      "approved": "Review passed",
+      "approved_with_conditions": "Conditional approval",
+      "rejected": "Not approved",
+      "suspended": "Suspended",
+      "withdrawn": "Withdrawn",
+      "expired": "Expired"
+    },
+    "complaint": {
+      "intro": "If you have concerns about misleading information, missing documents, or other issues, submit a record. You will receive a reference number.",
+      "category": "Subject",
+      "description": "Description (min 20 characters)",
+      "email": "Email (for follow-up only)",
+      "submit": "Submit complaint",
+      "success": "Your complaint was received. Reference number:",
+      "saveRef": "Keep this number for status inquiries.",
+      "categories": {
+        "misleading_information": "Misleading information",
+        "cannot_withdraw": "Withdrawal issue",
+        "document_missing": "Missing document",
+        "identity_theft": "Identity / fraud",
+        "harassment": "Harassment",
+        "technical": "Technical issue",
+        "other": "Other"
+      }
+    },
+    "license": {
+      "status": "SPK-licensed platform partnership in discussion",
+      "detail": "Partnership transactions will run on listed crowdfunding platform infrastructure. Name and license number will be published here when agreed."
+    },
+    "depth": {
+      "label": "Transparency",
+      "title": "Every claim has a status label",
+      "intro": "We do not claim what we cannot evidence. Each item shows its status.",
+      "learnMore": "Details",
+      "cta": "Trust page",
+      "claims": {
+        "1": { "title": "SPK-licensed platform partnership", "text": "Retail partnership is only possible via SPK-listed platform infrastructure. Partner selection is ongoing." },
+        "2": { "title": "Escrow account", "text": "Until the campaign completes, funds stay blocked with the escrow agent." },
+        "3": { "title": "MKK share registry", "text": "After the capital increase, shares appear in Central Registry under your name." }
+      }
+    }
+  },
+  "hero": {
+    "kicker": "Equity partnership",
+    "title": "See behind the curtain.",
+    "subtitle": "Turkey's productive layer — factories, exports, real companies. Most people never get access.",
+    "body": "First companies are under review.",
+    "primaryCta": "Descend the layers",
+    "secondaryCta": "Open dossier",
+    "scroll": "Discover",
+    "firstTime": "Discover the partnership model",
+    "note": "Not investment advice. Returns are not guaranteed.",
+    "visual": {
+      "location": "Turkey · industrial production",
+      "scene": "Businesses connected to the real economy"
+    }
+  },
+  "homeNetwork": {
+    "layerLabel": "Layer 01 · Network",
+    "title": "The invisible economy is moving.",
+    "whisper": "Factories run. Exports ship. Companies grow. You are not inside yet.",
+    "glimpses": {
+      "production": "CNC workshop — illustrative image from industrial zone",
+      "export": "Loading ramp — dispatch moment"
+    }
+  },
+  "homeWhisper": {
+    "label": "Layer 02",
+    "line": "Gold is easy. Being inside a producing company is not.",
+    "sub": "ORTAQ is opening that door — slowly."
+  },
+  "homeAccessCo": {
+    "layerLabel": "Layer 03 · Dossier",
+    "hook": "This company is preparing for access.",
+    "nextGate": "Next gate",
+    "cta": "Enter the dossier",
+    "all": "Other companies",
+    "status": {
+      "preliminary": "Preliminary review",
+      "document_review": "Document review",
+      "field_verification": "Field verification ongoing",
+      "committee": "In committee queue",
+      "partial_open": "Partial access"
+    }
+  },
+  "homeGate": {
+    "layerLabel": "Layer 04 · Selection",
+    "title": "Not every company gets in.",
+    "whisper": "ORTAQ is not a showcase. It is a review gate.",
+    "link": "Selection process",
+    "items": {
+      "1": { "step": "01", "text": "Preliminary — sector and profile fit" },
+      "2": { "step": "02", "text": "Field visit — operational reality on site" },
+      "3": { "step": "03", "text": "Committee — publish decision" }
+    }
+  },
+  "homeEntry": {
+    "layerLabel": "Layer 05 · Entry",
+    "title": "How you enter.",
+    "steps": {
+      "1": { "text": "Read the dossier. Understand the company, production, risks." },
+      "2": { "text": "When ready, partnership begins via the licensed platform." },
+      "3": { "text": "Funds stay in escrow. Shares open in MKK." }
+    }
+  },
+  "homeReality": {
+    "label": "Real economy",
+    "title": "Not paper — production lines.",
+    "lead": "Turkey's economic weight sits in factories, workshops, export warehouses, and machine parks — not only on the exchange. ORTAQ makes that layer visible.",
+    "heroCaption": "Export warehouse — stock image, illustrative.",
+    "panels": {
+      "production": {
+        "label": "Production",
+        "title": "Machine noise, real value.",
+        "text": "CNC lines, welding bays, quality control — equity partnership is built on these systems. Not abstract finance — physical production."
+      },
+      "export": {
+        "label": "Export",
+        "title": "Cross-border movement.",
+        "text": "Containers, loading ramps, dispatch paperwork. Parts made in Anatolia reach Europe and Central Asia. Partnership sits inside that movement."
+      },
+      "people": {
+        "label": "People",
+        "title": "Operator, founder, engineer.",
+        "text": "Real companies are run by real people. ORTAQ presents founder story, field visit, and document pack together."
+      }
+    }
+  },
+  "homeWhy": {
+    "label": "Why it matters",
+    "title": "Gold is easy. FX is easy. Productive shares are not.",
+    "p1": "In Turkey, savings mostly flow to gold, FX, and property. Owning a stake in exporting, producing companies stayed closed, opaque, and hard to access.",
+    "p2": "ORTAQ aims to make equity partnership understandable, visible, and disciplined. Not a revolution — infrastructure. Trust before speed. Selectivity before scale.",
+    "p3": "Not every company enters the file. Not every application becomes a campaign.",
+    "quote": "Partnership starts on the factory floor — not on paper.",
+    "link": "Read the partnership model →"
+  },
+  "homeStory": {
+    "label": "Company dossier",
+    "imageCaption": "Industrial production detail — simulation image.",
+    "founded": "Founded",
+    "employees": "Employees",
+    "exports": "Export markets",
+    "funding": "Planned use of funds",
+    "cta": "Read full dossier",
+    "allCompanies": "All companies →"
+  },
+  "homeSelection": {
+    "label": "Selection",
+    "title": "Not every company enters.",
+    "lead": "ORTAQ is not a showcase — it is a review gate. Preliminary application, document pack, field visit, financial and legal review, committee approval. No rush.",
+    "link": "Full evaluation process →",
+    "stages": {
+      "1": { "step": "01", "title": "Preliminary application", "text": "Sector fit, basic financial profile, and partnership purpose are assessed." },
+      "2": { "step": "02", "title": "Document pack", "text": "Trade registry, tax records, management reports, and export documents are collected." },
+      "3": { "step": "03", "title": "Field visit", "text": "Production line, machine park, and operational reality are verified on site." },
+      "4": { "step": "04", "title": "Committee decision", "text": "After financial, legal, and operational review, a publish decision is made." }
+    }
+  },
+  "homeTrust": {
+    "label": "Trust architecture",
+    "title": "Seriousness comes from clarity.",
+    "lead": "Trust is not a slogan — it is an operational layer. Every step is documented, every claim is labelled, every process is transparent.",
+    "layers": {
+      "1": { "title": "Review layer", "text": "No company is published without document pack and financial disclosure review. Status is labelled at every step." },
+      "2": { "title": "Licensed platform", "text": "Retail partnership only runs via an SPK-listed crowdfunding platform. Partner selection is ongoing." },
+      "3": { "title": "Escrow account", "text": "Until the campaign ends, funds stay in escrow. They do not go directly to the company." },
+      "4": { "title": "MKK registry", "text": "After the capital increase, your shares appear in MKK records under your name." }
+    },
+    "ctaTrust": "Trust framework",
+    "ctaRisk": "Risks and limits"
+  },
+  "homeAccess": {
+    "label": "Layer 06",
+    "title": "Maybe there is a place for you here.",
+    "text": "No rush yet. But the door is opening — slow, serious, real.",
+    "primary": "Step inside",
+    "secondary": "Your reading space",
+    "note": "No transactions yet. Discovery and preparation phase."
+  },
+  "template": {
+    "label": "Campaign page",
+    "title": "This is what a campaign page looks like",
+    "intro": "The fields below are a sample template. We do not use invented company names, numbers, or stories. Live campaigns pull from the information memorandum.",
+    "imageCaption": "Live campaign images come from the company; field review is done within the partner platform framework",
+    "cardTitle": "Information memorandum summary",
+    "fields": {
+      "company": { "label": "Company", "placeholder": "Trade name appears in the information memorandum" },
+      "location": { "label": "Location", "placeholder": "Production or head office address from the information memorandum" },
+      "activity": { "label": "What they do", "placeholder": "Sector and activity in plain language" },
+      "useOfFunds": { "label": "Use of funds", "placeholder": "Capital increase use plan, item by item" }
+    },
+    "footerNote": "When live, PDF information memorandum, committee report, and risk summary appear on this page.",
+    "viewFull": "Sample campaign page"
+  },
+  "companyPage": {
+    "title": "Sample campaign page",
+    "intro": "This page shows structure only. No real company name, amounts, or performance data.",
+    "memorandum": {
+      "title": "Information memorandum",
+      "text": "Live campaigns publish the SPK-compliant PDF here. Only field structure is shown now."
+    },
+    "committee": {
+      "title": "Committee review",
+      "text": "Investment committee report is shared with the campaign via the partner platform."
+    },
+    "risk": {
+      "title": "Risk summary",
+      "text": "Each campaign has specific risks in the memorandum. Read the general risks page separately."
+    },
+    "riskLink": "General risks",
+    "back": "Back to home",
+    "footerNote": "Live campaigns open on the partner platform. ORTAQ provides the interface; it does not guarantee company performance.",
+    "save": "Save to list",
+    "saved": "Saved"
+  },
+  "onboarding": {
+    "title": "Read first",
+    "intro": "Partnership is a serious decision. No rush here. You do not have to continue if something is unclear.",
+    "progress": "{{current}} / {{total}}",
+    "reassurance": {
+      "banner": "No signup. No payment. You can leave anytime.",
+      "notBinding": "Non-binding",
+      "noRush": "No need to rush. Questions: destek@ortaq.biz",
+      "questions": "If stuck, email destek@ortaq.biz"
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Continue",
+      "exit": "Home",
+      "finish": "Understood",
+      "readRisks": "Read all risks",
+      "openArea": "Go to your space"
+    },
+    "steps": {
+      "safety": {
+        "label": "Start",
+        "title": "What is this page?",
+        "text": "Before partnership, we explain the process and risks in plain language. The decision is yours.",
+        "points": {
+          "1": "No identity verification or payment here.",
+          "2": "Nothing you read binds you.",
+          "3": "You do not have to continue without understanding."
+        }
+      },
+      "about": {
+        "label": "ORTAQ",
+        "title": "What ORTAQ is and is not",
+        "is": "ORTAQ is an interface that explains equity crowdfunding in plain language. For people who want partnership in real companies.",
+        "isNot": "ORTAQ is not a bank, not an adviser, and does not promise returns. Decision and risk are yours."
+      },
+      "money": {
+        "label": "Money",
+        "title": "Where does your money go?",
+        "intro": "The most common question. In short:",
+        "phases": {
+          "1": { "title": "When you join", "text": "Funds go to an escrow account. Not to the company." },
+          "2": { "title": "During the campaign", "text": "Funds stay blocked. The company cannot use them." },
+          "3": { "title": "When the campaign ends", "text": "If the target is met, capital increase proceeds. If not, refund process applies." },
+          "4": { "title": "After that", "text": "Shares are registered at MKK in your name." }
+        },
+        "note": "ORTAQ does not hold funds. Escrow is set up within the licensed platform framework."
+      },
+      "risk": {
+        "label": "Risks",
+        "title": "Know the risks",
+        "intro": "You can lose money in partnership. We do not hide that.",
+        "ack": "I have read the risk items. I know I may lose everything, cannot withdraw quickly, and annual limits apply."
+      },
+      "process": {
+        "label": "Process",
+        "title": "What comes next?",
+        "intro": "If a platform agreement is in place, the flow is roughly:"
+      },
+      "wait": {
+        "label": "For now",
+        "title": "No transactions yet",
+        "text": "ORTAQ does not process transactions yet. You are here to read. That is normal.",
+        "emptyTitle": "Platform not ready",
+        "emptyText": "When the licensed platform agreement is final, you will continue from here. Reading is enough for now.",
+        "partnerNote": "Platform agreement not yet in place",
+        "delay": "If there is a delay, we will say so on this page. Nothing opens silently.",
+        "whatYouCanDo": "What you can do now",
+        "actions": {
+          "1": "Read the process",
+          "2": "Read the risks page",
+          "3": "Email us your questions"
+        }
+      }
+    }
+  },
+  "risk": {
+    "label": "Know this first",
+    "title": "Every partnership carries risk",
+    "intro": "ORTAQ aims to align the process with regulation; it does not remove risk.",
+    "items": {
+      "1": "You may lose your entire contribution.",
+      "2": "Money does not return quickly; exit can take years.",
+      "3": "The company may miss or delay targets.",
+      "4": "Annual participation limits apply. Amounts are in the information memorandum and regulation.",
+      "5": "ORTAQ does not give investment advice. The decision is yours."
+    },
+    "cooling": "Legal cooling-off applies during the campaign. Terms are in the information memorandum.",
+    "preface": "A short list to read before deciding.",
+    "fullPageLink": "All risks and limits"
+  },
+  "process": {
+    "label": "Process",
+    "title": "What happens start to finish",
+    "intro": "The general flow of the partnership process. Steps reflect the SPK sequence.",
+    "stepLabel": "Step {{step}}",
+    "steps": {
+      "1": { "title": "Sign up", "text": "e-Government identity verification. Read and acknowledge risk disclosure." },
+      "2": { "title": "Review the company", "text": "Information memorandum, use of funds, committee report." },
+      "3": { "title": "Join the campaign", "text": "Funds go to escrow and are blocked." },
+      "4": { "title": "Capital increase", "text": "If target is met, the company completes the capital increase." },
+      "5": { "title": "Share registry", "text": "Shares open at MKK in your name. Updates via the platform." }
+    }
+  },
+  "cta": {
+    "title": "Understand first, decide later.",
+    "text": "Partnership is not rushed. Reading takes minutes; your decision may be long-term.",
+    "primary": "See the steps",
+    "secondary": "Trust page",
+    "firstTime": "First time here? Read first.",
+    "memberArea": "See your reading progress"
+  },
+  "memberArea": {
+    "label": "Personal space",
+    "title": "Your space",
+    "subtitle": "Reading progress and process status. Not an investment account — no signup.",
+    "lastVisit": "Last visit: {{date}}",
+    "continueReading": "Continue reading",
+    "footer": "Stored only on your device. No portfolio or balance shown.",
+    "overview": {
+      "title": "Overview"
+    },
+    "onboarding": {
+      "title": "Reading flow",
+      "done": "Intro reading complete",
+      "progress": "{{current}} / {{total}} steps",
+      "cta": "Continue reading"
+    },
+    "education": {
+      "title": "Learning progress",
+      "progress": "{{done}} / {{total}} pages read",
+      "items": {
+        "start": "Intro reading",
+        "process": "How it works",
+        "trust": "Trust",
+        "risk": "Risks",
+        "faq": "FAQ"
+      }
+    },
+    "process": {
+      "title": "Process status",
+      "items": {
+        "platform": { "label": "Licensed platform", "status": "In discussion" },
+        "transactions": { "label": "Transactions", "status": "Closed" },
+        "campaign": { "label": "First campaign", "status": "Preparing" }
+      }
+    },
+    "saved": {
+      "title": "Saved pages",
+      "empty": "No saved pages yet. Browse the sample campaign to add one.",
+      "browse": "View sample campaign →"
+    },
+    "reminders": {
+      "title": "Reminders",
+      "items": {
+        "1": "No return is guaranteed.",
+        "2": "Funds stay in escrow; they do not go directly to the company.",
+        "3": "Do not decide without understanding — you can ask questions."
+      }
+    },
+    "updates": {
+      "title": "Transparency updates",
+      "more": "Trust page →"
+    },
+    "updates.1.title": "Licensed platform talks ongoing",
+    "updates.1.text": "No investments until the agreement is complete.",
+    "updates.2.title": "Verification process published",
+    "updates.2.text": "Company, document, and financial review before any campaign.",
+    "status": {
+      "read": "Read",
+      "unread": "Unread",
+      "complete": "Done",
+      "inProgress": "In progress"
+    }
+  },
+  "footer": {
+    "tagline": "An interface that simplifies partnership in real businesses.",
+    "regulatory": "Under the Equity Crowdfunding Communiqué: annual limits, mandatory information memorandum, risk disclosure, and cooling-off rights apply.",
+    "notAdvice": "ORTAQ does not give investment advice. Content is for information only.",
+    "trustTitle": "Trust",
+    "learnTitle": "Learn",
+    "legalTitle": "Legal",
+    "supportTitle": "Support",
+    "supportText": "Email destek@ortaq.biz with questions.",
+    "dispute": "Complaints are taken in writing and reviewed with the partner platform.",
+    "entity": "ORTAQ · Istanbul",
+    "entityNote": "Legal entity, trade registry, and MERSIS details will be published here when complete.",
+    "links": { "trust": "Trust", "risk": "Risks", "process": "How it works", "faq": "FAQ", "glossary": "Glossary", "memberArea": "Your space", "privacy": "Privacy", "terms": "Terms" }
+  },
+  "mobileCta": { "label": "Learn the process", "sublabel": "Non-binding" },
+  "trustPage": {
+    "title": "Trust and transparency",
+    "subtitle": "Process, documents, and written communication. We do not show unproven claims.",
+    "layersTitle": "What the process includes",
+    "infrastructure": { "title": "Infrastructure status", "intro": "Each item shows its current status label." },
+    "claims": {
+      "1": { "title": "Platform partner", "text": "Talks with an SPK-listed crowdfunding platform are ongoing. Name and license number will appear here." },
+      "2": { "title": "Escrow agent", "text": "Escrow structure will be defined with the partner platform per regulation." },
+      "3": { "title": "MKK integration", "text": "After partnership completes, share records are held at MKK in the participant's name." }
+    },
+    "layers": {
+      "1": { "title": "Legal framework", "text": "Equity partnership runs under SPK regulation." },
+      "2": { "title": "Fund protection", "text": "Funds stay blocked in escrow until the campaign ends." },
+      "3": { "title": "Share registry", "text": "Partnership rights are recorded at MKK." },
+      "4": { "title": "Human review", "text": "Projects are reviewed by the investment committee." },
+      "5": { "title": "Open communication", "text": "Delays and bad news are not hidden." }
+    },
+    "committee": {
+      "title": "Investment committee",
+      "intro": "Roles are assigned within the partner platform framework. Names announced after agreement.",
+      "roles": {
+        "1": { "role": "Financial review", "desc": "Statements, debt, use of funds." },
+        "2": { "role": "Field and operations", "desc": "Production site, supply chain, verification." },
+        "3": { "role": "Legal and compliance", "desc": "Trade registry, SPK compliance, memorandum integrity." }
+      },
+      "note": "Names and bios published together with the platform partner."
+    },
+    "support": {
+      "title": "Contact and complaints",
+      "intro": "Reach us through written channels.",
+      "contact": { "title": "General contact", "text": "Email destek@ortaq.biz. Office hours and response times will be stated here during live campaigns." },
+      "dispute": { "title": "Complaints", "text": "Disputes are recorded. ORTAQ and the partner platform respond together." },
+      "response": { "title": "Response times", "text": "Written requests are logged. Response time depends on the case; we notify you if delayed." }
+    },
+    "back": "Back to home"
+  },
+  "riskPage": {
+    "title": "Risks and limits",
+    "subtitle": "Read before deciding on partnership.",
+    "notAdvice": "This page is not investment advice.",
+    "sections": {
+      "1": { "title": "Principal risk", "text": "You may lose everything. No return guarantee." },
+      "2": { "title": "Liquidity", "text": "You may not sell when you want. Exit can take years." },
+      "3": { "title": "Retail limits", "text": "Non-qualified individuals face annual limits per regulation." },
+      "4": { "title": "Cooling-off", "text": "Legal cooling-off during the campaign per information memorandum." },
+      "5": { "title": "Tax", "text": "Partnership may create tax obligations. Consult your accountant." },
+      "6": { "title": "Company risk", "text": "The company may fail, miss targets, or change management." },
+      "7": { "title": "Platform role", "text": "ORTAQ provides an interface; it does not guarantee company performance." }
+    },
+    "help": { "title": "Questions", "text": "If unsure, write us or consult an independent adviser before deciding.", "email": "destek@ortaq.biz" },
+    "back": "Back to home"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy",
+      "updated": "Last updated: May 2026",
+      "p1": "ORTAQ processes personal data under Turkish KVKK.",
+      "p2": "e-Government verification uses data only for verification.",
+      "p3": "Full text published after legal review before platform partnership goes live."
+    },
+    "terms": {
+      "title": "Terms of use",
+      "updated": "Last updated: May 2026",
+      "p1": "ORTAQ does not give investment advice.",
+      "p2": "Partnership will run on SPK-licensed crowdfunding platform infrastructure.",
+      "p3": "Full terms published before platform partnership."
+    },
+    "back": "Back to home"
+  },
+  "notFound": { "title": "Page not found", "back": "Back to home" }
+}

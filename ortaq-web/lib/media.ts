@@ -1,0 +1,108 @@
+/**
+ * Documentary photography registry — Turkish industrial atmosphere.
+ * Stock-sourced editorial placeholders; live campaigns use company photos.
+ */
+export const media = {
+  /** Hero — late-afternoon factory floor */
+  factoryFloor: {
+    src: "/media/factory-floor.jpg",
+    altTr: "Fabrika üretim alanı, geç öğleden sonra ışığı",
+    altEn: "Factory production floor, late afternoon light",
+    credit: "Unsplash",
+    focalPoint: "center 45%",
+    aspect: "panorama" as const,
+    mood: "cinematic",
+  },
+  cncWorkshop: {
+    src: "/media/cnc-workshop.jpg",
+    altTr: "CNC işleme atölyesi",
+    altEn: "CNC machining workshop",
+    credit: "Unsplash",
+    focalPoint: "center 40%",
+    aspect: "editorial" as const,
+    mood: "operational",
+  },
+  logisticsDock: {
+    src: "/media/logistics-dock.jpg",
+    altTr: "Lojistik yükleme alanı",
+    altEn: "Logistics loading dock",
+    credit: "Unsplash",
+    focalPoint: "center 55%",
+    aspect: "panorama" as const,
+    mood: "export",
+  },
+  exportWarehouse: {
+    src: "/media/export-warehouse.jpg",
+    altTr: "İhracat deposu ve sevkiyat",
+    altEn: "Export warehouse and dispatch",
+    credit: "Unsplash",
+    focalPoint: "center 50%",
+    aspect: "panorama" as const,
+    mood: "movement",
+  },
+  machineOperator: {
+    src: "/media/machine-operator.jpg",
+    altTr: "Tezgâh operatörü, üretim hattı",
+    altEn: "Machine operator on production line",
+    credit: "Unsplash",
+    focalPoint: "center 42%",
+    aspect: "editorial" as const,
+    mood: "human",
+  },
+  packagingFloor: {
+    src: "/media/packaging-floor.jpg",
+    altTr: "Ambalaj ve sevkiyat katı",
+    altEn: "Packaging and dispatch floor",
+    credit: "Unsplash",
+    focalPoint: "center 48%",
+    aspect: "panorama" as const,
+    mood: "grounded",
+  },
+  factoryDetail: {
+    src: "/media/factory-detail.jpg",
+    altTr: "Endüstriyel makine detayı",
+    altEn: "Industrial machinery detail",
+    credit: "Unsplash",
+    focalPoint: "center 50%",
+    aspect: "editorial" as const,
+    mood: "texture",
+  },
+  textileFloor: {
+    src: "/media/textile-floor.jpg",
+    altTr: "Tekstil üretim hattı",
+    altEn: "Textile production line",
+    credit: "Unsplash",
+    focalPoint: "center 50%",
+    aspect: "editorial" as const,
+    mood: "warm",
+  },
+  industrialLine: {
+    src: "/media/industrial-line.jpg",
+    altTr: "Endüstriyel üretim hattı",
+    altEn: "Industrial production line",
+    credit: "Unsplash",
+    focalPoint: "center 42%",
+    aspect: "editorial" as const,
+    mood: "operational",
+  },
+  warehouse: {
+    src: "/media/warehouse.jpg",
+    altTr: "Depo ve lojistik alanı",
+    altEn: "Warehouse and logistics area",
+    credit: "Unsplash",
+    focalPoint: "center 55%",
+    aspect: "panorama" as const,
+    mood: "grounded",
+  },
+  workshop: {
+    src: "/media/workshop.jpg",
+    altTr: "Atölye ve üretim alanı",
+    altEn: "Workshop and production floor",
+    credit: "Unsplash",
+    focalPoint: "center 40%",
+    aspect: "panorama" as const,
+    mood: "human",
+  },
+} as const;
+
+export type MediaKey = keyof typeof media;
