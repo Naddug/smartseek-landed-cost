@@ -13,6 +13,7 @@
     "validate:staging": "NEXT_PUBLIC_APP_ENV=staging NEXT_PUBLIC_SITE_URL=https://staging.ortaq.biz sh -c 'npm run build:staging && node scripts/validate-staging.mjs'",
     "validate:live:staging": "node scripts/validate-live.mjs staging",
     "validate:live:production": "node scripts/validate-live.mjs production",
+    "dns:check": "node scripts/dns-check.mjs",
     "audit:staging": "node scripts/lighthouse-audit.mjs staging",
     "audit:production": "node scripts/lighthouse-audit.mjs production",
     "start": "next start --port 3001",
