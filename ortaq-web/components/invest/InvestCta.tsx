@@ -31,6 +31,9 @@ export function InvestCta() {
             </Link>
           </div>
           <p className={cn(typography.caption, "mt-4 text-ortaq-cream/50")}>{t("homeProduct.cta.note")}</p>
+          <p className={cn(typography.caption, "mt-2 font-medium text-ortaq-cream/65")}>
+            {t("homeProduct.invest.cta.conviction")}
+          </p>
         </div>
       </Container>
     </section>

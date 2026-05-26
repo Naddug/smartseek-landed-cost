@@ -14,7 +14,7 @@ const fraunces = Fraunces({
   weight: ["500", "600", "700"],
   display: "swap",
   variable: "--font-fraunces",
-  preload: true,
+  preload: false,
 });
 
 const dmSans = DM_Sans({
@@ -30,7 +30,7 @@ const inter = Inter({
   weight: ["600", "700"],
   display: "swap",
   variable: "--font-brand",
-  preload: true,
+  preload: false,
 });
 
 export const viewport = {

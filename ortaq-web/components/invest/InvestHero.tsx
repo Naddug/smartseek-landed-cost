@@ -50,6 +50,7 @@ export function InvestHero() {
           src={media.cncWorkshop.src}
           alt=""
           fill
+          loading="lazy"
           className="object-cover"
           style={{ objectPosition: media.cncWorkshop.focalPoint }}
           sizes="42vw"
@@ -68,6 +69,9 @@ export function InvestHero() {
             </p>
             <p className={cn(typography.bodySm, "mt-3 max-w-lg border-l-2 border-ortaq-trust/30 pl-3 font-medium text-ortaq-ink-muted")}>
               {t("homeProduct.invest.hero.conviction")}
+            </p>
+            <p className={cn(typography.caption, "mt-2 max-w-lg font-medium text-ortaq-trust-muted")}>
+              {t("homeProduct.invest.hero.accessLine")}
             </p>
 
             <ul className="mt-5 grid gap-2 sm:grid-cols-2">

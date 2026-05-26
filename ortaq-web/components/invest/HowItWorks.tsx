@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ClipboardList, FileSearch, LineChart, Shield, TrendingUp, Wallet } from "lucide-react";
 import { Container } from "@/components/ui/Section";
+import { ValueConvictionBlocks } from "@/components/invest/ValueConvictionBlocks";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -53,6 +54,8 @@ export function HowItWorks() {
             </div>
           ))}
         </div>
+
+        <ValueConvictionBlocks />
 
         <div className="mt-8 rounded-ortaq-lg border border-ortaq-trust/15 bg-ortaq-surface p-5 shadow-[var(--shadow-product)] transition-[box-shadow,border-color] duration-200 hover:border-ortaq-trust/20 hover:shadow-[var(--shadow-product-hover)] sm:p-6">
           <p className={typography.label}>{t("homeProduct.invest.ownership.label")}</p>

@@ -1,41 +1,103 @@
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import type { MediaKey } from "@/lib/media";
 
-/** One unique, sector-matched image per campaign — no duplicates in grid viewport. */
+/**
+ * Campaign → photograph mapping.
+ *
+ * IMPORTANT — JPG content audit (May 2026):
+ * Several files in /public/media/ have content that does NOT match their
+ * filename. The mapping below ignores the filename and uses each campaign
+ * with the JPG whose ACTUAL visual content fits the sector.
+ *
+ * Verified file contents:
+ *   agrifoodColdchain  → baskets of vegetables           (AGRI)
+ *   ceramicKiln        → ceramic vases                   (CERAMIC)
+ *   cncWorkshop        → row of sedan cars               (AUTOMOTIVE)  ← filename misleading
+ *   factoryDetail      → engineer at laptop, electronics (ELECTRONICS)
+ *   factoryFloor       → engineering desk, calipers      (PRECISION / CNC R&D)
+ *   foodProcessing     → stainless-steel process pipes   (FOOD / CHEMICAL / MILL)
+ *   greenhouse         → soil scoop on workbench         (GARDENING / AGTECH)
+ *   logisticsDock      → warehouse interior, racked boxes(LOGISTICS / STORAGE)
+ *   machineOperator    → welder with sparks              (METAL / WELDING)
+ *   spinningMill       → t-shirts on hangers             (TEXTILE / GARMENT)
+ *   warehouse          → welder with sparks              (METAL / WELDING, duplicates machineOperator)
+ *
+ * Garbage content (DO NOT USE):
+ *   chemicalPlant      → hotel-room bed                  (replace file)
+ *   grainMill          → suburban porch                  (replace file)
+ *
+ * Truck-depot duplicates (DO NOT USE — same aerial shot in 4 files):
+ *   industrialLine, packagingFloor, textileFloor, shipyardDock
+ *
+ * Unread / unverified (may also be wrong):
+ *   exportWarehouse, glassFurnace, plasticExtrusion
+ *
+ * The mapping below assigns every campaign to a VERIFIED-CORRECT photo.
+ * Some sectors share an image because we currently have ~10 usable photos
+ * for 18 campaigns. Sharing is preferable to wrong-content.
+ *
+ * When user uploads new on-site company photos:
+ *   1. Drop the .jpg into /public/media/ with a slug-prefixed name
+ *      (e.g. /public/media/companies/karat-parca-konya.jpg)
+ *   2. Register the new key in lib/media.ts
+ *   3. Point this map at the new key
+ */
 const campaignMedia: Record<string, MediaKey> = {
+  // Agriculture & food
   "adana-tarim-isleme": "agrifoodColdchain",
-  "atlas-lojistik-istanbul": "logisticsDock",
-  "karat-parca-konya": "cncWorkshop",
-  "anatolia-gida-gaziantep": "packagingFloor",
-  "yildiz-dokum-manisa": "industrialLine",
-  "vizyon-otomotiv-bursa": "factoryDetail",
-  "demir-tekstil-bursa": "textileFloor",
-  "marmara-kimya-kocaeli": "chemicalPlant",
-  "tekno-elektronik-ankara": "machineOperator",
-  "ege-mobilya-izmir": "workshop",
-  "deniz-gemi-parca-tuzla": "shipyardDock",
-  "anadolu-cam-kayseri": "glassFurnace",
-  "trakya-un-edirne": "grainMill",
-  "eskisehir-seramik": "ceramicKiln",
+  "trabzon-findik-isleme": "agrifoodColdchain",
   "antalya-sera-teknoloji": "greenhouse",
-  "trabzon-findik-isleme": "foodProcessing",
+  "anatolia-gida-gaziantep": "foodProcessing",
+  "trakya-un-edirne": "foodProcessing",
+
+  // Industrial process / chemical
+  "marmara-kimya-kocaeli": "foodProcessing",
+  "tekirdag-ambalaj-plastik": "foodProcessing",
+
+  // Logistics
+  "atlas-lojistik-istanbul": "logisticsDock",
+
+  // Textile / garment
+  "demir-tekstil-bursa": "spinningMill",
   "denizli-iplik-dokuma": "spinningMill",
-  "tekirdag-ambalaj-plastik": "plasticExtrusion",
+
+  // Ceramic / glass
+  "eskisehir-seramik": "ceramicKiln",
+  "anadolu-cam-kayseri": "ceramicKiln",
+
+  // Precision / CNC / wood R&D
+  "karat-parca-konya": "factoryFloor",
+  "ege-mobilya-izmir": "factoryFloor",
+
+  // Electronics
+  "tekno-elektronik-ankara": "factoryDetail",
+
+  // Automotive
+  "vizyon-otomotiv-bursa": "cncWorkshop",
+
+  // Metal / welding / shipyard
+  "yildiz-dokum-manisa": "machineOperator",
+  "deniz-gemi-parca-tuzla": "warehouse",
 };
 
+/**
+ * Sector-keyword fallback. Only verified-content media keys are referenced.
+ * Order matters — more specific matches first.
+ */
 const sectorFallback: { test: RegExp; key: MediaKey }[] = [
-  { test: /lojistik|depolama|sevkiyat/i, key: "logisticsDock" },
-  { test: /iplik|dokuma|tekstil|konfeksiyon/i, key: "spinningMill" },
-  { test: /fındık|un |tahıl|gıda işleme/i, key: "foodProcessing" },
-  { test: /gıda|tarım|narenciye|sera|seracılık/i, key: "agrifoodColdchain" },
-  { test: /seramik|refrakter|döküm|dokum|cam/i, key: "ceramicKiln" },
-  { test: /ambalaj|plastik|folyo/i, key: "plasticExtrusion" },
-  { test: /kimya|proses|reçine/i, key: "chemicalPlant" },
-  { test: /gemi|denizcilik/i, key: "shipyardDock" },
-  { test: /elektronik|montaj|kablolama/i, key: "machineOperator" },
-  { test: /mobilya|ahşap/i, key: "workshop" },
-  { test: /otomotiv|makine|parça|cnc/i, key: "cncWorkshop" },
-  { test: /metal|üretim/i, key: "industrialLine" },
+  { test: /lojistik|depolama|sevkiyat|logistic/i, key: "logisticsDock" },
+  { test: /iplik|dokuma|tekstil|konfeksiyon|textile|garment/i, key: "spinningMill" },
+  { test: /seracılık|sera|greenhouse|agtech/i, key: "greenhouse" },
+  { test: /fındık|tarım|narenciye|hazelnut|agri/i, key: "agrifoodColdchain" },
+  { test: /un |tahıl|bulgur|gıda|salça|paketleme|food|mill/i, key: "foodProcessing" },
+  { test: /kimya|reçine|proses|chemical|resin|polymer/i, key: "foodProcessing" },
+  { test: /ambalaj|plastik|folyo|packaging|plastic/i, key: "foodProcessing" },
+  { test: /seramik|refrakter|cam|ceramic|glass/i, key: "ceramicKiln" },
+  { test: /elektronik|montaj|kablolama|electronic/i, key: "factoryDetail" },
+  { test: /mobilya|ahşap|furniture|wood/i, key: "factoryFloor" },
+  { test: /otomotiv|automotive/i, key: "cncWorkshop" },
+  { test: /makine|parça|cnc|machin/i, key: "factoryFloor" },
+  { test: /döküm|dokum|metal|kaynak|gemi|denizcilik|marine|foundry|welding/i, key: "machineOperator" },
 ];
 
 export function getCampaignMediaKey(slug: string, sector?: string): MediaKey {
@@ -44,6 +106,8 @@ export function getCampaignMediaKey(slug: string, sector?: string): MediaKey {
     const match = sectorFallback.find(({ test }) => test.test(sector));
     if (match) return match.key;
   }
+  // Last-resort fallback: a verified-content industrial image.
+  // factoryFloor (engineering desk) is safer than industrialLine (truck depot).
   return "factoryFloor";
 }
 
