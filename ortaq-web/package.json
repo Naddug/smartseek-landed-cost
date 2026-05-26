@@ -1,0 +1,35 @@
+{
+  "name": "ortaq-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "build:prod": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_SITE_URL=https://ortaq.biz next build",
+    "validate:prod": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_SITE_URL=https://ortaq.biz sh -c 'npm run build && node scripts/validate-production.mjs'",
+    "start": "next start --port 3001",
+    "lint": "next lint",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "i18next": "^25.8.13",
+    "lucide-react": "^0.545.0",
+    "next": "^15.5.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-i18next": "^16.5.4",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/node": "^20.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.5.18",
+    "tailwindcss": "^4.1.14",
+    "typescript": "5.6.3"
+  }
+}

@@ -1,0 +1,746 @@
+{
+  "brand": {
+    "name": "ORTAQ",
+    "tagline": "Gerçek şirketlere ortak olun."
+  },
+  "nav": {
+    "howItWorks": "Süreç",
+    "companies": "Şirketler",
+    "trust": "Güven",
+    "risk": "Riskler",
+    "memberArea": "Alanınız",
+    "menu": "Menü",
+    "langToggle": "Dil değiştir",
+    "ariaMain": "Ana menü",
+    "ariaMobile": "Mobil menü"
+  },
+  "media": {
+    "credit": "Görsel: {{source}}. Kampanya fotoğrafı değil.",
+    "factoryFloor": {
+      "alt": "Fabrika üretim alanı, geç öğleden sonra ışığı"
+    },
+    "cncWorkshop": {
+      "alt": "CNC işleme atölyesi"
+    },
+    "logisticsDock": {
+      "alt": "Lojistik yükleme alanı"
+    },
+    "exportWarehouse": {
+      "alt": "İhracat deposu ve sevkiyat"
+    },
+    "machineOperator": {
+      "alt": "Tezgâh operatörü, üretim hattı"
+    },
+    "packagingFloor": {
+      "alt": "Ambalaj ve sevkiyat katı"
+    },
+    "factoryDetail": {
+      "alt": "Endüstriyel makine detayı"
+    },
+    "industrialLine": {
+      "alt": "Endüstriyel üretim hattı, stok görsel"
+    },
+    "warehouse": {
+      "alt": "Depo ve lojistik alanı, stok görsel"
+    },
+    "workshop": {
+      "alt": "Atölye ve üretim alanı, stok görsel"
+    },
+    "textileFloor": {
+      "alt": "Tekstil üretim hattı, stok görsel"
+    }
+  },
+  "pulse": {
+    "label": "Süreç notları",
+    "lastUpdated": "Güncellendi: {{date}}",
+    "more": "Güven sayfası →",
+    "notes": {
+      "platform": "Lisanslı platform görüşmeleri sürüyor.",
+      "legal": "Gizlilik ve kullanım metinleri hukuk incelemesinde.",
+      "verify": "Kampanya öncesi doğrulama süreci yayınlandı."
+    }
+  },
+  "homeOps": {
+    "label": "Operasyon",
+    "title": "Değerlendirme hareketi",
+    "intro": "Sayılar yatırımcı sayısı değil — inceleme kapasitesidir. Sahte aciliyet yok.",
+    "link": "Seçim sürecini okuyun →",
+    "stats": {
+      "preliminary": "Ön incelemede",
+      "fieldVisits": "Saha ziyareti tamamlandı",
+      "document": "Belge incelemesinde",
+      "committee": "Komite kuyruğunda"
+    },
+    "logs": {
+      "fieldVisit": "Konya — üretim hattı saha ziyareti tamamlandı",
+      "preliminary": "3 yeni ön başvuru dosyaya alındı",
+      "legalUpdate": "Gizlilik metni taslağı güncellendi",
+      "partner": "Lisanslı platform görüşmeleri devam ediyor"
+    }
+  },
+  "traces": {
+    "global": {
+      "konyaFieldUpdate": "Konya saha notu güncellendi — Hat A gözlemi.",
+      "capacityReport": "Yeni kapasite raporu dosyaya eklendi.",
+      "qualityReview": "İlk kalite incelemesi tamamlandı — 3 numune.",
+      "shipmentRef": "Sevkiyat referansı: 2 palet DE etiketli.",
+      "dossierRevision": "Dosya revizyonu bekleniyor — finansal katman.",
+      "preliminaryFile": "Ön başvuru dosyası arşive alındı.",
+      "exportDoc": "2024 ihracat fatura özeti doğrulandı.",
+      "machineAudit": "Makine parkı envanteri saha notuna işlendi."
+    }
+  },
+  "homeMission": {
+    "label": "Neden ORTAQ",
+    "title": "Üretken ekonomiye erişim.",
+    "p1": "Türkiye'de altın, döviz ve konut alınabilir. Ama fabrika üreten, ihracat yapan şirketlerde pay sahibi olmak tarihsel olarak zor ve opak kaldı.",
+    "p2": "ORTAQ, paya dayalı ortaklık sürecini anlaşılır, görünür ve disiplinli hale getirmeyi hedefler. Devrim değil — altyapı.",
+    "p3": "Hızdan önce güven. Büyümeden önce seçicilik. Her şirket dosyaya girmez.",
+    "founderNote": "Kontrollü lansman tercih ettik. İlk kampanyaları aceleyle açmak yerine inceleme sürecini önce kuruyoruz. Bu yavaşlık kasıtlı.",
+    "founderSign": "ORTAQ operasyon ekibi",
+    "link": "Değerlendirme kriterleri →"
+  },
+  "homeEditorial": {
+    "label": "Gerçek ekonomi",
+    "quote": "Ortaklık, fabrika duvarlarında başlar — kağıt üzerinde değil.",
+    "context": "ORTAQ, üreten şirketlerin hikâyesini anlatır. Bu görseller örnektir; canlı kampanyada fotoğraflar şirketten gelir.",
+    "caption": "Türkiye'deki üretim ve atölye ortamından bir kesit."
+  },
+  "trustStrip": {
+    "status": "Henüz işlem kabul edilmiyor",
+    "escrow": "Para emanet hesabında kalır",
+    "mkk": "Pay MKK'da kayıtlı olur",
+    "disclosure": "Önce bilgi formu okunur"
+  },
+  "trust": {
+    "status": {
+      "verified": "Kanun gereği",
+      "illustrative": "Örnek",
+      "planned": "Planlanıyor",
+      "pending": "Belli değil"
+    },
+    "verification": {
+      "not_submitted": "Henüz gönderilmedi",
+      "under_review": "İncelemede",
+      "approved": "İncelemeden geçti",
+      "approved_with_conditions": "Koşullu onay",
+      "rejected": "Uygun bulunmadı",
+      "suspended": "Askıya alındı",
+      "withdrawn": "Geri çekildi",
+      "expired": "Süresi doldu"
+    },
+    "complaint": {
+      "intro": "Yanıltıcı bilgi, eksik belge veya başka bir endişeniz varsa kayıt bırakın. Referans numarası alırsınız.",
+      "category": "Konu",
+      "description": "Açıklama (en az 20 karakter)",
+      "email": "E-posta (yalnızca takip için)",
+      "submit": "Şikayeti gönder",
+      "success": "Şikayetiniz alındı. Referans numaranız:",
+      "saveRef": "Bu numarayı saklayın. Durum sorgusu için kullanılır.",
+      "categories": {
+        "misleading_information": "Yanıltıcı bilgi",
+        "cannot_withdraw": "Para çekme sorunu",
+        "document_missing": "Eksik belge",
+        "identity_theft": "Kimlik / dolandırıcılık",
+        "harassment": "Taciz",
+        "technical": "Teknik sorun",
+        "other": "Diğer"
+      }
+    },
+    "license": {
+      "status": "Lisanslı platform ile görüşme sürüyor",
+      "detail": "Ortaklık, SPK listesindeki kitle fonlama platformu üzerinden yürüyecek. Anlaşma tamamlanınca platform adı ve lisans numarası burada olacak."
+    },
+    "depth": {
+      "label": "Durum",
+      "title": "Her başlıkta durum yazar",
+      "intro": "Doğrulayamadığımızı söylemiyoruz. Yanında etiketini görürsünüz.",
+      "learnMore": "Devamını oku",
+      "cta": "Güven sayfası",
+      "claims": {
+        "1": {
+          "title": "Lisanslı platform",
+          "text": "Bireysel ortaklık yalnızca SPK listesindeki platform üzerinden olur. Platform seçimi sürüyor."
+        },
+        "2": {
+          "title": "Emanet hesabı",
+          "text": "Kampanya bitene kadar para emanet hesabında kalır. Doğrudan şirkete gitmez."
+        },
+        "3": {
+          "title": "MKK kaydı",
+          "text": "Sermaye artırımından sonra payınız MKK kayıtlarında adınıza görünür."
+        }
+      }
+    }
+  },
+  "hero": {
+    "kicker": "Paya dayalı ortaklık",
+    "title": "Perde arkasını görün.",
+    "subtitle": "Türkiye'nin üreten katmanı — fabrikalar, ihracat, gerçek şirketler. Çoğu insan buraya erişemez.",
+    "body": "İlk şirketler değerlendirme sürecinde.",
+    "primaryCta": "Katmanlara inin",
+    "secondaryCta": "Açılan dosya",
+    "scroll": "Keşfedin",
+    "firstTime": "Ortaklık modelini keşfedin",
+    "note": "Yatırım tavsiyesi değildir. Kazanç garantisi yoktur."
+  },
+  "homeNetwork": {
+    "layerLabel": "Katman 01 · Ağ",
+    "title": "Görünmeyen ekonomi hareket ediyor.",
+    "whisper": "Fabrikalar çalışıyor. İhracat gidiyor. Şirketler büyüyor. Siz henüz içeridesiniz değil.",
+    "glimpses": {
+      "production": "CNC atölyesi — Konya OSB bölgesinden temsilî görsel",
+      "export": "Yükleme rampası — sevkiyat anı"
+    }
+  },
+  "homeWhisper": {
+    "label": "Katman 02",
+    "line": "Altın almak kolay. Üreten bir şirketin içinde olmak değil.",
+    "sub": "ORTAQ, bu kapıyı yavaşça açıyor."
+  },
+  "homeAccessCo": {
+    "layerLabel": "Katman 03 · Dosya",
+    "hook": "Bu şirket şu an erişime hazırlanıyor.",
+    "nextGate": "Sonraki kapı",
+    "cta": "Dosyaya girin",
+    "all": "Diğer şirketler",
+    "status": {
+      "preliminary": "Ön inceleme",
+      "document_review": "Belge incelemesi",
+      "field_verification": "Saha doğrulaması devam ediyor",
+      "committee": "Komite kuyruğunda",
+      "partial_open": "Kısmi erişim"
+    }
+  },
+  "homeGate": {
+    "layerLabel": "Katman 04 · Seçim",
+    "title": "Her şirket buraya giremez.",
+    "whisper": "ORTAQ bir vitrin değil. İnceleme kapısı.",
+    "link": "Seçim süreci",
+    "items": {
+      "1": { "step": "01", "text": "Ön başvuru — sektör ve profil uygunluğu" },
+      "2": { "step": "02", "text": "Saha ziyareti — üretim gerçekliği yerinde" },
+      "3": { "step": "03", "text": "Komite — yayın kararı" }
+    }
+  },
+  "homeEntry": {
+    "layerLabel": "Katman 05 · Giriş",
+    "title": "Nasıl içeri girilir.",
+    "steps": {
+      "1": { "text": "Dosyayı okuyun. Şirketi, üretimi, riskleri anlayın." },
+      "2": { "text": "Süreç hazır olunca lisanslı platform üzerinden ortaklık başlar." },
+      "3": { "text": "Para emanet hesabında kalır. Pay MKK'da açılır." }
+    }
+  },
+  "homeReality": {
+    "label": "Gerçek ekonomi",
+    "title": "Kağıt değil, üretim hatları.",
+    "lead": "Türkiye'nin ekonomik gücü borsada değil — fabrikalarda, atölyelerde, ihracat depolarında ve makine parklarında birikir. ORTAQ bu katmanı görünür kılar.",
+    "heroCaption": "İhracat deposu — stok görsel, temsilidir.",
+    "panels": {
+      "production": {
+        "label": "Üretim",
+        "title": "Makine sesi, gerçek değer.",
+        "text": "CNC tezgâhları, kaynak hatları, kalite kontrol — paya dayalı ortaklık bu sistemlerin üzerine kurulur. Soyut finans değil, fiziksel üretim."
+      },
+      "export": {
+        "label": "İhracat",
+        "title": "Sınır ötesi hareket.",
+        "text": "Konteyner, yükleme rampası, sevkiyat evrakı. Anadolu'da üretilen parça Avrupa'ya, Orta Asya'ya gider. Ortaklık bu hareketin içindedir."
+      },
+      "people": {
+        "label": "İnsan",
+        "title": "Operatör, kurucu, mühendis.",
+        "text": "Gerçek şirketler gerçek insanlarla yönetilir. ORTAQ, kurucu hikâyesini, saha ziyaretini ve belge paketini bir arada sunar."
+      }
+    }
+  },
+  "homeWhy": {
+    "label": "Neden önemli",
+    "title": "Altın alınır. Döviz alınır. Üretken pay almak zordur.",
+    "p1": "Türkiye'de bireysel birikim çoğunlukla altın, döviz ve konuta gider. Fabrika üreten, ihracat yapan şirketlerde pay sahibi olmak ise tarihsel olarak kapalı, opak ve erişilemez kaldı.",
+    "p2": "ORTAQ, paya dayalı ortaklık sürecini anlaşılır, görünür ve disiplinli hale getirmeyi hedefler. Devrim değil — altyapı. Hızdan önce güven. Büyümeden önce seçicilik.",
+    "p3": "Her şirket dosyaya girmez. Her başvuru kampanyaya dönüşmez.",
+    "quote": "Ortaklık, fabrika duvarlarında başlar — kağıt üzerinde değil.",
+    "link": "Ortaklık modelini inceleyin →"
+  },
+  "homeStory": {
+    "label": "Şirket dosyası",
+    "imageCaption": "Endüstriyel üretim detayı — simülasyon görseli.",
+    "founded": "Kuruluş",
+    "employees": "Çalışan",
+    "exports": "İhracat pazarları",
+    "funding": "Planlanan kullanım",
+    "cta": "Tam dosyayı okuyun",
+    "allCompanies": "Tüm şirketler →"
+  },
+  "homeSelection": {
+    "label": "Seçim",
+    "title": "Her şirket dosyaya girmez.",
+    "lead": "ORTAQ bir vitrin değil — inceleme kapısıdır. Ön başvuru, belge paketi, saha ziyareti, finansal ve hukuk incelemesi, komite onayı. Acele yok.",
+    "link": "Değerlendirme sürecinin tamamı →",
+    "stages": {
+      "1": {
+        "step": "01",
+        "title": "Ön başvuru",
+        "text": "Sektör uygunluğu, temel finansal profil ve ortaklık amacı değerlendirilir."
+      },
+      "2": {
+        "step": "02",
+        "title": "Belge paketi",
+        "text": "Ticaret sicili, vergi kayıtları, yönetim raporları ve ihracat belgeleri toplanır."
+      },
+      "3": {
+        "step": "03",
+        "title": "Saha ziyareti",
+        "text": "Üretim hattı, makine parkı ve operasyonel gerçeklik yerinde doğrulanır."
+      },
+      "4": {
+        "step": "04",
+        "title": "Komite kararı",
+        "text": "Finansal, hukuki ve operasyonel inceleme sonrası yayın kararı verilir."
+      }
+    }
+  },
+  "homeInstitution": {
+    "production": {
+      "label": "Üretim",
+      "text": "Ortaklık, fabrika ve atölyelerde üreten şirketlerle başlar."
+    },
+    "registry": {
+      "label": "Kayıt",
+      "text": "Payınız MKK'da adınıza kayıtlı olur."
+    },
+    "process": {
+      "label": "Süreç",
+      "text": "Lisanslı platform, emanet hesabı ve bilgi formu zorunludur."
+    },
+    "status": "Değerlendirme aşaması · Güncellendi: {{date}}"
+  },
+  "homeEconomy": {
+    "label": "Gerçek ekonomi",
+    "title": "Kağıt değil, üretim.",
+    "lead": "ORTAQ, ihracat yapan, istihdam eden, makine parkına sahip şirketlerin hikâyesini anlatır.",
+    "body": "Ortaklık bir bahis değil — uzun vadeli ekonomik katılımdır.",
+    "link": "Ortaklık modelini inceleyin →",
+    "caption": "Tekstil üretim hattı — stok görsel, temsilidir."
+  },
+  "homeTrust": {
+    "label": "Güven mimarisi",
+    "title": "Ciddiyet, netlikten gelir.",
+    "lead": "Güven bir slogan değil — operasyonel katmandır. Her adım belgelenir, her iddia etiketlenir, her süreç şeffaftır.",
+    "items": {
+      "1": {
+        "title": "Lisanslı altyapı",
+        "text": "Ortaklık SPK listesindeki kitle fonlama platformu üzerinden yürür."
+      },
+      "2": {
+        "title": "Emanet ve kayıt",
+        "text": "Para kampanya bitene kadar emanet hesabında kalır; pay MKK'da açılır."
+      },
+      "3": {
+        "title": "İnceleme",
+        "text": "Şirket, belge ve finansal açıklama incelemesinden geçmeden yayınlanmaz."
+      }
+    },
+    "layers": {
+      "1": {
+        "title": "İnceleme katmanı",
+        "text": "Şirket, belge paketi ve finansal açıklama incelemesinden geçmeden yayınlanmaz. Durum her adımda etiketlenir."
+      },
+      "2": {
+        "title": "Lisanslı platform",
+        "text": "Bireysel ortaklık yalnızca SPK listesindeki kitle fonlama platformu üzerinden yürür. Platform seçimi sürüyor."
+      },
+      "3": {
+        "title": "Emanet hesabı",
+        "text": "Kampanya bitene kadar para emanet hesabında kalır. Doğrudan şirkete gitmez."
+      },
+      "4": {
+        "title": "MKK kaydı",
+        "text": "Sermaye artırımından sonra payınız MKK kayıtlarında adınıza görünür."
+      }
+    },
+    "ctaTrust": "Güven çerçevesi",
+    "ctaRisk": "Riskler ve limitler"
+  },
+  "homeAccess": {
+    "label": "Katman 06",
+    "title": "Belki de burada bir yeriniz var.",
+    "text": "Henüz acele yok. Ama kapı açılıyor — yavaş, ciddi, gerçek.",
+    "primary": "İçeri adım atın",
+    "secondary": "Okuma alanınız",
+    "note": "Henüz işlem kabul edilmiyor. Keşif ve hazırlık aşaması."
+  },
+  "template": {
+    "titleShort": "Değerlendirme dosyası: Karat Parça Makina",
+    "introShort": "Konya · tarım makinesi yedek parça · saha doğrulaması aşamasında.",
+    "label": "Kampanya sayfası",
+    "title": "Kampanya sayfası böyle görünür",
+    "intro": "Bu alanlar örnektir. Uydurma şirket veya rakam yok.",
+    "imageCaption": "Canlı kampanyada görseller şirketten gelir. Saha ziyareti lisanslı platform çerçevesinde yapılır.",
+    "cardTitle": "Bilgi formu özeti",
+    "fields": {
+      "company": {
+        "label": "Şirket",
+        "placeholder": "Ticaret unvanı bilgi formunda yazar"
+      },
+      "location": {
+        "label": "Konum",
+        "placeholder": "Üretim veya merkez adresi bilgi formunda yazar"
+      },
+      "activity": {
+        "label": "Ne iş yapıyor",
+        "placeholder": "Faaliyet, sade anlatım"
+      },
+      "useOfFunds": {
+        "label": "Para nereye gidecek",
+        "placeholder": "Sermaye artırımında paranın kullanımı, madde madde"
+      }
+    },
+    "footerNote": "Kampanya açılınca bilgi formu PDF'i, komite notu ve risk özeti bu sayfada olur.",
+    "viewFull": "Dosyayı inceleyin"
+  },
+  "companyPage": {
+    "title": "Örnek kampanya sayfası",
+    "intro": "Bu sayfa düzeni gösterir. Gerçek şirket adı, tutar veya performans yok.",
+    "memorandum": {
+      "title": "Bilgi formu",
+      "text": "Kampanya açılınca bilgi formu PDF olarak burada olur. Şimdilik yalnızca alan düzeni görünüyor."
+    },
+    "committee": {
+      "title": "Komite notu",
+      "text": "Komite değerlendirmesi kampanyayla birlikte, lisanslı platform çerçevesinde paylaşılır."
+    },
+    "risk": {
+      "title": "Risk özeti",
+      "text": "Her kampanyanın kendi riskleri bilgi formunda yazar. Genel riskler için ayrı sayfaya bakın."
+    },
+    "riskLink": "Genel riskler",
+    "back": "Ana sayfaya dön",
+    "footerNote": "Canlı kampanyalar lisanslı platform üzerinden açılır. ORTAQ arayüz sağlar. Şirketin ileride ne yapacağını garanti etmez.",
+    "save": "Listeye ekle",
+    "saved": "Listede"
+  },
+  "onboarding": {
+    "progress": "{{current}} / {{total}}",
+    "reassurance": {
+      "banner": "Kayıt yok. Ödeme yok. İstediğiniz zaman çıkabilirsiniz."
+    },
+    "navigation": {
+      "back": "Geri",
+      "next": "İlerle",
+      "exit": "Ana sayfa",
+      "finish": "Tamam, anladım",
+      "readRisks": "Tüm riskleri oku",
+      "openArea": "Alanınıza gidin"
+    },
+    "steps": {
+      "safety": {
+        "title": "Bu sayfa ne için?",
+        "text": "Ortaklık ciddi bir karar. Burada süreci ve riskleri anlatıyoruz.",
+        "points": {
+          "1": "Burada kimlik veya ödeme yok.",
+          "2": "Okumak sizi bağlamaz.",
+          "3": "Anlamadan ilerlemek zorunda değilsiniz."
+        }
+      },
+      "about": {
+        "isNot": "ORTAQ banka değil, danışman değil, kazanç vaat etmez."
+      },
+      "money": {
+        "title": "Paranız nereye gider?",
+        "phases": {
+          "1": {
+            "title": "Katılınca",
+            "text": "Para emanet hesabına gider. Şirkete gitmez."
+          },
+          "2": {
+            "title": "Kampanya bitince",
+            "text": "Hedef tutmazsa iade; tutarsa sermaye artırımı olur."
+          },
+          "3": {
+            "title": "Sonrasında",
+            "text": "Payınız MKK'da adınıza kayıtlı olur."
+          }
+        }
+      },
+      "risk": {
+        "title": "Riskleri bilin",
+        "ack": "Riskleri okudum. Kazanç garantisi olmadığını biliyorum."
+      },
+      "wait": {
+        "title": "Henüz işlem yok",
+        "text": "ORTAQ şu an işlem kabul etmiyor. Okumak için buradasınız.",
+        "emptyText": "Lisanslı platform anlaşması bitince devam edersiniz."
+      }
+    }
+  },
+  "risk": {
+    "label": "Değerlendirme",
+    "title": "Her ortaklık uzun vadeli değerlendirilir",
+    "intro": "ORTAQ süreci düzenler; riski ortadan kaldırmaz. Karar sizindir.",
+    "items": {
+      "1": "Yatırdığınız parayı tamamen kaybedebilirsiniz.",
+      "2": "Para hemen geri gelmez.",
+      "3": "Şirket hedeflerine ulaşamayabilir.",
+      "4": "Yıllık katılım limiti vardır.",
+      "5": "ORTAQ ne alıp satacağınızı söylemez."
+    },
+    "fullPageLink": "Tüm riskler →"
+  },
+  "process": {
+    "label": "Süreç",
+    "title": "Beş adımda ortaklık",
+    "intro": "Kimlik doğrulamadan pay kaydına — düzenlenmiş ve izlenebilir bir yol.",
+    "steps": {
+      "1": {
+        "title": "Üye olun",
+        "text": "e-Devlet ile kimlik ve risk onayı."
+      },
+      "2": {
+        "title": "Şirketi okuyun",
+        "text": "Bilgi formu ve paranın nereye gideceği."
+      },
+      "3": {
+        "title": "Katılın",
+        "text": "Para emanet hesabına gider."
+      },
+      "4": {
+        "title": "Sermaye artırımı",
+        "text": "Hedef tutarsa işlem tamamlanır."
+      },
+      "5": {
+        "title": "Pay kaydı",
+        "text": "MKK'da adınıza açılır."
+      }
+    }
+  },
+  "cta": {
+    "title": "Hazırsanız okuyun",
+    "text": "Acele yok. Birkaç dakika sürer.",
+    "primary": "Okumaya başla",
+    "memberArea": "Okuma ilerlemenizi görün"
+  },
+  "memberArea": {
+    "label": "Kişisel alan",
+    "title": "Alanınız",
+    "subtitle": "Okuma ilerlemeniz ve süreç durumu. Yatırım hesabı değil — kayıt da yok.",
+    "lastVisit": "Son ziyaret: {{date}}",
+    "continueReading": "Okumaya devam et",
+    "footer": "Bu sayfa yalnızca sizin cihazınızda saklanır. Portföy veya bakiye göstermez.",
+    "overview": {
+      "title": "Özet"
+    },
+    "onboarding": {
+      "title": "Okuma süreci",
+      "done": "Başlangıç okuması tamamlandı",
+      "progress": "{{current}} / {{total}} adım",
+      "cta": "Okumaya devam et"
+    },
+    "education": {
+      "title": "Eğitim ilerlemesi",
+      "progress": "{{done}} / {{total}} sayfa okundu",
+      "items": {
+        "start": "Başlangıç okuması",
+        "process": "Nasıl çalışır",
+        "trust": "Güven",
+        "risk": "Riskler",
+        "faq": "Sık sorulan sorular"
+      }
+    },
+    "process": {
+      "title": "Süreç durumu",
+      "items": {
+        "platform": {
+          "label": "Lisanslı platform",
+          "status": "Görüşme sürüyor"
+        },
+        "transactions": {
+          "label": "İşlem kabulü",
+          "status": "Kapalı"
+        },
+        "campaign": {
+          "label": "İlk kampanya",
+          "status": "Hazırlık"
+        }
+      }
+    },
+    "saved": {
+      "title": "Kaydettiğiniz sayfalar",
+      "empty": "Henüz kayıtlı sayfa yok. Örnek kampanyayı inceleyip ekleyebilirsiniz.",
+      "browse": "Örnek kampanyayı gör →"
+    },
+    "reminders": {
+      "title": "Hatırlatmalar",
+      "items": {
+        "1": "Kazanç garantisi yoktur.",
+        "2": "Para emanet hesabında kalır; şirkete doğrudan gitmez.",
+        "3": "Anlamadan karar vermeyin — soru sorabilirsiniz."
+      }
+    },
+    "updates": {
+      "title": "Şeffaflık güncellemeleri",
+      "more": "Güven sayfası →"
+    },
+    "updates.1.title": "Lisanslı platform görüşmeleri sürüyor",
+    "updates.1.text": "Anlaşma tamamlanana kadar yatırım alınmaz.",
+    "updates.2.title": "Doğrulama süreci yayınlandı",
+    "updates.2.text": "Kampanya öncesi şirket, belge ve finans incelemesi yapılacak.",
+    "status": {
+      "read": "Okundu",
+      "unread": "Okunmadı",
+      "complete": "Tamam",
+      "inProgress": "Devam"
+    }
+  },
+  "footer": {
+    "tagline": "Ortak olma yolunu sade anlatan site.",
+    "regulatory": "Paya dayalı kitle fonlamasında bireysel katılımcılar için yıllık limit, bilgi formu, risk bildirimi ve cayma hakkı zorunludur.",
+    "notAdvice": "ORTAQ yatırım tavsiyesi vermez. Buradaki yazılar bilgi içindir.",
+    "trustTitle": "Güven",
+    "learnTitle": "Öğren",
+    "legalTitle": "Yasal",
+    "supportTitle": "İletişim",
+    "supportText": "Sorularınız için destek@ortaq.biz",
+    "dispute": "Şikâyetler yazıyla alınır. Lisanslı platform süreçleriyle birlikte değerlendirilir.",
+    "entity": "ORTAQ · İstanbul",
+    "entityNote": "Şirket bilgileri ve sicil kaydı tamamlanınca burada paylaşılır.",
+    "links": {
+      "trust": "Güven",
+      "risk": "Riskler",
+      "process": "Nasıl çalışır",
+      "faq": "SSS",
+      "glossary": "Sözlük",
+      "memberArea": "Alanınız",
+      "privacy": "Gizlilik",
+      "terms": "Kullanım"
+    }
+  },
+  "transparency": {
+    "title": "Ne değişti?",
+    "intro": "Önemli kararlar burada duyurulur."
+  },
+  "mobileCta": {
+    "label": "Süreci inceleyin",
+    "sublabel": "Değerlendirme aşamasında"
+  },
+  "trustPage": {
+    "title": "Güven",
+    "subtitle": "Kanıtlayamadığımızı yazmıyoruz. Her başlıkta durum görürsünüz.",
+    "layersTitle": "Neler var",
+    "infrastructure": {
+      "title": "Altyapı",
+      "intro": "Her satırın yanında bugünkü durumu yazar."
+    },
+    "claims": {
+      "1": {
+        "title": "Lisanslı platform",
+        "text": "SPK listesindeki platform ile görüşme sürüyor."
+      },
+      "2": {
+        "title": "Emanet",
+        "text": "Para kampanya bitene kadar emanet hesabında."
+      },
+      "3": {
+        "title": "MKK kaydı",
+        "text": "Payınız MKK'da adınıza kayıtlı olur."
+      }
+    },
+    "layers": {
+      "1": {
+        "title": "Yasal çerçeve",
+        "text": "Paya dayalı ortaklık SPK düzenlemesi altında yürür."
+      },
+      "2": {
+        "title": "Para",
+        "text": "Kampanya bitene kadar para emanet hesabında kalır."
+      },
+      "3": {
+        "title": "Pay kaydı",
+        "text": "Ortaklık hakkınız MKK kayıtlarında görünür."
+      },
+      "4": {
+        "title": "İnceleme",
+        "text": "Dosyalar komiteye gider. Reddedilirse gerekçe açıklanır."
+      },
+      "5": {
+        "title": "İletişim",
+        "text": "Kötü haber saklanmaz. Yazılı bilgilendirme gider."
+      }
+    },
+    "committee": {
+      "note": "Kampanyalar finans, saha ve hukuk incelemesinden geçer. Komite isimleri platform anlaşmasıyla açıklanır."
+    },
+    "support": {
+      "title": "Sorular ve şikâyet",
+      "intro": "Yazın, kayda alalım.",
+      "contact": {
+        "text": "destek@ortaq.biz — genel sorular ve şikâyetler."
+      }
+    },
+    "back": "Ana sayfaya dön"
+  },
+  "riskPage": {
+    "title": "Riskler ve limitler",
+    "subtitle": "Karar vermeden önce bunları bilin.",
+    "notAdvice": "Bu sayfa tavsiye değildir.",
+    "sections": {
+      "1": {
+        "title": "Para kaybı",
+        "text": "Yatırdığınız paranın tamamını kaybedebilirsiniz. Kazanç garantisi yoktur."
+      },
+      "2": {
+        "title": "Parayı geri alamama",
+        "text": "Payınızı istediğiniz zaman satamayabilirsiniz. Çıkış yıllar sürebilir."
+      },
+      "3": {
+        "title": "Yıllık limit",
+        "text": "Bireysel katılımcılar için yıllık üst sınır vardır. Güncel tutar bilgi formunda ve kanunda yazar."
+      },
+      "4": {
+        "title": "Cayma",
+        "text": "Kampanya süresince cayma hakkınız vardır. Süre ve koşullar bilgi formunda yazar."
+      },
+      "5": {
+        "title": "Vergi",
+        "text": "Ortaklık vergi doğurabilir. Durumunuz için mali müşavirinize sorun."
+      },
+      "6": {
+        "title": "Şirket",
+        "text": "Şirket batarsa, hedefini tutturamazsa veya yönetimi değişirse zarar görebilirsiniz."
+      },
+      "7": {
+        "title": "ORTAQ'ın rolü",
+        "text": "ORTAQ arayüz sağlar. Şirketin ileride ne yapacağını garanti etmez."
+      }
+    },
+    "help": {
+      "title": "Anlamadıysanız",
+      "text": "Okurken takılırsanız karar vermeden önce bize yazın veya güvendiğiniz bir uzmana danışın.",
+      "email": "destek@ortaq.biz"
+    },
+    "back": "Ana sayfaya dön"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Gizlilik",
+      "updated": "Son güncelleme: Mayıs 2026",
+      "p1": "ORTAQ kişisel verileri KVKK kapsamında işler.",
+      "p2": "e-Devlet ile kimlik doğrularken veriler yalnızca doğrulama için kullanılır.",
+      "p3": "Tam metin, lansman öncesi hukuk incelemesinden geçip burada yayımlanacak. Sorularınız için destek@ortaq.biz"
+    },
+    "terms": {
+      "title": "Kullanım koşulları",
+      "updated": "Son güncelleme: Mayıs 2026",
+      "p1": "ORTAQ yatırım tavsiyesi vermez.",
+      "p2": "Ortaklık işlemleri SPK lisanslı kitle fonlama platformu üzerinden yürüyecek.",
+      "p3": "Tam metin, platform anlaşması öncesinde yayımlanacak."
+    },
+    "back": "Ana sayfaya dön"
+  },
+  "notFound": {
+    "title": "Bu sayfa yok",
+    "back": "Ana sayfaya dön"
+  }
+}
