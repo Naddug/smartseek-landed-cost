@@ -43,6 +43,7 @@ jobs:
 
   ortaq-api:
     name: ortaq-api
+    if: ${{ hashFiles('ortaq-api/package-lock.json') != '' }}
     runs-on: ubuntu-latest
     defaults:
       run:
