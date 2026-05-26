@@ -182,7 +182,7 @@
       "opportunities": {
         "label": "Investment patterns",
         "title": "Sector patterns and operational profiles",
-        "lead": "Clustered by operational profile — not investment recommendations, but dossier discovery entry points.",
+        "lead": "Clustered by operational profile — not investment recommendations, but dossier-review entry points.",
         "pattern": "Pattern",
         "tags": {
           "export_heavy": "Export-heavy",
@@ -207,9 +207,9 @@
     },
     "invest": {
       "hero": {
-        "label": "Real company partnership · Turkish industrial investment",
+        "label": "Equity partnership · Turkish industrial investment",
         "title": "Own shares in production companies.",
-        "lead": "ORTAQ presents export-oriented manufacturing SMEs through field-reviewed dossiers. What you buy: equity in a real factory — capital works on capacity, machines, and export growth.",
+        "lead": "ORTAQ publishes field-reviewed dossiers on export-oriented Turkish manufacturers. What you buy: equity in a physical production facility — capital that works for capacity, machinery, and export growth.",
         "conviction": "Passive assets wait on price. Productive companies build value through capacity, export, and operational improvement — shareholders participate in that growth. No return guarantee; this is long-term industrial partnership.",
         "accessLine": "Regulated private-market access — productive asset partnership, not crowdfunding. Operational company capital, not a speculation layer.",
         "ctaPrimary": "Explore investment opportunities",
@@ -242,16 +242,16 @@
       },
       "process": {
         "label": "Investment journey",
-        "title": "From discovery to value creation — six steps",
-        "subtitle": "The individual investor path: read dossiers, verify, participate, monitor company performance.",
+        "title": "From dossier review to value creation — six steps",
+        "subtitle": "The individual investor's path: read the dossier, verify it, participate, monitor, and track company performance.",
         "steps": {
           "1": {
-            "title": "Discovery",
-            "text": "Browse investment opportunities — company dossiers enriched with production, export, and field notes."
+            "title": "Dossier review",
+            "text": "Read the investment dossiers — company files documented with production, export, and field notes."
           },
           "2": {
-            "title": "Review",
-            "text": "Read capacity, risk, machine park, capital use plan, and review milestones in depth."
+            "title": "Structural evaluation",
+            "text": "Examine capacity, risk profile, machine park, capital use plan, and review layers."
           },
           "3": {
             "title": "Verification",
@@ -300,13 +300,13 @@
       },
       "valueTimeline": {
         "label": "Institutional timeline",
-        "title": "From discovery to liquidity — a disciplined journey",
+        "title": "From dossier review to liquidity — a disciplined journey",
         "lead": "Each stage is documented. No rush — serious investment requires due diligence and operational follow-through.",
         "phases": {
           "1": {
             "phase": "Phase 01",
-            "title": "Discovery",
-            "text": "Sector, capacity, export, and capital plan in the dossier — business model, not speculation."
+            "title": "Dossier review",
+            "text": "Sector, capacity, export, and capital plan are documented in the dossier — a business model, not speculation."
           },
           "2": {
             "phase": "Phase 02",
@@ -662,7 +662,8 @@
         "label": "Live review feed",
         "viewAll": "All",
         "update": "File"
-      }
+      },
+      "thesis": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement — equity owners share in that growth."
     },
     "index": {
       "aria": "Company dossier index",
@@ -714,7 +715,8 @@
       "trust": "Trust infrastructure",
       "process": "Investment process",
       "risks": "Risk framework"
-    }
+    },
+    "featuredBadge": "Featured dossier"
   },
   "dossier": {
     "nav": {
@@ -1079,40 +1081,40 @@
     "fullPageLink": "All risks and limits"
   },
   "process": {
-    "label": "Participation process",
-    "title": "How equity investment is completed",
-    "intro": "Discovery and review begin in ORTAQ dossiers; company selection passes six-stage due diligence; participation completes on the licensed platform under SPK regulation. Five steps summarise the legal partnership flow.",
+    "label": "Investment process",
+    "title": "From dossier review to value creation — six steps",
+    "intro": "Dossier review begins inside ORTAQ's evaluation layer; selection passes through structural due diligence; participation completes on the licensed platform under SPK regulation. Five steps summarise the legal partnership flow.",
     "journeyLabel": "Investor journey",
     "journey": {
-      "1": "Discovery",
-      "2": "Review",
-      "3": "Verification",
+      "1": "Dossier review",
+      "2": "Verification",
+      "3": "Committee approval",
       "4": "Participation",
       "5": "Monitoring",
       "6": "Value creation"
     },
-    "journeyNote": "ORTAQ provides discovery, review, and verification; company selection passes six-stage due diligence; transactions run on the licensed platform.",
+    "journeyNote": "ORTAQ provides the review and verification layer; selection passes through six-stage due diligence; transactions run on the licensed platform.",
     "stepLabel": "Step {{step}}",
     "steps": {
       "1": {
-        "title": "Sign up",
-        "text": "e-Government identity verification and risk disclosure — your investor identity is formalised."
+        "title": "Dossier review",
+        "text": "Read the company dossiers — capacity, export profile, machine park, capital use plan, and review stages."
       },
       "2": {
-        "title": "Review the company",
-        "text": "Information memorandum, capital use plan, and where your money goes."
+        "title": "Verification",
+        "text": "Document, field, and operational data layers are evaluated under the SPK framework."
       },
       "3": {
-        "title": "Join the campaign",
-        "text": "Funds go to escrow — not transferred to the company until the campaign closes."
+        "title": "Committee approval",
+        "text": "The investment committee reviews the dossier for publication and issues the listing decision."
       },
       "4": {
-        "title": "Capital increase",
-        "text": "If target is met, the transaction completes; company capital strengthens and you become a shareholder."
+        "title": "Participation",
+        "text": "Equity-partnership acquisition via the licensed platform; capital sits in escrow until the campaign closes."
       },
       "5": {
-        "title": "Share registry",
-        "text": "Shares open at MKK in your name. You then monitor operational updates — value creation depends on company performance."
+        "title": "Monitoring",
+        "text": "Capital increase, MKK share registration, and operational updates — value creation tracks company performance."
       }
     }
   },
@@ -1224,11 +1226,12 @@
       "evaluation": "Evaluation",
       "companies": "Investment opportunities",
       "start": "Start reading"
-    }
+    },
+    "subtitle": "Serious investment layer: we do not state what we cannot prove. From dossier review to structural evaluation, from the trust framework to participation — legal protection and operational transparency at every step."
   },
   "journey": {
-    "label": "Investor journey",
-    "note": "Discovery → evaluation → trust → partnership. ORTAQ guides you step by step — without rush, through dossier reading.",
+    "label": "Investor process",
+    "note": "Dossier review → verification → trust layer → partnership. ORTAQ is a documented evaluation infrastructure followed step by step.",
     "processLink": "Participation process",
     "evaluationLink": "Company selection",
     "trustLink": "Investor protection",

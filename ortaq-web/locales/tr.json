@@ -192,7 +192,7 @@
       "opportunities": {
         "label": "Yatırım örüntüleri",
         "title": "Sektör örüntüleri ve operasyonel profiller",
-        "lead": "Operasyonel profile göre kümelenmiştir — yatırım tavsiyesi değil, dosya keşif giriş noktalarıdır.",
+        "lead": "Operasyonel profile göre kümelenmiştir — yatırım tavsiyesi değil, dosya inceleme giriş noktalarıdır.",
         "pattern": "Örüntü",
         "tags": {
           "export_heavy": "İhracat ağırlıklı",
@@ -217,9 +217,9 @@
     },
     "invest": {
       "hero": {
-        "label": "Gerçek şirket ortaklığı · Türk sanayi yatırımı",
+        "label": "Paya dayalı ortaklık · Türk sanayi yatırımı",
         "title": "Üretim şirketlerinde pay sahibi olun.",
-        "lead": "ORTAQ, ihracat odaklı üretim KOBİ'lerini saha incelemeli dosyalarla sunar. Satın aldığınız şey: gerçek fabrikada pay — sermaye kapasite, makine ve ihracat büyümesi için çalışır.",
+        "lead": "ORTAQ, ihracat odaklı üretim KOBİ'lerini saha incelemeli dosyalarla sunar. Aldığınız şey: fiziksel üretim tesisinde pay — sermaye; kapasite, makine ve ihracat büyümesi için çalışır.",
         "conviction": "Pasif varlıklar fiyat bekler. Üretken şirketler kapasite, ihracat ve operasyonel iyileştirmeyle değer biriktirir — pay sahibi bu büyümenin ortağıdır. Getiri garantisi yoktur; model uzun vadeli sanayi ortaklığıdır.",
         "accessLine": "Düzenlenmiş özel pazar erişimi — kitle fonlaması değil, üretken varlık ortaklığı. Spekülasyon katmanı değil; operasyonel şirket sermayesi.",
         "ctaPrimary": "Yatırım dosyalarını inceleyin",
@@ -252,16 +252,16 @@
       },
       "process": {
         "label": "Yatırım yolculuğu",
-        "title": "Keşiften değer oluşumuna — altı adım",
+        "title": "Dosya incelemesinden değer oluşumuna — altı adım",
         "subtitle": "Bireysel yatırımcının yolculuğu: dosya okuma, doğrulama, katılım, izleme ve şirket performansını takip.",
         "steps": {
           "1": {
-            "title": "Keşif",
-            "text": "Yatırım dosyalarını inceleyin — üretim, ihracat ve saha notlarıyla zenginleştirilmiş şirket dosyaları."
+            "title": "Dosya inceleme",
+            "text": "Yatırım dosyalarını okuyun — üretim, ihracat ve saha notlarıyla belgelenmiş şirket dosyaları."
           },
           "2": {
-            "title": "İnceleme",
-            "text": "Kapasite, risk, makine parkı, sermaye kullanım planı ve inceleme adımlarını derinlemesine okuyun."
+            "title": "Yapısal değerlendirme",
+            "text": "Kapasite, risk profili, makine parkı, sermaye kullanım planı ve inceleme katmanlarını derinlemesine okuyun."
           },
           "3": {
             "title": "Doğrulama",
@@ -310,13 +310,13 @@
       },
       "valueTimeline": {
         "label": "Kurumsal zaman çizelgesi",
-        "title": "Keşiften likiditeye — disiplinli yolculuk",
+        "title": "Dosya incelemesinden likiditeye — disiplinli yolculuk",
         "lead": "Her aşama belgelenir. Acele yok; ciddi yatırım due diligence ve operasyonel takip gerektirir.",
         "phases": {
           "1": {
             "phase": "Aşama 01",
-            "title": "Keşif",
-            "text": "Sektör, kapasite, ihracat ve sermaye planı dosyada okunur — spekülasyon değil, iş modeli."
+            "title": "Dosya inceleme",
+            "text": "Sektör, kapasite, ihracat ve sermaye planı dosyada belgelenir — spekülasyon değil, iş modeli."
           },
           "2": {
             "phase": "Aşama 02",
@@ -671,7 +671,8 @@
         "label": "Canlı inceleme akışı",
         "viewAll": "Tümü",
         "update": "Dosya"
-      }
+      },
+      "thesis": "Pasif varlıklar fiyat bekler. Üretim şirketleri kapasite, ihracat ve operasyonel iyileştirmeyle değer üretir — pay sahibi bu büyümenin ortağıdır."
     },
     "index": {
       "aria": "Şirket dosyaları indeksi",
@@ -723,7 +724,8 @@
       "trust": "Güven altyapısı",
       "process": "Yatırım süreci",
       "risks": "Risk çerçevesi"
-    }
+    },
+    "featuredBadge": "Öne çıkan dosya"
   },
   "dossier": {
     "nav": {
@@ -1041,39 +1043,39 @@
     "fullPageLink": "Tüm riskler →"
   },
   "process": {
-    "label": "Katılım süreci",
-    "title": "Paya dayalı yatırım nasıl tamamlanır?",
-    "intro": "Keşif ve inceleme ORTAQ dosyalarında başlar; şirket seçimi değerlendirme sürecinden geçer; katılım SPK düzenlemesi altındaki lisanslı platformda tamamlanır. Beş adım yasal ortaklık akışını özetler.",
+    "label": "Yatırım süreci",
+    "title": "Dosya incelemesinden değer oluşumuna — altı adım",
+    "intro": "Dosya inceleme ORTAQ değerlendirme katmanında başlar; şirket seçimi yapısal due-diligence sürecinden geçer; katılım SPK düzenlemesi altındaki lisanslı platformda tamamlanır. Beş adım, yasal ortaklık akışını özetler.",
     "journeyLabel": "Yatırımcı yolculuğu",
     "journey": {
-      "1": "Keşif",
-      "2": "İnceleme",
-      "3": "Doğrulama",
+      "1": "Dosya inceleme",
+      "2": "Doğrulama",
+      "3": "Komite onayı",
       "4": "Katılım",
       "5": "İzleme",
       "6": "Değer oluşumu"
     },
-    "journeyNote": "ORTAQ keşif, inceleme ve doğrulama katmanını sağlar; şirket seçimi altı aşamalı due diligence'den geçer; işlem lisanslı platform üzerinden yürür.",
+    "journeyNote": "ORTAQ inceleme ve doğrulama katmanını sağlar; şirket seçimi altı aşamalı due-diligence'ten geçer; işlem lisanslı platform üzerinden yürür.",
     "steps": {
       "1": {
-        "title": "Üye olun",
-        "text": "e-Devlet ile kimlik doğrulama ve risk bildirimi onayı — yatırımcı kimliğiniz resmileşir."
+        "title": "Dosya inceleme",
+        "text": "Şirket dosyalarını okuyun — kapasite, ihracat, makine parkı, sermaye kullanım planı ve inceleme adımları."
       },
       "2": {
-        "title": "Şirketi okuyun",
-        "text": "Bilgi formu, sermaye kullanım planı ve paranın nereye gideceğini anlayın."
+        "title": "Doğrulama",
+        "text": "Belge, saha ve operasyonel veri katmanları SPK çerçevesinde değerlendirilir."
       },
       "3": {
-        "title": "Katılın",
-        "text": "Paranız emanet hesabına gider — kampanya bitene kadar şirkete aktarılmaz."
+        "title": "Komite onayı",
+        "text": "Yatırım komitesi dosyanın yayına uygunluğunu inceler ve yayım kararını verir."
       },
       "4": {
-        "title": "Sermaye artırımı",
-        "text": "Hedef tutarsa işlem tamamlanır; şirket sermayesi güçlenir, siz pay sahibi olursunuz."
+        "title": "Katılım",
+        "text": "Lisanslı platform üzerinden paya dayalı ortaklık alımı; sermaye emanet hesabında tutulur."
       },
       "5": {
-        "title": "Pay kaydı",
-        "text": "MKK'da adınıza açılır. Bundan sonra operasyonel güncellemeleri izlersiniz — değer oluşumu şirket performansına bağlıdır."
+        "title": "İzleme",
+        "text": "Sermaye artırımı, MKK pay kaydı ve operasyonel güncellemeler — değer oluşumu performansa bağlıdır."
       }
     }
   },
@@ -1185,7 +1187,8 @@
       "evaluation": "Değerlendirme",
       "companies": "Yatırım dosyaları",
       "start": "Başlangıç okuması"
-    }
+    },
+    "subtitle": "Ciddi yatırım katmanı: kanıtlayamadığımızı yazmıyoruz. Dosya incelemesinden yapısal değerlendirmeye, güven çerçevesinden katılıma — her adımda yasal koruma ve operasyonel şeffaflık."
   },
   "transparency": {
     "title": "Ne değişti?",
@@ -1196,8 +1199,8 @@
     "sublabel": "Üretim şirketlerinde paya dayalı ortaklık · işlem henüz açık değil"
   },
   "journey": {
-    "label": "Yatırımcı yolculuğu",
-    "note": "Keşif → değerlendirme → güven → ortaklık. ORTAQ sizi adım adım taşır — acele etmeden, dosya okuyarak.",
+    "label": "Yatırımcı süreci",
+    "note": "Dosya inceleme → doğrulama → güven katmanı → ortaklık. ORTAQ süreci adım adım belgelenmiş bir değerlendirme katmanıdır.",
     "processLink": "Katılım süreci",
     "evaluationLink": "Şirket seçimi",
     "trustLink": "Yatırımcı koruması",
@@ -1250,8 +1253,8 @@
     }
   },
   "trustPage": {
-    "title": "Güven ve yatırımcı koruması",
-    "subtitle": "Ciddi yatırım katmanı: kanıtlayamadığımızı yazmıyoruz. Keşiften değerlendirmeye, güven çerçevesinden katılıma — her adımda yasal koruma ve operasyonel şeffaflık.",
+    "title": "Güven altyapısı ve yatırımcı koruması",
+    "subtitle": "Ciddi yatırım katmanı: kanıtlayamadığımızı yazmıyoruz. Dosya incelemesinden yapısal değerlendirmeye, güven çerçevesinden katılıma — her adımda yasal koruma ve operasyonel şeffaflık.",
     "journeyNote": "Şirket seçim sürecini okuduktan sonra burada güven katmanlarını doğrulayın; ardından katılım sürecine geçin.",
     "layersTitle": "Neler var",
     "infrastructure": {
