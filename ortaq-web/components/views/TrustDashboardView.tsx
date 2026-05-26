@@ -36,9 +36,9 @@ export function TrustDashboardView() {
     <PublicShell stickyCta={false}>
       <Section spacing="hero">
         <Container narrow>
-          <p className={typography.kicker}>{t("memberArea.label")}</p>
+          <p className={typography.label}>{t("memberArea.label")}</p>
           <h1 className={cn(typography.h1, "mt-3")}>{t("memberArea.title")}</h1>
-          <p className={cn(typography.lead, "mt-4 max-w-prose")}>
+          <p className={cn(typography.body, "mt-4 max-w-prose")}>
             {t("memberArea.subtitle")}
           </p>
           {state?.visitedAt && (
@@ -183,9 +183,9 @@ function DashboardCard({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-ortaq-sm border border-ortaq-border bg-white p-5 sm:p-6">
+    <div className="product-card p-4 sm:p-5">
       <h2 className={typography.h3}>{title}</h2>
-      <div className="mt-4">{children}</div>
+      <div className="mt-3">{children}</div>
     </div>
   );
 }

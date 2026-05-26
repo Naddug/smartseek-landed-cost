@@ -55,7 +55,7 @@ export default function Contact() {
               <ArrowRight className="w-4 h-4" />
             </a>
             <p className="text-slate-500 text-sm mt-8">
-              {t("contact.browseFirst")} <Link href="/faq" className="text-blue-600 hover:underline font-medium">FAQ</Link> {t("contact.or")} <Link href="/signup" className="text-blue-600 hover:underline font-medium">Start Free in Beta</Link>.
+              {t("contact.browseFirst")} <Link href="/faq" className="text-blue-600 hover:underline font-medium">FAQ</Link> {t("contact.or")} <Link href="/signup" className="text-blue-600 hover:underline font-medium">{t("about.exploreBeta")}</Link>.
             </p>
           </div>
 

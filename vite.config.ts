@@ -2,10 +2,26 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
+import { execSync } from "node:child_process";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { metaImagesPlugin } from "./vite-plugin-meta-images";
 
+function localeCacheVersion(): string {
+  const fromEnv =
+    process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 12) ||
+    process.env.GITHUB_SHA?.slice(0, 12);
+  if (fromEnv) return fromEnv;
+  try {
+    return execSync("git rev-parse --short HEAD", { encoding: "utf8" }).trim();
+  } catch {
+    return String(Date.now());
+  }
+}
+
 export default defineConfig({
+  define: {
+    __LOCALE_VERSION__: JSON.stringify(localeCacheVersion()),
+  },
   plugins: [
     react(),
     runtimeErrorOverlay(),

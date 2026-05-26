@@ -38,22 +38,35 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
   {
     key: "home",
     path: "/",
-    title: "ORTAQ — Gerçek şirketlere ortak olun",
+    title: "ORTAQ — Gerçek şirket ortaklığı · yatırım fırsatları",
     description:
-      "Türkiye'de paya dayalı ortaklık sürecini sade anlatır. Tavsiye vermez. Kazanç garantisi yoktur.",
+      "Türkiye'de üretim şirketlerine paya dayalı ortaklık. İhracat odaklı sanayi yatırımı, şirket incelemesi ve operasyonel büyüme dosyaları. Yatırım tavsiyesi değildir; kazanç garantisi yoktur.",
     cluster: "core",
     intent: "informational",
     priority: 1,
     changeFrequency: "weekly",
     live: true,
-    keywords: ["ortaklık", "paya dayalı ortaklık", "kitle fonlama türkiye"],
+    keywords: [
+      "yatırım fırsatları",
+      "üretim şirketleri",
+      "gerçek şirket ortaklığı",
+      "paya dayalı yatırım",
+      "üretim ekonomisi",
+      "ihracat odaklı şirketler",
+      "operasyonel büyüme",
+      "sanayi yatırımı",
+      "yatırım platformu",
+      "şirket inceleme",
+      "ortaklık",
+      "kitle fonlama türkiye",
+    ],
   },
   {
     key: "nasil-calisir",
     path: "/nasil-calisir",
     title: "Nasıl çalışır? | ORTAQ",
     description:
-      "Paya dayalı ortaklık süreci: e-Devlet, bilgi formu, emanet hesabı, MKK pay kaydı. Beş adımda.",
+      "Paya dayalı yatırım süreci: keşif, inceleme, doğrulama, katılım, izleme. e-Devlet, bilgi formu, emanet hesabı, MKK pay kaydı.",
     cluster: "education",
     intent: "informational",
     priority: 0.9,
@@ -92,13 +105,20 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
     path: "/sss",
     title: "Sık sorulan sorular | ORTAQ",
     description:
-      "Ortaklık, SPK düzenlemesi, emanet hesabı ve dolandırıcılık endişeleri hakkında yanıtlar.",
+      "Nasıl yatırım yapılır, ortaklık nasıl çalışır, getiri ve çıkış nasıl düşünülür. SPK, emanet, MKK ve yatırımcı koruması — yatırım tavsiyesi değildir.",
     cluster: "education",
     intent: "informational",
     priority: 0.8,
     changeFrequency: "monthly",
     live: true,
-    keywords: ["ortaklık sss", "kitle fonlama sorular", "SPK güvenilir mi"],
+    keywords: [
+      "nasıl yatırım yapılır",
+      "ortaklık nasıl çalışır",
+      "paya dayalı yatırım sorular",
+      "kitle fonlama SSS",
+      "yatırımcı koruması",
+      "SPK güvenilir mi",
+    ],
   },
   {
     key: "sozluk",
@@ -128,8 +148,8 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
   {
     key: "sirketler",
     path: "/sirketler",
-    title: "Şirketler | ORTAQ",
-    description: "Değerlendirme sürecindeki üretim şirketleri.",
+    title: "Yatırım fırsatları · Üretim şirketleri",
+    description: "Değerlendirme sürecindeki üretim şirketleri ve paya dayalı ortaklık dosyaları.",
     cluster: "campaign",
     intent: "informational",
     priority: 0.8,
@@ -141,13 +161,19 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
     key: "degerlendirme",
     path: "/degerlendirme",
     title: "Şirketler nasıl değerlendirilir? | ORTAQ",
-    description: "Seçim süreci: operasyonel inceleme, saha, finans, komite.",
+    description:
+      "Altı aşamalı şirket seçimi: ön eleme, saha incelemesi, hukuk, finans, kurucu görüşmesi, komite. Disiplinli sanayi yatırımı dosyaları.",
     cluster: "trust",
     intent: "informational",
     priority: 0.75,
     changeFrequency: "monthly",
     live: true,
-    keywords: ["şirket değerlendirme", "ortaklık seçim"],
+    keywords: [
+      "şirket değerlendirme",
+      "sanayi yatırımı seçimi",
+      "saha incelemesi",
+      "ortaklık şirket seçimi",
+    ],
   },
   {
     key: "sirket-ornek",
@@ -203,10 +229,12 @@ export type RouteKey =
   | "home"
   | "nasilCalisir"
   | "guven"
+  | "degerlendirme"
   | "riskler"
   | "sss"
   | "sozluk"
   | "basla"
+  | "sirketler"
   | "sirketOrnek"
   | "gizlilik"
   | "kullanim";
@@ -216,10 +244,12 @@ export const ROUTE_KEY_MAP: Record<RouteKey, string> = {
   home: "home",
   nasilCalisir: "nasil-calisir",
   guven: "guven",
+  degerlendirme: "degerlendirme",
   riskler: "riskler",
   sss: "sss",
   sozluk: "sozluk",
   basla: "basla",
+  sirketler: "sirketler",
   sirketOrnek: "sirket-ornek",
   gizlilik: "gizlilik",
   kullanim: "kullanim",

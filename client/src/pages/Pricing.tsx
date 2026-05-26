@@ -162,10 +162,10 @@ export default function Pricing() {
                   >
                     <option value="">{t("pricing.roleOptional")}</option>
                     <option value="procurement">{t("pricing.roleProcurement")}</option>
-                    <option value="supply_chain">Supply Chain</option>
-                    <option value="founder_ops">Founder / Ops</option>
-                    <option value="trader">Trader / Distributor</option>
-                    <option value="other">{t("common.other")}</option>
+                    <option value="supply_chain">{t("pricing.roleSupplyChain")}</option>
+                    <option value="founder_ops">{t("pricing.roleFounderOps")}</option>
+                    <option value="trader">{t("pricing.roleTrader")}</option>
+                    <option value="other">{t("pricing.roleOther")}</option>
                   </select>
                   <textarea
                     name="useCase"

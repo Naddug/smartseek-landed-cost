@@ -3,25 +3,59 @@ import { FileText, CheckCircle, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "react-i18next";
+import { FileInput } from "@/components/ui/file-input";
 
-const PRODUCT_CATEGORIES = [
-  "Strategic Metals (Antimony, Tungsten, Cobalt, etc.)",
-  "Base Metals (Copper, Aluminium, Zinc, Nickel, Lead)",
-  "Steel & Alloys",
-  "Rare Earths & Critical Minerals",
-  "Chemicals & Polymers",
-  "Industrial Machinery",
-  "Electronics & Components",
-  "Textiles & Apparel",
-  "Food & Agriculture",
-  "Other",
+// Category list reflects current sourcing reach: industrial components,
+// chemicals, packaging, and machinery sit alongside metals — metals stays
+// available as a credibility wedge, not as the default identity.
+const CATEGORY_KEYS = [
+  "industrialComponents",
+  "chemicals",
+  "packaging",
+  "machinery",
+  "electronics",
+  "metals",
+  "strategicMaterials",
+  "construction",
+  "textiles",
+  "food",
+  "other",
+] as const;
+
+const CATEGORY_VALUES: Record<(typeof CATEGORY_KEYS)[number], string> = {
+  industrialComponents: "Industrial Components & Bearings",
+  chemicals: "Chemicals & Polymers",
+  packaging: "Packaging & Converting",
+  machinery: "Machinery & Industrial Equipment",
+  electronics: "Electronics & Components",
+  metals: "Metals & Steel",
+  strategicMaterials: "Strategic & Critical Materials (Antimony, Tungsten, Rare Earths)",
+  construction: "Construction Materials",
+  textiles: "Textiles & Apparel",
+  food: "Food & Agriculture",
+  other: "Other",
+};
+
+const UNITS: { key: string; value: string }[] = [
+  { key: "kg", value: "kg" },
+  { key: "tonsMt", value: "tons (MT)" },
+  { key: "lbs", value: "lbs" },
+  { key: "pcs", value: "pcs" },
+  { key: "sets", value: "sets" },
+  { key: "boxes", value: "boxes" },
+  { key: "container20ft", value: "containers (20ft)" },
+  { key: "container40ft", value: "containers (40ft)" },
+  { key: "litres", value: "litres" },
+  { key: "cubicM", value: "m³" },
+  { key: "meters", value: "meters" },
 ];
 
-const UNITS = ["kg", "tons (MT)", "lbs", "pcs", "sets", "boxes", "containers (20ft)", "containers (40ft)", "litres", "m³", "meters"];
+const INCOTERMS = ["EXW", "FCA", "FOB", "CFR", "CIF", "CPT", "CIP", "DAP", "DDP"] as const;
 
 const CURRENCIES = ["USD", "EUR", "GBP", "CHF", "CNY", "JPY"];
 
-const INCOTERMS = ["EXW", "FCA", "FOB", "CFR", "CIF", "CPT", "CIP", "DAP", "DDP"];
+const INPUT_CLS =
+  "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent";
 
 export default function RequestQuote() {
   const { t } = useTranslation();
@@ -66,18 +100,17 @@ export default function RequestQuote() {
     if (supplier) {
       setForm((prev) => ({
         ...prev,
-        specifications: prev.specifications || `Preferred supplier to invite: ${supplier}`,
+        specifications: prev.specifications || t("rfq.form.prefillSupplierNote", { supplier }),
       }));
     }
-  }, []);
+  }, [t]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleAttachmentChange = (file: File | null) => {
     setForm((prev) => ({ ...prev, attachmentName: file?.name || "" }));
   };
 
@@ -150,22 +183,22 @@ export default function RequestQuote() {
 
   const headerBlock = (
     <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white">
-      <div className="max-w-3xl mx-auto px-4 py-12">
+      <div className="max-w-3xl mx-auto px-4 py-10 sm:py-12">
         <div className="flex items-center gap-3 mb-4">
-          <Logo size="lg" variant="light" className="w-10 h-10" />
-          <span className="text-white/70 text-sm font-medium">{t("rfq.header.badge")}</span>
+          <Logo size="lg" variant="light" className="w-10 h-10 shrink-0" />
+          <span className="text-white/80 text-sm font-medium">{t("rfq.header.badge")}</span>
         </div>
-        <h1 className="text-3xl font-bold mb-2">{t("rfq.header.title")}</h1>
-        <p className="text-blue-100 mb-2">{t("rfq.header.subtitle")}</p>
-        <p className="text-blue-200/80 text-xs flex flex-wrap gap-x-3 gap-y-1 items-center">
-          <span className="inline-flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /> {t("rfq.header.pointOperator")}</span>
-          <span>·</span>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t("rfq.header.title")}</h1>
+        <p className="text-blue-100 mb-2 text-sm sm:text-base">{t("rfq.header.subtitle")}</p>
+        <div className="text-blue-200/90 text-xs sm:text-sm flex flex-col sm:flex-row sm:flex-wrap gap-y-1.5 sm:gap-x-3 sm:gap-y-1 sm:items-center">
+          <span className="inline-flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5 shrink-0" /> {t("rfq.header.pointOperator")}</span>
+          <span className="hidden sm:inline">·</span>
           <span>{t("rfq.header.pointNoAccount")}</span>
-          <span>·</span>
+          <span className="hidden sm:inline">·</span>
           <span>{t("rfq.header.pointTurnaround")}</span>
-          <span>·</span>
+          <span className="hidden sm:inline">·</span>
           <Link href="/methodology" className="underline underline-offset-2 hover:text-white">{t("rfq.header.linkMethodology")}</Link>
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -177,19 +210,19 @@ export default function RequestQuote() {
         <div className="max-w-2xl mx-auto px-4 py-12">
           <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-lg text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">RFQ received</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">{t("rfq.success.title")}</h2>
             <p className="text-gray-700 mb-4">
-              A SmartSeek sourcing operator will route your request to relevant verified suppliers. Quotes are returned to <strong>{form.buyerEmail}</strong> typically within 1–3 business days.
+              {t("rfq.success.body", { email: form.buyerEmail })}
             </p>
             {submittedRfqId && (
               <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 mb-5 text-left text-sm">
-                <p className="text-slate-500 text-xs mb-1">Your RFQ ID</p>
+                <p className="text-slate-500 text-xs mb-1">{t("rfq.success.rfqIdLabel")}</p>
                 <p className="font-mono text-slate-900 break-all">{submittedRfqId}</p>
                 <Link
                   href={`/rfq-status?id=${encodeURIComponent(submittedRfqId)}&email=${encodeURIComponent(form.buyerEmail)}`}
                   className="inline-block mt-2 text-blue-700 underline underline-offset-2 text-xs"
                 >
-                  Track this RFQ →
+                  {t("rfq.success.trackLink")}
                 </Link>
               </div>
             )}
@@ -224,7 +257,7 @@ export default function RequestQuote() {
               }}
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
-              Submit another request
+              {t("rfq.success.submitAnother")}
             </button>
           </div>
         </div>
@@ -237,12 +270,12 @@ export default function RequestQuote() {
       {headerBlock}
 
       {/* Form */}
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+      <div className="max-w-2xl mx-auto px-4 py-6 sm:py-8">
+        <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 shadow-lg">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-blue-50 border border-blue-100 rounded-lg px-4 py-3 text-sm text-gray-700">
-              <p className="font-medium text-gray-900 mb-1">How it works</p>
-              <p>Submit your product requirements below. Our team will share your RFQ with relevant verified suppliers. You&apos;ll receive competitive quotes via email within 1–3 business days—no account required. Your data is never shared with third parties.</p>
+              <p className="font-medium text-gray-900 mb-1">{t("rfq.form.howItWorksTitle")}</p>
+              <p>{t("rfq.form.howItWorksBody")}</p>
             </div>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm">
@@ -251,278 +284,126 @@ export default function RequestQuote() {
             )}
 
             <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Your Details</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("rfq.form.sectionYourDetails")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                  <input
-                    type="text"
-                    name="buyerName"
-                    value={form.buyerName}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your full name"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.name")}</label>
+                  <input type="text" name="buyerName" value={form.buyerName} onChange={handleChange} required className={INPUT_CLS} placeholder={t("rfq.form.placeholders.name")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                  <input
-                    type="email"
-                    name="buyerEmail"
-                    value={form.buyerEmail}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="you@company.com"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.email")}</label>
+                  <input type="email" name="buyerEmail" value={form.buyerEmail} onChange={handleChange} required className={INPUT_CLS} placeholder={t("rfq.form.placeholders.email")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                  <input
-                    type="tel"
-                    name="buyerPhone"
-                    value={form.buyerPhone}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="+1 234 567 8900"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.phone")}</label>
+                  <input type="tel" name="buyerPhone" value={form.buyerPhone} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.phone")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
-                  <input
-                    type="text"
-                    name="buyerCompany"
-                    value={form.buyerCompany}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your company name"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.company")}</label>
+                  <input type="text" name="buyerCompany" value={form.buyerCompany} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.company")} />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-                  <input
-                    type="text"
-                    name="buyerCountry"
-                    value={form.buyerCountry}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. United States"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.country")}</label>
+                  <input type="text" name="buyerCountry" value={form.buyerCountry} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.country")} />
                 </div>
               </div>
             </div>
 
             <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Product Details</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("rfq.form.sectionProduct")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
-                  <input
-                    type="text"
-                    name="productName"
-                    value={form.productName}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. LED strip lights"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.productName")}</label>
+                  <input type="text" name="productName" value={form.productName} onChange={handleChange} required className={INPUT_CLS} placeholder={t("rfq.form.placeholders.productName")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Product Category</label>
-                  <select
-                    name="productCategory"
-                    value={form.productCategory}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="">Select category</option>
-                    {PRODUCT_CATEGORIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.productCategory")}</label>
+                  <select name="productCategory" value={form.productCategory} onChange={handleChange} className={INPUT_CLS}>
+                    <option value="">{t("rfq.form.placeholders.selectCategory")}</option>
+                    {CATEGORY_KEYS.map((key) => (
+                      <option key={key} value={CATEGORY_VALUES[key]}>{t(`rfq.form.categories.${key}`)}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">HS Code</label>
-                  <input
-                    type="text"
-                    name="hsCode"
-                    value={form.hsCode}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Optional, e.g. 8110.10"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.hsCode")}</label>
+                  <input type="text" name="hsCode" value={form.hsCode} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.hsCode")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Origin preference</label>
-                  <input
-                    type="text"
-                    name="originPreference"
-                    value={form.originPreference}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. EU, ex-China, Turkey"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.originPreference")}</label>
+                  <input type="text" name="originPreference" value={form.originPreference} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.originPreference")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
-                  <input
-                    type="number"
-                    name="quantity"
-                    value={form.quantity}
-                    onChange={handleChange}
-                    required
-                    min={1}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. 1000"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.quantity")}</label>
+                  <input type="number" name="quantity" value={form.quantity} onChange={handleChange} required min={1} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.quantity")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Target Quantity Range (optional)</label>
-                  <input
-                    type="text"
-                    name="targetQuantityRange"
-                    value={form.targetQuantityRange}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. 20–50 MT per month"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.targetQuantityRange")}</label>
+                  <input type="text" name="targetQuantityRange" value={form.targetQuantityRange} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.targetQuantityRange")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
-                  <select
-                    name="unit"
-                    value={form.unit}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    {UNITS.map((u) => (
-                      <option key={u} value={u}>{u}</option>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.unit")}</label>
+                  <select name="unit" value={form.unit} onChange={handleChange} className={INPUT_CLS}>
+                    {UNITS.map(({ key, value }) => (
+                      <option key={key} value={value}>{t(`rfq.form.units.${key}`)}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Target Price</label>
-                  <input
-                    type="number"
-                    name="targetPrice"
-                    value={form.targetPrice}
-                    onChange={handleChange}
-                    min={0}
-                    step="0.01"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Optional"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.targetPrice")}</label>
+                  <input type="number" name="targetPrice" value={form.targetPrice} onChange={handleChange} min={0} step="0.01" className={INPUT_CLS} placeholder={t("rfq.form.placeholders.targetPrice")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
-                  <select
-                    name="currency"
-                    value={form.currency}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.currency")}</label>
+                  <select name="currency" value={form.currency} onChange={handleChange} className={INPUT_CLS}>
                     {CURRENCIES.map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Specifications</label>
-                  <textarea
-                    name="specifications"
-                    value={form.specifications}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                    placeholder="Describe your product requirements, dimensions, materials, certifications, etc."
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.specifications")}</label>
+                  <textarea name="specifications" value={form.specifications} onChange={handleChange} rows={4} className={`${INPUT_CLS} resize-none`} placeholder={t("rfq.form.placeholders.specifications")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Certification Requirements (optional)</label>
-                  <input
-                    type="text"
-                    name="certificationRequirements"
-                    value={form.certificationRequirements}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. ISO 9001, REACH, RoHS"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.certificationRequirements")}</label>
+                  <input type="text" name="certificationRequirements" value={form.certificationRequirements} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.certificationRequirements")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Terms (optional)</label>
-                  <input
-                    type="text"
-                    name="paymentTerms"
-                    value={form.paymentTerms}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. 30% TT advance, 70% against B/L"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.paymentTerms")}</label>
+                  <input type="text" name="paymentTerms" value={form.paymentTerms} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.paymentTerms")} />
                 </div>
               </div>
             </div>
 
             <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Logistics</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("rfq.form.sectionLogistics")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Incoterm</label>
-                  <select
-                    name="incoterm"
-                    value={form.incoterm}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="">Select incoterm</option>
-                    {INCOTERMS.map((i) => (
-                      <option key={i} value={i}>{i}</option>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.incoterm")}</label>
+                  <select name="incoterm" value={form.incoterm} onChange={handleChange} className={INPUT_CLS}>
+                    <option value="">{t("rfq.form.placeholders.selectIncoterm")}</option>
+                    {INCOTERMS.map((term) => (
+                      <option key={term} value={term}>{t(`rfq.form.incoterms.${term}`)}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Destination Country (optional)</label>
-                  <input
-                    type="text"
-                    name="destinationCountry"
-                    value={form.destinationCountry}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. Thailand"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.destinationCountry")}</label>
+                  <input type="text" name="destinationCountry" value={form.destinationCountry} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.destinationCountry")} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Destination Port</label>
-                  <input
-                    type="text"
-                    name="destinationPort"
-                    value={form.destinationPort}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. Los Angeles"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.destinationPort")}</label>
+                  <input type="text" name="destinationPort" value={form.destinationPort} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.destinationPort")} />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Desired Delivery Date</label>
-                  <input
-                    type="text"
-                    name="deliveryDate"
-                    value={form.deliveryDate}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="e.g. Q2 2025 or specific date"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.deliveryDate")}</label>
+                  <input type="text" name="deliveryDate" value={form.deliveryDate} onChange={handleChange} className={INPUT_CLS} placeholder={t("rfq.form.placeholders.deliveryDate")} />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Attachment (optional)</label>
-                  <input
-                    type="file"
-                    onChange={handleAttachmentChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-slate-100 file:text-slate-700"
-                  />
-                  <p className="text-xs text-slate-500 mt-1">
-                    Attachment UI is captured for operator context. For sensitive files, our team will provide a secure upload channel by email.
-                  </p>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("rfq.form.labels.attachment")}</label>
+                  <FileInput onChange={handleAttachmentChange} />
+                  <p className="text-xs text-slate-500 mt-1">{t("rfq.form.attachmentNote")}</p>
                 </div>
               </div>
             </div>
@@ -531,26 +412,26 @@ export default function RequestQuote() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 text-base font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white min-h-12 py-3 text-base font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
-                  <>Submitting...</>
+                  <>{t("rfq.form.submitting")}</>
                 ) : (
                   <>
-                    <FileText className="w-4 h-4" /> Submit Request for Quotation
+                    <FileText className="w-4 h-4" /> {t("rfq.form.submit")}
                   </>
                 )}
               </button>
-              <p className="mt-3 text-center text-[11px] text-slate-500">
-                By submitting, you agree to our{" "}
+              <p className="mt-3 text-center text-xs text-slate-600 leading-relaxed px-1">
+                {t("rfq.form.legalPrefix")}{" "}
                 <Link href="/privacy" className="underline underline-offset-2">
-                  Privacy Policy
+                  {t("rfq.form.privacyPolicy")}
                 </Link>{" "}
-                and{" "}
+                {t("rfq.form.and")}{" "}
                 <Link href="/terms" className="underline underline-offset-2">
-                  Terms of Service
+                  {t("rfq.form.termsOfService")}
                 </Link>
-                . RFQs are reviewed by a sourcing operator before routing.
+                . {t("rfq.form.legalSuffix")}
               </p>
             </div>
           </form>

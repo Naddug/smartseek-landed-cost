@@ -1,9 +1,19 @@
-/** Honest operational status — edit manually when something changes. No backend. */
+/**
+ * Honest operational status — edit manually when something changes. No backend.
+ *
+ * IMPORTANT: stats below must reconcile against lib/campaigns/index.ts.
+ * Priority 4 of the redesign will derive these from the catalog at build time.
+ * Until then, keep this in sync by hand. Current catalog (May 2026):
+ *   - Konya · machinery       · field_verification
+ *   - Gaziantep · food        · preliminary_review
+ *   - Manisa · metal          · field_verification
+ *   - Bursa · textile         · document_review
+ */
 export const operationalPulse = {
   siteLastUpdated: "2026-05-26",
   stats: {
-    preliminaryReview: 3,
-    fieldVisitsCompleted: 2,
+    preliminaryReview: 1,
+    fieldVisitsCompleted: 3,
     documentReview: 1,
     committeeQueue: 0,
   },

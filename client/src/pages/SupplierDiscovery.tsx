@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, MapPin, Star, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight, Crown, Loader2 } from "lucide-react";
+import { Search, MapPin, Shield, Filter, X, Building2, Clock, DollarSign, Send, ExternalLink, Check, ChevronRight, Lock, ArrowRight, Crown, Loader2, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { SupplierSignalFooter } from "@/components/supplier/SupplierSignalFooter";
 import { useProfile } from "@/lib/hooks";
 import { Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
@@ -167,12 +168,6 @@ function getEmployeeBadgeClass(count: number): string {
 function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () => void }) {
   const { t } = useTranslation();
   const isVerified = supplier.verified || supplier.dataSource === "Companies House UK" || supplier.dataSource === "SEC EDGAR";
-  const qualityScore = Math.round((supplier.rating || 0) * 20);
-  const scoreColor = qualityScore >= 80
-    ? "text-emerald-700 bg-emerald-50 border-emerald-200"
-    : qualityScore >= 60
-    ? "text-blue-700 bg-blue-50 border-blue-200"
-    : "text-amber-700 bg-amber-50 border-amber-200";
 
   const products = Array.isArray(supplier.products) ? supplier.products : [];
   const productDisplay = products.slice(0, 3);
@@ -204,11 +199,6 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
               <span className="truncate">{formatLocation(supplier.city)}, {formatLocation(supplier.country)}</span>
             </div>
           </div>
-          {/* Score badge */}
-          <div className={`shrink-0 flex flex-col items-center justify-center w-11 h-11 rounded-xl border text-xs font-bold ${scoreColor}`}>
-            <span className="text-sm leading-none">{qualityScore}</span>
-            <span className="text-[9px] font-normal leading-none opacity-60 mt-0.5">QS</span>
-          </div>
         </div>
 
         {/* Industry + sub */}
@@ -237,20 +227,11 @@ function SupplierCard({ supplier, onClick }: { supplier: Supplier; onClick: () =
           </div>
         )}
 
-        {/* Footer: rating + employees */}
-        <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 text-xs">
-          <div className="flex items-center gap-0.5">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} className={`w-3 h-3 ${i <= Math.round(supplier.rating || 0) ? "text-amber-400 fill-amber-400" : "text-slate-200 fill-slate-200"}`} />
-            ))}
-            <span className="ml-1 text-slate-600 font-medium">{(supplier.rating || 0).toFixed(1)}</span>
-          </div>
-          {supplier.employeeCount != null && (
-            <span className={`px-2 py-0.5 rounded-full font-medium text-[10px] ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
-              {supplier.employeeCount >= 1000 ? `${(supplier.employeeCount / 1000).toFixed(1)}K+` : supplier.employeeCount.toLocaleString()} emp.
-            </span>
-          )}
-        </div>
+        <SupplierSignalFooter
+          verified={isVerified}
+          employeeCount={supplier.employeeCount}
+          compact
+        />
       </div>
     </div>
   );
@@ -332,7 +313,7 @@ function SupplierDetail({
     }
   };
 
-  const qualityScore = Math.round((supplier?.rating || 0) * 20);
+  const isVerified = supplier?.verified || supplier?.dataSource === "Companies House UK" || supplier?.dataSource === "SEC EDGAR";
   const descFormatted = supplier?.description
     ? (() => {
         if (!supplier) return "";
@@ -370,14 +351,9 @@ function SupplierDetail({
                     )}
                   </div>
                   <div className="flex flex-wrap items-center gap-3 mt-2">
-                    <div className="flex items-center gap-1">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <Star key={i} className={`w-4 h-4 ${i <= (supplier.rating || 0) ? "text-amber-500 fill-amber-500" : "text-gray-200"}`} />
-                      ))}
-                      <span className="ml-0.5 font-medium">{(supplier.rating || 0).toFixed(1)}</span>
-                    </div>
-                    <span className="bg-blue-50 text-blue-700 text-sm px-2 py-0.5 rounded font-medium">
-                      {t("supplier.qualityScore")}: {qualityScore}/100
+                    <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${isVerified ? "bg-teal-50 text-teal-700 border border-teal-200" : "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                      <ShieldCheck className="w-3 h-3" />
+                      {isVerified ? t("supplier.signals.registryVerified") : t("supplier.signals.verificationPending")}
                     </span>
                     {supplier.employeeCount != null && (
                       <span className={`px-2 py-0.5 rounded-full text-sm font-medium ${getEmployeeBadgeClass(supplier.employeeCount)}`}>
@@ -670,6 +646,7 @@ function SignupWall({ total, freeLimit }: { total: number; freeLimit: number }) 
 // ─── Free User Upgrade Wall ───────────────────────────────────────────
 
 function FreeUserUpgradeWall({ total, freeLimit }: { total: number; freeLimit: number }) {
+  const { t } = useTranslation();
   const locked = Math.max(0, total - freeLimit);
   const ghostCount = Math.min(locked, 6);
   const [, navigate] = useLocation();
@@ -690,7 +667,7 @@ function FreeUserUpgradeWall({ total, freeLimit }: { total: number; freeLimit: n
             {locked.toLocaleString()} more supplier{locked !== 1 ? "s" : ""} available
           </h3>
           <p className="text-slate-500 text-sm mb-6">
-            Upgrade to Pro to unlock all {total.toLocaleString()} results, contact details, and advanced filters.
+            {t("supplierDiscovery.upgradeCopy")}
           </p>
           <button
             onClick={() => navigate("/billing")}
@@ -780,7 +757,8 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const isLoading = status === "pending";
   const totalKnown = data?.totalKnown !== false;
   const totalValue = data?.pagination.total ?? data?.totalResults ?? null;
-  const totalDisplay = totalKnown ? (totalValue ?? 0).toLocaleString() : "1000+";
+  const totalDisplay =
+    totalKnown && totalValue != null ? totalValue.toLocaleString() : null;
   const currentPageSize = data?.suppliers?.length ?? 0;
   const canGoNext = !data
     ? false
@@ -805,7 +783,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
   const hasActiveFilters = selectedCountry || selectedIndustry || verifiedOnly || debouncedQuery || minOrderValue != null || minScore != null;
   const { data: stats } = useStats();
   const supplierCount = stats?.suppliers ?? 0;
-  const countryCount = stats?.countries ?? 220;
+  const countryCount = stats?.countries ?? 0;
 
   return (
     <div className={`bg-gray-50 ${embedded ? "min-h-0 rounded-xl" : "min-h-screen"}`}>
@@ -824,7 +802,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
               ? countryCount > 0
                 ? t("supplier.hero.subtitleWithCountries", {
                     suppliers: formatStat(supplierCount),
-                    countries: `${countryCount}+`,
+                    countries: String(countryCount),
                   })
                 : t("supplier.hero.subtitleWorldwide", { suppliers: formatStat(supplierCount) })
               : t("supplier.hero.subtitleNoStats")}
@@ -903,7 +881,7 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <Shield className="w-3.5 h-3.5 text-blue-600" />
-                {t("supplier.verifiedOnly")}
+                {t("supplierDiscovery.filterVerified")}
               </label>
 
               {/* Sort */}
@@ -944,11 +922,11 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
                 className="border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 title={t("supplier.qualityScore")}
               >
-                <option value="">{t("supplier.qualityScore")}: Any</option>
-                <option value="60">{t("supplier.qualityScore")}: 60+</option>
-                <option value="70">{t("supplier.qualityScore")}: 70+</option>
-                <option value="80">{t("supplier.qualityScore")}: 80+</option>
-                <option value="90">{t("supplier.qualityScore")}: 90+</option>
+                <option value="">{t("supplier.qualityScoreAny")}</option>
+                <option value="60">{t("supplier.qualityScoreMin", { min: 60 })}</option>
+                <option value="70">{t("supplier.qualityScoreMin", { min: 70 })}</option>
+                <option value="80">{t("supplier.qualityScoreMin", { min: 80 })}</option>
+                <option value="90">{t("supplier.qualityScoreMin", { min: 90 })}</option>
               </select>
 
               {hasActiveFilters && (
@@ -969,13 +947,15 @@ export default function SupplierDiscovery({ embedded, initialIndustry, initialQu
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                <span>Searching suppliers...</span>
+                <span>{t("supplier.searching")}</span>
               </>
             ) : isError ? (
               <span className="text-red-600">{t("supplier.failedLoad")}</span>
             ) : data ? (
               <>
-                {t("supplier.suppliersFound", { total: totalDisplay })}
+                {totalDisplay != null
+                  ? t("supplier.suppliersFound", { total: totalDisplay })
+                  : t("supplier.resultsMatching")}
                 {debouncedQuery && <span className="text-gray-500"> for &ldquo;{debouncedQuery}&rdquo;</span>}
                 {isFetching && <Loader2 className="w-3 h-3 animate-spin text-slate-400 inline-block" />}
               </>

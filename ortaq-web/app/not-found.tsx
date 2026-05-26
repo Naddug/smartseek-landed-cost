@@ -14,7 +14,7 @@ export default function NotFound() {
       <Section spacing="hero">
         <Container narrow>
           <div className="text-center">
-            <h1 className="font-heading text-4xl text-ortaq-ink">{t("notFound.title")}</h1>
+            <h1 className="text-3xl font-semibold tracking-[-0.02em] text-ortaq-ink">{t("notFound.title")}</h1>
             <Link href="/" className="mt-8 inline-block">
               <Button variant="secondary">{t("notFound.back")}</Button>
             </Link>

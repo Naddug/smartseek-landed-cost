@@ -20,11 +20,21 @@ function readSiteUrl(): string {
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
   }
-  if (process.env.VERCEL_ENV === "production") return "https://ortaq.biz";
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
+
+  const vercelUrl = process.env.VERCEL_URL?.replace(/^https?:\/\//, "");
+
+  if (process.env.VERCEL_ENV === "production") {
+    return "https://ortaq.biz";
   }
-  return "https://ortaq.biz";
+
+  if (vercelUrl) {
+    if (vercelUrl === "staging.ortaq.biz" || vercelUrl.endsWith(".vercel.app")) {
+      if (vercelUrl === "staging.ortaq.biz") return "https://staging.ortaq.biz";
+    }
+    return `https://${vercelUrl}`;
+  }
+
+  return "http://localhost:3001";
 }
 
 export const env = {

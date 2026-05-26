@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Shield, AlertTriangle, CheckCircle2, Loader2, ArrowRight, Globe, TrendingDown, TrendingUp, BarChart3, FileText, Zap } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +43,7 @@ function ScoreBar({ score, size = "md" }: { score: number; size?: "sm" | "md" })
 }
 
 function LevelBadge({ level }: { level: string }) {
+  const { t } = useTranslation();
   const styles: Record<string, string> = {
     Low: "bg-emerald-100 text-emerald-700 border-emerald-200",
     Medium: "bg-amber-100 text-amber-700 border-amber-200",
@@ -50,7 +52,7 @@ function LevelBadge({ level }: { level: string }) {
   };
   return (
     <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${styles[level] || styles.Medium}`}>
-      {level} Risk
+      {t("riskPage.riskLabel", { level })}
     </span>
   );
 }
@@ -67,6 +69,7 @@ function ScoreGauge({ score }: { score: number }) {
 }
 
 export default function RiskIntelligence() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ supplierName: "", country: "", industry: "", products: "" });
   const [result, setResult] = useState<RiskResult | null>(null);
 
@@ -86,8 +89,8 @@ export default function RiskIntelligence() {
             <Shield className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Risk Intelligence</h1>
-            <p className="text-blue-100">AI-powered geopolitical, financial, supply chain & ESG risk analysis</p>
+            <h1 className="text-2xl font-bold text-white">{t("riskPage.title")}</h1>
+            <p className="text-blue-100">{t("riskPage.subtitle")}</p>
           </div>
         </div>
       </div>
@@ -95,41 +98,41 @@ export default function RiskIntelligence() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-1 h-fit bg-white border-slate-200">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-slate-900">Analysis Parameters</CardTitle>
+            <CardTitle className="text-base text-slate-900">{t("riskPage.parameters")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
-              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Supplier Name</label>
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">{t("riskPage.supplierName")}</label>
               <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Wenzhou Neo Electric" value={form.supplierName} onChange={e => setForm({...form, supplierName: e.target.value})} />
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Country <span className="text-red-500">*</span></label>
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">{t("riskPage.country")} <span className="text-red-500">*</span></label>
               <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. China" value={form.country} onChange={e => setForm({...form, country: e.target.value})} />
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Industry</label>
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">{t("riskPage.industry")}</label>
               <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. Electronics" value={form.industry} onChange={e => setForm({...form, industry: e.target.value})} />
             </div>
             <div>
-              <label className="text-sm font-medium text-slate-700 mb-1.5 block">Products</label>
+              <label className="text-sm font-medium text-slate-700 mb-1.5 block">{t("riskPage.products")}</label>
               <input className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
             </div>
             <button onClick={() => mutation.mutate()} disabled={!form.country || mutation.isPending} className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors mt-2">
-              {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</> : <><Shield className="w-4 h-4" /> Analyze Risk</>}
+              {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> {t("riskPage.analyzing")}</> : <><Shield className="w-4 h-4" /> {t("riskPage.analyze")}</>}
             </button>
           </CardContent>
         </Card>
 
         <div className="lg:col-span-2 space-y-4">
           {mutation.isError && (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">Failed to generate analysis. Please try again.</div>
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">{t("riskPage.error")}</div>
           )}
           {!result && !mutation.isPending && (
             <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100">What we analyze</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  Enter parameters on the left and click Analyze to get a comprehensive risk assessment across these categories.
+                <CardTitle className="text-slate-900 dark:text-slate-100">{t("riskPage.whatWeAnalyze")}</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-300">
+                  {t("riskPage.whatWeAnalyzeDesc")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -161,8 +164,8 @@ export default function RiskIntelligence() {
             <Card className="bg-white/5">
               <CardContent className="py-16 text-center">
                 <Loader2 className="w-12 h-12 text-blue-500 mx-auto mb-4 animate-spin" />
-                <p className="text-slate-200 font-semibold text-lg">Analyzing risk factors...</p>
-                <p className="text-slate-400 text-sm mt-1">Scanning geopolitical, financial, supply chain, and ESG data</p>
+                <p className="text-slate-200 font-semibold text-lg">{t("riskPage.analyzingFactors")}</p>
+                <p className="text-slate-300 text-sm mt-1">{t("riskPage.scanningData")}</p>
               </CardContent>
             </Card>
           )}
@@ -171,7 +174,7 @@ export default function RiskIntelligence() {
               <Card className="bg-white border-slate-200">
                 <CardContent className="pt-6">
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 gap-2">
-                    <h2 className="text-xl font-bold text-slate-900">Overall Risk Assessment</h2>
+                    <h2 className="text-xl font-bold text-slate-900">{t("riskPage.overallAssessment")}</h2>
                     <LevelBadge level={result.riskLevel} />
                   </div>
                   <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">

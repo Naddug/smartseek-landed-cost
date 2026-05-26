@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ClipboardCheck, CheckCircle2, AlertTriangle, XCircle, Loader2, FileText, Shield, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -35,6 +36,7 @@ function ComplianceBadge({ level }: { level: string }) {
 }
 
 export default function ComplianceCheck() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ supplierName: "", country: "", industry: "", targetMarkets: "USA, EU", products: "" });
   const [result, setResult] = useState<ComplianceResult | null>(null);
 
@@ -55,8 +57,8 @@ export default function ComplianceCheck() {
             <ClipboardCheck className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Compliance Check</h1>
-            <p className="text-emerald-100">AI-powered certification verification, regulatory compliance & sanctions screening</p>
+            <h1 className="text-2xl font-bold text-white">{t("compliancePage.title")}</h1>
+            <p className="text-emerald-100">{t("compliancePage.subtitle")}</p>
           </div>
         </div>
       </div>
@@ -64,7 +66,7 @@ export default function ComplianceCheck() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-1 h-fit bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-slate-900 dark:text-slate-100">Check Parameters</CardTitle>
+            <CardTitle className="text-base text-slate-900 dark:text-slate-100">{t("compliancePage.parameters")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div>
@@ -88,7 +90,7 @@ export default function ComplianceCheck() {
               <input className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none" placeholder="e.g. LED drivers, panel lights" value={form.products} onChange={e => setForm({...form, products: e.target.value})} />
             </div>
             <button onClick={() => mutation.mutate()} disabled={!form.supplierName || !form.country || !form.industry || mutation.isPending} className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors mt-2">
-              {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Checking...</> : <><ClipboardCheck className="w-4 h-4" /> Run Compliance Check</>}
+              {mutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> {t("compliancePage.checking")}</> : <><ClipboardCheck className="w-4 h-4" /> {t("compliancePage.run")}</>}
             </button>
           </CardContent>
         </Card>
@@ -98,9 +100,9 @@ export default function ComplianceCheck() {
           {!result && !mutation.isPending && (
             <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100">Checks we run automatically</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  Enter supplier details on the left and run a check. We verify the following:
+                <CardTitle className="text-slate-900 dark:text-slate-100">{t("compliancePage.checksTitle")}</CardTitle>
+                <CardDescription className="text-slate-600 dark:text-slate-300">
+                  {t("compliancePage.checksDesc")}
                 </CardDescription>
               </CardHeader>
               <CardContent>

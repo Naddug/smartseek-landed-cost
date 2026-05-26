@@ -7,9 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Search, Package, Hash, Building2, Globe, TrendingUp, 
-  Star, ArrowRight, Clock, X, Loader2, Filter, SlidersHorizontal, Download
+  ArrowRight, Clock, X, Loader2, Filter, SlidersHorizontal, Download, ShieldCheck
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 // Mock data for search suggestions and results
 const mockProducts = [
@@ -508,6 +509,7 @@ function HsCodeCard({ hsCode }: { hsCode: typeof mockHsCodes[0] }) {
 }
 
 function SupplierCard({ supplier }: { supplier: typeof mockSuppliers[0] }) {
+  const { t } = useTranslation();
   return (
     <Card className="hover:shadow-md transition-shadow" data-testid={`card-supplier-${supplier.id}`}>
       <CardContent className="pt-4">
@@ -525,9 +527,9 @@ function SupplierCard({ supplier }: { supplier: typeof mockSuppliers[0] }) {
             <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
               <Globe className="w-3 h-3" />
               {supplier.country}
-              <span className="flex items-center gap-1 ml-2">
-                <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                {supplier.rating}
+              <span className="flex items-center gap-1 ml-2 text-emerald-700">
+                <ShieldCheck className="w-3 h-3" />
+                {supplier.verified ? t("supplier.signals.registryVerified") : t("supplier.signals.verificationPending")}
               </span>
             </div>
             <div className="flex items-center gap-4 mt-2 text-sm">

@@ -22,3 +22,5 @@ index.pid
 migration.pid
 index_creation.log
 migration.log
+.vercel
+.lighthouse

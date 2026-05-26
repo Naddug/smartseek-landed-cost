@@ -32,7 +32,7 @@ export function RiskDisclosure({ compact = false }: RiskDisclosureProps) {
               key={key}
               className="flex gap-4 border-b border-ortaq-border py-4 last:border-b-0 sm:py-5"
             >
-              <span className="w-5 shrink-0 font-heading text-sm tabular-nums text-ortaq-ink-soft">
+              <span className="w-5 shrink-0 text-sm font-medium tabular-nums text-ortaq-ink-soft">
                 {key}
               </span>
               <span className={typography.body}>{t(`risk.items.${key}`)}</span>

@@ -1,42 +1,52 @@
 import { cn } from "@/lib/cn";
 import Link from "next/link";
+import { BrandMark } from "@/components/brand/BrandMark";
+import { LogoWordmark } from "@/components/brand/LogoWordmark";
+import type { BrandTheme } from "@/lib/brand/identity";
 
 type LogoProps = {
   className?: string;
-  variant?: "default" | "mark";
+  variant?: "default" | "mark" | "stacked";
+  theme?: BrandTheme;
+  showTagline?: boolean;
+  tagline?: string;
+  markSize?: number;
 };
 
-export function Logo({ className, variant = "default" }: LogoProps) {
+export function Logo({
+  className,
+  variant = "default",
+  theme = "light",
+  showTagline = false,
+  tagline,
+  markSize = 36,
+}: LogoProps) {
   if (variant === "mark") {
     return (
       <Link href="/" className={cn("inline-flex shrink-0", className)} aria-label="ORTAQ">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <rect width="32" height="32" rx="8" fill="#1A1814" />
-          <path
-            d="M8 16.5C8 12.9 10.9 10 14.5 10H18v3h-3.5a3.5 3.5 0 1 0 0 7H18v3h-3.5C10.9 23 8 20.1 8 16.5Z"
-            fill="#FAF8F5"
-          />
-          <circle cx="21" cy="16.5" r="2.5" fill="#B85C38" />
-        </svg>
+        <BrandMark size={markSize} theme={theme} />
       </Link>
     );
   }
 
+  const isStacked = variant === "stacked";
+
   return (
     <Link
       href="/"
-      className={cn("inline-flex items-center gap-2.5 font-heading text-xl tracking-tight text-ortaq-ink", className)}
+      className={cn(
+        "group inline-flex min-w-0 items-center transition-opacity hover:opacity-[0.92]",
+        isStacked ? "flex-col items-start gap-3.5" : "gap-2.5 sm:gap-3",
+        className,
+      )}
       aria-label="ORTAQ ana sayfa"
     >
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="#1A1814" />
-        <path
-          d="M8 16.5C8 12.9 10.9 10 14.5 10H18v3h-3.5a3.5 3.5 0 1 0 0 7H18v3h-3.5C10.9 23 8 20.1 8 16.5Z"
-          fill="#FAF8F5"
-        />
-        <circle cx="21" cy="16.5" r="2.5" fill="#B85C38" />
-      </svg>
-      <span>ORTAQ</span>
+      <BrandMark
+        size={markSize}
+        theme={theme}
+        className="transition-transform duration-300 ease-out motion-reduce:transition-none group-hover:scale-[1.012]"
+      />
+      <LogoWordmark theme={theme} showTagline={showTagline} tagline={tagline} stacked={isStacked} />
     </Link>
   );
 }

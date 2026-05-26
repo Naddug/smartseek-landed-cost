@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { CampaignDetailView } from "@/components/views/CampaignDetailView";
 import { getCampaign, getAllCampaignSlugs } from "@/lib/campaigns";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbSchema } from "@/lib/seo/schema";
+import { breadcrumbSchema, illustrativeCampaignSchema } from "@/lib/seo/schema";
 import { site } from "@/lib/metadata";
+import { env } from "@/lib/env";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,16 +18,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const campaign = getCampaign(slug);
   if (!campaign) return { title: "Şirket bulunamadı" };
 
+  const title = campaign.seoTitle;
+  const description = campaign.seoDescription;
+  const url = `${site.url}/sirket/${slug}`;
+  const noIndex = env.isStaging || env.isDevelopment;
+
   return {
-    title: campaign.seoTitle,
-    description: campaign.seoDescription,
-    robots: { index: true, follow: true },
-    alternates: { canonical: `/sirket/${slug}` },
-    openGraph: {
-      title: campaign.seoTitle,
-      description: campaign.seoDescription,
-      url: `${site.url}/sirket/${slug}`,
+    title: { absolute: title },
+    description,
+    metadataBase: new URL(site.url),
+    alternates: {
+      canonical: `/sirket/${slug}`,
+      languages: { "tr-TR": `/sirket/${slug}` },
     },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: site.name,
+      locale: site.locale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
   };
 }
 
@@ -39,6 +57,7 @@ export default async function CampaignPage({ params }: Props) {
     <>
       <JsonLd
         data={[
+          illustrativeCampaignSchema(slug, campaign.seoTitle, campaign.seoDescription),
           breadcrumbSchema([
             { name: "Ana sayfa", path: "/" },
             { name: "Şirketler", path: "/sirketler" },

@@ -12,7 +12,7 @@ import {
   Sparkles, Loader2, FileText, CheckCircle,
   Package, Globe, Ship, Truck, Shield, Hash,
   Building2, Download, TrendingUp,
-  AlertTriangle, Star, MapPin, Users, DollarSign, Calculator,
+  AlertTriangle, MapPin, Users, DollarSign, Calculator,
   Landmark, Receipt, Container, Percent, Send, CreditCard, Zap,
   Camera, X, ChevronDown, ChevronUp, ArrowRight
 } from "lucide-react";
@@ -565,7 +565,7 @@ export default function SmartFinder() {
       pdf.setTextColor(255, 255, 255);
       pdf.setFontSize(18);
       pdf.setFont('helvetica', 'bold');
-      pdf.text('SOURCING INTELLIGENCE REPORT', margin + 40, 16);
+      pdf.text('SOURCING EVALUATION REPORT', margin + 40, 16);
       
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
@@ -1197,7 +1197,7 @@ export default function SmartFinder() {
         pdf.setFontSize(7);
         pdf.setTextColor(grayColor.r, grayColor.g, grayColor.b);
         pdf.setFont('helvetica', 'normal');
-        pdf.text('SmartSeek - AI-Powered Sourcing Intelligence | Confidential Report', margin, pageHeight - 7);
+        pdf.text('SmartSeek — Structured Sourcing Report | Confidential', margin, pageHeight - 7);
         pdf.text(`Generated: ${format(new Date(), 'MMM d, yyyy')}`, pageWidth/2, pageHeight - 7, { align: 'center' });
         pdf.text(`Page ${i} of ${pageCount}`, pageWidth - margin, pageHeight - 7, { align: 'right' });
       }
@@ -1380,7 +1380,7 @@ export default function SmartFinder() {
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
                   <Building2 className="w-4 h-4 text-emerald-600" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg">Supplier Intelligence</h3>
+                <h3 className="font-bold text-slate-900 text-lg">Supplier evaluation</h3>
                 <Badge variant="outline" className="text-xs font-semibold ml-1">{sellers.length} verified suppliers</Badge>
               </div>
 
@@ -1398,7 +1398,7 @@ export default function SmartFinder() {
                           <div className="min-w-0">
                             {i === 0 && (
                               <Badge className="bg-emerald-600 text-white text-xs mb-1 inline-flex">
-                                <Star className="w-2.5 h-2.5 mr-1 fill-current" /> Top Recommended
+                                <Shield className="w-2.5 h-2.5 mr-1" /> {t("smartFinder.primaryMatch")}
                               </Badge>
                             )}
                             <h4 className="font-bold text-slate-900 text-sm leading-tight">
@@ -1419,18 +1419,16 @@ export default function SmartFinder() {
                             { label: 'Unit Price', val: seller.unitPrice, cls: 'text-blue-700 font-bold' },
                             { label: 'MOQ', val: seller.moq, cls: 'text-slate-800 font-semibold' },
                             { label: 'Lead Time', val: seller.leadTime, cls: 'text-slate-800 font-semibold' },
-                            { label: 'Rating', val: null, cls: '' },
+                            { label: t("smartFinder.verificationField"), val: null, cls: '' },
                           ].map((field, fi) => (
                             <div key={fi} className="p-2.5 bg-slate-50 rounded-lg">
                               <div className="text-xs text-slate-500 font-medium">{field.label}</div>
                               {field.val !== null ? (
                                 <div className={`text-sm mt-0.5 ${field.cls}`}>{field.val}</div>
                               ) : (
-                                <div className="flex items-center gap-1 mt-0.5">
-                                  <Star className="w-3.5 h-3.5 text-amber-500 fill-current" />
-                                  <span className="font-bold text-sm text-slate-900">
-                                    {typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (parseFloat(String(seller.rating)) || 0).toFixed(1)}
-                                  </span>
+                                <div className="flex items-center gap-1 mt-0.5 text-sm font-medium text-emerald-700">
+                                  <Shield className="w-3.5 h-3.5" />
+                                  {t("smartFinder.registryReviewed")}
                                 </div>
                               )}
                             </div>
@@ -1743,7 +1741,7 @@ export default function SmartFinder() {
                 <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center shrink-0">
                   <TrendingUp className="w-4 h-4 text-purple-600" />
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg">Market Intelligence</h3>
+                <h3 className="font-bold text-slate-900 text-lg">Market analysis</h3>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
                 {(marketOverview as any).demandTrend && (
@@ -1834,7 +1832,7 @@ export default function SmartFinder() {
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                  <Star className="w-4 h-4 text-emerald-600" />
+                  <Shield className="w-4 h-4 text-emerald-600" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-lg">Recommendations & Next Steps</h3>
               </div>
@@ -1853,14 +1851,14 @@ export default function SmartFinder() {
         {/* ── BOTTOM EXPORT STRIP ── */}
         <div className="flex flex-wrap justify-center gap-3 py-4">
           <Button onClick={handleNewSearch} variant="outline" size="sm" className="font-medium">
-            <Sparkles className="w-4 h-4 mr-1.5" /> New Search
+            <Sparkles className="w-4 h-4 mr-1.5" /> {t("smartFinder.report.newSearchButton")}
           </Button>
           <Button onClick={exportCSV} variant="outline" size="sm" className="font-medium">
-            <FileText className="w-4 h-4 mr-1.5" /> Export Suppliers CSV
+            <FileText className="w-4 h-4 mr-1.5" /> {t("smartFinder.report.exportCsv")}
           </Button>
           <Button onClick={exportToPDF} disabled={isExporting} size="sm" className="font-medium bg-blue-600 hover:bg-blue-500 text-white border-0">
             {isExporting ? <Loader2 className="w-4 h-4 mr-1.5 animate-spin" /> : <Download className="w-4 h-4 mr-1.5" />}
-            {isExporting ? 'Generating PDF…' : 'Download Full PDF'}
+            {isExporting ? t("smartFinder.report.generatingPdf") : t("smartFinder.report.downloadFullPdf")}
           </Button>
         </div>
       </div>
@@ -1926,7 +1924,7 @@ export default function SmartFinder() {
             
             <div>
               <h3 className="text-xl font-semibold mb-1">{t("smartFinder.loading.generatingReport")}</h3>
-              <p className="text-sm text-slate-700">AI is analyzing markets, customs duties, and supplier data</p>
+              <p className="text-sm text-slate-700">Reviewing markets, customs duties, and supplier data</p>
             </div>
             
             <div className="w-full space-y-3">

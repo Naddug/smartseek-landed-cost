@@ -57,7 +57,7 @@ export default function Verification() {
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
           {TIERS.map((t) => (
             <div key={t.name} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <div className={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-full mb-3 ${
+              <div className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-full mb-3 ${
                 t.color === "blue" ? "bg-blue-50 text-blue-700 border border-blue-100" :
                 t.color === "emerald" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" :
                 "bg-violet-50 text-violet-700 border border-violet-100"
@@ -81,10 +81,7 @@ export default function Verification() {
       <section className="bg-slate-50 py-14 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 mb-5">
-            <p className="text-xs text-slate-600">
-              Verification standards are reviewed periodically by the sourcing operations team.
-              <span className="font-medium text-slate-800"> Last reviewed: {new Date().toLocaleDateString()}</span>
-            </p>
+            <p className="text-xs text-slate-600">{t("verificationPage.reviewNotice")}</p>
           </div>
           <h2 className="text-xl font-bold text-slate-900 mb-3">{t("verificationPage.cadenceTitle")}</h2>
           <p className="text-sm text-slate-700 mb-3">

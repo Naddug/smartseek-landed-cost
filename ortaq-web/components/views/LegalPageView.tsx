@@ -19,7 +19,7 @@ export function LegalPageView({ type }: LegalPageViewProps) {
       <Section spacing="hero">
         <Container narrow>
           <p className="text-xs text-ortaq-ink-soft">{t(`${prefix}.updated`)}</p>
-          <h1 className="mt-2 font-heading text-4xl text-ortaq-ink">{t(`${prefix}.title`)}</h1>
+          <h1 className="mt-1 text-3xl font-semibold tracking-[-0.02em] text-ortaq-ink">{t(`${prefix}.title`)}</h1>
           <div className="mt-8 space-y-4 text-base leading-relaxed text-ortaq-ink-muted">
             <p>{t(`${prefix}.p1`)}</p>
             <p>{t(`${prefix}.p2`)}</p>

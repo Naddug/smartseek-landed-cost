@@ -7,41 +7,55 @@ import { useTranslation } from "react-i18next";
 // ─── Curated category previews ────────────────────────────────────────────────
 // Sample-based preview only. We do NOT advertise totals or "X suppliers found".
 
-const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: string; country: string; flag: string; products: string[]; verified: boolean; registry: string }[] }> = {
-  antimony: {
-    label: "Antimony & strategic metals",
+// Real, publicly-registered industrial companies used as illustrative anchors
+// for each sourcing category. We do not claim these are customers; we show
+// that their corporate identity can be located in a public registry — the same
+// principle SmartSeek applies to every supplier it publishes. Names and
+// registries are deliberately diverse across continents.
+const PREVIEW: Record<string, { labelKey: string; icon: string; suppliers: { name: string; country: string; flag: string; products: string[]; verified: boolean; registry: string }[] }> = {
+  metals: {
+    labelKey: "home.preview.tabMetals",
     icon: "⛏️",
     suppliers: [
-      { name: "Hunan Chenzhou Mining Group", country: "China", flag: "🇨🇳", products: ["Antimony ingot 99.65%", "Antimony trioxide"], verified: true, registry: "SAIC" },
-      { name: "Mandalay Resources Corp.", country: "Canada", flag: "🇨🇦", products: ["Antimony concentrates"], verified: true, registry: "SEDAR" },
-      { name: "United States Antimony Corp.", country: "USA", flag: "🇺🇸", products: ["Antimony oxide", "Antimony trisulfide"], verified: true, registry: "SEC EDGAR" },
-    ],
-  },
-  copper: {
-    label: "Copper & base metals",
-    icon: "🟠",
-    suppliers: [
       { name: "Aurubis AG", country: "Germany", flag: "🇩🇪", products: ["Copper cathode A-grade", "Copper rod"], verified: true, registry: "Handelsregister" },
-      { name: "KGHM Polska Miedź S.A.", country: "Poland", flag: "🇵🇱", products: ["Electrolytic copper", "Silver granulate"], verified: true, registry: "KRS" },
-      { name: "Jiangxi Copper Co.", country: "China", flag: "🇨🇳", products: ["Cathode copper", "Copper wire rod"], verified: true, registry: "SAIC" },
+      { name: "Outokumpu Oyj", country: "Finland", flag: "🇫🇮", products: ["Stainless steel coil", "Duplex stainless"], verified: true, registry: "PRH" },
+      { name: "POSCO", country: "South Korea", flag: "🇰🇷", products: ["Hot-rolled coil", "Electrical steel"], verified: true, registry: "DART" },
     ],
   },
-  steel: {
-    label: "Steel & alloys",
-    icon: "🏗️",
+  manufacturing: {
+    labelKey: "home.preview.tabManufacturing",
+    icon: "🏭",
     suppliers: [
-      { name: "voestalpine AG", country: "Austria", flag: "🇦🇹", products: ["Cold-rolled steel", "Tool steel"], verified: true, registry: "Firmenbuch" },
-      { name: "POSCO", country: "South Korea", flag: "🇰🇷", products: ["Hot-rolled coil", "Stainless plate"], verified: true, registry: "DART" },
-      { name: "Erdemir", country: "Turkey", flag: "🇹🇷", products: ["Hot-rolled flat steel", "Galvanized coil"], verified: true, registry: "MERSIS" },
+      { name: "SKF Group", country: "Sweden", flag: "🇸🇪", products: ["Industrial bearings", "Sealing systems"], verified: true, registry: "Bolagsverket" },
+      { name: "Schaeffler AG", country: "Germany", flag: "🇩🇪", products: ["Precision bearings", "Linear motion"], verified: true, registry: "Handelsregister" },
+      { name: "Parker Hannifin", country: "USA", flag: "🇺🇸", products: ["Hydraulic systems", "Pneumatic fittings"], verified: true, registry: "SEC EDGAR" },
     ],
   },
-  rare_earths: {
-    label: "Rare earths",
-    icon: "🔬",
+  chemicals: {
+    labelKey: "home.preview.tabChemicals",
+    icon: "⚗️",
     suppliers: [
-      { name: "Lynas Rare Earths Ltd.", country: "Australia", flag: "🇦🇺", products: ["NdPr oxide", "Lanthanum carbonate"], verified: true, registry: "ASIC" },
-      { name: "MP Materials Corp.", country: "USA", flag: "🇺🇸", products: ["Rare-earth concentrate", "NdPr oxide"], verified: true, registry: "SEC EDGAR" },
-      { name: "Iluka Resources", country: "Australia", flag: "🇦🇺", products: ["Monazite concentrate"], verified: false, registry: "ASIC" },
+      { name: "BASF SE", country: "Germany", flag: "🇩🇪", products: ["Performance chemicals", "Polymer intermediates"], verified: true, registry: "Handelsregister" },
+      { name: "Solvay SA", country: "Belgium", flag: "🇧🇪", products: ["Specialty polymers", "Soda ash"], verified: true, registry: "KBO" },
+      { name: "Wacker Chemie AG", country: "Germany", flag: "🇩🇪", products: ["Silicone elastomers", "Polysilicon"], verified: true, registry: "Handelsregister" },
+    ],
+  },
+  packaging: {
+    labelKey: "home.preview.tabPackaging",
+    icon: "📦",
+    suppliers: [
+      { name: "Tetra Pak", country: "Sweden", flag: "🇸🇪", products: ["Aseptic cartons", "Processing systems"], verified: true, registry: "Bolagsverket" },
+      { name: "Mondi Group", country: "Austria", flag: "🇦🇹", products: ["Paper-based packaging", "Flexible films"], verified: true, registry: "Firmenbuch" },
+      { name: "Amcor plc", country: "Australia", flag: "🇦🇺", products: ["Flexible packaging", "Rigid containers"], verified: true, registry: "ASIC" },
+    ],
+  },
+  machinery: {
+    labelKey: "home.preview.tabMachinery",
+    icon: "⚙️",
+    suppliers: [
+      { name: "Atlas Copco AB", country: "Sweden", flag: "🇸🇪", products: ["Industrial compressors", "Pneumatic tools"], verified: true, registry: "Bolagsverket" },
+      { name: "Komatsu Ltd.", country: "Japan", flag: "🇯🇵", products: ["Construction equipment", "Material-handling systems"], verified: true, registry: "MOJ" },
+      { name: "GEA Group AG", country: "Germany", flag: "🇩🇪", products: ["Process equipment", "Industrial mixers"], verified: true, registry: "Handelsregister" },
     ],
   },
 };
@@ -49,7 +63,8 @@ const PREVIEW: Record<string, { label: string; icon: string; suppliers: { name: 
 type CategoryKey = keyof typeof PREVIEW;
 
 function CuratedPreview() {
-  const [active, setActive] = useState<CategoryKey>("antimony");
+  const { t } = useTranslation();
+  const [active, setActive] = useState<CategoryKey>("metals");
   const cat = PREVIEW[active];
   return (
     <div>
@@ -58,13 +73,13 @@ function CuratedPreview() {
           <button
             key={k}
             onClick={() => setActive(k)}
-            className={`text-xs px-4 py-2 rounded-full border transition-all ${
+            className={`text-xs px-3 sm:px-4 py-2.5 min-h-10 rounded-full border transition-all ${
               active === k
                 ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/20"
-                : "bg-slate-800/80 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600"
+                : "bg-slate-800/80 border-slate-700 text-slate-300 hover:text-white hover:border-slate-600"
             }`}
           >
-            {PREVIEW[k].icon} {PREVIEW[k].label}
+            {PREVIEW[k].icon} {t(PREVIEW[k].labelKey)}
           </button>
         ))}
       </div>
@@ -77,21 +92,25 @@ function CuratedPreview() {
               <div className="flex items-start justify-between gap-2 mb-2">
                 <span className="text-sm font-bold text-slate-900 truncate">{s.name}</span>
                 {s.verified && (
-                  <span className="shrink-0 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold inline-flex items-center gap-0.5">
-                    <ShieldCheck className="w-2.5 h-2.5" /> Verified
+                  <span className="shrink-0 text-xs bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold inline-flex items-center gap-0.5">
+                    <ShieldCheck className="w-2.5 h-2.5" /> {t("home.preview.registryExample")}
                   </span>
                 )}
               </div>
-              <div className="text-xs text-slate-500 mb-3">{s.flag} {s.country} · Registry: {s.registry}</div>
+              <div className="text-xs text-slate-600 mb-3">{s.flag} {s.country} · {t("home.preview.registryLabel")} {s.registry}</div>
               <div className="flex flex-wrap gap-1">
                 {s.products.map((p, j) => (
-                  <span key={j} className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">{p}</span>
+                  <span key={j} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">{p}</span>
                 ))}
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      <p className="text-center text-xs text-slate-400 mb-4 max-w-lg mx-auto leading-relaxed">
+        {t("home.preview.disclaimer")}
+      </p>
 
       <div className="relative">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 select-none pointer-events-none">
@@ -111,11 +130,11 @@ function CuratedPreview() {
             <div className="w-11 h-11 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3 border border-white/20">
               <Lock className="w-5 h-5 text-white" />
             </div>
-            <p className="text-white font-bold text-base mb-1 leading-tight">Full directory available to founding users</p>
-            <p className="text-slate-300 text-sm mb-4 leading-relaxed">Free during beta. We onboard buyers manually so every account gets sourcing support.</p>
+            <p className="text-white font-bold text-base mb-1 leading-tight">{t("home.preview.lockTitle")}</p>
+            <p className="text-slate-300 text-sm mb-4 leading-relaxed">{t("home.preview.lockBody")}</p>
             <Link href="/pricing">
               <button className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                {t("home.preview.lockCta")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
           </div>
@@ -144,10 +163,10 @@ function HeroSearch() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={t("home.hero.searchPlaceholder")}
-          className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40"
+          className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40"
         />
       </div>
-      <button type="submit" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition shadow-lg shadow-amber-500/20 text-sm">
+      <button type="submit" className="inline-flex items-center justify-center gap-2 px-6 py-3.5 min-h-11 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl transition shadow-lg shadow-amber-500/20 text-sm">
         {t("home.hero.searchButton")} <ArrowRight className="w-4 h-4" />
       </button>
     </form>
@@ -165,7 +184,7 @@ export default function Home() {
       "@type": "Organization",
       "name": "SmartSeek",
       "url": "https://smartseek.com",
-      "description": "Strategic sourcing intelligence and supplier discovery platform for industrial procurement teams.",
+      "description": t("home.seo.description"),
       "sameAs": [],
     };
     let el = document.getElementById("smartseek-ld") as HTMLScriptElement | null;
@@ -176,12 +195,12 @@ export default function Home() {
       document.head.appendChild(el);
     }
     el.text = JSON.stringify(ld);
-  }, []);
+  }, [t]);
 
   return (
     <PublicLayout>
       {/* ── 1) HERO ──────────────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center justify-center min-h-[88vh] bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950 px-4 text-center overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center min-h-[80vh] sm:min-h-[88vh] bg-gradient-to-b from-slate-950 via-blue-950 to-slate-950 px-4 text-center overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-20"
           style={{
@@ -189,20 +208,20 @@ export default function Home() {
             backgroundSize: "40px 40px",
           }}
         />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(800px,120vw)] h-[min(600px,80vh)] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none" />
 
         <div className="relative z-10 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-xs font-semibold mb-6 tracking-wide">
           <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
           {t("home.hero.banner")}
         </div>
 
-        <h1 className="relative z-10 text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl mb-5">
-          {t("home.hero.titleLine1")}
-          <br className="hidden sm:block" />
-          {t("home.hero.titleLine2")}
+        <h1 className="relative z-10 text-3xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight max-w-4xl mb-5 px-1">
+          <span className="inline sm:block">{t("home.hero.titleLine1")}</span>
+          <span className="sm:hidden"> </span>
+          <span className="inline sm:block">{t("home.hero.titleLine2")}</span>
         </h1>
 
-        <p className="relative z-10 text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+        <p className="relative z-10 text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
           {t("home.hero.subtitle")}
         </p>
 
@@ -210,24 +229,24 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col sm:flex-row gap-3 mb-3">
           <Link href="/rfq/new">
-            <button className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
+            <button className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
               <FileText className="w-4 h-4" /> {t("home.hero.submitRfq")}
             </button>
           </Link>
           <Link href="/become-a-supplier">
-            <button className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white text-sm font-semibold rounded-xl transition">
+            <button className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-11 w-full sm:w-auto bg-white/5 hover:bg-white/10 border border-white/20 text-white text-sm font-semibold rounded-xl transition">
               <Building2 className="w-4 h-4" /> {t("home.hero.becomeSupplier")}
             </button>
           </Link>
         </div>
-        <p className="relative z-10 text-xs text-slate-500 mb-8">
-          Built for industrial procurement teams handling specification-driven sourcing workflows.
+        <p className="relative z-10 text-xs text-slate-300 mb-8">
+          {t("home.hero.builtFor")}
         </p>
 
-        <div className="relative z-10 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-slate-500 mb-12">
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Registry-verified suppliers</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Operator-reviewed RFQ routing</span>
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Structured quote fields (MOQ, lead time, Incoterms)</span>
+        <div className="relative z-10 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs text-slate-300 mb-12">
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.registryVerified")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.operatorRouting")}</span>
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("home.trust.structuredQuotes")}</span>
         </div>
       </section>
 
@@ -235,9 +254,9 @@ export default function Home() {
       <section className="bg-slate-900 py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">Curated supplier preview</p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Supplier discovery across strategic metals and industrial inputs</h2>
-            <p className="text-slate-400 text-sm max-w-xl mx-auto">A sample of registry-verified suppliers across our priority commodities. Full directory unlocked for founding users during beta.</p>
+            <p className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em] mb-3">{t("home.sections.previewBadge")}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">{t("home.sections.previewTitle")}</h2>
+            <p className="text-slate-300 text-sm max-w-xl mx-auto">{t("home.sections.previewBody")}</p>
           </div>
           <CuratedPreview />
         </div>
@@ -246,15 +265,15 @@ export default function Home() {
       {/* ── 3) HOW IT WORKS ──────────────────────────────────────────────── */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3 text-center">How it works</p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">Procurement workflow without marketplace noise</h2>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3 text-center">{t("home.how.badge")}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 text-center mb-16">{t("home.how.title")}</h2>
 
           <div className="relative flex flex-col gap-0">
             <div className="absolute left-8 top-10 bottom-10 w-px bg-gradient-to-b from-blue-200 via-emerald-200 to-amber-200 hidden md:block" />
             {[
-              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: "Submit your sourcing request", desc: "Describe what you need: commodity, specification, quantity, destination, lead time. Takes 2 minutes." },
-              { step: "02", icon: <ShieldCheck className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: "We route to verified suppliers", desc: "A SmartSeek sourcing operator screens your RFQ and routes it only to suppliers checked against company registries." },
-              { step: "03", icon: <FileText className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50", title: "You receive structured quotes", desc: "Quotes arrive with incoterms, lead time, MOQ, and supplier provenance. You decide who to engage." },
+              { step: "01", icon: <Search className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50", title: t("home.how.step1Title"), desc: t("home.how.step1Desc") },
+              { step: "02", icon: <ShieldCheck className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50", title: t("home.how.step2Title"), desc: t("home.how.step2Desc") },
+              { step: "03", icon: <FileText className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50", title: t("home.how.step3Title"), desc: t("home.how.step3Desc") },
             ].map((s) => (
               <div key={s.step} className="flex items-start gap-8 pb-12 relative">
                 <div className="shrink-0 flex flex-col items-center">
@@ -263,7 +282,7 @@ export default function Home() {
                 <div className="pt-3">
                   <div className="text-4xl font-bold text-slate-100 leading-none mb-2 select-none">{s.step}</div>
                   <h3 className="font-bold text-slate-900 text-lg mb-2 -mt-2">{s.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed max-w-lg">{s.desc}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed max-w-lg">{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -273,30 +292,30 @@ export default function Home() {
 
       {/* ── 4) TRUST STRIP ────────────────────────────────────────────────── */}
       <div className="bg-slate-900 border-y border-slate-800 py-4 px-4">
-        <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs text-slate-500">
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> Registry-verified</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> No fabricated profiles</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> Operator-led routing</span>
-          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> Direct supplier contact</span>
+        <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs text-slate-300">
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> {t("home.trustStrip.registryVerified")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> {t("home.trustStrip.noFabricated")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-violet-500 inline-block" /> {t("home.trustStrip.operatorRouting")}</span>
+          <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500 inline-block" /> {t("home.trustStrip.directContact")}</span>
         </div>
       </div>
 
       <section className="bg-slate-50 border-b border-slate-100 py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3">Why it&apos;s different</p>
-            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">No scraped profiles. No mass blasts. No marketplace theatre.</h3>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-[0.2em] mb-3">{t("home.why.badge")}</p>
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">{t("home.why.title")}</h3>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-              Every supplier we publish is checked against a company registry — SAIC, Companies House, SEC EDGAR, Handelsregister, MERSIS, ASIC, KRS, DART, SEDAR — and confirmed via direct contact. RFQs are routed by a human sourcing operator, not by an algorithm.
+              {t("home.why.body")}
             </p>
             <div className="grid sm:grid-cols-3 gap-3 text-sm text-slate-700">
-              <div className="rounded-xl border border-slate-200 px-4 py-3">Registry-anchored verification</div>
-              <div className="rounded-xl border border-slate-200 px-4 py-3">Manual RFQ routing</div>
-              <div className="rounded-xl border border-slate-200 px-4 py-3">Direct supplier contact, no proxy</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill1")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill2")}</div>
+              <div className="rounded-xl border border-slate-200 px-4 py-3">{t("home.why.pill3")}</div>
             </div>
             <div className="mt-6 flex flex-wrap gap-4">
-              <Link href="/methodology" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">Read the sourcing methodology</Link>
-              <Link href="/verification" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">See verification standards</Link>
+              <Link href="/methodology" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">{t("home.why.methodologyLink")}</Link>
+              <Link href="/verification" className="text-sm font-semibold text-blue-700 hover:text-blue-800 underline underline-offset-2">{t("home.why.verificationLink")}</Link>
             </div>
           </div>
         </div>
@@ -306,42 +325,43 @@ export default function Home() {
       <section className="bg-slate-950 py-20 px-4 text-center relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-blue-600/8 rounded-full blur-[120px] pointer-events-none" />
         <div className="relative z-10 max-w-xl mx-auto">
-          <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">Founding users program</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
-            Free during beta.<br className="hidden sm:block" />
-            Priority sourcing support.
+          <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.2em] mb-4">{t("home.founding.badge")}</p>
+          <h2 className="text-2xl sm:text-4xl font-bold text-white mb-4 leading-tight">
+            <span className="inline sm:block">{t("home.founding.title1")}</span>
+            <span className="sm:hidden"> </span>
+            <span className="inline sm:block">{t("home.founding.title2")}</span>
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base mb-8 leading-relaxed">
-            We&apos;re onboarding a focused set of procurement teams during beta so each account receives direct sourcing support and faster supplier routing.
+          <p className="text-slate-300 text-sm sm:text-base mb-8 leading-relaxed">
+            {t("home.founding.body")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <Link href="/pricing">
               <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-amber-500/20 text-base">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                {t("home.founding.requestBeta")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
             <Link href="/rfq/new">
               <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium px-8 py-3.5 rounded-xl transition text-base">
-                Submit an RFQ
+                {t("home.founding.submitRfq")}
               </button>
             </Link>
           </div>
-          <p className="text-xs text-slate-600">No credit card. No payment system during beta.</p>
+          <p className="text-xs text-slate-600">{t("home.founding.noPayment")}</p>
         </div>
       </section>
-      <div className="sm:hidden h-16" aria-hidden="true" />
+      <div className="sm:hidden pb-24" aria-hidden="true" />
 
       {/* Mobile sticky action bar — procurement-toned labels aligned with the rest of the site */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-800 bg-slate-950/95 backdrop-blur px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <div className="grid grid-cols-2 gap-2">
           <Link href="/pricing">
-            <button className="w-full inline-flex items-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold py-2.5 rounded-lg text-xs">
-              Beta access
+            <button className="w-full inline-flex items-center justify-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold min-h-11 py-3 rounded-lg text-sm">
+              {t("home.mobile.betaAccess")}
             </button>
           </Link>
           <Link href="/rfq">
-            <button className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-lg text-xs">
-              Submit RFQ
+            <button className="w-full inline-flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white font-semibold min-h-11 py-3 rounded-lg text-sm">
+              {t("home.mobile.submitRfq")}
             </button>
           </Link>
         </div>

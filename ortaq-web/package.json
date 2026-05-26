@@ -4,9 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
+    "dev:clean": "rm -rf .next && next dev --port 3001",
     "build": "next build",
+    "build:clean": "rm -rf .next && next build",
     "build:prod": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_SITE_URL=https://ortaq.biz next build",
-    "validate:prod": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_SITE_URL=https://ortaq.biz sh -c 'npm run build && node scripts/validate-production.mjs'",
+    "build:staging": "NEXT_PUBLIC_APP_ENV=staging NEXT_PUBLIC_SITE_URL=https://staging.ortaq.biz next build",
+    "validate:prod": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_SITE_URL=https://ortaq.biz sh -c 'npm run build:prod && node scripts/validate-production.mjs'",
+    "validate:staging": "NEXT_PUBLIC_APP_ENV=staging NEXT_PUBLIC_SITE_URL=https://staging.ortaq.biz sh -c 'npm run build:staging && node scripts/validate-staging.mjs'",
+    "validate:live:staging": "node scripts/validate-live.mjs staging",
+    "validate:live:production": "node scripts/validate-live.mjs production",
+    "audit:staging": "node scripts/lighthouse-audit.mjs staging",
+    "audit:production": "node scripts/lighthouse-audit.mjs production",
     "start": "next start --port 3001",
     "lint": "next lint",
     "check": "tsc --noEmit"

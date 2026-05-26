@@ -11,10 +11,11 @@ import { useParams, useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {
-  Search, CheckCircle2, ArrowRight, Building2, Star,
-  MapPin, ShieldCheck, Lock, Globe, Users, ChevronRight,
+  Search, CheckCircle2, ArrowRight, Building2,
+  MapPin, ShieldCheck, Lock, Globe, ChevronRight,
 } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
+import { SupplierSignalFooter } from "@/components/supplier/SupplierSignalFooter";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -64,7 +65,6 @@ function countryFlag(country: string): string {
 
 function SupplierCard({ supplier }: { supplier: Supplier }) {
   const { t } = useTranslation();
-  const score = Math.round(supplier.rating * 20);
   const [saved, setSaved] = useState(false);
   const [inCompare, setInCompare] = useState(false);
 
@@ -108,78 +108,64 @@ function SupplierCard({ supplier }: { supplier: Supplier }) {
             <div className="flex items-center gap-2 flex-wrap mb-0.5">
               <span className="font-bold text-slate-900 text-sm truncate">{supplier.companyName}</span>
               {supplier.verified && (
-                <span className="shrink-0 text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold flex items-center gap-0.5">
+                <span className="shrink-0 text-xs bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full border border-blue-100 font-semibold flex items-center gap-0.5">
                   <ShieldCheck className="w-2.5 h-2.5" /> {t("category.verified")}
                 </span>
               )}
             </div>
-            <span className="text-xs text-slate-500 flex items-center gap-1">
+            <span className="text-xs text-slate-600 flex items-center gap-1">
               <MapPin className="w-3 h-3" />
               {countryFlag(supplier.country)} {supplier.city}, {supplier.country}
             </span>
           </div>
-          <div className={`shrink-0 w-10 h-10 rounded-xl flex flex-col items-center justify-center border text-xs font-bold ${score >= 80 ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-amber-50 border-amber-200 text-amber-700"}`}>
-            <span className="leading-none">{score}</span>
-            <span className="text-[8px] opacity-60 leading-none mt-0.5">{t("category.qualityScore")}</span>
-          </div>
         </div>
 
-        <span className="inline-block text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full mb-2">
+        <span className="inline-block text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full mb-2">
           {supplier.industry}
         </span>
 
         <div className="flex flex-wrap gap-1 mb-3">
           {supplier.products.length > 0 ? supplier.products.slice(0, 2).map((p, i) => (
-            <span key={i} className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">
+            <span key={i} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">
               {p}
             </span>
           )) : (
-            <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200">
-              Product details available upon RFQ
+            <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">
+              {t("category.card.productsUponRfq")}
             </span>
           )}
         </div>
 
-        <div className="flex items-center justify-between text-xs border-t border-slate-100 pt-2.5">
-          <div className="flex items-center gap-0.5">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} className={`w-3 h-3 ${i <= Math.round(supplier.rating) ? "fill-amber-400 text-amber-400" : "text-slate-200"}`} />
-            ))}
-            <span className="ml-1 text-slate-700 font-semibold">{supplier.rating.toFixed(1)}</span>
-          </div>
-          {supplier.employeeCount && (
-            <span className="text-slate-400 text-[11px] flex items-center gap-0.5">
-              <Users className="w-3 h-3" />
-              {supplier.employeeCount.toLocaleString()}+ {t("category.employees")}
-            </span>
-          )}
-        </div>
+        <SupplierSignalFooter
+          verified={supplier.verified}
+          employeeCount={supplier.employeeCount}
+        />
         <div className="mt-3 grid grid-cols-2 gap-2">
           <Link href={`/supplier/${supplier.slug}`}>
-            <button className="w-full text-xs font-semibold border border-slate-300 hover:bg-slate-50 text-slate-800 px-2.5 py-2 rounded-lg transition">
-              View profile
+            <button className="w-full text-xs font-semibold border border-slate-300 hover:bg-slate-50 text-slate-800 px-2.5 min-h-11 py-2.5 rounded-lg transition">
+              {t("category.card.viewProfile")}
             </button>
           </Link>
           <Link href={`/rfq/new?supplier=${encodeURIComponent(supplier.companyName)}&product=${encodeURIComponent(supplier.products[0] || supplier.industry)}`}>
-            <button className="w-full text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-2 rounded-lg transition">
-              Request RFQ
+            <button className="w-full text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white px-2.5 min-h-11 py-2.5 rounded-lg transition">
+              {t("category.card.requestRfq")}
             </button>
           </Link>
           <button
             onClick={toggleSaved}
-            className={`w-full text-xs font-semibold px-2.5 py-2 rounded-lg border transition ${
+            className={`w-full text-xs font-semibold px-2.5 min-h-11 py-2.5 rounded-lg border transition ${
               saved ? "bg-amber-50 border-amber-200 text-amber-800" : "border-slate-300 hover:bg-slate-50 text-slate-700"
             }`}
           >
-            {saved ? "Saved" : "Save"}
+            {saved ? t("category.card.saved") : t("category.card.save")}
           </button>
           <button
             onClick={toggleCompare}
-            className={`w-full text-xs font-semibold px-2.5 py-2 rounded-lg border transition ${
+            className={`w-full text-xs font-semibold px-2.5 min-h-11 py-2.5 rounded-lg border transition ${
               inCompare ? "bg-blue-50 border-blue-200 text-blue-800" : "border-slate-300 hover:bg-slate-50 text-slate-700"
             }`}
           >
-            {inCompare ? "In compare" : "Compare"}
+            {inCompare ? t("category.card.inCompare") : t("category.card.compare")}
           </button>
         </div>
       </div>
@@ -214,24 +200,24 @@ function LockedOverlay({ total, category }: { total: number; category: string })
             <Lock className="w-5 h-5 text-white" />
           </div>
           <p className="text-white font-bold text-lg mb-1 leading-tight">
-            Full {slugToTitle(category).toLowerCase()} directory unlocked for founding users
+            {t("category.overlay.title", { name: slugToTitle(category).toLowerCase() })}
           </p>
           <p className="text-slate-300 text-sm mb-5 leading-relaxed">
-            Free during beta. We onboard buyers manually so every account gets sourcing support.
+            {t("category.overlay.body")}
           </p>
           <div className="flex flex-col gap-2.5">
             <Link href="/pricing">
               <button className="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm transition shadow-lg shadow-amber-500/20">
-                Request beta access <ArrowRight className="w-4 h-4" />
+                {t("category.overlay.betaAccess")} <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
             <Link href={`/rfq?product=${encodeURIComponent(slugToTitle(category))}`}>
               <button className="w-full inline-flex items-center justify-center bg-white/10 hover:bg-white/15 border border-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
-                Submit an RFQ instead
+                {t("category.overlay.rfqInstead")}
               </button>
             </Link>
           </div>
-          <p className="text-slate-500 text-xs mt-3">{t("category.noCreditCard")}</p>
+          <p className="text-slate-300 text-xs mt-3">{t("category.noCreditCard")}</p>
         </div>
       </div>
     </div>
@@ -263,11 +249,11 @@ export default function SupplierCategoryPage() {
 
   // Update document title on client-side navigation (server injects it on first load)
   useEffect(() => {
-    document.title = `${displayName} suppliers – registry-verified manufacturers | SmartSeek`;
+    document.title = t("category.meta.title", { name: displayName });
   }, [displayName, t]);
 
   useEffect(() => {
-    const description = `Discover ${displayName.toLowerCase()} suppliers with procurement-relevant sourcing context, RFQ workflows, and verification visibility on SmartSeek.`;
+    const description = t("category.meta.description", { name: displayName.toLowerCase() });
     let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
     if (!metaDesc) {
       metaDesc = document.createElement("meta");
@@ -275,7 +261,7 @@ export default function SupplierCategoryPage() {
       document.head.appendChild(metaDesc);
     }
     metaDesc.content = description;
-  }, [displayName]);
+  }, [displayName, t]);
 
   // Client-side JSON-LD breadcrumb for SPA navigation
   const SITE_URL = "https://smartseek.com";
@@ -332,7 +318,7 @@ export default function SupplierCategoryPage() {
   const total = data?.pagination?.total ?? data?.totalResults;
   // Public-facing display: never expose fabricated scale. If exact total isn't known,
   // describe the directory as curated rather than showing a placeholder count.
-  const totalDisplay = totalKnown ? (total ?? 0).toLocaleString() : "Curated";
+  const totalDisplay = totalKnown ? (total ?? 0).toLocaleString() : t("category.results.curated");
   const previewSuppliers = suppliers.slice(0, 3);
   const hasMore = totalKnown ? (total ?? 0) > 3 : previewSuppliers.length >= 3;
 
@@ -342,14 +328,14 @@ export default function SupplierCategoryPage() {
     "rare-earths", "steel", "aluminum", "machinery", "chemicals", "textiles",
   ].filter((c) => c !== category).slice(0, 8);
   const strategicQuickLinks = [
-    { slug: "antimony", label: "Antimony" },
-    { slug: "tungsten", label: "Tungsten" },
-    { slug: "tin", label: "Tin" },
-    { slug: "copper-cathode", label: "Copper" },
-    { slug: "lithium-batteries", label: "Lithium" },
-    { slug: "rare-earths", label: "Rare Earths" },
-    { slug: "steel", label: "Steel & Alloys" },
-    { slug: "machinery", label: "Industrial Machinery" },
+    { slug: "antimony" },
+    { slug: "tungsten" },
+    { slug: "tin" },
+    { slug: "copper-cathode" },
+    { slug: "lithium-batteries" },
+    { slug: "rare-earths" },
+    { slug: "steel" },
+    { slug: "machinery" },
   ];
 
   return (
@@ -358,7 +344,7 @@ export default function SupplierCategoryPage() {
       <section className="bg-gradient-to-b from-slate-950 to-slate-900 pt-20 pb-12 px-4 text-center">
         <div className="max-w-3xl mx-auto">
           {/* Breadcrumb */}
-          <nav className="flex justify-center items-center gap-1.5 text-xs text-slate-500 mb-6" aria-label={t("category.breadcrumb.nav")}>
+          <nav className="flex flex-wrap justify-center items-center gap-x-1.5 gap-y-1 text-xs text-slate-500 mb-6 px-1" aria-label={t("category.breadcrumb.nav")}>
             <Link href="/" className="hover:text-slate-300 transition-colors">{t("category.breadcrumb.home")}</Link>
             <ChevronRight className="w-3 h-3" />
             <Link href="/suppliers" className="hover:text-slate-300 transition-colors">{t("category.breadcrumb.suppliers")}</Link>
@@ -382,7 +368,7 @@ export default function SupplierCategoryPage() {
             </span>
           </h1>
 
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
+          <p className="text-slate-300 text-base sm:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
             {t("category.description", { name: displayName.toLowerCase() })}
           </p>
 
@@ -392,19 +378,21 @@ export default function SupplierCategoryPage() {
               e.preventDefault();
               navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
             }}
-            className="flex items-center bg-white rounded-xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.15)] max-w-xl mx-auto mb-5"
+            className="flex flex-col sm:flex-row items-stretch bg-white rounded-xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.15)] max-w-xl mx-auto mb-5"
           >
+            <div className="flex flex-1 items-center min-w-0">
             <Search className="ml-4 w-5 h-5 text-slate-400 shrink-0" />
             <input
               type="text"
               defaultValue={searchQuery}
               readOnly
-              className="flex-1 pl-3 pr-4 py-4 text-sm text-slate-900 bg-transparent focus:outline-none cursor-pointer"
+              className="flex-1 pl-3 pr-4 py-3.5 sm:py-4 text-sm text-slate-900 bg-transparent focus:outline-none cursor-pointer min-w-0"
               onClick={() => navigate(`/search?q=${encodeURIComponent(searchQuery)}`)}
             />
+            </div>
             <button
               type="submit"
-              className="shrink-0 m-1.5 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm rounded-lg transition"
+              className="shrink-0 m-0 sm:m-1.5 px-5 py-3 sm:py-2.5 min-h-11 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm rounded-none sm:rounded-lg transition"
             >
               {t("category.searchFree")}
             </button>
@@ -412,17 +400,17 @@ export default function SupplierCategoryPage() {
 
           <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-500">
             <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("category.noCreditCard")}</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Registry-verified suppliers</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Operator-led RFQ routing</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("category.trust.registryVerified")}</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> {t("category.trust.operatorRouting")}</span>
           </div>
 
           <div className="mt-6">
-            <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">Strategic materials quick browse</p>
+            <p className="text-xs text-slate-300 uppercase tracking-wider mb-2">{t("category.quickBrowse")}</p>
             <div className="flex flex-wrap justify-center gap-2">
               {strategicQuickLinks.map((item) => (
                 <Link key={item.slug} href={`/suppliers/${item.slug}`}>
-                  <span className="inline-flex text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 transition">
-                    {item.label}
+                  <span className="inline-flex text-xs px-2.5 py-1.5 min-h-9 items-center rounded-full border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 transition">
+                    {t(`suppliersIndex.categories.${item.slug}.name`)}
                   </span>
                 </Link>
               ))}
@@ -440,7 +428,7 @@ export default function SupplierCategoryPage() {
             </h2>
             {!showSkeleton && (totalKnown ? (total ?? 0) > 0 : previewSuppliers.length > 0) && (
               <span className="text-xs text-slate-400 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full">
-                {totalKnown ? t("category.totalResults", { count: total ?? 0 }) : `${totalDisplay} results`}
+                {totalKnown ? t("category.totalResults", { count: total ?? 0 }) : t("category.results.curated")}
               </span>
             )}
           </div>
@@ -467,10 +455,10 @@ export default function SupplierCategoryPage() {
           {isError && (
             <div className="text-center py-10">
               <Building2 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-400 text-sm">{t("category.cannotLoad")}</p>
+              <p className="text-slate-300 text-sm">{t("category.cannotLoad")}</p>
               <Link href={`/rfq?product=${encodeURIComponent(displayName)}`}>
                 <button className="mt-4 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2 rounded-xl text-sm transition">
-                  Submit an RFQ <ArrowRight className="w-4 h-4" />
+                  {t("category.submitRfq")} <ArrowRight className="w-4 h-4" />
                 </button>
               </Link>
             </div>
@@ -490,17 +478,17 @@ export default function SupplierCategoryPage() {
           {!showSkeleton && !isError && previewSuppliers.length === 0 && (
             <div className="text-center py-14 max-w-xl mx-auto">
               <Building2 className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-              <p className="text-slate-300 font-semibold mb-1">No public preview for {displayName.toLowerCase()} yet</p>
-              <p className="text-slate-500 text-sm mb-5">Our public directory is intentionally curated. Submit an RFQ — a SmartSeek operator will tap our internal index and verified network for the right suppliers.</p>
+              <p className="text-slate-300 font-semibold mb-1">{t("category.empty.title", { name: displayName.toLowerCase() })}</p>
+              <p className="text-slate-300 text-sm mb-5">{t("category.empty.body")}</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href={`/rfq?product=${encodeURIComponent(displayName)}`}>
                   <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition">
-                    Submit an RFQ <ArrowRight className="w-4 h-4" />
+                    {t("category.submitRfq")} <ArrowRight className="w-4 h-4" />
                   </button>
                 </Link>
                 <Link href="/become-a-supplier">
                   <button className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
-                    Become a supplier
+                    {t("category.becomeSupplier")}
                   </button>
                 </Link>
               </div>
@@ -535,16 +523,16 @@ export default function SupplierCategoryPage() {
           </div>
           <div className="mt-8 grid sm:grid-cols-3 gap-3 text-xs">
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="font-semibold text-slate-900 mb-1">Commonly sourced for</p>
-              <p className="text-slate-600">Manufacturing input sourcing, commodity procurement, and supplier qualification.</p>
+              <p className="font-semibold text-slate-900 mb-1">{t("category.procurement.sourcedTitle")}</p>
+              <p className="text-slate-600">{t("category.procurement.sourcedBody")}</p>
             </div>
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="font-semibold text-slate-900 mb-1">Recommended RFQ fields</p>
-              <p className="text-slate-600">MOQ, Incoterms, target quantity, destination country, and delivery timeline.</p>
+              <p className="font-semibold text-slate-900 mb-1">{t("category.procurement.rfqTitle")}</p>
+              <p className="text-slate-600">{t("category.procurement.rfqBody")}</p>
             </div>
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="font-semibold text-slate-900 mb-1">Contact visibility handling</p>
-              <p className="text-slate-600">Sensitive contact and commercial details are shared during RFQ qualification.</p>
+              <p className="font-semibold text-slate-900 mb-1">{t("category.procurement.contactTitle")}</p>
+              <p className="text-slate-600">{t("category.procurement.contactBody")}</p>
             </div>
           </div>
         </div>
@@ -575,7 +563,7 @@ export default function SupplierCategoryPage() {
             {t("category.cta.ready")}<br />
             {t("category.cta.supplier", { name: displayName.toLowerCase() })}
           </h2>
-          <p className="text-slate-400 text-sm mb-7">
+          <p className="text-slate-300 text-sm mb-7">
             {t("category.cta.desc")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -586,7 +574,7 @@ export default function SupplierCategoryPage() {
             </Link>
             <Link href="/pricing">
               <button className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-7 py-3.5 rounded-xl transition text-base">
-                Request beta access
+                {t("category.requestBeta")}
               </button>
             </Link>
           </div>

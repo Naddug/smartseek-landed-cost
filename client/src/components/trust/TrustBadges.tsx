@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { Shield, Lock, FileCheck, Zap } from "lucide-react";
+import { ShieldCheck, FileText, BadgeCheck, Lock } from "lucide-react";
 
 const BADGES = [
-  { icon: Shield, labelKey: "trustBadge.soc2", subKey: "trustBadge.soc2.sub" },
-  { icon: Lock, labelKey: "trustBadge.encryption", subKey: "trustBadge.encryption.sub" },
-  { icon: FileCheck, labelKey: "trustBadge.gdpr", subKey: "trustBadge.gdpr.sub" },
-  { icon: Zap, labelKey: "trustBadge.uptime", subKey: "trustBadge.uptime.sub" },
+  { icon: ShieldCheck, labelKey: "trustBadge.registry", subKey: "trustBadge.registry.sub" },
+  { icon: FileText, labelKey: "trustBadge.operator", subKey: "trustBadge.operator.sub" },
+  { icon: BadgeCheck, labelKey: "trustBadge.structured", subKey: "trustBadge.structured.sub" },
+  { icon: Lock, labelKey: "trustBadge.noBlast", subKey: "trustBadge.noBlast.sub" },
 ];
 
-/** Trust badges placed near CTAs - increases conversion 15-42% (Hashmeta research) */
+/** Sourcing-native trust signals — registry verification and operator routing, not fabricated compliance badges. */
 export function TrustBadges({ variant = "default" }: { variant?: "default" | "compact" }) {
   const { t } = useTranslation();
 

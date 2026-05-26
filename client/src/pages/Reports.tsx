@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link, useLocation } from "wouter";
 import { 
   FileText, Download, Loader2, CheckCircle, Clock, AlertCircle, ArrowRight, ArrowLeft, Sparkles, 
-  Building2, MapPin, Star, Shield, Calendar, TrendingUp, Users, DollarSign, Package, 
+  Building2, MapPin, Shield, Calendar, TrendingUp, Users, DollarSign, Package, 
   Truck, AlertTriangle, Target, Globe, Ship, Plane, FileCheck, Calculator, 
   BarChart3, PieChart as PieChartIcon, Percent, CreditCard, ExternalLink,
   Hash, Scale, Receipt, Landmark, Container, ClipboardCheck, UserSearch, Send, Copy, Trash2
@@ -162,18 +162,18 @@ export default function Reports() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full max-w-xl grid-cols-3">
-          <TabsTrigger value="sourcing" className="flex items-center gap-2">
-            <FileText className="w-4 h-4" />
-            {t("reports.tabSourcing")} ({dedupedReports.length})
+        <TabsList className="grid w-full max-w-xl grid-cols-3 h-auto min-h-11 text-xs sm:text-sm">
+          <TabsTrigger value="sourcing" className="flex items-center justify-center gap-1 sm:gap-2 py-2.5 px-1 sm:px-3">
+            <FileText className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t("reports.tabSourcing")} ({dedupedReports.length})</span>
           </TabsTrigger>
-          <TabsTrigger value="leads" className="flex items-center gap-2">
-            <UserSearch className="w-4 h-4" />
-            {t("reports.tabLeads")} ({leadHistory.length})
+          <TabsTrigger value="leads" className="flex items-center justify-center gap-1 sm:gap-2 py-2.5 px-1 sm:px-3">
+            <UserSearch className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t("reports.tabLeads")} ({leadHistory.length})</span>
           </TabsTrigger>
-          <TabsTrigger value="calculations" className="flex items-center gap-2">
-            <Calculator className="w-4 h-4" />
-            {t("reports.tabCalculations")} ({totalCalculations})
+          <TabsTrigger value="calculations" className="flex items-center justify-center gap-1 sm:gap-2 py-2.5 px-1 sm:px-3">
+            <Calculator className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t("reports.tabCalculations")} ({totalCalculations})</span>
           </TabsTrigger>
         </TabsList>
 
@@ -406,11 +406,11 @@ export default function Reports() {
       <AlertDialog open={!!deleteConfirmId} onOpenChange={() => setDeleteConfirmId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete report?</AlertDialogTitle>
-            <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+            <AlertDialogTitle>{t("reports.deleteTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("reports.deleteDesc")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("reports.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={async (e) => {
@@ -420,14 +420,14 @@ export default function Reports() {
                     await reportsAPI.delete(deleteConfirmId);
                     queryClient.invalidateQueries({ queryKey: ["reports"] });
                     setDeleteConfirmId(null);
-                    toast.success("Report deleted");
+                    toast.success(t("reports.deleted"));
                   } catch (err: any) {
-                    toast.error(err?.message || "Failed to delete");
+                    toast.error(err?.message || t("reports.deleteFailed"));
                   }
                 }
               }}
             >
-              Delete
+              {t("reports.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -443,6 +443,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
   onRetry: () => void;
   isRetrying: boolean;
 }) {
+  const { t } = useTranslation();
   const formData = report.formData || {};
   const reportData = report.reportData || {};
   const commodity = (formData.productName || formData.category || report.category || "").toString();
@@ -497,28 +498,28 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
             <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 mb-3 space-y-2 text-sm">
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <div>
-                  <div className="text-slate-500">Landed Cost/Unit</div>
+                  <div className="text-slate-500">{t("reports.landedCostPerUnit")}</div>
                   <div className="text-slate-800 font-semibold">{landedCostPerUnit || "—"}</div>
                 </div>
                 <div>
-                  <div className="text-slate-500">Est. Margin %</div>
+                  <div className="text-slate-500">{t("reports.estMargin")}</div>
                   <div className="text-slate-800 font-semibold">{estimatedMargin || "—"}</div>
                 </div>
                 <div>
-                  <div className="text-slate-500">Suppliers</div>
+                  <div className="text-slate-500">{t("reports.suppliersCount")}</div>
                   <div className="text-slate-800 font-semibold">{suppliersFound || "—"}</div>
                 </div>
               </div>
             </div>
             {topSupplier && (
-              <p className="text-xs text-emerald-600 mb-3">★ Top pick: {topSupplier}</p>
+              <p className="text-xs text-emerald-600 mb-3">{t("smartFinder.primaryMatch")}: {topSupplier}</p>
             )}
             <Button
               variant="outline"
               className="w-full bg-white text-slate-700 border-slate-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors"
               onClick={(e) => { e.stopPropagation(); onView(); }}
             >
-              View Full Report
+              {t("reports.viewFullReport")}
             </Button>
           </>
         )}
@@ -526,7 +527,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
         {isFailed && (
           <div className="space-y-3">
             <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-700 dark:text-red-300">
-              {errorMsg || "Report generation failed. Check your query and retry."}
+              {errorMsg || t("reports.generationFailed")}
             </div>
             <div className="flex gap-2">
               <Button
@@ -536,10 +537,10 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
                 onClick={(e) => { e.stopPropagation(); onRetry(); }}
                 disabled={isRetrying}
               >
-                {isRetrying ? <Loader2 className="w-4 h-4 animate-spin" /> : "↻ Retry"}
+                {isRetrying ? <Loader2 className="w-4 h-4 animate-spin" /> : t("reports.retryBtn")}
               </Button>
               <Button variant="outline" size="sm" className="text-muted-foreground" onClick={(e) => { e.stopPropagation(); onView(); }}>
-                View
+                {t("reports.view")}
               </Button>
             </div>
           </div>
@@ -549,7 +550,7 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
           <div className="py-4 text-center">
             <div className="inline-flex items-center gap-2 text-sm text-muted-foreground animate-pulse">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Generating…
+              {t("reports.generating")}
             </div>
           </div>
         )}
@@ -559,11 +560,12 @@ function ReportCard({ report, onView, onDelete, onRetry, isRetrying }: {
 }
 
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   if (status === "completed") {
     return (
       <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1.5" />
-        Complete
+        {t("reports.statusComplete")}
       </Badge>
     );
   }
@@ -571,7 +573,7 @@ function StatusBadge({ status }: { status: string }) {
     return (
       <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
         <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse mr-1.5" />
-        Processing
+        {t("reports.statusProcessing")}
       </Badge>
     );
   }
@@ -579,19 +581,20 @@ function StatusBadge({ status }: { status: string }) {
     return (
       <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">
         <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5" />
-        Pending
+        {t("reports.statusPending")}
       </Badge>
     );
   }
   return (
     <Badge className="bg-red-100 text-red-700 hover:bg-red-100">
       <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5" />
-      Failed
+      {t("reports.statusFailed")}
     </Badge>
   );
 }
 
 function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack: () => void }) {
+  const { t } = useTranslation();
   const [, setLocation] = useLocation();
   const { data: report, isLoading, refetch } = useReport(reportId);
   const [activeSection, setActiveSection] = useState('overview');
@@ -653,7 +656,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       pdf.setTextColor(255, 255, 255);
       pdf.setFontSize(20);
       pdf.setFont('helvetica', 'bold');
-      pdf.text('SmartSeek Sourcing Report', margin, 18);
+      pdf.text(t('reports.pdf.title'), margin, 18);
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
       pdf.text(report.title, margin, 28);
@@ -662,21 +665,21 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       y = 45;
       
       // Report Info
-      addText(`Generated: ${format(new Date(report.createdAt), 'MMMM d, yyyy')}`, 10);
-      addText(`Trade Route: ${formData?.originCountry || 'China'} → ${formData?.destinationCountry || 'United States'}`, 10);
+      addText(`${t('reports.pdf.generated')}: ${format(new Date(report.createdAt), 'MMMM d, yyyy')}`, 10);
+      addText(`${t('reports.pdf.tradeRoute')}: ${formData?.originCountry || 'China'} → ${formData?.destinationCountry || 'United States'}`, 10);
       if (reportData?.productClassification?.hsCode) {
         addText(`HS Code: ${reportData.productClassification.hsCode}`, 10);
       }
       
       // Executive Summary
       if (reportData?.executiveSummary) {
-        addSection('EXECUTIVE SUMMARY');
+        addSection(t('reports.pdf.executiveSummary'));
         addText(reportData.executiveSummary, 10);
       }
       
       // Product Classification
       if (reportData?.productClassification) {
-        addSection('PRODUCT CLASSIFICATION');
+        addSection(t('reports.pdf.productClassification'));
         addText(`HS Code: ${reportData.productClassification.hsCode || 'N/A'}`, 10);
         addText(`Description: ${reportData.productClassification.hsCodeDescription || 'N/A'}`, 10);
         addText(`Chapter: ${reportData.productClassification.tariffChapter || 'N/A'}`, 10);
@@ -685,7 +688,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Customs Analysis
       if (reportData?.customsAnalysis?.customsFees) {
-        addSection('CUSTOMS DUTIES & FEES');
+        addSection(t('reports.pdf.customsDuties'));
         const fees = reportData.customsAnalysis.customsFees;
         addText(`Import Duty Rate: ${fees.importDutyRate || 'N/A'}`, 10);
         addText(`Import Duty Amount: ${fees.importDutyAmount || 'N/A'}`, 10);
@@ -696,7 +699,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Landed Cost
       if (reportData?.landedCostBreakdown) {
-        addSection('LANDED COST BREAKDOWN');
+        addSection(t('reports.pdf.landedCost'));
         const lc = reportData.landedCostBreakdown;
         addText(`Product Cost: ${lc.productCost || 'N/A'}`, 10);
         addText(`Freight Cost: ${lc.freightCost || 'N/A'}`, 10);
@@ -709,7 +712,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Profit Analysis
       if (reportData?.profitAnalysis) {
-        addSection('PROFIT ANALYSIS');
+        addSection(t('reports.pdf.profitAnalysis'));
         const pa = reportData.profitAnalysis;
         addText(`Recommended Retail Price: ${pa.recommendedRetailPrice || 'N/A'}`, 10);
         addText(`Estimated Profit: ${pa.estimatedProfit || 'N/A'}`, 10);
@@ -719,12 +722,12 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Supplier Comparison (with contact info)
       if (reportData?.sellerComparison?.length > 0) {
-        addSection('SUPPLIER COMPARISON');
+        addSection(t('reports.pdf.supplierComparison'));
         reportData.sellerComparison.forEach((seller: any, index: number) => {
           addText(`${index + 1}. ${seller.sellerName || 'Supplier'}`, 11, true);
           addText(`   Platform: ${seller.platform || 'N/A'} | Location: ${seller.location || 'N/A'}`, 9);
           addText(`   Unit Price: ${seller.unitPrice || 'N/A'} | MOQ: ${seller.moq || 'N/A'}`, 9);
-          addText(`   Rating: ${typeof seller.rating === 'number' ? seller.rating.toFixed(1) : seller.rating || 'N/A'} | Lead Time: ${seller.leadTime || 'N/A'}`, 9);
+          addText(`   ${t('reports.pdf.verification')}: ${t('smartFinder.registryReviewed')} | ${t('reports.pdf.leadTime')}: ${seller.leadTime || 'N/A'}`, 9);
           if (seller.contactEmail || seller.contactPhone || seller.website) {
             addText(`   Contact: ${seller.contactEmail || '—'} | Phone: ${seller.contactPhone || '—'}`, 10);
             if (seller.website) addText(`   Website: ${seller.website}`, 10);
@@ -739,7 +742,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Risk Assessment
       if (reportData?.riskAssessment) {
-        addSection('RISK ASSESSMENT');
+        addSection(t('reports.pdf.riskAssessment'));
         addText(`Overall Risk Level: ${reportData.riskAssessment.overallRisk || 'N/A'}`, 10, true);
         if (reportData.riskAssessment.risks?.length > 0) {
           reportData.riskAssessment.risks.forEach((risk: any) => {
@@ -750,7 +753,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Recommendations
       if (reportData?.recommendations?.length > 0) {
-        addSection('RECOMMENDATIONS');
+        addSection(t('reports.pdf.recommendations'));
         reportData.recommendations.forEach((rec: string) => {
           addText(`• ${rec}`, 10);
         });
@@ -758,7 +761,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
       
       // Next Steps
       if (reportData?.nextSteps?.length > 0) {
-        addSection('NEXT STEPS');
+        addSection(t('reports.pdf.nextSteps'));
         reportData.nextSteps.forEach((step: string, index: number) => {
           addText(`${index + 1}. ${step}`, 10);
         });
@@ -770,8 +773,8 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
         pdf.setPage(i);
         pdf.setFontSize(8);
         pdf.setTextColor(128, 128, 128);
-        pdf.text('Generated by SmartSeek - AI-Powered Sourcing Intelligence', margin, 285);
-        pdf.text(`Page ${i} of ${pageCount}`, pageWidth - margin - 20, 285);
+        pdf.text(t('reports.pdf.footer'), margin, 285);
+        pdf.text(t('reports.pdf.page', { current: i, total: pageCount }), pageWidth - margin - 20, 285);
       }
       
       const fileName = `SmartSeek_Report_${report.title.replace(/[^a-zA-Z0-9]/g, '_')}_${format(new Date(), 'yyyy-MM-dd')}.pdf`;
@@ -816,7 +819,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
             <div className="absolute inset-0 border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
             <Sparkles className="absolute inset-0 m-auto text-primary w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-bold mb-2">AI is Analyzing Your Request</h2>
+          <h2 className="text-2xl font-bold mb-2">Analyzing your request</h2>
           <p className="text-muted-foreground mb-2">Calculating customs duties, HS codes, and landed costs...</p>
           <p className="text-sm text-muted-foreground mb-6">This usually takes 20-40 seconds</p>
           <Button onClick={() => refetch()}>
@@ -847,14 +850,14 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
   const sellerComparisonData = sellers.map((s: any) => {
     const price = parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0');
     const margin = parseFloat(s.profitMargin?.replace(/[^0-9.]/g, '') || '0');
-    const rating = typeof s.rating === 'number' ? s.rating : 4.0;
+    const moq = parseFloat(String(s.moq ?? '').replace(/[^0-9.]/g, '') || '0');
+    const leadDays = parseFloat(String(s.leadTime ?? '').replace(/[^0-9.]/g, '') || '0');
     return {
       name: (s.sellerName?.split(' ')[0] || 'Seller').slice(0, 12),
-      price: price > 0 ? price : rating * 500,
-      margin: margin > 0 ? margin : rating * 15,
-      rating,
-      displayPrice: price > 0 ? s.unitPrice : 'Contact',
-      displayMargin: margin > 0 ? s.profitMargin : '—',
+      price: price > 0 ? price : moq,
+      margin: margin > 0 ? margin : leadDays,
+      displayPrice: price > 0 ? s.unitPrice : s.moq || '—',
+      displayMargin: margin > 0 ? s.profitMargin : s.leadTime || '—',
     };
   });
   const hasRealPricing = sellers.some((s: any) => parseFloat(s.unitPrice?.replace(/[^0-9.]/g, '') || '0') > 0);
@@ -874,7 +877,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
             ) : (
               <Download className="w-4 h-4 mr-2" />
             )}
-            {isExporting ? 'Generating PDF...' : 'Export PDF'}
+            {isExporting ? t("reports.generatingPdf") : t("reports.exportPdf")}
           </Button>
         </div>
       </div>
@@ -1006,7 +1009,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
               <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Fees Table */}
-                  <div>
+                  <div className="overflow-x-auto -mx-1 px-1">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -1154,7 +1157,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                 {/* Comparison Chart */}
                 <div className="h-64 mb-8">
                   {!hasRealPricing && sellerComparisonData.length > 0 && (
-                    <p className="text-xs text-muted-foreground mb-2">Chart shows supplier ratings (contact suppliers for pricing)</p>
+                    <p className="text-xs text-muted-foreground mb-2">{t("reports.chartNoRatings")}</p>
                   )}
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={sellerComparisonData}>
@@ -1162,10 +1165,10 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                       <XAxis dataKey="name" tick={{ fontSize: 11 }} />
                       <YAxis yAxisId="left" tick={{ fontSize: 11 }} />
                       <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 11 }} />
-                      <Tooltip formatter={(value: number, name: string) => [hasRealPricing ? value : `${value > 100 ? (value / 500).toFixed(1) : (value / 15).toFixed(1)}★`, name]} />
+                      <Tooltip formatter={(value: number, name: string) => [value, name]} />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="price" name={hasRealPricing ? "Unit Price ($)" : "Rating Score"} fill="#3b82f6" radius={[4, 4, 0, 0]} />
-                      <Bar yAxisId="right" dataKey="margin" name={hasRealPricing ? "Profit Margin (%)" : "Rating"} fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar yAxisId="left" dataKey="price" name={hasRealPricing ? "Unit Price ($)" : "MOQ (units)"} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                      <Bar yAxisId="right" dataKey="margin" name={hasRealPricing ? "Profit Margin (%)" : "Lead time (days)"} fill="#10b981" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1176,8 +1179,8 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                     <div key={i} className={`p-6 rounded-xl border-2 ${i === 0 ? 'border-green-500 bg-green-50/50 dark:bg-green-950/20' : 'border-border'}`}>
                       {i === 0 && (
                         <Badge className="bg-green-500 mb-3">
-                          <Star className="w-3 h-3 mr-1 fill-current" />
-                          Recommended
+                          <Shield className="w-3 h-3 mr-1" />
+                          {t("smartFinder.primaryMatch")}
                         </Badge>
                       )}
                       <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
@@ -1211,11 +1214,10 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                               <div className="font-medium">{seller.leadTime}</div>
                             </div>
                             <div>
-                              <div className="text-xs text-muted-foreground">Rating</div>
-                              <div className="flex items-center gap-1">
-                                <Star className="w-4 h-4 text-amber-500 fill-current" />
-                                <span className="font-medium">{typeof seller.rating === 'number' ? seller.rating.toFixed(1) : (() => { const n = parseFloat(String(seller.rating)); return !isNaN(n) ? n.toFixed(1) : '—'; })()}</span>
-                                <span className="text-xs text-muted-foreground">({seller.yearsInBusiness}y)</span>
+                              <div className="text-xs text-muted-foreground">{t("reports.verificationTier")}</div>
+                              <div className="flex items-center gap-1 text-emerald-700">
+                                <Shield className="w-4 h-4" />
+                                <span className="font-medium">{t("smartFinder.registryReviewed")}</span>
                               </div>
                             </div>
                           </div>
@@ -1321,6 +1323,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                   </div>
                 </div>
 
+                <div className="overflow-x-auto -mx-1 px-1">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -1339,6 +1342,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                     ))}
                   </TableBody>
                 </Table>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -1425,7 +1429,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-primary" />
-                  AI Recommendations
+                  Operator recommendations
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -1451,7 +1455,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                   <Target className="w-5 h-5 text-primary" />
                   Next Steps
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">Create an AI pipeline from these steps</p>
+                <p className="text-sm text-muted-foreground mt-1">Create a sourcing workflow from these steps</p>
               </CardHeader>
               <CardContent>
                 <Button
@@ -1479,7 +1483,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                   }}
                 >
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Create pipeline with AI Agent
+                  {t("reports.createWorkflow")}
                 </Button>
                 <div className="space-y-3">
                   {reportData.nextSteps.map((step: string, i: number) => (
@@ -1487,8 +1491,8 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                       key={i}
                       role="button"
                       tabIndex={0}
-                      onClick={() => { navigator.clipboard.writeText(step); toast.success("Copied to clipboard"); }}
-                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigator.clipboard.writeText(step); toast.success("Copied to clipboard"); } }}
+                      onClick={() => { navigator.clipboard.writeText(step); toast.success(t("reports.copiedFull")); }}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigator.clipboard.writeText(step); toast.success(t("reports.copiedFull")); } }}
                       className="flex items-center gap-3 p-4 border rounded-xl hover:bg-muted/50 transition-colors cursor-pointer group"
                     >
                       <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-950 flex items-center justify-center shrink-0">
@@ -1499,7 +1503,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
                         variant="ghost"
                         size="sm"
                         className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
-                        onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(step); toast.success("Copied"); }}
+                        onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(step); toast.success(t("reports.copied")); }}
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -1514,7 +1518,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
         <Card>
           <CardContent className="py-8 text-center">
             <AlertCircle className="w-12 h-12 mx-auto mb-4 text-destructive" />
-            <p className="text-muted-foreground">Report data could not be generated. Please try again.</p>
+            <p className="text-muted-foreground">{t("reports.dataNotGenerated")}</p>
           </CardContent>
         </Card>
       )}
@@ -1527,7 +1531,7 @@ function ProfessionalReportView({ reportId, onBack }: { reportId: number; onBack
           ) : (
             <Download className="w-4 h-4 mr-2" />
           )}
-          {isExporting ? 'Generating PDF...' : 'Export PDF'}
+          {isExporting ? t("reports.generatingPdf") : t("reports.exportPdf")}
         </Button>
       </div>
 

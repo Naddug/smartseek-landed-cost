@@ -15,7 +15,24 @@ export function serveStatic(app: Express) {
   const indexHtmlPath = path.resolve(distPath, "index.html");
   let indexHtml = fs.readFileSync(indexHtmlPath, "utf-8");
 
-  app.use(express.static(distPath));
+  app.use(
+    "/locales",
+    express.static(path.join(distPath, "locales"), {
+      setHeaders(res) {
+        res.setHeader("Cache-Control", "public, max-age=0, must-revalidate");
+      },
+    }),
+  );
+
+  app.use(
+    express.static(distPath, {
+      setHeaders(res, filePath) {
+        if (filePath.endsWith("index.html")) {
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        }
+      },
+    }),
+  );
 
   // For every non-asset GET request, inject path-specific SEO meta and serve
   app.use("*", (req: Request, res: Response) => {

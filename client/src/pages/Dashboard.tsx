@@ -285,14 +285,14 @@ export default function Dashboard() {
       {isNewUser && (
         <div className="rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 border border-blue-100 p-7">
           <div className="flex items-center gap-2 mb-1">
-            <Sparkles className="w-4 h-4 text-blue-500" />
+            <Search className="w-4 h-4 text-blue-500" />
             <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider">{t('dashboard.getStarted')}</p>
           </div>
           <h2 className="text-lg font-bold text-slate-800 mb-1">{t('dashboard.welcomeToSmartSeek')}</h2>
           <p className="text-sm text-slate-500 mb-6">{t('dashboard.threeStepsToFind')}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { step: "1", icon: <Sparkles className="w-5 h-5 text-blue-500" />, title: t('dashboard.runAISearch'), desc: t('dashboard.runAISearchDesc'), href: "/smart-finder", cta: t('dashboard.startSearching') },
+              { step: "1", icon: <Search className="w-5 h-5 text-blue-500" />, title: t('dashboard.runAISearch'), desc: t('dashboard.runAISearchDesc'), href: "/smart-finder", cta: t('dashboard.startSearching') },
               { step: "2", icon: <FileText className="w-5 h-5 text-violet-500" />, title: t('dashboard.generateReportTitle'), desc: t('dashboard.generateReportDesc'), href: "/smart-finder", cta: t('dashboard.generateReportCta') },
               { step: "3", icon: <FileQuestion className="w-5 h-5 text-emerald-500" />, title: t('dashboard.submitRFQTitle'), desc: t('dashboard.submitRFQDesc2'), href: "/rfq", cta: t('dashboard.submitRFQCta') },
             ].map(({ step, icon, title, desc, href, cta }) => (
@@ -385,8 +385,7 @@ export default function Dashboard() {
           <p className="text-xs text-slate-400 mb-4">{t('dashboard.jumpToTool')}</p>
           <div className="space-y-0.5">
             {[
-              { href: "/app/smart-finder",        icon: <Sparkles className="w-4 h-4" />, label: t('dashboard.aiSourcing'),    desc: t('dashboard.findSuppliersWithAI'),  color: "blue"   },
-              { href: "/app/find-leads",           icon: <Target    className="w-4 h-4" />, label: t('dashboard.findLeads'),    desc: t('dashboard.qualifiedContacts'), color: "teal"   },
+              { href: "/app/smart-finder",        icon: <Search className="w-4 h-4" />, label: t('dashboard.aiSourcing'),    desc: t('dashboard.findSuppliersWithAI'),  color: "blue"   },
               { href: "/app/ai-agent",             icon: <Bot       className="w-4 h-4" />, label: t('dashboard.aiAgent'),      desc: t('dashboard.chatWithAI'),    color: "indigo" },
               { href: "/app/landed-cost",          icon: <Calculator className="w-4 h-4" />, label: t('dashboard.landedCost'),   desc: t('dashboard.trueImportCost'),   color: "amber"  },
               { href: "/app/risk-intelligence",    icon: <Shield    className="w-4 h-4" />, label: t('dashboard.riskCheck'),    desc: t('dashboard.supplierRiskAnalysis'),   color: "violet" },

@@ -11,34 +11,47 @@ export const site = {
   name: "ORTAQ",
   url: env.siteUrl.replace(/\/$/, ""),
   locale: "tr_TR",
-  defaultTitle: "ORTAQ — Gerçek şirketlere ortak olun",
+  defaultTitle: "ORTAQ — Gerçek şirket ortaklığı · yatırım fırsatları",
   defaultDescription:
-    "ORTAQ, paya dayalı ortaklık sürecini sade anlatır. Tavsiye vermez. Kazanç garantisi yoktur.",
+    "Türkiye'de üretim şirketlerine paya dayalı ortaklık. İhracat odaklı sanayi yatırımı ve şirket incelemesi. Yatırım tavsiyesi değildir; kazanç garantisi yoktur.",
 } as const;
 
 export type { RouteKey };
 
-export function buildMetadata(route: RouteKey): Metadata {
+type MetadataOverrides = {
+  description?: string;
+  title?: string;
+};
+
+/** Strip brand suffix so layout title.template does not duplicate "| ORTAQ". */
+function resolvePageTitle(title: string, key: string): Metadata["title"] {
+  if (key === "home") return { absolute: title };
+  return title.replace(/\s*\|\s*ORTAQ\s*$/i, "").trim();
+}
+
+export function buildMetadata(route: RouteKey, overrides?: MetadataOverrides): Metadata {
   const registryKey = ROUTE_KEY_MAP[route];
   const meta = getRouteByKey(registryKey);
   if (!meta) {
     return { title: site.defaultTitle, description: site.defaultDescription };
   }
 
+  const title = overrides?.title ?? meta.title;
+  const description = overrides?.description ?? meta.description;
   const url = `${site.url}${meta.path}`;
   const noIndex = env.isStaging || env.isDevelopment;
 
   return {
-    title: meta.title,
-    description: meta.description,
+    title: resolvePageTitle(title, meta.key),
+    description,
     metadataBase: new URL(site.url),
     alternates: {
       canonical: meta.path,
       languages: { "tr-TR": meta.path },
     },
     openGraph: {
-      title: meta.title,
-      description: meta.description,
+      title,
+      description,
       url,
       siteName: site.name,
       locale: site.locale,
@@ -46,8 +59,8 @@ export function buildMetadata(route: RouteKey): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: meta.title,
-      description: meta.description,
+      title,
+      description,
     },
     robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
   };

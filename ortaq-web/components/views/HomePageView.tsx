@@ -1,24 +1,33 @@
 "use client";
 
 import { PublicShell } from "@/components/layout/PublicShell";
-import { HeroSection } from "@/components/home/HeroSection";
-import { HomeNetworkEntry } from "@/components/home/HomeNetworkEntry";
-import { HomeAccessWhisper } from "@/components/home/HomeAccessWhisper";
-import { HomeCompanyAccess } from "@/components/home/HomeCompanyAccess";
-import { HomeDepthGate } from "@/components/home/HomeDepthGate";
-import { HomeEntryPath } from "@/components/home/HomeEntryPath";
-import { HomeAccessInvitation } from "@/components/home/HomeAccessInvitation";
+import { InvestHero } from "@/components/invest/InvestHero";
+import { FeaturedOpportunities } from "@/components/invest/FeaturedOpportunities";
+import { SectorShowcase } from "@/components/invest/SectorShowcase";
+import { HowItWorks } from "@/components/invest/HowItWorks";
+import { ActivityPreview } from "@/components/invest/ActivityPreview";
+import { TrustBand } from "@/components/invest/TrustBand";
+import { InvestFaq } from "@/components/invest/InvestFaq";
+import { InvestCta } from "@/components/invest/InvestCta";
+import { Container } from "@/components/ui/Section";
+import { RelatedLinks } from "@/components/seo/RelatedLinks";
 
 export function HomePageView() {
   return (
-    <PublicShell headerOverlay stickyCta>
-      <HeroSection />
-      <HomeNetworkEntry />
-      <HomeAccessWhisper />
-      <HomeCompanyAccess />
-      <HomeDepthGate />
-      <HomeEntryPath />
-      <HomeAccessInvitation />
+    <PublicShell stickyCta>
+      <InvestHero />
+      <FeaturedOpportunities />
+      <SectorShowcase />
+      <HowItWorks />
+      <ActivityPreview />
+      <TrustBand />
+      <InvestFaq />
+      <InvestCta />
+      <section className="border-t border-ortaq-border bg-ortaq-bg pb-2">
+        <Container wide className="py-6 sm:py-8">
+          <RelatedLinks route="home" compact />
+        </Container>
+      </section>
     </PublicShell>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -30,16 +31,17 @@ const COUNTRIES = [
 ];
 
 const INCOTERMS = [
-  { value: "FOB", label: "FOB - Free on Board" },
-  { value: "CIF", label: "CIF - Cost, Insurance & Freight" },
-  { value: "EXW", label: "EXW - Ex Works" },
-  { value: "DDP", label: "DDP - Delivered Duty Paid" },
-  { value: "DAP", label: "DAP - Delivered at Place" },
+  { value: "FOB", labelKey: "incoterm.FOB" },
+  { value: "CIF", labelKey: "incoterm.CIF" },
+  { value: "EXW", labelKey: "incoterm.EXW" },
+  { value: "DDP", labelKey: "incoterm.DDP" },
+  { value: "DAP", labelKey: "incoterm.DAP" },
 ];
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
 export default function CustomsCalculator() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     productName: "",
@@ -72,13 +74,13 @@ export default function CustomsCalculator() {
         result,
       });
       toast({
-        title: "Saved!",
-        description: "Calculation saved to your reports.",
+        title: t("customsCalculator.saved"),
+        description: t("customsCalculator.savedDesc"),
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save calculation. Please try again.",
+        title: t("customsCalculator.error", { defaultValue: "Error" }),
+        description: t("customsCalculator.saveFailed"),
         variant: "destructive",
       });
     } finally {
@@ -188,8 +190,8 @@ export default function CustomsCalculator() {
     doc.save(`customs-calculation-${Date.now()}.pdf`);
     
     toast({
-      title: "Downloaded!",
-      description: "PDF saved to your downloads folder.",
+      title: t("customsCalculator.downloaded"),
+      description: t("customsCalculator.downloadedDesc"),
     });
   };
 
@@ -258,20 +260,18 @@ export default function CustomsCalculator() {
   };
 
   const chartData = result ? [
-    { name: 'Product', value: result.productValue, color: '#3b82f6' },
-    { name: 'Freight', value: result.freightCost, color: '#10b981' },
-    { name: 'Import Duty', value: result.importDuty, color: '#f59e0b' },
-    { name: 'VAT/Tax', value: result.vat, color: '#ef4444' },
-    { name: 'Other Fees', value: result.mpf + result.hmf + result.brokerageFee, color: '#8b5cf6' },
+    { name: t("customsCalculator.chart.product"), value: result.productValue, color: '#3b82f6' },
+    { name: t("customsCalculator.chart.freight"), value: result.freightCost, color: '#10b981' },
+    { name: t("customsCalculator.chart.importDuty"), value: result.importDuty, color: '#f59e0b' },
+    { name: t("customsCalculator.chart.vatTax"), value: result.vat, color: '#ef4444' },
+    { name: t("customsCalculator.chart.otherFees"), value: result.mpf + result.hmf + result.brokerageFee, color: '#8b5cf6' },
   ].filter(d => d.value > 0) : [];
 
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
       <div>
-        <h1 className="text-3xl font-heading font-bold mb-2">Customs Fee Calculator</h1>
-        <p className="text-muted-foreground">
-          Calculate import duties, taxes, and total landed cost for any product
-        </p>
+        <h1 className="text-3xl font-heading font-bold mb-2">{t("customsCalculator.title")}</h1>
+        <p className="text-muted-foreground">{t("customsCalculator.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -280,41 +280,41 @@ export default function CustomsCalculator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
-              Product Details
+              {t("customsCalculator.productDetails")}
             </CardTitle>
             <CardDescription>
-              Enter your product information to calculate customs fees
+              {t("customsCalculator.productDetailsDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2 space-y-2">
-                <Label>Product Name</Label>
+                <Label>{t("customsCalculator.productName")}</Label>
                 <Input 
-                  placeholder="e.g., Wireless Bluetooth Headphones"
+                  placeholder={t("customsCalculator.placeholder.productName")}
                   value={formData.productName}
                   onChange={(e) => setFormData({...formData, productName: e.target.value})}
                   data-testid="input-product-name"
                 />
               </div>
               <div className="space-y-2">
-                <Label>HS Code (Optional)</Label>
+                <Label>{t("customsCalculator.hsCodeOptional")}</Label>
                 <Input 
-                  placeholder="e.g., 8518.30.20"
+                  placeholder={t("customsCalculator.placeholder.hsCode")}
                   value={formData.hsCode}
                   onChange={(e) => setFormData({...formData, hsCode: e.target.value})}
                   data-testid="input-hs-code"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Incoterm</Label>
+                <Label>{t("customsCalculator.incoterm")}</Label>
                 <Select value={formData.incoterm} onValueChange={(v) => setFormData({...formData, incoterm: v})}>
                   <SelectTrigger data-testid="select-incoterm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     {INCOTERMS.map((term) => (
-                      <SelectItem key={term.value} value={term.value}>{term.label}</SelectItem>
+                      <SelectItem key={term.value} value={term.value}>{t(term.labelKey)}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -325,7 +325,7 @@ export default function CustomsCalculator() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Origin Country</Label>
+                <Label>{t("customsCalculator.originCountry")}</Label>
                 <Select value={formData.originCountry} onValueChange={(v) => setFormData({...formData, originCountry: v})}>
                   <SelectTrigger data-testid="select-origin">
                     <SelectValue />
@@ -338,7 +338,7 @@ export default function CustomsCalculator() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Destination Country</Label>
+                <Label>{t("customsCalculator.destinationCountry")}</Label>
                 <Select value={formData.destinationCountry} onValueChange={(v) => setFormData({...formData, destinationCountry: v})}>
                   <SelectTrigger data-testid="select-destination">
                     <SelectValue />
@@ -356,7 +356,7 @@ export default function CustomsCalculator() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Product Value (USD)</Label>
+                <Label>{t("customsCalculator.productValue")}</Label>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
                   <Input 
@@ -370,7 +370,7 @@ export default function CustomsCalculator() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Quantity</Label>
+                <Label>{t("customsCalculator.quantity")}</Label>
                 <Input 
                   type="number"
                   placeholder="1"
@@ -380,26 +380,26 @@ export default function CustomsCalculator() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Freight Cost (USD)</Label>
+                <Label>{t("customsCalculator.freightCost")}</Label>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
                   <Input 
                     className="pl-8"
                     type="number"
-                    placeholder="Auto-estimate"
+                    placeholder={t("customsCalculator.placeholder.autoEstimate")}
                     value={formData.freightCost}
                     onChange={(e) => setFormData({...formData, freightCost: e.target.value})}
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Insurance Cost (USD)</Label>
+                <Label>{t("customsCalculator.insuranceCost")}</Label>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
                   <Input 
                     className="pl-8"
                     type="number"
-                    placeholder="Auto-estimate"
+                    placeholder={t("customsCalculator.placeholder.autoEstimate")}
                     value={formData.insuranceCost}
                     onChange={(e) => setFormData({...formData, insuranceCost: e.target.value})}
                   />
@@ -417,12 +417,12 @@ export default function CustomsCalculator() {
               {isCalculating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Calculating...
+                  {t("customsCalculator.calculating")}
                 </>
               ) : (
                 <>
                   <Calculator className="w-4 h-4 mr-2" />
-                  Calculate Duties & Fees
+                  {t("customsCalculator.calculate")}
                 </>
               )}
             </Button>
@@ -440,7 +440,7 @@ export default function CustomsCalculator() {
                     <div className="text-center">
                       <Globe className="w-8 h-8 mx-auto mb-1 text-primary" />
                       <div className="font-medium">{formData.originCountry}</div>
-                      <div className="text-xs text-muted-foreground">Origin</div>
+                      <div className="text-xs text-muted-foreground">{t("customsCalculator.origin")}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <ArrowRight className="w-5 h-5 text-muted-foreground" />
@@ -450,13 +450,13 @@ export default function CustomsCalculator() {
                     <div className="text-center">
                       <Globe className="w-8 h-8 mx-auto mb-1 text-green-500" />
                       <div className="font-medium">{formData.destinationCountry}</div>
-                      <div className="text-xs text-muted-foreground">Destination</div>
+                      <div className="text-xs text-muted-foreground">{t("customsCalculator.destination")}</div>
                     </div>
                   </div>
                   <div className="text-center">
                     <Badge variant="outline" className="text-sm">
                       <Hash className="w-3 h-3 mr-1" />
-                      HS Code: {result.hsCode}
+                      {t("customsCalculator.hsCodeBadge", { code: result.hsCode })}
                     </Badge>
                   </div>
                 </CardContent>
@@ -476,7 +476,7 @@ export default function CustomsCalculator() {
                   ) : (
                     <Save className="w-4 h-4 mr-2" />
                   )}
-                  Save to Reports
+                  {t("customsCalculator.saveToReports")}
                 </Button>
                 <Button 
                   variant="outline" 
@@ -485,7 +485,7 @@ export default function CustomsCalculator() {
                   data-testid="button-download"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Download PDF
+                  {t("customsCalculator.downloadPdf")}
                 </Button>
               </div>
 
@@ -494,7 +494,7 @@ export default function CustomsCalculator() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <DollarSign className="w-5 h-5 text-green-500" />
-                    Total Landed Cost
+                    {t("customsCalculator.totalLandedCost")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -502,7 +502,7 @@ export default function CustomsCalculator() {
                     ${result.landedCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </div>
                   <div className="text-center text-muted-foreground mb-6">
-                    ${result.costPerUnit.toFixed(2)} per unit ({formData.quantity} units)
+                    {t("customsCalculator.perUnit", { cost: result.costPerUnit.toFixed(2), quantity: formData.quantity })}
                   </div>
                   
                   {/* Cost Breakdown Chart */}
@@ -535,60 +535,60 @@ export default function CustomsCalculator() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Receipt className="w-5 h-5 text-primary" />
-                    Fee Breakdown
+                    {t("customsCalculator.feeBreakdown")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium">Product Value (FOB)</TableCell>
+                        <TableCell className="font-medium">{t("customsCalculator.productValueFob")}</TableCell>
                         <TableCell className="text-right">${result.productValue.toLocaleString()}</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium">Freight Cost</TableCell>
+                        <TableCell className="font-medium">{t("customsCalculator.freightCostLabel")}</TableCell>
                         <TableCell className="text-right">${result.freightCost.toLocaleString()}</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium">Insurance</TableCell>
+                        <TableCell className="font-medium">{t("customsCalculator.insurance")}</TableCell>
                         <TableCell className="text-right">${result.insuranceCost.toLocaleString()}</TableCell>
                       </TableRow>
                       <TableRow className="bg-muted/50">
-                        <TableCell className="font-bold">CIF Value</TableCell>
+                        <TableCell className="font-bold">{t("customsCalculator.cifValue")}</TableCell>
                         <TableCell className="text-right font-bold">${result.cifValue.toLocaleString()}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell className="font-medium">
-                          Import Duty ({result.dutyRate}%)
+                          {t("customsCalculator.importDuty", { rate: result.dutyRate })}
                         </TableCell>
                         <TableCell className="text-right text-amber-600">${result.importDuty.toLocaleString()}</TableCell>
                       </TableRow>
                       {result.vat > 0 && (
                         <TableRow>
                           <TableCell className="font-medium">
-                            VAT/GST ({result.vatRate}%)
+                            {t("customsCalculator.vatGst", { rate: result.vatRate })}
                           </TableCell>
                           <TableCell className="text-right text-red-600">${result.vat.toLocaleString()}</TableCell>
                         </TableRow>
                       )}
                       {result.mpf > 0 && (
                         <TableRow>
-                          <TableCell className="font-medium">Merchandise Processing Fee</TableCell>
+                          <TableCell className="font-medium">{t("customsCalculator.mpf")}</TableCell>
                           <TableCell className="text-right">${result.mpf.toFixed(2)}</TableCell>
                         </TableRow>
                       )}
                       {result.hmf > 0 && (
                         <TableRow>
-                          <TableCell className="font-medium">Harbor Maintenance Fee</TableCell>
+                          <TableCell className="font-medium">{t("customsCalculator.hmf")}</TableCell>
                           <TableCell className="text-right">${result.hmf.toFixed(2)}</TableCell>
                         </TableRow>
                       )}
                       <TableRow>
-                        <TableCell className="font-medium">Customs Brokerage</TableCell>
+                        <TableCell className="font-medium">{t("customsCalculator.brokerage")}</TableCell>
                         <TableCell className="text-right">${result.brokerageFee}</TableCell>
                       </TableRow>
                       <TableRow className="bg-primary/10 font-bold text-lg">
-                        <TableCell>Total Landed Cost</TableCell>
+                        <TableCell>{t("customsCalculator.totalLandedCost")}</TableCell>
                         <TableCell className="text-right text-primary">${result.landedCost.toLocaleString()}</TableCell>
                       </TableRow>
                     </TableBody>
@@ -602,12 +602,9 @@ export default function CustomsCalculator() {
                   <div className="flex gap-3">
                     <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-muted-foreground">
-                      <p className="font-medium text-foreground mb-1">Disclaimer</p>
+                      <p className="font-medium text-foreground mb-1">{t("customsCalculator.disclaimer")}</p>
                       <p>
-                        These calculations are estimates based on standard tariff rates. 
-                        Actual duties may vary based on specific HS code classification, 
-                        trade agreements, and current regulations. Consult a licensed 
-                        customs broker for official guidance.
+                        {t("customsCalculator.disclaimerText")}
                       </p>
                     </div>
                   </div>
@@ -618,9 +615,9 @@ export default function CustomsCalculator() {
             <Card className="h-full flex items-center justify-center min-h-[400px]">
               <CardContent className="text-center">
                 <Calculator className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
-                <h3 className="text-lg font-medium mb-2">Enter Product Details</h3>
+                <h3 className="text-lg font-medium mb-2">{t("customsCalculator.emptyTitle")}</h3>
                 <p className="text-muted-foreground">
-                  Fill in the form to calculate customs duties and landed costs
+                  {t("customsCalculator.emptyDesc")}
                 </p>
               </CardContent>
             </Card>

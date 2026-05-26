@@ -1,0 +1,101 @@
+import { buildCatalogCampaign } from "../build-campaign";
+
+export const atlasLojistik = buildCatalogCampaign({
+  slug: "atlas-lojistik-istanbul",
+  legalName: "Atlas Lojistik ve Depolama A.Ş.",
+  tradeName: "Atlas Lojistik",
+  sector: "Soğuk zincir lojistik ve ihracat sevkiyatı",
+  city: "İstanbul",
+  region: "Tuzla OSB, Pendik",
+  founded: 2011,
+  employees: 84,
+  exportMarkets: ["Almanya", "Hollanda", "Romanya", "Bulgaristan"],
+  facilityArea: "12.400 m² kapalı depo",
+  monthlyCapacity: "Aylık ~2.800 palet sevkiyat (soğuk + kuru hat)",
+  targetTry: 14_500_000,
+  exportShare: "Gelirin ~%55'i",
+  domesticShare: "~%45",
+  reviewStatus: "field_verification",
+  processDone: 3,
+  fundingPurpose:
+    "Tuzla deposunda ikinci soğuk zincir bloğu ve otomatik yükleme rampası. Hedef: Avrupa ihracat konteynerlerinde bekleme süresini 36 saatten 18 saate indirmek.",
+  fundingLines: [
+    { label: "Soğuk zincir deposu (1.800 m² · -18°C)", amountTry: 6_800_000, percent: 47 },
+    { label: "Otomatik yükleme rampası ve WMS entegrasyonu", amountTry: 2_900_000, percent: 20 },
+    { label: "Forklift filosu (5 adet · soğuk zincir uyumlu)", amountTry: 1_600_000, percent: 11 },
+    { label: "Gümrük ön hazırlık alanı genişlemesi", amountTry: 1_400_000, percent: 10 },
+    { label: "İşletme sermayesi tamponu", amountTry: 1_800_000, percent: 12 },
+  ],
+  founderName: "Selim Atlas",
+  founderNote:
+    "15 yıldır ihracat lojistiği yapıyoruz. Soğuk depo doluluğu %92'ye çıktı — yeni blok olmadan yeni müşteri alamıyoruz. ORTAQ inceleme sürecindeyiz.",
+  storyOrigin:
+    "2011'de Tuzla'da 2.400 m² kuru depo ile başladı. İlk müşteriler Marmara tekstil ihracatçılarıydı; 2016'da soğuk zincir lisansı alındı.",
+  storyToday:
+    "Bugün 12.400 m²'de kuru ve soğuk hatlar yan yana. Avrupa sevkiyatları sabah 06:00'da konteyner yükleme ile başlıyor; Romanya ve Bulgaristan hatları öğleden sonra.",
+  productionDetail:
+    "Mal kabul → WMS kayıt → soğuk/kuru ayrımı → raf veya palet istifleme → picking → konteyner yükleme → gümrük evrakı. Soğuk hat -18°C, nem kontrollü.",
+  processes: ["Mal kabul", "WMS kayıt", "Soğuk/kuru ayrım", "Picking", "Konteyner yükleme", "Gümrük evrak"],
+  materials: ["Soğuk zincir palet", "Kuru yük konteyner", "Gümrük mühür ve evrak"],
+  machines: [
+    { id: "cold-1", name: "Bitzer soğuk hava ünitesi ×4", role: "Soğuk depo", year: 2016, note: "Kapasite %92 dolu · yedek kompresör 2024'te değişti." },
+    { id: "fork-1", name: "Linde soğuk zincir forklift ×3", role: "İç transfer", year: 2019, note: "Üçüncü araç kiralık — filo yatırım planında." },
+    { id: "ramp", name: "Otomatik yükleme rampası (yarı)", role: "Sevkiyat", year: 2014, note: "Manuel son metre · otomasyon yatırımın %20'si." },
+  ],
+  risks: [
+    { title: "Navlun ve yakıt maliyeti", text: "Uluslararası navlun 2024'te %22 arttı. Sözleşmelerde 60 günlük fiyat revizyonu var — kısa pencere." },
+    { title: "Soğuk zincir arıza riski", text: "Tek soğuk ünite arızasında 4 saat içinde transfer protokolü var; yeni blok bu riski azaltır." },
+  ],
+  gateway: {
+    hook: "Tuzla OSB'de soğuk zincir ihracat lojistiği — Avrupa sevkiyatının yarısından fazlası bu depodan çıkıyor.",
+    scale: "84 çalışan · 12.400 m² · 4 ülke sevkiyat ağı",
+    tension: "Soğuk depo %92 dolu — yeni müşteri kabulü sevkiyat penceresini daraltıyor.",
+  },
+  bottleneck: {
+    label: "Soğuk depo doluluk",
+    note: "Son 90 günde ortalama %89–92. Yeni blok devreye girmeden ihracat sözleşmesi genişletilemiyor.",
+  },
+  journal: [
+    { date: "2026-05-21", time: "11:20", text: "Yükleme rampasında Almanya konteyneri izlendi — 42 palet, 2 saat 18 dk. WMS çıktısı fiziksel sayımla uyumlu.", type: "logistics" },
+    { date: "2026-05-21", time: "09:05", text: "Soğuk depo sıcaklık kayıtları incelendi: -17,8°C ortalama, 2 saatlik -15,2°C sapma 14 Mayıs'ta kayıtlı.", type: "inspection" },
+    { date: "2026-05-14", time: "09:45", text: "Doluluk envanteri: soğuk hat %92, kuru hat %71. Yönetim yeni blok için zemin hazırlığını gösterdi.", type: "capacity" },
+    { date: "2026-05-08", time: "15:10", text: "İhracat sevkiyat defteri 2024–2025 örneklendi — haftalık 18–24 konteyner, Romanya hattı Çarşamba sabahı.", type: "logistics" },
+    { date: "2026-05-02", time: "10:30", text: "Gümrük ön hazırlık alanında evrak süresi ölçüldü: ortalama 47 dk/konteyner. Dar alan gecikme yaratıyor.", type: "observation" },
+  ],
+  updates: [
+    { date: "2026-05-21", time: "11:35", text: "Saha ziyareti tutanağı taslağı depo müdürüne iletildi." },
+    { date: "2026-05-15", time: "10:00", text: "Soğuk depo doluluk raporu dosyaya eklendi." },
+    { date: "2026-05-10", time: "14:20", text: "WMS çıktı örnekleri ve sevkiyat defteri doğrulandı." },
+    { date: "2026-05-03", time: "09:15", text: "Ticaret sicili ve depo kira sözleşmeleri arşive alındı." },
+  ],
+  timeline: [
+    { year: 2011, event: "Tuzla'da kuru depo — tekstil ihracatçıları" },
+    { year: 2016, event: "Soğuk zincir lisansı · ilk -18°C blok" },
+    { year: 2019, event: "Hollanda distribütörü ile çerçeve anlaşma" },
+    { year: 2024, event: "Doluluk %90 üstü · ikinci soğuk blok kararı" },
+    { year: 2026, event: "ORTAQ değerlendirme başvurusu" },
+  ],
+  facilityNotes: [
+    { zone: "Soğuk depo A", note: "-18°C · 4.200 m² · doluluk %92" },
+    { zone: "Kuru depo B", note: "Konteyner hazırlık · 5.800 m²" },
+    { zone: "Yükleme rampası", note: "2 rampa · otomasyon yarım" },
+  ],
+  exportEvolution: [
+    { year: 2014, market: "Almanya", note: "İlk düzenli konteyner hattı — gıda yan sanayi" },
+    { year: 2017, market: "Hollanda", note: "Soğuk zincir distribütör ağı" },
+    { year: 2021, market: "Romanya · Bulgaristan", note: "Haftalık sabit sevkiyat programı" },
+  ],
+  inspectionLayers: [
+    { layer: "Belge paketi", status: "partial", note: "Kira ve WMS sözleşmeleri tamam" },
+    { layer: "Saha doğrulama", status: "partial", note: "Depo ve rampa ziyareti yapıldı" },
+    { layer: "Lojistik metrikleri", status: "partial", note: "Doluluk ve sevkiyat defteri doğrulandı" },
+    { layer: "Finansal inceleme", status: "pending", note: "Saha sonrası" },
+  ],
+  operationalSignals: [
+    { label: "Aylık sevkiyat", value: "~2.800 palet" },
+    { label: "Soğuk doluluk", value: "%92" },
+    { label: "Konteyner/hafta", value: "18–24" },
+    { label: "İhracat payı", value: "Gelirin ~%55'i" },
+    { label: "Son saha ziyareti", value: "21 Mayıs 2026" },
+  ],
+});

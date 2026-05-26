@@ -65,6 +65,8 @@ import {
   Clock,
 } from "lucide-react";
 import { toast } from "sonner";
+import i18n from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 
 interface AgentSettings {
   agentName: string;
@@ -118,7 +120,7 @@ const INDUSTRIES = [
 ];
 
 const defaultSettings: AgentSettings = {
-  agentName: "Sales Agent",
+  agentName: "Sourcing workspace",
   emailSignature: "Best regards,\nYour Name\nYour Company",
   phoneScriptTone: "professional",
   emailTemplate: "formal",
@@ -126,36 +128,37 @@ const defaultSettings: AgentSettings = {
 };
 
 const CAPABILITIES = [
-  { icon: BarChart3, label: "Market Intelligence", desc: "Trend analysis & price monitoring", tooltip: "Get commodity price trends, market alerts, and trade flow insights.", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
-  { icon: Target, label: "Supplier Discovery", desc: "Find & qualify suppliers globally", tooltip: "Search verified suppliers by product, region, and certification. Get AI-ranked shortlists.", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
-  { icon: Shield, label: "Risk Analysis", desc: "Geopolitical & supply chain risks", tooltip: "Assess geopolitical, financial, and ESG risks for suppliers and regions.", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
-  { icon: Zap, label: "Cost Optimization", desc: "Landed cost & shipping routes", tooltip: "Calculate landed costs, compare shipping routes, and optimize total cost of ownership.", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
-  { icon: FileText, label: "Trade Compliance", desc: "HS codes, customs & regulations", tooltip: "Look up HS codes, check tariffs, and verify regulatory requirements for target markets.", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100" },
+  { icon: BarChart3, labelKey: "agentPage.cap.marketAnalysis.label", descKey: "agentPage.cap.marketAnalysis.desc", tooltipKey: "agentPage.cap.marketAnalysis.tooltip", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
+  { icon: Target, labelKey: "agentPage.cap.supplierDiscovery.label", descKey: "agentPage.cap.supplierDiscovery.desc", tooltipKey: "agentPage.cap.supplierDiscovery.tooltip", color: "text-indigo-600", bg: "bg-indigo-50", border: "border-indigo-100" },
+  { icon: Shield, labelKey: "agentPage.cap.riskAnalysis.label", descKey: "agentPage.cap.riskAnalysis.desc", tooltipKey: "agentPage.cap.riskAnalysis.tooltip", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
+  { icon: Zap, labelKey: "agentPage.cap.costOptimization.label", descKey: "agentPage.cap.costOptimization.desc", tooltipKey: "agentPage.cap.costOptimization.tooltip", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
+  { icon: FileText, labelKey: "agentPage.cap.tradeCompliance.label", descKey: "agentPage.cap.tradeCompliance.desc", tooltipKey: "agentPage.cap.tradeCompliance.tooltip", color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100" },
 ];
 
 const PROACTIVE_INSIGHTS = [
-  { type: "alert" as const, icon: TrendingUp, title: "Market Alert", message: "Copper prices up 3.2% this week — consider locking in contracts with current suppliers.", color: "text-blue-700", bg: "bg-blue-50", border: "border-blue-200", badgeColor: "bg-blue-100 text-blue-700" },
-  { type: "opportunity" as const, icon: Globe, title: "Opportunity", message: "New ASEAN–Turkey trade agreement reduces tariffs on textiles and electronics by 12%.", color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200", badgeColor: "bg-emerald-100 text-emerald-700" },
-  { type: "risk" as const, icon: AlertTriangle, title: "Risk Alert", message: "Supply chain disruption detected in Southeast Asia — semiconductor lead times extended 3 weeks.", color: "text-amber-700", bg: "bg-amber-50", border: "border-amber-200", badgeColor: "bg-amber-100 text-amber-700" },
+  { type: "alert" as const, icon: TrendingUp, titleKey: "agentPage.proactive.marketAlert", messageKey: "agentPage.proactive.copperMessage", color: "text-blue-700", bg: "bg-blue-50", border: "border-blue-200", badgeColor: "bg-blue-100 text-blue-700" },
+  { type: "opportunity" as const, icon: Globe, titleKey: "agentPage.proactive.opportunity", messageKey: "agentPage.proactive.aseanMessage", color: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200", badgeColor: "bg-emerald-100 text-emerald-700" },
+  { type: "risk" as const, icon: AlertTriangle, titleKey: "agentPage.proactive.riskAlert", messageKey: "agentPage.proactive.semiconductorMessage", color: "text-amber-700", bg: "bg-amber-50", border: "border-amber-200", badgeColor: "bg-amber-100 text-amber-700" },
 ];
 
 const SUGGESTION_CHIPS = [
-  { label: "Analyze copper market trends", icon: TrendingUp },
-  { label: "Find suppliers in Vietnam", icon: Target },
-  { label: "Compare shipping costs to Turkey", icon: Package },
-  { label: "Generate risk assessment for China imports", icon: Shield },
-  { label: "Research trade compliance for EU", icon: FileText },
-  { label: "Optimize landed costs for electronics", icon: Zap },
+  { labelKey: "agentPage.suggest.copperTrends", icon: TrendingUp },
+  { labelKey: "agentPage.suggest.vietnamSuppliers", icon: Target },
+  { labelKey: "agentPage.suggest.shippingTurkey", icon: Package },
+  { labelKey: "agentPage.suggest.riskChina", icon: Shield },
+  { labelKey: "agentPage.suggest.complianceEu", icon: FileText },
+  { labelKey: "agentPage.suggest.landedElectronics", icon: Zap },
 ];
 
 const PIPELINE_STEPS = [
-  { key: "Prospector", label: "Prospecting", icon: Search, desc: "Finding qualified leads" },
-  { key: "Enricher", label: "Enriching", icon: Brain, desc: "Gathering company intelligence" },
-  { key: "Qualifier", label: "Qualifying", icon: Target, desc: "Scoring & ranking leads" },
-  { key: "Outreach", label: "Outreach", icon: Send, desc: "Preparing personalized content" },
+  { key: "Prospector", labelKey: "agentPage.pipeline.prospecting", icon: Search, descKey: "agentPage.pipeline.prospectingDesc" },
+  { key: "Enricher", labelKey: "agentPage.pipeline.enriching", icon: Brain, descKey: "agentPage.pipeline.enrichingDesc" },
+  { key: "Qualifier", labelKey: "agentPage.pipeline.qualifying", icon: Target, descKey: "agentPage.pipeline.qualifyingDesc" },
+  { key: "Outreach", labelKey: "agentPage.pipeline.outreach", icon: Send, descKey: "agentPage.pipeline.outreachDesc" },
 ];
 
 export default function AIAgent() {
+  const { t } = useTranslation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [settings, setSettings] = useState<AgentSettings>(() => {
     const saved = localStorage.getItem("aiAgentSettings");
@@ -201,7 +204,7 @@ export default function AIAgent() {
             parts.push("\nInclude actionable steps such as: draft outreach emails to these suppliers, prepare call scripts for top 3, or schedule follow-ups.");
           }
           setChatInput(parts.join(""));
-          toast.success("Report context loaded. Hit send to create a pipeline with AI Agent.");
+          toast.success(i18n.t("agentPage.reportContextLoaded"));
         }
       } catch {
         sessionStorage.removeItem("aiAgentPipelineContext");
@@ -222,12 +225,12 @@ export default function AIAgent() {
 
   const handleSaveSettings = () => {
     localStorage.setItem("aiAgentSettings", JSON.stringify(settings));
-    toast.success("Settings saved successfully");
+    toast.success(i18n.t("agentPage.settingsSaved"));
   };
 
   const handleSearchLeads = async () => {
     if (!searchQuery.trim()) {
-      toast.error("Please enter search criteria");
+      toast.error(i18n.t("agentPage.enterSearchCriteria"));
       return;
     }
 
@@ -272,10 +275,10 @@ export default function AIAgent() {
         addChatMessage("agent", content || "Search completed but no structured leads were returned.");
       }
 
-      toast.success("Leads found successfully");
+      toast.success(i18n.t("agentPage.leadsFound"));
     } catch (error: any) {
       const msg = error?.message || "Failed to search leads";
-      toast.error(msg.includes("401") ? "Please log in again" : msg);
+      toast.error(msg.includes("401") ? i18n.t("agentPage.loginAgain") : msg);
       addChatMessage("agent", "Sorry, I encountered an error while searching. Please try again.");
     } finally {
       setIsLoading(false);
@@ -315,9 +318,9 @@ export default function AIAgent() {
       };
       setOutputs((prev) => [newOutput, ...prev]);
       addChatMessage("agent", data.response?.content || "No script generated", "call", newOutput);
-      toast.success("Call script prepared");
+      toast.success(i18n.t("agentPage.callScriptPrepared"));
     } catch (error: any) {
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to prepare call script");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.callScriptFailed"));
       addChatMessage("agent", "Sorry, I couldn't generate the call script. Please try again.");
     } finally {
       setIsLoading(false);
@@ -357,9 +360,9 @@ export default function AIAgent() {
       };
       setOutputs((prev) => [newOutput, ...prev]);
       addChatMessage("agent", data.response?.content || "No email generated", "email", newOutput);
-      toast.success("Email draft prepared");
+      toast.success(i18n.t("agentPage.emailDraftPrepared"));
     } catch (error: any) {
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to prepare email");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.emailFailed"));
       addChatMessage("agent", "Sorry, I couldn't generate the email draft. Please try again.");
     } finally {
       setIsLoading(false);
@@ -370,7 +373,7 @@ export default function AIAgent() {
 
   const handleResearchCompany = async () => {
     if (!companyToResearch.trim()) {
-      toast.error("Please enter a company name");
+      toast.error(i18n.t("agentPage.enterCompanyName"));
       return;
     }
 
@@ -396,9 +399,9 @@ export default function AIAgent() {
       const result = data.response?.content || "No research data available";
       setResearchResult(result);
       addChatMessage("agent", result, "research");
-      toast.success("Company research complete");
+      toast.success(i18n.t("agentPage.researchComplete"));
     } catch (error: any) {
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Failed to research company");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.researchFailed"));
       addChatMessage("agent", "Sorry, I couldn't complete the company research. Please try again.");
     } finally {
       setIsLoading(false);
@@ -409,7 +412,7 @@ export default function AIAgent() {
 
   const handleRunPipeline = async () => {
     if (!searchQuery.trim()) {
-      toast.error("Enter search criteria first.");
+      toast.error(i18n.t("agentPage.enterCriteriaFirst"));
       document.getElementById("chat-input")?.focus();
       return;
     }
@@ -476,11 +479,11 @@ export default function AIAgent() {
         setOutputs((prev) => [...newOutputs, ...prev]);
       }
       addChatMessage("agent", `Pipeline complete! Found ${pipelineLeads.length} leads${data.topLead ? ` — top lead: ${data.topLead.name} at ${data.topLead.company}` : ""}. ${newOutputs.length > 0 ? "Call script and email draft are ready." : ""}`, "leads", pipelineLeads);
-      toast.success(data.summary || "Pipeline complete.");
+      toast.success(data.summary || i18n.t("agentPage.leadsFound"));
     } catch (error: any) {
       setPipelineStep(null);
       setCompletedPipelineSteps([]);
-      toast.error(error?.message?.includes("401") ? "Please log in again" : "Pipeline failed. Try again.");
+      toast.error(error?.message?.includes("401") ? i18n.t("agentPage.loginAgain") : i18n.t("agentPage.pipelineFailed"));
       addChatMessage("agent", "The pipeline encountered an error. Please try again.");
     } finally {
       setIsLoading(false);
@@ -491,14 +494,14 @@ export default function AIAgent() {
 
   const handleCopyToClipboard = async (content: string) => {
     await navigator.clipboard.writeText(content);
-    toast.success("Copied to clipboard");
+    toast.success(i18n.t("agentPage.copied"));
   };
 
   const updateOutputStatus = (id: string, status: "draft" | "ready" | "sent") => {
     setOutputs((prev) =>
       prev.map((o) => (o.id === id ? { ...o, status } : o))
     );
-    toast.success(`Status updated to ${status}`);
+    toast.success(i18n.t("agentPage.statusUpdated", { status }));
   };
 
   const toggleIndustry = (industry: string) => {
@@ -527,7 +530,8 @@ export default function AIAgent() {
     setTimeout(() => handleSearchLeads(), 0);
   };
 
-  const handleSuggestionClick = (label: string) => {
+  const handleSuggestionClick = (labelKey: string) => {
+    const label = t(labelKey);
     setChatInput(label);
     setSearchQuery(label);
     setTimeout(() => {
@@ -549,7 +553,7 @@ export default function AIAgent() {
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-semibold text-gray-800 flex items-center gap-2 uppercase tracking-wide">
                 <Settings className="w-4 h-4 text-gray-500" />
-                Configuration
+                {t("agentPage.configuration")}
               </h2>
               <Button variant="ghost" size="icon" className="h-7 w-7 text-gray-400 hover:text-gray-600" onClick={() => setSidebarOpen(false)}>
                 <X className="w-4 h-4" />
@@ -558,7 +562,7 @@ export default function AIAgent() {
 
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Agent Name</Label>
+                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("agentPage.agentName")}</Label>
                 <Input
                   value={settings.agentName}
                   onChange={(e) => setSettings({ ...settings, agentName: e.target.value })}
@@ -568,7 +572,7 @@ export default function AIAgent() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Email Signature</Label>
+                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("agentPage.emailSignature")}</Label>
                 <Textarea
                   value={settings.emailSignature}
                   onChange={(e) => setSettings({ ...settings, emailSignature: e.target.value })}
@@ -578,7 +582,7 @@ export default function AIAgent() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone Script Tone</Label>
+                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("agentPage.phoneScriptTone")}</Label>
                 <Select
                   value={settings.phoneScriptTone}
                   onValueChange={(v) => setSettings({ ...settings, phoneScriptTone: v as any })}
@@ -587,15 +591,15 @@ export default function AIAgent() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="professional">Professional</SelectItem>
-                    <SelectItem value="friendly">Friendly</SelectItem>
-                    <SelectItem value="direct">Direct</SelectItem>
+                    <SelectItem value="professional">{t("agentPage.tone.professional")}</SelectItem>
+                    <SelectItem value="friendly">{t("agentPage.tone.friendly")}</SelectItem>
+                    <SelectItem value="direct">{t("agentPage.tone.direct")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Email Template</Label>
+                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("agentPage.emailTemplate")}</Label>
                 <Select
                   value={settings.emailTemplate}
                   onValueChange={(v) => setSettings({ ...settings, emailTemplate: v as any })}
@@ -604,15 +608,15 @@ export default function AIAgent() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="formal">Formal</SelectItem>
-                    <SelectItem value="casual">Casual</SelectItem>
-                    <SelectItem value="sales">Sales</SelectItem>
+                    <SelectItem value="formal">{t("agentPage.template.formal")}</SelectItem>
+                    <SelectItem value="casual">{t("agentPage.template.casual")}</SelectItem>
+                    <SelectItem value="sales">{t("agentPage.template.sales")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Target Industries</Label>
+                <Label className="text-xs font-medium text-gray-500 uppercase tracking-wide">{t("agentPage.targetIndustries")}</Label>
                 <div className="flex flex-wrap gap-1.5 mt-1">
                   {INDUSTRIES.map((industry) => (
                     <Badge
@@ -637,7 +641,7 @@ export default function AIAgent() {
                 className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm h-9"
                 data-testid="button-save-settings"
               >
-                Save Settings
+                {i18n.t("agentPage.saveSettings")}
               </Button>
             </div>
           </div>
@@ -674,10 +678,10 @@ export default function AIAgent() {
                 <Activity className="w-3 h-3" />
                 {isLoading ? (
                   <span className="text-amber-600 font-medium">
-                    {activeTask === "pipeline" ? `Running pipeline — ${pipelineStep || "Processing"}...` : "Processing..."}
+                    {activeTask === "pipeline" ? i18n.t("agentPage.statusPipeline", { step: pipelineStep || i18n.t("agentPage.statusProcessing") }) : i18n.t("agentPage.statusProcessing")}
                   </span>
                 ) : (
-                  <span className="text-emerald-600">Ready — Trade & Sourcing Intelligence</span>
+                  <span className="text-emerald-600">{i18n.t("agentPage.statusReady")}</span>
                 )}
               </p>
             </div>
@@ -690,7 +694,7 @@ export default function AIAgent() {
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               <Settings className="w-3.5 h-3.5 mr-1.5" />
-              Settings
+              {i18n.t("agentPage.settings")}
             </Button>
           </div>
         </div>
@@ -702,7 +706,7 @@ export default function AIAgent() {
             <div className="w-full px-6 pt-4 pb-2 shrink-0">
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                 <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Live Intelligence
+                {i18n.t("agentPage.liveAnalysis")}
               </p>
               <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-thin">
                 {PROACTIVE_INSIGHTS.map((insight, idx) => (
@@ -715,9 +719,9 @@ export default function AIAgent() {
                     <insight.icon className={`w-4 h-4 ${insight.color} mt-0.5 shrink-0`} />
                     <div className="min-w-0">
                       <Badge className={`${insight.badgeColor} text-[10px] px-1.5 py-0 font-medium border-0 mb-1`}>
-                        {insight.title}
+                        {t(insight.titleKey)}
                       </Badge>
-                      <p className="text-xs text-gray-700 leading-relaxed">{insight.message}</p>
+                      <p className="text-xs text-gray-700 leading-relaxed">{t(insight.messageKey)}</p>
                     </div>
                   </div>
                 ))}
@@ -732,25 +736,25 @@ export default function AIAgent() {
                   <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-5 shadow-lg shadow-blue-200/40">
                     <Brain className="w-8 h-8 text-white" />
                   </div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-1">Smart Sourcing Agent</h2>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-1">{t("agentPage.welcomeTitle")}</h2>
                   <p className="text-sm text-gray-500 mb-8 text-center max-w-md">
-                    Your AI-powered trade intelligence assistant. Search leads, analyze markets, assess risks, and optimize your supply chain.
+                    {t("agentPage.welcomeDesc")}
                   </p>
 
                   {/* Capabilities */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3 w-full mb-6">
                     <TooltipProvider>
                       {CAPABILITIES.map((cap) => (
-                        <Tooltip key={cap.label}>
+                        <Tooltip key={cap.labelKey}>
                           <TooltipTrigger asChild>
                             <div className={`flex flex-col items-center text-center p-2.5 sm:p-3 rounded-xl ${cap.bg} border ${cap.border} transition-all hover:shadow-sm min-w-0 cursor-help`}>
                               <cap.icon className={`w-5 h-5 ${cap.color} mb-1.5 sm:mb-2 shrink-0`} />
-                              <span className="text-[11px] sm:text-xs font-medium text-gray-800 leading-tight">{cap.label}</span>
-                              <span className="text-[9px] sm:text-[10px] text-gray-500 mt-0.5 leading-tight hidden sm:block">{cap.desc}</span>
+                              <span className="text-[11px] sm:text-xs font-medium text-gray-800 leading-tight">{t(cap.labelKey)}</span>
+                              <span className="text-[9px] sm:text-[10px] text-gray-500 mt-0.5 leading-tight hidden sm:block">{t(cap.descKey)}</span>
                             </div>
                           </TooltipTrigger>
                           <TooltipContent side="bottom" className="max-w-[220px]">
-                            <p>{cap.tooltip}</p>
+                            <p>{t(cap.tooltipKey)}</p>
                           </TooltipContent>
                         </Tooltip>
                       ))}
@@ -761,17 +765,17 @@ export default function AIAgent() {
                   <div className="w-full">
                     <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                       <Lightbulb className="w-3.5 h-3.5" />
-                      Try asking
+                      {t("agentPage.tryAsking")}
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {SUGGESTION_CHIPS.map((chip) => (
                         <button
-                          key={chip.label}
-                          onClick={() => handleSuggestionClick(chip.label)}
+                          key={chip.labelKey}
+                          onClick={() => handleSuggestionClick(chip.labelKey)}
                           className="flex items-center gap-2.5 px-3 sm:px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/50 hover:text-indigo-700 transition-all text-left group min-w-0"
                         >
                           <chip.icon className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors shrink-0" />
-                          <span className="truncate">{chip.label}</span>
+                          <span className="truncate">{t(chip.labelKey)}</span>
                           <ArrowRight className="w-3.5 h-3.5 ml-auto text-gray-300 group-hover:text-indigo-400 transition-colors shrink-0" />
                         </button>
                       ))}
@@ -843,7 +847,7 @@ export default function AIAgent() {
                               <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-100">
                                 {msg.type === "call" ? <Phone className="w-4 h-4 text-blue-500" /> : <Mail className="w-4 h-4 text-indigo-500" />}
                                 <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-                                  {msg.type === "call" ? "Call Script" : "Email Draft"}
+                                  {msg.type === "call" ? t("agentPage.callScript") : t("agentPage.emailDraft")}
                                 </span>
                                 <Button
                                   size="sm"
@@ -877,7 +881,7 @@ export default function AIAgent() {
                           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
                             <Bot className="w-3.5 h-3.5 text-white" />
                           </div>
-                          <span className="text-xs font-medium text-gray-500">Pipeline Progress</span>
+                          <span className="text-xs font-medium text-gray-500">{t("agentPage.pipelineProgress")}</span>
                         </div>
                         <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-md p-4 shadow-sm">
                           <div className="space-y-3">
@@ -902,12 +906,12 @@ export default function AIAgent() {
                                     <p className={`text-sm font-medium transition-colors ${
                                       isCompleted ? "text-emerald-700" : isCurrent ? "text-blue-700" : "text-gray-400"
                                     }`}>
-                                      {step.label}
+                                      {t(step.labelKey)}
                                     </p>
                                     <p className={`text-xs ${
                                       isCompleted ? "text-emerald-500" : isCurrent ? "text-blue-500" : "text-gray-400"
                                     }`}>
-                                      {isCompleted ? "Complete" : isCurrent ? step.desc : "Waiting"}
+                                      {isCompleted ? t("agentPage.pipelineComplete") : isCurrent ? t(step.descKey) : t("agentPage.pipelineWaiting")}
                                     </p>
                                   </div>
                                   {idx < PIPELINE_STEPS.length - 1 && (
@@ -945,12 +949,12 @@ export default function AIAgent() {
               <div className="px-6 pb-2 flex gap-2 overflow-x-auto shrink-0">
                 {SUGGESTION_CHIPS.slice(0, 4).map((chip) => (
                   <button
-                    key={chip.label}
-                    onClick={() => handleSuggestionClick(chip.label)}
+                    key={chip.labelKey}
+                    onClick={() => handleSuggestionClick(chip.labelKey)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs text-gray-600 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50/50 transition-all whitespace-nowrap shrink-0"
                   >
                     <chip.icon className="w-3 h-3" />
-                    {chip.label}
+                    {t(chip.labelKey)}
                   </button>
                 ))}
               </div>
@@ -967,7 +971,7 @@ export default function AIAgent() {
                       setChatInput(e.target.value);
                       setSearchQuery(e.target.value);
                     }}
-                    placeholder="Search leads, research companies, analyze markets..."
+                    placeholder={t("agentPage.searchPlaceholder")}
                     className="bg-gray-50 border-gray-200 text-gray-800 placeholder:text-gray-400 pr-24 h-11 rounded-xl text-sm"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
@@ -985,11 +989,11 @@ export default function AIAgent() {
                       onClick={handleRunPipeline}
                       disabled={isLoading || !chatInput.trim()}
                       className="h-8 px-2.5 text-xs text-gray-500 hover:text-indigo-600 hover:bg-indigo-50"
-                      title="Run full pipeline"
+                      title={t("agentPage.runPipelineTitle")}
                       data-testid="button-run-pipeline"
                     >
                       <Sparkles className="w-3.5 h-3.5 mr-1" />
-                      Pipeline
+                      {t("agentPage.pipeline")}
                     </Button>
                   </div>
                 </div>
@@ -1016,7 +1020,7 @@ export default function AIAgent() {
               <div>
                 <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                   <Activity className="w-3.5 h-3.5" />
-                  Market Intelligence
+                  {t("agentPage.marketAnalysis")}
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -1025,12 +1029,12 @@ export default function AIAgent() {
                     data-testid="card-action-search"
                   >
                     <Search className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
-                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-blue-700">Find Leads</span>
+                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-blue-700">{i18n.t("nav.app.findLeads")}</span>
                   </button>
                   <button
                     onClick={() => {
                       if (leads.length === 0) {
-                        toast.error("Search for leads first.");
+                        toast.error(i18n.t("agentPage.searchLeadsFirst"));
                         document.getElementById("chat-input")?.focus();
                       } else {
                         handlePrepareCall(leads[0]);
@@ -1040,12 +1044,12 @@ export default function AIAgent() {
                     data-testid="card-action-call"
                   >
                     <Phone className="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
-                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-blue-700">Call Script</span>
+                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-blue-700">{t("agentPage.callScript")}</span>
                   </button>
                   <button
                     onClick={() => {
                       if (leads.length === 0) {
-                        toast.error("Search for leads first.");
+                        toast.error(i18n.t("agentPage.searchLeadsFirst"));
                         document.getElementById("chat-input")?.focus();
                       } else {
                         handlePrepareEmail(leads[0]);
@@ -1055,7 +1059,7 @@ export default function AIAgent() {
                     data-testid="card-action-email"
                   >
                     <Mail className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors" />
-                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-indigo-700">Email Draft</span>
+                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-indigo-700">{t("agentPage.emailDraft")}</span>
                   </button>
                   <button
                     onClick={() => { setChatInput("Research "); document.getElementById("chat-input")?.focus(); }}
@@ -1063,7 +1067,7 @@ export default function AIAgent() {
                     data-testid="card-action-research"
                   >
                     <Building2 className="w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-colors" />
-                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-indigo-700">Research</span>
+                    <span className="text-[11px] font-medium text-gray-600 group-hover:text-indigo-700">{t("agentPage.research")}</span>
                   </button>
                 </div>
               </div>
@@ -1073,7 +1077,7 @@ export default function AIAgent() {
                 <div>
                   <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5" />
-                    Leads
+                    {t("agentPage.leads")}
                     <Badge className="bg-indigo-100 text-indigo-700 text-[10px] ml-auto border-0">{leads.length}</Badge>
                   </h3>
                   <div className="space-y-1.5">
@@ -1102,7 +1106,7 @@ export default function AIAgent() {
                 <div>
                   <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-1.5">
                     <CheckCircle className="w-3.5 h-3.5" />
-                    Generated Content
+                    {t("agentPage.generatedContent")}
                     <Badge className="bg-emerald-100 text-emerald-700 text-[10px] ml-auto border-0">{outputs.length}</Badge>
                   </h3>
                   <div className="space-y-2">
@@ -1112,7 +1116,7 @@ export default function AIAgent() {
                           <div className="flex items-center gap-1.5">
                             {output.type === "call" ? <Phone className="w-3 h-3 text-blue-500" /> : <Mail className="w-3 h-3 text-indigo-500" />}
                             <span className="text-[11px] font-medium text-gray-700">
-                              {output.type === "call" ? "Call" : "Email"} — {output.leadName}
+                              {output.type === "call" ? t("agentPage.outputCall") : t("agentPage.outputEmail")} — {output.leadName}
                             </span>
                           </div>
                           <div className="flex items-center gap-1">
@@ -1121,9 +1125,9 @@ export default function AIAgent() {
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="draft">Draft</SelectItem>
-                                <SelectItem value="ready">Ready</SelectItem>
-                                <SelectItem value="sent">Sent</SelectItem>
+                                <SelectItem value="draft">{t("agentPage.status.draft")}</SelectItem>
+                                <SelectItem value="ready">{t("agentPage.status.ready")}</SelectItem>
+                                <SelectItem value="sent">{t("agentPage.status.sent")}</SelectItem>
                               </SelectContent>
                             </Select>
                             <Badge
@@ -1137,7 +1141,7 @@ export default function AIAgent() {
                               }`}
                               data-testid={`badge-status-${output.id}`}
                             >
-                              {output.status}
+                            {t(`agentPage.status.${output.status}`)}
                             </Badge>
                           </div>
                         </div>
@@ -1151,7 +1155,7 @@ export default function AIAgent() {
                             data-testid={`button-copy-${output.id}`}
                           >
                             <Copy className="w-2.5 h-2.5 mr-1" />
-                            Copy
+                            {t("agentPage.copy")}
                           </Button>
                         </div>
                       </div>

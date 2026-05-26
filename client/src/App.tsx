@@ -105,9 +105,9 @@ const PAGE_TITLES: Record<string, string> = {
   "/": "SmartSeek – Strategic Sourcing Intelligence",
   "/search": "Search Suppliers | SmartSeek",
   "/app/dashboard": "Dashboard | SmartSeek",
-  "/app/smart-finder": "SmartSeek AI | SmartSeek",
-  "/app/ai-agent": "AI Agent | SmartSeek",
-  "/app/find-leads": "Find Leads | SmartSeek",
+  "/app/smart-finder": "Sourcing Research | SmartSeek",
+  "/app/ai-agent": "Sourcing Workflow | SmartSeek",
+  "/app/find-leads": "Lead Outreach | SmartSeek",
   "/app/reports": "My Reports | SmartSeek",
   "/app/billing": "Billing | SmartSeek",
   "/app/trade-data": "Trade Data | SmartSeek",
@@ -141,6 +141,7 @@ function Router() {
   useEffect(() => {
     const base = location.split("?")[0];
     document.title = PAGE_TITLES[base] || "SmartSeek – Sourcing & Lead Intelligence";
+    window.scrollTo(0, 0);
   }, [location]);
 
   return (

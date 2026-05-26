@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,69 +13,70 @@ import {
   Percent, Scale, Hash, Shield
 } from "lucide-react";
 
-const tools = [
-  {
-    title: "Trade Data Dashboard",
-    description: "Explore global trade data, market trends, and pricing intelligence",
-    icon: BarChart3,
-    href: "/trade-data",
-    color: "text-cyan-500",
-    bgColor: "bg-cyan-500/10",
-    features: ["Import/Export trends", "Price index", "Supplier rankings", "Market insights"],
-    badge: "New",
-  },
-  {
-    title: "Landed Cost Calculator",
-    description: "Full landed cost: freight, insurance, customs, inland transport",
-    icon: Calculator,
-    href: "/landed-cost",
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-    features: ["Sea/Air/Express", "Customs & VAT", "Insurance", "Cost breakdown"],
-    badge: "New",
-  },
-  {
-    title: "Customs Fee Calculator",
-    description: "Calculate import duties, VAT, and total landed cost for any product",
-    icon: Landmark,
-    href: "/customs-calculator",
-    color: "text-amber-500",
-    bgColor: "bg-amber-500/10",
-    features: ["HS Code lookup", "Duty rates", "VAT/GST", "Landed cost"],
-    badge: "Popular",
-  },
-  {
-    title: "Shipping Cost Estimator",
-    description: "Compare sea freight, air freight, and express courier rates",
-    icon: Ship,
-    href: "/shipping-estimator",
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
-    features: ["Sea freight", "Air freight", "Express courier", "Transit times"],
-  },
-  {
-    title: "SmartSeek AI",
-    description: "Get AI-powered sourcing reports with supplier recommendations",
-    icon: Search,
-    href: "/smart-finder",
-    color: "text-purple-500",
-    bgColor: "bg-purple-500/10",
-    features: ["AI analysis", "Supplier matching", "Cost breakdown", "Risk assessment"],
-    badge: "AI",
-  },
-];
-
 export default function Tools() {
+  const { t } = useTranslation();
+
+  const tools = [
+    {
+      title: t("toolsPage.tradeData.title"),
+      description: t("toolsPage.tradeData.desc"),
+      icon: BarChart3,
+      href: "/trade-data",
+      color: "text-cyan-500",
+      bgColor: "bg-cyan-500/10",
+      features: [t("toolsPage.tradeData.f1"), t("toolsPage.tradeData.f2"), t("toolsPage.tradeData.f3"), t("toolsPage.tradeData.f4")],
+      badge: t("toolsPage.badge.new"),
+    },
+    {
+      title: t("toolsPage.landedCost.title"),
+      description: t("toolsPage.landedCost.desc"),
+      icon: Calculator,
+      href: "/landed-cost",
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
+      features: [t("toolsPage.landedCost.f1"), t("toolsPage.landedCost.f2"), t("toolsPage.landedCost.f3"), t("toolsPage.landedCost.f4")],
+      badge: t("toolsPage.badge.new"),
+    },
+    {
+      title: t("toolsPage.customs.title"),
+      description: t("toolsPage.customs.desc"),
+      icon: Landmark,
+      href: "/customs-calculator",
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
+      features: [t("toolsPage.customs.f1"), t("toolsPage.customs.f2"), t("toolsPage.customs.f3"), t("toolsPage.customs.f4")],
+      badge: t("toolsPage.badge.popular"),
+    },
+    {
+      title: t("toolsPage.shipping.title"),
+      description: t("toolsPage.shipping.desc"),
+      icon: Ship,
+      href: "/shipping-estimator",
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+      features: [t("toolsPage.shipping.f1"), t("toolsPage.shipping.f2"), t("toolsPage.shipping.f3"), t("toolsPage.shipping.f4")],
+    },
+    {
+      title: t("toolsPage.sourcing.title"),
+      description: t("toolsPage.sourcing.desc"),
+      icon: Search,
+      href: "/smart-finder",
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
+      features: [t("toolsPage.sourcing.f1"), t("toolsPage.sourcing.f2"), t("toolsPage.sourcing.f3"), t("toolsPage.sourcing.f4")],
+      badge: t("toolsPage.badge.new"),
+    },
+  ];
+
   return (
     <div className="space-y-6 sm:space-y-8 min-w-0">
       <div>
-        <h1 className="text-3xl font-heading font-bold mb-2">Trade Tools & Calculators</h1>
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold mb-2">{t("toolsPage.title")}</h1>
         <p className="text-slate-600">
-          Professional tools to help you make smarter sourcing and trading decisions
+          {t("toolsPage.subtitle")}
         </p>
       </div>
 
-      {/* Featured Tools */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {tools.map((tool) => (
           <Link key={tool.href + tool.title} href={tool.href}>
@@ -85,7 +87,7 @@ export default function Tools() {
                     <tool.icon className={`w-6 h-6 ${tool.color}`} />
                   </div>
                   {tool.badge && (
-                    <Badge className={tool.badge === 'AI' ? 'bg-purple-500' : tool.badge === 'New' ? 'bg-green-500' : 'bg-amber-500'}>
+                    <Badge className="bg-green-500">
                       {tool.badge}
                     </Badge>
                   )}
@@ -106,7 +108,7 @@ export default function Tools() {
                   ))}
                 </div>
                 <Button className="w-full" variant="outline">
-                  Open Tool
+                  {t("toolsPage.openTool")}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
@@ -131,25 +133,24 @@ export default function Tools() {
         </TabsContent>
       </Tabs>
 
-      {/* Quick Stats */}
       <Card className="bg-gradient-to-br from-primary/5 via-primary/10 to-transparent">
         <CardContent className="pt-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
             <div>
-              <div className="text-3xl font-bold text-primary">200+</div>
-              <div className="text-sm text-slate-600">Countries Covered</div>
+              <div className="text-3xl font-bold text-primary">{t("toolsPage.stats.countriesValue")}</div>
+              <div className="text-sm text-slate-600">{t("toolsPage.stats.countries")}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary">10,000+</div>
-              <div className="text-sm text-slate-600">HS Codes</div>
+              <div className="text-3xl font-bold text-primary">{t("toolsPage.stats.hsCodesValue")}</div>
+              <div className="text-sm text-slate-600">{t("toolsPage.stats.hsCodes")}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary">50+</div>
-              <div className="text-sm text-slate-600">Shipping Routes</div>
+              <div className="text-3xl font-bold text-primary">{t("toolsPage.stats.routesValue")}</div>
+              <div className="text-sm text-slate-600">{t("toolsPage.stats.routes")}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary">Real-time</div>
-              <div className="text-sm text-slate-600">Rate Updates</div>
+              <div className="text-3xl font-bold text-primary">{t("toolsPage.stats.ratesValue")}</div>
+              <div className="text-sm text-slate-600">{t("toolsPage.stats.rates")}</div>
             </div>
           </div>
         </CardContent>

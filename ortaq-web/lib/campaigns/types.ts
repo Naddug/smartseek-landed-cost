@@ -135,6 +135,24 @@ export type SimulatedCampaign = {
   inspectionLayers: InspectionLayer[];
   exportEvolution: ExportEvolution[];
   operationalUpdates: OperationalUpdate[];
+  /** Domestic vs export mix and customer segments */
+  marketMix: {
+    domesticShare: string;
+    exportShare: string;
+    segments: { label: string; share: string; note: string }[];
+  };
+  /** Supply, workforce, and timing friction beyond bottlenecks */
+  operationalFriction: {
+    label: string;
+    category: "supply" | "capacity" | "workforce" | "export" | "equipment";
+    note: string;
+  }[];
+  /** Homepage gateway presentation — sector energy, not generic card template */
+  gateway?: {
+    hook: string;
+    scale: string;
+    tension: string;
+  };
   seoTitle: string;
   seoDescription: string;
 };

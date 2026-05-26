@@ -1,12 +1,26 @@
 import { EvaluationPageView } from "@/components/views/EvaluationPageView";
-import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildMetadata } from "@/lib/metadata";
+import { breadcrumbSchema, webPageSchema } from "@/lib/seo/schema";
+import { getRouteByKey } from "@/lib/seo/routes";
 
-export const metadata: Metadata = {
-  title: "Şirketler nasıl değerlendirilir? | ORTAQ",
-  description:
-    "ORTAQ şirket seçim süreci: operasyonel inceleme, saha ziyareti, finansal ve hukuk değerlendirmesi, komite onayı.",
-};
+export const metadata = buildMetadata("degerlendirme");
 
 export default function EvaluationPage() {
-  return <EvaluationPageView />;
+  const route = getRouteByKey("degerlendirme")!;
+
+  return (
+    <>
+      <JsonLd
+        data={[
+          webPageSchema(route.title, route.description, route.path),
+          breadcrumbSchema([
+            { name: "Ana sayfa", path: "/" },
+            { name: "Değerlendirme", path: "/degerlendirme" },
+          ]),
+        ]}
+      />
+      <EvaluationPageView />
+    </>
+  );
 }

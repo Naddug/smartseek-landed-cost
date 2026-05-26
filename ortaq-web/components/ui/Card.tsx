@@ -2,12 +2,18 @@ import { cn } from "@/lib/cn";
 import { typography } from "@/design/typography";
 import type { HTMLAttributes, ReactNode } from "react";
 
-type CardTone = "default" | "flat";
+/**
+ * Card primitives.
+ *
+ * Both Card and ProseBlock render the canonical `.product-card` chrome
+ * (defined once in globals.css) — same radius, same border, same shadow.
+ * Density differs at the padding/content level, not the shell.
+ *
+ * `tone="flat"` is intended only for low-emphasis cards nested inside another
+ * card; it drops the shadow but keeps every other contract.
+ */
 
-const toneClasses: Record<CardTone, string> = {
-  default: "border border-ortaq-border bg-white",
-  flat: "border border-ortaq-border bg-ortaq-bg",
-};
+type CardTone = "default" | "flat";
 
 type CardProps = HTMLAttributes<HTMLDivElement> & {
   tone?: CardTone;
@@ -24,10 +30,10 @@ export function Card({
   return (
     <div
       className={cn(
-        "sm:rounded-ortaq-sm",
-        toneClasses[tone],
-        padding === "default" && "p-5 sm:p-6",
-        padding === "lg" && "p-6 sm:p-8",
+        "product-card",
+        tone === "flat" && "shadow-none bg-ortaq-bg-alt/40",
+        padding === "default" && "p-4 sm:p-5",
+        padding === "lg" && "p-5 sm:p-7",
         padding === "none" && "",
         className,
       )}
@@ -45,7 +51,6 @@ type ProseBlockProps = {
   badge?: ReactNode;
 };
 
-/** Text block — editorial, no decorative icons */
 export function ProseBlock({ title, description, className, badge }: ProseBlockProps) {
   return (
     <Card tone="default" className={cn("h-full", className)}>
