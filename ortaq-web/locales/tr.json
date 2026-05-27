@@ -124,7 +124,7 @@
       "open": "Borsa · döviz · konut · kıymetli maden · kripto",
       "closedLabel": "Özel ortaklık varlıkları",
       "closed": "Üretim şirketleri · sanayi ortaklığı · ihracat odaklı işletmeler · halka kapalı pay",
-      "close": "ORTAQ, paya dayalı ortaklık dosyalarını SPK çerçevesinde değerlendirir. Sürecin her adımı görünür ve disiplinlidir."
+      "close": "ORTAQ, paya dayalı ortaklık dosyalarını SPK çerçevesinde değerlendirir. Her adım belgelenir."
     },
     "signals": {
       "label": "Operasyonel kayıt",
@@ -219,9 +219,9 @@
       "hero": {
         "label": "Paya dayalı ortaklık · Türk sanayi yatırımı",
         "title": "Üretim şirketlerinde pay sahibi olun.",
-        "lead": "ORTAQ, ihracat odaklı üretim şirketlerini saha incelemeli dosyalarla sunar. Aldığınız şey: fiziksel üretim tesisinde pay — sermaye; kapasite, makine ve ihracat büyümesi için çalışır.",
-        "conviction": "Pasif varlıklar fiyat bekler. Üretken şirketler kapasite, ihracat ve operasyonel iyileştirmeyle değer biriktirir — pay sahibi bu büyümenin ortağıdır. Getiri garantisi yoktur; model uzun vadeli sanayi ortaklığıdır.",
-        "accessLine": "Düzenlenmiş özel pazar erişimi — kitle fonlaması değil, üretken varlık ortaklığı. Spekülasyon katmanı değil; operasyonel şirket sermayesi.",
+        "lead": "ORTAQ, ihracat odaklı üretim şirketlerini saha incelemeli dosyalarla sunar. Aldığınız şey: fiziksel üretim tesisinde pay. Sermaye; kapasite, makine ve ihracat büyümesi için çalışır.",
+        "conviction": "Pasif varlıklar fiyat bekler. Üretken şirketler kapasite, ihracat ve operasyonel iyileştirmeyle değer biriktirir. Pay sahibi bu büyümenin ortağıdır. Getiri garantisi yoktur; model uzun vadeli sanayi ortaklığıdır.",
+        "accessLine": "Düzenlenmiş özel pazar erişimi. Üretken varlık ortaklığı; kitle fonlaması veya spekülasyon değil.",
         "ctaPrimary": "Yatırım dosyalarını inceleyin",
         "ctaSecondary": "Ortaklık nasıl işler?",
         "featuredBadge": "Öne çıkan dosya",
@@ -233,8 +233,8 @@
       "opportunities": {
         "label": "Yatırım dosyaları",
         "title": "İhracat odaklı üretim şirketleri",
-        "lead": "CNC, gıda, lojistik, kimya, tekstil — farklı sanayi kollarında saha incelemeli paya dayalı ortaklık dosyaları. Her biri gerçek üretim tesisi; startup kartı değil.",
-        "capitalLead": "Her dosyada sermayenin nereye gideceği açıkça yazar: hat genişletme, ihracat altyapısı, makine yenileme. Paranız fabrikada çalışır — spekülasyon değil, operasyonel büyüme finansmanı.",
+        "lead": "CNC, gıda, lojistik, kimya, tekstil. Farklı sanayi kollarında saha incelemeli paya dayalı ortaklık dosyaları. Her biri gerçek bir üretim tesisi, startup kartı değil.",
+        "capitalLead": "Her dosyada sermayenin nereye gideceği açıkça yazar: hat genişletme, ihracat altyapısı, makine yenileme. Paranız fabrikada çalışır. Spekülasyon değil, operasyonel büyüme finansmanı.",
         "viewAll": "Tüm şirketler",
         "count": "{{shown}} / {{count}} aktif dosya gösteriliyor"
       },
@@ -247,7 +247,7 @@
       "sectors": {
         "label": "Üretim ekonomisi",
         "title": "Sanayi yatırımı · sektör çeşitliliği",
-        "lead": "Her sektör farklı bir kapasite, ihracat ve operasyonel büyüme hikâyesi taşır — pasif varlıklardan farklı olarak üretim tabanlı değer yaratır.",
+        "lead": "Her sektör farklı bir kapasite, ihracat ve operasyonel büyüme hikâyesi taşır. Pasif varlıklardan farklı olarak üretim tabanlı değer yaratır.",
         "explore": "Şirketleri gör"
       },
       "process": {
@@ -595,9 +595,9 @@
       "evalLink": "Değerlendirme kriterleri"
     },
     "activity": {
-      "label": "İnceleme akışı",
-      "title": "Son operasyonel hareketler",
-      "subtitle": "Tüm dosyalardan tarih sırasına göre",
+      "label": "Operasyon kaydı",
+      "title": "Dosyalar arası operasyonel süreklilik",
+      "subtitle": "Eklenen saha kayıtları ve dosya güncellemeleri · piyasa bandı değil",
       "aria": "Çapraz inceleme akışı",
       "colDate": "Tarih",
       "colTime": "Saat",
@@ -605,7 +605,7 @@
       "colType": "Tür",
       "colNote": "Not",
       "updateChip": "Dosya",
-      "note": "Saha ziyaret notları ve dosya hareketleri burada toplanır. Yatırımcı sayısı değil — inceleme hareketi."
+      "note": "Saha kayıtları ve dosya güncellemeleri burada toplanır. Kanıt sürekliliği — yatırımcı sayısı değil."
     },
     "process": {
       "label": "Süreç",
@@ -628,11 +628,11 @@
       }
     },
     "cta": {
-      "eyebrow": "Giriş",
-      "title": "Kontrollü giriş.",
-      "text": "Dosyaları inceleyin. Operasyonel gerçeği anlayın. Giriş kasıtlıdır.",
-      "subtext": "ORTAQ bir kampanya sitesi değil — Türk sanayisine kontrollü erişim katmanı.",
-      "primary": "Kayda giriş",
+      "eyebrow": "Devam",
+      "title": "Hikâyeyi değil, dosyayı okuyun.",
+      "text": "Dosyaları inceleyin. Operasyonel kanıtı takip edin. Sahipliği özel piyasa ortaklığı olarak değerlendirin; işlem gibi değil.",
+      "subtext": "ORTAQ, SPK çerçevesinde değerlendirme altyapısıdır — disiplinli erişim, belgelenmiş adımlar.",
+      "primary": "Dosya indeksini aç",
       "secondary": "Başlayın",
       "note": "Henüz yatırım kabul edilmiyor."
     },
@@ -651,13 +651,13 @@
     "companiesPage": {
       "label": "Yatırım dosyaları",
       "title": "Türk üretim şirketleri — paya dayalı ortaklık dosyaları",
-      "lead": "Sanayi yatırımı için doğrulanmış dosyalar. Kapasite, ihracat, operasyonel veri ve sermaye planı — yatırım kararının yapı taşları. Yatırım teklifi değil; değerlendirme altyapısı.",
+      "lead": "Sanayi yatırımı için doğrulanmış dosyalar. Kapasite, ihracat, operasyonel veri ve sermaye planı. Yatırım teklifi değil, değerlendirme altyapısı.",
       "evalLink": "Şirketler nasıl seçilir?"
     },
     "masthead": {
       "aria": "Platform operasyon durumu",
       "title": "Sanayi şirketlerinde paya dayalı ortaklık.",
-      "subline": "Saha doğrulamasından geçmiş Türk üretim şirketlerine yapısal yatırım erişimi. Kapasite, ihracat ve operasyonel veri — yatırım kararının altyapısı.",
+      "subline": "Saha doğrulamasından geçmiş Türk üretim şirketlerine yapısal yatırım erişimi. Kapasite, ihracat ve operasyonel veri yatırım kararının temelidir.",
       "disclaimer": "ORTAQ, SPK çerçevesinde değerlendirme altyapısıdır. İşlem henüz açık değil · dosyalar canlı güncellenir.",
       "status": {
         "dossiers": "Açık dosya",
@@ -673,6 +673,117 @@
         "update": "Dosya"
       },
       "thesis": "Pasif varlıklar fiyat bekler. Üretim şirketleri kapasite, ihracat ve operasyonel iyileştirmeyle değer üretir — pay sahibi bu büyümenin ortağıdır."
+    },
+    "marketLayer": {
+      "aria": "Pazar katmanı tezi",
+      "label": "Pazar katmanı",
+      "title": "Özel sanayi sermayesi hep vardı; erişim yoktu.",
+      "lead": "Türkiye'de üretim şirketlerinin çoğu halka kapalıdır. Sahiplik vardır; güvenilir erişim tarihsel olarak kurumsal ağlar ve pahalı due diligence gerektirdi.",
+      "points": {
+        "1": "Sorun ilgi değil; doğrulama maliyeti, parçalı sinyaller ve tutarsız açıklamadır.",
+        "2": "Operasyonel büyüme spekülasyon değildir: kapasite, ihracat, marj ve darboğaz fabrika zemininde ölçülür.",
+        "3": "Dayanıklı bir pazar katmanı tek şeye ihtiyaç duyar: şirketler arası karşılaştırılabilir kanıt ve denetlenebilir süreç."
+      },
+      "footnote": "Bu bir yatırım teklifi değil; altyapı çerçevesidir."
+    },
+    "mechanics": {
+      "aria": "Sahiplik ve mekanik",
+      "label": "Mekanik",
+      "title": "Bir sayfada: erişim mekaniği",
+      "lead": "Düzenlenmiş katılım, özel piyasa sahipliği ve olası gerçekleşme yolları — vaat değil, mekanik.",
+      "steps": {
+        "1": {
+          "title": "Dosya disiplini",
+          "body": "Kapasite, ihracat, saha notları ve risk katmanları — şirket başına okunabilir tek dosya."
+        },
+        "2": {
+          "title": "Kanıt standardı",
+          "body": "Sadece kâğıt değil. Üretimin fiziksel izi — hat, vardiya, sevkiyat, darboğaz — sahada doğrulanır ve kayda girer."
+        },
+        "3": {
+          "title": "Düzenlenmiş katılım",
+          "body": "SPK lisanslı platform, emanet hesabı, MKK pay kaydı. Fon kampanya kapanana kadar şirkete aktarılmaz."
+        },
+        "4": {
+          "title": "Değerleme aritmetiği",
+          "body": "Pay, değerleme ve büyüme varsayımı açıktır. Değer kapasite, marj ve ihracatla değişebilir; garanti değildir."
+        }
+      },
+      "ownership": "Katılım tamamlandığında pay, sermaye artırımı sonrası adınıza kaydedilir. Bu bir borsa işlemi değil; özel piyasa ortaklığıdır.",
+      "growth": "Operasyonel iyileştirme şirket değerini şirket ekonomisi üzerinden etkileyebilir: verim, kalite istikrarı, ihracat karması, marj dayanıklılığı.",
+      "exitLabel": "Olası gerçekleşme yolları — taahhüt değil",
+      "paths": {
+        "1": { "title": "İkincil satış", "body": "Mevcut payın başka bir alıcıya devri; fiyat ve zaman pazar koşullarına bağlıdır." },
+        "2": { "title": "Stratejik yatırımcı", "body": "Kurumsal veya sektörel alıcının ortaklığa girmesi; genelde ölçek ve olgunlukla ilişkilidir." },
+        "3": { "title": "Şirket geri alımı", "body": "İşletmenin belirli payları geri satın alması; nakit ve yönetişim kararına bağlıdır." },
+        "4": { "title": "Sonraki finansman turları", "body": "Yeni sermaye girişi veya yapılandırılmış çıkış; değerleme turu performans ve şartlara göre şekillenir." }
+      },
+      "liquidity": "Bu yolların hiçbiri garanti değildir. İkincil likidite sınırlı olabilir; vade ve zamanlama şirket, pazar ve düzenleyici koşullara bağlıdır.",
+      "marketWhy": {
+        "label": "Bu pazar neden var",
+        "body": "Özel üretim varlıkları reel ekonominin ana gövdesidir, ancak erişim kurumsal kalmıştır. Sermaye ile fabrikalar arasındaki eksik katman: standart kanıt rayıdır."
+      },
+      "footnote": "Yatırım tavsiyesi değildir · getiri veya likidite garantisi yoktur"
+    },
+    "mechanism": {
+      "aria": "Paya dayalı ortaklık mekanizması özeti",
+      "label": "Mekanizma",
+      "title": "60 saniyede: ne satın alırsınız, nasıl işler",
+      "lead": "Spekülasyon katmanı değil; üretim şirketinde paya dayalı ortaklık altyapısı.",
+      "thesis": "Pasif varlıklar fiyat bekler. Üretim şirketleri kapasite, ihracat ve operasyonel iyileştirmeyle değer üretir — pay sahibi bu büyümenin ortağıdır.",
+      "steps": {
+        "1": {
+          "title": "Dosya inceleme",
+          "body": "Kapasite, ihracat, saha notları ve risk katmanları — şirket bazında değerlendirme dosyası."
+        },
+        "2": {
+          "title": "Doğrulama disiplini",
+          "body": "Belge değil; üretimin fiziksel izi. Hat, vardiya, sevkiyat, darboğaz — sahada doğrulanır ve dosyaya işlenir."
+        },
+        "3": {
+          "title": "Düzenlenmiş katılım",
+          "body": "SPK lisanslı platform, emanet hesabı, MKK pay kaydı. Fon kampanya kapanana kadar şirkete aktarılmaz."
+        },
+        "4": {
+          "title": "Değerleme aritmetiği",
+          "body": "Pay, şirket değeri ve büyüme varsayımı açıkça yazılır. Değer artışı kapasite, marj ve ihracatla oluşur; garanti değildir."
+        }
+      },
+      "karatExample": "Örnek: Karat Parça (Konya) dosyasında değer; yeni CNC hattı → kapasite artışı → ihracat sevkiyatı → marj iyileştirmesi zinciri üzerinden okunur. Bu bir vaat değil; operasyonel muhasebedir.",
+      "footnote": "Yatırım tavsiyesi değildir · işlem henüz açık değil"
+    },
+    "realization": {
+      "aria": "Sahiplik ve gerçekleşme yolları",
+      "label": "Sermaye yapısı",
+      "title": "Sahiplik, değer ve gerçekleşme",
+      "lead": "ORTAQ bir borsa değil. Yatırımcı, saha doğrulanmış üretim şirketlerinde MKK kayıtlı paya dayalı ortaklık dosyasını okur; gerçekleşme yolu kampanya ve şirket yapısına bağlıdır.",
+      "ownership": "Katılım tamamlandığında pay, sermaye artırımı sonrası adınıza kaydedilir. Bu, halka açık hisse alımı değil; özel piyasa ortaklığıdır.",
+      "growth": "Değer, fabrikada ölçülebilir operasyonel iyileştirmeyle ilişkilidir: kapasite, ihracat, marj, makine verimliliği. Piyasa fiyatı değil; şirket ekonomisi esas alınır.",
+      "exitLabel": "Olası gerçekleşme yolları — taahhüt değil",
+      "paths": {
+        "1": {
+          "title": "İkincil satış",
+          "body": "Mevcut payın başka bir alıcıya devri; fiyat ve süre pazar koşullarına bağlıdır."
+        },
+        "2": {
+          "title": "Stratejik yatırımcı",
+          "body": "Kurumsal veya sektörel alıcının ortaklığa girmesi; genelde şirket olgunluğu ve ölçekle ilişkilidir."
+        },
+        "3": {
+          "title": "Şirket geri alımı",
+          "body": "İşletmenin belirli payları geri satın alması; nakit ve yönetim kararına bağlıdır."
+        },
+        "4": {
+          "title": "Sonraki finansman turları",
+          "body": "Yeni sermaye girişi veya yapılandırılmış çıkış; değerleme turu şirket performansına göre şekillenir."
+        }
+      },
+      "liquidity": "Bu yolların hiçbiri garanti değildir. İkincil likidite sınırlıdır; vade ve çıkış zamanlaması şirket, pazar ve düzenleyici koşullara bağlıdır.",
+      "marketWhy": {
+        "label": "Bu pazar neden var",
+        "body": "Türkiye üretim ekonomisinin büyük kısmı hâlâ halka kapalı şirketlerden oluşur. Bireysel yatırımcı tarihsel olarak bu katmana erişemedi — due diligence maliyeti, kapalı ağlar ve dağınık süreç yüzünden. ORTAQ bu yapısal erişim boşluğunu dosya disipliniyle kapatmayı hedefler; spekülasyon katmanı yaratmaz."
+      },
+      "footnote": "Yatırım tavsiyesi değildir · getiri veya likidite garantisi yoktur"
     },
     "index": {
       "aria": "Şirket dosyaları indeksi",
@@ -705,6 +816,7 @@
         "city": "Şehir",
         "sector": "Sektör",
         "stage": "Aşama",
+        "primaryTension": "Birincil gerilim",
         "capacity": "Kapasite",
         "export": "İhracat",
         "employees": "Çalışan",
@@ -720,7 +832,7 @@
     },
     "footerBand": {
       "aria": "Sayfa altı bilgi şeridi",
-      "text": "ORTAQ, SPK lisanslı kitle fonlama mevzuatı çerçevesinde paya dayalı ortaklık dosyalarını inceleyen değerlendirme altyapısıdır. Bu sayfada görüntülenen rakamlar simülasyona dayanır.",
+      "text": "ORTAQ, SPK lisanslı kitle fonlama mevzuatı çerçevesinde çalışan bir değerlendirme altyapısıdır. Paya dayalı ortaklık dosyalarını inceler. Bu sayfada görüntülenen rakamlar simülasyona dayanır.",
       "trust": "Güven altyapısı",
       "process": "Yatırım süreci",
       "risks": "Risk çerçevesi"
@@ -758,7 +870,7 @@
       "partial_open": "Kısmi dosya erişimi"
     },
     "lead": {
-      "aria": "Yatırım özeti — kararın temel görünümü",
+      "aria": "Yatırım özeti: kararın temel görünümü",
       "primaryTension": "Birincil operasyonel gerilim",
       "signalsLabel": "Operasyonel sinyaller",
       "signalsTitle": "Üretim ölçeği ve hat durumu",
@@ -769,7 +881,9 @@
       "allRisks": "Tüm risk profili",
       "verifyLabel": "Doğrulama",
       "verifyTitle": "Doğrulama katmanları",
-      "fullTimeline": "Doğrulama zaman çizelgesi"
+      "fullTimeline": "Doğrulama zaman çizelgesi",
+      "recentField": "Son saha kayıtları",
+      "fullField": "Tam saha kaydı"
     },
     "snapshot": {
       "label": "Operasyonel özet",

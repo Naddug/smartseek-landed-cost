@@ -114,7 +114,7 @@
       "open": "Listed equities · FX · property · precious metals · crypto",
       "closedLabel": "Private equity-partnership assets",
       "closed": "Production companies · industrial partnership · export-oriented operators · non-listed equity",
-      "close": "ORTAQ reviews equity-partnership dossiers within the SPK framework. Every step is visible and disciplined."
+      "close": "ORTAQ reviews equity-partnership dossiers within the SPK framework. Every step is documented."
     },
     "signals": {
       "label": "Operational registry",
@@ -209,9 +209,9 @@
       "hero": {
         "label": "Equity partnership · Turkish industrial investment",
         "title": "Own shares in production companies.",
-        "lead": "ORTAQ publishes field-reviewed dossiers on export-oriented Turkish manufacturers. What you buy: equity in a physical production facility — capital that works for capacity, machinery, and export growth.",
-        "conviction": "Passive assets wait on price. Productive companies build value through capacity, export, and operational improvement — shareholders participate in that growth. No return guarantee; this is long-term industrial partnership.",
-        "accessLine": "Regulated private-market access — productive asset partnership, not crowdfunding. Operational company capital, not a speculation layer.",
+        "lead": "ORTAQ publishes field-reviewed dossiers on export-oriented Turkish manufacturers. What you buy: equity in a physical production facility. Capital works for capacity, machinery, and export growth.",
+        "conviction": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement. Equity owners share in that growth. There is no return guarantee; the model is long-horizon industrial partnership.",
+        "accessLine": "Regulated private-market access. Productive equity partnership; not crowdfunding, not speculation.",
         "ctaPrimary": "Explore investment opportunities",
         "ctaSecondary": "How partnership works",
         "featuredBadge": "Featured opportunity",
@@ -223,8 +223,8 @@
       "opportunities": {
         "label": "Investment opportunities",
         "title": "Export-oriented production companies",
-        "lead": "CNC, food, logistics, chemicals, textile — field-reviewed equity partnership dossiers. Each represents a real production facility — not a startup card.",
-        "capitalLead": "Each dossier states where capital goes: line expansion, export infrastructure, machine renewal. Your money works in the factory — operational growth financing, not speculation.",
+        "lead": "CNC, food, logistics, chemicals, textile. Field-reviewed equity-partnership dossiers across distinct industrial sectors. Each is a real production facility, not a startup card.",
+        "capitalLead": "Every dossier states where the capital goes: line expansion, export infrastructure, machinery upgrade. The money works inside the factory. Operational growth financing, not speculation.",
         "viewAll": "All companies",
         "count": "Showing {{shown}} of {{count}} active dossiers"
       },
@@ -237,7 +237,7 @@
       "sectors": {
         "label": "Production economy",
         "title": "Industrial investment · sector diversity",
-        "lead": "Each sector carries a different capacity, export, and operational growth story — production-based value creation, unlike passive assets.",
+        "lead": "Each sector carries a distinct capacity, export, and operational-growth story. Unlike passive assets, value is created through production.",
         "explore": "View companies"
       },
       "process": {
@@ -586,9 +586,9 @@
       "evalLink": "Evaluation criteria"
     },
     "activity": {
-      "label": "Review feed",
-      "title": "Recent operational events",
-      "subtitle": "Across all dossiers, sorted by date",
+      "label": "Operational record",
+      "title": "Cross-dossier operational continuity",
+      "subtitle": "Append-only field notes and dossier updates · not a market tape",
       "aria": "Cross-campaign review feed",
       "colDate": "Date",
       "colTime": "Time",
@@ -596,7 +596,7 @@
       "colType": "Type",
       "colNote": "Note",
       "updateChip": "File",
-      "note": "Field visit notes and file events are aggregated here. Review activity — not investor counts."
+      "note": "Field entries and dossier updates are aggregated here. Evidence continuity — not investor counts."
     },
     "process": {
       "label": "Process",
@@ -619,11 +619,11 @@
       }
     },
     "cta": {
-      "eyebrow": "Entry",
-      "title": "Controlled entry.",
-      "text": "Review dossiers. Understand operational reality. Entry is intentional.",
-      "subtext": "ORTAQ is not a campaign site — a controlled access layer into Turkish industry.",
-      "primary": "Enter registry",
+      "eyebrow": "Next",
+      "title": "Read the file, not the story.",
+      "text": "Review dossiers. Track operational evidence. Treat ownership as private-market equity — not a trade.",
+      "subtext": "ORTAQ is an evaluation layer under SPK framing — disciplined access, documented steps.",
+      "primary": "Open dossier index",
       "secondary": "Get started",
       "note": "No investment accepted yet."
     },
@@ -642,13 +642,13 @@
     "companiesPage": {
       "label": "Investment dossiers",
       "title": "Turkish manufacturers — equity-partnership dossiers",
-      "lead": "Verified dossiers for industrial investment. Capacity, export profile, operational data, and capital plan — the foundation of the decision. Not an investment offer; an evaluation layer.",
+      "lead": "Verified dossiers for industrial investment. Capacity, export profile, operational data, capital plan. Not an investment offer; an evaluation layer.",
       "evalLink": "Read the selection process"
     },
     "masthead": {
       "aria": "Platform operations status",
       "title": "Equity ownership in Turkish industrial production.",
-      "subline": "Structural investment access to Turkish manufacturers that pass field verification. Capacity, export profile, and operational data — the foundation of the investment decision.",
+      "subline": "Structural investment access to Turkish manufacturers that pass field verification. Capacity, export profile, and operational data form the basis of the decision.",
       "disclaimer": "ORTAQ is the evaluation infrastructure under SPK regulation. Transactions are not yet open · dossiers update live.",
       "status": {
         "dossiers": "Open dossiers",
@@ -664,6 +664,117 @@
         "update": "File"
       },
       "thesis": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement — equity owners share in that growth."
+    },
+    "marketLayer": {
+      "aria": "Market layer thesis",
+      "label": "Market layer",
+      "title": "Private industrial capital was always there; access was not.",
+      "lead": "Most production companies in Turkey are private. Ownership exists, but credible access historically required institutional networks and costly due diligence.",
+      "points": {
+        "1": "The constraint is not interest — it is verification cost, fragmented signals, and inconsistent disclosure.",
+        "2": "Operational growth is not speculation: capacity, exports, margins, and bottlenecks are measurable on the factory floor.",
+        "3": "A durable market layer needs one thing: comparable evidence and an auditable process across companies."
+      },
+      "footnote": "Infrastructure framing — not an investment offer."
+    },
+    "mechanics": {
+      "aria": "Ownership and mechanics",
+      "label": "Mechanics",
+      "title": "Access mechanics in one page",
+      "lead": "Regulated participation, private-market ownership, and possible realization paths — stated as mechanisms, not promises.",
+      "steps": {
+        "1": {
+          "title": "Dossier discipline",
+          "body": "Capacity, export profile, field notes, and risk layers — per company, in one evaluable file."
+        },
+        "2": {
+          "title": "Evidence standard",
+          "body": "Not paper-only. The physical trace of production — line, shifts, dispatch, bottlenecks — is verified on-site and recorded."
+        },
+        "3": {
+          "title": "Regulated participation",
+          "body": "SPK-licensed platform, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
+        },
+        "4": {
+          "title": "Valuation arithmetic",
+          "body": "Equity, valuation, and growth assumptions are explicit. Value can change with capacity, margin, and exports — never guaranteed."
+        }
+      },
+      "ownership": "When participation completes, shares are registered in your name after capital increase. This is private-market equity, not exchange trading.",
+      "growth": "Operational improvement can affect company value through economics: throughput, quality stability, export mix, and margin resilience.",
+      "exitLabel": "Possible realization pathways — not commitments",
+      "paths": {
+        "1": { "title": "Secondary sale", "body": "Transfer of existing shares to another buyer; price and timing depend on market conditions." },
+        "2": { "title": "Strategic investor", "body": "Entry of a corporate or sector buyer; usually linked to company maturity and scale." },
+        "3": { "title": "Company buyback", "body": "The business repurchases specific shares; depends on cash position and governance decisions." },
+        "4": { "title": "Future funding rounds", "body": "New capital entry or structured exit; valuation shaped by company performance and terms." }
+      },
+      "liquidity": "None of these pathways is guaranteed. Secondary liquidity may be limited; horizon and timing depend on company, market, and regulatory conditions.",
+      "marketWhy": {
+        "label": "Why this market exists",
+        "body": "Private production assets dominate the real economy, but access stayed institution-only. A standardized evidence rail is the missing layer between capital and factories."
+      },
+      "footnote": "Not investment advice · no return or liquidity guarantee"
+    },
+    "mechanism": {
+      "aria": "Equity-partnership mechanism summary",
+      "label": "Mechanism",
+      "title": "In 60 seconds: what you buy and how it works",
+      "lead": "Not a speculation layer — equity-partnership infrastructure in production companies.",
+      "thesis": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement — equity owners share in that growth.",
+      "steps": {
+        "1": {
+          "title": "Dossier review",
+          "body": "Capacity, export profile, field notes, and risk layers — a per-company evaluation file."
+        },
+        "2": {
+          "title": "Verification discipline",
+          "body": "Not paper-only. The physical trace of production — line, shifts, dispatch, bottlenecks — is verified on-site and recorded."
+        },
+        "3": {
+          "title": "Regulated participation",
+          "body": "SPK-licensed platform, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
+        },
+        "4": {
+          "title": "Valuation arithmetic",
+          "body": "Equity, valuation, and growth assumptions are explicit. Value accrues through capacity, margin, and exports — never guaranteed."
+        }
+      },
+      "karatExample": "Example: In Karat Parça (Konya), value is read through a chain: new CNC line → higher capacity → export dispatch → margin improvement. This is not a promise; it is operational accounting.",
+      "footnote": "Not investment advice · transactions are not yet open"
+    },
+    "realization": {
+      "aria": "Ownership and realization pathways",
+      "label": "Capital structure",
+      "title": "Ownership, value, and realization",
+      "lead": "ORTAQ is not an exchange. The investor reads field-verified equity-partnership dossiers on production companies with MKK-registered shares; realization depends on the campaign and company structure.",
+      "ownership": "When participation completes, shares are registered in your name after capital increase. This is not a public-market purchase; it is private-market equity.",
+      "growth": "Value is tied to measurable operational improvement at the plant: capacity, exports, margins, machine efficiency. Company economics, not speculative price.",
+      "exitLabel": "Possible realization pathways — not commitments",
+      "paths": {
+        "1": {
+          "title": "Secondary sale",
+          "body": "Transfer of existing shares to another buyer; price and timing depend on market conditions."
+        },
+        "2": {
+          "title": "Strategic investor",
+          "body": "Entry of a corporate or sector buyer; usually linked to company maturity and scale."
+        },
+        "3": {
+          "title": "Company buyback",
+          "body": "The business repurchases specific shares; depends on cash and management decision."
+        },
+        "4": {
+          "title": "Future funding rounds",
+          "body": "New capital entry or structured exit; valuation round shaped by company performance."
+        }
+      },
+      "liquidity": "None of these pathways is guaranteed. Secondary liquidity is limited; horizon and exit timing depend on company, market, and regulatory conditions.",
+      "marketWhy": {
+        "label": "Why this market exists",
+        "body": "Most of Turkey's production economy still consists of private companies. Individual investors historically could not access this layer — due diligence cost, closed networks, fragmented process. ORTAQ aims to close that structural access gap through dossier discipline; it does not create a speculation layer."
+      },
+      "footnote": "Not investment advice · no return or liquidity guarantee"
     },
     "index": {
       "aria": "Company dossier index",
@@ -696,6 +807,7 @@
         "city": "City",
         "sector": "Sector",
         "stage": "Stage",
+        "primaryTension": "Primary tension",
         "capacity": "Capacity",
         "export": "Export",
         "employees": "Staff",
@@ -711,7 +823,7 @@
     },
     "footerBand": {
       "aria": "Footer information band",
-      "text": "ORTAQ is the evaluation infrastructure for equity-partnership dossiers under Türkiye's SPK-licensed crowdfunding framework. All figures shown on this page are simulated.",
+      "text": "ORTAQ is an evaluation infrastructure operating under Türkiye's SPK-licensed crowdfunding framework. It reviews equity-partnership dossiers. Figures shown on this page are simulated.",
       "trust": "Trust infrastructure",
       "process": "Investment process",
       "risks": "Risk framework"
@@ -749,7 +861,7 @@
       "partial_open": "Partial dossier access"
     },
     "lead": {
-      "aria": "Investment summary — the decision view",
+      "aria": "Investment summary: the decision view",
       "primaryTension": "Primary operational tension",
       "signalsLabel": "Operational signals",
       "signalsTitle": "Production scale and line status",
@@ -760,7 +872,9 @@
       "allRisks": "Full risk profile",
       "verifyLabel": "Verification",
       "verifyTitle": "Verification layers",
-      "fullTimeline": "Verification timeline"
+      "fullTimeline": "Verification timeline",
+      "recentField": "Recent field entries",
+      "fullField": "Full field log"
     },
     "snapshot": {
       "label": "Operational snapshot",
