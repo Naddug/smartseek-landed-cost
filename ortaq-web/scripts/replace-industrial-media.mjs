@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /**
- * Downloads curated industrial editorial photos (Pexels) and optimizes for web.
+ * Heavy-industrial editorial media — no laptops, offices, or startup stock.
+ * Sources: Pexels + Unsplash (verified CDN URLs only).
+ *
  * Run: node scripts/replace-industrial-media.mjs
  */
 import { mkdir, writeFile } from "node:fs/promises";
@@ -11,63 +13,66 @@ import { execSync } from "node:child_process";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const MEDIA = join(ROOT, "public", "media");
-const COMPANIES = join(MEDIA, "companies");
-
 const W = 1400;
 
-/** @param {number} id Pexels photo id */
-function pexels(id) {
+/** @typedef {{ out: string, source: 'pexels' | 'unsplash', id: string | number }} Asset */
+
+/** @type {Asset[]} */
+const assets = [
+  // ── Shared keys — machinery, sparks, export systems ──
+  { out: "factory-floor.jpg", source: "pexels", id: 1267338 }, // production floor, workers at lines
+  { out: "cnc-workshop.jpg", source: "unsplash", id: "photo-1764114235916-74de69e6851f" }, // laser cutting metal
+  { out: "logistics-dock.jpg", source: "pexels", id: 4246148 }, // forklift, material handling
+  { out: "export-warehouse.jpg", source: "pexels", id: 28828481 }, // port containers, export
+  { out: "machine-operator.jpg", source: "pexels", id: 1145434 }, // angle grinder, sparks
+  { out: "packaging-floor.jpg", source: "pexels", id: 2760243 }, // stainless process tanks / line
+  { out: "factory-detail.jpg", source: "pexels", id: 7598662 }, // operator at industrial machine
+  { out: "textile-floor.jpg", source: "pexels", id: 5726891 }, // textile factory looms
+  { out: "industrial-line.jpg", source: "pexels", id: 1265684 }, // factory interior, production
+  { out: "warehouse.jpg", source: "pexels", id: 4484749 }, // racked warehouse, logistics
+  { out: "workshop.jpg", source: "unsplash", id: "photo-1532186773960-85649e5cb70b" }, // heavy industrial machine
+  { out: "agrifood-coldchain.jpg", source: "pexels", id: 2116090 }, // food/industrial facility
+  { out: "grain-mill.jpg", source: "pexels", id: 247040 }, // grain / mill raw material
+  { out: "greenhouse.jpg", source: "pexels", id: 2565413 }, // commercial greenhouse rows
+  { out: "chemical-plant.jpg", source: "pexels", id: 3735455 }, // refinery pipes, process plant
+  { out: "ceramic-kiln.jpg", source: "pexels", id: 5846091 }, // forge furnace, intense heat
+  { out: "food-processing.jpg", source: "pexels", id: 2866847 }, // industrial food production
+  { out: "shipyard-dock.jpg", source: "pexels", id: 1004545 }, // port, ships, marine industry
+  { out: "glass-furnace.jpg", source: "unsplash", id: "photo-1759411364558-38a9e2b04f76" }, // foundry heat, sparks
+  { out: "spinning-mill.jpg", source: "pexels", id: 2219024 }, // cotton / yarn production
+  { out: "plastic-extrusion.jpg", source: "pexels", id: 3860308 }, // manufacturing production floor
+
+  // ── Per-company — unique, operationally dense ──
+  { out: "companies/adana-tarim-isleme.jpg", source: "pexels", id: 2866847 },
+  { out: "companies/atlas-lojistik-istanbul.jpg", source: "pexels", id: 4246148 },
+  { out: "companies/karat-parca-konya.jpg", source: "unsplash", id: "photo-1764114235916-74de69e6851f" },
+  { out: "companies/anatolia-gida-gaziantep.jpg", source: "pexels", id: 2116090 },
+  { out: "companies/yildiz-dokum-manisa.jpg", source: "unsplash", id: "photo-1759411364558-38a9e2b04f76" },
+  { out: "companies/vizyon-otomotiv-bursa.jpg", source: "pexels", id: 1145434 },
+  { out: "companies/demir-tekstil-bursa.jpg", source: "pexels", id: 5726891 },
+  { out: "companies/trabzon-findik-isleme.jpg", source: "pexels", id: 4483622 },
+  { out: "companies/antalya-sera-teknoloji.jpg", source: "pexels", id: 2565413 },
+  { out: "companies/tekno-elektronik-ankara.jpg", source: "pexels", id: 7598662 },
+  { out: "companies/tekirdag-ambalaj-plastik.jpg", source: "pexels", id: 3860308 },
+  { out: "companies/marmara-kimya-kocaeli.jpg", source: "pexels", id: 3735455 },
+  { out: "companies/eskisehir-seramik.jpg", source: "pexels", id: 3860388 },
+  { out: "companies/ege-mobilya-izmir.jpg", source: "pexels", id: 3862132 },
+  { out: "companies/denizli-iplik-dokuma.jpg", source: "pexels", id: 3376793 },
+  { out: "companies/deniz-gemi-parca-tuzla.jpg", source: "pexels", id: 1004545 },
+  { out: "companies/trakya-un-edirne.jpg", source: "pexels", id: 2219024 },
+  { out: "companies/anadolu-cam-kayseri.jpg", source: "unsplash", id: "photo-1504917595217-d4dc5ebe6122" }, // welding/industrial heat
+];
+
+function imageUrl({ source, id }) {
+  if (source === "unsplash") {
+    return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${W}&q=82`;
+  }
   return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${W}&fit=crop`;
 }
 
-const assets = [
-  // ── Shared keys (stable filenames) ──
-  { out: "factory-floor.jpg", id: 1267328 },
-  { out: "cnc-workshop.jpg", id: 3846390 },
-  { out: "logistics-dock.jpg", id: 4484749 },
-  { out: "export-warehouse.jpg", id: 4483610 },
-  { out: "machine-operator.jpg", id: 1302577 },
-  { out: "packaging-floor.jpg", id: 2760243 },
-  { out: "factory-detail.jpg", id: 3807277 },
-  { out: "textile-floor.jpg", id: 3376793 },
-  { out: "industrial-line.jpg", id: 3860308 },
-  { out: "warehouse.jpg", id: 265094 },
-  { out: "workshop.jpg", id: 3861973 },
-  { out: "agrifood-coldchain.jpg", id: 143133 },
-  { out: "grain-mill.jpg", id: 247040 },
-  { out: "greenhouse.jpg", id: 2565413 },
-  { out: "chemical-plant.jpg", id: 3735455 },
-  { out: "ceramic-kiln.jpg", id: 3860388 },
-  { out: "food-processing.jpg", id: 325229 },
-  { out: "shipyard-dock.jpg", id: 1004545 },
-  { out: "glass-furnace.jpg", id: 209251 },
-  { out: "spinning-mill.jpg", id: 2219024 },
-  { out: "plastic-extrusion.jpg", id: 265089 },
-
-  // ── Per-company unique imagery (18 campaigns) ──
-  { out: "companies/adana-tarim-isleme.jpg", id: 1435904 },
-  { out: "companies/atlas-lojistik-istanbul.jpg", id: 265216 },
-  { out: "companies/karat-parca-konya.jpg", id: 265098 },
-  { out: "companies/anatolia-gida-gaziantep.jpg", id: 265099 },
-  { out: "companies/yildiz-dokum-manisa.jpg", id: 265100 },
-  { out: "companies/vizyon-otomotiv-bursa.jpg", id: 265101 },
-  { out: "companies/demir-tekstil-bursa.jpg", id: 265102 },
-  { out: "companies/trabzon-findik-isleme.jpg", id: 265103 },
-  { out: "companies/antalya-sera-teknoloji.jpg", id: 265104 },
-  { out: "companies/tekno-elektronik-ankara.jpg", id: 265105 },
-  { out: "companies/tekirdag-ambalaj-plastik.jpg", id: 265087 },
-  { out: "companies/marmara-kimya-kocaeli.jpg", id: 265090 },
-  { out: "companies/eskisehir-seramik.jpg", id: 265091 },
-  { out: "companies/ege-mobilya-izmir.jpg", id: 3862132 },
-  { out: "companies/denizli-iplik-dokuma.jpg", id: 265092 },
-  { out: "companies/deniz-gemi-parca-tuzla.jpg", id: 265093 },
-  { out: "companies/trakya-un-edirne.jpg", id: 265088 },
-  { out: "companies/anadolu-cam-kayseri.jpg", id: 1108101 },
-];
-
 async function download(path, imageUrl) {
   const res = await fetch(imageUrl, {
-    headers: { "User-Agent": "ORTAQ-media-sync/1.0" },
+    headers: { "User-Agent": "ORTAQ-media-sync/2.0" },
     redirect: "follow",
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -85,15 +90,14 @@ function optimize(path) {
 }
 
 async function main() {
-  await mkdir(COMPANIES, { recursive: true });
   let ok = 0;
   let fail = 0;
 
-  for (const { out, id } of assets) {
-    const path = join(MEDIA, out);
-    process.stdout.write(`→ ${out} ... `);
+  for (const asset of assets) {
+    const path = join(MEDIA, asset.out);
+    process.stdout.write(`→ ${asset.out} [${asset.source}] ... `);
     try {
-      await download(path, pexels(id));
+      await download(path, imageUrl(asset));
       optimize(path);
       const { stat } = await import("node:fs/promises");
       const kb = Math.round((await stat(path)).size / 1024);
