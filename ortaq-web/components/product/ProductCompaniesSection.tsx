@@ -4,12 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
-import { getCampaignMediaKey, getSectorTag, getSectorTagEn } from "@/lib/product/company-summary";
+import { getCampaignMediaAsset, getCampaignMediaAlt, getSectorTag, getSectorTagEn } from "@/lib/product/company-summary";
 import { getCampaignTensionLine } from "@/lib/intelligence/tension";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
 import { Container } from "@/components/ui/Section";
 import { listCampaigns } from "@/lib/campaigns";
-import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -48,7 +47,7 @@ export function ProductCompaniesSection() {
 
 function RegistryRow({ campaign: c, index }: { campaign: SimulatedCampaign; index: number }) {
   const { t, i18n } = useTranslation();
-  const mediaKey = getCampaignMediaKey(c.slug, c.sector);
+  const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
   const tension = getCampaignTensionLine(c);
   const scale = c.gateway?.scale ?? `${c.city} · ${c.employees} ${t("homeProduct.companyCard.employeesUnit")}`;
@@ -62,12 +61,12 @@ function RegistryRow({ campaign: c, index }: { campaign: SimulatedCampaign; inde
 
       <div className="relative aspect-[5/4] overflow-hidden rounded-ortaq-md border border-ortaq-border-strong bg-ortaq-bg-warm sm:aspect-[4/5] sm:h-[7.25rem] sm:w-[7rem]">
         <Image
-          src={media[mediaKey].src}
-          alt={t(`media.${mediaKey}.alt`)}
+          src={mediaAsset.src}
+          alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
           fill
           sizes="112px"
           className="object-cover"
-          style={{ objectPosition: media[mediaKey].focalPoint }}
+          style={{ objectPosition: mediaAsset.focalPoint }}
         />
       </div>
 

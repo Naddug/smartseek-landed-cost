@@ -1,114 +1,39 @@
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
-import type { MediaKey } from "@/lib/media";
+import { media, companyMedia, type MediaAsset, type MediaKey } from "@/lib/media";
 
 /**
- * Campaign → photograph mapping.
- *
- * IMPORTANT — JPG content audit (May 2026):
- * Several files in /public/media/ have content that does NOT match their
- * filename. The mapping below ignores the filename and uses each campaign
- * with the JPG whose ACTUAL visual content fits the sector.
- *
- * Verified file contents:
- *   agrifoodColdchain  → baskets of vegetables           (AGRI)
- *   ceramicKiln        → ceramic vases                   (CERAMIC)
- *   cncWorkshop        → row of sedan cars               (AUTOMOTIVE)  ← filename misleading
- *   factoryDetail      → engineer at laptop, electronics (ELECTRONICS)
- *   factoryFloor       → engineering desk, calipers      (PRECISION / CNC R&D)
- *   foodProcessing     → stainless-steel process pipes   (FOOD / CHEMICAL / MILL)
- *   greenhouse         → soil scoop on workbench         (GARDENING / AGTECH)
- *   logisticsDock      → warehouse interior, racked boxes(LOGISTICS / STORAGE)
- *   machineOperator    → welder with sparks              (METAL / WELDING)
- *   spinningMill       → t-shirts on hangers             (TEXTILE / GARMENT)
- *   warehouse          → welder with sparks              (METAL / WELDING, duplicates machineOperator)
- *
- * Garbage content (DO NOT USE):
- *   chemicalPlant      → hotel-room bed                  (replace file)
- *   grainMill          → suburban porch                  (replace file)
- *
- * Truck-depot duplicates (DO NOT USE — same aerial shot in 4 files):
- *   industrialLine, packagingFloor, textileFloor, shipyardDock
- *
- * Unread / unverified (may also be wrong):
- *   exportWarehouse, glassFurnace, plasticExtrusion
- *
- * The mapping below assigns every campaign to a VERIFIED-CORRECT photo.
- * Some sectors share an image because we currently have ~10 usable photos
- * for 18 campaigns. Sharing is preferable to wrong-content.
- *
- * When user uploads new on-site company photos:
- *   1. Drop the .jpg into /public/media/ with a slug-prefixed name
- *      (e.g. /public/media/companies/karat-parca-konya.jpg)
- *   2. Register the new key in lib/media.ts
- *   3. Point this map at the new key
- */
-const campaignMedia: Record<string, MediaKey> = {
-  // Agriculture & food
-  "adana-tarim-isleme": "agrifoodColdchain",
-  "trabzon-findik-isleme": "agrifoodColdchain",
-  "antalya-sera-teknoloji": "greenhouse",
-  "anatolia-gida-gaziantep": "foodProcessing",
-  "trakya-un-edirne": "foodProcessing",
-
-  // Industrial process / chemical
-  "marmara-kimya-kocaeli": "foodProcessing",
-  "tekirdag-ambalaj-plastik": "foodProcessing",
-
-  // Logistics
-  "atlas-lojistik-istanbul": "logisticsDock",
-
-  // Textile / garment
-  "demir-tekstil-bursa": "spinningMill",
-  "denizli-iplik-dokuma": "spinningMill",
-
-  // Ceramic / glass
-  "eskisehir-seramik": "ceramicKiln",
-  "anadolu-cam-kayseri": "ceramicKiln",
-
-  // Precision / CNC / wood R&D
-  "karat-parca-konya": "factoryFloor",
-  "ege-mobilya-izmir": "factoryFloor",
-
-  // Electronics
-  "tekno-elektronik-ankara": "factoryDetail",
-
-  // Automotive
-  "vizyon-otomotiv-bursa": "cncWorkshop",
-
-  // Metal / welding / shipyard
-  "yildiz-dokum-manisa": "machineOperator",
-  "deniz-gemi-parca-tuzla": "warehouse",
-};
-
-/**
- * Sector-keyword fallback. Only verified-content media keys are referenced.
- * Order matters — more specific matches first.
+ * Campaign → sector fallback for unknown slugs.
+ * Published campaigns use unique files in /media/companies/{slug}.jpg.
  */
 const sectorFallback: { test: RegExp; key: MediaKey }[] = [
   { test: /lojistik|depolama|sevkiyat|logistic/i, key: "logisticsDock" },
-  { test: /iplik|dokuma|tekstil|konfeksiyon|textile|garment/i, key: "spinningMill" },
+  { test: /iplik|dokuma|tekstil|konfeksiyon|textile|garment/i, key: "textileFloor" },
   { test: /seracılık|sera|greenhouse|agtech/i, key: "greenhouse" },
   { test: /fındık|tarım|narenciye|hazelnut|agri/i, key: "agrifoodColdchain" },
   { test: /un |tahıl|bulgur|gıda|salça|paketleme|food|mill/i, key: "foodProcessing" },
-  { test: /kimya|reçine|proses|chemical|resin|polymer/i, key: "foodProcessing" },
-  { test: /ambalaj|plastik|folyo|packaging|plastic/i, key: "foodProcessing" },
+  { test: /kimya|reçine|proses|chemical|resin|polymer/i, key: "chemicalPlant" },
+  { test: /ambalaj|plastik|folyo|packaging|plastic/i, key: "plasticExtrusion" },
   { test: /seramik|refrakter|cam|ceramic|glass/i, key: "ceramicKiln" },
   { test: /elektronik|montaj|kablolama|electronic/i, key: "factoryDetail" },
-  { test: /mobilya|ahşap|furniture|wood/i, key: "factoryFloor" },
-  { test: /otomotiv|automotive/i, key: "cncWorkshop" },
-  { test: /makine|parça|cnc|machin/i, key: "factoryFloor" },
+  { test: /mobilya|ahşap|furniture|wood/i, key: "workshop" },
+  { test: /otomotiv|automotive/i, key: "industrialLine" },
+  { test: /makine|parça|cnc|machin/i, key: "cncWorkshop" },
   { test: /döküm|dokum|metal|kaynak|gemi|denizcilik|marine|foundry|welding/i, key: "machineOperator" },
 ];
 
-export function getCampaignMediaKey(slug: string, sector?: string): MediaKey {
-  if (campaignMedia[slug]) return campaignMedia[slug];
-  if (sector) {
-    const match = sectorFallback.find(({ test }) => test.test(sector));
-    if (match) return match.key;
+/** Resolved image asset for a campaign card or dossier header. */
+export function getCampaignMediaAsset(slug: string, sector?: string): MediaAsset {
+  if (slug in companyMedia) {
+    return companyMedia[slug as keyof typeof companyMedia];
   }
-  // Last-resort fallback: a verified-content industrial image.
-  // factoryFloor (engineering desk) is safer than industrialLine (truck depot).
-  return "factoryFloor";
+  const key = sector
+    ? (sectorFallback.find(({ test }) => test.test(sector))?.key ?? "factoryFloor")
+    : "factoryFloor";
+  return media[key];
+}
+
+export function getCampaignMediaAlt(asset: MediaAsset, language: string): string {
+  return language === "en" ? asset.altEn : asset.altTr;
 }
 
 export function getOperationalSignal(c: SimulatedCampaign, ...needles: string[]) {
@@ -179,10 +104,4 @@ export function getSectorTagEn(c: SimulatedCampaign): string {
   if (s.includes("ambalaj") || s.includes("plastik") || s.includes("packaging")) return "PACKAGING";
   if (s.includes("sera") || s.includes("greenhouse")) return "AGTECH";
   return "INDUSTRY";
-}
-
-/** Verify no duplicate media keys across visible catalog (dev aid). */
-export function assertUniqueCampaignMedia(slugs: string[]): boolean {
-  const keys = slugs.map((s) => campaignMedia[s]).filter(Boolean);
-  return keys.length === new Set(keys).size;
 }

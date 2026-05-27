@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import {
-  getCampaignMediaKey,
+  getCampaignMediaAsset,
+  getCampaignMediaAlt,
   getFacilityArea,
   getLatestOperationalNote,
   getOperationalSignal,
@@ -19,7 +20,6 @@ import { VerificationLabel } from "@/components/trust/VerificationLabel";
 import { StatusBadge } from "@/components/trust/StatusBadge";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
-import { media } from "@/lib/media";
 import { formatPulseDate } from "@/lib/operations/pulse";
 
 type CompanyCardProps = {
@@ -30,7 +30,7 @@ type CompanyCardProps = {
 
 export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps) {
   const { t, i18n } = useTranslation();
-  const mediaKey = getCampaignMediaKey(c.slug, c.sector);
+  const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const capacity = getOperationalSignal(c, "kapasite", "capacity");
   const exportShare = getOperationalSignal(c, "ihracat", "export");
   const facilityArea = getFacilityArea(c);
@@ -56,12 +56,12 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
     >
       <div className="discover-spotlight-image relative h-32 w-full shrink-0 overflow-hidden border-b border-ortaq-border">
         <Image
-          src={media[mediaKey].src}
-          alt={t(`media.${mediaKey}.alt`)}
+          src={mediaAsset.src}
+          alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
           fill
           loading="lazy"
           className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.04]"
-          style={{ objectPosition: media[mediaKey].focalPoint }}
+          style={{ objectPosition: mediaAsset.focalPoint }}
           sizes={featured ? "340px" : "(max-width: 640px) 88vw, 400px"}
         />
         <div className="absolute left-2.5 top-2.5 flex flex-wrap gap-1">

@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import {
-  getCampaignMediaKey,
+  getCampaignMediaAsset,
+  getCampaignMediaAlt,
   getOperationalSignal,
   getReviewProgress,
   getSectorTag,
@@ -16,7 +17,6 @@ import { getSectorStyle } from "@/lib/invest/sector-style";
 import { formatTryCompact } from "@/lib/invest/format";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
 import { StatusBadge } from "@/components/trust/StatusBadge";
-import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -29,7 +29,7 @@ type OpportunityCardProps = {
 
 export function OpportunityCard({ campaign: c, featured = false, priority = false, className }: OpportunityCardProps) {
   const { t, i18n } = useTranslation();
-  const mediaKey = getCampaignMediaKey(c.slug, c.sector);
+  const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
   const style = getSectorStyle(c);
   const { percent } = getReviewProgress(c);
@@ -46,13 +46,13 @@ export function OpportunityCard({ campaign: c, featured = false, priority = fals
     >
       <div className={cn("relative w-full shrink-0 overflow-hidden", featured ? "h-40 sm:h-48" : "h-36 sm:h-40")}>
         <Image
-          src={media[mediaKey].src}
-          alt={t(`media.${mediaKey}.alt`)}
+          src={mediaAsset.src}
+          alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
           fill
           priority={priority}
           loading={priority ? undefined : "lazy"}
           className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.04]"
-          style={{ objectPosition: media[mediaKey].focalPoint }}
+          style={{ objectPosition: mediaAsset.focalPoint }}
           sizes="(max-width: 640px) calc(100vw - 2.5rem), (max-width: 1024px) 50vw, 320px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ortaq-ink/50 via-transparent to-transparent" />

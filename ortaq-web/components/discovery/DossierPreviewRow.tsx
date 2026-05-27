@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
-import { getCampaignMediaKey, getSectorTag, getSectorTagEn } from "@/lib/product/company-summary";
+import { getCampaignMediaAsset, getCampaignMediaAlt, getSectorTag, getSectorTagEn } from "@/lib/product/company-summary";
 import { getCampaignTensionLine } from "@/lib/intelligence/tension";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
-import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -18,7 +17,7 @@ type DossierPreviewRowProps = {
 
 export function DossierPreviewRow({ campaign: c, index }: DossierPreviewRowProps) {
   const { t, i18n } = useTranslation();
-  const mediaKey = getCampaignMediaKey(c.slug, c.sector);
+  const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
   const tension = getCampaignTensionLine(c);
 
@@ -29,11 +28,11 @@ export function DossierPreviewRow({ campaign: c, index }: DossierPreviewRowProps
     >
       <div className="relative aspect-[5/4] w-[4.5rem] shrink-0 overflow-hidden rounded-ortaq-sm border border-ortaq-border-strong bg-ortaq-bg-warm sm:aspect-square sm:h-[4.5rem] sm:w-[4.5rem]">
         <Image
-          src={media[mediaKey].src}
-          alt={t(`media.${mediaKey}.alt`)}
+          src={mediaAsset.src}
+          alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
           fill
           className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.05]"
-          style={{ objectPosition: media[mediaKey].focalPoint }}
+          style={{ objectPosition: mediaAsset.focalPoint }}
           sizes="72px"
         />
         <span className="absolute left-1 top-1 rounded-ortaq-sm bg-ortaq-surface/90 px-1 py-0.5 text-[0.625rem] font-semibold tabular-nums text-ortaq-ink-soft">

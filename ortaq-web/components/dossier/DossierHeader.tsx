@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import {
-  getCampaignMediaKey,
+  getCampaignMediaAsset,
+  getCampaignMediaAlt,
   getReviewProgress,
   getSectorTag,
   getSectorTagEn,
@@ -14,7 +15,6 @@ import { StatusBadge } from "@/components/trust/StatusBadge";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
 import { Container } from "@/components/ui/Section";
 import { getCampaignTensionLine } from "@/lib/intelligence/tension";
-import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -24,7 +24,7 @@ type DossierHeaderProps = {
 
 export function DossierHeader({ campaign: c }: DossierHeaderProps) {
   const { t, i18n } = useTranslation();
-  const mediaKey = getCampaignMediaKey(c.slug, c.sector);
+  const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const { activeStep } = getReviewProgress(c);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
   const tension = getCampaignTensionLine(c);
@@ -35,12 +35,12 @@ export function DossierHeader({ campaign: c }: DossierHeaderProps) {
         <div className="grid gap-4 py-5 sm:grid-cols-[7rem_1fr] sm:gap-5 sm:py-6 lg:grid-cols-[9rem_1fr_auto] lg:items-start">
           <div className="relative aspect-[4/3] overflow-hidden rounded-ortaq-md border border-ortaq-border sm:aspect-square">
             <Image
-              src={media[mediaKey].src}
-              alt={t(`media.${mediaKey}.alt`)}
+              src={mediaAsset.src}
+              alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
               fill
               priority
               className="object-cover"
-              style={{ objectPosition: media[mediaKey].focalPoint }}
+              style={{ objectPosition: mediaAsset.focalPoint }}
               sizes="144px"
             />
           </div>

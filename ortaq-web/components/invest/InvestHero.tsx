@@ -11,7 +11,8 @@ import { listCampaigns } from "@/lib/campaigns";
 import { getFeaturedSlug } from "@/lib/intelligence/discovery";
 import { getHomePlatformStats } from "@/lib/intelligence/home-stats";
 import {
-  getCampaignMediaKey,
+  getCampaignMediaAsset,
+  getCampaignMediaAlt,
   getOperationalSignal,
   getReviewProgress,
   getSectorTag,
@@ -35,7 +36,7 @@ export function InvestHero() {
 
   if (!featured) return null;
 
-  const mediaKey = getCampaignMediaKey(featured.slug, featured.sector);
+  const mediaAsset = getCampaignMediaAsset(featured.slug, featured.sector);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(featured) : getSectorTag(featured);
   const style = getSectorStyle(featured);
   const { percent } = getReviewProgress(featured);
@@ -109,12 +110,12 @@ export function InvestHero() {
           >
             <div className="relative h-44 overflow-hidden sm:h-52">
               <Image
-                src={media[mediaKey].src}
-                alt={t(`media.${mediaKey}.alt`)}
+                src={mediaAsset.src}
+                alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
                 fill
                 priority
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ objectPosition: media[mediaKey].focalPoint }}
+                style={{ objectPosition: mediaAsset.focalPoint }}
                 sizes="(max-width: 1024px) 100vw, 480px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ortaq-ink/70 via-ortaq-ink/20 to-transparent" />

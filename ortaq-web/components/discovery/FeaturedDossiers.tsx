@@ -9,9 +9,8 @@ import { listCampaigns } from "@/lib/campaigns";
 import { getCampaign } from "@/lib/campaigns";
 import { getFeaturedSlug, getRelatedCampaigns } from "@/lib/intelligence/discovery";
 import { getCampaignTensionLine } from "@/lib/intelligence/tension";
-import { getCampaignMediaKey, getSectorTag, getSectorTagEn } from "@/lib/product/company-summary";
+import { getCampaignMediaAsset, getCampaignMediaAlt, getSectorTag, getSectorTagEn } from "@/lib/product/company-summary";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
-import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -24,7 +23,7 @@ export function FeaturedDossiers() {
 
   if (!featured) return null;
 
-  const mediaKey = getCampaignMediaKey(featured.slug, featured.sector);
+  const mediaAsset = getCampaignMediaAsset(featured.slug, featured.sector);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(featured) : getSectorTag(featured);
   const tension = getCampaignTensionLine(featured);
 
@@ -49,11 +48,11 @@ export function FeaturedDossiers() {
         >
           <div className="discover-spotlight-image authority-image-evidence relative min-h-[240px] overflow-hidden sm:min-h-[320px] lg:min-h-[360px]">
             <Image
-              src={media[mediaKey].src}
-              alt={t(`media.${mediaKey}.alt`)}
+              src={mediaAsset.src}
+              alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
               fill
               className="object-cover"
-              style={{ objectPosition: "62% 35%" }}
+              style={{ objectPosition: mediaAsset.focalPoint }}
               sizes="(max-width: 1024px) 100vw, 60vw"
             />
           </div>
