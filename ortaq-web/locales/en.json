@@ -704,10 +704,22 @@
       "growth": "Operational improvement can affect company value through economics: throughput, quality stability, export mix, and margin resilience.",
       "exitLabel": "Possible realization pathways — not commitments",
       "paths": {
-        "1": { "title": "Secondary sale", "body": "Transfer of existing shares to another buyer; price and timing depend on market conditions." },
-        "2": { "title": "Strategic investor", "body": "Entry of a corporate or sector buyer; usually linked to company maturity and scale." },
-        "3": { "title": "Company buyback", "body": "The business repurchases specific shares; depends on cash position and governance decisions." },
-        "4": { "title": "Future funding rounds", "body": "New capital entry or structured exit; valuation shaped by company performance and terms." }
+        "1": {
+          "title": "Secondary sale",
+          "body": "Transfer of existing shares to another buyer; price and timing depend on market conditions."
+        },
+        "2": {
+          "title": "Strategic investor",
+          "body": "Entry of a corporate or sector buyer; usually linked to company maturity and scale."
+        },
+        "3": {
+          "title": "Company buyback",
+          "body": "The business repurchases specific shares; depends on cash position and governance decisions."
+        },
+        "4": {
+          "title": "Future funding rounds",
+          "body": "New capital entry or structured exit; valuation shaped by company performance and terms."
+        }
       },
       "liquidity": "None of these pathways is guaranteed. Secondary liquidity may be limited; horizon and timing depend on company, market, and regulatory conditions.",
       "marketWhy": {
@@ -828,7 +840,15 @@
       "process": "Investment process",
       "risks": "Risk framework"
     },
-    "featuredBadge": "Featured dossier"
+    "featuredBadge": "Featured dossier",
+    "heroPlate": {
+      "aria": "Homepage entry surface",
+      "kicker": "Türkiye's production layer",
+      "headline": "The real economy moves on the factory floor.",
+      "body": "ORTAQ reviews these companies, verifies them, and turns each one into an investment dossier.",
+      "closing": "On the exchange, you watch price. Here, you become a partner in production itself.",
+      "cta": "Review the investment dossiers →"
+    }
   },
   "dossier": {
     "nav": {

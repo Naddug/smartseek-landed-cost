@@ -713,10 +713,22 @@
       "growth": "Operasyonel iyileştirme şirket değerini şirket ekonomisi üzerinden etkileyebilir: verim, kalite istikrarı, ihracat karması, marj dayanıklılığı.",
       "exitLabel": "Olası gerçekleşme yolları — taahhüt değil",
       "paths": {
-        "1": { "title": "İkincil satış", "body": "Mevcut payın başka bir alıcıya devri; fiyat ve zaman pazar koşullarına bağlıdır." },
-        "2": { "title": "Stratejik yatırımcı", "body": "Kurumsal veya sektörel alıcının ortaklığa girmesi; genelde ölçek ve olgunlukla ilişkilidir." },
-        "3": { "title": "Şirket geri alımı", "body": "İşletmenin belirli payları geri satın alması; nakit ve yönetişim kararına bağlıdır." },
-        "4": { "title": "Sonraki finansman turları", "body": "Yeni sermaye girişi veya yapılandırılmış çıkış; değerleme turu performans ve şartlara göre şekillenir." }
+        "1": {
+          "title": "İkincil satış",
+          "body": "Mevcut payın başka bir alıcıya devri; fiyat ve zaman pazar koşullarına bağlıdır."
+        },
+        "2": {
+          "title": "Stratejik yatırımcı",
+          "body": "Kurumsal veya sektörel alıcının ortaklığa girmesi; genelde ölçek ve olgunlukla ilişkilidir."
+        },
+        "3": {
+          "title": "Şirket geri alımı",
+          "body": "İşletmenin belirli payları geri satın alması; nakit ve yönetişim kararına bağlıdır."
+        },
+        "4": {
+          "title": "Sonraki finansman turları",
+          "body": "Yeni sermaye girişi veya yapılandırılmış çıkış; değerleme turu performans ve şartlara göre şekillenir."
+        }
       },
       "liquidity": "Bu yolların hiçbiri garanti değildir. İkincil likidite sınırlı olabilir; vade ve zamanlama şirket, pazar ve düzenleyici koşullara bağlıdır.",
       "marketWhy": {
@@ -837,7 +849,15 @@
       "process": "Yatırım süreci",
       "risks": "Risk çerçevesi"
     },
-    "featuredBadge": "Öne çıkan dosya"
+    "featuredBadge": "Öne çıkan dosya",
+    "heroPlate": {
+      "aria": "Ana sayfa giriş yüzeyi",
+      "kicker": "Türkiye'nin üretim katmanı",
+      "headline": "Ekonominin gerçek hareketi, fabrika zemininde olur.",
+      "body": "ORTAQ bu şirketleri inceler, doğrular ve yatırım dosyasına dönüştürür.",
+      "closing": "Borsada fiyat hareketini izlersiniz. Burada üretimin kendisine ortak olursunuz.",
+      "cta": "Yatırım dosyalarını incele →"
+    }
   },
   "dossier": {
     "nav": {

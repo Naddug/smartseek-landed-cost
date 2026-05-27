@@ -1,6 +1,7 @@
 "use client";
 
 import { PublicShell } from "@/components/layout/PublicShell";
+import { HeroPlate } from "@/components/product/HeroPlate";
 import { HomepageMasthead } from "@/components/product/HomepageMasthead";
 import { HomepageMarketLayer } from "@/components/product/HomepageMarketLayer";
 import { HomepageMechanics } from "@/components/product/HomepageMechanics";
@@ -14,6 +15,7 @@ import { RelatedLinks } from "@/components/seo/RelatedLinks";
 export function HomePageView() {
   return (
     <PublicShell stickyCta>
+      <HeroPlate />
       <HomepageMasthead />
       <HomepageMarketLayer />
       <HomepageMechanics />
