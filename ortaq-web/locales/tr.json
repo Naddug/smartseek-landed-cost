@@ -656,9 +656,21 @@
     },
     "masthead": {
       "aria": "Platform operasyon durumu",
-      "title": "Sanayi şirketlerinde paya dayalı ortaklık.",
-      "subline": "Saha doğrulamasından geçmiş Türk üretim şirketlerine yapısal yatırım erişimi. Kapasite, ihracat ve operasyonel veri yatırım kararının temelidir.",
+      "essence": "ORTAQ nedir",
+      "title": "Türkiye'de üretim şirketlerine paya dayalı ortaklık — dosya dosya.",
+      "subline": "Borsa değil; fabrika gerçeği. Saha doğrulaması, kapasite, ihracat ve risk kayıtları tek değerlendirme katmanında toplanır.",
+      "ctaPrimary": "Yatırım dosyaları",
+      "ctaSecondary": "Süreci oku",
       "disclaimer": "ORTAQ, SPK çerçevesinde değerlendirme altyapısıdır. İşlem henüz açık değil · dosyalar canlı güncellenir.",
+      "visual": {
+        "heroCaption": "Üretim hattı · saha gözlemi",
+        "evidence": "Görseller kampanya tanıtımı değil; sektör ve saha atmosferi için seçilmiş endüstriyel kayıtlardır.",
+        "sectors": {
+          "logistics": "Lojistik · ihracat",
+          "manufacturing": "İmalat · CNC",
+          "food": "Gıda · soğuk zincir"
+        }
+      },
       "status": {
         "dossiers": "Açık dosya",
         "sectors": "Sektör",
@@ -677,6 +689,7 @@
     "marketLayer": {
       "aria": "Pazar katmanı tezi",
       "label": "Pazar katmanı",
+      "visualCaption": "Depo ve sevkiyat · özel şirket gerçeği",
       "title": "Özel sanayi sermayesi hep vardı; erişim yoktu.",
       "lead": "Türkiye'de üretim şirketlerinin çoğu halka kapalıdır. Sahiplik vardır; güvenilir erişim tarihsel olarak kurumsal ağlar ve pahalı due diligence gerektirdi.",
       "points": {

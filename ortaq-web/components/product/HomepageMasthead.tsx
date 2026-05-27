@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
+import { HomepageMastheadVisuals } from "@/components/product/HomepageMastheadVisuals";
 import { listCampaigns } from "@/lib/campaigns";
 import { siteFeedTop, siteFeedLastDate } from "@/lib/feed/site-feed";
 import { formatPulseDate } from "@/lib/operations/pulse";
@@ -15,7 +17,7 @@ import { cn } from "@/lib/cn";
  * Operational masthead.
  *
  * Replaces the old ProductHero (slogan + featured card + 4-up image strip).
- * No photos, no CTAs, no marketing bullets. The page below this is the CTA.
+ * Operational status + clear positioning copy + documentary visuals (factory reality).
  *
  * Three layers:
  *   1. status strip: dossier count · sector count · last-event date
@@ -94,23 +96,38 @@ export function HomepageMasthead() {
           )}
         </div>
 
-        {/* headline + feed */}
-        <div className="grid gap-5 py-5 sm:py-6 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
-          {/* left: headline */}
-          <div className="min-w-0 flex flex-col">
-            <h1 className={cn(typography.display, "max-w-2xl")}>
+        {/* positioning + visuals */}
+        <div className="grid gap-5 py-5 sm:py-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-8">
+          <div className="order-2 min-w-0 flex flex-col lg:order-1">
+            <p className={typography.label}>{t("homeProduct.masthead.essence")}</p>
+            <h1 className={cn(typography.display, "mt-1.5 max-w-2xl")}>
               {t("homeProduct.masthead.title")}
             </h1>
             <p className={cn(typography.body, "mt-2 max-w-xl")}>
               {t("homeProduct.masthead.subline")}
             </p>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <Link href="#dosyalar">
+                <Button variant="primary" size="lg">
+                  {t("homeProduct.masthead.ctaPrimary")}
+                </Button>
+              </Link>
+              <Link href="/nasil-calisir" className={cn(typography.bodySm, typography.link, "font-medium")}>
+                {t("homeProduct.masthead.ctaSecondary")} →
+              </Link>
+            </div>
             <p className={cn(typography.caption, "mt-3 max-w-xl")}>
               {t("homeProduct.masthead.disclaimer")}
             </p>
           </div>
 
-          {/* right: live feed */}
-          <div className="min-w-0">
+          <div className="order-1 lg:order-2">
+            <HomepageMastheadVisuals />
+          </div>
+        </div>
+
+        {/* live feed — full width below hero */}
+        <div className="border-t border-ortaq-border pb-5 sm:pb-6">
             <div className="flex items-center justify-between">
               <p className={typography.label}>{t("homeProduct.masthead.feed.label")}</p>
               <Link
@@ -156,7 +173,6 @@ export function HomepageMasthead() {
                 );
               })}
             </ol>
-          </div>
         </div>
       </Container>
     </section>

@@ -647,9 +647,21 @@
     },
     "masthead": {
       "aria": "Platform operations status",
-      "title": "Equity ownership in Turkish industrial production.",
-      "subline": "Structural investment access to Turkish manufacturers that pass field verification. Capacity, export profile, and operational data form the basis of the decision.",
+      "essence": "What ORTAQ is",
+      "title": "Equity partnership in Turkish production companies — dossier by dossier.",
+      "subline": "Not the stock market; factory reality. Field verification, capacity, export profile, and risk records in one evaluation layer.",
+      "ctaPrimary": "Investment dossiers",
+      "ctaSecondary": "Read the process",
       "disclaimer": "ORTAQ is the evaluation infrastructure under SPK regulation. Transactions are not yet open · dossiers update live.",
+      "visual": {
+        "heroCaption": "Production floor · field observation",
+        "evidence": "Imagery is not campaign marketing; industrial atmosphere selected for sector and field context.",
+        "sectors": {
+          "logistics": "Logistics · export",
+          "manufacturing": "Manufacturing · CNC",
+          "food": "Food · cold chain"
+        }
+      },
       "status": {
         "dossiers": "Open dossiers",
         "sectors": "Sectors",
@@ -668,6 +680,7 @@
     "marketLayer": {
       "aria": "Market layer thesis",
       "label": "Market layer",
+      "visualCaption": "Warehouse and dispatch · private-company reality",
       "title": "Private industrial capital was always there; access was not.",
       "lead": "Most production companies in Turkey are private. Ownership exists, but credible access historically required institutional networks and costly due diligence.",
       "points": {
