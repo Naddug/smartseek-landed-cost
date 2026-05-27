@@ -259,7 +259,7 @@
           },
           "4": {
             "title": "Participation",
-            "text": "When ready, acquire shares via the licensed platform — funds stay in escrow, no rush."
+            "text": "When ready, acquire shares via the licensed platform; capital remains in escrow until the campaign closes."
           },
           "5": {
             "title": "Monitoring",
@@ -301,7 +301,7 @@
       "valueTimeline": {
         "label": "Institutional timeline",
         "title": "From dossier review to liquidity — a disciplined journey",
-        "lead": "Each stage is documented. No rush — serious investment requires due diligence and operational follow-through.",
+        "lead": "Each stage is documented. No time constraint; serious investment requires due diligence and operational follow-through.",
         "phases": {
           "1": {
             "phase": "Phase 01",
@@ -430,7 +430,7 @@
           "4": "Returns tied to market sentiment"
         },
         "few": {
-          "1": "SMEs that manufacture and employ",
+          "1": "Manufacturers that produce and employ",
           "2": "Export-oriented operational growth",
           "3": "Value accumulation through capacity and machines",
           "4": "A layer historically closed to individual access"
@@ -451,7 +451,7 @@
       },
       "cta": {
         "title": "Begin your partnership journey in Turkish industrial growth.",
-        "lead": "Explore dossiers, understand what you own, verify trust layers — participate when ready. No rush; serious investment requires reading the file.",
+        "lead": "Review dossiers, understand what you own, verify trust layers — participate when ready. No time constraint; serious investment requires reading the file.",
         "primary": "Explore investment opportunities",
         "conviction": "Not speculation — measurable operational growth and long-term industrial partnership logic."
       },
@@ -487,7 +487,7 @@
         "4": "Listed public equities"
       },
       "few": {
-        "1": "Factory-running SMEs",
+        "1": "Factory-running manufacturers",
         "2": "Export-oriented manufacturers",
         "3": "Machine park and capacity growth",
         "4": "Partnership in private industrial companies"
@@ -614,7 +614,7 @@
         },
         "3": {
           "title": "When you are ready",
-          "text": "Participate via the licensed platform — no rush."
+          "text": "Participate via the licensed platform; no time constraint."
         }
       }
     },
@@ -980,7 +980,7 @@
   },
   "onboarding": {
     "title": "Read first",
-    "intro": "Partnership is a serious decision. No rush here. You do not have to continue if something is unclear.",
+    "intro": "Partnership is a serious decision. There is no time constraint. You do not have to continue if something is unclear.",
     "progress": "{{current}} / {{total}}",
     "reassurance": {
       "banner": "No signup. No payment. You can leave anytime.",

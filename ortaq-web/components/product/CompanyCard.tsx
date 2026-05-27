@@ -17,7 +17,6 @@ import {
 import { ReviewStepper } from "@/components/product/ReviewStepper";
 import { reviewStatusLabels } from "@/lib/product/home-data";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
-import { StatusBadge } from "@/components/trust/StatusBadge";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 import { formatPulseDate } from "@/lib/operations/pulse";
@@ -68,9 +67,6 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
           <span className="rounded-ortaq-sm bg-ortaq-surface/95 px-1.5 py-0.5 text-[0.625rem] font-semibold uppercase tracking-wide text-ortaq-trust">
             {sectorTag}
           </span>
-        </div>
-        <div className="absolute right-2.5 top-2.5">
-          <StatusBadge status="illustrative" className="border-l-ortaq-border-strong bg-ortaq-surface/90 pl-1.5 text-[10px]" />
         </div>
       </div>
 

@@ -5,19 +5,22 @@ import { media, companyMedia, type MediaAsset, type MediaKey } from "@/lib/media
  * Campaign → sector fallback for unknown slugs.
  * Published campaigns use unique files in /media/companies/{slug}.jpg.
  */
+// Sector fallback uses only verified-content media keys. Files known to carry
+// wrong-content stock (chemicalPlant, plasticExtrusion, industrialLine,
+// textileFloor) are not referenced here until those JPGs are replaced.
 const sectorFallback: { test: RegExp; key: MediaKey }[] = [
   { test: /lojistik|depolama|sevkiyat|logistic/i, key: "logisticsDock" },
-  { test: /iplik|dokuma|tekstil|konfeksiyon|textile|garment/i, key: "textileFloor" },
+  { test: /iplik|dokuma|tekstil|konfeksiyon|textile|garment/i, key: "spinningMill" },
   { test: /seracılık|sera|greenhouse|agtech/i, key: "greenhouse" },
   { test: /fındık|tarım|narenciye|hazelnut|agri/i, key: "agrifoodColdchain" },
   { test: /un |tahıl|bulgur|gıda|salça|paketleme|food|mill/i, key: "foodProcessing" },
-  { test: /kimya|reçine|proses|chemical|resin|polymer/i, key: "chemicalPlant" },
-  { test: /ambalaj|plastik|folyo|packaging|plastic/i, key: "plasticExtrusion" },
+  { test: /kimya|reçine|proses|chemical|resin|polymer/i, key: "foodProcessing" },
+  { test: /ambalaj|plastik|folyo|packaging|plastic/i, key: "foodProcessing" },
   { test: /seramik|refrakter|cam|ceramic|glass/i, key: "ceramicKiln" },
   { test: /elektronik|montaj|kablolama|electronic/i, key: "factoryDetail" },
   { test: /mobilya|ahşap|furniture|wood/i, key: "workshop" },
-  { test: /otomotiv|automotive/i, key: "industrialLine" },
-  { test: /makine|parça|cnc|machin/i, key: "cncWorkshop" },
+  { test: /otomotiv|automotive/i, key: "cncWorkshop" },
+  { test: /makine|parça|cnc|machin/i, key: "factoryFloor" },
   { test: /döküm|dokum|metal|kaynak|gemi|denizcilik|marine|foundry|welding/i, key: "machineOperator" },
 ];
 

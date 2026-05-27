@@ -219,7 +219,7 @@
       "hero": {
         "label": "Paya dayalı ortaklık · Türk sanayi yatırımı",
         "title": "Üretim şirketlerinde pay sahibi olun.",
-        "lead": "ORTAQ, ihracat odaklı üretim KOBİ'lerini saha incelemeli dosyalarla sunar. Aldığınız şey: fiziksel üretim tesisinde pay — sermaye; kapasite, makine ve ihracat büyümesi için çalışır.",
+        "lead": "ORTAQ, ihracat odaklı üretim şirketlerini saha incelemeli dosyalarla sunar. Aldığınız şey: fiziksel üretim tesisinde pay — sermaye; kapasite, makine ve ihracat büyümesi için çalışır.",
         "conviction": "Pasif varlıklar fiyat bekler. Üretken şirketler kapasite, ihracat ve operasyonel iyileştirmeyle değer biriktirir — pay sahibi bu büyümenin ortağıdır. Getiri garantisi yoktur; model uzun vadeli sanayi ortaklığıdır.",
         "accessLine": "Düzenlenmiş özel pazar erişimi — kitle fonlaması değil, üretken varlık ortaklığı. Spekülasyon katmanı değil; operasyonel şirket sermayesi.",
         "ctaPrimary": "Yatırım dosyalarını inceleyin",
@@ -269,7 +269,7 @@
           },
           "4": {
             "title": "Katılım",
-            "text": "Hazır olduğunuzda lisanslı platform üzerinden pay alın — para emanet hesabında kalır, acele yok."
+            "text": "Hazır olduğunuzda lisanslı platform üzerinden pay alımı yapılır; sermaye, kampanya tamamlanana kadar emanet hesabında tutulur."
           },
           "5": {
             "title": "İzleme",
@@ -311,7 +311,7 @@
       "valueTimeline": {
         "label": "Kurumsal zaman çizelgesi",
         "title": "Dosya incelemesinden likiditeye — disiplinli yolculuk",
-        "lead": "Her aşama belgelenir. Acele yok; ciddi yatırım due diligence ve operasyonel takip gerektirir.",
+        "lead": "Her aşama belgelenir. Süre kısıtı yoktur; ciddi yatırım due diligence ve operasyonel takip gerektirir.",
         "phases": {
           "1": {
             "phase": "Aşama 01",
@@ -407,7 +407,7 @@
       "ownership": {
         "label": "Ortaklık modeli",
         "title": "60 saniyede: ne sahip olursunuz?",
-        "lead": "Spekülasyon değil — gerçek şirkette pay. Sermayeniz üretim hattında, makinede, ihracat altyapısında çalışır.",
+        "lead": "Spekülasyon değil — üretim şirketinde pay. Sermayeniz üretim hattında, makinede, ihracat altyapısında çalışır.",
         "items": {
           "1": {
             "title": "Pay sahipliği",
@@ -440,7 +440,7 @@
           "4": "Getiri piyasa duyarlılığına bağlı"
         },
         "few": {
-          "1": "Fabrika üreten, istihdam eden KOBİ'ler",
+          "1": "Üretim yapan ve istihdam yaratan şirketler",
           "2": "İhracat odaklı operasyonel büyüme",
           "3": "Kapasite ve makine yatırımıyla değer birikimi",
           "4": "Tarihsel olarak bireysel erişime kapalı katman"
@@ -461,7 +461,7 @@
       },
       "cta": {
         "title": "Üretken ekonomiye ortaklık yolculuğuna başlayın.",
-        "lead": "Dosyaları keşfedin, ne satın aldığınızı anlayın, güven katmanlarını doğrulayın — hazır olduğunuzda katılın. Acele yok; ciddi yatırım dosya okuması ister.",
+        "lead": "Dosyaları inceleyin, ne satın aldığınızı anlayın, güven katmanlarını doğrulayın — hazır olduğunuzda katılın. Süre kısıtı yoktur; ciddi yatırım dosya okuması ister.",
         "primary": "Yatırım dosyalarını inceleyin",
         "conviction": "Spekülasyon değil, ölçülebilir operasyonel büyüme — uzun vadeli sanayi ortaklığı mantığı."
       },
@@ -497,7 +497,7 @@
         "4": "Halka açık borsa hisseleri"
       },
       "few": {
-        "1": "Fabrika üreten KOBİ'ler",
+        "1": "Fabrika işleten üretim şirketleri",
         "2": "İhracat yapan üretim şirketleri",
         "3": "Makine parkı ve kapasite büyümesi",
         "4": "Halka açık olmayan sanayi ortaklığı"
@@ -623,7 +623,7 @@
         },
         "3": {
           "title": "Hazır olduğunuzda",
-          "text": "Lisanslı platform üzerinden katılım — acele yok."
+          "text": "Lisanslı platform üzerinden katılım; süre kısıtı yoktur."
         }
       }
     },
@@ -1035,7 +1035,7 @@
     "intro": "ORTAQ süreci düzenler; riski ortadan kaldırmaz. Karar sizindir.",
     "items": {
       "1": "Yatırdığınız parayı tamamen kaybedebilirsiniz.",
-      "2": "Para hemen geri gelmez.",
+      "2": "Yatırım uzun vadelidir; erken çıkış imkânı sınırlıdır.",
       "3": "Şirket hedeflerine ulaşamayabilir.",
       "4": "Yıllık katılım limiti vardır.",
       "5": "ORTAQ ne alıp satacağınızı söylemez."
@@ -1152,7 +1152,7 @@
     }
   },
   "footer": {
-    "tagline": "Türk sanayi yatırımı için disiplinli keşif katmanı — gerçek şirketlere ortaklık yolunu sade anlatır.",
+    "tagline": "Türk sanayi yatırımı için disiplinli inceleme altyapısı — üretim şirketlerinde paya dayalı ortaklığı yapısal olarak belgeler.",
     "protectionLabel": "Yatırımcı koruması",
     "regulatory": "Paya dayalı kitle fonlamasında bireysel katılımcılar için yıllık limit, bilgi formu, risk bildirimi ve cayma hakkı zorunludur. İşlem SPK düzenlemesi altındaki lisanslı platform üzerinden yürür.",
     "notAdvice": "ORTAQ yatırım tavsiyesi vermez. Buradaki yazılar bilgi içindir; kazanç garantisi yoktur.",
@@ -1210,7 +1210,7 @@
     "label": "Şirket seçimi",
     "title": "Şirketler nasıl değerlendirilir?",
     "lead": "Her başvuru kabul edilmez. ORTAQ yalnızca üretim yapan, belgelenebilir ve uzun vadeli ekonomik mantığı olan şirketleri dosyalar — yatırımcıya sunulmadan önce altı aşamalı due diligence.",
-    "leadSecondary": "Bu, yatırımcı yolculuğunun doğrulama ayağıdır: keşiften sonra, katılımdan önce. Güven katmanı ve katılım süreci bu incelemenin üzerine inşa edilir.",
+    "leadSecondary": "Bu, yatırımcı yolculuğunun doğrulama ayağıdır: dosya incelemesinden sonra, katılımdan önce. Güven katmanı ve katılım süreci bu incelemenin üzerine inşa edilir.",
     "journeyContext": "Değerlendirme tamamlandıktan sonra güven çerçevesini okuyun, ardından katılım sürecine geçin.",
     "stageLabel": "Aşama {{key}}",
     "rejectLabel": "Red gerekçesi örneği:",
