@@ -3,6 +3,7 @@
 import { PublicShell } from "@/components/layout/PublicShell";
 import { HeroPlate } from "@/components/product/HeroPlate";
 import { HomepageWhyOrtaq } from "@/components/landing/HomepageWhyOrtaq";
+import { HomepageInvestObject } from "@/components/landing/HomepageInvestObject";
 import { HomepageHowItWorks } from "@/components/landing/HomepageHowItWorks";
 import { HomepageAudience } from "@/components/landing/HomepageAudience";
 import { HomepageRegulatoryFrame } from "@/components/landing/HomepageRegulatoryFrame";
@@ -14,6 +15,7 @@ export function HomePageView() {
     <PublicShell stickyCta>
       <HeroPlate />
       <HomepageWhyOrtaq />
+      <HomepageInvestObject />
       <HomepageHowItWorks />
       <HomepageAudience />
       <HomepageRegulatoryFrame />

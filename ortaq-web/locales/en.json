@@ -2055,22 +2055,41 @@
     "why": {
       "aria": "Why ORTAQ",
       "title": "Why ORTAQ?",
+      "subtitle": "International growth is slow, costly, and uncertain for most producers.",
       "traditional": {
-        "label": "Traditional methods",
+        "label": "Traditional approach",
         "items": {
           "1": "Trade fairs",
           "2": "Cold email",
-          "3": "Unclear connections",
-          "4": "Long verification cycles"
+          "3": "Months of verification",
+          "4": "Unclear partner quality"
         }
       },
       "ortaq": {
         "label": "ORTAQ",
         "items": {
-          "1": "Verified partners",
-          "2": "Target-market matching",
-          "3": "Ongoing relationship tracking",
-          "4": "Growth readiness"
+          "1": "Pre-screened companies",
+          "2": "Target-market focused matching",
+          "3": "Verified commercial signals",
+          "4": "Tracked growth process"
+        }
+      }
+    },
+    "investObject": {
+      "aria": "What am I investing in",
+      "title": "What am I investing in?",
+      "steps": {
+        "1": {
+          "title": "Production company",
+          "body": "A real, non-listed Turkish manufacturer; equity or revenue-share structure."
+        },
+        "2": {
+          "title": "Export and growth verification",
+          "body": "Capacity, export records, and operational data in one field-verified dossier."
+        },
+        "3": {
+          "title": "Investment via licensed partner",
+          "body": "The partnership vehicle opens on an SPK-licensed crowdfunding platform; ORTAQ does not execute deals."
         }
       }
     }

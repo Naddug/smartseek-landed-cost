@@ -1995,22 +1995,41 @@
     "why": {
       "aria": "Neden ORTAQ",
       "title": "Neden ORTAQ?",
+      "subtitle": "Yurtdışı büyüme çoğu üretici için yavaş, pahalı ve belirsiz ilerler.",
       "traditional": {
-        "label": "Geleneksel yöntemler",
+        "label": "Geleneksel yöntem",
         "items": {
           "1": "Fuarlar",
           "2": "Soğuk e-postalar",
-          "3": "Belirsiz bağlantılar",
-          "4": "Uzun doğrulama süreçleri"
+          "3": "Aylar süren doğrulama",
+          "4": "Belirsiz partner kalitesi"
         }
       },
       "ortaq": {
         "label": "ORTAQ",
         "items": {
-          "1": "Doğrulanmış partnerler",
-          "2": "Hedef pazar eşleşmesi",
-          "3": "Sürekli ilişki takibi",
-          "4": "Büyüme hazırlığı"
+          "1": "Ön değerlendirilmiş şirketler",
+          "2": "Hedef pazar odaklı eşleşmeler",
+          "3": "Doğrulanmış ticari sinyaller",
+          "4": "Takip edilen büyüme süreci"
+        }
+      }
+    },
+    "investObject": {
+      "aria": "Neye yatırım yapıyorum",
+      "title": "Neye yatırım yapıyorum?",
+      "steps": {
+        "1": {
+          "title": "Üretici şirket",
+          "body": "Türkiye'de üretim yapan, borsada işlem görmeyen gerçek sanayi şirketi; pay veya gelir paylaşımı yapısı."
+        },
+        "2": {
+          "title": "İhracat ve büyüme doğrulaması",
+          "body": "Kapasite, ihracat kaydı ve operasyon verisi saha doğrulamasıyla tek dosyada."
+        },
+        "3": {
+          "title": "Lisanslı partner üzerinden yatırım süreci",
+          "body": "Ortaklık aracı SPK lisanslı kitle fonlama platformunda açılır; ORTAQ işlem yürütmez."
         }
       }
     }
