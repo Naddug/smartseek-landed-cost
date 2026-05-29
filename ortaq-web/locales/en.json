@@ -1582,7 +1582,7 @@
     "hero": {
       "aria": "Homepage entry",
       "label": "ORTAQ",
-      "title": "The platform that opens Turkish producers abroad and prepares them for investment.",
+      "title": "We open Turkish producers to new markets.",
       "subtitle": "Buyer and distributor matching, export records, then investment through a licensed partner. ORTAQ is not a broker.",
       "ctaPrimary": "Apply",
       "ctaSecondary": "How it works",
@@ -1623,7 +1623,6 @@
         "3": "ORTAQ does not execute deals; investment and custody sit with the licensed partner"
       },
       "boundary": "ORTAQ does not provide investment advice, raise funds, or sell shares. Capital markets activity occurs only at the licensed partner, under qualified investor rules.",
-      "imageCaption": "Production floor · editorial image",
       "ctaDossiers": "View dossiers",
       "paths": {
         "producer": {
@@ -2051,6 +2050,28 @@
           "3": "Funds do not flow through ORTAQ; execution is at the licensed institution."
         },
         "disclaimer": "Qualified investor rules may apply. Past performance is not indicative."
+      }
+    },
+    "why": {
+      "aria": "Why ORTAQ",
+      "title": "Why ORTAQ?",
+      "traditional": {
+        "label": "Traditional methods",
+        "items": {
+          "1": "Trade fairs",
+          "2": "Cold email",
+          "3": "Unclear connections",
+          "4": "Long verification cycles"
+        }
+      },
+      "ortaq": {
+        "label": "ORTAQ",
+        "items": {
+          "1": "Verified partners",
+          "2": "Target-market matching",
+          "3": "Ongoing relationship tracking",
+          "4": "Growth readiness"
+        }
       }
     }
   }

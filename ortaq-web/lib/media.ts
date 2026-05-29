@@ -13,6 +13,16 @@ export type MediaAsset = {
   mood: string;
 };
 export const media = {
+  /** Homepage hero — export logistics, people and goods (trade growth) */
+  heroExportPartnership: {
+    src: "/media/hero-export-partnership.jpg",
+    altTr: "Depo ve lojistik ekibi, ihracat sevkiyatı hazırlığı",
+    altEn: "Warehouse team preparing export shipment",
+    credit: "Pexels",
+    focalPoint: "center 40%",
+    aspect: "panorama" as const,
+    mood: "trade",
+  },
   /** Hero — late-afternoon factory floor */
   factoryFloor: {
     src: "/media/factory-floor.jpg",

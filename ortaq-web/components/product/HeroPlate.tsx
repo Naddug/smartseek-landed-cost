@@ -1,22 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { FrameImage } from "@/components/media/FrameImage";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
 import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-/**
- * Single clear entry: what ORTAQ is, who it is for, one CTA pair.
- * One editorial image aligned with production/export (not stacked banners).
- */
 export function HeroPlate() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language === "tr" ? "tr" : "en";
-  const img = media.factoryFloor;
+  const img = media.heroExportPartnership;
 
   return (
     <section
@@ -48,16 +44,18 @@ export function HeroPlate() {
             </p>
           </div>
 
-          <div className="order-1 min-w-0 lg:order-2">
-            <FrameImage
-              src={img.src}
-              alt={lang === "tr" ? img.altTr : img.altEn}
-              focalPoint={img.focalPoint}
-              priority
-              sizes="(max-width: 1024px) 100vw, 520px"
-              aspectClassName="aspect-[4/3]"
-              caption={t("homeLanding.hero.imageCaption")}
-            />
+          <div className="relative order-1 min-w-0 overflow-hidden rounded-ortaq-md border border-ortaq-border-strong bg-ortaq-bg-warm lg:order-2">
+            <div className="relative aspect-[4/3] w-full">
+              <Image
+                src={img.src}
+                alt={lang === "tr" ? img.altTr : img.altEn}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 520px"
+                className="object-cover"
+                style={{ objectPosition: img.focalPoint }}
+              />
+            </div>
           </div>
         </div>
       </Container>

@@ -1522,7 +1522,7 @@
     "hero": {
       "aria": "Ana sayfa giriş",
       "label": "ORTAQ",
-      "title": "Türk üreticiyi yurtdışına açan, yatırıma hazırlayan platform.",
+      "title": "Türk üreticileri yeni pazarlara açıyoruz.",
       "subtitle": "Doğru alıcı ve distribütör eşleşmesi, ihracat kaydı, ardından lisanslı ortak üzerinden yatırım. ORTAQ aracı kurum değildir.",
       "ctaPrimary": "Başvuru",
       "ctaSecondary": "Nasıl çalışır",
@@ -1563,7 +1563,6 @@
         "3": "ORTAQ işlem yapmaz; lisanslı kuruluşta yatırım ve saklama"
       },
       "boundary": "ORTAQ yatırım tavsiyesi vermez, para toplamaz, pay satmaz. Sermaye piyasası işlemi yalnızca lisanslı partnerde; yatırımcı tarafı nitelikli yatırımcı kurallarına tabidir.",
-      "imageCaption": "Üretim alanı · editoryal görsel",
       "ctaDossiers": "Dosyaları gör",
       "paths": {
         "producer": {
@@ -1991,6 +1990,28 @@
           "3": "Para ORTAQ'ta değil, lisanslı kuruluşta işlem görür."
         },
         "disclaimer": "Nitelikli yatırımcı kuralları geçebilir. Geçmiş performans gelecek getiriyi göstermez."
+      }
+    },
+    "why": {
+      "aria": "Neden ORTAQ",
+      "title": "Neden ORTAQ?",
+      "traditional": {
+        "label": "Geleneksel yöntemler",
+        "items": {
+          "1": "Fuarlar",
+          "2": "Soğuk e-postalar",
+          "3": "Belirsiz bağlantılar",
+          "4": "Uzun doğrulama süreçleri"
+        }
+      },
+      "ortaq": {
+        "label": "ORTAQ",
+        "items": {
+          "1": "Doğrulanmış partnerler",
+          "2": "Hedef pazar eşleşmesi",
+          "3": "Sürekli ilişki takibi",
+          "4": "Büyüme hazırlığı"
+        }
       }
     }
   }
