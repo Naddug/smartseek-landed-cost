@@ -16,15 +16,14 @@ export function HomepageHowItWorks() {
       ariaLabel={t("homeLanding.how.aria")}
       label={t("homeLanding.how.label")}
       title={t("homeLanding.how.title")}
-      lead={t("homeLanding.how.lead")}
-      surface="default"
+      surface="surface"
     >
-      <ol className="grid gap-3 sm:grid-cols-3">
+      <ol className="grid gap-4 md:grid-cols-3">
         {stepKeys.map((key) => (
-          <li key={key} className="rounded-ortaq-md border border-ortaq-border bg-ortaq-surface px-4 py-4">
-            <span className={cn(typography.caption, "font-semibold text-ortaq-trust")}>
+          <li key={key} className="border-l-2 border-ortaq-trust pl-4">
+            <p className={cn(typography.caption, "font-semibold text-ortaq-trust-muted")}>
               {t(`homeLanding.how.steps.${key}.step`)}
-            </span>
+            </p>
             <p className={cn(typography.bodySm, "mt-2 font-medium text-ortaq-ink")}>
               {t(`homeLanding.how.steps.${key}.title`)}
             </p>

@@ -1581,11 +1581,11 @@
   "homeLanding": {
     "hero": {
       "aria": "Homepage entry",
-      "label": "Growth platform for Turkish production",
-      "title": "From the factory abroad, from proof to investment.",
-      "subtitle": "ORTAQ finds buyers and distributors, records export progress. Investment runs through an SPK-licensed partner, per contract.",
+      "label": "ORTAQ",
+      "title": "The platform that opens Turkish producers abroad and prepares them for investment.",
+      "subtitle": "Buyer and distributor matching, export records, then investment through a licensed partner. ORTAQ is not a broker.",
       "ctaPrimary": "Apply",
-      "ctaSecondary": "Questions and summary",
+      "ctaSecondary": "How it works",
       "trustLine": "ORTAQ does not execute deals · investment at licensed partner · no return guarantee",
       "preview": {
         "aria": "Matching preview",
@@ -1623,7 +1623,7 @@
         "3": "ORTAQ does not execute deals; investment and custody sit with the licensed partner"
       },
       "boundary": "ORTAQ does not provide investment advice, raise funds, or sell shares. Capital markets activity occurs only at the licensed partner, under qualified investor rules.",
-      "imageCaption": "Logistics and export · industrial field atmosphere",
+      "imageCaption": "Production floor · editorial image",
       "ctaDossiers": "View dossiers",
       "paths": {
         "producer": {
@@ -1638,7 +1638,8 @@
           "body": "Export evidence first, then revenue share or equity.",
           "href": "#yatirim"
         }
-      }
+      },
+      "disclaimer": "No investment advice. No guaranteed returns. Transactions run at an SPK-licensed platform partner under qualified investor rules."
     },
     "showcase": {
       "aria": "Platform screens",
@@ -1762,23 +1763,23 @@
     },
     "how": {
       "aria": "How it works",
-      "label": "Summary",
+      "label": "Process",
       "title": "Three steps",
       "steps": {
         "1": {
-          "step": "Step 1",
-          "title": "Find partners",
-          "body": "AI suggests buyers and distributors; you approve."
+          "step": "1",
+          "title": "Partner matching",
+          "body": "Buyers and distributors for the target market are proposed and verified."
         },
         "2": {
-          "step": "Step 2",
-          "title": "Prove export",
-          "body": "Sales and shipments become visible on the platform."
+          "step": "2",
+          "title": "Export record",
+          "body": "Commercial progress sits in one dossier; evidence before capital."
         },
         "3": {
-          "step": "Step 3",
-          "title": "Investment",
-          "body": "Ready file meets investors through a licensed partner."
+          "step": "3",
+          "title": "Licensed investment",
+          "body": "Ready dossier meets investors on the licensed crowdfunding platform."
         }
       },
       "lead": "Three steps: trade first, then the file, then investment at the licensed partner."
@@ -1807,8 +1808,8 @@
     "contact": {
       "aria": "Application",
       "label": "Contact",
-      "title": "Let's talk",
-      "lead": "Write to us as a producer, investor, or partner.",
+      "title": "Contact",
+      "lead": "Write as a producer or investor; we will reply shortly.",
       "teamLabel": "Team",
       "team": {
         "1": {
@@ -1905,9 +1906,9 @@
       "faqRiskLink": "Risk framework"
     },
     "regulatory": {
-      "aria": "Regulatory frame",
-      "label": "Investor and compliance",
-      "title": "SPK framework: who does what",
+      "aria": "Compliance",
+      "label": "Compliance",
+      "title": "ORTAQ is not a bank or brokerage. Investment is opened on the licensed platform.",
       "lead": "Investors often ask: \"Does this platform execute the deal itself?\" No. Roles are split as follows.",
       "table": {
         "role": "Party",
@@ -1929,14 +1930,14 @@
       },
       "points": {
         "1": "ORTAQ does not conduct capital markets activity.",
-        "2": "No investment advice; the investment decision is the investor's.",
-        "3": "No guarantee of return or principal.",
+        "2": "No investment advice or return promises.",
+        "3": "Dossiers are for evaluation; each campaign has its own contract.",
         "4": "Funds are raised and processed at the licensed partner per campaign terms.",
         "5": "For equity structures, MKK registration and disclosures follow the licensed process."
       },
       "disclaimer": "This page is informational, not legal advice. Current regulation and platform agreements prevail.",
       "links": {
-        "trust": "Trust infrastructure",
+        "trust": "Trust",
         "risk": "Risks",
         "process": "Process"
       }
@@ -2028,6 +2029,29 @@
       },
       "trustLink": "Trust infrastructure",
       "riskLink": "Risks"
+    },
+    "audience": {
+      "aria": "Who it is for",
+      "producer": {
+        "label": "Producer",
+        "title": "Factory and production company",
+        "points": {
+          "1": "Access to overseas buyers and distributors",
+          "2": "Pre-screening via reliability indicator",
+          "3": "Investor-ready company dossier"
+        }
+      },
+      "investor": {
+        "label": "Investor",
+        "title": "What do you invest in?",
+        "lead": "Not a listed stock: structures tied to a production company with field-level data.",
+        "points": {
+          "1": "Revenue share: as the company sells, per contract (campaign-specific).",
+          "2": "Equity: stake in the company; exit terms defined upfront.",
+          "3": "Funds do not flow through ORTAQ; execution is at the licensed institution."
+        },
+        "disclaimer": "Qualified investor rules may apply. Past performance is not indicative."
+      }
     }
   }
 }

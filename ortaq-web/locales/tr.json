@@ -1521,11 +1521,11 @@
   "homeLanding": {
     "hero": {
       "aria": "Ana sayfa giriş",
-      "label": "Türk üretimini büyüten platform",
-      "title": "Fabrikadan yurtdışına, kanıtlanan büyümeden yatırıma.",
-      "subtitle": "ORTAQ üreticiye alıcı ve distribütör bulur, ihracatı kayda geçirir. Yatırım, SPK lisanslı ortak üzerinden ve sözleşmeye bağlıdır.",
-      "ctaPrimary": "Başvuru yap",
-      "ctaSecondary": "Sorular ve özet",
+      "label": "ORTAQ",
+      "title": "Türk üreticiyi yurtdışına açan, yatırıma hazırlayan platform.",
+      "subtitle": "Doğru alıcı ve distribütör eşleşmesi, ihracat kaydı, ardından lisanslı ortak üzerinden yatırım. ORTAQ aracı kurum değildir.",
+      "ctaPrimary": "Başvuru",
+      "ctaSecondary": "Nasıl çalışır",
       "trustLine": "ORTAQ işlem yapmaz · lisanslı partnerde yatırım · getiri garantisi yoktur",
       "preview": {
         "aria": "Eşleştirme önizlemesi",
@@ -1563,7 +1563,7 @@
         "3": "ORTAQ işlem yapmaz; lisanslı kuruluşta yatırım ve saklama"
       },
       "boundary": "ORTAQ yatırım tavsiyesi vermez, para toplamaz, pay satmaz. Sermaye piyasası işlemi yalnızca lisanslı partnerde; yatırımcı tarafı nitelikli yatırımcı kurallarına tabidir.",
-      "imageCaption": "Lojistik ve ihracat · endüstriyel saha atmosferi",
+      "imageCaption": "Üretim alanı · editoryal görsel",
       "ctaDossiers": "Dosyaları gör",
       "paths": {
         "producer": {
@@ -1578,7 +1578,8 @@
           "body": "Önce ihracat kanıtı, sonra gelir payı veya pay.",
           "href": "#yatirim"
         }
-      }
+      },
+      "disclaimer": "Yatırım tavsiyesi verilmez. Getiri garantisi yoktur. İşlemler SPK lisanslı platform ortağında ve nitelikli yatırımcı çerçevesinde yürür."
     },
     "showcase": {
       "aria": "Platform ekranları",
@@ -1702,23 +1703,23 @@
     },
     "how": {
       "aria": "Nasıl çalışır",
-      "label": "Özet",
+      "label": "Süreç",
       "title": "Üç adım",
       "steps": {
         "1": {
-          "step": "Adım 1",
-          "title": "Partner bul",
-          "body": "AI uygun alıcı ve distribütörü önerir, siz onaylarsınız."
+          "step": "1",
+          "title": "Partner eşleşmesi",
+          "body": "Hedef pazara uygun alıcı ve distribütör adayları önerilir ve doğrulanır."
         },
         "2": {
-          "step": "Adım 2",
-          "title": "İhracat kanıtla",
-          "body": "Satış ve sevkiyat platformda görünür hale gelir."
+          "step": "2",
+          "title": "İhracat kaydı",
+          "body": "Ticari ilerleme tek dosyada toplanır; yatırım öncesi kanıt oluşur."
         },
         "3": {
-          "step": "Adım 3",
-          "title": "Yatırım",
-          "body": "Hazır dosya lisanslı partner üzerinden yatırımcıyla buluşur."
+          "step": "3",
+          "title": "Lisanslı yatırım",
+          "body": "Hazır dosya, lisanslı kitle fonlama platformunda yatırımcıyla buluşur."
         }
       },
       "lead": "Üç adım: önce ticaret, sonra dosya, en son lisanslı ortakta yatırım."
@@ -1747,8 +1748,8 @@
     "contact": {
       "aria": "Başvuru",
       "label": "İletişim",
-      "title": "Konuşalım",
-      "lead": "Üretici, yatırımcı veya partner iseniz yazın.",
+      "title": "İletişim",
+      "lead": "Üretici veya yatırımcı olarak yazın; en kısa sürede döneriz.",
       "teamLabel": "Ekip",
       "team": {
         "1": {
@@ -1845,9 +1846,9 @@
       "faqRiskLink": "Risk çerçevesi"
     },
     "regulatory": {
-      "aria": "Regülasyon çerçevesi",
-      "label": "Yatırımcı ve uyum",
-      "title": "SPK çerçevesi: kim ne yapar?",
+      "aria": "Uyum",
+      "label": "Uyum",
+      "title": "ORTAQ banka veya aracı kurum değildir. Yatırım işlemi lisanslı platformda açılır.",
       "lead": "Yatırımcının endişesi genelde “bu platform işlemi kendisi mi yapıyor?” sorusudur. Hayır. Rol dağılımı aşağıdadır.",
       "table": {
         "role": "Taraf",
@@ -1869,14 +1870,14 @@
       },
       "points": {
         "1": "ORTAQ sermaye piyasası faaliyeti yürütmez.",
-        "2": "Yatırım tavsiyesi verilmez; yatırım kararı yatırımcıya aittir.",
-        "3": "Getiri veya anapara garantisi yoktur.",
+        "2": "Yatırım tavsiyesi ve getiri taahhüdü yoktur.",
+        "3": "Dosyalar değerlendirme amaçlıdır; her kampanya kendi sözleşmesine tabidir.",
         "4": "Fon, kampanya koşullarına göre lisanslı ortakta toplanır ve işler.",
         "5": "Paya dayalı yapılarda MKK kaydı ve bildirim yükümlülükleri lisanslı süreçte yürür."
       },
       "disclaimer": "Bu sayfa bilgilendirme amaçlıdır; hukuki danışmanlık değildir. Güncel mevzuat ve platform sözleşmesi esas alınmalıdır.",
       "links": {
-        "trust": "Güven altyapısı",
+        "trust": "Güven",
         "risk": "Riskler",
         "process": "Süreç"
       }
@@ -1968,6 +1969,29 @@
       },
       "trustLink": "Güven altyapısı",
       "riskLink": "Riskler"
+    },
+    "audience": {
+      "aria": "Kimler için",
+      "producer": {
+        "label": "Üretici",
+        "title": "Fabrika ve üretim şirketi",
+        "points": {
+          "1": "Yurtdışı alıcı ve distribütör erişimi",
+          "2": "Güvenilirlik göstergesi ile ön eleme",
+          "3": "Yatırımcıya giden hazır şirket dosyası"
+        }
+      },
+      "investor": {
+        "label": "Yatırımcı",
+        "title": "Neye yatırım yaparsınız?",
+        "lead": "Halka açık borsa hissesi değil: saha verisi olan bir üretim şirketinin büyümesine bağlı yapı.",
+        "points": {
+          "1": "Gelir paylaşımı: şirket satış yaptıkça, sözleşmedeki oran (kampanyaya göre).",
+          "2": "Öz sermaye: şirkette pay; çıkış koşulları önceden yazılır.",
+          "3": "Para ORTAQ'ta değil, lisanslı kuruluşta işlem görür."
+        },
+        "disclaimer": "Nitelikli yatırımcı kuralları geçebilir. Geçmiş performans gelecek getiriyi göstermez."
+      }
     }
   }
 }
