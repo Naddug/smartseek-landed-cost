@@ -1581,12 +1581,12 @@
   "homeLanding": {
     "hero": {
       "aria": "Homepage entry",
-      "label": "What is ORTAQ?",
-      "title": "Find the right partner, prepare the company, then open the investment path.",
-      "subtitle": "Export and sales first. When growth is proven, investment follows through a licensed institution. ORTAQ is not a broker; it prepares the company for growth and capital.",
+      "label": "Growth platform for Turkish production",
+      "title": "From the factory abroad, from proof to investment.",
+      "subtitle": "ORTAQ finds buyers and distributors, records export progress. Investment runs through an SPK-licensed partner, per contract.",
       "ctaPrimary": "Apply",
       "ctaSecondary": "Questions and summary",
-      "trustLine": "Transactions via licensed partner · qualified investors · SPK-aligned structure",
+      "trustLine": "ORTAQ does not execute deals · investment at licensed partner · no return guarantee",
       "preview": {
         "aria": "Matching preview",
         "panelLabel": "Application",
@@ -1622,13 +1622,29 @@
         "2": "Investor: Export evidence first, then contractual return structure",
         "3": "ORTAQ does not execute deals; investment and custody sit with the licensed partner"
       },
-      "boundary": "ORTAQ does not provide investment advice, raise funds, or sell shares. Capital markets activity occurs only at the licensed partner, under qualified investor rules."
+      "boundary": "ORTAQ does not provide investment advice, raise funds, or sell shares. Capital markets activity occurs only at the licensed partner, under qualified investor rules.",
+      "imageCaption": "Logistics and export · industrial field atmosphere",
+      "ctaDossiers": "View dossiers",
+      "paths": {
+        "producer": {
+          "label": "If you are a producer",
+          "title": "Overseas partners and export",
+          "body": "Matching, reliability indicator, dossier.",
+          "href": "#basvuru"
+        },
+        "investor": {
+          "label": "If you are an investor",
+          "title": "Into a real production company",
+          "body": "Export evidence first, then revenue share or equity.",
+          "href": "#yatirim"
+        }
+      }
     },
     "showcase": {
       "aria": "Platform screens",
       "label": "Inside the platform",
-      "title": "Product screens",
-      "lead": "Sample interface views. Companies and figures are illustrative.",
+      "title": "Inside the application",
+      "lead": "Matching, export log, and investor flow. Names are illustrative.",
       "pillars": {
         "1": {
           "step": "1",
@@ -1642,7 +1658,8 @@
           "step": "3",
           "title": "Open the investment path"
         }
-      }
+      },
+      "imageCaption": "Production line · field"
     },
     "screens": {
       "match": {
@@ -1703,20 +1720,20 @@
     },
     "earnings": {
       "aria": "Investor returns",
-      "label": "For investors",
-      "title": "How returns are formed",
-      "lead": "ORTAQ does not promise returns. Structures below depend on contracts at the licensed partner.",
+      "label": "Return structure",
+      "title": "Two possible paths",
+      "lead": "Which applies depends on the campaign and contract.",
       "paths": {
         "revenue": {
-          "tag": "Path A",
+          "tag": "A",
           "title": "Revenue share",
-          "how": "The company generates export revenue. A defined share is passed to the investor per contract.",
+          "how": "As the company sells, the contracted rate applies.",
           "earn": "You earn when: the company sells, you receive the agreed cash share (per contract)."
         },
         "equity": {
-          "tag": "Path B",
-          "title": "Equity",
-          "how": "As the company grows, your stake may gain value. Exit follows contract and licensed process.",
+          "tag": "B",
+          "title": "Equity stake",
+          "how": "Growth and exit terms are defined upfront.",
           "earn": "You earn when: the company is valued higher, your stake reflects that; exit terms are defined upfront."
         }
       },
@@ -1741,7 +1758,7 @@
           }
         }
       },
-      "disclaimer": "Not investment advice. No return guarantee. All transactions via licensed institutions and qualified investors."
+      "disclaimer": "No return guarantee. Execution at licensed institution."
     },
     "how": {
       "aria": "How it works",
@@ -1923,6 +1940,94 @@
         "risk": "Risks",
         "process": "Process"
       }
+    },
+    "story": {
+      "aria": "Visual flow",
+      "label": "At a glance",
+      "title": "Factory → export → capital path",
+      "steps": {
+        "1": {
+          "step": "1 · Production",
+          "title": "Turkish factory produces"
+        },
+        "2": {
+          "step": "2 · Export",
+          "title": "Foreign sales on record"
+        },
+        "3": {
+          "step": "3 · Capital",
+          "title": "Dossier opens to investment"
+        }
+      }
+    },
+    "investorLens": {
+      "aria": "Investor summary",
+      "label": "For investors",
+      "title": "What are you investing in?",
+      "object": "Not a listed ticker: structures tied to a growing manufacturer's commercial performance.",
+      "points": {
+        "1": "Export and operations evidence is collected first.",
+        "2": "Then a campaign or instrument opens on the licensed platform.",
+        "3": "Return: contractual revenue share or equity; no promises."
+      },
+      "tagRevenue": "Revenue share",
+      "tagEquity": "Equity",
+      "disclaimer": "Qualified investor rules may apply. Not investment advice.",
+      "link": "Read return structure",
+      "imageCaption": "CNC and production · dossier context"
+    },
+    "sample": {
+      "aria": "Sample dossier",
+      "label": "Concrete example",
+      "title": "This is what an investment dossier looks like",
+      "lead": "Open a real evaluation file: capacity, export, and review records inside.",
+      "linkAll": "All dossiers",
+      "card": {
+        "badge": "Sample dossier",
+        "imageAlt": "Parts manufacturing facility",
+        "sector": "Metal processing",
+        "name": "Karat Parça · Konya",
+        "location": "Field review in progress",
+        "footnote": "Signals shown are qualitative; not an offer.",
+        "signals": {
+          "1": {
+            "label": "Export",
+            "value": "Focused profile"
+          },
+          "2": {
+            "label": "Review",
+            "value": "Field verification"
+          },
+          "3": {
+            "label": "Structure",
+            "value": "Equity or revenue share"
+          }
+        }
+      }
+    },
+    "quickFaq": {
+      "aria": "Quick FAQ",
+      "label": "Short answers",
+      "items": {
+        "1": {
+          "q": "Is ORTAQ a bank?",
+          "a": "No. Growth and matching platform; investment at licensed partner."
+        },
+        "2": {
+          "q": "Can anyone invest?",
+          "a": "No. Qualified investor and campaign rules apply."
+        },
+        "3": {
+          "q": "Guaranteed return?",
+          "a": "No. Outcomes depend on trade and contract."
+        },
+        "4": {
+          "q": "What does the producer get?",
+          "a": "Overseas partner, export record, investor-ready file."
+        }
+      },
+      "trustLink": "Trust infrastructure",
+      "riskLink": "Risks"
     }
   }
 }

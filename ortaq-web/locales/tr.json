@@ -1521,12 +1521,12 @@
   "homeLanding": {
     "hero": {
       "aria": "Ana sayfa giriş",
-      "label": "ORTAQ nedir?",
-      "title": "Üreticiyi doğru partnerle buluşturur, büyüyünce yatırıma hazırlar.",
-      "subtitle": "Önce ihracat ve satış. Kanıtlanan büyüme olunca, lisanslı kuruluş üzerinden yatırım. ORTAQ aracı kurum değil; üreticiyi büyümeye ve yatırıma hazırlayan platform.",
+      "label": "Türk üretimini büyüten platform",
+      "title": "Fabrikadan yurtdışına, kanıtlanan büyümeden yatırıma.",
+      "subtitle": "ORTAQ üreticiye alıcı ve distribütör bulur, ihracatı kayda geçirir. Yatırım, SPK lisanslı ortak üzerinden ve sözleşmeye bağlıdır.",
       "ctaPrimary": "Başvuru yap",
       "ctaSecondary": "Sorular ve özet",
-      "trustLine": "İşlem lisanslı partnerde · yatırım nitelikli yatırımcıya · SPK uyumlu yapı",
+      "trustLine": "ORTAQ işlem yapmaz · lisanslı partnerde yatırım · getiri garantisi yoktur",
       "preview": {
         "aria": "Eşleştirme önizlemesi",
         "panelLabel": "Uygulama",
@@ -1562,13 +1562,29 @@
         "2": "Yatırımcı: Önce kanıtlanmış ihracat, sonra sözleşmeli getiri yapısı",
         "3": "ORTAQ işlem yapmaz; lisanslı kuruluşta yatırım ve saklama"
       },
-      "boundary": "ORTAQ yatırım tavsiyesi vermez, para toplamaz, pay satmaz. Sermaye piyasası işlemi yalnızca lisanslı partnerde; yatırımcı tarafı nitelikli yatırımcı kurallarına tabidir."
+      "boundary": "ORTAQ yatırım tavsiyesi vermez, para toplamaz, pay satmaz. Sermaye piyasası işlemi yalnızca lisanslı partnerde; yatırımcı tarafı nitelikli yatırımcı kurallarına tabidir.",
+      "imageCaption": "Lojistik ve ihracat · endüstriyel saha atmosferi",
+      "ctaDossiers": "Dosyaları gör",
+      "paths": {
+        "producer": {
+          "label": "Üreticiyseniz",
+          "title": "Yurtdışı partner ve ihracat",
+          "body": "Eşleştirme, güvenilirlik göstergesi, dosya.",
+          "href": "#basvuru"
+        },
+        "investor": {
+          "label": "Yatırımcıysanız",
+          "title": "Gerçek üretim şirketine",
+          "body": "Önce ihracat kanıtı, sonra gelir payı veya pay.",
+          "href": "#yatirim"
+        }
+      }
     },
     "showcase": {
       "aria": "Platform ekranları",
       "label": "Platformdan görünüm",
-      "title": "Ürün ekranları",
-      "lead": "Örnek arayüz görünümleri. Şirket ve rakamlar temsilidir.",
+      "title": "Uygulama içi görünüm",
+      "lead": "Eşleştirme, ihracat kaydı ve yatırımcı akışı. İsimler örnektir.",
       "pillars": {
         "1": {
           "step": "1",
@@ -1582,7 +1598,8 @@
           "step": "3",
           "title": "Yatırım yolu açılır"
         }
-      }
+      },
+      "imageCaption": "Üretim hattı · saha"
     },
     "screens": {
       "match": {
@@ -1643,20 +1660,20 @@
     },
     "earnings": {
       "aria": "Yatırımcı kazancı",
-      "label": "Yatırımcı için",
-      "title": "Getiri nasıl oluşur?",
-      "lead": "ORTAQ getiri vaadi sunmaz. Aşağıdaki yapılar lisanslı partnerdeki işlem sözleşmesine bağlıdır.",
+      "label": "Getiri yapısı",
+      "title": "İki olası yol",
+      "lead": "Hangisi açılacağı kampanya ve sözleşmeye bağlıdır.",
       "paths": {
         "revenue": {
-          "tag": "Yol A",
+          "tag": "A",
           "title": "Gelir paylaşımı",
-          "how": "Şirket ihracattan ciro üretir. Sözleşmede yazan oranda gelir payı yatırımcıya aktarılır.",
+          "how": "Şirket satış yaptıkça, sözleşmedeki oran işler.",
           "earn": "Siz kazanırsınız: şirket satış yaptıkça, tanımlı pay oranında nakit akışı (sözleşmeye bağlı)."
         },
         "equity": {
-          "tag": "Yol B",
-          "title": "Öz sermaye (pay)",
-          "how": "Şirket büyüdükçe payınızın değeri artabilir. Çıkış (satış, temettü vb.) sözleşme ve lisanslı süreçle olur.",
+          "tag": "B",
+          "title": "Şirkette pay",
+          "how": "Büyüme ve çıkış koşulları önceden yazılır.",
           "earn": "Siz kazanırsınız: şirket değerlenirse payınızın değeri yükselir; çıkış koşulları önceden bellidir."
         }
       },
@@ -1681,7 +1698,7 @@
           }
         }
       },
-      "disclaimer": "Yatırım tavsiyesi değildir. Getiri garantisi yoktur. Tüm işlemler lisanslı kuruluş ve nitelikli yatırımcı çerçevesindedir."
+      "disclaimer": "Getiri garantisi yoktur. İşlem lisanslı kuruluşta."
     },
     "how": {
       "aria": "Nasıl çalışır",
@@ -1863,6 +1880,94 @@
         "risk": "Riskler",
         "process": "Süreç"
       }
+    },
+    "story": {
+      "aria": "Görsel akış",
+      "label": "Tek bakışta",
+      "title": "Fabrika → ihracat → yatırım yolu",
+      "steps": {
+        "1": {
+          "step": "1 · Üretim",
+          "title": "Türk fabrikası üretir"
+        },
+        "2": {
+          "step": "2 · İhracat",
+          "title": "Yurtdışı satış kayda geçer"
+        },
+        "3": {
+          "step": "3 · Sermaye",
+          "title": "Dosya yatırıma açılır"
+        }
+      }
+    },
+    "investorLens": {
+      "aria": "Yatırımcı özeti",
+      "label": "Yatırımcıya",
+      "title": "Neye yatırım yapıyorsunuz?",
+      "object": "Borsaya kote bir hisse değil: büyüyen bir üretim şirketinin ticari performansına bağlı yapı.",
+      "points": {
+        "1": "Önce şirketin yurtdışı satış ve operasyon kanıtı toplanır.",
+        "2": "Sonra lisanslı platformda kampanya veya enstrüman açılır.",
+        "3": "Kazanç: sözleşmedeki gelir payı veya şirkette pay; vaat yok."
+      },
+      "tagRevenue": "Gelir paylaşımı",
+      "tagEquity": "Öz sermaye",
+      "disclaimer": "Nitelikli yatırımcı kuralları geçerli olabilir. Yatırım tavsiyesi değildir.",
+      "link": "Getiri yapısını oku",
+      "imageCaption": "CNC ve üretim · dosya örneği"
+    },
+    "sample": {
+      "aria": "Örnek dosya",
+      "label": "Somut örnek",
+      "title": "Bir yatırım dosyası böyle görünür",
+      "lead": "Gerçek bir değerlendirme dosyasına girin; kapasite, ihracat ve inceleme kayıtları orada.",
+      "linkAll": "Tüm dosyalar",
+      "card": {
+        "badge": "Örnek dosya",
+        "imageAlt": "Parça imalat tesisi",
+        "sector": "Metal işleme",
+        "name": "Karat Parça · Konya",
+        "location": "Saha incelemesi devam ediyor",
+        "footnote": "Gösterilen metrikler nitelikseldir; yatırım teklifi değildir.",
+        "signals": {
+          "1": {
+            "label": "İhracat",
+            "value": "Odaklı profil"
+          },
+          "2": {
+            "label": "İnceleme",
+            "value": "Saha doğrulama"
+          },
+          "3": {
+            "label": "Yapı",
+            "value": "Pay veya gelir payı"
+          }
+        }
+      }
+    },
+    "quickFaq": {
+      "aria": "Sık sorular",
+      "label": "Kısa cevaplar",
+      "items": {
+        "1": {
+          "q": "ORTAQ banka mı?",
+          "a": "Hayır. Büyüme ve eşleştirme platformu; yatırım işlemi lisanslı ortakta."
+        },
+        "2": {
+          "q": "Herkes yatırım yapabilir mi?",
+          "a": "Hayır. Mevzuattaki nitelikli yatırımcı ve kampanya koşulları geçerlidir."
+        },
+        "3": {
+          "q": "Garanti getiri var mı?",
+          "a": "Hayır. Kazanç şirketin ticaretine ve sözleşmeye bağlıdır."
+        },
+        "4": {
+          "q": "Üretici ne kazanır?",
+          "a": "Yurtdışı partner, ihracat kaydı ve yatırımcıya giden hazır dosya."
+        }
+      },
+      "trustLink": "Güven altyapısı",
+      "riskLink": "Riskler"
     }
   }
 }

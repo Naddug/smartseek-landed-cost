@@ -2,84 +2,92 @@
 
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { FrameImage } from "@/components/media/FrameImage";
 import { HeroProductPreview } from "@/components/landing/HeroProductPreview";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
+import { media } from "@/lib/media";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-const bulletKeys = ["1", "2", "3"] as const;
+const pathKeys = ["producer", "investor"] as const;
 
-/**
- * HeroPlate — first 15 seconds: what ORTAQ is, who it is for, what to do next.
- */
 export function HeroPlate() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language === "tr" ? "tr" : "en";
+  const heroImg = media.logisticsDock;
 
   return (
     <section
       className="relative border-b border-ortaq-border bg-ortaq-surface"
       aria-label={t("homeLanding.hero.aria")}
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgb(228_237_233/0.45),transparent_55%)]"
-        aria-hidden
-      />
-      <Container wide className="relative py-10 sm:py-12 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-start lg:gap-10">
-          <div className="landing-fade-in min-w-0">
+      <Container wide className="relative py-8 sm:py-10 lg:py-12">
+        <div className="landing-fade-in">
+          <FrameImage
+            src={heroImg.src}
+            alt={lang === "tr" ? heroImg.altTr : heroImg.altEn}
+            focalPoint={heroImg.focalPoint}
+            priority
+            sizes="100vw"
+            aspectClassName="aspect-[2/1] max-h-[min(42vh,420px)] sm:aspect-[21/9]"
+            caption={t("homeLanding.hero.imageCaption")}
+            className="w-full"
+          />
+        </div>
+
+        <div className="landing-fade-in mt-8 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+          <div className="min-w-0">
             <p className={typography.label}>{t("homeLanding.hero.label")}</p>
-
-            <p className={cn(typography.body, "mt-3 max-w-xl font-medium text-ortaq-ink")}>
-              {t("homeLanding.hero.elevator")}
-            </p>
-
             <h1
               className={cn(
                 typography.display,
-                "mt-4 max-w-[24ch] text-[1.75rem] leading-[1.12] sm:text-[2.125rem] lg:text-[2.375rem]",
+                "mt-2 max-w-[20ch] text-[1.75rem] leading-[1.1] sm:text-[2.125rem] lg:text-[2.5rem]",
               )}
             >
               {t("homeLanding.hero.title")}
             </h1>
+            <p className={cn(typography.body, "mt-3 max-w-lg text-ortaq-ink")}>
+              {t("homeLanding.hero.subtitle")}
+            </p>
 
-            <ul className="mt-5 max-w-xl space-y-2">
-              {bulletKeys.map((key) => (
-                <li key={key} className="flex gap-2.5">
-                  <span className={cn(typography.caption, "mt-0.5 font-semibold text-ortaq-trust")} aria-hidden>
-                    —
-                  </span>
-                  <span className={cn(typography.bodySm, "text-ortaq-ink-muted")}>
-                    {t(`homeLanding.hero.bullets.${key}`)}
-                  </span>
-                </li>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {pathKeys.map((key) => (
+                <Link
+                  key={key}
+                  href={t(`homeLanding.hero.paths.${key}.href`)}
+                  className="group rounded-ortaq-md border border-ortaq-border bg-ortaq-bg-alt/50 p-4 transition-colors hover:border-ortaq-trust/35 hover:bg-ortaq-trust-soft/25"
+                >
+                  <p className={cn(typography.caption, "font-semibold text-ortaq-trust-muted")}>
+                    {t(`homeLanding.hero.paths.${key}.label`)}
+                  </p>
+                  <p className={cn(typography.bodySm, "mt-1 font-medium text-ortaq-ink group-hover:text-ortaq-trust")}>
+                    {t(`homeLanding.hero.paths.${key}.title`)}
+                  </p>
+                  <p className={cn(typography.caption, "mt-1")}>
+                    {t(`homeLanding.hero.paths.${key}.body`)}
+                  </p>
+                </Link>
               ))}
-            </ul>
+            </div>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link href="#basvuru">
-                <Button variant="primary" size="lg" className="min-w-[200px]">
+                <Button variant="primary" size="lg">
                   {t("homeLanding.hero.ctaPrimary")}
                 </Button>
               </Link>
-              <Link href="#ozet">
+              <Link href="/sirketler">
                 <Button variant="secondary" size="lg">
-                  {t("homeLanding.hero.ctaSecondary")}
+                  {t("homeLanding.hero.ctaDossiers")}
                 </Button>
               </Link>
             </div>
 
-            <p
-              className={cn(
-                typography.caption,
-                "mt-5 max-w-xl rounded-ortaq-sm border border-ortaq-border bg-ortaq-bg-alt/80 px-3 py-2.5 text-ortaq-ink-muted",
-              )}
-            >
-              {t("homeLanding.hero.boundary")}
-            </p>
+            <p className={cn(typography.caption, "mt-4 max-w-lg")}>{t("homeLanding.hero.trustLine")}</p>
           </div>
 
-          <div className="landing-fade-in-delayed min-w-0 lg:sticky lg:top-24">
+          <div className="landing-fade-in-delayed min-w-0">
             <HeroProductPreview />
           </div>
         </div>

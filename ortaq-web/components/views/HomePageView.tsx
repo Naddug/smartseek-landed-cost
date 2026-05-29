@@ -2,11 +2,12 @@
 
 import { PublicShell } from "@/components/layout/PublicShell";
 import { HeroPlate } from "@/components/product/HeroPlate";
-import { HomepageInstantBrief } from "@/components/landing/HomepageInstantBrief";
-import { HomepageHowItWorks } from "@/components/landing/HomepageHowItWorks";
+import { HomepageStoryStrip } from "@/components/landing/HomepageStoryStrip";
+import { HomepageInvestorLens } from "@/components/landing/HomepageInvestorLens";
+import { HomepageSampleDossier } from "@/components/landing/HomepageSampleDossier";
 import { HomepagePlatformShowcase } from "@/components/landing/HomepagePlatformShowcase";
 import { HomepageEarningsExplainer } from "@/components/landing/HomepageEarningsExplainer";
-import { HomepageForCompanies } from "@/components/landing/HomepageForCompanies";
+import { HomepageQuickFaq } from "@/components/landing/HomepageQuickFaq";
 import { HomepageRegulatoryFrame } from "@/components/landing/HomepageRegulatoryFrame";
 import { HomepageContact } from "@/components/landing/HomepageContact";
 
@@ -14,11 +15,12 @@ export function HomePageView() {
   return (
     <PublicShell stickyCta>
       <HeroPlate />
-      <HomepageInstantBrief />
-      <HomepageHowItWorks />
+      <HomepageStoryStrip />
+      <HomepageInvestorLens />
+      <HomepageSampleDossier />
       <HomepagePlatformShowcase />
       <HomepageEarningsExplainer />
-      <HomepageForCompanies />
+      <HomepageQuickFaq />
       <HomepageRegulatoryFrame />
       <HomepageContact />
     </PublicShell>
