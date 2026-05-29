@@ -305,6 +305,31 @@
     box-shadow: 0 0 0 2px rgb(109 184 154 / 0.2);
   }
 
+  .landing-fade-in {
+    animation: landing-fade-in 720ms ease-out both;
+  }
+
+  .landing-fade-in-delayed {
+    animation: landing-fade-in 920ms ease-out 120ms both;
+  }
+
+  .landing-depth {
+    box-shadow:
+      var(--shadow-intel),
+      0 24px 48px rgb(20 19 16 / 0.04);
+  }
+
+  @keyframes landing-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   @keyframes intel-pulse {
     0%,
     100% {

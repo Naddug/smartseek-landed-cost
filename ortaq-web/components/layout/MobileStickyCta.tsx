@@ -20,9 +20,9 @@ export function MobileStickyCta() {
             {t("mobileCta.sublabel")}
           </p>
         </div>
-        <Link href="/sirketler" className="shrink-0">
+        <Link href="/#basvuru" className="shrink-0">
           <Button variant="primary" size="sm">
-            {t("nav.explore")}
+            {t("homeLanding.hero.ctaPrimary")}
           </Button>
         </Link>
       </div>

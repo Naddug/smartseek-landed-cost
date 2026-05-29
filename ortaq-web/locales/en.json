@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Equity ownership in industrial production.",
-    "navTagline": "Equity in production companies"
+    "tagline": "Growth platform for Turkish producers",
+    "navTagline": "Export and growth capital"
   },
   "nav": {
     "howItWorks": "Investment process",
@@ -11,7 +11,7 @@
     "risk": "Risk framework",
     "evaluation": "Evaluation",
     "memberArea": "Your space",
-    "explore": "Investment dossiers",
+    "explore": "Apply",
     "menu": "Menu",
     "langToggle": "Change language",
     "ariaMain": "Main menu",
@@ -1385,8 +1385,8 @@
     "riskLink": "Risks"
   },
   "mobileCta": {
-    "label": "Review investment dossiers",
-    "sublabel": "Equity partnership in production companies · transactions not yet open"
+    "label": "ORTAQ growth platform",
+    "sublabel": "Export, verified partners, growth capital"
   },
   "evaluationPage": {
     "label": "Company selection",
@@ -1577,5 +1577,172 @@
   "notFound": {
     "title": "Page not found",
     "back": "Back to home"
+  },
+  "homeLanding": {
+    "hero": {
+      "aria": "Homepage entry",
+      "label": "Growth platform",
+      "title": "We connect Turkish producers to the right overseas partners and growth capital with AI.",
+      "subtitle": "ORTAQ first accelerates export and commercial growth with AI, then introduces companies with real traction to qualified investors and funds through licensed partners.",
+      "ctaPrimary": "Apply",
+      "ctaSecondary": "How it works",
+      "trustLine": "Through licensed partners · qualified investors only · SPK-aligned structure",
+      "preview": {
+        "aria": "Partnership matching preview",
+        "panelLabel": "Matching flow",
+        "panelTitle": "From producer to verified counterparty",
+        "producerLabel": "Producer",
+        "producerName": "[Company name · sector]",
+        "producerMeta": "Türkiye · manufacturing",
+        "matchLabel": "AI pre-screening",
+        "targetLabel": "Target partner",
+        "targetName": "[Distributor / buyer]",
+        "targetMeta": "Market · verification complete",
+        "partners": {
+          "1": {
+            "role": "European distributor",
+            "note": "Demand signal and reference check",
+            "chip": "Verified"
+          },
+          "2": {
+            "role": "Middle East buyer",
+            "note": "Counterparty score under review",
+            "chip": "Screening"
+          },
+          "3": {
+            "role": "Export channel",
+            "note": "Trade behaviour fit",
+            "chip": "Verified"
+          }
+        }
+      }
+    },
+    "problem": {
+      "aria": "Market problem",
+      "label": "Problem",
+      "title": "Producers want to go global; they cannot find a credible path.",
+      "lead": "Turkish manufacturers want new markets and access to growth capital. Trade fairs, cold email, and unreliable channels are slow, expensive, and risky.",
+      "points": {
+        "1": {
+          "title": "No right partner",
+          "body": "It is unclear who to speak with in the target market; reaching a credible distributor or buyer takes months."
+        },
+        "2": {
+          "title": "Capital gate stays closed",
+          "body": "Without export proof, the door to growth finance or equity does not open."
+        },
+        "3": {
+          "title": "Channel cost is high",
+          "body": "Fairs and intermediary networks are costly; risk builds without data and verification."
+        }
+      }
+    },
+    "how": {
+      "aria": "How it works",
+      "label": "How it works",
+      "title": "Three steps: export, readiness, introduction",
+      "lead": "ORTAQ does not run capital markets activity itself; it enables commercial growth first, then investment introductions through licensed partners.",
+      "steps": {
+        "1": {
+          "title": "AI export agent",
+          "body": "Finds, verifies, and accelerates outreach to the right distributors and buyers."
+        },
+        "2": {
+          "title": "Investment readiness",
+          "body": "The company becomes investable through real export growth; traction is evidenced."
+        },
+        "3": {
+          "title": "Licensed introduction",
+          "body": "Ready companies meet qualified investors and funds through licensed partners."
+        }
+      }
+    },
+    "ai": {
+      "aria": "AI layer",
+      "label": "Artificial intelligence",
+      "title": "Recommendation engine from day one",
+      "body": "ORTAQ helps companies find suitable buyers, distributors, and business partners using company information, export history, product categories, market demand signals, and reliability indicators. As commercial relationships are formed on the platform, the system learns from outcomes and continuously improves recommendation quality.",
+      "footnote": "This describes product behaviour; it is not a performance or return commitment."
+    },
+    "companies": {
+      "aria": "For companies",
+      "label": "For companies",
+      "title": "Access for production companies",
+      "lead": "A structured growth path for Turkish manufacturers entering new markets.",
+      "benefits": {
+        "1": "Access to new markets",
+        "2": "Verified partners",
+        "3": "AI pre-screening",
+        "4": "Path to growth capital"
+      }
+    },
+    "investors": {
+      "aria": "For investors",
+      "label": "For investors",
+      "title": "Return structure and risk frame",
+      "lead": "The investor takes exposure through an instrument set up via a licensed partner. ORTAQ does not provide investment advice.",
+      "mechanism": "Returns follow the instrument structure tied to company growth. Execution and custody run through a licensed institution.",
+      "instruments": {
+        "revenue": {
+          "title": "Revenue-based growth finance",
+          "body": "A contract-defined revenue participation model linked to commercial growth."
+        },
+        "equity": {
+          "title": "Equity",
+          "body": "Equity partnership in a company that has passed readiness; within licensed partner and qualified investor rules."
+        }
+      },
+      "riskReduction": "ORTAQ aims to reduce investor risk by preparing companies with real export traction before capital is introduced.",
+      "disclaimer": "No return is guaranteed. Past performance does not predict future results. This page is not investment advice."
+    },
+    "compliance": {
+      "aria": "Compliance and trust",
+      "label": "Compliance and trust",
+      "title": "Regulatory boundaries are explicit",
+      "lead": "ORTAQ does not conduct capital markets activity itself.",
+      "points": {
+        "1": "Transactions are executed through licensed institutions.",
+        "2": "The investment side is aligned with qualified investors only.",
+        "3": "The platform is evaluation and growth infrastructure; SPK-aligned structure is established with licensed partners."
+      }
+    },
+    "contact": {
+      "aria": "Application and contact",
+      "label": "Contact",
+      "title": "Apply and meet the team",
+      "lead": "Use the form as a producer, investor, or partner. Team details will be updated before launch.",
+      "teamLabel": "Team",
+      "team": {
+        "1": {
+          "name": "[Full name]",
+          "role": "[Title · Founder / Business development]"
+        },
+        "2": {
+          "name": "[Full name]",
+          "role": "[Title · Product / Technology]"
+        },
+        "3": {
+          "name": "[Full name]",
+          "role": "[Title · Operations / Compliance]"
+        }
+      },
+      "form": {
+        "name": "Full name",
+        "namePlaceholder": "Your name",
+        "email": "Email",
+        "emailPlaceholder": "you@company.com",
+        "role": "Application type",
+        "rolePlaceholder": "Select",
+        "roleCompany": "Production company",
+        "roleInvestor": "Investor",
+        "rolePartner": "Licensed partner / fund",
+        "roleOther": "Other",
+        "message": "Message",
+        "messagePlaceholder": "Short context (optional)",
+        "submit": "Submit",
+        "success": "Your application was received. Our team will respond shortly.",
+        "note": "Form is for intake today; integration completes before launch."
+      }
+    }
   }
 }

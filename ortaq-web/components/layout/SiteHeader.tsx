@@ -80,7 +80,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
             >
               {i18n.language === "tr" ? "EN" : "TR"}
             </button>
-            <Link href="/sirketler" className="hidden sm:block">
+            <Link href="/#basvuru" className="hidden sm:block">
               <Button variant={light ? "light" : "primary"} size="sm">
                 {t("nav.explore")}
               </Button>
@@ -121,7 +121,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
                 </li>
               ))}
               <li className="pt-2">
-                <Link href="/sirketler" onClick={() => setOpen(false)}>
+                <Link href="/#basvuru" onClick={() => setOpen(false)}>
                   <Button variant="primary" fullWidth size="sm">
                     {t("nav.explore")}
                   </Button>

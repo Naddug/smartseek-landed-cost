@@ -2,32 +2,25 @@
 
 import { PublicShell } from "@/components/layout/PublicShell";
 import { HeroPlate } from "@/components/product/HeroPlate";
-import { HomepageMasthead } from "@/components/product/HomepageMasthead";
-import { HomepageMarketLayer } from "@/components/product/HomepageMarketLayer";
-import { HomepageMechanics } from "@/components/product/HomepageMechanics";
-import { DossierIndex } from "@/components/product/DossierIndex";
-import { ReviewActivityTable } from "@/components/product/ReviewActivityTable";
-import { ProductVerificationSection } from "@/components/product/ProductVerificationSection";
-import { ProductCtaSection } from "@/components/product/ProductClosing";
-import { Container } from "@/components/ui/Section";
-import { RelatedLinks } from "@/components/seo/RelatedLinks";
+import { HomepageProblem } from "@/components/landing/HomepageProblem";
+import { HomepageHowItWorks } from "@/components/landing/HomepageHowItWorks";
+import { HomepageAiNarrative } from "@/components/landing/HomepageAiNarrative";
+import { HomepageForCompanies } from "@/components/landing/HomepageForCompanies";
+import { HomepageForInvestors } from "@/components/landing/HomepageForInvestors";
+import { HomepageCompliance } from "@/components/landing/HomepageCompliance";
+import { HomepageContact } from "@/components/landing/HomepageContact";
 
 export function HomePageView() {
   return (
     <PublicShell stickyCta>
       <HeroPlate />
-      <HomepageMasthead />
-      <HomepageMarketLayer />
-      <HomepageMechanics />
-      <DossierIndex />
-      <ReviewActivityTable />
-      <ProductVerificationSection />
-      <ProductCtaSection />
-      <section className="border-t border-ortaq-border bg-ortaq-bg pb-2">
-        <Container wide className="py-6 sm:py-8">
-          <RelatedLinks route="home" compact />
-        </Container>
-      </section>
+      <HomepageProblem />
+      <HomepageHowItWorks />
+      <HomepageAiNarrative />
+      <HomepageForCompanies />
+      <HomepageForInvestors />
+      <HomepageCompliance />
+      <HomepageContact />
     </PublicShell>
   );
 }

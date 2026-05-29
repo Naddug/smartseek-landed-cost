@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Üretim şirketlerinde paya dayalı ortaklık.",
-    "navTagline": "Üretim şirketlerinde ortaklık"
+    "tagline": "Türk üreticileri için büyüme platformu",
+    "navTagline": "İhracat ve büyüme sermayesi"
   },
   "nav": {
     "howItWorks": "Yatırım süreci",
@@ -11,7 +11,7 @@
     "risk": "Risk çerçevesi",
     "evaluation": "Değerlendirme",
     "memberArea": "Alanınız",
-    "explore": "Yatırım dosyaları",
+    "explore": "Başvuru yap",
     "menu": "Menü",
     "langToggle": "Dil değiştir",
     "ariaMain": "Ana menü",
@@ -1342,8 +1342,8 @@
     "intro": "Önemli kararlar burada duyurulur."
   },
   "mobileCta": {
-    "label": "Yatırım dosyalarını inceleyin",
-    "sublabel": "Üretim şirketlerinde paya dayalı ortaklık · işlem henüz açık değil"
+    "label": "ORTAQ büyüme platformu",
+    "sublabel": "İhracat, doğrulanmış partnerler, büyüme sermayesi"
   },
   "journey": {
     "label": "Yatırımcı süreci",
@@ -1517,5 +1517,172 @@
   "notFound": {
     "title": "Bu sayfa yok",
     "back": "Ana sayfaya dön"
+  },
+  "homeLanding": {
+    "hero": {
+      "aria": "Ana sayfa giriş",
+      "label": "Büyüme platformu",
+      "title": "Türk üreticileri yapay zekayla doğru yurtdışı partnerlere ve büyüme sermayesine bağlıyoruz.",
+      "subtitle": "ORTAQ önce ihracat ve ticari büyümeyi yapay zeka ile hızlandırır; gerçek traction oluşan şirketleri lisanslı partnerler üzerinden nitelikli yatırımcı ve fonlarla buluşturur.",
+      "ctaPrimary": "Başvuru yap",
+      "ctaSecondary": "Nasıl çalışır",
+      "trustLine": "Lisanslı partnerler üzerinden · nitelikli yatırımcılara uygun · SPK uyumlu yapı",
+      "preview": {
+        "aria": "Ortaklık eşleştirme önizlemesi",
+        "panelLabel": "Eşleştirme akışı",
+        "panelTitle": "Üreticiden doğrulanmış karşı tarafa",
+        "producerLabel": "Üretici",
+        "producerName": "[Şirket adı · sektör]",
+        "producerMeta": "Türkiye · üretim",
+        "matchLabel": "Yapay zeka ön eleme",
+        "targetLabel": "Hedef ortak",
+        "targetName": "[Distribütör / alıcı]",
+        "targetMeta": "Pazar · doğrulama tamamlandı",
+        "partners": {
+          "1": {
+            "role": "Avrupa distribütörü",
+            "note": "Talep sinyali ve referans kontrolü",
+            "chip": "Doğrulandı"
+          },
+          "2": {
+            "role": "Orta Doğu alıcısı",
+            "note": "Karşı taraf skoru inceleniyor",
+            "chip": "Ön eleme"
+          },
+          "3": {
+            "role": "İhracat kanalı",
+            "note": "Ticaret davranışı uyumu",
+            "chip": "Doğrulandı"
+          }
+        }
+      }
+    },
+    "problem": {
+      "aria": "Pazar problemi",
+      "label": "Problem",
+      "title": "Üreticiler dünyaya açılmak istiyor; güvenilir yol bulamıyor.",
+      "lead": "Türk üreticileri yeni pazarlara ulaşmak ve büyüme sermayesine erişmek istiyor. Fuar, soğuk e-posta ve güvenilmez kanallar yavaş, pahalı ve risklidir.",
+      "points": {
+        "1": {
+          "title": "Doğru partner yok",
+          "body": "Hedef pazarda kiminle konuşulacağı belirsiz; güvenilir distribütör ve alıcıya ulaşmak aylar sürer."
+        },
+        "2": {
+          "title": "Sermaye kapısı kapalı",
+          "body": "İhracat kanıtı olmadan büyüme finansmanı veya öz sermaye için yatırımcı kapısı açılmaz."
+        },
+        "3": {
+          "title": "Kanal maliyeti yüksek",
+          "body": "Fuar ve aracı ağları pahalıdır; veri ve doğrulama olmadan risk birikir."
+        }
+      }
+    },
+    "how": {
+      "aria": "Nasıl çalışır",
+      "label": "Nasıl çalışır",
+      "title": "Üç adımda: ihracat, hazırlık, buluşma",
+      "lead": "ORTAQ sermaye piyasası işlemini kendisi yürütmez; önce ticari büyümeyi, sonra lisanslı partnerler üzerinden yatırım buluşmasını sağlar.",
+      "steps": {
+        "1": {
+          "title": "Yapay zeka ihracat ajanı",
+          "body": "Doğru distribütör ve alıcıyı bulur, doğrular ve iletişimi hızlandırır."
+        },
+        "2": {
+          "title": "Yatırıma hazırlık",
+          "body": "Şirket gerçek ihracat büyümesiyle yatırıma hazır hale gelir; traction kanıtlanır."
+        },
+        "3": {
+          "title": "Lisanslı buluşma",
+          "body": "Hazır şirketler, lisanslı partnerler üzerinden nitelikli yatırımcı ve fonlarla buluşur."
+        }
+      }
+    },
+    "ai": {
+      "aria": "Yapay zeka katmanı",
+      "label": "Yapay zeka",
+      "title": "İlk günden çalışan öneri motoru",
+      "body": "ORTAQ, şirket bilgileri, ihracat geçmişi, ürün grupları, pazar talepleri ve güvenilirlik göstergeleri üzerinden şirketlere uygun alıcı, distribütör ve iş ortaklarını bulur. Platformda kurulan ticari ilişkilerden öğrenerek önerilerini zamanla daha isabetli hale getirir.",
+      "footnote": "Bu metin ürün davranışını açıklar; performans veya getiri taahhüdü değildir."
+    },
+    "companies": {
+      "aria": "Üreticiler için",
+      "label": "Şirketler için",
+      "title": "Üretim şirketleri için erişim",
+      "lead": "Yeni pazara açılmak isteyen Türk üreticileri için yapılandırılmış büyüme yolu.",
+      "benefits": {
+        "1": "Yeni pazarlara erişim",
+        "2": "Doğrulanmış partnerler",
+        "3": "Yapay zekayla ön eleme",
+        "4": "Büyüme sermayesine giden yol"
+      }
+    },
+    "investors": {
+      "aria": "Yatırımcılar için",
+      "label": "Yatırımcılar için",
+      "title": "Kazanç modeli ve risk çerçevesi",
+      "lead": "Yatırımcı, lisanslı partner üzerinden kurulan enstrümanla konum alır. ORTAQ yatırım tavsiyesi vermez.",
+      "mechanism": "Kazanç, şirketin büyümesine bağlı enstrüman yapısına göre şekillenir. İşlem ve saklama lisanslı kuruluş üzerinden yürür.",
+      "instruments": {
+        "revenue": {
+          "title": "Gelir paylaşımına dayalı büyüme finansmanı",
+          "body": "Şirketin ticari büyümesiyle ilişkilendirilen, sözleşme çerçevesinde tanımlanan gelir paylaşımı modeli."
+        },
+        "equity": {
+          "title": "Öz sermaye",
+          "body": "Hazırlık sürecinden geçmiş şirkette paya dayalı ortaklık; lisanslı partner ve nitelikli yatırımcı çerçevesinde."
+        }
+      },
+      "riskReduction": "ORTAQ, şirketi önceden gerçek ihracat traction'ı ile yatırıma hazır hale getirerek yatırımcı riskini düşürmeyi hedefler.",
+      "disclaimer": "Getiri garantisi yoktur. Geçmiş performans gelecek sonuçları göstermez. Bu sayfa yatırım tavsiyesi değildir."
+    },
+    "compliance": {
+      "aria": "Uyum ve güven",
+      "label": "Uyum ve güven",
+      "title": "Regülasyon sınırı nettir",
+      "lead": "ORTAQ sermaye piyasası faaliyetini kendisi yürütmez.",
+      "points": {
+        "1": "İşlemler lisanslı kuruluşlar üzerinden gerçekleşir.",
+        "2": "Yatırım tarafı yalnızca nitelikli yatırımcılarla uyumludur.",
+        "3": "Platform değerlendirme ve büyüme altyapısı rolündedir; SPK uyumlu yapı lisanslı partnerlerle kurulur."
+      }
+    },
+    "contact": {
+      "aria": "Başvuru ve iletişim",
+      "label": "İletişim",
+      "title": "Başvuru ve ekip",
+      "lead": "Üretici, yatırımcı veya partner olarak görüşmek için formu doldurun. Ekip bilgileri lansman öncesi güncellenecektir.",
+      "teamLabel": "Ekip",
+      "team": {
+        "1": {
+          "name": "[İsim Soyisim]",
+          "role": "[Unvan · Kurucu / İş geliştirme]"
+        },
+        "2": {
+          "name": "[İsim Soyisim]",
+          "role": "[Unvan · Ürün / Teknoloji]"
+        },
+        "3": {
+          "name": "[İsim Soyisim]",
+          "role": "[Unvan · Operasyon / Uyum]"
+        }
+      },
+      "form": {
+        "name": "Ad soyad",
+        "namePlaceholder": "Adınız",
+        "email": "E-posta",
+        "emailPlaceholder": "ornek@sirket.com",
+        "role": "Başvuru türü",
+        "rolePlaceholder": "Seçin",
+        "roleCompany": "Üretim şirketi",
+        "roleInvestor": "Yatırımcı",
+        "rolePartner": "Lisanslı partner / fon",
+        "roleOther": "Diğer",
+        "message": "Mesaj",
+        "messagePlaceholder": "Kısa bağlam (isteğe bağlı)",
+        "submit": "Gönder",
+        "success": "Başvurunuz alındı. Ekibimiz en kısa sürede dönüş yapacaktır.",
+        "note": "Form şu an kayıt amaçlıdır; entegrasyon lansman öncesi tamamlanacaktır."
+      }
+    }
   }
 }
