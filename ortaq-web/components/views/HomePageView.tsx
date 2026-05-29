@@ -2,24 +2,24 @@
 
 import { PublicShell } from "@/components/layout/PublicShell";
 import { HeroPlate } from "@/components/product/HeroPlate";
-import { HomepageProblem } from "@/components/landing/HomepageProblem";
+import { HomepageInstantBrief } from "@/components/landing/HomepageInstantBrief";
 import { HomepageHowItWorks } from "@/components/landing/HomepageHowItWorks";
-import { HomepageAiNarrative } from "@/components/landing/HomepageAiNarrative";
+import { HomepagePlatformShowcase } from "@/components/landing/HomepagePlatformShowcase";
+import { HomepageEarningsExplainer } from "@/components/landing/HomepageEarningsExplainer";
 import { HomepageForCompanies } from "@/components/landing/HomepageForCompanies";
-import { HomepageForInvestors } from "@/components/landing/HomepageForInvestors";
-import { HomepageCompliance } from "@/components/landing/HomepageCompliance";
+import { HomepageRegulatoryFrame } from "@/components/landing/HomepageRegulatoryFrame";
 import { HomepageContact } from "@/components/landing/HomepageContact";
 
 export function HomePageView() {
   return (
     <PublicShell stickyCta>
       <HeroPlate />
-      <HomepageProblem />
+      <HomepageInstantBrief />
       <HomepageHowItWorks />
-      <HomepageAiNarrative />
+      <HomepagePlatformShowcase />
+      <HomepageEarningsExplainer />
       <HomepageForCompanies />
-      <HomepageForInvestors />
-      <HomepageCompliance />
+      <HomepageRegulatoryFrame />
       <HomepageContact />
     </PublicShell>
   );

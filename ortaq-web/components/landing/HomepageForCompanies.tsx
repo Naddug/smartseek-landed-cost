@@ -16,16 +16,17 @@ export function HomepageForCompanies() {
       ariaLabel={t("homeLanding.companies.aria")}
       label={t("homeLanding.companies.label")}
       title={t("homeLanding.companies.title")}
-      lead={t("homeLanding.companies.lead")}
       surface="alt"
     >
-      <ul className="grid gap-2 sm:grid-cols-2">
+      <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {benefitKeys.map((key) => (
-          <li key={key} className="flex gap-3 rounded-ortaq-md border border-ortaq-border bg-ortaq-surface px-4 py-3.5">
-            <span className={cn(typography.caption, "mt-0.5 font-semibold text-ortaq-trust")} aria-hidden>
-              ·
-            </span>
-            <p className={cn(typography.bodySm, "text-ortaq-ink")}>{t(`homeLanding.companies.benefits.${key}`)}</p>
+          <li
+            key={key}
+            className="rounded-ortaq-md border border-ortaq-border bg-ortaq-surface px-4 py-3.5 text-center sm:text-left"
+          >
+            <p className={cn(typography.bodySm, "font-medium text-ortaq-ink")}>
+              {t(`homeLanding.companies.benefits.${key}`)}
+            </p>
           </li>
         ))}
       </ul>

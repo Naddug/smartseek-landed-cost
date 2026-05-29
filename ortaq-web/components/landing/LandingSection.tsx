@@ -36,7 +36,7 @@ export function LandingSection({
       className={cn("border-b scroll-mt-20", surfaceClass[surface], className)}
       aria-label={ariaLabel}
     >
-      <Container wide className="py-10 sm:py-12 lg:py-14">
+      <Container wide className="py-8 sm:py-10 lg:py-12">
         <header className="landing-fade-in max-w-3xl">
           <p className={typography.label}>{label}</p>
           <h2 className={cn(typography.h1, "mt-2 text-[1.5rem] sm:text-[1.75rem] lg:text-[1.875rem]")}>{title}</h2>
