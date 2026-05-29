@@ -13,15 +13,15 @@ export type MediaAsset = {
   mood: string;
 };
 export const media = {
-  /** Homepage hero — export logistics, people and goods (trade growth) */
+  /** Homepage hero — company leadership on site; growth readiness, not equipment */
   heroExportPartnership: {
-    src: "/media/hero-export-partnership.jpg",
-    altTr: "Depo ve lojistik ekibi, ihracat sevkiyatı hazırlığı",
-    altEn: "Warehouse team preparing export shipment",
-    credit: "Pexels",
-    focalPoint: "center 40%",
+    src: "/media/hero-company-growth.jpg",
+    altTr: "Üretim şirketinde yönetici denetimi; saha kayıtları inceleniyor",
+    altEn: "Management oversight at a production company, reviewing field records",
+    credit: "Pexels / Sergey Sergeev",
+    focalPoint: "38% 42%",
     aspect: "panorama" as const,
-    mood: "trade",
+    mood: "growth",
   },
   /** Hero — late-afternoon factory floor */
   factoryFloor: {
