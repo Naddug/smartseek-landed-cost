@@ -141,7 +141,7 @@ export function InvestHero() {
                 </div>
                 <div>
                   <dt className={typography.caption}>{t("homeProduct.invest.card.export")}</dt>
-                  <dd className={cn(typography.bodySm, "mt-0.5 font-semibold text-ortaq-ink")}>{exportShare?.value ?? "—"}</dd>
+                  <dd className={cn(typography.bodySm, "mt-0.5 font-semibold text-ortaq-ink")}>{exportShare?.value ?? "-"}</dd>
                 </div>
                 <div>
                   <dt className={typography.caption}>{t("homeProduct.invest.hero.location")}</dt>

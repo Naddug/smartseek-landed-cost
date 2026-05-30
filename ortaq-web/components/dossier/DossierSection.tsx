@@ -6,10 +6,9 @@ import { typography } from "@/design/typography";
 import { ChevronDown } from "lucide-react";
 
 /**
- * Two visual tiers — primary (operational body) and secondary (back matter).
+ * Two visual tiers, primary (operational body) and secondary (back matter).
  *
- * Removed in this refactor:
- *   - The `description` prop. Section descriptions were meta-narration that
+ * Removed in this refactor: *   - The `description` prop. Section descriptions were meta-narration that
  *     diluted scan density. Column headers and the data itself carry meaning;
  *     the dossier no longer explains what each section is.
  *   - The `tone="muted"` prop. Replaced by `tier="secondary"`.
@@ -30,13 +29,7 @@ type DossierSectionProps = {
 };
 
 export function DossierSection({
-  id,
-  label,
-  title,
-  children,
-  className,
-  tier = "primary",
-  collapsible = false,
+  id, label, title, children, className, tier = "primary", collapsible = false,
 }: DossierSectionProps) {
   const titleClass = tier === "secondary" ? typography.h3 : typography.h2;
   const sectionBase =
@@ -52,9 +45,7 @@ export function DossierSection({
       >
         <summary
           className={cn(
-            "flex cursor-pointer items-start justify-between gap-3 py-4 sm:py-5",
-            "list-none [&::-webkit-details-marker]:hidden",
-          )}
+            "flex cursor-pointer items-start justify-between gap-3 py-4 sm:py-5", "list-none [&::-webkit-details-marker]:hidden", )}
         >
           <div className="min-w-0">
             <p className={typography.label}>{label}</p>

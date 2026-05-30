@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 
-/** Visible on staging / preview only — prevents mistaken QA on production URL. */
+/** Visible on staging / preview only, prevents mistaken QA on production URL. */
 export function StagingBanner() {
   if (!env.isStaging) return null;
 
@@ -12,7 +12,7 @@ export function StagingBanner() {
     >
       <span className="text-ortaq-gold">STAGING</span>
       <span className="mx-2 text-ortaq-cream/40">·</span>
-      {env.siteUrl.replace(/^https?:\/\//, "")} — mobil QA, performans ve SEO doğrulama ortamı. Üretim sitesi değildir.
+      {env.siteUrl.replace(/^https?:\/\//, "")} · mobil QA, performans ve SEO doğrulama ortamı. Üretim sitesi değildir.
     </div>
   );
 }

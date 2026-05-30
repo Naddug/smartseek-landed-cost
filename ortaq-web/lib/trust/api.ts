@@ -1,8 +1,5 @@
 import type {
-  VerificationPublicLabel,
-  PlatformTrustSnapshot,
-  CampaignPublicSnapshot,
-  PublicTransparencyRecord,
+  VerificationPublicLabel, PlatformTrustSnapshot, CampaignPublicSnapshot, PublicTransparencyRecord,
 } from "@/lib/trust/types";
 
 export type { VerificationPublicLabel, PlatformTrustSnapshot, CampaignPublicSnapshot, PublicTransparencyRecord };
@@ -57,10 +54,7 @@ export async function getCampaignTrust(slug: string): Promise<CampaignPublicSnap
 export async function submitComplaint(input: ComplaintSubmission): Promise<ComplaintResponse | { error: string }> {
   try {
     const res = await fetch(`${API_BASE}/v1/complaints`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input),
-    });
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input), });
     const data = await res.json();
     if (!res.ok) return { error: data.error ?? "submission_failed" };
     return data as ComplaintResponse;
@@ -74,7 +68,7 @@ export function verificationLabelKey(label: VerificationPublicLabel): string {
   return `trust.verification.${label}`;
 }
 
-/** Platform TrustStatus unchanged — entity verification uses separate keys */
+/** Platform TrustStatus unchanged, entity verification uses separate keys */
 export function isInvestorReady(campaign: CampaignPublicSnapshot): boolean {
   return campaign.investorReady && campaign.verificationLabel === "approved";
 }

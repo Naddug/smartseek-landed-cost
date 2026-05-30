@@ -1,90 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const tekirdagAmbalaj = buildCatalogCampaign({
-  slug: "tekirdag-ambalaj-plastik",
-  legalName: "Trakya Plastik Ambalaj Sanayi A.Ş.",
-  tradeName: "Trakya Ambalaj",
-  sector: "Plastik ambalaj ve folyo üretimi",
-  city: "Tekirdağ",
-  region: "Çorlu OSB",
-  founded: 2007,
-  employees: 52,
-  exportMarkets: ["Yunanistan", "Bulgaristan", "Romanya"],
-  facilityArea: "3.800 m² ekstrüzyon ve baskı",
-  monthlyCapacity: "Aylık ~420 ton folyo ve ambalaj",
-  targetTry: 7_200_000,
-  exportShare: "Gelirin ~%44'ü",
-  domesticShare: "~%56",
-  reviewStatus: "committee",
-  processDone: 5,
-  fundingPurpose: "Ekstrüzyon hattı genişletme, geri dönüşüm granül hattı ve gıda temas sertifikasyon yenilemesi.",
-  fundingLines: [
-    { label: "Ekstrüzyon hattı", amountTry: 2_800_000, percent: 39 },
-    { label: "Geri dönüşüm granül", amountTry: 1_600_000, percent: 22 },
-    { label: "Baskı ünitesi", amountTry: 1_100_000, percent: 15 },
-    { label: "Kalite laboratuvarı", amountTry: 700_000, percent: 10 },
-    { label: "İşletme sermayesi", amountTry: 1_000_000, percent: 14 },
-  ],
-  founderName: "Orhan Trakya",
-  founderNote: "AB geri dönüşüm oranı şartları 2025'te sıkılaşıyor — granül hattı olmadan ihracat riski.",
-  storyOrigin: "2007'de Çorlu'da plastik torba. 2015'te folyo ekstrüzyon ve Balkan ihracatı.",
-  storyToday: "Gıda folyo ve endüstriyel ambalaj — Yunanistan ve Bulgaristan ağırlıklı. Marmara ihracat koridoru.",
-  productionDetail: "Granül → ekstrüzyon → baskı → kesim → paketleme → sevkiyat.",
-  processes: ["Granül besleme", "Ekstrüzyon", "Baskı", "Kesim", "Paketleme"],
-  materials: ["LDPE granül", "Geri dönüşüm granül", "Mürekkep"],
-  machines: [
-    { id: "extr-1", name: "Ekstrüzyon · 1.2 ton/saat", role: "Ekstrüzyon", year: 2015, note: "Kapasite sınırda." },
-    { id: "print-1", name: "Flexo baskı · 6 renk", role: "Baskı", year: 2017, note: "Gıda temas sertifikalı." },
-  ],
-  risks: [
-    { title: "Geri dönüşüm şartları", text: "2025 AB ambalaj direktifi — geri dönüşüm oranı şartı." },
-    { title: "Granül fiyatı", text: "2024'te virgin granül %25 arttı; geri dönüşüm hattı marj korur." },
-  ],
-  gateway: {
-    hook: "Çorlu plastik ambalaj — geri dönüşüm hattı olmadan AB ihracatı risk altında.",
-    scale: "52 çalışan · 420 ton/ay · 3 Balkan pazarı",
-    tension: "Virgin granül maliyeti artıyor — geri dönüşüm granül kapasitesi yok.",
-  },
-  bottleneck: { label: "Geri dönüşüm granül hattı", note: "AB 2025 şartları için zorunlu." },
-  journal: [
-    { date: "2026-05-18", time: "07:30", text: "Komite öncesi dosya paketi tamamlandı — granül hattı fizibilite dahil.", type: "inspection" },
-    { date: "2026-05-18", time: "10:00", text: "Yunanistan sevkiyatı: 18 ton gıda folyo — EU sertifika kontrolü geçti.", type: "logistics" },
-    { date: "2026-05-09", time: "13:45", text: "Ekstrüzyon hattı kapasite testi — %91 kullanım.", type: "capacity" },
-    { date: "2026-05-02", time: "09:00", text: "Geri dönüşüm granül makinesi teklifleri karşılaştırıldı.", type: "observation" },
-    { date: "2026-04-22", time: "14:30", text: "Bulgaristan distribütör yıllık sözleşme imzalandı.", type: "founder" },
-  ],
-  updates: [
-    { date: "2026-05-18", time: "11:00", text: "Komite dosya paketi arşivlendi." },
-    { date: "2026-05-09", time: "14:00", text: "Kapasite test raporu eklendi." },
-    { date: "2026-05-03", time: "10:30", text: "Granül hattı teklifleri dosyalandı." },
-    { date: "2026-04-23", time: "09:00", text: "Bulgaristan sözleşme kopyası yüklendi." },
-    { date: "2026-04-10", time: "16:00", text: "Komite kuyruğuna alındı." },
-  ],
-  timeline: [
-    { year: 2007, event: "Plastik torba" },
-    { year: 2015, event: "Folyo ekstrüzyon" },
-    { year: 2019, event: "Balkan ihracat ağı" },
-    { year: 2024, event: "AB geri dönüşüm baskısı" },
-  ],
-  facilityNotes: [
-    { zone: "Ekstrüzyon", note: "1 hat — genişletme planlı" },
-    { zone: "Baskı", note: "Flexo 6 renk" },
-    { zone: "Geri dönüşüm", note: "Alan ayrıldı" },
-  ],
-  exportEvolution: [
-    { year: 2015, market: "Bulgaristan", note: "Endüstriyel torba" },
-    { year: 2018, market: "Yunanistan", note: "Gıda folyo" },
-    { year: 2022, market: "Romanya", note: "Ambalaj" },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "done", note: "Tamam" },
-    { layer: "Saha doğrulama", status: "done", note: "Tamam" },
-    { layer: "Komite", status: "partial", note: "Kuyrukta" },
-  ],
-  operationalSignals: [
-    { label: "Aylık folyo", value: "~420 ton" },
-    { label: "Hat kullanım", value: "~%91" },
-    { label: "İhracat payı", value: "Gelirin ~%44'ü" },
-    { label: "Komite", value: "Kuyrukta" },
-  ],
+  slug: "tekirdag-ambalaj-plastik", legalName: "Trakya Plastik Ambalaj Sanayi A.Ş.", tradeName: "Trakya Ambalaj", sector: "Plastik ambalaj ve folyo üretimi", city: "Tekirdağ", region: "Çorlu OSB", founded: 2007, employees: 52, exportMarkets: ["Yunanistan", "Bulgaristan", "Romanya"], facilityArea: "3.800 m² ekstrüzyon ve baskı", monthlyCapacity: "Aylık ~420 ton folyo ve ambalaj", targetTry: 7_200_000, exportShare: "Gelirin ~%44'ü", domesticShare: "~%56", reviewStatus: "committee", processDone: 5, fundingPurpose: "Ekstrüzyon hattı genişletme, geri dönüşüm granül hattı ve gıda temas sertifikasyon yenilemesi.", fundingLines: [
+    { label: "Ekstrüzyon hattı", amountTry: 2_800_000, percent: 39 }, { label: "Geri dönüşüm granül", amountTry: 1_600_000, percent: 22 }, { label: "Baskı ünitesi", amountTry: 1_100_000, percent: 15 }, { label: "Kalite laboratuvarı", amountTry: 700_000, percent: 10 }, { label: "İşletme sermayesi", amountTry: 1_000_000, percent: 14 }, ], founderName: "Orhan Trakya", founderNote: "AB geri dönüşüm oranı şartları 2025'te sıkılaşıyor : granül hattı olmadan ihracat riski.", storyOrigin: "2007'de Çorlu'da plastik torba. 2015'te folyo ekstrüzyon ve Balkan ihracatı.", storyToday: "Gıda folyo ve endüstriyel ambalaj : Yunanistan ve Bulgaristan ağırlıklı. Marmara ihracat koridoru.", productionDetail: "Granül → ekstrüzyon → baskı → kesim → paketleme → sevkiyat.", processes: ["Granül besleme", "Ekstrüzyon", "Baskı", "Kesim", "Paketleme"], materials: ["LDPE granül", "Geri dönüşüm granül", "Mürekkep"], machines: [
+    { id: "extr-1", name: "Ekstrüzyon · 1.2 ton/saat", role: "Ekstrüzyon", year: 2015, note: "Kapasite sınırda." }, { id: "print-1", name: "Flexo baskı · 6 renk", role: "Baskı", year: 2017, note: "Gıda temas sertifikalı." }, ], risks: [
+    { title: "Geri dönüşüm şartları", text: "2025 AB ambalaj direktifi : geri dönüşüm oranı şartı." }, { title: "Granül fiyatı", text: "2024'te virgin granül %25 arttı; geri dönüşüm hattı marj korur." }, ], gateway: {
+    hook: "Çorlu plastik ambalaj : geri dönüşüm hattı olmadan AB ihracatı risk altında.", scale: "52 çalışan · 420 ton/ay · 3 Balkan pazarı", tension: "Virgin granül maliyeti artıyor : geri dönüşüm granül kapasitesi yok.", }, bottleneck: { label: "Geri dönüşüm granül hattı", note: "AB 2025 şartları için zorunlu." }, journal: [
+    { date: "2026-05-18", time: "07:30", text: "Komite öncesi dosya paketi tamamlandı : granül hattı fizibilite dahil.", type: "inspection" }, { date: "2026-05-18", time: "10:00", text: "Yunanistan sevkiyatı: 18 ton gıda folyo : EU sertifika kontrolü geçti.", type: "logistics" }, { date: "2026-05-09", time: "13:45", text: "Ekstrüzyon hattı kapasite testi : %91 kullanım.", type: "capacity" }, { date: "2026-05-02", time: "09:00", text: "Geri dönüşüm granül makinesi teklifleri karşılaştırıldı.", type: "observation" }, { date: "2026-04-22", time: "14:30", text: "Bulgaristan distribütör yıllık sözleşme imzalandı.", type: "founder" }, ], updates: [
+    { date: "2026-05-18", time: "11:00", text: "Komite dosya paketi arşivlendi." }, { date: "2026-05-09", time: "14:00", text: "Kapasite test raporu eklendi." }, { date: "2026-05-03", time: "10:30", text: "Granül hattı teklifleri dosyalandı." }, { date: "2026-04-23", time: "09:00", text: "Bulgaristan sözleşme kopyası yüklendi." }, { date: "2026-04-10", time: "16:00", text: "Komite kuyruğuna alındı." }, ], timeline: [
+    { year: 2007, event: "Plastik torba" }, { year: 2015, event: "Folyo ekstrüzyon" }, { year: 2019, event: "Balkan ihracat ağı" }, { year: 2024, event: "AB geri dönüşüm baskısı" }, ], facilityNotes: [
+    { zone: "Ekstrüzyon", note: "1 hat : genişletme planlı" }, { zone: "Baskı", note: "Flexo 6 renk" }, { zone: "Geri dönüşüm", note: "Alan ayrıldı" }, ], exportEvolution: [
+    { year: 2015, market: "Bulgaristan", note: "Endüstriyel torba" }, { year: 2018, market: "Yunanistan", note: "Gıda folyo" }, { year: 2022, market: "Romanya", note: "Ambalaj" }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "done", note: "Tamam" }, { layer: "Saha doğrulama", status: "done", note: "Tamam" }, { layer: "Komite", status: "partial", note: "Kuyrukta" }, ], operationalSignals: [
+    { label: "Aylık folyo", value: "~420 ton" }, { label: "Hat kullanım", value: "~%91" }, { label: "İhracat payı", value: "Gelirin ~%44'ü" }, { label: "Komite", value: "Kuyrukta" }, ],
 });

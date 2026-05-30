@@ -19,8 +19,7 @@ import { cn } from "@/lib/cn";
  * Replaces the old ProductHero (slogan + featured card + 4-up image strip).
  * Operational status + clear positioning copy + documentary visuals (factory reality).
  *
- * Three layers:
- *   1. status strip: dossier count · sector count · last-event date
+ * Three layers: *   1. status strip: dossier count · sector count · last-event date
  *   2. one-line headline + one-sentence factual subline
  *   3. live cross-campaign event feed (right column on lg+, below on mobile)
  *
@@ -31,12 +30,7 @@ import { cn } from "@/lib/cn";
 const FEED_ITEMS = 5;
 
 const typeChipStyles: Record<string, string> = {
-  observation: "bg-ortaq-bg-alt text-ortaq-ink-soft",
-  inspection: "bg-ortaq-trust-soft text-ortaq-trust",
-  capacity: "bg-ortaq-bg-warm text-ortaq-ink-muted",
-  logistics: "bg-ortaq-bg-alt text-ortaq-ink-soft",
-  founder: "bg-ortaq-status-soft text-ortaq-status",
-  update: "bg-ortaq-bg-alt text-ortaq-ink-soft",
+  observation: "bg-ortaq-bg-alt text-ortaq-ink-soft", inspection: "bg-ortaq-trust-soft text-ortaq-trust", capacity: "bg-ortaq-bg-warm text-ortaq-ink-muted", logistics: "bg-ortaq-bg-alt text-ortaq-ink-soft", founder: "bg-ortaq-status-soft text-ortaq-status", update: "bg-ortaq-bg-alt text-ortaq-ink-soft",
 };
 
 export function HomepageMasthead() {
@@ -65,7 +59,7 @@ export function HomepageMasthead() {
       aria-label={t("homeProduct.masthead.aria")}
     >
       <Container wide>
-        {/* status strip — terminal-style */}
+        {/* status strip, terminal-style */}
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-ortaq-border py-2.5 sm:py-3">
           <StatusItem label={t("homeProduct.masthead.status.dossiers")} value={String(campaigns.length)} />
           <StatusDot />
@@ -126,7 +120,7 @@ export function HomepageMasthead() {
           </div>
         </div>
 
-        {/* live feed — full width below hero */}
+        {/* live feed, full width below hero */}
         <div className="border-t border-ortaq-border pb-5 sm:pb-6">
             <div className="flex items-center justify-between">
               <p className={typography.label}>{t("homeProduct.masthead.feed.label")}</p>
@@ -161,9 +155,7 @@ export function HomepageMasthead() {
                       </span>
                       <span
                         className={cn(
-                          "ml-auto rounded-ortaq-sm px-1.5 py-0.5 text-[0.625rem] font-medium uppercase tracking-wide",
-                          tone,
-                        )}
+                          "ml-auto rounded-ortaq-sm px-1.5 py-0.5 text-[0.625rem] font-medium uppercase tracking-wide", tone, )}
                       >
                         {chipKey}
                       </span>

@@ -10,7 +10,7 @@ export type RegistrySignal = {
   reviewStatus: SimulatedCampaign["reviewStatus"];
 };
 
-/** Operational tension line — not marketing copy */
+/** Operational tension line, not marketing copy */
 export function getCampaignTensionLine(c: SimulatedCampaign): string {
   if (c.gateway?.tension) return c.gateway.tension;
   const bottleneck = c.bottlenecks[0];
@@ -20,11 +20,5 @@ export function getCampaignTensionLine(c: SimulatedCampaign): string {
 
 export function listRegistrySignals(): RegistrySignal[] {
   return listCampaigns().map((c) => ({
-    slug: c.slug,
-    tradeName: c.tradeName,
-    city: c.city,
-    sector: c.sector,
-    tension: getCampaignTensionLine(c),
-    reviewStatus: c.reviewStatus,
-  }));
+    slug: c.slug, tradeName: c.tradeName, city: c.city, sector: c.sector, tension: getCampaignTensionLine(c), reviewStatus: c.reviewStatus, }));
 }

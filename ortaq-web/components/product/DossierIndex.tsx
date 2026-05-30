@@ -9,18 +9,15 @@ import { Container } from "@/components/ui/Section";
 import { listCampaigns } from "@/lib/campaigns";
 import type { SimulatedCampaign, CampaignStatus } from "@/lib/campaigns/types";
 import {
-  getFacilityArea,
-  getLatestOperationalNote,
-  getOperationalSignal,
-  getSectorTag,
-  getSectorTagEn,
+  getFacilityArea, getLatestOperationalNote, getOperationalSignal, getSectorTag, getSectorTagEn,
 } from "@/lib/product/company-summary";
+import { getCampaignTensionLine } from "@/lib/intelligence/tension";
 import { formatPulseDate } from "@/lib/operations/pulse";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
 /**
- * The dossier index — the spine of the homepage.
+ * The dossier index, the spine of the homepage.
  *
  * Filter chip rows (single-select per dimension) → card grid → comparison table.
  * Filters and sort are local state; URL persistence is intentionally deferred
@@ -32,25 +29,16 @@ type SectorFilter = "all" | "MFG" | "TEXTILE" | "FOOD" | "METAL" | "LOGISTICS" |
 type SortKey = "lastEvent" | "city" | "founded" | "employees";
 
 const STAGE_FILTERS: StageFilter[] = [
-  "all",
-  "preliminary_review",
-  "document_review",
-  "field_verification",
-  "committee",
+  "all", "preliminary_review", "document_review", "field_verification", "committee",
 ];
 
 function sortCampaigns(list: SimulatedCampaign[], key: SortKey, lang: string): SimulatedCampaign[] {
   const arr = [...list];
   switch (key) {
-    case "city":
-      return arr.sort((a, b) => a.city.localeCompare(b.city, lang));
-    case "founded":
-      return arr.sort((a, b) => b.founded - a.founded);
-    case "employees":
-      return arr.sort((a, b) => b.employees - a.employees);
-    case "lastEvent":
-    default:
-      return arr.sort((a, b) => {
+    case "city": return arr.sort((a, b) => a.city.localeCompare(b.city, lang));
+    case "founded": return arr.sort((a, b) => b.founded - a.founded);
+    case "employees": return arr.sort((a, b) => b.employees - a.employees);
+    case "lastEvent": default: return arr.sort((a, b) => {
         const an = getLatestOperationalNote(a)?.date ?? "0";
         const bn = getLatestOperationalNote(b)?.date ?? "0";
         return an < bn ? 1 : an > bn ? -1 : 0;
@@ -106,28 +94,20 @@ export function DossierIndex() {
             <FilterRow
               label={t("homeProduct.index.filter.stageLabel")}
               chips={STAGE_FILTERS.map((s) => ({
-                value: s,
-                label: s === "all" ? t("homeProduct.index.filter.all") : t(`homeProduct.index.filter.stage.${s}`),
-                count: s === "all" ? all.length : all.filter((c) => c.reviewStatus === s).length,
-              }))}
+                value: s, label: s === "all" ? t("homeProduct.index.filter.all") : t(`homeProduct.index.filter.stage.${s}`), count: s === "all" ? all.length : all.filter((c) => c.reviewStatus === s).length, }))}
               active={stage}
               onPick={(v) => setStage(v as StageFilter)}
             />
             <FilterRow
               label={t("homeProduct.index.filter.sectorLabel")}
               chips={sectorOptions.map((s) => ({
-                value: s,
-                label:
-                  s === "all"
+                value: s, label: s === "all"
                     ? t("homeProduct.index.filter.all")
                     : lang === "en"
                       ? s
-                      : sectorLabelTr(s),
-                count:
-                  s === "all"
+                      : sectorLabelTr(s), count: s === "all"
                     ? all.length
-                    : all.filter((c) => getSectorTagEn(c) === s).length,
-              }))}
+                    : all.filter((c) => getSectorTagEn(c) === s).length, }))}
               active={sector}
               onPick={(v) => setSector(v as SectorFilter)}
             />
@@ -172,13 +152,14 @@ export function DossierIndex() {
               </p>
             </div>
             <div className="mt-3 overflow-x-auto rounded-ortaq-md border border-ortaq-border">
-              <table className="w-full min-w-[42rem] text-left">
+              <table className="w-full min-w-[48rem] text-left">
                 <thead>
                   <tr className="border-b border-ortaq-border bg-ortaq-bg-alt">
                     <Th>{t("homeProduct.index.compare.company")}</Th>
                     <Th>{t("homeProduct.index.compare.city")}</Th>
                     <Th>{t("homeProduct.index.compare.sector")}</Th>
                     <Th>{t("homeProduct.index.compare.stage")}</Th>
+                    <Th>{t("homeProduct.index.compare.primaryTension")}</Th>
                     <Th alignRight>{t("homeProduct.index.compare.capacity")}</Th>
                     <Th alignRight>{t("homeProduct.index.compare.export")}</Th>
                     <Th alignRight>{t("homeProduct.index.compare.employees")}</Th>
@@ -194,6 +175,7 @@ export function DossierIndex() {
                     const last = getLatestOperationalNote(c);
                     const sectorTag = lang === "en" ? getSectorTagEn(c) : getSectorTag(c);
                     const stageLabel = t(`homeProduct.index.filter.stage.${c.reviewStatus}`);
+                    const tension = getCampaignTensionLine(c);
                     return (
                       <tr key={c.slug} className="border-b border-ortaq-border last:border-0">
                         <Td>
@@ -219,8 +201,13 @@ export function DossierIndex() {
                             <ReviewStepper campaign={c} compact />
                           </div>
                         </Td>
+                        <Td>
+                          <span className={cn(typography.caption, "line-clamp-2 text-ortaq-ink-muted")}>
+                            {tension}
+                          </span>
+                        </Td>
                         <Td alignRight>
-                          <span className="tabular-nums">{cap?.value ?? "—"}</span>
+                          <span className="tabular-nums">{cap?.value ?? "-"}</span>
                           {facility && (
                             <p className={cn(typography.caption, "text-ortaq-ink-soft tabular-nums")}>
                               {facility}
@@ -228,7 +215,7 @@ export function DossierIndex() {
                           )}
                         </Td>
                         <Td alignRight>
-                          <span className="tabular-nums">{exp?.value ?? "—"}</span>
+                          <span className="tabular-nums">{exp?.value ?? "-"}</span>
                           <p className={cn(typography.caption, "text-ortaq-ink-soft")}>
                             {c.exportMarkets.length} {t("homeProduct.index.compare.markets")}
                           </p>
@@ -245,7 +232,7 @@ export function DossierIndex() {
                               <span className="block line-clamp-1 text-ortaq-ink-muted">{last.text}</span>
                             </span>
                           ) : (
-                            <span className={typography.caption}>—</span>
+                            <span className={typography.caption}>, </span>
                           )}
                         </Td>
                         <Td>
@@ -277,30 +264,20 @@ export function DossierIndex() {
 
 function sectorLabelTr(tag: SectorFilter): string {
   switch (tag) {
-    case "MFG":
-      return "Üretim · Makine";
-    case "TEXTILE":
-      return "Tekstil";
-    case "FOOD":
-      return "Gıda";
-    case "METAL":
-      return "Metal · Döküm";
-    case "LOGISTICS":
-      return "Lojistik";
-    case "INDUSTRY":
-      return "Sanayi";
-    default:
-      return tag;
+    case "MFG": return "Üretim · Makine";
+    case "TEXTILE": return "Tekstil";
+    case "FOOD": return "Gıda";
+    case "METAL": return "Metal · Döküm";
+    case "LOGISTICS": return "Lojistik";
+    case "INDUSTRY": return "Sanayi";
+    default: return tag;
   }
 }
 
 type FilterChip = { value: string; label: string; count: number };
 
 function FilterRow({
-  label,
-  chips,
-  active,
-  onPick,
+  label, chips, active, onPick,
 }: {
   label: string;
   chips: FilterChip[];
@@ -318,19 +295,15 @@ function FilterRow({
             type="button"
             onClick={() => onPick(chip.value)}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-ortaq-sm border px-2.5 py-1 text-[0.8125rem] transition-colors",
-              isActive
+              "inline-flex items-center gap-1.5 rounded-ortaq-sm border px-2.5 py-1 text-[0.8125rem] transition-colors", isActive
                 ? "border-ortaq-ink bg-ortaq-ink text-ortaq-bg"
-                : "border-ortaq-border bg-ortaq-surface text-ortaq-ink-muted hover:border-ortaq-border-strong hover:text-ortaq-ink",
-            )}
+                : "border-ortaq-border bg-ortaq-surface text-ortaq-ink-muted hover:border-ortaq-border-strong hover:text-ortaq-ink", )}
             aria-pressed={isActive}
           >
             <span>{chip.label}</span>
             <span
               className={cn(
-                "tabular-nums text-[0.6875rem]",
-                isActive ? "text-ortaq-bg/70" : "text-ortaq-ink-soft",
-              )}
+                "tabular-nums text-[0.6875rem]", isActive ? "text-ortaq-bg/70" : "text-ortaq-ink-soft", )}
             >
               {chip.count}
             </span>
@@ -342,13 +315,7 @@ function FilterRow({
 }
 
 function SortRow({
-  value,
-  onChange,
-  tLastEvent,
-  tCity,
-  tFounded,
-  tEmployees,
-  tLabel,
+  value, onChange, tLastEvent, tCity, tFounded, tEmployees, tLabel,
 }: {
   value: SortKey;
   onChange: (k: SortKey) => void;
@@ -359,11 +326,7 @@ function SortRow({
   tLabel: string;
 }) {
   const options: { key: SortKey; label: string }[] = [
-    { key: "lastEvent", label: tLastEvent },
-    { key: "city", label: tCity },
-    { key: "founded", label: tFounded },
-    { key: "employees", label: tEmployees },
-  ];
+    { key: "lastEvent", label: tLastEvent }, { key: "city", label: tCity }, { key: "founded", label: tFounded }, { key: "employees", label: tEmployees }, ];
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       <span className={cn(typography.label, "mr-1 shrink-0 text-ortaq-ink-soft")}>{tLabel}</span>
@@ -375,11 +338,9 @@ function SortRow({
             type="button"
             onClick={() => onChange(o.key)}
             className={cn(
-              "rounded-ortaq-sm border px-2.5 py-1 text-[0.8125rem] transition-colors",
-              active
+              "rounded-ortaq-sm border px-2.5 py-1 text-[0.8125rem] transition-colors", active
                 ? "border-ortaq-ink bg-ortaq-ink text-ortaq-bg"
-                : "border-ortaq-border bg-ortaq-surface text-ortaq-ink-muted hover:border-ortaq-border-strong hover:text-ortaq-ink",
-            )}
+                : "border-ortaq-border bg-ortaq-surface text-ortaq-ink-muted hover:border-ortaq-border-strong hover:text-ortaq-ink", )}
             aria-pressed={active}
           >
             {o.label}
@@ -391,8 +352,7 @@ function SortRow({
 }
 
 function Th({
-  children,
-  alignRight,
+  children, alignRight,
 }: {
   children: React.ReactNode;
   alignRight?: boolean;
@@ -401,9 +361,7 @@ function Th({
   return (
     <th
       className={cn(
-        "px-3 py-2 text-[0.75rem] font-medium uppercase tracking-[0.04em] text-ortaq-ink-soft",
-        alignRight && "text-right",
-      )}
+        "px-3 py-2 text-[0.75rem] font-medium uppercase tracking-[0.04em] text-ortaq-ink-soft", alignRight && "text-right", )}
     >
       {children}
     </th>
@@ -411,9 +369,7 @@ function Th({
 }
 
 function Td({
-  children,
-  alignRight,
-  tabular,
+  children, alignRight, tabular,
 }: {
   children: React.ReactNode;
   alignRight?: boolean;
@@ -422,10 +378,7 @@ function Td({
   return (
     <td
       className={cn(
-        "px-3 py-2.5 text-[0.8125rem] align-top text-ortaq-ink-muted",
-        alignRight && "text-right",
-        tabular && "tabular-nums",
-      )}
+        "px-3 py-2.5 text-[0.8125rem] align-top text-ortaq-ink-muted", alignRight && "text-right", tabular && "tabular-nums", )}
     >
       {children}
     </td>
@@ -433,10 +386,7 @@ function Td({
 }
 
 function EmptyState({
-  text,
-  sub,
-  onReset,
-  resetLabel,
+  text, sub, onReset, resetLabel,
 }: {
   text: string;
   sub: string;
@@ -451,9 +401,7 @@ function EmptyState({
         type="button"
         onClick={onReset}
         className={cn(
-          typography.bodySm,
-          "mt-3 inline-block text-ortaq-ink underline-offset-2 hover:underline",
-        )}
+          typography.bodySm, "mt-3 inline-block text-ortaq-ink underline-offset-2 hover:underline", )}
       >
         {resetLabel}
       </button>

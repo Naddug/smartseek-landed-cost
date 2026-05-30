@@ -9,14 +9,12 @@ type AppScreenFrameProps = {
   className?: string;
 };
 
-/** Product UI chrome — reads like an in-app screen, not marketing copy. */
+/** Product UI chrome, reads like an in-app screen, not marketing copy. */
 export function AppScreenFrame({ title, subtitle, children, className }: AppScreenFrameProps) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-ortaq-lg border border-ortaq-border-strong bg-ortaq-surface shadow-[var(--shadow-intel)]",
-        className,
-      )}
+        "overflow-hidden rounded-ortaq-lg border border-ortaq-border-strong bg-ortaq-surface shadow-[var(--shadow-intel)]", className, )}
     >
       <div className="flex items-center gap-1.5 border-b border-ortaq-border bg-ortaq-bg-alt px-3 py-2">
         <span className="h-2 w-2 rounded-full bg-ortaq-border-strong" aria-hidden />

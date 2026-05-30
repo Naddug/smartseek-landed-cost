@@ -1,89 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const denizliIplik = buildCatalogCampaign({
-  slug: "denizli-iplik-dokuma",
-  legalName: "Denizli İplik ve Tekstil Sanayi Ltd. Şti.",
-  tradeName: "Denizli İplik",
-  sector: "İplik üretimi ve tekstil ihracatı",
-  city: "Denizli",
-  region: "Denizli 2. OSB",
-  founded: 1999,
-  employees: 58,
-  exportMarkets: ["İtalya", "Portekiz", "Mısır"],
-  facilityArea: "4.100 m² ring iplik ve depo",
-  monthlyCapacity: "Aylık ~95 ton ring iplik",
-  targetTry: 8_100_000,
-  exportShare: "Gelirin ~%61'i",
-  domesticShare: "~%39",
-  reviewStatus: "document_review",
-  processDone: 2,
-  fundingPurpose: "Ring iplik makinesi yenileme (4 ünite), enerji verimli kompresör ve boyahane atık su geri kazanımı.",
-  fundingLines: [
-    { label: "Ring makine yenileme", amountTry: 3_800_000, percent: 47 },
-    { label: "Kompresör ve enerji", amountTry: 1_200_000, percent: 15 },
-    { label: "Atık su geri kazanım", amountTry: 1_400_000, percent: 17 },
-    { label: "Depo genişletme", amountTry: 900_000, percent: 11 },
-    { label: "İşletme sermayesi", amountTry: 800_000, percent: 10 },
-  ],
-  founderName: "Fatma Deniz",
-  founderNote: "Ring makineleri 18–22 yaşında — arıza sıklığı 2024'te %40 arttı.",
-  storyOrigin: "1999'da Denizli'de küçük iplik atölyesi. 2010'da OSB fabrika ve ihracat.",
-  storyToday: "Penye ve karde iplik — İtalya konfeksiyon tedarik. Denizli tekstil kümelenmesi.",
-  productionDetail: "Elyaf → tarak → fitil → ring → bobin → kalite → sevkiyat.",
-  processes: ["Elyaf hazırlık", "Tarak", "Ring iplik", "Bobinleme", "Kalite"],
-  materials: ["Pamuk", "Polyester karışım", "Boyarmaddeler"],
-  machines: [
-    { id: "ring-1", name: "Ring iplik · 128 spindle (2006)", role: "İplik", year: 2006, note: "Yenileme hedefi." },
-    { id: "ring-2", name: "Ring iplik · 128 spindle (2008)", role: "İplik", year: 2008, note: "Arıza sıklığı yüksek." },
-  ],
-  risks: [
-    { title: "Makine yaşı", text: "Ring makineler 18+ yaş — yedek parça tedarik süresi uzadı." },
-    { title: "Enerji maliyeti", text: "Kompresör verimsizliği kWh maliyetini artırıyor." },
-  ],
-  gateway: {
-    hook: "Denizli iplik — makine parkı yaşı ihracat teslimatlarını tehdit ediyor.",
-    scale: "58 çalışan · 95 ton/ay · 3 ihracat pazarı",
-    tension: "Son 6 ayda 7 planlı dışı duruş — teslimat gecikmesi riski.",
-  },
-  bottleneck: { label: "Ring makine yaşı", note: "Ortalama makine yaşı 19 yıl." },
-  journal: [
-    { date: "2026-05-19", time: "08:00", text: "Ring 2 spindle arızası — 4 saat duruş, İtalya siparişi etkilendi.", type: "capacity" },
-    { date: "2026-05-19", time: "14:30", text: "Makine yenileme finansman planı dosyaya eklendi.", type: "inspection" },
-    { date: "2026-05-10", time: "09:00", text: "İtalya alıcı kalite denetimi — iplik mukavemet testi geçti.", type: "logistics" },
-    { date: "2026-05-03", time: "11:15", text: "Kompresör enerji ölçümü — verim %62 (hedef %78).", type: "observation" },
-    { date: "2026-04-18", time: "16:00", text: "Portekiz yeni distribütör görüşmesi.", type: "founder" },
-  ],
-  updates: [
-    { date: "2026-05-19", time: "15:00", text: "Duruş kayıtları ve finansman planı arşivlendi." },
-    { date: "2026-05-10", time: "12:00", text: "İtalya kalite denetim raporu eklendi." },
-    { date: "2026-05-04", time: "10:00", text: "Enerji verimliliği ölçümü dosyalandı." },
-    { date: "2026-04-20", time: "09:30", text: "Belge incelemesi katmanı güncellendi." },
-  ],
-  timeline: [
-    { year: 1999, event: "Atölye kuruluş" },
-    { year: 2010, event: "OSB fabrika" },
-    { year: 2016, event: "İtalya konfeksiyon tedarik" },
-    { year: 2024, event: "Makine arıza artışı" },
-  ],
-  facilityNotes: [
-    { zone: "Ring salonu", note: "4 hat" },
-    { zone: "Boyahane", note: "Atık su geri kazanım planlı" },
-    { zone: "Depo", note: "Bobin stok" },
-  ],
-  exportEvolution: [
-    { year: 2012, market: "İtalya", note: "Penye iplik" },
-    { year: 2017, market: "Portekiz", note: "Karde iplik" },
-    { year: 2021, market: "Mısır", note: "Orta hacim" },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "partial", note: "Finansal tablo tamam" },
-    { layer: "Saha doğrulama", status: "pending", note: "Planlanıyor" },
-    { layer: "Çevre uyumluluk", status: "partial", note: "Atık su raporu" },
-  ],
-  operationalSignals: [
-    { label: "Aylık iplik", value: "~95 ton" },
-    { label: "Makine yaşı", value: "Ort. 19 yıl" },
-    { label: "İhracat payı", value: "Gelirin ~%61'i" },
-    { label: "Duruş (6 ay)", value: "7 olay" },
-  ],
+  slug: "denizli-iplik-dokuma", legalName: "Denizli İplik ve Tekstil Sanayi Ltd. Şti.", tradeName: "Denizli İplik", sector: "İplik üretimi ve tekstil ihracatı", city: "Denizli", region: "Denizli 2. OSB", founded: 1999, employees: 58, exportMarkets: ["İtalya", "Portekiz", "Mısır"], facilityArea: "4.100 m² ring iplik ve depo", monthlyCapacity: "Aylık ~95 ton ring iplik", targetTry: 8_100_000, exportShare: "Gelirin ~%61'i", domesticShare: "~%39", reviewStatus: "document_review", processDone: 2, fundingPurpose: "Ring iplik makinesi yenileme (4 ünite), enerji verimli kompresör ve boyahane atık su geri kazanımı.", fundingLines: [
+    { label: "Ring makine yenileme", amountTry: 3_800_000, percent: 47 }, { label: "Kompresör ve enerji", amountTry: 1_200_000, percent: 15 }, { label: "Atık su geri kazanım", amountTry: 1_400_000, percent: 17 }, { label: "Depo genişletme", amountTry: 900_000, percent: 11 }, { label: "İşletme sermayesi", amountTry: 800_000, percent: 10 }, ], founderName: "Fatma Deniz", founderNote: "Ring makineleri 18-22 yaşında : arıza sıklığı 2024'te %40 arttı.", storyOrigin: "1999'da Denizli'de küçük iplik atölyesi. 2010'da OSB fabrika ve ihracat.", storyToday: "Penye ve karde iplik : İtalya konfeksiyon tedarik. Denizli tekstil kümelenmesi.", productionDetail: "Elyaf → tarak → fitil → ring → bobin → kalite → sevkiyat.", processes: ["Elyaf hazırlık", "Tarak", "Ring iplik", "Bobinleme", "Kalite"], materials: ["Pamuk", "Polyester karışım", "Boyarmaddeler"], machines: [
+    { id: "ring-1", name: "Ring iplik · 128 spindle (2006)", role: "İplik", year: 2006, note: "Yenileme hedefi." }, { id: "ring-2", name: "Ring iplik · 128 spindle (2008)", role: "İplik", year: 2008, note: "Arıza sıklığı yüksek." }, ], risks: [
+    { title: "Makine yaşı", text: "Ring makineler 18+ yaş : yedek parça tedarik süresi uzadı." }, { title: "Enerji maliyeti", text: "Kompresör verimsizliği kWh maliyetini artırıyor." }, ], gateway: {
+    hook: "Denizli iplik : makine parkı yaşı ihracat teslimatlarını tehdit ediyor.", scale: "58 çalışan · 95 ton/ay · 3 ihracat pazarı", tension: "Son 6 ayda 7 planlı dışı duruş : teslimat gecikmesi riski.", }, bottleneck: { label: "Ring makine yaşı", note: "Ortalama makine yaşı 19 yıl." }, journal: [
+    { date: "2026-05-19", time: "08:00", text: "Ring 2 spindle arızası : 4 saat duruş, İtalya siparişi etkilendi.", type: "capacity" }, { date: "2026-05-19", time: "14:30", text: "Makine yenileme finansman planı dosyaya eklendi.", type: "inspection" }, { date: "2026-05-10", time: "09:00", text: "İtalya alıcı kalite denetimi : iplik mukavemet testi geçti.", type: "logistics" }, { date: "2026-05-03", time: "11:15", text: "Kompresör enerji ölçümü : verim %62 (hedef %78).", type: "observation" }, { date: "2026-04-18", time: "16:00", text: "Portekiz yeni distribütör görüşmesi.", type: "founder" }, ], updates: [
+    { date: "2026-05-19", time: "15:00", text: "Duruş kayıtları ve finansman planı arşivlendi." }, { date: "2026-05-10", time: "12:00", text: "İtalya kalite denetim raporu eklendi." }, { date: "2026-05-04", time: "10:00", text: "Enerji verimliliği ölçümü dosyalandı." }, { date: "2026-04-20", time: "09:30", text: "Belge incelemesi katmanı güncellendi." }, ], timeline: [
+    { year: 1999, event: "Atölye kuruluş" }, { year: 2010, event: "OSB fabrika" }, { year: 2016, event: "İtalya konfeksiyon tedarik" }, { year: 2024, event: "Makine arıza artışı" }, ], facilityNotes: [
+    { zone: "Ring salonu", note: "4 hat" }, { zone: "Boyahane", note: "Atık su geri kazanım planlı" }, { zone: "Depo", note: "Bobin stok" }, ], exportEvolution: [
+    { year: 2012, market: "İtalya", note: "Penye iplik" }, { year: 2017, market: "Portekiz", note: "Karde iplik" }, { year: 2021, market: "Mısır", note: "Orta hacim" }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "partial", note: "Finansal tablo tamam" }, { layer: "Saha doğrulama", status: "pending", note: "Planlanıyor" }, { layer: "Çevre uyumluluk", status: "partial", note: "Atık su raporu" }, ], operationalSignals: [
+    { label: "Aylık iplik", value: "~95 ton" }, { label: "Makine yaşı", value: "Ort. 19 yıl" }, { label: "İhracat payı", value: "Gelirin ~%61'i" }, { label: "Duruş (6 ay)", value: "7 olay" }, ],
 });

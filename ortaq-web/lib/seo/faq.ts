@@ -7,208 +7,41 @@ export type FaqItem = {
 
 export const FAQ_ITEMS: FaqItem[] = [
   {
-    id: "ortaq-ne",
-    question: "ORTAQ nedir?",
-    answer:
-      "ORTAQ, bireysel yatırımcıyı Türkiye'nin üretim ekonomisine bağlayan bir keşif ve inceleme platformudur. Paya dayalı ortaklık sürecini sade anlatır; saha incelemeli şirket dosyaları sunar. Banka değildir, yatırım tavsiyesi vermez, kazanç garantisi sunmaz. Amacı: üreten şirketlere ortaklık yolunu okunabilir kılmak.",
-    links: [{ href: "/basla", label: "Okumaya başla" }],
-  },
-  {
-    id: "ne-aliyorum",
-    question: "Tam olarak ne satın alıyorum?",
-    answer:
-      "Gerçek bir üretim şirketinde pay — spekülasyon aracı değil, sermaye artırımı yoluyla ortaklık hakkı. Paranız kapasite, makine, ihracat altyapısı gibi operasyonel büyüme için kullanılır; dosyada yazar. Kampanya tamamlandığında payınız MKK kayıtlarında adınıza açılır. Günlük al-sat değil; üretken varlıkta uzun vadeli pay sahipliğidir.",
-    links: [
-      { href: "/nasil-calisir", label: "Ortaklık süreci" },
-      { href: "/sozluk", label: "Pay sahipliği nedir?" },
-    ],
-  },
-  {
-    id: "nasil-yatirim",
-    question: "Nasıl yatırım yapılır?",
-    answer:
-      "Önce ORTAQ'ta şirket dosyasını okursunuz — kapasite, ihracat, sermaye kullanım planı ve riskler. Hazır olduğunuzda lisanslı kitle fonlama platformunda kimlik doğrulaması yapar, bilgi formunu onaylar ve katılırsınız. Paranız emanet hesabına gider; kampanya hedefi tutarsa sermaye artırımı tamamlanır ve payınız MKK'da açılır. Henüz işlem kabul edilmiyor — şimdilik anlamak için buradasınız.",
-    links: [
-      { href: "/nasil-calisir", label: "Katılım süreci" },
-      { href: "/sirketler", label: "Şirket dosyaları" },
-    ],
-  },
-  {
-    id: "ortaklik-nasil",
-    question: "Ortaklık nasıl çalışır?",
-    answer:
-      "Paya dayalı ortaklıkta gerçek bir şirkette pay sahibi olursunuz. Sermayeniz üretim ekonomisinde çalışır: hat genişletme, makine yenileme, ihracat kapasitesi. Şirket operasyonel olarak büyüdükçe değer tablosu gelişebilir — temettü, değer artışı veya stratejik çıkış kampanyaya göre değişir. Hiçbiri garanti değildir; para kaybedebilirsiniz.",
-    links: [{ href: "/nasil-calisir", label: "Süreç" }],
-  },
-  {
-    id: "sermaye-ihtiyaci",
-    question: "Şirketler neden sermaye arar?",
-    answer:
-      "Üretken KOBİ'ler büyümek için makine, kapasite ve ihracat altyapısına yatırım yapar — banka kredisi her zaman yeterli veya uygun olmayabilir. Paya dayalı ortaklık, operasyonel büyümeyi pay sahipleriyle finanse etmenin yasal yoludur. Sermaye fabrikada çalışır: daha fazla üretim, daha geniş pazar, daha güçlü nakit akışı potansiyeli. ORTAQ dosyada paranın nereye gideceğini açıkça gösterir.",
-    links: [
-      { href: "/sirketler", label: "Sermaye kullanım planları" },
-      { href: "/degerlendirme", label: "Şirket seçimi" },
-    ],
-  },
-  {
-    id: "gelir-nasil",
-    question: "Yatırımcı nasıl gelir elde eder?",
-    answer:
-      "Getiri üç yoldan düşünülür: temettü (şirket kar dağıtırsa), pay değer artışı (operasyonel büyüme ile), veya stratejik çıkış (satış, birleşme vb.). Üretken şirketlerde değer genelde kapasite artışı, ihracat genişlemesi ve marj iyileştirmesinden gelir — pasif varlık fiyat hareketi değil. Hiçbiri garanti değildir; para kaybedebilirsiniz.",
-    links: [
-      { href: "/riskler", label: "Riskler" },
-      { href: "/sss", label: "Tüm sorular" },
-    ],
-  },
-  {
-    id: "deger-yaratimi",
-    question: "Değer yaratımı nasıl düşünülür?",
-    answer:
-      "Üretken şirketlerde değer operasyonel büyümeden gelir: kapasite artışı, ihracat genişlemesi, makine yatırımı, marj iyileştirmesi. Pay sahibi bu tablonun bir parçasıdır — fabrika duvarlarının içindeki büyümenin ortağı. Temettü, değer artışı veya çıkış kampanyaya göre değişir; hiçbiri garanti değildir.",
-    links: [{ href: "/nasil-calisir", label: "Yatırım yolculuğu" }],
-  },
-  {
-    id: "spk-guven",
-    question: "SPK / paya dayalı yapı nasıl işler?",
-    answer:
-      "Paya dayalı kitle fonlaması SPK düzenlemesi altında yürür: bilgi formu, risk bildirimi, emanet hesabı, yıllık limit ve MKK pay kaydı zorunludur. ORTAQ keşif ve inceleme katmanını sağlar; işlem SPK listesindeki lisanslı platform üzerinden tamamlanır. Anlaşma tamamlanana kadar işlem kabul edilmez.",
-    links: [{ href: "/guven", label: "Güven sayfası" }],
-  },
-  {
-    id: "sirket-secimi",
-    question: "Şirketler nasıl seçilir?",
-    answer:
-      "Her başvuru kabul edilmez. Altı aşamalı inceleme: ön eleme, saha ziyareti, hukuk ve sicil, finansal inceleme, kurucu görüşmesi, komite ve platform onayı. Yalnızca üretim yapan, belgelenebilir ve uzun vadeli ekonomik mantığı olan şirketler dosyalanır — yatırımcıya sunulmadan önce.",
-    links: [{ href: "/degerlendirme", label: "Değerlendirme süreci" }],
-  },
-  {
-    id: "due-diligence",
-    question: "Due diligence ne kadar derin?",
-    answer:
-      "ORTAQ dosyaları saha incelemesi, kapasite doğrulaması, belge kontrolü, finansal tablo incelemesi ve operasyonel izlerle desteklenir. Her iddia etiketlenir; kanıtlanamayan iddia yayınlanmaz. Nihai yasal belge lisanslı platformda yayımlanan bilgi formudur — ORTAQ okumayı kolaylaştırır, kararı siz verirsiniz.",
-    links: [
-      { href: "/degerlendirme", label: "Seçim süreci" },
-      { href: "/guven", label: "Güven katmanları" },
-    ],
-  },
-  {
-    id: "para-nereye",
-    question: "Param nereye gider?",
-    answer:
-      "Katılım sırasında paranız emanet hesabına gider; kampanya bitene kadar şirkete aktarılmaz. Hedef tutmazsa iade süreci işler. Hedef tutarsa sermaye, bilgi formunda yazan amaca — kapasite genişletme, makine yatırımı, ihracat altyapısı gibi — aktarılır. Şirkete doğrudan havale yapılmaz.",
-    links: [
-      { href: "/nasil-calisir", label: "Süreç" },
-      { href: "/sozluk", label: "Emanet hesabı" },
-    ],
-  },
-  {
-    id: "yatirim-sonrasi",
-    question: "Yatırım sonrası ne olur?",
-    answer:
-      "Payınız MKK'da adınıza kayıtlı olur. Şirket operasyonel güncellemeleri, saha notları ve raporlar paylaşılır. Uzun vadeli ortaklık modelidir — günlük al-sat değil. Temettü veya çıkış imkânları kampanya bilgi formunda belirtilir.",
-    links: [{ href: "/nasil-calisir", label: "İzleme süreci" }],
-  },
-  {
-    id: "cikis-nasil",
-    question: "Nasıl çıkış yapılır?",
-    answer:
-      "Çıkış yolu kampanyaya göre değişir: ikincil piyasa (platform sunuyorsa), şirket geri alımı, stratejik satış veya halka arz gibi senaryolar bilgi formunda açıklanır. Likidite her zaman garanti değildir; payınızı istediğiniz anda satamayabilirsiniz — bu uzun vadeli bir ortaklıktır.",
-    links: [{ href: "/riskler", label: "Riskler ve limitler" }],
-  },
-  {
-    id: "dolandiricilik",
-    question: "Dolandırıcılıktan nasıl korunurum?",
-    answer:
-      "Lisanslı platform dışında para göndermeyin. Kazanç garantisi vaat eden kampanyalara itibar etmeyin. Bilgi formunu okuyun, risk bildirimini onaylayın, şüphe duyduğunuzda destek@ortaq.biz adresine yazın.",
-    links: [{ href: "/riskler", label: "Riskler" }],
-  },
-  {
-    id: "kazanc-garantisi",
-    question: "Kazanç garantisi var mı?",
-    answer: "Hayır. Ortaklıkta para kaybedebilirsiniz. ORTAQ hiçbir getiri vaat etmez; üretim ortaklığı uzun vadeli ve risklidir. Ciddi yatırım kararı hype değil, dosya okuması ister.",
-    links: [{ href: "/riskler", label: "Riskler" }],
-  },
-  {
-    id: "mkk",
-    question: "Payım nerede görünür?",
-    answer:
-      "Sermaye artırımı tamamlandığında payınız Merkezi Kayıt Kuruluşu (MKK) kayıtlarında adınıza görünür — gerçek ortaklık kaydı, kağıt üzerinde değil.",
-    links: [{ href: "/sozluk", label: "MKK nedir?" }],
-  },
-  {
-    id: "limit",
-    question: "Yıllık limit var mı?",
-    answer:
-      "Evet. Bireysel katılımcılar için yıllık üst sınır kanunda belirlenir. Güncel tutar her kampanyanın bilgi formunda yazar — yatırımcı korumasının parçasıdır.",
-    links: [{ href: "/riskler", label: "Limitler" }],
-  },
-  {
-    id: "fark-kripto",
-    question: "Kripto veya borsadan farkı ne?",
-    answer:
-      "Paya dayalı ortaklık, gerçek üretim şirketlerinde pay sahibi olmayı hedefler; SPK düzenlemesi, bilgi formu ve emanet hesabı zorunludur. Pasif varlık spekülasyonu değil — fabrikada çalışan sermaye ile operasyonel ortaklıktır.",
-    links: [{ href: "/nasil-calisir", label: "Nasıl çalışır" }],
-  },
-  {
-    id: "sirket-basvuru",
-    question: "Şirketim kampanya açabilir mi?",
-    answer:
-      "ORTAQ henüz kampanya kabul etmiyor. Süreç lisanslı platform anlaşması tamamlandığında açıklanacak. Şimdilik destek@ortaq.biz üzerinden bilgi alabilirsiniz.",
-  },
-  {
-    id: "islem-yok",
-    question: "Neden şimdi işlem yapamıyorum?",
-    answer:
-      "Lisanslı platform anlaşması tamamlanmadan kimlik doğrulama veya ödeme alınmaz. Okumak ve anlamak için buradasınız — ciddi yatırım kararı acele istemez. Keşif → inceleme → güven → katılım sırası kasıtlıdır.",
-    links: [{ href: "/basla", label: "Okumaya başla" }],
-  },
-  {
-    id: "emanet-detay",
-    question: "Emanet hesabı nasıl korur?",
-    answer:
-      "Paranız kampanya süresince lisanslı platformun emanet hesabında tutulur; hedef tutmazsa iade süreci işler, tutarsa ancak o zaman şirkete aktarılır. Şirkete doğrudan havale yapılmaz — SPK düzenlemesinin temel yatırımcı koruma mekanizmasıdır.",
-    links: [
-      { href: "/guven", label: "Güven" },
-      { href: "/sozluk", label: "Emanet hesabı nedir?" },
-    ],
-  },
-  {
-    id: "yatirimci-koruma",
-    question: "Yatırımcı koruma mekanizmaları neler?",
-    answer:
-      "SPK düzenlemesi, bilgi formu ve risk bildirimi, emanet hesabı, MKK pay kaydı, yıllık katılım limitleri ve cayma hakkı. ORTAQ ayrıca şirket seçiminde altı aşamalı saha incelemesi uygular — dosyada gördüğünüz her iddia etiketlenir.",
-    links: [
-      { href: "/guven", label: "Güven" },
-      { href: "/riskler", label: "Riskler" },
-    ],
-  },
-  {
-    id: "pasif-karsilastirma",
-    question: "Altın, borsa veya konuttan farkı ne?",
-    answer:
-      "Pasif varlıklar fiyat hareketine bağlıdır. Üretim ortaklığında sermaye fabrikada çalışır — kapasite, ihracat ve operasyonel iyileştirmeyle değer birikebilir. Likidite ve risk profili farklıdır; uzun vadeli sanayi ortaklığıdır.",
-    links: [{ href: "/sss", label: "Tüm sorular" }],
-  },
-  {
-    id: "bilgi-formu",
-    question: "Bilgi formunda ne aramalıyım?",
-    answer:
-      "Sermaye kullanım planı (paranın nereye gideceği), şirket finansalları, riskler, getiri senaryoları (garanti değil), çıkış imkânları ve yıllık limitler. ORTAQ dosyaları okumayı kolaylaştırır; nihai belge lisanslı platformda yayımlanır.",
-    links: [
-      { href: "/sozluk", label: "Bilgi formu nedir?" },
-      { href: "/degerlendirme", label: "Şirket seçimi" },
-    ],
-  },
-  {
-    id: "yasal-yapi",
-    question: "Yasal yapı nasıl işler?",
-    answer:
-      "Paya dayalı kitle fonlaması SPK düzenlemesi çerçevesinde yürür. Lisanslı platform aracılığıyla bilgi formu, risk bildirimi ve sözleşme imzalanır. Pay kaydı MKK'da tutulur. ORTAQ bu sürecin keşif ve inceleme katmanıdır — işlem platformda tamamlanır.",
-    links: [
-      { href: "/guven", label: "Güven çerçevesi" },
-      { href: "/riskler", label: "Riskler" },
-    ],
-  },
+    id: "ortaq-ne", question: "ORTAQ nedir?", answer: "ORTAQ, bireysel yatırımcıyı Türkiye'nin üretim ekonomisine bağlayan bir keşif ve inceleme platformudur. Paya dayalı ortaklık sürecini sade anlatır; saha incelemeli şirket dosyaları sunar. Banka değildir, yatırım tavsiyesi vermez, kazanç garantisi sunmaz. Amacı: üreten şirketlere ortaklık yolunu okunabilir kılmak.", links: [{ href: "/basla", label: "Okumaya başla" }], }, {
+    id: "ne-aliyorum", question: "Tam olarak ne satın alıyorum?", answer: "Gerçek bir üretim şirketinde pay : spekülasyon aracı değil, sermaye artırımı yoluyla ortaklık hakkı. Paranız kapasite, makine, ihracat altyapısı gibi operasyonel büyüme için kullanılır; dosyada yazar. Kampanya tamamlandığında payınız MKK kayıtlarında adınıza açılır. Günlük al-sat değil; üretken varlıkta uzun vadeli pay sahipliğidir.", links: [
+      { href: "/nasil-calisir", label: "Ortaklık süreci" }, { href: "/sozluk", label: "Pay sahipliği nedir?" }, ], }, {
+    id: "nasil-yatirim", question: "Nasıl yatırım yapılır?", answer: "Önce ORTAQ'ta şirket dosyasını okursunuz : kapasite, ihracat, sermaye kullanım planı ve riskler. Hazır olduğunuzda lisanslı kitle fonlama platformunda kimlik doğrulaması yapar, bilgi formunu onaylar ve katılırsınız. Paranız emanet hesabına gider; kampanya hedefi tutarsa sermaye artırımı tamamlanır ve payınız MKK'da açılır. Henüz işlem kabul edilmiyor, şimdilik anlamak için buradasınız.", links: [
+      { href: "/nasil-calisir", label: "Katılım süreci" }, { href: "/sirketler", label: "Şirket dosyaları" }, ], }, {
+    id: "ortaklik-nasil", question: "Ortaklık nasıl çalışır?", answer: "Paya dayalı ortaklıkta gerçek bir şirkette pay sahibi olursunuz. Sermayeniz üretim ekonomisinde çalışır: hat genişletme, makine yenileme, ihracat kapasitesi. Şirket operasyonel olarak büyüdükçe değer tablosu gelişebilir , temettü, değer artışı veya stratejik çıkış kampanyaya göre değişir. Hiçbiri garanti değildir; para kaybedebilirsiniz.", links: [{ href: "/nasil-calisir", label: "Süreç" }], }, {
+    id: "sermaye-ihtiyaci", question: "Şirketler neden sermaye arar?", answer: "Üretken KOBİ'ler büyümek için makine, kapasite ve ihracat altyapısına yatırım yapar , banka kredisi her zaman yeterli veya uygun olmayabilir. Paya dayalı ortaklık, operasyonel büyümeyi pay sahipleriyle finanse etmenin yasal yoludur. Sermaye fabrikada çalışır: daha fazla üretim, daha geniş pazar, daha güçlü nakit akışı potansiyeli. ORTAQ dosyada paranın nereye gideceğini açıkça gösterir.", links: [
+      { href: "/sirketler", label: "Sermaye kullanım planları" }, { href: "/degerlendirme", label: "Şirket seçimi" }, ], }, {
+    id: "gelir-nasil", question: "Yatırımcı nasıl gelir elde eder?", answer: "Getiri üç yoldan düşünülür: temettü (şirket kar dağıtırsa), pay değer artışı (operasyonel büyüme ile), veya stratejik çıkış (satış, birleşme vb.). Üretken şirketlerde değer genelde kapasite artışı, ihracat genişlemesi ve marj iyileştirmesinden gelir , pasif varlık fiyat hareketi değil. Hiçbiri garanti değildir; para kaybedebilirsiniz.", links: [
+      { href: "/riskler", label: "Riskler" }, { href: "/sss", label: "Tüm sorular" }, ], }, {
+    id: "deger-yaratimi", question: "Değer yaratımı nasıl düşünülür?", answer: "Üretken şirketlerde değer operasyonel büyümeden gelir: kapasite artışı, ihracat genişlemesi, makine yatırımı, marj iyileştirmesi. Pay sahibi bu tablonun bir parçasıdır , fabrika duvarlarının içindeki büyümenin ortağı. Temettü, değer artışı veya çıkış kampanyaya göre değişir; hiçbiri garanti değildir.", links: [{ href: "/nasil-calisir", label: "Yatırım yolculuğu" }], }, {
+    id: "spk-guven", question: "SPK / paya dayalı yapı nasıl işler?", answer: "Paya dayalı kitle fonlaması SPK düzenlemesi altında yürür: bilgi formu, risk bildirimi, emanet hesabı, yıllık limit ve MKK pay kaydı zorunludur. ORTAQ keşif ve inceleme katmanını sağlar; işlem SPK listesindeki lisanslı platform üzerinden tamamlanır. Anlaşma tamamlanana kadar işlem kabul edilmez.", links: [{ href: "/guven", label: "Güven sayfası" }], }, {
+    id: "sirket-secimi", question: "Şirketler nasıl seçilir?", answer: "Her başvuru kabul edilmez. Altı aşamalı inceleme: ön eleme, saha ziyareti, hukuk ve sicil, finansal inceleme, kurucu görüşmesi, komite ve platform onayı. Yalnızca üretim yapan, belgelenebilir ve uzun vadeli ekonomik mantığı olan şirketler dosyalanır , yatırımcıya sunulmadan önce.", links: [{ href: "/degerlendirme", label: "Değerlendirme süreci" }], }, {
+    id: "due-diligence", question: "Due diligence ne kadar derin?", answer: "ORTAQ dosyaları saha incelemesi, kapasite doğrulaması, belge kontrolü, finansal tablo incelemesi ve operasyonel izlerle desteklenir. Her iddia etiketlenir; kanıtlanamayan iddia yayınlanmaz. Nihai yasal belge lisanslı platformda yayımlanan bilgi formudur , ORTAQ okumayı kolaylaştırır, kararı siz verirsiniz.", links: [
+      { href: "/degerlendirme", label: "Seçim süreci" }, { href: "/guven", label: "Güven katmanları" }, ], }, {
+    id: "para-nereye", question: "Param nereye gider?", answer: "Katılım sırasında paranız emanet hesabına gider; kampanya bitene kadar şirkete aktarılmaz. Hedef tutmazsa iade süreci işler. Hedef tutarsa sermaye, bilgi formunda yazan amaca , kapasite genişletme, makine yatırımı, ihracat altyapısı gibi, aktarılır. Şirkete doğrudan havale yapılmaz.", links: [
+      { href: "/nasil-calisir", label: "Süreç" }, { href: "/sozluk", label: "Emanet hesabı" }, ], }, {
+    id: "yatirim-sonrasi", question: "Yatırım sonrası ne olur?", answer: "Payınız MKK'da adınıza kayıtlı olur. Şirket operasyonel güncellemeleri, saha notları ve raporlar paylaşılır. Uzun vadeli ortaklık modelidir , günlük al-sat değil. Temettü veya çıkış imkânları kampanya bilgi formunda belirtilir.", links: [{ href: "/nasil-calisir", label: "İzleme süreci" }], }, {
+    id: "cikis-nasil", question: "Nasıl çıkış yapılır?", answer: "Çıkış yolu kampanyaya göre değişir: ikincil piyasa (platform sunuyorsa), şirket geri alımı, stratejik satış veya halka arz gibi senaryolar bilgi formunda açıklanır. Likidite her zaman garanti değildir; payınızı istediğiniz anda satamayabilirsiniz , bu uzun vadeli bir ortaklıktır.", links: [{ href: "/riskler", label: "Riskler ve limitler" }], }, {
+    id: "dolandiricilik", question: "Dolandırıcılıktan nasıl korunurum?", answer: "Lisanslı platform dışında para göndermeyin. Kazanç garantisi vaat eden kampanyalara itibar etmeyin. Bilgi formunu okuyun, risk bildirimini onaylayın, şüphe duyduğunuzda destek@ortaq.biz adresine yazın.", links: [{ href: "/riskler", label: "Riskler" }], }, {
+    id: "kazanc-garantisi", question: "Kazanç garantisi var mı?", answer: "Hayır. Ortaklıkta para kaybedebilirsiniz. ORTAQ hiçbir getiri vaat etmez; üretim ortaklığı uzun vadeli ve risklidir. Ciddi yatırım kararı hype değil, dosya okuması ister.", links: [{ href: "/riskler", label: "Riskler" }], }, {
+    id: "mkk", question: "Payım nerede görünür?", answer: "Sermaye artırımı tamamlandığında payınız Merkezi Kayıt Kuruluşu (MKK) kayıtlarında adınıza görünür , gerçek ortaklık kaydı, kağıt üzerinde değil.", links: [{ href: "/sozluk", label: "MKK nedir?" }], }, {
+    id: "limit", question: "Yıllık limit var mı?", answer: "Evet. Bireysel katılımcılar için yıllık üst sınır kanunda belirlenir. Güncel tutar her kampanyanın bilgi formunda yazar , yatırımcı korumasının parçasıdır.", links: [{ href: "/riskler", label: "Limitler" }], }, {
+    id: "fark-kripto", question: "Kripto veya borsadan farkı ne?", answer: "Paya dayalı ortaklık, gerçek üretim şirketlerinde pay sahibi olmayı hedefler; SPK düzenlemesi, bilgi formu ve emanet hesabı zorunludur. Pasif varlık spekülasyonu değil , fabrikada çalışan sermaye ile operasyonel ortaklıktır.", links: [{ href: "/nasil-calisir", label: "Nasıl çalışır" }], }, {
+    id: "sirket-basvuru", question: "Şirketim kampanya açabilir mi?", answer: "ORTAQ henüz kampanya kabul etmiyor. Süreç lisanslı platform anlaşması tamamlandığında açıklanacak. Şimdilik destek@ortaq.biz üzerinden bilgi alabilirsiniz.", }, {
+    id: "islem-yok", question: "Neden şimdi işlem yapamıyorum?", answer: "Lisanslı platform anlaşması tamamlanmadan kimlik doğrulama veya ödeme alınmaz. Okumak ve anlamak için buradasınız , ciddi yatırım kararı acele istemez. Keşif → inceleme → güven → katılım sırası kasıtlıdır.", links: [{ href: "/basla", label: "Okumaya başla" }], }, {
+    id: "emanet-detay", question: "Emanet hesabı nasıl korur?", answer: "Paranız kampanya süresince lisanslı platformun emanet hesabında tutulur; hedef tutmazsa iade süreci işler, tutarsa ancak o zaman şirkete aktarılır. Şirkete doğrudan havale yapılmaz , SPK düzenlemesinin temel yatırımcı koruma mekanizmasıdır.", links: [
+      { href: "/guven", label: "Güven" }, { href: "/sozluk", label: "Emanet hesabı nedir?" }, ], }, {
+    id: "yatirimci-koruma", question: "Yatırımcı koruma mekanizmaları neler?", answer: "SPK düzenlemesi, bilgi formu ve risk bildirimi, emanet hesabı, MKK pay kaydı, yıllık katılım limitleri ve cayma hakkı. ORTAQ ayrıca şirket seçiminde altı aşamalı saha incelemesi uygular , dosyada gördüğünüz her iddia etiketlenir.", links: [
+      { href: "/guven", label: "Güven" }, { href: "/riskler", label: "Riskler" }, ], }, {
+    id: "pasif-karsilastirma", question: "Altın, borsa veya konuttan farkı ne?", answer: "Pasif varlıklar fiyat hareketine bağlıdır. Üretim ortaklığında sermaye fabrikada çalışır , kapasite, ihracat ve operasyonel iyileştirmeyle değer birikebilir. Likidite ve risk profili farklıdır; uzun vadeli sanayi ortaklığıdır.", links: [{ href: "/sss", label: "Tüm sorular" }], }, {
+    id: "bilgi-formu", question: "Bilgi formunda ne aramalıyım?", answer: "Sermaye kullanım planı (paranın nereye gideceği), şirket finansalları, riskler, getiri senaryoları (garanti değil), çıkış imkânları ve yıllık limitler. ORTAQ dosyaları okumayı kolaylaştırır; nihai belge lisanslı platformda yayımlanır.", links: [
+      { href: "/sozluk", label: "Bilgi formu nedir?" }, { href: "/degerlendirme", label: "Şirket seçimi" }, ], }, {
+    id: "yasal-yapi", question: "Yasal yapı nasıl işler?", answer: "Paya dayalı kitle fonlaması SPK düzenlemesi çerçevesinde yürür. Lisanslı platform aracılığıyla bilgi formu, risk bildirimi ve sözleşme imzalanır. Pay kaydı MKK'da tutulur. ORTAQ bu sürecin keşif ve inceleme katmanıdır , işlem platformda tamamlanır.", links: [
+      { href: "/guven", label: "Güven çerçevesi" }, { href: "/riskler", label: "Riskler" }, ], },
 ];
 
 export function getFaqById(id: string): FaqItem | undefined {

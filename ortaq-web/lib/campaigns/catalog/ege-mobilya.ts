@@ -1,89 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const egeMobilya = buildCatalogCampaign({
-  slug: "ege-mobilya-izmir",
-  legalName: "Ege Mobilya ve Ahşap İşleme A.Ş.",
-  tradeName: "Ege Mobilya",
-  sector: "İhracat odaklı mobilya ve ahşap işleme",
-  city: "İzmir",
-  region: "Kemalpaşa OSB",
-  founded: 2004,
-  employees: 67,
-  exportMarkets: ["Almanya", "İtalya", "Fransa"],
-  facilityArea: "5.400 m² üretim ve boya",
-  monthlyCapacity: "Aylık ~850 mobilya seti (mutfak dolabı ağırlıklı)",
-  targetTry: 7_600_000,
-  exportShare: "Gelirin ~%58'i",
-  domesticShare: "~%42",
-  reviewStatus: "document_review",
-  processDone: 2,
-  fundingPurpose: "CNC panel kesim hattı ve su bazlı boya ünitesi — Avrupa numune süresini 7 günden 3 güne indirmek.",
-  fundingLines: [
-    { label: "CNC panel kesim ve kenar bant", amountTry: 3_200_000, percent: 42 },
-    { label: "Su bazlı boya kabini ve kurutma", amountTry: 1_900_000, percent: 25 },
-    { label: "MDF ve melamin stok", amountTry: 1_400_000, percent: 18 },
-    { label: "Numune odası genişlemesi", amountTry: 600_000, percent: 8 },
-    { label: "İşletme sermayesi", amountTry: 500_000, percent: 7 },
-  ],
-  founderName: "Murat Ege",
-  founderNote: "Almanya perakende zincirlerine FSC sertifikalı üretim yapıyoruz. Numune süresi müşteri kaybettiriyor.",
-  storyOrigin: "2004'te Kemalpaşa'da atölye mobilya. 2010'da OSB'ye taşınma ve ihracat.",
-  storyToday: "Mutfak ve gardrop setleri. İtalya koleksiyon takvimine bağlı siparişler — gecikme cezası var.",
-  productionDetail: "Panel kesim → kenar bant → delik → montaj → boya → paketleme → konteyner.",
-  processes: ["Panel kesim", "Kenar bant", "Montaj", "Boya", "Paketleme"],
-  materials: ["MDF", "Melamin", "FSC sertifikalı kontrplak"],
-  machines: [
-    { id: "cnc", name: "Homag CNC kesim · 2013", role: "Kesim", year: 2013, note: "Kuyruk 6 gün — yatırım hedefi." },
-    { id: "paint", name: "Su bazlı boya kabini", role: "Boya", year: 2016, note: "VOC sınırına yakın — yeni ünite planlı." },
-  ],
-  risks: [
-    { title: "FSC sertifika sürekliliği", text: "Avrupa müşterileri FSC zorunlu — denetim Haziran 2026." },
-    { title: "MDF fiyat", text: "MDF ithal bağımlılığı %60 — kur riski." },
-  ],
-  gateway: {
-    hook: "İzmir'de FSC mobilya ihracatı — numune süresi 7 gün, müşteri kaybı riski.",
-    scale: "67 çalışan · 850 set/ay · 3 Avrupa pazarı",
-    tension: "CNC kuyruğu 6 gün — koleksiyon takvimine yetişilemiyor.",
-  },
-  bottleneck: { label: "CNC kesim kuyruğu", note: "Numune ve seri aynı hat — öncelik çatışması." },
-  journal: [
-    { date: "2026-05-18", time: "10:45", text: "CNC hattında Almanya numune lotu önceliklendi — seri sipariş 2 gün gecikti.", type: "capacity" },
-    { date: "2026-05-18", time: "14:00", text: "Boya kabininde VOC ölçümü kayıtları incelendi — sınırda.", type: "inspection" },
-    { date: "2026-05-11", time: "09:30", text: "FSC sertifika dosyası ve tedarik zinciri haritası alındı.", type: "observation" },
-    { date: "2026-05-04", time: "11:15", text: "2024 yönetim raporu teslim edildi — inceleme başladı.", type: "inspection" },
-    { date: "2026-04-20", time: "15:50", text: "İtalya müşteri koleksiyon takvimi dosyaya eklendi.", type: "logistics" },
-  ],
-  updates: [
-    { date: "2026-05-18", time: "11:10", text: "Üretim hattı fotoğrafları güncellendi." },
-    { date: "2026-05-11", time: "10:00", text: "FSC dosyası doğrulandı." },
-    { date: "2026-05-05", time: "14:30", text: "2024 raporu belge incelemesine alındı." },
-    { date: "2026-04-22", time: "09:00", text: "Ticaret sicili arşive eklendi." },
-  ],
-  timeline: [
-    { year: 2004, event: "Atölye mobilya" },
-    { year: 2010, event: "Kemalpaşa OSB · ihracat" },
-    { year: 2016, event: "FSC sertifikasyon" },
-    { year: 2024, event: "Numune süresi şikayetleri arttı" },
-  ],
-  facilityNotes: [
-    { zone: "CNC kesim", note: "Kuyruk 6 gün" },
-    { zone: "Boya", note: "VOC sınırda" },
-    { zone: "Paketleme", note: "Konteyner haftada 1" },
-  ],
-  exportEvolution: [
-    { year: 2012, market: "Almanya", note: "Perakende zincir" },
-    { year: 2017, market: "İtalya", note: "Mutfak koleksiyonu" },
-    { year: 2021, market: "Fransa", note: "Küçük hacim" },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "partial", note: "2024 raporu incelemede" },
-    { layer: "FSC", status: "partial", note: "Zincir haritası alındı" },
-    { layer: "Saha", status: "pending", note: "Belge sonrası" },
-  ],
-  operationalSignals: [
-    { label: "CNC kuyruk", value: "6 gün" },
-    { label: "Aylık set", value: "~850" },
-    { label: "Numune süresi", value: "7 gün" },
-    { label: "İhracat payı", value: "Gelirin ~%58'i" },
-  ],
+  slug: "ege-mobilya-izmir", legalName: "Ege Mobilya ve Ahşap İşleme A.Ş.", tradeName: "Ege Mobilya", sector: "İhracat odaklı mobilya ve ahşap işleme", city: "İzmir", region: "Kemalpaşa OSB", founded: 2004, employees: 67, exportMarkets: ["Almanya", "İtalya", "Fransa"], facilityArea: "5.400 m² üretim ve boya", monthlyCapacity: "Aylık ~850 mobilya seti (mutfak dolabı ağırlıklı)", targetTry: 7_600_000, exportShare: "Gelirin ~%58'i", domesticShare: "~%42", reviewStatus: "document_review", processDone: 2, fundingPurpose: "CNC panel kesim hattı ve su bazlı boya ünitesi : Avrupa numune süresini 7 günden 3 güne indirmek.", fundingLines: [
+    { label: "CNC panel kesim ve kenar bant", amountTry: 3_200_000, percent: 42 }, { label: "Su bazlı boya kabini ve kurutma", amountTry: 1_900_000, percent: 25 }, { label: "MDF ve melamin stok", amountTry: 1_400_000, percent: 18 }, { label: "Numune odası genişlemesi", amountTry: 600_000, percent: 8 }, { label: "İşletme sermayesi", amountTry: 500_000, percent: 7 }, ], founderName: "Murat Ege", founderNote: "Almanya perakende zincirlerine FSC sertifikalı üretim yapıyoruz. Numune süresi müşteri kaybettiriyor.", storyOrigin: "2004'te Kemalpaşa'da atölye mobilya. 2010'da OSB'ye taşınma ve ihracat.", storyToday: "Mutfak ve gardrop setleri. İtalya koleksiyon takvimine bağlı siparişler : gecikme cezası var.", productionDetail: "Panel kesim → kenar bant → delik → montaj → boya → paketleme → konteyner.", processes: ["Panel kesim", "Kenar bant", "Montaj", "Boya", "Paketleme"], materials: ["MDF", "Melamin", "FSC sertifikalı kontrplak"], machines: [
+    { id: "cnc", name: "Homag CNC kesim · 2013", role: "Kesim", year: 2013, note: "Kuyruk 6 gün : yatırım hedefi." }, { id: "paint", name: "Su bazlı boya kabini", role: "Boya", year: 2016, note: "VOC sınırına yakın : yeni ünite planlı." }, ], risks: [
+    { title: "FSC sertifika sürekliliği", text: "Avrupa müşterileri FSC zorunlu : denetim Haziran 2026." }, { title: "MDF fiyat", text: "MDF ithal bağımlılığı %60 : kur riski." }, ], gateway: {
+    hook: "İzmir'de FSC mobilya ihracatı : numune süresi 7 gün, müşteri kaybı riski.", scale: "67 çalışan · 850 set/ay · 3 Avrupa pazarı", tension: "CNC kuyruğu 6 gün : koleksiyon takvimine yetişilemiyor.", }, bottleneck: { label: "CNC kesim kuyruğu", note: "Numune ve seri aynı hat : öncelik çatışması." }, journal: [
+    { date: "2026-05-18", time: "10:45", text: "CNC hattında Almanya numune lotu önceliklendi : seri sipariş 2 gün gecikti.", type: "capacity" }, { date: "2026-05-18", time: "14:00", text: "Boya kabininde VOC ölçümü kayıtları incelendi : sınırda.", type: "inspection" }, { date: "2026-05-11", time: "09:30", text: "FSC sertifika dosyası ve tedarik zinciri haritası alındı.", type: "observation" }, { date: "2026-05-04", time: "11:15", text: "2024 yönetim raporu teslim edildi : inceleme başladı.", type: "inspection" }, { date: "2026-04-20", time: "15:50", text: "İtalya müşteri koleksiyon takvimi dosyaya eklendi.", type: "logistics" }, ], updates: [
+    { date: "2026-05-18", time: "11:10", text: "Üretim hattı fotoğrafları güncellendi." }, { date: "2026-05-11", time: "10:00", text: "FSC dosyası doğrulandı." }, { date: "2026-05-05", time: "14:30", text: "2024 raporu belge incelemesine alındı." }, { date: "2026-04-22", time: "09:00", text: "Ticaret sicili arşive eklendi." }, ], timeline: [
+    { year: 2004, event: "Atölye mobilya" }, { year: 2010, event: "Kemalpaşa OSB · ihracat" }, { year: 2016, event: "FSC sertifikasyon" }, { year: 2024, event: "Numune süresi şikayetleri arttı" }, ], facilityNotes: [
+    { zone: "CNC kesim", note: "Kuyruk 6 gün" }, { zone: "Boya", note: "VOC sınırda" }, { zone: "Paketleme", note: "Konteyner haftada 1" }, ], exportEvolution: [
+    { year: 2012, market: "Almanya", note: "Perakende zincir" }, { year: 2017, market: "İtalya", note: "Mutfak koleksiyonu" }, { year: 2021, market: "Fransa", note: "Küçük hacim" }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "partial", note: "2024 raporu incelemede" }, { layer: "FSC", status: "partial", note: "Zincir haritası alındı" }, { layer: "Saha", status: "pending", note: "Belge sonrası" }, ], operationalSignals: [
+    { label: "CNC kuyruk", value: "6 gün" }, { label: "Aylık set", value: "~850" }, { label: "Numune süresi", value: "7 gün" }, { label: "İhracat payı", value: "Gelirin ~%58'i" }, ],
 });

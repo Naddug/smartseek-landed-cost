@@ -1,4 +1,4 @@
-/** Local member state — no auth, no fake portfolio. Trust continuity only. */
+/** Local member state, no auth, no fake portfolio. Trust continuity only. */
 
 const STORAGE_KEY = "ortaq-member-v1";
 
@@ -18,19 +18,11 @@ export type MemberState = {
 };
 
 export const EDUCATION_PAGES = [
-  { path: "/basla", key: "start" },
-  { path: "/nasil-calisir", key: "process" },
-  { path: "/guven", key: "trust" },
-  { path: "/riskler", key: "risk" },
-  { path: "/sss", key: "faq" },
+  { path: "/basla", key: "start" }, { path: "/nasil-calisir", key: "process" }, { path: "/guven", key: "trust" }, { path: "/riskler", key: "risk" }, { path: "/sss", key: "faq" },
 ] as const;
 
 const DEFAULT_STATE: MemberState = {
-  onboardingStep: 0,
-  riskAcknowledged: false,
-  pagesRead: [],
-  savedCompanies: [],
-  visitedAt: new Date().toISOString(),
+  onboardingStep: 0, riskAcknowledged: false, pagesRead: [], savedCompanies: [], visitedAt: new Date().toISOString(),
 };
 
 function readRaw(): MemberState {
@@ -87,9 +79,7 @@ export function toggleSavedCompany(slug: string, title: string): boolean {
     return false;
   }
   s.savedCompanies = [
-    ...s.savedCompanies,
-    { slug, title, savedAt: new Date().toISOString() },
-  ];
+    ...s.savedCompanies, { slug, title, savedAt: new Date().toISOString() }, ];
   write(s);
   return true;
 }

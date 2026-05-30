@@ -1,0 +1,2107 @@
+{
+  "brand": {
+    "name": "ORTAQ",
+    "tagline": "Growth platform for Turkish producers",
+    "navTagline": "Export and growth capital"
+  },
+  "nav": {
+    "howItWorks": "Investment process",
+    "companies": "Companies",
+    "trust": "Trust infrastructure",
+    "risk": "Risk framework",
+    "evaluation": "Evaluation",
+    "memberArea": "Your space",
+    "explore": "Apply",
+    "menu": "Menu",
+    "langToggle": "Change language",
+    "ariaMain": "Main menu",
+    "ariaMobile": "Mobile menu"
+  },
+  "media": {
+    "credit": "Image: {{source}} · editorial stock. Not a campaign photograph.",
+    "factoryFloor": {
+      "alt": "Factory production floor, late afternoon light"
+    },
+    "cncWorkshop": {
+      "alt": "CNC machining workshop"
+    },
+    "logisticsDock": {
+      "alt": "Logistics loading dock"
+    },
+    "exportWarehouse": {
+      "alt": "Export warehouse and dispatch"
+    },
+    "machineOperator": {
+      "alt": "Machine operator on production line"
+    },
+    "packagingFloor": {
+      "alt": "Packaging and dispatch floor"
+    },
+    "factoryDetail": {
+      "alt": "Industrial machinery detail"
+    },
+    "industrialLine": {
+      "alt": "Industrial production line, stock image"
+    },
+    "warehouse": {
+      "alt": "Warehouse and logistics area, stock image"
+    },
+    "workshop": {
+      "alt": "Workshop and production floor, stock image"
+    },
+    "textileFloor": {
+      "alt": "Textile production line, stock image"
+    },
+    "agrifoodColdchain": {
+      "alt": "Agricultural processing and cold chain facility"
+    },
+    "grainMill": {
+      "alt": "Grain and flour mill facility"
+    },
+    "greenhouse": {
+      "alt": "Greenhouse and climate-controlled cultivation"
+    },
+    "chemicalPlant": {
+      "alt": "Chemical and process plant interior"
+    },
+    "ceramicKiln": {
+      "alt": "Ceramic and refractory production line"
+    },
+    "foodProcessing": {
+      "alt": "Food processing and packaging line"
+    },
+    "shipyardDock": {
+      "alt": "Marine equipment and shipbuilding industry"
+    },
+    "glassFurnace": {
+      "alt": "Glass and industrial furnace facility"
+    },
+    "spinningMill": {
+      "alt": "Yarn and weaving production line"
+    },
+    "plasticExtrusion": {
+      "alt": "Plastic packaging and extrusion line"
+    }
+  },
+  "homeProduct": {
+    "hero": {
+      "label": "Equity access in industrial production",
+      "title": "Verified equity access to Turkish industrial production companies.",
+      "subtitle": "ORTAQ publishes field-verified dossiers on manufacturers: capacity, export profile, machine bottlenecks, and review status.",
+      "tension": "Structural equity ownership in industrial assets that are not publicly traded. Not investment advice; pre-transaction structural evaluation.",
+      "access": "Listed equities, FX, and property are publicly tradable. Equity ownership in production companies is a different asset class , ORTAQ makes that class readable.",
+      "trust": {
+        "1": "Real equity in production companies · MKK-registered partnership",
+        "2": "Capacity, export, and operational growth metrics",
+        "3": "SPK framework · escrow account · licensed platform",
+        "4": "Field verification and disciplined dossier selection"
+      },
+      "points": {
+        "1": "Verified company files with capacity and export metrics",
+        "2": "Licensed platform, escrow account, and MKK registry framework",
+        "3": "Review status visible at every stage: no manufactured urgency"
+      },
+      "ctaPrimary": "Investment dossiers",
+      "ctaSecondary": "Read the process",
+      "disclaimer": "Transactions not yet open · evaluation dossiers are live",
+      "imageLabel": "Field verification",
+      "imageCaption": "CNC machining · production floor"
+    },
+    "access": {
+      "label": "Asset-class position",
+      "title": "Production companies are a distinct asset class outside the public markets.",
+      "openLabel": "Public-market assets",
+      "open": "Listed equities · FX · property · precious metals · crypto",
+      "closedLabel": "Private equity-partnership assets",
+      "closed": "Production companies · industrial partnership · export-oriented operators · non-listed equity",
+      "close": "ORTAQ reviews equity-partnership dossiers within the SPK framework. Every step is documented."
+    },
+    "signals": {
+      "label": "Operational registry",
+      "live": "Field-verified"
+    },
+    "discovery": {
+      "hero": {
+        "label": "Industrial investment dossiers",
+        "title": "Structural equity access to Turkish production companies.",
+        "lead": "Field-verified dossiers on manufacturers: capacity, export profile, bottlenecks, and review records. Not a static directory; a live evaluation layer.",
+        "cta": "Review feed",
+        "secondary": "All dossiers",
+        "feedLabel": "Live review",
+        "feedLink": "Full feed",
+        "archiveDepth": "{{count}} review records across active dossiers",
+        "pipelineNote": "{{count}} production companies in active evaluation",
+        "imageCaption": "CNC machining · Konya OSB",
+        "imageEvidence": "Field observation · not campaign imagery"
+      },
+      "feed": {
+        "label": "Review feed",
+        "title": "Operational movement across dossiers",
+        "lead": "Field observations, file updates, review notes, and capacity data: compiled from every company under evaluation.",
+        "archiveFootnote": "Showing {{shown}} of {{total}} records · full history inside each dossier",
+        "queueLabel": "Evaluation pipeline",
+        "queueTitle": "Active evaluation",
+        "queueNote": "Real review stages across published dossiers: not investor counts.",
+        "criteria": "Selection criteria"
+      },
+      "queue": {
+        "preliminary_review": "Preliminary review",
+        "document_review": "Document review",
+        "field_verification": "Field verification",
+        "committee": "Committee queue"
+      },
+      "sectors": {
+        "label": "Sector explorer",
+        "title": "Industrial clusters under review",
+        "browse": "All dossiers",
+        "explore": "View dossiers"
+      },
+      "featured": {
+        "label": "Featured dossiers",
+        "title": "Production companies under active evaluation",
+        "lead": "Each dossier carries a different structural tension: export dependency, capacity ceiling, generational transition, regional scale.",
+        "spotlight": "Featured",
+        "related": "Related dossiers"
+      },
+      "compare": {
+        "label": "Operational comparison",
+        "title": "Operational profiles across dossiers",
+        "lead": "Export exposure, workforce dependency, machinery age, operational complexity, and production scale , derived from field data.",
+        "company": "Company",
+        "exportExposure": "Export",
+        "workforceDependency": "Workforce",
+        "machineryMaturity": "Machinery",
+        "operationalComplexity": "Complexity",
+        "productionScale": "Scale",
+        "level": {
+          "high": "High",
+          "moderate": "Moderate",
+          "contained": "Contained"
+        }
+      },
+      "opportunities": {
+        "label": "Investment patterns",
+        "title": "Sector patterns and operational profiles",
+        "lead": "Clustered by operational profile: not investment recommendations, but dossier-review entry points.",
+        "pattern": "Pattern",
+        "tags": {
+          "export_heavy": "Export-heavy",
+          "capacity_constrained": "Capacity-constrained",
+          "second_generation": "Second-generation transition",
+          "regional_champion": "Regional industrial leader",
+          "field_active": "Active field inspection",
+          "under_evaluation": "Under evaluation"
+        }
+      },
+      "trust": {
+        "label": "Trust infrastructure",
+        "title": "Operational depth is the foundation of trust",
+        "lead": "Licensed platform, escrow account, MKK registry, and field review: compact, not a legal lecture."
+      },
+      "access": {
+        "label": "Disciplined access",
+        "title": "Open the dossiers when you are ready.",
+        "lead": "Read the dossiers. Track operational data. Evaluate production reality before any transaction.",
+        "cta": "Create dossier access"
+      }
+    },
+    "invest": {
+      "hero": {
+        "label": "Equity partnership · Turkish industrial investment",
+        "title": "Own shares in production companies.",
+        "lead": "ORTAQ publishes field-reviewed dossiers on export-oriented Turkish manufacturers. What you buy: equity in a physical production facility. Capital works for capacity, machinery, and export growth.",
+        "conviction": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement. Equity owners share in that growth. There is no return guarantee; the model is long-horizon industrial partnership.",
+        "accessLine": "Regulated private-market access. Productive equity partnership; not crowdfunding, not speculation.",
+        "ctaPrimary": "Explore investment opportunities",
+        "ctaSecondary": "How partnership works",
+        "featuredBadge": "Featured opportunity",
+        "location": "Location",
+        "ecosystemLabel": "Active company ecosystem",
+        "activityNote": "{{count}} operational traces · cross-dossier",
+        "viewRegistry": "Full dossier registry"
+      },
+      "opportunities": {
+        "label": "Investment opportunities",
+        "title": "Export-oriented production companies",
+        "lead": "CNC, food, logistics, chemicals, textile. Field-reviewed equity-partnership dossiers across distinct industrial sectors. Each is a real production facility, not a startup card.",
+        "capitalLead": "Every dossier states where the capital goes: line expansion, export infrastructure, machinery upgrade. The money works inside the factory. Operational growth financing, not speculation.",
+        "viewAll": "All companies",
+        "count": "Showing {{shown}} of {{count}} active dossiers"
+      },
+      "card": {
+        "export": "Export share",
+        "purpose": "Target amount",
+        "reviewProgress": "Review progress",
+        "cta": "View dossier"
+      },
+      "sectors": {
+        "label": "Production economy",
+        "title": "Industrial investment · sector diversity",
+        "lead": "Each sector carries a distinct capacity, export, and operational-growth story. Unlike passive assets, value is created through production.",
+        "explore": "View companies"
+      },
+      "process": {
+        "label": "Investment journey",
+        "title": "From dossier review to value creation: six steps",
+        "subtitle": "The individual investor's path: read the dossier, verify it, participate, monitor, and track company performance.",
+        "steps": {
+          "1": {
+            "title": "Dossier review",
+            "text": "Read the investment dossiers: company files documented with production, export, and field notes."
+          },
+          "2": {
+            "title": "Structural evaluation",
+            "text": "Examine capacity, risk profile, machine park, capital use plan, and review layers."
+          },
+          "3": {
+            "title": "Verification",
+            "text": "Understand the SPK framework, licensed platform, escrow account, and MKK share registry."
+          },
+          "4": {
+            "title": "Participation",
+            "text": "When ready, acquire shares via the licensed platform; capital remains in escrow until the campaign closes."
+          },
+          "5": {
+            "title": "Monitoring",
+            "text": "Track your partnership through field updates, operational traces, and company reports."
+          },
+          "6": {
+            "title": "Value creation",
+            "text": "Capacity growth, export expansion, margin improvement: company value develops with operational performance. Dividends, appreciation, or exit vary by campaign; no guarantee."
+          }
+        }
+      },
+      "valueChain": {
+        "label": "Value formation",
+        "title": "From capital to investor upside: a measurable chain",
+        "lead": "Your capital goes to tangible growth on the factory floor, not speculative price movement. Value forms through operational performance , trackable and reportable.",
+        "steps": {
+          "1": {
+            "title": "Capital",
+            "text": "Investment is collected in escrow; campaign target and use-of-funds plan are stated in the dossier."
+          },
+          "2": {
+            "title": "Production",
+            "text": "Funds deploy to machinery, capacity, lines, or export infrastructure: physical assets expand."
+          },
+          "3": {
+            "title": "Growth",
+            "text": "Output volume, shipments, and efficiency increase: monitored through field records."
+          },
+          "4": {
+            "title": "Valuation",
+            "text": "Revenue, margins, and asset base strengthen; private-market value can be repriced."
+          },
+          "5": {
+            "title": "Investor upside",
+            "text": "Dividends, appreciation, or structured exit: campaign-specific; no guarantee."
+          }
+        }
+      },
+      "valueTimeline": {
+        "label": "Institutional timeline",
+        "title": "From dossier review to liquidity: a disciplined journey",
+        "lead": "Each stage is documented. No time constraint; serious investment requires due diligence and operational follow-through.",
+        "phases": {
+          "1": {
+            "phase": "Phase 01",
+            "title": "Dossier review",
+            "text": "Sector, capacity, export, and capital plan are documented in the dossier: a business model, not speculation."
+          },
+          "2": {
+            "phase": "Phase 02",
+            "title": "Due diligence",
+            "text": "Six-layer review: documents, field, finance, legal, founders, committee: rejected companies are not published."
+          },
+          "3": {
+            "phase": "Phase 03",
+            "title": "Capital allocation",
+            "text": "Participation via licensed platform; funds remain in escrow until the campaign closes."
+          },
+          "4": {
+            "phase": "Phase 04",
+            "title": "Operational growth",
+            "text": "Machine commissioning, capacity increase, new lines: measurable progress in the real economy."
+          },
+          "5": {
+            "phase": "Phase 05",
+            "title": "Export scaling",
+            "text": "New markets, shipment volume, customer diversification: the growth engine of a productive company."
+          },
+          "6": {
+            "phase": "Phase 06",
+            "title": "Profitability",
+            "text": "Margins and cash flow develop through operational discipline; investors follow via reports."
+          },
+          "7": {
+            "phase": "Phase 07",
+            "title": "Value appreciation",
+            "text": "Company value may be reassessed against production and profitability: no market guarantee."
+          },
+          "8": {
+            "phase": "Phase 08",
+            "title": "Exit / liquidity",
+            "text": "Dividends, strategic acquisition, secondary sale, or structured exit: stated in the information form; liquidity may be limited."
+          }
+        }
+      },
+      "mechanics": {
+        "label": "Investment mechanics",
+        "title": "What you own: legally and operationally",
+        "lead": "Real financial infrastructure: regulated platform, custody, registry, and reporting. Not a crypto wallet , MKK-registered equity partnership.",
+        "items": {
+          "1": {
+            "title": "Legal ownership",
+            "text": "Upon campaign completion, shares registered in your name at MKK after capital increase , partnership in an industrial company not listed on the public exchange."
+          },
+          "2": {
+            "title": "SPK framework",
+            "text": "Equity-based partnership through an SPK-listed licensed crowdfunding platform: individual investor protection rules apply."
+          },
+          "3": {
+            "title": "Escrow / custody",
+            "text": "Funds remain in escrow until the campaign closes; refund process if target is not met. No direct transfer to the company."
+          },
+          "4": {
+            "title": "After investment",
+            "text": "MKK registration, partnership notification, information form commitments: investor transitions to shareholder status."
+          },
+          "5": {
+            "title": "Reporting",
+            "text": "Company updates, field records, operational traces: production reality shared, not speculative price."
+          },
+          "6": {
+            "title": "Returns and exit",
+            "text": "Dividends, appreciation, or structured exit vary by campaign. No return guarantee; you can lose money."
+          }
+        }
+      },
+      "conviction": {
+        "title": "Why productive assets?",
+        "items": {
+          "1": {
+            "title": "Understandable economics",
+            "text": "Factory, machinery, export, and capacity: tracked with concrete metrics; not abstract token speculation."
+          },
+          "2": {
+            "title": "Durable value layer",
+            "text": "The foundation of production and employment; cyclical yet carrying real assets and operational cash flow."
+          },
+          "3": {
+            "title": "Access discipline",
+            "text": "A layer historically closed to funds and networks; ORTAQ offers access at institutional standard through dossiers, review, and verification."
+          }
+        },
+        "disclaimer": "Not investment advice. Past operational performance does not guarantee future returns."
+      },
+      "ownership": {
+        "label": "Partnership model",
+        "title": "In 60 seconds: what do you own?",
+        "lead": "Not speculation: equity in a real company. Capital works in the production economy.",
+        "items": {
+          "1": {
+            "title": "Share ownership",
+            "text": "When the campaign completes, shares registered in your name at MKK: partnership in an industrial company not listed on the public exchange."
+          },
+          "2": {
+            "title": "Role of capital",
+            "text": "Your money funds capacity expansion, machine investment, export infrastructure, or operational bottlenecks , stated clearly in each dossier."
+          },
+          "3": {
+            "title": "How value forms",
+            "text": "Production volume, export share, margins, and company value can grow through operational improvement. The investor owns a share of that table."
+          },
+          "4": {
+            "title": "Return expectations",
+            "text": "Dividends, appreciation, or strategic exit: specified in the campaign information form. No return guarantee; you can lose money."
+          }
+        },
+        "examplesLabel": "Typical uses of capital",
+        "examples": "Capacity expansion · export growth · machine renewal · new production line · regional expansion · margin improvement"
+      },
+      "wealth": {
+        "title": "Why production partnership?",
+        "mostLabel": "Passive assets",
+        "fewLabel": "Productive industrial partnership",
+        "most": {
+          "1": "Gold, FX, property: price movement",
+          "2": "Speculative assets: volatility",
+          "3": "Public markets: liquid but broad index",
+          "4": "Returns tied to market sentiment"
+        },
+        "few": {
+          "1": "Manufacturers that produce and employ",
+          "2": "Export-oriented operational growth",
+          "3": "Value accumulation through capacity and machines",
+          "4": "A layer historically closed to individual access"
+        },
+        "barrier": "Due diligence cost, closed networks, and fragmented process kept this layer away from individual investors. ORTAQ makes access visible through disciplined dossiers and verification.",
+        "positioning": "A serious bridge between individual investors and Turkish industrial growth: operational partnership, not hype."
+      },
+      "activity": {
+        "label": "Operational momentum",
+        "title": "Companies growing from the field",
+        "lead": "Capacity increases, line installation, export shipments, machine commissioning: real operational progress records.",
+        "link": "All activity"
+      },
+      "trust": {
+        "label": "Investor protection",
+        "title": "Serious investment layer · trust infrastructure",
+        "lead": "SPK regulation, escrow account, MKK registry, and six-stage company review: trust comes from layered verification, not slogans. Not a crowdfunding toy; regulated equity structure."
+      },
+      "cta": {
+        "title": "Begin your partnership journey in Turkish industrial growth.",
+        "lead": "Review dossiers, understand what you own, verify trust layers: participate when ready. No time constraint; serious investment requires reading the file.",
+        "primary": "Explore investment opportunities",
+        "conviction": "Not speculation: measurable operational growth and long-term industrial partnership logic."
+      },
+      "faq": {
+        "label": "Investment & legal",
+        "title": "Frequently asked questions",
+        "lead": "What you buy, how partnership works, how value forms, what the risks are: short, clear answers. Not investment advice; no return guarantee.",
+        "legalTitle": "Legal structure summary",
+        "legal": {
+          "1": "Licensed crowdfunding platform framework under SPK regulation",
+          "2": "Escrow account: funds are not transferred to the company until the campaign closes",
+          "3": "MKK share registry: opened in your name after capital increase",
+          "4": "Six-stage company review: field, document, and financial verification"
+        },
+        "link": "All questions"
+      }
+    },
+    "visibility": {
+      "label": "Operational visibility",
+      "title": "What the layer actually looks like.",
+      "lead": "Not company profiles: production signals from field review and operational records."
+    },
+    "why": {
+      "label": "Why it matters",
+      "title": "Most people cannot access the productive economy.",
+      "lead": "In Turkey, individual capital mostly flows to financial assets. Yet employment, export, and capacity are built in factories.",
+      "mostLabel": "What everyone can access",
+      "fewLabel": "What almost no one can access",
+      "most": {
+        "1": "Gold and foreign exchange",
+        "2": "Crypto and speculative assets",
+        "3": "Residential property and land",
+        "4": "Listed public equities"
+      },
+      "few": {
+        "1": "Factory-running manufacturers",
+        "2": "Export-oriented manufacturers",
+        "3": "Machine park and capacity growth",
+        "4": "Partnership in private industrial companies"
+      },
+      "barrier": "This layer stayed opaque: due diligence is costly, access is closed, process is fragmented. Outside large funds and local networks, individual participation is nearly impossible.",
+      "ortaq": "ORTAQ makes this layer visible through dossiers, field inspection, and verification discipline , without rushing, transparently."
+    },
+    "stats": {
+      "dossiers": "Published dossiers",
+      "inReview": "In preliminary review",
+      "fieldVisits": "Field journal entries",
+      "sectors": "Active sectors",
+      "cities": "City coverage",
+      "reviewLayers": "Review layers",
+      "disclaimer": "Review capacity: not investor counts. No fake metrics."
+    },
+    "featured": {
+      "label": "Featured dossier",
+      "nextGate": "Next step",
+      "cta": "View dossier",
+      "criteria": "Selection criteria"
+    },
+    "companies": {
+      "label": "Dossier registry",
+      "title": "Production assets under review",
+      "count": "{{count}} active dossiers",
+      "lead": "CNC, food, casting, textile: each dossier carries different industrial energy.",
+      "viewAll": "All dossiers",
+      "enter": "Open dossier",
+      "footnote": "Not an investment offer. Field-reviewed access files.",
+      "pipeline": "Review pipeline",
+      "pipelineText": "New applications pass preliminary review. Qualified dossiers are published here.",
+      "pipelineLink": "Selection criteria"
+    },
+    "sectors": {
+      "label": "Sector coverage",
+      "title": "Turkish industrial coverage",
+      "active": "{{count}} dossier",
+      "active_plural": "{{count}} dossiers",
+      "soon": "Coming soon",
+      "aria": "Sector coverage",
+      "coverage": "{{count}} sectors · only categories with active dossiers",
+      "noCities": "-"
+    },
+    "verification": {
+      "gate": "Entry requires",
+      "label": "Verification",
+      "title": "Trust comes from operational discipline.",
+      "lead": "No dossier is published without field, capacity, document, operations, and export review.",
+      "link": "Trust framework",
+      "checks": {
+        "field": {
+          "title": "Field inspection",
+          "text": "Factory visit, line observation, minutes, and photo archive."
+        },
+        "capacity": {
+          "title": "Capacity review",
+          "text": "Machine park, shifts, bottlenecks, and output validation."
+        },
+        "documents": {
+          "title": "Document verification",
+          "text": "Trade registry, financial statements, and management reports."
+        },
+        "operations": {
+          "title": "Operational review",
+          "text": "Supply chain, workforce, quality protocol, and field notes."
+        },
+        "export": {
+          "title": "Export checks",
+          "text": "Invoice summaries, market mix, and shipment observations."
+        }
+      }
+    },
+    "trust": {
+      "label": "Trust system",
+      "title": "Verification layers",
+      "lead": "Every claim is labelled, every step documented. Trust comes from operational transparency , not slogans.",
+      "items": {
+        "1": {
+          "title": "Licensed platform",
+          "text": "Equity partnership under SPK regulation: individual investor protection rules, auditable process."
+        },
+        "2": {
+          "title": "Escrow account",
+          "text": "Funds held until campaign closes; refund if target not met. No direct transfer to the company."
+        },
+        "3": {
+          "title": "MKK registry",
+          "text": "Shares registered in your name at the Central Registry after capital increase: real partnership, not abstract tokens."
+        },
+        "4": {
+          "title": "Operational review",
+          "text": "Six-stage company selection: field, documents, finance: production verification, not speculative decks."
+        }
+      },
+      "evalLink": "Evaluation criteria"
+    },
+    "activity": {
+      "label": "Operational record",
+      "title": "Cross-dossier operational continuity",
+      "subtitle": "Append-only field notes and dossier updates · not a market tape",
+      "aria": "Cross-campaign review feed",
+      "colDate": "Date",
+      "colTime": "Time",
+      "colCompany": "Company",
+      "colType": "Type",
+      "colNote": "Note",
+      "updateChip": "File",
+      "note": "Field entries and dossier updates are aggregated here. Evidence continuity: not investor counts."
+    },
+    "process": {
+      "label": "Process",
+      "title": "Three steps",
+      "lead": "From identity verification to share registry: a five-step, traceable process.",
+      "link": "Read the full process",
+      "home": {
+        "1": {
+          "title": "Read the dossier",
+          "text": "Review production, export, risks, and field notes."
+        },
+        "2": {
+          "title": "Understand the process",
+          "text": "Learn verification, escrow, and partnership flow."
+        },
+        "3": {
+          "title": "When you are ready",
+          "text": "Participate via the licensed platform; no time constraint."
+        }
+      }
+    },
+    "cta": {
+      "eyebrow": "Next",
+      "title": "Read the file, not the story.",
+      "text": "Review dossiers. Track operational evidence. Treat ownership as private-market equity , not a trade.",
+      "subtext": "ORTAQ is an evaluation layer under SPK framing: disciplined access, documented steps.",
+      "primary": "Open dossier index",
+      "secondary": "Get started",
+      "note": "No investment accepted yet."
+    },
+    "companyCard": {
+      "location": "Location",
+      "employees": "Employees",
+      "employeesUnit": "employees",
+      "capacity": "Capacity",
+      "exportShare": "Export share",
+      "facility": "Facility area",
+      "facilityStatus": "Review status",
+      "reviewProgress": "Review progress",
+      "activeStep": "Active",
+      "viewDossier": "View dossier"
+    },
+    "companiesPage": {
+      "label": "Investment dossiers",
+      "title": "Turkish manufacturers: equity-partnership dossiers",
+      "lead": "Verified dossiers for industrial investment. Capacity, export profile, operational data, capital plan. Not an investment offer; an evaluation layer.",
+      "evalLink": "Read the selection process"
+    },
+    "masthead": {
+      "aria": "Platform operations status",
+      "essence": "What ORTAQ is",
+      "title": "Equity partnership in Turkish production companies: dossier by dossier.",
+      "subline": "Not the stock market; factory reality. Field verification, capacity, export profile, and risk records in one evaluation layer.",
+      "ctaPrimary": "Investment dossiers",
+      "ctaSecondary": "Read the process",
+      "disclaimer": "ORTAQ is the evaluation infrastructure under SPK regulation. Transactions are not yet open · dossiers update live.",
+      "visual": {
+        "heroCaption": "Production floor · field observation",
+        "evidence": "Imagery is not campaign marketing; industrial atmosphere selected for sector and field context.",
+        "sectors": {
+          "logistics": "Logistics · export",
+          "manufacturing": "Manufacturing · CNC",
+          "food": "Food · cold chain"
+        }
+      },
+      "status": {
+        "dossiers": "Open dossiers",
+        "sectors": "Sectors",
+        "field": "Field verification",
+        "document": "Document review",
+        "preliminary": "Preliminary",
+        "lastEvent": "Last update"
+      },
+      "feed": {
+        "label": "Live review feed",
+        "viewAll": "All",
+        "update": "File"
+      },
+      "thesis": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement , equity owners share in that growth."
+    },
+    "marketLayer": {
+      "aria": "Market layer thesis",
+      "label": "Market layer",
+      "visualCaption": "Warehouse and dispatch · private-company reality",
+      "title": "Private industrial capital was always there; access was not.",
+      "lead": "Most production companies in Turkey are private. Ownership exists, but credible access historically required institutional networks and costly due diligence.",
+      "points": {
+        "1": "The constraint is not interest: it is verification cost, fragmented signals, and inconsistent disclosure.",
+        "2": "Operational growth is not speculation: capacity, exports, margins, and bottlenecks are measurable on the factory floor.",
+        "3": "A durable market layer needs one thing: comparable evidence and an auditable process across companies."
+      },
+      "footnote": "Infrastructure framing: not an investment offer."
+    },
+    "mechanics": {
+      "aria": "Ownership and mechanics",
+      "label": "Mechanics",
+      "title": "Access mechanics in one page",
+      "lead": "Regulated participation, private-market ownership, and possible realization paths , stated as mechanisms, not promises.",
+      "steps": {
+        "1": {
+          "title": "Dossier discipline",
+          "body": "Capacity, export profile, field notes, and risk layers: per company, in one evaluable file."
+        },
+        "2": {
+          "title": "Evidence standard",
+          "body": "Not paper-only. The physical trace of production: line, shifts, dispatch, bottlenecks, is verified on-site and recorded."
+        },
+        "3": {
+          "title": "Regulated participation",
+          "body": "SPK-licensed platform, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
+        },
+        "4": {
+          "title": "Valuation arithmetic",
+          "body": "Equity, valuation, and growth assumptions are explicit. Value can change with capacity, margin, and exports , never guaranteed."
+        }
+      },
+      "ownership": "When participation completes, shares are registered in your name after capital increase. This is private-market equity, not exchange trading.",
+      "growth": "Operational improvement can affect company value through economics: throughput, quality stability, export mix, and margin resilience.",
+      "exitLabel": "Possible realization pathways: not commitments",
+      "paths": {
+        "1": {
+          "title": "Secondary sale",
+          "body": "Transfer of existing shares to another buyer; price and timing depend on market conditions."
+        },
+        "2": {
+          "title": "Strategic investor",
+          "body": "Entry of a corporate or sector buyer; usually linked to company maturity and scale."
+        },
+        "3": {
+          "title": "Company buyback",
+          "body": "The business repurchases specific shares; depends on cash position and governance decisions."
+        },
+        "4": {
+          "title": "Future funding rounds",
+          "body": "New capital entry or structured exit; valuation shaped by company performance and terms."
+        }
+      },
+      "liquidity": "None of these pathways is guaranteed. Secondary liquidity may be limited; horizon and timing depend on company, market, and regulatory conditions.",
+      "marketWhy": {
+        "label": "Why this market exists",
+        "body": "Private production assets dominate the real economy, but access stayed institution-only. A standardized evidence rail is the missing layer between capital and factories."
+      },
+      "footnote": "Not investment advice · no return or liquidity guarantee"
+    },
+    "mechanism": {
+      "aria": "Equity-partnership mechanism summary",
+      "label": "Mechanism",
+      "title": "In 60 seconds: what you buy and how it works",
+      "lead": "Not a speculation layer: equity-partnership infrastructure in production companies.",
+      "thesis": "Passive assets wait for price. Production companies compound value through capacity, exports, and operational improvement , equity owners share in that growth.",
+      "steps": {
+        "1": {
+          "title": "Dossier review",
+          "body": "Capacity, export profile, field notes, and risk layers: a per-company evaluation file."
+        },
+        "2": {
+          "title": "Verification discipline",
+          "body": "Not paper-only. The physical trace of production: line, shifts, dispatch, bottlenecks, is verified on-site and recorded."
+        },
+        "3": {
+          "title": "Regulated participation",
+          "body": "SPK-licensed platform, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
+        },
+        "4": {
+          "title": "Valuation arithmetic",
+          "body": "Equity, valuation, and growth assumptions are explicit. Value accrues through capacity, margin, and exports , never guaranteed."
+        }
+      },
+      "karatExample": "Example: In Karat Parça (Konya), value is read through a chain: new CNC line → higher capacity → export dispatch → margin improvement. This is not a promise; it is operational accounting.",
+      "footnote": "Not investment advice · transactions are not yet open"
+    },
+    "realization": {
+      "aria": "Ownership and realization pathways",
+      "label": "Capital structure",
+      "title": "Ownership, value, and realization",
+      "lead": "ORTAQ is not an exchange. The investor reads field-verified equity-partnership dossiers on production companies with MKK-registered shares; realization depends on the campaign and company structure.",
+      "ownership": "When participation completes, shares are registered in your name after capital increase. This is not a public-market purchase; it is private-market equity.",
+      "growth": "Value is tied to measurable operational improvement at the plant: capacity, exports, margins, machine efficiency. Company economics, not speculative price.",
+      "exitLabel": "Possible realization pathways: not commitments",
+      "paths": {
+        "1": {
+          "title": "Secondary sale",
+          "body": "Transfer of existing shares to another buyer; price and timing depend on market conditions."
+        },
+        "2": {
+          "title": "Strategic investor",
+          "body": "Entry of a corporate or sector buyer; usually linked to company maturity and scale."
+        },
+        "3": {
+          "title": "Company buyback",
+          "body": "The business repurchases specific shares; depends on cash and management decision."
+        },
+        "4": {
+          "title": "Future funding rounds",
+          "body": "New capital entry or structured exit; valuation round shaped by company performance."
+        }
+      },
+      "liquidity": "None of these pathways is guaranteed. Secondary liquidity is limited; horizon and exit timing depend on company, market, and regulatory conditions.",
+      "marketWhy": {
+        "label": "Why this market exists",
+        "body": "Most of Turkey's production economy still consists of private companies. Individual investors historically could not access this layer , due diligence cost, closed networks, fragmented process. ORTAQ aims to close that structural access gap through dossier discipline; it does not create a speculation layer."
+      },
+      "footnote": "Not investment advice · no return or liquidity guarantee"
+    },
+    "index": {
+      "aria": "Company dossier index",
+      "label": "Investment dossiers",
+      "title": "Manufacturers under evaluation",
+      "resultCount": "{{count}} / {{total}} dossiers",
+      "openCompaniesPage": "Open companies page",
+      "filter": {
+        "stageLabel": "Stage",
+        "sectorLabel": "Sector",
+        "all": "All",
+        "stage": {
+          "preliminary_review": "Preliminary",
+          "document_review": "Document review",
+          "field_verification": "Field verification",
+          "committee": "Committee"
+        }
+      },
+      "sort": {
+        "label": "Sort",
+        "lastEvent": "Last event",
+        "city": "City",
+        "founded": "Founded",
+        "employees": "Headcount"
+      },
+      "compare": {
+        "label": "Comparison",
+        "hint": "Scroll horizontally to view all columns",
+        "company": "Company",
+        "city": "City",
+        "sector": "Sector",
+        "stage": "Stage",
+        "primaryTension": "Primary tension",
+        "capacity": "Capacity",
+        "export": "Export",
+        "employees": "Staff",
+        "lastEvent": "Last event",
+        "markets": "markets",
+        "open": "Open dossier"
+      },
+      "empty": {
+        "title": "No dossier matches this filter combination.",
+        "sub": "Clear the filters to view all dossiers.",
+        "reset": "Clear filters"
+      }
+    },
+    "footerBand": {
+      "aria": "Footer information band",
+      "text": "ORTAQ is an evaluation infrastructure operating under Türkiye's SPK-licensed crowdfunding framework. It reviews equity-partnership dossiers. Figures shown on this page are simulated.",
+      "trust": "Trust infrastructure",
+      "process": "Investment process",
+      "risks": "Risk framework"
+    },
+    "featuredBadge": "Featured dossier",
+    "heroPlate": {
+      "aria": "Homepage entry surface",
+      "kicker": "Türkiye's production layer",
+      "headline": "The real economy moves on the factory floor.",
+      "body": "We help Turkish producers reach new markets. Find the right partner, record real trade, deliver a dossier ready for growth.",
+      "closing": "On the exchange you watch price. Here you partner with a real production company.",
+      "cta": "Review the investment dossiers →"
+    }
+  },
+  "dossier": {
+    "nav": {
+      "aria": "Dossier sections",
+      "snapshot": "Snapshot",
+      "production": "Production",
+      "facility": "Facility",
+      "machines": "Machines",
+      "export": "Export",
+      "customers": "Customers",
+      "field": "Field",
+      "growth": "Growth",
+      "risks": "Risks",
+      "review": "Review",
+      "documents": "Documents"
+    },
+    "header": {
+      "label": "Investment dossier",
+      "tensionLabel": "Operational tension",
+      "employees": "employees",
+      "reviewStatus": "Review status",
+      "activeStep": "Active step",
+      "nextGate": "Next step"
+    },
+    "access": {
+      "preliminary": "Preliminary review underway",
+      "document_review": "Document review underway",
+      "field_verification": "Field verification underway",
+      "committee": "Awaiting investment committee",
+      "partial_open": "Partial dossier access"
+    },
+    "lead": {
+      "aria": "Investment summary: the decision view",
+      "primaryTension": "Primary operational tension",
+      "signalsLabel": "Operational signals",
+      "signalsTitle": "Production scale and line status",
+      "tensionLabel": "Risk and tension",
+      "tensionTitle": "Structural uncertainties",
+      "bottlenecks": "Critical bottlenecks",
+      "topRisks": "Top structural risks",
+      "allRisks": "Full risk profile",
+      "verifyLabel": "Verification",
+      "verifyTitle": "Verification layers",
+      "fullTimeline": "Verification timeline",
+      "recentField": "Recent field entries",
+      "fullField": "Full field log"
+    },
+    "snapshot": {
+      "label": "Operational snapshot",
+      "title": "Company profile and review focus",
+      "description": "What they produce, where bottlenecks sit, what is verified: in priority order.",
+      "what": "What they do",
+      "why": "Why under review",
+      "growth": "Growth driver",
+      "uncertainty": "Uncertainty",
+      "bottleneck": "Critical bottlenecks",
+      "footnote": "Current capacity {{capacity}}: export share {{export}}, field observation and company statement.",
+      "footnoteGeneric": "Metrics based on field visit and company statements: may not be independently audited."
+    },
+    "production": {
+      "label": "Production flow",
+      "title": "Production organisation",
+      "description": "Line layout, materials, and shift structure.",
+      "materials": "Raw materials",
+      "shifts": "Shifts and origin"
+    },
+    "facility": {
+      "label": "Facility",
+      "title": "Facility observations",
+      "description": "Zone notes from field visit: not idealised.",
+      "zone": "Zone",
+      "observation": "Observation"
+    },
+    "machines": {
+      "label": "Machine park",
+      "title": "Equipment inventory",
+      "description": "Machine list for capacity and bottleneck analysis.",
+      "asset": "Asset",
+      "role": "Role · year",
+      "note": "Operational note"
+    },
+    "export": {
+      "label": "Export",
+      "title": "Export structure",
+      "description": "Market distribution and expansion history.",
+      "year": "Year",
+      "market": "Market",
+      "note": "Note"
+    },
+    "customers": {
+      "label": "Customer mix",
+      "title": "Revenue distribution",
+      "description": "Domestic / export mix and customer segments: company statement.",
+      "domestic": "Domestic share",
+      "export": "Export share",
+      "segment": "Segment",
+      "share": "Share",
+      "note": "Note",
+      "disclaimer": "Exact customer list not shared: segment estimates from management interview."
+    },
+    "field": {
+      "label": "Field log",
+      "title": "Field observations",
+      "description": "ORTAQ field team and founder notes: chronological.",
+      "types": {
+        "observation": "Observation",
+        "inspection": "Inspection",
+        "capacity": "Capacity",
+        "logistics": "Logistics",
+        "founder": "Founder"
+      }
+    },
+    "growth": {
+      "label": "Capital need",
+      "title": "Growth rationale",
+      "description": "Planned investment lines: campaign not open yet.",
+      "line": "Line item",
+      "amount": "Amount",
+      "total": "Total target",
+      "simulated": "simulation"
+    },
+    "risks": {
+      "label": "Risk and friction",
+      "title": "Operational risks",
+      "description": "Bottlenecks, supply delays, and structural risks: unfiltered.",
+      "bottlenecks": "Production bottlenecks",
+      "friction": "Operational friction",
+      "profile": "Structural risk profile",
+      "generalLink": "General risks",
+      "categories": {
+        "supply": "Supply",
+        "capacity": "Capacity",
+        "workforce": "Workforce",
+        "export": "Export",
+        "equipment": "Equipment"
+      }
+    },
+    "review": {
+      "label": "Review",
+      "title": "Verification and process",
+      "description": "ORTAQ review timeline, layer status, and dossier activity.",
+      "timeline": "Review timeline",
+      "companyHistory": "Company history",
+      "verification": "Verification layers",
+      "activityLog": "Dossier activity",
+      "inProgress": "In progress",
+      "pending": "Pending",
+      "layerStatus": {
+        "pending": "Pending",
+        "partial": "Partial",
+        "done": "Complete"
+      },
+      "stepStatus": {
+        "done": "Done",
+        "active": "Active",
+        "pending": "Pending"
+      }
+    },
+    "documents": {
+      "label": "Document layer",
+      "title": "Documents reviewed",
+      "description": "Which documents were reviewed vs pending: review status, not a download archive.",
+      "reviewed": "Reviewed",
+      "inReview": "In review",
+      "pending": "Pending",
+      "item": "Document",
+      "status": "Status",
+      "note": "Note",
+      "statuses": {
+        "available": "Reviewed",
+        "review": "In review",
+        "pending": "Pending"
+      },
+      "pendingChecks": "Pending checks",
+      "disclaimer": "Documents are officially published in the licensed platform process. Only review status is shown here."
+    },
+    "actions": {
+      "track": "Track dossier",
+      "saved": "Dossier saved",
+      "criteria": "Evaluation criteria",
+      "back": "All companies",
+      "footer": "Review dossier · Campaign opens via licensed platform · No return guarantee."
+    }
+  },
+  "pulse": {
+    "label": "Process notes",
+    "lastUpdated": "Updated: {{date}}",
+    "more": "Trust page →",
+    "notes": {
+      "platform": "Licensed platform talks ongoing. No transactions until agreement is complete.",
+      "legal": "Privacy and terms under legal review.",
+      "verify": "Pre-campaign verification process published."
+    }
+  },
+  "trustStrip": {
+    "status": "No transactions accepted yet",
+    "intro": "These items describe regulatory requirements in the partnership process. ORTAQ does not process live transactions yet.",
+    "mkk": "Under regulation, share records are held at MKK",
+    "escrow": "During the campaign, funds are held in escrow",
+    "edevlet": "Identity verification is done via e-Government",
+    "disclosure": "Information memorandum and risk disclosure are read before any transaction"
+  },
+  "trust": {
+    "status": {
+      "verified": "Regulatory requirement",
+      "illustrative": "Sample content",
+      "planned": "Planned",
+      "pending": "Not yet confirmed"
+    },
+    "verification": {
+      "not_submitted": "Not yet submitted",
+      "under_review": "Under review",
+      "approved": "Review passed",
+      "approved_with_conditions": "Conditional approval",
+      "rejected": "Not approved",
+      "suspended": "Suspended",
+      "withdrawn": "Withdrawn",
+      "expired": "Expired"
+    },
+    "complaint": {
+      "intro": "If you have concerns about misleading information, missing documents, or other issues, submit a record. You will receive a reference number.",
+      "category": "Subject",
+      "description": "Description (min 20 characters)",
+      "email": "Email (for follow-up only)",
+      "submit": "Submit complaint",
+      "success": "Your complaint was received. Reference number:",
+      "saveRef": "Keep this number for status inquiries.",
+      "categories": {
+        "misleading_information": "Misleading information",
+        "cannot_withdraw": "Withdrawal issue",
+        "document_missing": "Missing document",
+        "identity_theft": "Identity / fraud",
+        "harassment": "Harassment",
+        "technical": "Technical issue",
+        "other": "Other"
+      }
+    },
+    "license": {
+      "status": "SPK-licensed platform partnership in discussion",
+      "detail": "Partnership transactions will run on listed crowdfunding platform infrastructure. Name and license number will be published here when agreed."
+    },
+    "depth": {
+      "label": "Transparency",
+      "title": "Every claim has a status label",
+      "intro": "We do not claim what we cannot evidence. Each item shows its status.",
+      "learnMore": "Details",
+      "cta": "Trust page",
+      "claims": {
+        "1": {
+          "title": "SPK-licensed platform partnership",
+          "text": "Retail partnership is only possible via SPK-listed platform infrastructure. Partner selection is ongoing."
+        },
+        "2": {
+          "title": "Escrow account",
+          "text": "Until the campaign completes, funds stay blocked with the escrow agent."
+        },
+        "3": {
+          "title": "MKK share registry",
+          "text": "After the capital increase, shares appear in Central Registry under your name."
+        }
+      }
+    }
+  },
+  "onboarding": {
+    "title": "Read first",
+    "intro": "Partnership is a serious decision. There is no time constraint. You do not have to continue if something is unclear.",
+    "progress": "{{current}} / {{total}}",
+    "reassurance": {
+      "banner": "No signup. No payment. You can leave anytime.",
+      "notBinding": "Non-binding",
+      "noRush": "No need to rush. Questions: destek@ortaq.biz",
+      "questions": "If stuck, email destek@ortaq.biz"
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Continue",
+      "exit": "Home",
+      "finish": "Understood",
+      "readRisks": "Read all risks",
+      "openArea": "Go to your space"
+    },
+    "steps": {
+      "safety": {
+        "label": "Start",
+        "title": "What is this page?",
+        "text": "Before partnership, we explain the process and risks in plain language. The decision is yours.",
+        "points": {
+          "1": "No identity verification or payment here.",
+          "2": "Nothing you read binds you.",
+          "3": "You do not have to continue without understanding."
+        }
+      },
+      "about": {
+        "label": "ORTAQ",
+        "title": "What ORTAQ is and is not",
+        "is": "ORTAQ is an interface that explains equity crowdfunding in plain language. For people who want partnership in real companies.",
+        "isNot": "ORTAQ is not a bank, not an adviser, and does not promise returns. Decision and risk are yours."
+      },
+      "money": {
+        "label": "Money",
+        "title": "Where does your money go?",
+        "intro": "The most common question. In short:",
+        "phases": {
+          "1": {
+            "title": "When you join",
+            "text": "Funds go to an escrow account. Not to the company."
+          },
+          "2": {
+            "title": "During the campaign",
+            "text": "Funds stay blocked. The company cannot use them."
+          },
+          "3": {
+            "title": "When the campaign ends",
+            "text": "If the target is met, capital increase proceeds. If not, refund process applies."
+          },
+          "4": {
+            "title": "After that",
+            "text": "Shares are registered at MKK in your name."
+          }
+        },
+        "note": "ORTAQ does not hold funds. Escrow is set up within the licensed platform framework."
+      },
+      "risk": {
+        "label": "Risks",
+        "title": "Know the risks",
+        "intro": "You can lose money in partnership. We do not hide that.",
+        "ack": "I have read the risk items. I know I may lose everything, cannot withdraw quickly, and annual limits apply."
+      },
+      "process": {
+        "label": "Process",
+        "title": "What comes next?",
+        "intro": "If a platform agreement is in place, the flow is roughly:"
+      },
+      "wait": {
+        "label": "For now",
+        "title": "No transactions yet",
+        "text": "ORTAQ does not process transactions yet. You are here to read. That is normal.",
+        "emptyTitle": "Platform not ready",
+        "emptyText": "When the licensed platform agreement is final, you will continue from here. Reading is enough for now.",
+        "partnerNote": "Platform agreement not yet in place",
+        "delay": "If there is a delay, we will say so on this page. Nothing opens silently.",
+        "whatYouCanDo": "What you can do now",
+        "actions": {
+          "1": "Read the process",
+          "2": "Read the risks page",
+          "3": "Email us your questions"
+        }
+      }
+    }
+  },
+  "risk": {
+    "label": "Know this first",
+    "title": "Every partnership carries risk",
+    "intro": "ORTAQ aims to align the process with regulation; it does not remove risk.",
+    "items": {
+      "1": "You may lose your entire contribution.",
+      "2": "Money does not return quickly; exit can take years.",
+      "3": "The company may miss or delay targets.",
+      "4": "Annual participation limits apply. Amounts are in the information memorandum and regulation.",
+      "5": "ORTAQ does not give investment advice. The decision is yours."
+    },
+    "cooling": "Legal cooling-off applies during the campaign. Terms are in the information memorandum.",
+    "preface": "A short list to read before deciding.",
+    "fullPageLink": "All risks and limits"
+  },
+  "process": {
+    "label": "Investment process",
+    "title": "From dossier review to value creation: six steps",
+    "intro": "Dossier review begins inside ORTAQ's evaluation layer; selection passes through structural due diligence; participation completes on the licensed platform under SPK regulation. Five steps summarise the legal partnership flow.",
+    "journeyLabel": "Investor journey",
+    "journey": {
+      "1": "Dossier review",
+      "2": "Verification",
+      "3": "Committee approval",
+      "4": "Participation",
+      "5": "Monitoring",
+      "6": "Value creation"
+    },
+    "journeyNote": "ORTAQ provides the review and verification layer; selection passes through six-stage due diligence; transactions run on the licensed platform.",
+    "stepLabel": "Step {{step}}",
+    "steps": {
+      "1": {
+        "title": "Dossier review",
+        "text": "Read the company dossiers: capacity, export profile, machine park, capital use plan, and review stages."
+      },
+      "2": {
+        "title": "Verification",
+        "text": "Document, field, and operational data layers are evaluated under the SPK framework."
+      },
+      "3": {
+        "title": "Committee approval",
+        "text": "The investment committee reviews the dossier for publication and issues the listing decision."
+      },
+      "4": {
+        "title": "Participation",
+        "text": "Equity-partnership acquisition via the licensed platform; capital sits in escrow until the campaign closes."
+      },
+      "5": {
+        "title": "Monitoring",
+        "text": "Capital increase, MKK share registration, and operational updates: value creation tracks company performance."
+      }
+    }
+  },
+  "memberArea": {
+    "label": "Personal space",
+    "title": "Your space",
+    "subtitle": "Reading progress and process status. Not an investment account: no signup.",
+    "lastVisit": "Last visit: {{date}}",
+    "continueReading": "Continue reading",
+    "footer": "Stored only on your device. No portfolio or balance shown.",
+    "overview": {
+      "title": "Overview"
+    },
+    "onboarding": {
+      "title": "Reading flow",
+      "done": "Intro reading complete",
+      "progress": "{{current}} / {{total}} steps",
+      "cta": "Continue reading"
+    },
+    "education": {
+      "title": "Learning progress",
+      "progress": "{{done}} / {{total}} pages read",
+      "items": {
+        "start": "Intro reading",
+        "process": "How it works",
+        "trust": "Trust",
+        "risk": "Risks",
+        "faq": "FAQ"
+      }
+    },
+    "process": {
+      "title": "Process status",
+      "items": {
+        "platform": {
+          "label": "Licensed platform",
+          "status": "In discussion"
+        },
+        "transactions": {
+          "label": "Transactions",
+          "status": "Closed"
+        },
+        "campaign": {
+          "label": "First campaign",
+          "status": "Preparing"
+        }
+      }
+    },
+    "saved": {
+      "title": "Saved pages",
+      "empty": "No saved pages yet. Browse the sample campaign to add one.",
+      "browse": "View sample campaign →"
+    },
+    "reminders": {
+      "title": "Reminders",
+      "items": {
+        "1": "No return is guaranteed.",
+        "2": "Funds stay in escrow; they do not go directly to the company.",
+        "3": "Do not decide without understanding: you can ask questions."
+      }
+    },
+    "updates": {
+      "title": "Transparency updates",
+      "more": "Trust page →"
+    },
+    "updates.1.title": "Licensed platform talks ongoing",
+    "updates.1.text": "No investments until the agreement is complete.",
+    "updates.2.title": "Verification process published",
+    "updates.2.text": "Company, document, and financial review before any campaign.",
+    "status": {
+      "read": "Read",
+      "unread": "Unread",
+      "complete": "Done",
+      "inProgress": "In progress"
+    }
+  },
+  "footer": {
+    "tagline": "Disciplined discovery layer for Turkish industrial investment: a clear path to partnership in real companies.",
+    "protectionLabel": "Investor protection",
+    "regulatory": "Equity crowdfunding requires annual limits, information memorandum, risk disclosure, and cooling-off rights for individual participants. Transactions run on an SPK-regulated licensed platform.",
+    "notAdvice": "ORTAQ does not provide investment advice. Content is for information only; returns are not guaranteed.",
+    "trustPills": {
+      "1": "SPK-compliant process framework",
+      "2": "Escrow account protection",
+      "3": "Transparent reporting and dossiers",
+      "4": "MKK share registry discipline"
+    },
+    "faqTeaser": {
+      "label": "Investment questions",
+      "title": "Clear answers on partnership, returns, and risk",
+      "link": "Full FAQ"
+    },
+    "trustTitle": "Trust",
+    "learnTitle": "Learn",
+    "legalTitle": "Legal",
+    "supportTitle": "Contact",
+    "supportText": "For questions",
+    "dispute": "Complaints are accepted in writing and reviewed alongside licensed platform procedures.",
+    "entity": "ORTAQ · Istanbul",
+    "entityNote": "Company details and trade registry information will be published here when complete.",
+    "links": {
+      "trust": "Trust",
+      "risk": "Risks",
+      "process": "How it works",
+      "faq": "FAQ",
+      "glossary": "Glossary",
+      "memberArea": "Your space",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "evaluation": "Evaluation",
+      "companies": "Investment opportunities",
+      "start": "Start reading"
+    },
+    "subtitle": "Serious investment layer: we do not state what we cannot prove. From dossier review to structural evaluation, from the trust framework to participation , legal protection and operational transparency at every step."
+  },
+  "journey": {
+    "label": "Investor process",
+    "note": "Dossier review → verification → trust layer → partnership. ORTAQ is a documented evaluation infrastructure followed step by step.",
+    "processLink": "Participation process",
+    "evaluationLink": "Company selection",
+    "trustLink": "Investor protection",
+    "riskLink": "Risks"
+  },
+  "mobileCta": {
+    "label": "ORTAQ growth platform",
+    "sublabel": "Export, verified partners, growth capital"
+  },
+  "evaluationPage": {
+    "label": "Company selection",
+    "title": "How are companies evaluated?",
+    "lead": "Not every application is accepted. ORTAQ files only manufacturing companies with verifiable operations and long-term economic logic , six-stage due diligence before investors see a dossier.",
+    "leadSecondary": "This is the verification leg of the investor journey: after discovery, before participation. Trust layers and the participation process build on this review.",
+    "journeyContext": "After evaluation, read the trust framework, then proceed to the participation process.",
+    "stageLabel": "Stage {{key}}",
+    "rejectLabel": "Example rejection reason:",
+    "exampleLabel": "Sample dossier:",
+    "exampleLink": "Karat Parça Makina",
+    "exampleMeta": "Konya · field verification in progress.",
+    "cta": "Review evaluation dossier",
+    "journeyLink": "Full investment journey →",
+    "stages": {
+      "1": {
+        "title": "Initial screening",
+        "text": "Sector fit, operating history, production or export proof, basic financials.",
+        "reject": "One-person consultancies, speculative projects, undocumented claims."
+      },
+      "2": {
+        "title": "Operational review",
+        "text": "Factory or production site visit, machine park, order book, supply chain.",
+        "reject": "Office-only address, non-producing intermediary structures."
+      },
+      "3": {
+        "title": "Legal and registry",
+        "text": "Trade registry, MERSİS, tax compliance, ownership structure, litigation search.",
+        "reject": "Registry mismatch, undisclosed ownership relationships."
+      },
+      "4": {
+        "title": "Financial review",
+        "text": "Revenue trend, debt structure, cash flow, capital use plan consistency.",
+        "reject": "Unverifiable projections, inconsistent use-of-funds plan."
+      },
+      "5": {
+        "title": "Founder interview",
+        "text": "In-person or video interview. Operational knowledge, goals, risk awareness.",
+        "reject": "Misleading statements, press pressure, unrealistic growth claims."
+      },
+      "6": {
+        "title": "Committee and platform",
+        "text": "Finance, field, and legal vote. Licensed crowdfunding platform final approval.",
+        "reject": "Committee rejection or platform non-approval."
+      }
+    }
+  },
+  "trustPage": {
+    "title": "Trust and investor protection",
+    "subtitle": "Serious investment layer: we do not publish unproven claims. From discovery to evaluation, from trust framework to participation , legal protection and operational transparency at every step.",
+    "journeyNote": "After reading company selection, verify trust layers here; then proceed to the participation process.",
+    "layersTitle": "What the process includes",
+    "infrastructure": {
+      "title": "Infrastructure status",
+      "intro": "Each item shows its current status label."
+    },
+    "claims": {
+      "1": {
+        "title": "Platform partner",
+        "text": "Talks with an SPK-listed crowdfunding platform are ongoing. Name and license number will appear here."
+      },
+      "2": {
+        "title": "Escrow agent",
+        "text": "Escrow structure will be defined with the partner platform per regulation."
+      },
+      "3": {
+        "title": "MKK integration",
+        "text": "After partnership completes, share records are held at MKK in the participant's name."
+      }
+    },
+    "layers": {
+      "1": {
+        "title": "Legal framework",
+        "text": "Equity partnership runs under SPK regulation."
+      },
+      "2": {
+        "title": "Fund protection",
+        "text": "Funds stay blocked in escrow until the campaign ends."
+      },
+      "3": {
+        "title": "Share registry",
+        "text": "Partnership rights are recorded at MKK."
+      },
+      "4": {
+        "title": "Human review",
+        "text": "Projects are reviewed by the investment committee."
+      },
+      "5": {
+        "title": "Open communication",
+        "text": "Delays and bad news are not hidden."
+      }
+    },
+    "committee": {
+      "title": "Investment committee",
+      "intro": "Roles are assigned within the partner platform framework. Names announced after agreement.",
+      "roles": {
+        "1": {
+          "role": "Financial review",
+          "desc": "Statements, debt, use of funds."
+        },
+        "2": {
+          "role": "Field and operations",
+          "desc": "Production site, supply chain, verification."
+        },
+        "3": {
+          "role": "Legal and compliance",
+          "desc": "Trade registry, SPK compliance, memorandum integrity."
+        }
+      },
+      "note": "Names and bios published together with the platform partner."
+    },
+    "support": {
+      "title": "Contact and complaints",
+      "intro": "Reach us through written channels.",
+      "contact": {
+        "title": "General contact",
+        "text": "Email destek@ortaq.biz. Office hours and response times will be stated here during live campaigns."
+      },
+      "dispute": {
+        "title": "Complaints",
+        "text": "Disputes are recorded. ORTAQ and the partner platform respond together."
+      },
+      "response": {
+        "title": "Response times",
+        "text": "Written requests are logged. Response time depends on the case; we notify you if delayed."
+      }
+    },
+    "back": "Back to home"
+  },
+  "riskPage": {
+    "title": "Risks and limits",
+    "subtitle": "Read before deciding on partnership.",
+    "notAdvice": "This page is not investment advice.",
+    "sections": {
+      "1": {
+        "title": "Principal risk",
+        "text": "You may lose everything. No return guarantee."
+      },
+      "2": {
+        "title": "Liquidity",
+        "text": "You may not sell when you want. Exit can take years."
+      },
+      "3": {
+        "title": "Retail limits",
+        "text": "Non-qualified individuals face annual limits per regulation."
+      },
+      "4": {
+        "title": "Cooling-off",
+        "text": "Legal cooling-off during the campaign per information memorandum."
+      },
+      "5": {
+        "title": "Tax",
+        "text": "Partnership may create tax obligations. Consult your accountant."
+      },
+      "6": {
+        "title": "Company risk",
+        "text": "The company may fail, miss targets, or change management."
+      },
+      "7": {
+        "title": "Platform role",
+        "text": "ORTAQ provides an interface; it does not guarantee company performance."
+      }
+    },
+    "help": {
+      "title": "Questions",
+      "text": "If unsure, write us or consult an independent adviser before deciding.",
+      "email": "destek@ortaq.biz"
+    },
+    "back": "Back to home"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy",
+      "updated": "Last updated: May 2026",
+      "p1": "ORTAQ processes personal data under Turkish KVKK.",
+      "p2": "e-Government verification uses data only for verification.",
+      "p3": "Full text published after legal review before platform partnership goes live."
+    },
+    "terms": {
+      "title": "Terms of use",
+      "updated": "Last updated: May 2026",
+      "p1": "ORTAQ does not give investment advice.",
+      "p2": "Partnership will run on SPK-licensed crowdfunding platform infrastructure.",
+      "p3": "Full terms published before platform partnership."
+    },
+    "back": "Back to home"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  },
+  "homeLanding": {
+    "hero": {
+      "aria": "Homepage entry",
+      "label": "ORTAQ",
+      "title": "We open Turkish producers to new markets.",
+      "subtitle": "Buyer and distributor matching, export records, then investment through a licensed partner. ORTAQ is not a broker.",
+      "ctaPrimary": "Apply",
+      "ctaSecondary": "How it works",
+      "trustLine": "ORTAQ does not execute deals · investment at licensed partner · no return guarantee",
+      "preview": {
+        "aria": "Matching preview",
+        "panelLabel": "Application",
+        "panelTitle": "Partner suggestions",
+        "producerLabel": "Your company",
+        "producerName": "Sample Foods · Konya",
+        "producerMeta": "Target: EU retail",
+        "matchLabel": "Match",
+        "targetLabel": "Suggested partner",
+        "targetName": "Distributor · Germany",
+        "targetMeta": "Reliability indicator: high",
+        "partners": {
+          "1": {
+            "role": "Germany distributor",
+            "note": "Demand and references aligned",
+            "chip": "Fit"
+          },
+          "2": {
+            "role": "Netherlands buyer",
+            "note": "Reliability indicator under review",
+            "chip": "Review"
+          },
+          "3": {
+            "role": "UK channel",
+            "note": "Product group matched",
+            "chip": "Fit"
+          }
+        }
+      },
+      "elevator": "ORTAQ prepares Turkish producers for export and investor-ready files; investment execution runs through an SPK-licensed partner.",
+      "bullets": {
+        "1": "Producer: AI buyer and distributor matching, export record",
+        "2": "Investor: Export evidence first, then contractual return structure",
+        "3": "ORTAQ does not execute deals; investment and custody sit with the licensed partner"
+      },
+      "boundary": "ORTAQ does not provide investment advice, raise funds, or sell shares. Capital markets activity occurs only at the licensed partner, under qualified investor rules.",
+      "ctaDossiers": "View dossiers",
+      "paths": {
+        "producer": {
+          "label": "If you are a producer",
+          "title": "Overseas partners and export",
+          "body": "Matching, reliability indicator, dossier.",
+          "href": "#basvuru"
+        },
+        "investor": {
+          "label": "If you are an investor",
+          "title": "Into a real production company",
+          "body": "Export evidence first, then revenue share or equity.",
+          "href": "#yatirim"
+        }
+      },
+      "disclaimer": "No investment advice. No guaranteed returns. Transactions run at an SPK-licensed platform partner under qualified investor rules."
+    },
+    "showcase": {
+      "aria": "Platform screens",
+      "label": "Inside the platform",
+      "title": "Inside the application",
+      "lead": "Matching, export log, and investor flow. Names are illustrative.",
+      "pillars": {
+        "1": {
+          "step": "1",
+          "title": "Find the right partner"
+        },
+        "2": {
+          "step": "2",
+          "title": "Record export progress"
+        },
+        "3": {
+          "step": "3",
+          "title": "Open the investment path"
+        }
+      },
+      "imageCaption": "Production line · field"
+    },
+    "screens": {
+      "match": {
+        "frameTitle": "ORTAQ · Partners",
+        "frameSubtitle": "Suggested buyers and distributors",
+        "searchLabel": "Target market",
+        "searchPlaceholder": "Germany · food retail",
+        "rows": {
+          "1": {
+            "name": "NordFood GmbH",
+            "meta": "Distributor · reliability: high",
+            "status": "Fit"
+          },
+          "2": {
+            "name": "Benelux Trade BV",
+            "meta": "Buyer · reliability: medium",
+            "status": "Review"
+          },
+          "3": {
+            "name": "UK Retail Link",
+            "meta": "Channel · strong product fit",
+            "status": "Fit"
+          }
+        }
+      },
+      "export": {
+        "frameTitle": "ORTAQ · Export file",
+        "frameSubtitle": "Growth evidence collected here",
+        "items": {
+          "1": {
+            "title": "First order confirmed",
+            "meta": "Buyer correspondence complete"
+          },
+          "2": {
+            "title": "Shipment plan",
+            "meta": "Logistics and customs ready"
+          },
+          "3": {
+            "title": "Invoice and collection",
+            "meta": "Export revenue on record"
+          },
+          "4": {
+            "title": "Investor file",
+            "meta": "Hand-off to licensed partner"
+          }
+        }
+      },
+      "investor": {
+        "frameTitle": "ORTAQ · Investor",
+        "frameSubtitle": "How returns are formed",
+        "tabRevenue": "Revenue share",
+        "tabEquity": "Equity",
+        "flow1": "Producer makes export sales",
+        "flow2": "Contracted share rate applies",
+        "flow3": "Payment to investor via licensed institution",
+        "footnote": "Rate and timing are set per deal in contract. No return is guaranteed."
+      }
+    },
+    "earnings": {
+      "aria": "Investor returns",
+      "label": "Return structure",
+      "title": "Two possible paths",
+      "lead": "Which applies depends on the campaign and contract.",
+      "paths": {
+        "revenue": {
+          "tag": "A",
+          "title": "Revenue share",
+          "how": "As the company sells, the contracted rate applies.",
+          "earn": "You earn when: the company sells, you receive the agreed cash share (per contract)."
+        },
+        "equity": {
+          "tag": "B",
+          "title": "Equity stake",
+          "how": "Growth and exit terms are defined upfront.",
+          "earn": "You earn when: the company is valued higher, your stake reflects that; exit terms are defined upfront."
+        }
+      },
+      "diagram": {
+        "label": "Flow",
+        "steps": {
+          "1": {
+            "title": "Producer sells abroad",
+            "body": "ORTAQ accelerates and records this first."
+          },
+          "2": {
+            "title": "File becomes investable",
+            "body": "Export and operations data sit in one dossier."
+          },
+          "3": {
+            "title": "Licensed partner opens the deal",
+            "body": "Investment instrument under SPK framework."
+          },
+          "4": {
+            "title": "Investor receives return",
+            "body": "Revenue share or equity value, per contract."
+          }
+        }
+      },
+      "disclaimer": "No return guarantee. Execution at licensed institution."
+    },
+    "how": {
+      "aria": "How it works",
+      "label": "Process",
+      "title": "Three steps",
+      "steps": {
+        "1": {
+          "step": "1",
+          "title": "Partner matching",
+          "body": "Buyers and distributors for the target market are proposed and verified."
+        },
+        "2": {
+          "step": "2",
+          "title": "Export record",
+          "body": "Commercial progress sits in one dossier; evidence before capital."
+        },
+        "3": {
+          "step": "3",
+          "title": "Licensed investment",
+          "body": "Ready dossier meets investors on the licensed crowdfunding platform."
+        }
+      },
+      "lead": "Three steps: trade first, then the file, then investment at the licensed partner."
+    },
+    "companies": {
+      "aria": "For producers",
+      "label": "If you are a producer",
+      "title": "What you get",
+      "benefits": {
+        "1": "Overseas buyers and distributors",
+        "2": "Screening via reliability indicator",
+        "3": "Export tracked in one place",
+        "4": "Investor-ready company file"
+      }
+    },
+    "compliance": {
+      "aria": "Compliance",
+      "label": "Compliance",
+      "title": "ORTAQ is not a bank or brokerage.",
+      "points": {
+        "1": "Investment is executed at a licensed institution",
+        "2": "Investor side follows qualified investor rules",
+        "3": "ORTAQ is growth and matching infrastructure"
+      }
+    },
+    "contact": {
+      "aria": "Application",
+      "label": "Contact",
+      "title": "Contact",
+      "lead": "Write as a producer or investor; we will reply shortly.",
+      "teamLabel": "Team",
+      "team": {
+        "1": {
+          "name": "[Full name]",
+          "role": "[Title · Founder]"
+        },
+        "2": {
+          "name": "[Full name]",
+          "role": "[Title · Product]"
+        },
+        "3": {
+          "name": "[Full name]",
+          "role": "[Title · Operations]"
+        }
+      },
+      "form": {
+        "name": "Full name",
+        "namePlaceholder": "Your name",
+        "email": "Email",
+        "emailPlaceholder": "you@company.com",
+        "role": "You are applying as",
+        "rolePlaceholder": "Select",
+        "roleCompany": "Production company",
+        "roleInvestor": "Investor",
+        "rolePartner": "Licensed partner / fund",
+        "roleOther": "Other",
+        "message": "Message",
+        "messagePlaceholder": "Short note (optional)",
+        "submit": "Submit",
+        "success": "We received your message and will reply shortly.",
+        "note": "Form is for intake; live integration completes at launch."
+      }
+    },
+    "instant": {
+      "aria": "15-second summary",
+      "label": "Quick read",
+      "title": "ORTAQ in 15 seconds",
+      "lead": "Four boxes and eight questions answer most visitor questions before scrolling further.",
+      "cards": {
+        "does": {
+          "label": "What it does",
+          "body": "Export matching, commercial growth records, investor-ready company files."
+        },
+        "doesNot": {
+          "label": "What it does not",
+          "body": "No investment advice, fundraising, share issuance, or custody."
+        },
+        "forWhom": {
+          "label": "Who it is for",
+          "body": "Production companies, qualified investors, and licensed platform partners."
+        },
+        "regulation": {
+          "label": "Regulation",
+          "body": "Investment under SPK framework via licensed crowdfunding platform; ORTAQ is the preparation layer."
+        }
+      },
+      "faqLabel": "Common questions",
+      "faq": {
+        "1": {
+          "q": "Is ORTAQ a brokerage?",
+          "a": "No. ORTAQ is growth and matching infrastructure. Investment is opened at the licensed partner."
+        },
+        "2": {
+          "q": "Who can invest?",
+          "a": "The investor side is aimed at persons and institutions that meet qualified investor and campaign rules."
+        },
+        "3": {
+          "q": "How do you earn?",
+          "a": "Two structures: contractual revenue share or equity. Rate and timing are in the deal contract; no return guarantee."
+        },
+        "4": {
+          "q": "Is return guaranteed?",
+          "a": "No. Outcomes depend on the company's commercial performance and contract terms."
+        },
+        "5": {
+          "q": "How does SPK fit in?",
+          "a": "Regulated steps run at the licensed partner. ORTAQ handles file preparation and commercial growth."
+        },
+        "6": {
+          "q": "Why export first?",
+          "a": "Export and operations evidence are collected first to reduce investor risk."
+        },
+        "7": {
+          "q": "What does the producer see?",
+          "a": "Partner suggestions, reliability indicator, export steps, and investor file."
+        },
+        "8": {
+          "q": "How do I start?",
+          "a": "Use the application form as a producer, investor, or partner."
+        }
+      },
+      "faqFootnote": "Detail:",
+      "faqTrustLink": "Trust infrastructure",
+      "faqRiskLink": "Risk framework"
+    },
+    "regulatory": {
+      "aria": "Compliance",
+      "label": "Compliance",
+      "title": "ORTAQ does not execute deals. Investment opens on the licensed platform.",
+      "lead": "Common question: is money collected here? No. Roles are split clearly.",
+      "table": {
+        "role": "Party",
+        "duty": "Responsibility"
+      },
+      "roles": {
+        "ortaq": {
+          "role": "ORTAQ",
+          "duty": "Matching and dossiers. No advice or execution."
+        },
+        "partner": {
+          "role": "Licensed partner",
+          "duty": "Campaign, escrow, and execution on the licensed platform."
+        },
+        "investor": {
+          "role": "Investor",
+          "duty": "Participation under qualified investor rules."
+        }
+      },
+      "points": {
+        "1": "ORTAQ handles matching and dossiers; it does not collect funds.",
+        "2": "No return promises or investment advice.",
+        "3": "Each campaign follows its own contract; execution is at the licensed partner.",
+        "4": "Funds are processed at the licensed partner per campaign terms.",
+        "5": "For equity structures, MKK registration follows the licensed process."
+      },
+      "disclaimer": "For information only. Current contract and regulation apply.",
+      "links": {
+        "trust": "Trust",
+        "risk": "Risks",
+        "process": "Process"
+      }
+    },
+    "story": {
+      "aria": "Visual flow",
+      "label": "At a glance",
+      "title": "Factory → export → capital path",
+      "steps": {
+        "1": {
+          "step": "1 · Production",
+          "title": "Turkish factory produces"
+        },
+        "2": {
+          "step": "2 · Export",
+          "title": "Foreign sales on record"
+        },
+        "3": {
+          "step": "3 · Capital",
+          "title": "Dossier opens to investment"
+        }
+      }
+    },
+    "investorLens": {
+      "aria": "Investor summary",
+      "label": "For investors",
+      "title": "What are you investing in?",
+      "object": "Not a listed ticker: structures tied to a growing manufacturer's commercial performance.",
+      "points": {
+        "1": "Export and operations evidence is collected first.",
+        "2": "Then a campaign or instrument opens on the licensed platform.",
+        "3": "Return: contractual revenue share or equity; no promises."
+      },
+      "tagRevenue": "Revenue share",
+      "tagEquity": "Equity",
+      "disclaimer": "Qualified investor rules may apply. Not investment advice.",
+      "link": "Read return structure",
+      "imageCaption": "CNC and production · dossier context"
+    },
+    "sample": {
+      "aria": "Sample dossier",
+      "label": "Concrete example",
+      "title": "This is what an investment dossier looks like",
+      "lead": "Open a real evaluation file: capacity, export, and review records inside.",
+      "linkAll": "All dossiers",
+      "card": {
+        "badge": "Sample dossier",
+        "imageAlt": "Parts manufacturing facility",
+        "sector": "Metal processing",
+        "name": "Karat Parça · Konya",
+        "location": "Field review in progress",
+        "footnote": "Signals shown are qualitative; not an offer.",
+        "signals": {
+          "1": {
+            "label": "Export",
+            "value": "Focused profile"
+          },
+          "2": {
+            "label": "Review",
+            "value": "Field verification"
+          },
+          "3": {
+            "label": "Structure",
+            "value": "Equity or revenue share"
+          }
+        }
+      }
+    },
+    "quickFaq": {
+      "aria": "Quick FAQ",
+      "label": "Short answers",
+      "items": {
+        "1": {
+          "q": "Is ORTAQ a bank?",
+          "a": "No. Growth and matching platform; investment at licensed partner."
+        },
+        "2": {
+          "q": "Can anyone invest?",
+          "a": "No. Qualified investor and campaign rules apply."
+        },
+        "3": {
+          "q": "Guaranteed return?",
+          "a": "No. Outcomes depend on trade and contract."
+        },
+        "4": {
+          "q": "What does the producer get?",
+          "a": "Overseas partner, export record, investor-ready file."
+        }
+      },
+      "trustLink": "Trust infrastructure",
+      "riskLink": "Risks"
+    },
+    "audience": {
+      "aria": "Who it is for",
+      "producer": {
+        "label": "Producer",
+        "title": "If you produce",
+        "points": {
+          "1": "Reach the right overseas buyer",
+          "2": "Meet partners you can trust",
+          "3": "Leave investors a dossier that is ready"
+        }
+      },
+      "investor": {
+        "label": "Investor",
+        "title": "If you invest",
+        "lead": "Not a listed stock. You share in a producing company's growth.",
+        "points": {
+          "1": "Your share as sales grow, per the campaign terms",
+          "2": "Equity in the company; exit terms set upfront",
+          "3": "Execution at the licensed institution, not ORTAQ"
+        },
+        "disclaimer": "Not investment advice. No return guarantee."
+      }
+    },
+    "why": {
+      "aria": "Why ORTAQ",
+      "title": "Why ORTAQ?",
+      "subtitle": "Selling abroad is slow, costly, and uncertain for most producers.",
+      "traditional": {
+        "label": "Traditional approach",
+        "items": {
+          "1": "Trade fairs",
+          "2": "Cold email",
+          "3": "Months of uncertainty",
+          "4": "Unknown partner quality"
+        }
+      },
+      "ortaq": {
+        "label": "ORTAQ",
+        "items": {
+          "1": "Trustworthy companies screened early",
+          "2": "Right partner for the right market",
+          "3": "Trade stays on the record",
+          "4": "Growth path stays visible"
+        }
+      }
+    },
+    "investObject": {
+      "aria": "What am I investing in",
+      "title": "What am I investing in?",
+      "steps": {
+        "1": {
+          "title": "A real industrial company",
+          "body": "A Turkish manufacturer, not listed. Equity or revenue share."
+        },
+        "2": {
+          "title": "Proven growth",
+          "body": "Export and capacity verified on site. One dossier, clear picture."
+        },
+        "3": {
+          "title": "Deal at licensed partner",
+          "body": "Funds do not sit at ORTAQ. The partnership opens on a licensed platform."
+        }
+      }
+    },
+    "editorial": {
+      "aria": "Turkey production layer",
+      "title": "Turkey's production layer stays invisible",
+      "lines": {
+        "1": "Most Turkish factories are not listed. Most investors never see this layer.",
+        "2": "Yet jobs, exports, and regional growth are built here.",
+        "3": "ORTAQ makes these companies visible: the right partner, proven trade, a dossier ready to grow.",
+        "4": "Our mission: make it easier for Turkish producers to open abroad."
+      }
+    }
+  }
+}

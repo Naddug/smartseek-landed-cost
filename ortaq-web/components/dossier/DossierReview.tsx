@@ -75,7 +75,7 @@ export function DossierReview({ campaign: c }: DossierReviewProps) {
                 <span className={cn(typography.caption, "tabular-nums text-ortaq-ink-soft")}>
                   {u.date.slice(5).replace("-", ".")} {u.time}
                 </span>
-                {" — "}
+                {"-"}
                 {u.text}
               </li>
             ))}

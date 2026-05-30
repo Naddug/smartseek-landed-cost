@@ -7,7 +7,7 @@ type IntelRevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
-  /** Above-the-fold content must render immediately — never start hidden. */
+  /** Above-the-fold content must render immediately, never start hidden. */
   immediate?: boolean;
 };
 
@@ -27,9 +27,7 @@ export function IntelReveal({ children, className, delay = 0, immediate = false 
           setVisible(true);
           observer.disconnect();
         }
-      },
-      { threshold: 0.05, rootMargin: "0px 0px 0px 0px" },
-    );
+      }, { threshold: 0.05, rootMargin: "0px 0px 0px 0px" }, );
 
     observer.observe(el);
     return () => observer.disconnect();

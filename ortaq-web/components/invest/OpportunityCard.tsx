@@ -78,7 +78,7 @@ export function OpportunityCard({ campaign: c, featured = false, priority = fals
         <dl className="mt-3 grid grid-cols-2 gap-2">
           <div className="rounded-ortaq-sm bg-ortaq-bg-alt px-2 py-1.5">
             <dt className={typography.caption}>{t("homeProduct.invest.card.export")}</dt>
-            <dd className={cn(typography.bodySm, "mt-0.5 font-semibold text-ortaq-ink")}>{exportShare?.value ?? "—"}</dd>
+            <dd className={cn(typography.bodySm, "mt-0.5 font-semibold text-ortaq-ink")}>{exportShare?.value ?? "-"}</dd>
           </div>
           <div className="rounded-ortaq-sm bg-ortaq-bg-alt px-2 py-1.5">
             <dt className={typography.caption}>{t("homeProduct.invest.card.purpose")}</dt>

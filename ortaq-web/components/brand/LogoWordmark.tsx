@@ -9,13 +9,9 @@ type LogoWordmarkProps = {
   className?: string;
 };
 
-/** Institutional wordmark — Inter 700, tight kerning, fintech weight. */
+/** Institutional wordmark, Inter 700, tight kerning, fintech weight. */
 export function LogoWordmark({
-  theme = "light",
-  showTagline = false,
-  tagline,
-  stacked = false,
-  className,
+  theme = "light", showTagline = false, tagline, stacked = false, className,
 }: LogoWordmarkProps) {
   const p = getWordmarkPalette(theme);
 
@@ -36,11 +32,9 @@ export function LogoWordmark({
       {showTagline && tagline && (
         <span
           className={cn(
-            "mt-0.5 text-[0.5625rem] font-semibold uppercase tracking-[0.16em]",
-            stacked
+            "mt-0.5 text-[0.5625rem] font-semibold uppercase tracking-[0.16em]", stacked
               ? "max-w-[13rem] normal-case tracking-[0.07em] sm:text-[0.625rem]"
-              : "hidden lg:block",
-          )}
+              : "hidden lg:block", )}
           style={{ color: p.tagline }}
         >
           {tagline}

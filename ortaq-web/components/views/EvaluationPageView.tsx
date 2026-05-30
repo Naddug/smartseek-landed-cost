@@ -62,7 +62,7 @@ export function EvaluationPageView() {
             <Link href="/sirket/karat-parca-konya" className={typography.link}>
               {t("evaluationPage.exampleLink")}
             </Link>{" "}
-            — {t("evaluationPage.exampleMeta")}
+            · {t("evaluationPage.exampleMeta")}
           </p>
           <Link href="/sirket/karat-parca-konya" className="mt-6 inline-block">
             <Button variant="dark">{t("evaluationPage.cta")}</Button>

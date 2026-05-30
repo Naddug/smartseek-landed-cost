@@ -87,7 +87,7 @@ export type OperationalUpdate = {
 
 export type SimulatedCampaign = {
   slug: string;
-  /** Display — simulated dossier, not a live offer */
+  /** Display, simulated dossier, not a live offer */
   simulated: true;
   legalName: string;
   tradeName: string;
@@ -147,7 +147,7 @@ export type SimulatedCampaign = {
     category: "supply" | "capacity" | "workforce" | "export" | "equipment";
     note: string;
   }[];
-  /** Homepage gateway presentation — sector energy, not generic card template */
+  /** Homepage gateway presentation, sector energy, not generic card template */
   gateway?: {
     hook: string;
     scale: string;
@@ -155,4 +155,6 @@ export type SimulatedCampaign = {
   };
   seoTitle: string;
   seoDescription: string;
+  /** Optional MoU / term-sheet status, rendered quietly in dossier header when set */
+  mouStatus?: string;
 };

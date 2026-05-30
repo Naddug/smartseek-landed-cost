@@ -1,92 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const vizyonOtomotiv = buildCatalogCampaign({
-  slug: "vizyon-otomotiv-bursa",
-  legalName: "Vizyon Otomotiv Yan Sanayi A.Ş.",
-  tradeName: "Vizyon Otomotiv",
-  sector: "Otomotiv yan sanayi pres ve kaynak parça üretimi",
-  city: "Bursa",
-  region: "Bursa OSB, Nilüfer",
-  founded: 2009,
-  employees: 56,
-  exportMarkets: ["Almanya", "Fransa", "Slovakya"],
-  facilityArea: "3.800 m² pres ve kaynak atölyesi",
-  monthlyCapacity: "Aylık ~18.000 adet pres parça (2 hat aktif)",
-  targetTry: 9_800_000,
-  exportShare: "Gelirin ~%48'i",
-  domesticShare: "~%52",
-  reviewStatus: "document_review",
-  processDone: 2,
-  fundingPurpose:
-    "Üçüncü pres hattı (400 ton) ve kalıp atölyesi CNC tezgâhı. OEM teslim süresini 5 haftadan 3,5 haftaya indirmek.",
-  fundingLines: [
-    { label: "400 ton hidrolik pres + otomasyon", amountTry: 4_600_000, percent: 47 },
-    { label: "Kalıp atölyesi CNC freze", amountTry: 1_800_000, percent: 18 },
-    { label: "Kalıp stoku ve bakım", amountTry: 1_400_000, percent: 14 },
-    { label: "Kaynak hattı robotik destek", amountTry: 1_200_000, percent: 12 },
-    { label: "İşletme sermayesi", amountTry: 800_000, percent: 9 },
-  ],
-  founderName: "Can Vizyon",
-  founderNote:
-    "Bursa OEM zincirinde 12 yıldır pres parça üretiyoruz. Üçüncü hat olmadan yeni program alamıyoruz — belgeleri tamamlıyoruz.",
-  storyOrigin: "2009'da 120 ton pres ile fason üretim. 2014'te ilk OEM sözleşmesi — fren disk braketi.",
-  storyToday: "İki pres hattı 3 vardiya çalışıyor. Almanya Tier-2 tedarikçisine doğrudan sevkiyat; kalıp atölyesi içerde ama CNC yetersiz.",
-  productionDetail: "Sac kesim → pres → deburr → kaynak (gerekirse) → boya → CMM ölçüm → sevkiyat.",
-  processes: ["Sac kesim", "Pres", "Deburr", "Kaynak", "CMM ölçüm", "Sevkiyat"],
-  materials: ["DC04 sac", "HSLA sac", "Kaynak teli"],
-  machines: [
-    { id: "press-1", name: "Schuler SMG 400 · 400 ton", role: "Ana pres", year: 2015, note: "OEM programının %70'i bu hattan." },
-    { id: "press-2", name: "Aydın 250 ton pres", role: "Seri parça", year: 2011, note: "Bakım periyodu Haziran." },
-    { id: "cmm", name: "Hexagon CMM · 2018", role: "Kalite", year: 2018, note: "Her lot %5 numune — OEM şartı." },
-  ],
-  risks: [
-    { title: "OEM müşteri yoğunlaşması", text: "Gelirin %40'ı tek Alman OEM programına bağlı. Program iptali 6 ay içinde kapasiteyi %35 boşaltır." },
-    { title: "Kalıp ömrü", text: "Ortalama kalıp ömrü 180.000 vuruş — stok yetersiz, yeni kalıp 8–10 hafta." },
-  ],
-  gateway: {
-    hook: "Bursa OSB'de OEM pres parça — Almanya programının yarısı bu tesisten.",
-    scale: "56 çalışan · 2 pres hattı · IATF hazırlığı",
-    tension: "Pres kuyruğu 5 hafta — üçüncü hat olmadan yeni OEM programı alınamıyor.",
-  },
-  bottleneck: { label: "Pres kuyruğu", note: "İki hat dolu · acil siparişlerde overtime maliyeti %18 arttı." },
-  journal: [
-    { date: "2026-05-19", time: "14:00", text: "400 ton pres doluluk ölçüldü: %94. Kalıp değişim süresi ortalama 38 dk.", type: "capacity" },
-    { date: "2026-05-19", time: "11:20", text: "CMM odasında son lot ölçüm raporu incelendi — 2 parça tolerans dışı, hurda oranı %0,4.", type: "inspection" },
-    { date: "2026-05-10", time: "10:30", text: "Kalıp atölyesi: 47 aktif kalıp envanteri, 6 kalıp bakımda. CNC freze kuyruğu 12 gün.", type: "observation" },
-    { date: "2026-05-04", time: "15:45", text: "Belge oturumunda 2024 yönetim raporu eksikliği teyit edildi.", type: "inspection" },
-    { date: "2026-04-28", time: "09:00", text: "Ön başvuru sektör uygunluğu onaylandı — otomotiv yan sanayi.", type: "observation" },
-  ],
-  updates: [
-    { date: "2026-05-19", time: "14:20", text: "Kapasite ölçüm raporu dosyaya eklendi." },
-    { date: "2026-05-11", time: "16:00", text: "Kalıp envanter listesi alındı." },
-    { date: "2026-05-04", time: "17:00", text: "Belge eksik listesi şirkete iletildi." },
-    { date: "2026-04-28", time: "10:30", text: "Ön başvuru paketi arşive alındı." },
-  ],
-  timeline: [
-    { year: 2009, event: "120 ton pres ile kuruluş" },
-    { year: 2014, event: "İlk OEM sözleşmesi — fren braketi" },
-    { year: 2018, event: "CMM laboratuvarı · Almanya ihracatı" },
-    { year: 2025, event: "Üçüncü pres yatırım kararı" },
-  ],
-  facilityNotes: [
-    { zone: "Pres hattı 1", note: "400 ton · gürültü izolasyonu iyi" },
-    { zone: "Kalıp atölyesi", note: "CNC kuyruğu 12 gün" },
-    { zone: "Sevkiyat", note: "Haftalık 2 TIR Almanya" },
-  ],
-  exportEvolution: [
-    { year: 2016, market: "Almanya", note: "Tier-2 fren sistemi" },
-    { year: 2020, market: "Fransa", note: "Küçük hacim · aynı OEM ağı" },
-    { year: 2023, market: "Slovakya", note: "Montaj hattı tedarik" },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "partial", note: "2024 raporu bekleniyor" },
-    { layer: "Kapasite doğrulama", status: "partial", note: "Pres doluluk ölçüldü" },
-    { layer: "Saha ziyareti", status: "pending", note: "Belge sonrası" },
-  ],
-  operationalSignals: [
-    { label: "Pres doluluk", value: "%94" },
-    { label: "Aylık parça", value: "~18.000 adet" },
-    { label: "İhracat payı", value: "Gelirin ~%48'i" },
-    { label: "Vardiya", value: "3 vardiya, 6 gün" },
-  ],
+  slug: "vizyon-otomotiv-bursa", legalName: "Vizyon Otomotiv Yan Sanayi A.Ş.", tradeName: "Vizyon Otomotiv", sector: "Otomotiv yan sanayi pres ve kaynak parça üretimi", city: "Bursa", region: "Bursa OSB, Nilüfer", founded: 2009, employees: 56, exportMarkets: ["Almanya", "Fransa", "Slovakya"], facilityArea: "3.800 m² pres ve kaynak atölyesi", monthlyCapacity: "Aylık ~18.000 adet pres parça (2 hat aktif)", targetTry: 9_800_000, exportShare: "Gelirin ~%48'i", domesticShare: "~%52", reviewStatus: "document_review", processDone: 2, fundingPurpose: "Üçüncü pres hattı (400 ton) ve kalıp atölyesi CNC tezgâhı. OEM teslim süresini 5 haftadan 3,5 haftaya indirmek.", fundingLines: [
+    { label: "400 ton hidrolik pres + otomasyon", amountTry: 4_600_000, percent: 47 }, { label: "Kalıp atölyesi CNC freze", amountTry: 1_800_000, percent: 18 }, { label: "Kalıp stoku ve bakım", amountTry: 1_400_000, percent: 14 }, { label: "Kaynak hattı robotik destek", amountTry: 1_200_000, percent: 12 }, { label: "İşletme sermayesi", amountTry: 800_000, percent: 9 }, ], founderName: "Can Vizyon", founderNote: "Bursa OEM zincirinde 12 yıldır pres parça üretiyoruz. Üçüncü hat olmadan yeni program alamıyoruz , belgeleri tamamlıyoruz.", storyOrigin: "2009'da 120 ton pres ile fason üretim. 2014'te ilk OEM sözleşmesi : fren disk braketi.", storyToday: "İki pres hattı 3 vardiya çalışıyor. Almanya Tier-2 tedarikçisine doğrudan sevkiyat; kalıp atölyesi içerde ama CNC yetersiz.", productionDetail: "Sac kesim → pres → deburr → kaynak (gerekirse) → boya → CMM ölçüm → sevkiyat.", processes: ["Sac kesim", "Pres", "Deburr", "Kaynak", "CMM ölçüm", "Sevkiyat"], materials: ["DC04 sac", "HSLA sac", "Kaynak teli"], machines: [
+    { id: "press-1", name: "Schuler SMG 400 · 400 ton", role: "Ana pres", year: 2015, note: "OEM programının %70'i bu hattan." }, { id: "press-2", name: "Aydın 250 ton pres", role: "Seri parça", year: 2011, note: "Bakım periyodu Haziran." }, { id: "cmm", name: "Hexagon CMM · 2018", role: "Kalite", year: 2018, note: "Her lot %5 numune : OEM şartı." }, ], risks: [
+    { title: "OEM müşteri yoğunlaşması", text: "Gelirin %40'ı tek Alman OEM programına bağlı. Program iptali 6 ay içinde kapasiteyi %35 boşaltır." }, { title: "Kalıp ömrü", text: "Ortalama kalıp ömrü 180.000 vuruş : stok yetersiz, yeni kalıp 8-10 hafta." }, ], gateway: {
+    hook: "Bursa OSB'de OEM pres parça : Almanya programının yarısı bu tesisten.", scale: "56 çalışan · 2 pres hattı · IATF hazırlığı", tension: "Pres kuyruğu 5 hafta : üçüncü hat olmadan yeni OEM programı alınamıyor.", }, bottleneck: { label: "Pres kuyruğu", note: "İki hat dolu · acil siparişlerde overtime maliyeti %18 arttı." }, journal: [
+    { date: "2026-05-19", time: "14:00", text: "400 ton pres doluluk ölçüldü: %94. Kalıp değişim süresi ortalama 38 dk.", type: "capacity" }, { date: "2026-05-19", time: "11:20", text: "CMM odasında son lot ölçüm raporu incelendi : 2 parça tolerans dışı, hurda oranı %0,4.", type: "inspection" }, { date: "2026-05-10", time: "10:30", text: "Kalıp atölyesi: 47 aktif kalıp envanteri, 6 kalıp bakımda. CNC freze kuyruğu 12 gün.", type: "observation" }, { date: "2026-05-04", time: "15:45", text: "Belge oturumunda 2024 yönetim raporu eksikliği teyit edildi.", type: "inspection" }, { date: "2026-04-28", time: "09:00", text: "Ön başvuru sektör uygunluğu onaylandı : otomotiv yan sanayi.", type: "observation" }, ], updates: [
+    { date: "2026-05-19", time: "14:20", text: "Kapasite ölçüm raporu dosyaya eklendi." }, { date: "2026-05-11", time: "16:00", text: "Kalıp envanter listesi alındı." }, { date: "2026-05-04", time: "17:00", text: "Belge eksik listesi şirkete iletildi." }, { date: "2026-04-28", time: "10:30", text: "Ön başvuru paketi arşive alındı." }, ], timeline: [
+    { year: 2009, event: "120 ton pres ile kuruluş" }, { year: 2014, event: "İlk OEM sözleşmesi : fren braketi" }, { year: 2018, event: "CMM laboratuvarı · Almanya ihracatı" }, { year: 2025, event: "Üçüncü pres yatırım kararı" }, ], facilityNotes: [
+    { zone: "Pres hattı 1", note: "400 ton · gürültü izolasyonu iyi" }, { zone: "Kalıp atölyesi", note: "CNC kuyruğu 12 gün" }, { zone: "Sevkiyat", note: "Haftalık 2 TIR Almanya" }, ], exportEvolution: [
+    { year: 2016, market: "Almanya", note: "Tier-2 fren sistemi" }, { year: 2020, market: "Fransa", note: "Küçük hacim · aynı OEM ağı" }, { year: 2023, market: "Slovakya", note: "Montaj hattı tedarik" }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "partial", note: "2024 raporu bekleniyor" }, { layer: "Kapasite doğrulama", status: "partial", note: "Pres doluluk ölçüldü" }, { layer: "Saha ziyareti", status: "pending", note: "Belge sonrası" }, ], operationalSignals: [
+    { label: "Pres doluluk", value: "%94" }, { label: "Aylık parça", value: "~18.000 adet" }, { label: "İhracat payı", value: "Gelirin ~%48'i" }, { label: "Vardiya", value: "3 vardiya, 6 gün" }, ],
 });

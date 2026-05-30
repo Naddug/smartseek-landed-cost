@@ -16,7 +16,7 @@ export function GlossaryPageView() {
           <SectionHeader
             titleAs="h1"
             title="Sözlük"
-            description="Paya dayalı ortaklıkta sık geçen terimler — sade açıklamalar."
+            description="Paya dayalı ortaklıkta sık geçen terimler : sade açıklamalar."
           />
 
           <dl className="space-y-0 border-y border-ortaq-border">

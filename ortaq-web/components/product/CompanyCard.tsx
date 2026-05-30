@@ -5,18 +5,12 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import {
-  getCampaignMediaAsset,
-  getCampaignMediaAlt,
-  getFacilityArea,
-  getLatestOperationalNote,
-  getOperationalSignal,
-  getProductionType,
-  getSectorTag,
-  getSectorTagEn,
+  getCampaignMediaAsset, getCampaignMediaAlt, getFacilityArea, getLatestOperationalNote, getOperationalSignal, getSectorTag, getSectorTagEn,
 } from "@/lib/product/company-summary";
 import { ReviewStepper } from "@/components/product/ReviewStepper";
 import { reviewStatusLabels } from "@/lib/product/home-data";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
+import { getCampaignTensionLine } from "@/lib/intelligence/tension";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 import { formatPulseDate } from "@/lib/operations/pulse";
@@ -32,26 +26,21 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
   const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const capacity = getOperationalSignal(c, "kapasite", "capacity");
   const exportShare = getOperationalSignal(c, "ihracat", "export");
-  const facilityArea = getFacilityArea(c);
+  const facilityArea = getFacilityArea(c) ?? "-";
   const latestNote = getLatestOperationalNote(c);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
+  const tension = getCampaignTensionLine(c);
   const statusLabel =
     i18n.language === "en"
       ? {
-          preliminary_review: "Preliminary review",
-          document_review: "Document review",
-          field_verification: "Field verification",
-          committee: "Committee review",
-        }[c.reviewStatus]
+          preliminary_review: "Preliminary review", document_review: "Document review", field_verification: "Field verification", committee: "Committee review", }[c.reviewStatus]
       : reviewStatusLabels[c.reviewStatus];
 
   return (
     <Link
       href={`/sirket/${c.slug}`}
       className={cn(
-        "discover-card-hover product-card group flex flex-col overflow-hidden",
-        featured && "w-[calc(100vw-2.5rem)] max-w-[21.25rem] shrink-0 snap-start sm:w-auto sm:max-w-none sm:shrink",
-      )}
+        "discover-card-hover product-card group flex flex-col overflow-hidden", featured && "w-[calc(100vw-2.5rem)] max-w-[21.25rem] shrink-0 snap-start sm:w-auto sm:max-w-none sm:shrink", )}
     >
       <div className="discover-spotlight-image relative h-32 w-full shrink-0 overflow-hidden border-b border-ortaq-border">
         <Image
@@ -80,13 +69,15 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
         </div>
 
         <p className={cn(typography.caption, "mt-2 text-ortaq-ink-muted")}>
-          {c.city} · {getProductionType(c)} · {c.employees} {t("homeProduct.companyCard.employeesUnit")}
+          {c.city} · {c.employees} {t("homeProduct.companyCard.employeesUnit")} · {facilityArea}
         </p>
 
+        <p className={cn(typography.caption, "mt-2 line-clamp-1 text-ortaq-ink-muted")}>{tension}</p>
+
         <dl className="mt-3 grid grid-cols-2 gap-2">
-          <MetricCell label={t("homeProduct.companyCard.capacity")} value={capacity?.value ?? "—"} />
-          <MetricCell label={t("homeProduct.companyCard.exportShare")} value={exportShare?.value ?? "—"} />
-          <MetricCell label={t("homeProduct.companyCard.facility")} value={facilityArea ?? "—"} />
+          <MetricCell label={t("homeProduct.companyCard.capacity")} value={capacity?.value ?? "-"} />
+          <MetricCell label={t("homeProduct.companyCard.exportShare")} value={exportShare?.value ?? "-"} />
+          <MetricCell label={t("homeProduct.companyCard.facility")} value={facilityArea} />
           <MetricCell label={t("homeProduct.companyCard.facilityStatus")} value={statusLabel} />
         </dl>
 
@@ -95,8 +86,7 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
         {latestNote && (
           <p className={cn(typography.caption, "mt-2.5 line-clamp-2 border-t border-ortaq-border pt-2.5")}>
             <span className="font-medium text-ortaq-ink-soft">
-              {formatPulseDate(latestNote.date, i18n.language === "tr" ? "tr-TR" : "en-GB")} —
-            </span>{" "}
+              {formatPulseDate(latestNote.date, i18n.language === "tr" ? "tr-TR" : "en-GB")} · </span>{" "}
             {latestNote.text}
           </p>
         )}

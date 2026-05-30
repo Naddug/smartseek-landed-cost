@@ -1,4 +1,4 @@
-/** Four steps — no duplicate of homepage process timeline */
+/** Four steps, no duplicate of homepage process timeline */
 export const ONBOARDING_STEPS = ["safety", "money", "risk", "wait"] as const;
 
 export type OnboardingStepKey = (typeof ONBOARDING_STEPS)[number];

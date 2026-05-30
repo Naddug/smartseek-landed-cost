@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 
 const faqKeys = ["1", "2", "3", "4"] as const;
 
-/** Compact FAQ — four questions only, no wall of copy. */
+/** Compact FAQ, four questions only, no wall of copy. */
 export function HomepageQuickFaq() {
   const { t } = useTranslation();
 

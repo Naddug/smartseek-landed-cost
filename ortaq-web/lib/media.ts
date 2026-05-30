@@ -1,5 +1,5 @@
 /**
- * Documentary photography registry — Turkish industrial atmosphere.
+ * Documentary photography registry, Turkish industrial atmosphere.
  * Heavy-industrial editorial stock (Pexels / Unsplash). Per-campaign: /media/companies/.
  */
 
@@ -13,374 +13,56 @@ export type MediaAsset = {
   mood: string;
 };
 export const media = {
-  /** Homepage hero — company leadership on site; growth readiness, not equipment */
+  /** Homepage hero, company leadership on site; growth readiness, not equipment */
   heroExportPartnership: {
-    src: "/media/hero-company-growth.jpg",
-    altTr: "Üretim şirketinde yönetici denetimi; saha kayıtları inceleniyor",
-    altEn: "Management oversight at a production company, reviewing field records",
-    credit: "Pexels / Sergey Sergeev",
-    focalPoint: "38% 42%",
-    aspect: "panorama" as const,
-    mood: "growth",
-  },
-  /** Hero — late-afternoon factory floor */
+    src: "/media/hero-company-growth.jpg", altTr: "Üretim şirketinde yönetici denetimi; saha kayıtları inceleniyor", altEn: "Management oversight at a production company, reviewing field records", credit: "Pexels / Sergey Sergeev", focalPoint: "38% 42%", aspect: "panorama" as const, mood: "growth", }, /** Hero, late-afternoon factory floor */
   factoryFloor: {
-    src: "/media/factory-floor.jpg",
-    altTr: "Fabrika üretim alanı, geç öğleden sonra ışığı",
-    altEn: "Factory production floor, late afternoon light",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 45%",
-    aspect: "panorama" as const,
-    mood: "cinematic",
-  },
-  cncWorkshop: {
-    src: "/media/cnc-workshop.jpg",
-    altTr: "CNC işleme atölyesi",
-    altEn: "CNC machining workshop",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 40%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  logisticsDock: {
-    src: "/media/logistics-dock.jpg",
-    altTr: "Lojistik yükleme alanı",
-    altEn: "Logistics loading dock",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 55%",
-    aspect: "panorama" as const,
-    mood: "export",
-  },
-  exportWarehouse: {
-    src: "/media/export-warehouse.jpg",
-    altTr: "İhracat deposu ve sevkiyat",
-    altEn: "Export warehouse and dispatch",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "panorama" as const,
-    mood: "movement",
-  },
-  machineOperator: {
-    src: "/media/machine-operator.jpg",
-    altTr: "Tezgâh operatörü, üretim hattı",
-    altEn: "Machine operator on production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 42%",
-    aspect: "editorial" as const,
-    mood: "human",
-  },
-  packagingFloor: {
-    src: "/media/packaging-floor.jpg",
-    altTr: "Ambalaj ve sevkiyat katı",
-    altEn: "Packaging and dispatch floor",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 48%",
-    aspect: "panorama" as const,
-    mood: "grounded",
-  },
-  factoryDetail: {
-    src: "/media/factory-detail.jpg",
-    altTr: "Endüstriyel makine detayı",
-    altEn: "Industrial machinery detail",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "texture",
-  },
-  textileFloor: {
-    src: "/media/textile-floor.jpg",
-    altTr: "Tekstil üretim hattı",
-    altEn: "Textile production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "warm",
-  },
-  industrialLine: {
-    src: "/media/industrial-line.jpg",
-    altTr: "Endüstriyel üretim hattı",
-    altEn: "Industrial production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 42%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  warehouse: {
-    src: "/media/warehouse.jpg",
-    altTr: "Depo ve lojistik alanı",
-    altEn: "Warehouse and logistics area",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 55%",
-    aspect: "panorama" as const,
-    mood: "grounded",
-  },
-  workshop: {
-    src: "/media/workshop.jpg",
-    altTr: "Atölye ve üretim alanı",
-    altEn: "Workshop and production floor",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 40%",
-    aspect: "panorama" as const,
-    mood: "human",
-  },
-  agrifoodColdchain: {
-    src: "/media/agrifood-coldchain.jpg",
-    altTr: "Tarım işleme ve soğuk zincir tesisi",
-    altEn: "Agricultural processing and cold chain facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 45%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  grainMill: {
-    src: "/media/grain-mill.jpg",
-    altTr: "Un ve tahıl değirmen tesisi",
-    altEn: "Grain and flour mill facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "grounded",
-  },
-  greenhouse: {
-    src: "/media/greenhouse.jpg",
-    altTr: "Seracılık ve iklim kontrollü üretim",
-    altEn: "Greenhouse and climate-controlled cultivation",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 42%",
-    aspect: "panorama" as const,
-    mood: "operational",
-  },
-  chemicalPlant: {
-    src: "/media/chemical-plant.jpg",
-    altTr: "Kimya ve proses tesis interior",
-    altEn: "Chemical and process plant interior",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 48%",
-    aspect: "editorial" as const,
-    mood: "texture",
-  },
-  ceramicKiln: {
-    src: "/media/ceramic-kiln.jpg",
-    altTr: "Seramik ve refrakter üretim hattı",
-    altEn: "Ceramic and refractory production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 44%",
-    aspect: "editorial" as const,
-    mood: "warm",
-  },
-  foodProcessing: {
-    src: "/media/food-processing.jpg",
-    altTr: "Gıda işleme ve paketleme hattı",
-    altEn: "Food processing and packaging line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 46%",
-    aspect: "panorama" as const,
-    mood: "grounded",
-  },
-  shipyardDock: {
-    src: "/media/shipyard-dock.jpg",
-    altTr: "Gemi ekipmanı ve denizcilik sanayi",
-    altEn: "Marine equipment and shipbuilding industry",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 52%",
-    aspect: "panorama" as const,
-    mood: "export",
-  },
-  glassFurnace: {
-    src: "/media/glass-furnace.jpg",
-    altTr: "Cam ve endüstriyel fırın tesisi",
-    altEn: "Glass and industrial furnace facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "cinematic",
-  },
-  spinningMill: {
-    src: "/media/spinning-mill.jpg",
-    altTr: "İplik ve dokuma üretim hattı",
-    altEn: "Yarn and weaving production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 48%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  plasticExtrusion: {
-    src: "/media/plastic-extrusion.jpg",
-    altTr: "Plastik ambalaj ve ekstrüzyon hattı",
-    altEn: "Plastic packaging and extrusion line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 45%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
+    src: "/media/factory-floor.jpg", altTr: "Fabrika üretim alanı, geç öğleden sonra ışığı", altEn: "Factory production floor, late afternoon light", credit: "Pexels / Unsplash", focalPoint: "center 45%", aspect: "panorama" as const, mood: "cinematic", }, cncWorkshop: {
+    src: "/media/cnc-workshop.jpg", altTr: "CNC işleme atölyesi", altEn: "CNC machining workshop", credit: "Pexels / Unsplash", focalPoint: "center 40%", aspect: "editorial" as const, mood: "operational", }, logisticsDock: {
+    src: "/media/logistics-dock.jpg", altTr: "Lojistik yükleme alanı", altEn: "Logistics loading dock", credit: "Pexels / Unsplash", focalPoint: "center 55%", aspect: "panorama" as const, mood: "export", }, exportWarehouse: {
+    src: "/media/export-warehouse.jpg", altTr: "İhracat deposu ve sevkiyat", altEn: "Export warehouse and dispatch", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "panorama" as const, mood: "movement", }, machineOperator: {
+    src: "/media/machine-operator.jpg", altTr: "Tezgâh operatörü, üretim hattı", altEn: "Machine operator on production line", credit: "Pexels / Unsplash", focalPoint: "center 42%", aspect: "editorial" as const, mood: "human", }, packagingFloor: {
+    src: "/media/packaging-floor.jpg", altTr: "Ambalaj ve sevkiyat katı", altEn: "Packaging and dispatch floor", credit: "Pexels / Unsplash", focalPoint: "center 48%", aspect: "panorama" as const, mood: "grounded", }, factoryDetail: {
+    src: "/media/factory-detail.jpg", altTr: "Endüstriyel makine detayı", altEn: "Industrial machinery detail", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "texture", }, textileFloor: {
+    src: "/media/textile-floor.jpg", altTr: "Tekstil üretim hattı", altEn: "Textile production line", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "warm", }, industrialLine: {
+    src: "/media/industrial-line.jpg", altTr: "Endüstriyel üretim hattı", altEn: "Industrial production line", credit: "Pexels / Unsplash", focalPoint: "center 42%", aspect: "editorial" as const, mood: "operational", }, warehouse: {
+    src: "/media/warehouse.jpg", altTr: "Depo ve lojistik alanı", altEn: "Warehouse and logistics area", credit: "Pexels / Unsplash", focalPoint: "center 55%", aspect: "panorama" as const, mood: "grounded", }, workshop: {
+    src: "/media/workshop.jpg", altTr: "Atölye ve üretim alanı", altEn: "Workshop and production floor", credit: "Pexels / Unsplash", focalPoint: "center 40%", aspect: "panorama" as const, mood: "human", }, agrifoodColdchain: {
+    src: "/media/agrifood-coldchain.jpg", altTr: "Tarım işleme ve soğuk zincir tesisi", altEn: "Agricultural processing and cold chain facility", credit: "Pexels / Unsplash", focalPoint: "center 45%", aspect: "editorial" as const, mood: "operational", }, grainMill: {
+    src: "/media/grain-mill.jpg", altTr: "Un ve tahıl değirmen tesisi", altEn: "Grain and flour mill facility", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "grounded", }, greenhouse: {
+    src: "/media/greenhouse.jpg", altTr: "Seracılık ve iklim kontrollü üretim", altEn: "Greenhouse and climate-controlled cultivation", credit: "Pexels / Unsplash", focalPoint: "center 42%", aspect: "panorama" as const, mood: "operational", }, chemicalPlant: {
+    src: "/media/chemical-plant.jpg", altTr: "Kimya ve proses tesis interior", altEn: "Chemical and process plant interior", credit: "Pexels / Unsplash", focalPoint: "center 48%", aspect: "editorial" as const, mood: "texture", }, ceramicKiln: {
+    src: "/media/ceramic-kiln.jpg", altTr: "Seramik ve refrakter üretim hattı", altEn: "Ceramic and refractory production line", credit: "Pexels / Unsplash", focalPoint: "center 44%", aspect: "editorial" as const, mood: "warm", }, foodProcessing: {
+    src: "/media/food-processing.jpg", altTr: "Gıda işleme ve paketleme hattı", altEn: "Food processing and packaging line", credit: "Pexels / Unsplash", focalPoint: "center 46%", aspect: "panorama" as const, mood: "grounded", }, shipyardDock: {
+    src: "/media/shipyard-dock.jpg", altTr: "Gemi ekipmanı ve denizcilik sanayi", altEn: "Marine equipment and shipbuilding industry", credit: "Pexels / Unsplash", focalPoint: "center 52%", aspect: "panorama" as const, mood: "export", }, glassFurnace: {
+    src: "/media/glass-furnace.jpg", altTr: "Cam ve endüstriyel fırın tesisi", altEn: "Glass and industrial furnace facility", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "cinematic", }, spinningMill: {
+    src: "/media/spinning-mill.jpg", altTr: "İplik ve dokuma üretim hattı", altEn: "Yarn and weaving production line", credit: "Pexels / Unsplash", focalPoint: "center 48%", aspect: "editorial" as const, mood: "operational", }, plasticExtrusion: {
+    src: "/media/plastic-extrusion.jpg", altTr: "Plastik ambalaj ve ekstrüzyon hattı", altEn: "Plastic packaging and extrusion line", credit: "Pexels / Unsplash", focalPoint: "center 45%", aspect: "editorial" as const, mood: "operational", },
 } as const;
 
 export type MediaKey = keyof typeof media;
 
-/** Unique per-campaign imagery — sector-correct, no shared truck-depot placeholders. */
+/** Unique per-campaign imagery, sector-correct, no shared truck-depot placeholders. */
 export const companyMedia = {
   "adana-tarim-isleme": {
-    src: "/media/companies/adana-tarim-isleme.jpg",
-    altTr: "Endüstriyel tarım işleme ve paketleme tesisi",
-    altEn: "Industrial agricultural processing and packaging facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 45%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "atlas-lojistik-istanbul": {
-    src: "/media/companies/atlas-lojistik-istanbul.jpg",
-    altTr: "Soğuk zincir depo ve ihracat lojistik alanı",
-    altEn: "Cold chain warehouse and export logistics facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "panorama" as const,
-    mood: "export",
-  },
-  "karat-parca-konya": {
-    src: "/media/companies/karat-parca-konya.jpg",
-    altTr: "CNC işleme ve metal parça üretim hattı",
-    altEn: "CNC machining and metal parts production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 40%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "anatolia-gida-gaziantep": {
-    src: "/media/companies/anatolia-gida-gaziantep.jpg",
-    altTr: "Gıda işleme ve endüstriyel paketleme hattı",
-    altEn: "Food processing and industrial packaging line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 46%",
-    aspect: "editorial" as const,
-    mood: "grounded",
-  },
-  "yildiz-dokum-manisa": {
-    src: "/media/companies/yildiz-dokum-manisa.jpg",
-    altTr: "Metal döküm ve kaynak operasyonu",
-    altEn: "Metal casting and welding operation",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 45%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "vizyon-otomotiv-bursa": {
-    src: "/media/companies/vizyon-otomotiv-bursa.jpg",
-    altTr: "Otomotiv yan sanayi üretim hattı",
-    altEn: "Automotive supplier production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 42%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "demir-tekstil-bursa": {
-    src: "/media/companies/demir-tekstil-bursa.jpg",
-    altTr: "Tekstil dikim ve dokuma üretim atölyesi",
-    altEn: "Textile sewing and weaving production workshop",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "warm",
-  },
-  "trabzon-findik-isleme": {
-    src: "/media/companies/trabzon-findik-isleme.jpg",
-    altTr: "Kuruyemiş ve gıda işleme tesisi",
-    altEn: "Nut and food processing facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 48%",
-    aspect: "editorial" as const,
-    mood: "grounded",
-  },
-  "antalya-sera-teknoloji": {
-    src: "/media/companies/antalya-sera-teknoloji.jpg",
-    altTr: "Seracılık ve iklim kontrollü tarım tesisi",
-    altEn: "Greenhouse and climate-controlled agriculture facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 42%",
-    aspect: "panorama" as const,
-    mood: "operational",
-  },
-  "tekno-elektronik-ankara": {
-    src: "/media/companies/tekno-elektronik-ankara.jpg",
-    altTr: "Elektronik montaj ve üretim alanı",
-    altEn: "Electronics assembly and production floor",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "texture",
-  },
-  "tekirdag-ambalaj-plastik": {
-    src: "/media/companies/tekirdag-ambalaj-plastik.jpg",
-    altTr: "Plastik ambalaj üretim hattı",
-    altEn: "Plastic packaging production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 45%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "marmara-kimya-kocaeli": {
-    src: "/media/companies/marmara-kimya-kocaeli.jpg",
-    altTr: "Kimya ve proses tesis altyapısı",
-    altEn: "Chemical and process plant infrastructure",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 48%",
-    aspect: "editorial" as const,
-    mood: "texture",
-  },
-  "eskisehir-seramik": {
-    src: "/media/companies/eskisehir-seramik.jpg",
-    altTr: "Seramik ve refrakter üretim tesisi",
-    altEn: "Ceramic and refractory production facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 44%",
-    aspect: "editorial" as const,
-    mood: "warm",
-  },
-  "ege-mobilya-izmir": {
-    src: "/media/companies/ege-mobilya-izmir.jpg",
-    altTr: "Ahşap işleme ve mobilya üretim atölyesi",
-    altEn: "Wood processing and furniture production workshop",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 40%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "denizli-iplik-dokuma": {
-    src: "/media/companies/denizli-iplik-dokuma.jpg",
-    altTr: "İplik ve dokuma üretim hattı",
-    altEn: "Yarn and weaving production line",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 48%",
-    aspect: "editorial" as const,
-    mood: "operational",
-  },
-  "deniz-gemi-parca-tuzla": {
-    src: "/media/companies/deniz-gemi-parca-tuzla.jpg",
-    altTr: "Denizcilik ve gemi sanayi tesis alanı",
-    altEn: "Marine and shipbuilding industrial facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 52%",
-    aspect: "panorama" as const,
-    mood: "export",
-  },
-  "trakya-un-edirne": {
-    src: "/media/companies/trakya-un-edirne.jpg",
-    altTr: "Tahıl ve un işleme tesisi",
-    altEn: "Grain and flour processing facility",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "grounded",
-  },
-  "anadolu-cam-kayseri": {
-    src: "/media/companies/anadolu-cam-kayseri.jpg",
-    altTr: "Cam işleme ve endüstriyel cephe üretimi",
-    altEn: "Glass processing and industrial facade production",
-    credit: "Pexels / Unsplash",
-    focalPoint: "center 50%",
-    aspect: "editorial" as const,
-    mood: "cinematic",
-  },
+    src: "/media/companies/adana-tarim-isleme.jpg", altTr: "Endüstriyel tarım işleme ve paketleme tesisi", altEn: "Industrial agricultural processing and packaging facility", credit: "Pexels / Unsplash", focalPoint: "center 45%", aspect: "editorial" as const, mood: "operational", }, "atlas-lojistik-istanbul": {
+    src: "/media/companies/atlas-lojistik-istanbul.jpg", altTr: "Soğuk zincir depo ve ihracat lojistik alanı", altEn: "Cold chain warehouse and export logistics facility", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "panorama" as const, mood: "export", }, "karat-parca-konya": {
+    src: "/media/companies/karat-parca-konya.jpg", altTr: "CNC işleme ve metal parça üretim hattı", altEn: "CNC machining and metal parts production line", credit: "Pexels / Unsplash", focalPoint: "center 40%", aspect: "editorial" as const, mood: "operational", }, "anatolia-gida-gaziantep": {
+    src: "/media/companies/anatolia-gida-gaziantep.jpg", altTr: "Gıda işleme ve endüstriyel paketleme hattı", altEn: "Food processing and industrial packaging line", credit: "Pexels / Unsplash", focalPoint: "center 46%", aspect: "editorial" as const, mood: "grounded", }, "yildiz-dokum-manisa": {
+    src: "/media/companies/yildiz-dokum-manisa.jpg", altTr: "Metal döküm ve kaynak operasyonu", altEn: "Metal casting and welding operation", credit: "Pexels / Unsplash", focalPoint: "center 45%", aspect: "editorial" as const, mood: "operational", }, "vizyon-otomotiv-bursa": {
+    src: "/media/companies/vizyon-otomotiv-bursa.jpg", altTr: "Otomotiv yan sanayi üretim hattı", altEn: "Automotive supplier production line", credit: "Pexels / Unsplash", focalPoint: "center 42%", aspect: "editorial" as const, mood: "operational", }, "demir-tekstil-bursa": {
+    src: "/media/companies/demir-tekstil-bursa.jpg", altTr: "Tekstil dikim ve dokuma üretim atölyesi", altEn: "Textile sewing and weaving production workshop", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "warm", }, "trabzon-findik-isleme": {
+    src: "/media/companies/trabzon-findik-isleme.jpg", altTr: "Kuruyemiş ve gıda işleme tesisi", altEn: "Nut and food processing facility", credit: "Pexels / Unsplash", focalPoint: "center 48%", aspect: "editorial" as const, mood: "grounded", }, "antalya-sera-teknoloji": {
+    src: "/media/companies/antalya-sera-teknoloji.jpg", altTr: "Seracılık ve iklim kontrollü tarım tesisi", altEn: "Greenhouse and climate-controlled agriculture facility", credit: "Pexels / Unsplash", focalPoint: "center 42%", aspect: "panorama" as const, mood: "operational", }, "tekno-elektronik-ankara": {
+    src: "/media/companies/tekno-elektronik-ankara.jpg", altTr: "Elektronik montaj ve üretim alanı", altEn: "Electronics assembly and production floor", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "texture", }, "tekirdag-ambalaj-plastik": {
+    src: "/media/companies/tekirdag-ambalaj-plastik.jpg", altTr: "Plastik ambalaj üretim hattı", altEn: "Plastic packaging production line", credit: "Pexels / Unsplash", focalPoint: "center 45%", aspect: "editorial" as const, mood: "operational", }, "marmara-kimya-kocaeli": {
+    src: "/media/companies/marmara-kimya-kocaeli.jpg", altTr: "Kimya ve proses tesis altyapısı", altEn: "Chemical and process plant infrastructure", credit: "Pexels / Unsplash", focalPoint: "center 48%", aspect: "editorial" as const, mood: "texture", }, "eskisehir-seramik": {
+    src: "/media/companies/eskisehir-seramik.jpg", altTr: "Seramik ve refrakter üretim tesisi", altEn: "Ceramic and refractory production facility", credit: "Pexels / Unsplash", focalPoint: "center 44%", aspect: "editorial" as const, mood: "warm", }, "ege-mobilya-izmir": {
+    src: "/media/companies/ege-mobilya-izmir.jpg", altTr: "Ahşap işleme ve mobilya üretim atölyesi", altEn: "Wood processing and furniture production workshop", credit: "Pexels / Unsplash", focalPoint: "center 40%", aspect: "editorial" as const, mood: "operational", }, "denizli-iplik-dokuma": {
+    src: "/media/companies/denizli-iplik-dokuma.jpg", altTr: "İplik ve dokuma üretim hattı", altEn: "Yarn and weaving production line", credit: "Pexels / Unsplash", focalPoint: "center 48%", aspect: "editorial" as const, mood: "operational", }, "deniz-gemi-parca-tuzla": {
+    src: "/media/companies/deniz-gemi-parca-tuzla.jpg", altTr: "Denizcilik ve gemi sanayi tesis alanı", altEn: "Marine and shipbuilding industrial facility", credit: "Pexels / Unsplash", focalPoint: "center 52%", aspect: "panorama" as const, mood: "export", }, "trakya-un-edirne": {
+    src: "/media/companies/trakya-un-edirne.jpg", altTr: "Tahıl ve un işleme tesisi", altEn: "Grain and flour processing facility", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "grounded", }, "anadolu-cam-kayseri": {
+    src: "/media/companies/anadolu-cam-kayseri.jpg", altTr: "Cam işleme ve endüstriyel cephe üretimi", altEn: "Glass processing and industrial facade production", credit: "Pexels / Unsplash", focalPoint: "center 50%", aspect: "editorial" as const, mood: "cinematic", },
 } as const satisfies Record<string, MediaAsset>;
 
 export type CompanyMediaSlug = keyof typeof companyMedia;

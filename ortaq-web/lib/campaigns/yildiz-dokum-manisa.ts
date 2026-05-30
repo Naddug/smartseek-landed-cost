@@ -1,336 +1,69 @@
 import type { SimulatedCampaign } from "./types";
 
 /**
- * Simulated dossier — Manisa aluminum die-casting works.
+ * Simulated dossier, Manisa aluminum die-casting works.
  *
  * ASYMMETRY PROFILE: succession-risk exposed, single-customer export concentration.
- * Financially solid, well-maintained 15-year-old German die-cast presses, ISO clean,
- * BUT: founder is 62, no clear next-gen operator inside family; ~78% of export
+ * Financially solid, well-maintained 15-year-old German die-cast presses, ISO clean, * BUT: founder is 62, no clear next-gen operator inside family; ~78% of export
  * revenue depends on one German Tier-1 automotive supplier.
  *
- * verificationLabel: "approved_with_conditions" — operations pass; succession terms pending.
+ * verificationLabel: "approved_with_conditions", operations pass; succession terms pending.
  *
- * HUMAN-EDIT REQUIRED before publishing:
- *  - founder.name / role / note (succession quote is sensitive)
+ * HUMAN-EDIT REQUIRED before publishing: *  - founder.name / role / note (succession quote is sensitive)
  *  - machines[*].name (Bühler, Frech, Italpresse used as plausible defaults)
  *  - funding.targetTry and per-line amountTry
  *  - annualRevenueNote final wording
  */
 export const yildizDokumManisa: SimulatedCampaign = {
-  slug: "yildiz-dokum-manisa",
-  simulated: true,
-  legalName: "Yıldız Döküm Sanayi ve Ticaret A.Ş.",
-  tradeName: "Yıldız Döküm",
-  sector: "Alüminyum basınçlı döküm · metal · otomotiv yan sanayi",
-  city: "Manisa",
-  region: "Manisa Organize Sanayi Bölgesi, Yunusemre",
-  founded: 1986,
-  employees: 96,
-  exportMarkets: ["Almanya", "Çekya", "Polonya", "Macaristan"],
-  annualRevenueNote: "2023 ve 2024 yönetim raporları mevcut · 2024 Q4 stok ve hurda raporu ek doğrulama bekliyor",
-  productionNote: "Aylık ~340 ton döküm parça · 6 presli hat · ortalama hat doluluğu %72",
-  verificationLabel: "approved_with_conditions",
-  reviewStatus: "field_verification",
-  seoTitle: "Yıldız Döküm | Değerlendirme dosyası",
-  seoDescription:
-    "Manisa OSB'de 40 yıllık alüminyum basınçlı döküm üreticisi. Otomotiv yan sanayi tedariki. Değerlendirme dosyası — yatırım teklifi değildir.",
-  story: {
-    origin:
-      "1986'da Manisa'da bir torna atölyesi olarak kuruldu. Kurucu ortak 1991'de ilk basınçlı döküm makinesini Almanya'dan ikinci el aldı; o günden bu yana aynı tezgâh hâlâ yedek olarak duruyor.",
-    today:
-      "Manisa OSB'de 7.400 m² kapalı alanda alüminyum basınçlı döküm üretimi yapılıyor. Üretimin yaklaşık %82'si ihracat — büyük çoğunluğu Almanya'daki bir Tier-1 otomotiv yan sanayicisine. Süreç olgun, atölye disiplinli; risk insan tarafında.",
-    production:
-      "Alüminyum külçe alımı → ergitme (700–730°C) → basınçlı döküm pres → çapak alma → kumlama → CNC işleme → boyut kontrolü → ambalaj. Hurda alüminyum geri kazanım hattı ayrı binada.",
-  },
-  founder: {
-    name: "Ahmet Yıldız",
-    role: "Kurucu · Yönetim Kurulu Başkanı (62)",
-    note:
-      "Fabrikayı 40 yıldır ben yönetiyorum. Oğlum Almanya'da mühendislik yapıyor, dönmek istemiyor; kızım doktor. İçeriden ben dahil 3 kişi presi okuyabiliyor — bunlardan ikisi yakında emekli. Ortaklık yapısı kurarak işletmeyi kurumsallaştırmak istiyoruz, sadece para için değil; bir sonraki neslin işi sürdürebilmesi için.",
-  },
-  funding: {
-    purpose:
-      "İkinci nesil pres operatörü yetiştirme programı, yedek pres modernizasyonu (1991 model hat), ve hurda alüminyum geri kazanım hattının kapasite artırımı. Hedef: kritik usta operatör bağımlılığını 5 yıl içinde %60 azaltmak.",
-    targetTry: 19_500_000,
-    lines: [
-      { label: "Pres modernizasyonu (1991 hat · yedek)", amountTry: 6_400_000, percent: 33 },
-      { label: "Hurda geri kazanım kapasite artışı", amountTry: 3_800_000, percent: 19 },
-      { label: "Operatör yetiştirme programı (3 yıl)", amountTry: 2_900_000, percent: 15 },
-      { label: "CNC işleme hattı (post-döküm)", amountTry: 3_500_000, percent: 18 },
-      { label: "Kalibrasyon ve metroloji laboratuvarı", amountTry: 1_400_000, percent: 7 },
-      { label: "Hammadde stok (alüminyum külçe · 3 ay)", amountTry: 1_200_000, percent: 6 },
-      { label: "İşletme sermayesi tamponu", amountTry: 300_000, percent: 2 },
-    ],
-  },
-  risks: [
+  slug: "yildiz-dokum-manisa", simulated: true, legalName: "Yıldız Döküm Sanayi ve Ticaret A.Ş.", tradeName: "Yıldız Döküm", sector: "Alüminyum basınçlı döküm · metal · otomotiv yan sanayi", city: "Manisa", region: "Manisa Organize Sanayi Bölgesi, Yunusemre", founded: 1986, employees: 96, exportMarkets: ["Almanya", "Çekya", "Polonya", "Macaristan"], annualRevenueNote: "2023 ve 2024 yönetim raporları mevcut · 2024 Q4 stok ve hurda raporu ek doğrulama bekliyor", productionNote: "Aylık ~340 ton döküm parça · 6 presli hat · ortalama hat doluluğu %72", verificationLabel: "approved_with_conditions", reviewStatus: "field_verification", seoTitle: "Yıldız Döküm | Değerlendirme dosyası", seoDescription: "Manisa OSB'de 40 yıllık alüminyum basınçlı döküm üreticisi. Otomotiv yan sanayi tedariki. Değerlendirme dosyası , yatırım teklifi değildir.", story: {
+    origin: "1986'da Manisa'da bir torna atölyesi olarak kuruldu. Kurucu ortak 1991'de ilk basınçlı döküm makinesini Almanya'dan ikinci el aldı; o günden bu yana aynı tezgâh hâlâ yedek olarak duruyor.", today: "Manisa OSB'de 7.400 m² kapalı alanda alüminyum basınçlı döküm üretimi yapılıyor. Üretimin yaklaşık %82'si ihracat , büyük çoğunluğu Almanya'daki bir Tier-1 otomotiv yan sanayicisine. Süreç olgun, atölye disiplinli; risk insan tarafında.", production: "Alüminyum külçe alımı → ergitme (700-730°C) → basınçlı döküm pres → çapak alma → kumlama → CNC işleme → boyut kontrolü → ambalaj. Hurda alüminyum geri kazanım hattı ayrı binada.", }, founder: {
+    name: "Ahmet Yıldız", role: "Kurucu · Yönetim Kurulu Başkanı (62)", note: "Fabrikayı 40 yıldır ben yönetiyorum. Oğlum Almanya'da mühendislik yapıyor, dönmek istemiyor; kızım doktor. İçeriden ben dahil 3 kişi presi okuyabiliyor , bunlardan ikisi yakında emekli. Ortaklık yapısı kurarak işletmeyi kurumsallaştırmak istiyoruz, sadece para için değil; bir sonraki neslin işi sürdürebilmesi için.", }, funding: {
+    purpose: "İkinci nesil pres operatörü yetiştirme programı, yedek pres modernizasyonu (1991 model hat), ve hurda alüminyum geri kazanım hattının kapasite artırımı. Hedef: kritik usta operatör bağımlılığını 5 yıl içinde %60 azaltmak.", targetTry: 19_500_000, lines: [
+      { label: "Pres modernizasyonu (1991 hat · yedek)", amountTry: 6_400_000, percent: 33 }, { label: "Hurda geri kazanım kapasite artışı", amountTry: 3_800_000, percent: 19 }, { label: "Operatör yetiştirme programı (3 yıl)", amountTry: 2_900_000, percent: 15 }, { label: "CNC işleme hattı (post-döküm)", amountTry: 3_500_000, percent: 18 }, { label: "Kalibrasyon ve metroloji laboratuvarı", amountTry: 1_400_000, percent: 7 }, { label: "Hammadde stok (alüminyum külçe · 3 ay)", amountTry: 1_200_000, percent: 6 }, { label: "İşletme sermayesi tamponu", amountTry: 300_000, percent: 2 }, ], }, risks: [
     {
-      title: "Kurucu / succession riski",
-      text: "Kurucu 62 yaşında, aile içinde belirlenmiş halef yok. Operasyonel süreklilik kurumsallaşma hızına bağlı. Bu risk dosyanın merkezi belirsizliğidir.",
-    },
-    {
-      title: "Tek müşteri yoğunlaşması",
-      text: "İhracat gelirinin yaklaşık %78'i tek bir Alman Tier-1 müşterisine bağlı (otomotiv). Bu müşterinin program değişikliği veya tedarikçi konsolidasyonu ciroyu sert etkiler.",
-    },
-    {
-      title: "Otomotiv elektrifikasyon geçişi",
-      text: "Mevcut parça portföyünün yaklaşık %35'i içten yanmalı motor (ICE) bileşenleri. Elektrikli araç geçişiyle bu kalemlerin 5–7 yıl içinde küçülmesi bekleniyor.",
-    },
-    {
-      title: "Alüminyum fiyat oynaklığı",
-      text: "LME alüminyum spot fiyatı ve TL kuru çift yönlü risk yaratıyor. Sözleşmelerde 90 günlük fiyat dondurma var — kısa pencere.",
-    },
-    {
-      title: "Usta operatör emekliliği",
-      text: "Pres operatörlerinin 2'si önümüzdeki 18 ay içinde emekli olacak. Eğitim programı bu aralığa yetişmek zorunda.",
-    },
-  ],
-  process: [
-    { label: "Ön başvuru ve sektör uygunluğu", status: "done", date: "2025-11-12" },
-    { label: "Belge paketi (ticaret sicili, vergi, finansal tablo)", status: "done", date: "2025-12-20" },
-    { label: "Saha ziyareti — üretim hattı", status: "done", date: "2026-03-08" },
-    { label: "Saha ziyareti — succession ve operasyon süreklilik", status: "active", date: "2026-05-04" },
-    { label: "Finansal ve hukuk incelemesi (kısmi)", status: "active", date: "2026-04-18" },
-    { label: "Yatırım komitesi", status: "pending" },
-    { label: "Lisanslı platform onayı", status: "pending" },
-    { label: "Bilgi formu yayını ve ortaklık", status: "pending" },
-  ],
-  documents: [
-    { id: "registry", title: "Ticaret sicil gazetesi", status: "available" },
-    { id: "tax", title: "Vergi levhası ve 5 yıl mukellef özeti", status: "available" },
-    { id: "financials-2022", title: "2022 yönetim raporu", status: "available" },
-    { id: "financials-2023", title: "2023 yönetim raporu", status: "available" },
-    { id: "financials-2024", title: "2024 yönetim raporu", status: "review", note: "Q4 stok ve hurda detayı ek doğrulama bekliyor" },
-    { id: "export-summary", title: "İhracat fatura özeti (2020–2024)", status: "available" },
-    { id: "iso", title: "ISO 9001:2015 · ISO 14001 · IATF 16949", status: "available" },
-    { id: "tier1-contract", title: "Tier-1 OEM çerçeve anlaşması özeti", status: "review", note: "Müşteri ile gizlilik prosedürü gereği özet paylaşıldı" },
-    { id: "succession", title: "Pay devri ve halef planı taslağı", status: "pending", note: "Hukuk büro tarafından hazırlanıyor" },
-    { id: "field-report-1", title: "Saha ziyareti tutanağı (Mart 2026)", status: "available" },
-    { id: "field-report-2", title: "Saha ziyareti tutanağı (Mayıs 2026)", status: "review" },
-    { id: "memorandum", title: "Bilgi formu (izahname)", status: "pending", note: "Komite onayı sonrası" },
-  ],
-  economics: [
-    { label: "Kuruluş", value: "1986" },
-    { label: "Çalışan", value: "96 kişi" },
-    { label: "Kapalı alan", value: "7.400 m²" },
-    { label: "İhracat pazarları", value: "4 ülke (Almanya ağırlıklı)" },
-    { label: "Ana müşteri tipi", value: "Otomotiv Tier-1 yan sanayi · sınırlı yurtiçi OEM" },
-    { label: "Sertifikasyon", value: "ISO 9001:2015 · ISO 14001 · IATF 16949" },
-  ],
-  operations: {
+      title: "Kurucu / succession riski", text: "Kurucu 62 yaşında, aile içinde belirlenmiş halef yok. Operasyonel süreklilik kurumsallaşma hızına bağlı. Bu risk dosyanın merkezi belirsizliğidir.", }, {
+      title: "Tek müşteri yoğunlaşması", text: "İhracat gelirinin yaklaşık %78'i tek bir Alman Tier-1 müşterisine bağlı (otomotiv). Bu müşterinin program değişikliği veya tedarikçi konsolidasyonu ciroyu sert etkiler.", }, {
+      title: "Otomotiv elektrifikasyon geçişi", text: "Mevcut parça portföyünün yaklaşık %35'i içten yanmalı motor (ICE) bileşenleri. Elektrikli araç geçişiyle bu kalemlerin 5-7 yıl içinde küçülmesi bekleniyor.", }, {
+      title: "Alüminyum fiyat oynaklığı", text: "LME alüminyum spot fiyatı ve TL kuru çift yönlü risk yaratıyor. Sözleşmelerde 90 günlük fiyat dondurma var , kısa pencere.", }, {
+      title: "Usta operatör emekliliği", text: "Pres operatörlerinin 2'si önümüzdeki 18 ay içinde emekli olacak. Eğitim programı bu aralığa yetişmek zorunda.", }, ], process: [
+    { label: "Ön başvuru ve sektör uygunluğu", status: "done", date: "2025-11-12" }, { label: "Belge paketi (ticaret sicili, vergi, finansal tablo)", status: "done", date: "2025-12-20" }, { label: "Saha ziyareti : üretim hattı", status: "done", date: "2026-03-08" }, { label: "Saha ziyareti : succession ve operasyon süreklilik", status: "active", date: "2026-05-04" }, { label: "Finansal ve hukuk incelemesi (kısmi)", status: "active", date: "2026-04-18" }, { label: "Yatırım komitesi", status: "pending" }, { label: "Lisanslı platform onayı", status: "pending" }, { label: "Bilgi formu yayını ve ortaklık", status: "pending" }, ], documents: [
+    { id: "registry", title: "Ticaret sicil gazetesi", status: "available" }, { id: "tax", title: "Vergi levhası ve 5 yıl mukellef özeti", status: "available" }, { id: "financials-2022", title: "2022 yönetim raporu", status: "available" }, { id: "financials-2023", title: "2023 yönetim raporu", status: "available" }, { id: "financials-2024", title: "2024 yönetim raporu", status: "review", note: "Q4 stok ve hurda detayı ek doğrulama bekliyor" }, { id: "export-summary", title: "İhracat fatura özeti (2020-2024)", status: "available" }, { id: "iso", title: "ISO 9001:2015 · ISO 14001 · IATF 16949", status: "available" }, { id: "tier1-contract", title: "Tier-1 OEM çerçeve anlaşması özeti", status: "review", note: "Müşteri ile gizlilik prosedürü gereği özet paylaşıldı" }, { id: "succession", title: "Pay devri ve halef planı taslağı", status: "pending", note: "Hukuk büro tarafından hazırlanıyor" }, { id: "field-report-1", title: "Saha ziyareti tutanağı (Mart 2026)", status: "available" }, { id: "field-report-2", title: "Saha ziyareti tutanağı (Mayıs 2026)", status: "review" }, { id: "memorandum", title: "Bilgi formu (izahname)", status: "pending", note: "Komite onayı sonrası" }, ], economics: [
+    { label: "Kuruluş", value: "1986" }, { label: "Çalışan", value: "96 kişi" }, { label: "Kapalı alan", value: "7.400 m²" }, { label: "İhracat pazarları", value: "4 ülke (Almanya ağırlıklı)" }, { label: "Ana müşteri tipi", value: "Otomotiv Tier-1 yan sanayi · sınırlı yurtiçi OEM" }, { label: "Sertifikasyon", value: "ISO 9001:2015 · ISO 14001 · IATF 16949" }, ], operations: {
     signals: [
-      { label: "Aylık kapasite", value: "~340 t döküm" },
-      { label: "Pres sayısı", value: "6 aktif · 1 yedek (1991)" },
-      { label: "Vardiya", value: "3 vardiya, 7 gün" },
-      { label: "İhracat payı", value: "Gelirin ~%82'si" },
-      { label: "Tek müşteri payı", value: "Tier-1 OEM ~%78 ihracat" },
-      { label: "Son saha ziyareti", value: "4 Mayıs 2026" },
-    ],
-    processes: ["Külçe alım", "Ergitme", "Basınçlı döküm", "Çapak alma", "Kumlama", "CNC işleme", "Boyut kontrolü", "Ambalaj"],
-    materials: ["Birincil alüminyum külçe (LME endeksli)", "İkincil alüminyum (iç geri kazanım)", "Kalıp ayırıcı yağ", "Soğutma suyu (kapalı devre)"],
-    shifts: "3 vardiya · 24 saat · pazar bakım vardiyası",
-  },
-  timeline: [
-    { year: 1986, event: "Torna atölyesi olarak kuruluş — Manisa merkez" },
-    { year: 1991, event: "İlk basınçlı döküm presi · Almanya ikinci el" },
-    { year: 1998, event: "Manisa OSB'ye taşınma · 3.200 m² kapalı alan" },
-    { year: 2004, event: "İlk Tier-1 ihracat sözleşmesi · Almanya otomotiv" },
-    { year: 2012, event: "IATF 16949 belgesi · kapalı alan 7.400 m²" },
-    { year: 2018, event: "Hurda geri kazanım hattı kuruldu · iç çevrim başladı" },
-    { year: 2024, event: "Halef belirsizliği görüşmesi · kurumsallaşma kararı" },
-    { year: 2026, event: "ORTAQ değerlendirme süreci · pay yapısı yeniden tasarım" },
-  ],
-  access: {
-    status: "field_verification",
-    nextGate: "Yatırım komitesi (halef planı taslağı sonrası)",
-  },
-  machines: [
+      { label: "Aylık kapasite", value: "~340 t döküm" }, { label: "Pres sayısı", value: "6 aktif · 1 yedek (1991)" }, { label: "Vardiya", value: "3 vardiya, 7 gün" }, { label: "İhracat payı", value: "Gelirin ~%82'si" }, { label: "Tek müşteri payı", value: "Tier-1 OEM ~%78 ihracat" }, { label: "Son saha ziyareti", value: "4 Mayıs 2026" }, ], processes: ["Külçe alım", "Ergitme", "Basınçlı döküm", "Çapak alma", "Kumlama", "CNC işleme", "Boyut kontrolü", "Ambalaj"], materials: ["Birincil alüminyum külçe (LME endeksli)", "İkincil alüminyum (iç geri kazanım)", "Kalıp ayırıcı yağ", "Soğutma suyu (kapalı devre)"], shifts: "3 vardiya · 24 saat · pazar bakım vardiyası", }, timeline: [
+    { year: 1986, event: "Torna atölyesi olarak kuruluş : Manisa merkez" }, { year: 1991, event: "İlk basınçlı döküm presi · Almanya ikinci el" }, { year: 1998, event: "Manisa OSB'ye taşınma · 3.200 m² kapalı alan" }, { year: 2004, event: "İlk Tier-1 ihracat sözleşmesi · Almanya otomotiv" }, { year: 2012, event: "IATF 16949 belgesi · kapalı alan 7.400 m²" }, { year: 2018, event: "Hurda geri kazanım hattı kuruldu · iç çevrim başladı" }, { year: 2024, event: "Halef belirsizliği görüşmesi · kurumsallaşma kararı" }, { year: 2026, event: "ORTAQ değerlendirme süreci · pay yapısı yeniden tasarım" }, ], access: {
+    status: "field_verification", nextGate: "Yatırım komitesi (halef planı taslağı sonrası)", }, machines: [
     {
-      id: "press-1",
-      name: "Bühler Carat 84 · 840 ton",
-      role: "Basınçlı döküm · büyük parça",
-      year: 2011,
-      note: "Ana üretim presi · ortalama %85 doluluk · iki yedek operatör.",
-    },
+      id: "press-1", name: "Bühler Carat 84 · 840 ton", role: "Basınçlı döküm · büyük parça", year: 2011, note: "Ana üretim presi · ortalama %85 doluluk · iki yedek operatör.", }, {
+      id: "press-2", name: "Bühler Carat 56 · 560 ton", role: "Basınçlı döküm · orta parça", year: 2014, note: "İkinci ana hat · Tier-1 parçaları · 7/24 çalışır.", }, {
+      id: "press-3", name: "Frech DAW 250 · 250 ton", role: "Basınçlı döküm · küçük parça", year: 2017, note: "Yurtiçi OEM siparişleri · iki vardiya.", }, {
+      id: "press-4", name: "Italpresse IP 320 · 320 ton", role: "Basınçlı döküm · orta parça", year: 2009, note: "Yedek ve düşük hacimli özel siparişler · operatör sayısı sınırlı.", }, {
+      id: "press-5", name: "Frech DAW 400 · 400 ton", role: "Basınçlı döküm · orta parça", year: 2019, note: "En yeni pres · operatör eğitim süresi 4 ay.", }, {
+      id: "press-6", name: "Bühler Carat 280 · 280 ton", role: "Basınçlı döküm · seri", year: 2013, note: "Tier-1 yedek programı için ayrıldı.", }, {
+      id: "press-legacy", name: "Idra OL/CS · 1991 model · 600 ton", role: "Yedek pres · modernizasyon planı", year: 1991, note: "Çalışır durumda · ancak elektronik kontrol eski · yatırım planının %33'ü bu hattı modernize ediyor.", }, {
+      id: "cnc-post", name: "Doosan DNM 4500 ×3", role: "Post-döküm CNC işleme", year: 2020, note: "Yetersiz · bir parçanın işleme süresi ortalama hedefin %18 üstünde.", }, {
+      id: "recovery", name: "Striko-Westofen ergitme · geri kazanım", role: "Hurda alüminyum geri kazanım", year: 2018, note: "Ayrı bina · hurda %23 iç çevrim · kapasite artışı yatırım planında.", }, ], bottlenecks: [
     {
-      id: "press-2",
-      name: "Bühler Carat 56 · 560 ton",
-      role: "Basınçlı döküm · orta parça",
-      year: 2014,
-      note: "İkinci ana hat · Tier-1 parçaları · 7/24 çalışır.",
-    },
+      label: "Usta pres operatörü sayısı", note: "6 presi okuyabilen toplam 3 kişi · ikisi 2027'ye kadar emekli. Operasyonel süreklilik için kritik.", }, {
+      label: "Post-döküm CNC kapasitesi", note: "3 tezgâh · büyük parça işlemede kuyruk · özellikle Q3 sezonda 5 günlük gecikme.", }, {
+      label: "Hurda geri kazanım kapasitesi", note: "İç çevrim hurda artıyor · mevcut ergitme ünitesi bunu zar zor karşılıyor · dışarıya satış oranı artıyor (marj kaybı).", }, ], facilityNotes: [
+    { zone: "Pres hattı 1-3", note: "3 ana pres · yüksek termal yük · ısı yalıtımı iyi · gözlüklü operatör zorunlu" }, { zone: "Pres hattı 4-6", note: "Tier-1 hatları · disiplinli · kalite kontrol her parça" }, { zone: "Yedek pres (1991)", note: "Çalışır · modernizasyon yatırım planında" }, { zone: "CNC post-işleme", note: "3 tezgâh · darboğaz · zemin alanı 4. tezgâh için hazır" }, { zone: "Hurda geri kazanım binası", note: "Ayrı bina · ergitme ocağı · havalandırma uyumlu · kapasite artışı planlı" }, { zone: "Metroloji odası", note: "Klima kontrollü · CMM cihazı 2012 model · kalibrasyon planı geç gelişiyor" }, { zone: "İhracat sevkiyat", note: "Konteyner yükleme rampası · Almanya rota haftalık 2 sevkiyat" }, ], fieldJournal: [
     {
-      id: "press-3",
-      name: "Frech DAW 250 · 250 ton",
-      role: "Basınçlı döküm · küçük parça",
-      year: 2017,
-      note: "Yurtiçi OEM siparişleri · iki vardiya.",
-    },
+      date: "2026-05-04", time: "09:20", author: "ORTAQ saha · operasyon", type: "observation", text: "Sabah pres başlatma sırası izlendi. Usta operatör 'Mehmet Usta' bir tezgâhın ısınma profilini gözle kontrol ediyor , yazılı prosedür yok, deneyime dayalı. Bu bilgi belgelenmemiş.", }, {
+      date: "2026-05-04", time: "11:45", author: "Yıldız", type: "founder", text: "Operatör bilgisini yazıya geçirme projesi 2024'te başladı, %30 ilerleme var. Para sorunu değil , kim hangi vardiyada yazacak sorunu. Vardiya bitiyor, herkes evine gidiyor.", }, {
+      date: "2026-05-04", time: "14:10", author: "ORTAQ saha · finansal", type: "inspection", text: "Tier-1 OEM çerçeve anlaşması özeti gözden geçirildi. Sözleşme 2027 sonuna kadar geçerli, otomatik yenileme yok. Müşteri portföy çeşitlendirme görüşmeleri 2025 başında başlamış (Çekya tedarikçileri).", }, {
+      date: "2026-05-04", time: "16:30", author: "ORTAQ saha · operasyon", type: "capacity", text: "Yedek pres (1991) çalıştırıldı : kalkış 12 dk, modern preslerin iki katı. Elektronik kontrol kısmen analog. Modernizasyon yatırım planının doğrulu görüldü.", }, {
+      date: "2026-03-08", time: "10:40", author: "ORTAQ saha · ilk ziyaret", type: "observation", text: "İlk ziyaret · genel saha düzeni temiz, disiplinli. ISO ve IATF dosyaları erişilebilir. Kalite müdürü süreç olgunluğunu yazılı destekliyor.", }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "done", note: "5 yıl finansal · sertifikalar · sicil tam" }, { layer: "Saha doğrulama", status: "done", note: "İki saha ziyareti tamamlandı (Mart + Mayıs 2026)" }, { layer: "Kalite protokolü", status: "done", note: "IATF 16949 denetim raporları doğrulandı" }, { layer: "Finansal inceleme", status: "partial", note: "2024 Q4 stok ve hurda detayı ek doğrulama bekliyor" }, { layer: "Hukuk · succession", status: "partial", note: "Pay devri ve halef planı taslağı hukuk büro tarafından hazırlanıyor : komite öncesi şart" }, { layer: "Müşteri konsantrasyon değerlendirmesi", status: "partial", note: "Tier-1 müşteri ile alternatif çerçeve görüşmeleri bağımsız değerlendirme istiyor" }, ], exportEvolution: [
+    { year: 2004, market: "Almanya", note: "İlk Tier-1 sözleşmesi : şanzıman kapağı ve motor takozları" }, { year: 2011, market: "Almanya", note: "Carat 84 yatırımı · sözleşme genişledi" }, { year: 2017, market: "Çekya", note: "Aynı OEM Çekya fabrikasına paralel tedarik · küçük hacim" }, { year: 2020, market: "Polonya", note: "İkinci müşteri (otomotiv) · sınırlı SKU" }, { year: 2023, market: "Macaristan", note: "Sınırlı hacim · özel program · 2 yıllık" }, ], operationalUpdates: [
+    { date: "2026-05-22", time: "10:30", text: "Hukuk büro halef planı taslak 1. versiyon teslim etti · komite öncesi 2. revizyon bekleniyor." }, { date: "2026-05-08", time: "15:50", text: "Tier-1 müşteri ile bağımsız konsantrasyon görüşmesi planlandı (Haziran)." }, { date: "2026-05-04", time: "18:00", text: "İkinci saha ziyareti tamamlandı; tutanak hazırlanıyor." }, { date: "2026-04-18", time: "11:20", text: "Finansal inceleme başlatıldı · 2024 Q4 hurda dosyası talep edildi." }, { date: "2026-03-08", time: "17:00", text: "İlk saha ziyareti tamamlandı; pres hattı ve sertifikasyon doğrulandı." }, ], marketMix: {
+    domesticShare: "~%18", exportShare: "~%82", segments: [
+      { label: "İhracat · Tier-1 Almanya", share: "~%64", note: "Tek müşteri · 2027 sözleşme · ICE ağırlıklı portföy" }, { label: "İhracat · Almanya diğer", share: "~%8", note: "İkincil otomotiv müşterileri · daha düşük hacim" }, { label: "İhracat · Çekya + Polonya + Macaristan", share: "~%10", note: "Çoğunluğu aynı OEM ağı · paralel tedarik" }, { label: "Yurtiçi · otomotiv yan sanayi", share: "~%12", note: "Bursa ve Kocaeli üreticileri · küçük SKU hacmi" }, { label: "Yurtiçi · beyaz eşya yan sanayi", share: "~%6", note: "Sınırlı seri · marj iyi · büyüme yavaş" }, ], }, operationalFriction: [
     {
-      id: "press-4",
-      name: "Italpresse IP 320 · 320 ton",
-      role: "Basınçlı döküm · orta parça",
-      year: 2009,
-      note: "Yedek ve düşük hacimli özel siparişler · operatör sayısı sınırlı.",
-    },
-    {
-      id: "press-5",
-      name: "Frech DAW 400 · 400 ton",
-      role: "Basınçlı döküm · orta parça",
-      year: 2019,
-      note: "En yeni pres · operatör eğitim süresi 4 ay.",
-    },
-    {
-      id: "press-6",
-      name: "Bühler Carat 280 · 280 ton",
-      role: "Basınçlı döküm · seri",
-      year: 2013,
-      note: "Tier-1 yedek programı için ayrıldı.",
-    },
-    {
-      id: "press-legacy",
-      name: "Idra OL/CS · 1991 model · 600 ton",
-      role: "Yedek pres · modernizasyon planı",
-      year: 1991,
-      note: "Çalışır durumda · ancak elektronik kontrol eski · yatırım planının %33'ü bu hattı modernize ediyor.",
-    },
-    {
-      id: "cnc-post",
-      name: "Doosan DNM 4500 ×3",
-      role: "Post-döküm CNC işleme",
-      year: 2020,
-      note: "Yetersiz · bir parçanın işleme süresi ortalama hedefin %18 üstünde.",
-    },
-    {
-      id: "recovery",
-      name: "Striko-Westofen ergitme · geri kazanım",
-      role: "Hurda alüminyum geri kazanım",
-      year: 2018,
-      note: "Ayrı bina · hurda %23 iç çevrim · kapasite artışı yatırım planında.",
-    },
-  ],
-  bottlenecks: [
-    {
-      label: "Usta pres operatörü sayısı",
-      note: "6 presi okuyabilen toplam 3 kişi · ikisi 2027'ye kadar emekli. Operasyonel süreklilik için kritik.",
-    },
-    {
-      label: "Post-döküm CNC kapasitesi",
-      note: "3 tezgâh · büyük parça işlemede kuyruk · özellikle Q3 sezonda 5 günlük gecikme.",
-    },
-    {
-      label: "Hurda geri kazanım kapasitesi",
-      note: "İç çevrim hurda artıyor · mevcut ergitme ünitesi bunu zar zor karşılıyor · dışarıya satış oranı artıyor (marj kaybı).",
-    },
-  ],
-  facilityNotes: [
-    { zone: "Pres hattı 1–3", note: "3 ana pres · yüksek termal yük · ısı yalıtımı iyi · gözlüklü operatör zorunlu" },
-    { zone: "Pres hattı 4–6", note: "Tier-1 hatları · disiplinli · kalite kontrol her parça" },
-    { zone: "Yedek pres (1991)", note: "Çalışır · modernizasyon yatırım planında" },
-    { zone: "CNC post-işleme", note: "3 tezgâh · darboğaz · zemin alanı 4. tezgâh için hazır" },
-    { zone: "Hurda geri kazanım binası", note: "Ayrı bina · ergitme ocağı · havalandırma uyumlu · kapasite artışı planlı" },
-    { zone: "Metroloji odası", note: "Klima kontrollü · CMM cihazı 2012 model · kalibrasyon planı geç gelişiyor" },
-    { zone: "İhracat sevkiyat", note: "Konteyner yükleme rampası · Almanya rota haftalık 2 sevkiyat" },
-  ],
-  fieldJournal: [
-    {
-      date: "2026-05-04",
-      time: "09:20",
-      author: "ORTAQ saha · operasyon",
-      type: "observation",
-      text: "Sabah pres başlatma sırası izlendi. Usta operatör 'Mehmet Usta' bir tezgâhın ısınma profilini gözle kontrol ediyor — yazılı prosedür yok, deneyime dayalı. Bu bilgi belgelenmemiş.",
-    },
-    {
-      date: "2026-05-04",
-      time: "11:45",
-      author: "Yıldız",
-      type: "founder",
-      text: "Operatör bilgisini yazıya geçirme projesi 2024'te başladı, %30 ilerleme var. Para sorunu değil — kim hangi vardiyada yazacak sorunu. Vardiya bitiyor, herkes evine gidiyor.",
-    },
-    {
-      date: "2026-05-04",
-      time: "14:10",
-      author: "ORTAQ saha · finansal",
-      type: "inspection",
-      text: "Tier-1 OEM çerçeve anlaşması özeti gözden geçirildi. Sözleşme 2027 sonuna kadar geçerli, otomatik yenileme yok. Müşteri portföy çeşitlendirme görüşmeleri 2025 başında başlamış (Çekya tedarikçileri).",
-    },
-    {
-      date: "2026-05-04",
-      time: "16:30",
-      author: "ORTAQ saha · operasyon",
-      type: "capacity",
-      text: "Yedek pres (1991) çalıştırıldı — kalkış 12 dk, modern preslerin iki katı. Elektronik kontrol kısmen analog. Modernizasyon yatırım planının doğrulu görüldü.",
-    },
-    {
-      date: "2026-03-08",
-      time: "10:40",
-      author: "ORTAQ saha · ilk ziyaret",
-      type: "observation",
-      text: "İlk ziyaret · genel saha düzeni temiz, disiplinli. ISO ve IATF dosyaları erişilebilir. Kalite müdürü süreç olgunluğunu yazılı destekliyor.",
-    },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "done", note: "5 yıl finansal · sertifikalar · sicil tam" },
-    { layer: "Saha doğrulama", status: "done", note: "İki saha ziyareti tamamlandı (Mart + Mayıs 2026)" },
-    { layer: "Kalite protokolü", status: "done", note: "IATF 16949 denetim raporları doğrulandı" },
-    { layer: "Finansal inceleme", status: "partial", note: "2024 Q4 stok ve hurda detayı ek doğrulama bekliyor" },
-    { layer: "Hukuk · succession", status: "partial", note: "Pay devri ve halef planı taslağı hukuk büro tarafından hazırlanıyor — komite öncesi şart" },
-    { layer: "Müşteri konsantrasyon değerlendirmesi", status: "partial", note: "Tier-1 müşteri ile alternatif çerçeve görüşmeleri bağımsız değerlendirme istiyor" },
-  ],
-  exportEvolution: [
-    { year: 2004, market: "Almanya", note: "İlk Tier-1 sözleşmesi — şanzıman kapağı ve motor takozları" },
-    { year: 2011, market: "Almanya", note: "Carat 84 yatırımı · sözleşme genişledi" },
-    { year: 2017, market: "Çekya", note: "Aynı OEM Çekya fabrikasına paralel tedarik · küçük hacim" },
-    { year: 2020, market: "Polonya", note: "İkinci müşteri (otomotiv) · sınırlı SKU" },
-    { year: 2023, market: "Macaristan", note: "Sınırlı hacim · özel program · 2 yıllık" },
-  ],
-  operationalUpdates: [
-    { date: "2026-05-22", time: "10:30", text: "Hukuk büro halef planı taslak 1. versiyon teslim etti · komite öncesi 2. revizyon bekleniyor." },
-    { date: "2026-05-08", time: "15:50", text: "Tier-1 müşteri ile bağımsız konsantrasyon görüşmesi planlandı (Haziran)." },
-    { date: "2026-05-04", time: "18:00", text: "İkinci saha ziyareti tamamlandı; tutanak hazırlanıyor." },
-    { date: "2026-04-18", time: "11:20", text: "Finansal inceleme başlatıldı · 2024 Q4 hurda dosyası talep edildi." },
-    { date: "2026-03-08", time: "17:00", text: "İlk saha ziyareti tamamlandı; pres hattı ve sertifikasyon doğrulandı." },
-  ],
-  marketMix: {
-    domesticShare: "~%18",
-    exportShare: "~%82",
-    segments: [
-      { label: "İhracat · Tier-1 Almanya", share: "~%64", note: "Tek müşteri · 2027 sözleşme · ICE ağırlıklı portföy" },
-      { label: "İhracat · Almanya diğer", share: "~%8", note: "İkincil otomotiv müşterileri · daha düşük hacim" },
-      { label: "İhracat · Çekya + Polonya + Macaristan", share: "~%10", note: "Çoğunluğu aynı OEM ağı · paralel tedarik" },
-      { label: "Yurtiçi · otomotiv yan sanayi", share: "~%12", note: "Bursa ve Kocaeli üreticileri · küçük SKU hacmi" },
-      { label: "Yurtiçi · beyaz eşya yan sanayi", share: "~%6", note: "Sınırlı seri · marj iyi · büyüme yavaş" },
-    ],
-  },
-  operationalFriction: [
-    {
-      label: "Tier-1 müşteri konsantrasyonu",
-      category: "export",
-      note: "İhracatın %78'i tek müşteri · alternatif müşteri portföyü çeşitlendirme yavaş ilerliyor.",
-    },
-    {
-      label: "Usta operatör emeklilik",
-      category: "workforce",
-      note: "2 kritik operatör 18 ay içinde emekli · eğitim programı bu aralığa yetişmek zorunda · kayıtlı bilgi açığı.",
-    },
-    {
-      label: "Yedek pres yaşı",
-      category: "equipment",
-      note: "1991 model pres çalışır ama modern parça uyumu sınırlı · arıza durumunda servis süresi belirsiz.",
-    },
-    {
-      label: "CNC post-işleme kuyruğu",
-      category: "capacity",
-      note: "Üç tezgâh · büyük parça işleme süresinde 5 gün geri · hat ekleme yatırım planında.",
-    },
-    {
-      label: "Alüminyum spot fiyat",
-      category: "supply",
-      note: "LME spot fiyat ve TL kuru çift yönlü · sözleşmelerde 90 günlük fiyat dondurma penceresi dar.",
-    },
-  ],
-  gateway: {
-    hook: "Manisa OSB'de alüminyum döküm — ihracatın ~%78'i tek Alman Tier-1 tedarikçisine.",
-    scale: "96 çalışan · 6 pres · ISO temiz · 35 yıllık hat",
-    tension: "6 presi okuyabilen 3 usta — ikisi 2027'ye kadar emekli, operasyonel süreklilik riski.",
-  },
+      label: "Tier-1 müşteri konsantrasyonu", category: "export", note: "İhracatın %78'i tek müşteri · alternatif müşteri portföyü çeşitlendirme yavaş ilerliyor.", }, {
+      label: "Usta operatör emeklilik", category: "workforce", note: "2 kritik operatör 18 ay içinde emekli · eğitim programı bu aralığa yetişmek zorunda · kayıtlı bilgi açığı.", }, {
+      label: "Yedek pres yaşı", category: "equipment", note: "1991 model pres çalışır ama modern parça uyumu sınırlı · arıza durumunda servis süresi belirsiz.", }, {
+      label: "CNC post-işleme kuyruğu", category: "capacity", note: "Üç tezgâh · büyük parça işleme süresinde 5 gün geri · hat ekleme yatırım planında.", }, {
+      label: "Alüminyum spot fiyat", category: "supply", note: "LME spot fiyat ve TL kuru çift yönlü · sözleşmelerde 90 günlük fiyat dondurma penceresi dar.", }, ], gateway: {
+    hook: "Manisa OSB'de alüminyum döküm : ihracatın ~%78'i tek Alman Tier-1 tedarikçisine.", scale: "96 çalışan · 6 pres · ISO temiz · 35 yıllık hat", tension: "6 presi okuyabilen 3 usta : ikisi 2027'ye kadar emekli, operasyonel süreklilik riski.", },
 };

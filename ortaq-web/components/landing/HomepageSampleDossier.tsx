@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 
 const signalKeys = ["1", "2", "3"] as const;
 
-/** Illustrative dossier card — links to a real published dossier, no fabricated metrics. */
+/** Illustrative dossier card, links to a real published dossier, no fabricated metrics. */
 export function HomepageSampleDossier() {
   const { t } = useTranslation();
 

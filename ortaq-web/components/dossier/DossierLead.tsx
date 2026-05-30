@@ -5,6 +5,7 @@ import type { SimulatedCampaign, InspectionLayer } from "@/lib/campaigns/types";
 import { Container } from "@/components/ui/Section";
 import { getOperationalSignal } from "@/lib/product/company-summary";
 import { getCampaignTensionLine } from "@/lib/intelligence/tension";
+import { formatPulseDate } from "@/lib/operations/pulse";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -12,8 +13,7 @@ import { cn } from "@/lib/cn";
  * The 30-60 second comprehension block.
  *
  * Single dense section below DossierHeader containing every "above-the-fold"
- * signal in one composed view:
- *
+ * signal in one composed view: *
  *   - Operational signals (6-cell grid)
  *   - Critical bottlenecks (promoted from soft callout in old DossierSnapshot)
  *   - Top 3 structural risks (compressed, full list lives in DossierRisks)
@@ -24,15 +24,11 @@ import { cn } from "@/lib/cn";
  */
 
 const layerStatusStyles: Record<InspectionLayer["status"], string> = {
-  pending: "border-ortaq-border bg-ortaq-bg-alt text-ortaq-ink-soft",
-  partial: "border-ortaq-accent/30 bg-ortaq-bg-warm text-ortaq-ink-muted",
-  done: "border-ortaq-trust/30 bg-ortaq-trust-soft text-ortaq-trust",
+  pending: "border-ortaq-border bg-ortaq-bg-alt text-ortaq-ink-soft", partial: "border-ortaq-accent/30 bg-ortaq-bg-warm text-ortaq-ink-muted", done: "border-ortaq-trust/30 bg-ortaq-trust-soft text-ortaq-trust",
 };
 
 const layerStatusDot: Record<InspectionLayer["status"], string> = {
-  pending: "bg-ortaq-border-strong",
-  partial: "bg-ortaq-accent",
-  done: "bg-ortaq-trust",
+  pending: "bg-ortaq-border-strong", partial: "bg-ortaq-accent", done: "bg-ortaq-trust",
 };
 
 type DossierLeadProps = {
@@ -40,10 +36,14 @@ type DossierLeadProps = {
 };
 
 export function DossierLead({ campaign: c }: DossierLeadProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const capacity = getOperationalSignal(c, "kapasite", "capacity");
   const exportShare = getOperationalSignal(c, "ihracat", "export");
   const tension = getCampaignTensionLine(c);
+  const locale = i18n.language === "tr" ? "tr-TR" : "en-GB";
+  const recentField = [...c.fieldJournal]
+    .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`))
+    .slice(0, 2);
 
   return (
     <section
@@ -58,7 +58,7 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
         </div>
 
         <div className="grid gap-5 pb-5 pt-4 sm:pb-6 sm:pt-5 lg:grid-cols-[1.2fr_1fr_0.9fr] lg:gap-6">
-          {/* Column 1 — operational signals */}
+          {/* Column 1, operational signals */}
           <div className="min-w-0">
             <p className={typography.label}>{t("dossier.lead.signalsLabel")}</p>
             <h2 className={cn(typography.h2, "mt-1")}>
@@ -85,7 +85,7 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
             </p>
           </div>
 
-          {/* Column 2 — bottlenecks + top 3 risks */}
+          {/* Column 2, bottlenecks + top 3 risks */}
           <div className="min-w-0 lg:border-l lg:border-ortaq-border lg:pl-6">
             <p className={typography.label}>{t("dossier.lead.tensionLabel")}</p>
             <h2 className={cn(typography.h2, "mt-1")}>{t("dossier.lead.tensionTitle")}</h2>
@@ -140,7 +140,7 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
             </a>
           </div>
 
-          {/* Column 3 — verification strip */}
+          {/* Column 3, verification strip */}
           <div className="min-w-0 lg:border-l lg:border-ortaq-border lg:pl-6">
             <p className={typography.label}>{t("dossier.lead.verifyLabel")}</p>
             <h2 className={cn(typography.h2, "mt-1")}>{t("dossier.lead.verifyTitle")}</h2>
@@ -150,9 +150,7 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
                 <li
                   key={layer.layer}
                   className={cn(
-                    "rounded-ortaq-sm border px-2.5 py-1.5",
-                    layerStatusStyles[layer.status],
-                  )}
+                    "rounded-ortaq-sm border px-2.5 py-1.5", layerStatusStyles[layer.status], )}
                 >
                   <div className="flex items-center gap-1.5">
                     <span
@@ -170,6 +168,32 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
                 </li>
               ))}
             </ul>
+
+            {recentField.length > 0 && (
+              <div className="mt-3 border-t border-ortaq-border pt-3">
+                <p className={cn(typography.caption, "font-medium text-ortaq-ink-muted")}>
+                  {t("dossier.lead.recentField")}
+                </p>
+                <ul className="mt-1.5 space-y-1.5">
+                  {recentField.map((entry) => (
+                    <li key={`${entry.date}-${entry.time}-${entry.text.slice(0, 24)}`}>
+                      <p className={cn(typography.caption, "tabular-nums text-ortaq-ink-soft")}>
+                        {formatPulseDate(entry.date, locale)} · {entry.time}
+                      </p>
+                      <p className={cn(typography.caption, "mt-0.5 line-clamp-2 text-ortaq-ink-muted")}>
+                        {entry.text}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="#field"
+                  className={cn(typography.caption, "mt-2 inline-block text-ortaq-ink hover:underline")}
+                >
+                  {t("dossier.lead.fullField")} →
+                </a>
+              </div>
+            )}
 
             <a
               href="#review"

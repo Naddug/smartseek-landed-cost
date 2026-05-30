@@ -29,25 +29,14 @@ export type OpportunityCluster = {
 };
 
 const OPPORTUNITY_MAP: Record<string, OpportunityTag[]> = {
-  "karat-parca-konya": ["export_heavy", "capacity_constrained", "field_active"],
-  "demir-tekstil-bursa": ["regional_champion", "under_evaluation"],
-  "yildiz-dokum-manisa": ["export_heavy", "second_generation", "field_active"],
-  "anatolia-gida-gaziantep": ["export_heavy", "capacity_constrained", "field_active"],
-  "trakya-un-edirne": ["export_heavy", "capacity_constrained", "regional_champion"],
-  "eskisehir-seramik": ["export_heavy", "capacity_constrained", "field_active"],
-  "antalya-sera-teknoloji": ["export_heavy", "capacity_constrained", "under_evaluation"],
-  "trabzon-findik-isleme": ["export_heavy", "regional_champion", "field_active"],
-  "denizli-iplik-dokuma": ["export_heavy", "capacity_constrained", "under_evaluation"],
-  "tekirdag-ambalaj-plastik": ["export_heavy", "field_active", "regional_champion"],
-  "atlas-lojistik-istanbul": ["export_heavy", "field_active"],
-  "adana-tarim-isleme": ["export_heavy", "capacity_constrained", "field_active"],
+  "karat-parca-konya": ["export_heavy", "capacity_constrained", "field_active"], "demir-tekstil-bursa": ["regional_champion", "under_evaluation"], "yildiz-dokum-manisa": ["export_heavy", "second_generation", "field_active"], "anatolia-gida-gaziantep": ["export_heavy", "capacity_constrained", "field_active"], "trakya-un-edirne": ["export_heavy", "capacity_constrained", "regional_champion"], "eskisehir-seramik": ["export_heavy", "capacity_constrained", "field_active"], "antalya-sera-teknoloji": ["export_heavy", "capacity_constrained", "under_evaluation"], "trabzon-findik-isleme": ["export_heavy", "regional_champion", "field_active"], "denizli-iplik-dokuma": ["export_heavy", "capacity_constrained", "under_evaluation"], "tekirdag-ambalaj-plastik": ["export_heavy", "field_active", "regional_champion"], "atlas-lojistik-istanbul": ["export_heavy", "field_active"], "adana-tarim-isleme": ["export_heavy", "capacity_constrained", "field_active"],
 };
 
 export function getIntelligenceProfile(c: SimulatedCampaign): IntelligenceProfile {
   const exportExposure =
     c.marketMix?.exportShare ??
     c.operations.signals.find((s) => /ihracat|export/i.test(s.label))?.value ??
-    "—";
+    "-";
 
   const workforceEntry =
     c.operationalFriction.find((f) => f.category === "workforce") ??
@@ -62,15 +51,7 @@ export function getIntelligenceProfile(c: SimulatedCampaign): IntelligenceProfil
   const capacitySignal = c.operations.signals.find((s) => /kapasite|capacity|üretim|output/i.test(s.label));
 
   return {
-    slug: c.slug,
-    tradeName: c.tradeName,
-    city: c.city,
-    exportExposure,
-    workforceDependency: workforceEntry?.label ?? "—",
-    machineryMaturity: `${oldestYear} · ${age}y`,
-    operationalComplexity: complexity,
-    productionScale: capacitySignal?.value ?? `${c.employees} employees`,
-  };
+    slug: c.slug, tradeName: c.tradeName, city: c.city, exportExposure, workforceDependency: workforceEntry?.label ?? "-", machineryMaturity: `${oldestYear} · ${age}y`, operationalComplexity: complexity, productionScale: capacitySignal?.value ?? `${c.employees} employees`, };
 }
 
 export function listIntelligenceProfiles(): IntelligenceProfile[] {
@@ -83,29 +64,17 @@ export function getOpportunityTags(c: SimulatedCampaign): OpportunityTag[] {
 
 export function listOpportunityClusters(): OpportunityCluster[] {
   const tags: OpportunityTag[] = [
-    "export_heavy",
-    "capacity_constrained",
-    "second_generation",
-    "regional_champion",
-    "field_active",
-    "under_evaluation",
-  ];
+    "export_heavy", "capacity_constrained", "second_generation", "regional_champion", "field_active", "under_evaluation", ];
 
   return tags
     .map((tag) => ({
-      tag,
-      campaigns: listCampaigns().filter((c) => getOpportunityTags(c).includes(tag)),
-    }))
+      tag, campaigns: listCampaigns().filter((c) => getOpportunityTags(c).includes(tag)), }))
     .filter((cluster) => cluster.campaigns.length > 0);
 }
 
 export function getReviewQueueBreakdown(): Record<SimulatedCampaign["reviewStatus"], number> {
   const counts: Record<SimulatedCampaign["reviewStatus"], number> = {
-    preliminary_review: 0,
-    document_review: 0,
-    field_verification: 0,
-    committee: 0,
-  };
+    preliminary_review: 0, document_review: 0, field_verification: 0, committee: 0, };
   for (const c of listCampaigns()) {
     counts[c.reviewStatus] += 1;
   }
@@ -121,12 +90,7 @@ export function getSectorClusters() {
       const matched = matcher ? campaigns.filter((c) => matcher.test(c.sector)) : [];
       const tension = matched[0] ? getCampaignTensionLine(matched[0]) : null;
       return {
-        ...sector,
-        count: matched.length,
-        cities: Array.from(new Set(matched.map((c) => c.city))),
-        campaigns: matched,
-        sampleTension: tension,
-      };
+        ...sector, count: matched.length, cities: Array.from(new Set(matched.map((c) => c.city))), campaigns: matched, sampleTension: tension, };
     })
     .filter((s) => s.count > 0);
 }
@@ -135,7 +99,7 @@ export function getFeaturedSlug(): string {
   return "adana-tarim-isleme";
 }
 
-/** Cross-sector discovery — same opportunity profile or sector family. */
+/** Cross-sector discovery, same opportunity profile or sector family. */
 export function getRelatedCampaigns(slug: string, limit = 3): SimulatedCampaign[] {
   const source = listCampaigns().find((c) => c.slug === slug);
   if (!source) return [];

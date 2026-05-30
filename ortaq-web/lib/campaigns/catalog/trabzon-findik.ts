@@ -1,89 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const trabzonFindik = buildCatalogCampaign({
-  slug: "trabzon-findik-isleme",
-  legalName: "Karadeniz Fındık İşleme ve Paketleme A.Ş.",
-  tradeName: "Karadeniz Fındık",
-  sector: "Fındık işleme ve gıda ihracatı",
-  city: "Trabzon",
-  region: "Trabzon Organize",
-  founded: 2003,
-  employees: 41,
-  exportMarkets: ["Almanya", "İtalya", "Fransa"],
-  facilityArea: "3.200 m² kavurma ve paketleme",
-  monthlyCapacity: "Aylık ~320 ton işlenmiş fındık",
-  targetTry: 6_900_000,
-  exportShare: "Gelirin ~%72'si",
-  domesticShare: "~%28",
-  reviewStatus: "field_verification",
-  processDone: 3,
-  fundingPurpose: "Kavurma hattı kapasite artışı, aflatoksin laboratuvarı ve Avrupa sertifikasyon yenilemesi.",
-  fundingLines: [
-    { label: "Kavurma hattı", amountTry: 2_400_000, percent: 35 },
-    { label: "Aflatoksin lab", amountTry: 1_100_000, percent: 16 },
-    { label: "Paketleme otomasyon", amountTry: 1_500_000, percent: 22 },
-    { label: "Soğutma deposu", amountTry: 900_000, percent: 13 },
-    { label: "İşletme sermayesi", amountTry: 1_000_000, percent: 14 },
-  ],
-  founderName: "Hasan Karadeniz",
-  founderNote: "Avrupa alıcıları aflatoksin test sıklığını artırdı — laboratuvar yatırımı şart.",
-  storyOrigin: "2003'te Trabzon'da kabuklu fındık alım. 2012'de kavurma ve Avrupa ihracatı.",
-  storyToday: "Giresun kalite fındık — Almanya ve İtalya gıda sanayi tedarik. Karadeniz hasat koridoru.",
-  productionDetail: "Alım → ayırma → kavurma → soyma → kalite → paketleme → ihracat.",
-  processes: ["Alım", "Ayırma", "Kavurma", "Soyma", "Paketleme"],
-  materials: ["Kabuklu fındık", "Ambalaj", "Soğutma"],
-  machines: [
-    { id: "roast-1", name: "Tünel kavurma · 800 kg/saat", role: "Kavurma", year: 2014, note: "Kapasite sezon peak'te yetersiz." },
-    { id: "sort-1", name: "Optik ayırıcı", role: "Kalite", year: 2019, note: "Aflatoksin öncesi kritik." },
-  ],
-  risks: [
-    { title: "Aflatoksin riski", text: "2023'te 1 parti reddedildi; lab yatırımı gecikirse ihracat durabilir." },
-    { title: "Hasat fiyat volatilitesi", text: "2024 alım fiyatı %18 arttı; marj baskısı." },
-  ],
-  gateway: {
-    hook: "Trabzon fındık işleme — Avrupa ihracatı lab kapasitesine bağlı.",
-    scale: "41 çalışan · 320 ton/ay · 3 Avrupa pazarı",
-    tension: "Sezon peak'te kavurma hattı 22 saat/gün çalışıyor — bakım penceresi dar.",
-  },
-  bottleneck: { label: "Kavurma kapasitesi", note: "Peak dönemde 2 haftalık sipariş kuyruğu." },
-  journal: [
-    { date: "2026-05-20", time: "06:00", text: "Kavurma hattı günlük bakım tamam — gece vardiyası başladı.", type: "capacity" },
-    { date: "2026-05-20", time: "10:30", text: "Almanya alıcı numune testi geçti — 80 ton sevkiyat onay.", type: "logistics" },
-    { date: "2026-05-11", time: "13:00", text: "Aflatoksin lab teklifleri dosyaya eklendi.", type: "inspection" },
-    { date: "2026-05-04", time: "09:20", text: "Optik ayırıcı kalibrasyonu — fire oranı %2.1.", type: "observation" },
-    { date: "2026-04-20", time: "15:00", text: "İtalya distribütör sözleşme yenileme görüşmesi.", type: "founder" },
-  ],
-  updates: [
-    { date: "2026-05-20", time: "11:00", text: "Almanya sevkiyat kalite kayıtları arşivlendi." },
-    { date: "2026-05-11", time: "14:00", text: "Lab yatırım teklifleri karşılaştırıldı." },
-    { date: "2026-05-05", time: "10:00", text: "Saha ziyareti raporu güncellendi." },
-    { date: "2026-04-21", time: "09:00", text: "İhracat fatura özetleri eklendi." },
-  ],
-  timeline: [
-    { year: 2003, event: "Kabuklu alım" },
-    { year: 2012, event: "Kavurma ve ihracat" },
-    { year: 2018, event: "Almanya gıda sanayi" },
-    { year: 2023, event: "Aflatoksin parti reddi" },
-  ],
-  facilityNotes: [
-    { zone: "Kavurma", note: "Tünel hat" },
-    { zone: "Soğutma", note: "Kapasite sınırda" },
-    { zone: "Lab", note: "Yatırım planlı" },
-  ],
-  exportEvolution: [
-    { year: 2012, market: "Almanya", note: "Kavrulmuş" },
-    { year: 2016, market: "İtalya", note: "Pastacılık" },
-    { year: 2020, market: "Fransa", note: "Perakende zincir" },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "done", note: "Tamam" },
-    { layer: "Saha doğrulama", status: "partial", note: "Kavurma hattı ziyaret" },
-    { layer: "Gıda güvenliği", status: "partial", note: "HACCP aktif" },
-  ],
-  operationalSignals: [
-    { label: "Aylık işlenmiş", value: "~320 ton" },
-    { label: "İhracat payı", value: "Gelirin ~%72'si" },
-    { label: "Peak vardiya", value: "22 saat/gün" },
-    { label: "Son saha", value: "20 Mayıs 2026" },
-  ],
+  slug: "trabzon-findik-isleme", legalName: "Karadeniz Fındık İşleme ve Paketleme A.Ş.", tradeName: "Karadeniz Fındık", sector: "Fındık işleme ve gıda ihracatı", city: "Trabzon", region: "Trabzon Organize", founded: 2003, employees: 41, exportMarkets: ["Almanya", "İtalya", "Fransa"], facilityArea: "3.200 m² kavurma ve paketleme", monthlyCapacity: "Aylık ~320 ton işlenmiş fındık", targetTry: 6_900_000, exportShare: "Gelirin ~%72'si", domesticShare: "~%28", reviewStatus: "field_verification", processDone: 3, fundingPurpose: "Kavurma hattı kapasite artışı, aflatoksin laboratuvarı ve Avrupa sertifikasyon yenilemesi.", fundingLines: [
+    { label: "Kavurma hattı", amountTry: 2_400_000, percent: 35 }, { label: "Aflatoksin lab", amountTry: 1_100_000, percent: 16 }, { label: "Paketleme otomasyon", amountTry: 1_500_000, percent: 22 }, { label: "Soğutma deposu", amountTry: 900_000, percent: 13 }, { label: "İşletme sermayesi", amountTry: 1_000_000, percent: 14 }, ], founderName: "Hasan Karadeniz", founderNote: "Avrupa alıcıları aflatoksin test sıklığını artırdı : laboratuvar yatırımı şart.", storyOrigin: "2003'te Trabzon'da kabuklu fındık alım. 2012'de kavurma ve Avrupa ihracatı.", storyToday: "Giresun kalite fındık : Almanya ve İtalya gıda sanayi tedarik. Karadeniz hasat koridoru.", productionDetail: "Alım → ayırma → kavurma → soyma → kalite → paketleme → ihracat.", processes: ["Alım", "Ayırma", "Kavurma", "Soyma", "Paketleme"], materials: ["Kabuklu fındık", "Ambalaj", "Soğutma"], machines: [
+    { id: "roast-1", name: "Tünel kavurma · 800 kg/saat", role: "Kavurma", year: 2014, note: "Kapasite sezon peak'te yetersiz." }, { id: "sort-1", name: "Optik ayırıcı", role: "Kalite", year: 2019, note: "Aflatoksin öncesi kritik." }, ], risks: [
+    { title: "Aflatoksin riski", text: "2023'te 1 parti reddedildi; lab yatırımı gecikirse ihracat durabilir." }, { title: "Hasat fiyat volatilitesi", text: "2024 alım fiyatı %18 arttı; marj baskısı." }, ], gateway: {
+    hook: "Trabzon fındık işleme : Avrupa ihracatı lab kapasitesine bağlı.", scale: "41 çalışan · 320 ton/ay · 3 Avrupa pazarı", tension: "Sezon peak'te kavurma hattı 22 saat/gün çalışıyor : bakım penceresi dar.", }, bottleneck: { label: "Kavurma kapasitesi", note: "Peak dönemde 2 haftalık sipariş kuyruğu." }, journal: [
+    { date: "2026-05-20", time: "06:00", text: "Kavurma hattı günlük bakım tamam : gece vardiyası başladı.", type: "capacity" }, { date: "2026-05-20", time: "10:30", text: "Almanya alıcı numune testi geçti : 80 ton sevkiyat onay.", type: "logistics" }, { date: "2026-05-11", time: "13:00", text: "Aflatoksin lab teklifleri dosyaya eklendi.", type: "inspection" }, { date: "2026-05-04", time: "09:20", text: "Optik ayırıcı kalibrasyonu : fire oranı %2.1.", type: "observation" }, { date: "2026-04-20", time: "15:00", text: "İtalya distribütör sözleşme yenileme görüşmesi.", type: "founder" }, ], updates: [
+    { date: "2026-05-20", time: "11:00", text: "Almanya sevkiyat kalite kayıtları arşivlendi." }, { date: "2026-05-11", time: "14:00", text: "Lab yatırım teklifleri karşılaştırıldı." }, { date: "2026-05-05", time: "10:00", text: "Saha ziyareti raporu güncellendi." }, { date: "2026-04-21", time: "09:00", text: "İhracat fatura özetleri eklendi." }, ], timeline: [
+    { year: 2003, event: "Kabuklu alım" }, { year: 2012, event: "Kavurma ve ihracat" }, { year: 2018, event: "Almanya gıda sanayi" }, { year: 2023, event: "Aflatoksin parti reddi" }, ], facilityNotes: [
+    { zone: "Kavurma", note: "Tünel hat" }, { zone: "Soğutma", note: "Kapasite sınırda" }, { zone: "Lab", note: "Yatırım planlı" }, ], exportEvolution: [
+    { year: 2012, market: "Almanya", note: "Kavrulmuş" }, { year: 2016, market: "İtalya", note: "Pastacılık" }, { year: 2020, market: "Fransa", note: "Perakende zincir" }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "done", note: "Tamam" }, { layer: "Saha doğrulama", status: "partial", note: "Kavurma hattı ziyaret" }, { layer: "Gıda güvenliği", status: "partial", note: "HACCP aktif" }, ], operationalSignals: [
+    { label: "Aylık işlenmiş", value: "~320 ton" }, { label: "İhracat payı", value: "Gelirin ~%72'si" }, { label: "Peak vardiya", value: "22 saat/gün" }, { label: "Son saha", value: "20 Mayıs 2026" }, ],
 });

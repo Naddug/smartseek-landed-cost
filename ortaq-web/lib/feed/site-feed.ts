@@ -4,12 +4,10 @@ import type { FieldJournalEntry, SimulatedCampaign } from "@/lib/campaigns/types
 /**
  * Cross-campaign event stream.
  *
- * Two source kinds are merged into a single typed feed:
- *   - fieldJournal entries (saha observation/inspection/capacity/logistics/founder)
+ * Two source kinds are merged into a single typed feed: *   - fieldJournal entries (saha observation/inspection/capacity/logistics/founder)
  *   - operationalUpdates (file-level events: doc verified, photo archived, etc.)
  *
- * All events carry company metadata so any consumer (masthead, activity table,
- * future /akış page) can render the same shape.
+ * All events carry company metadata so any consumer (masthead, activity table, * future /akış page) can render the same shape.
  *
  * Sort is strictly desc by ISO date + 24h time. No randomization, no fake data.
  */
@@ -38,26 +36,10 @@ export type SiteFeedEvent =
 
 function campaignEvents(c: SimulatedCampaign): SiteFeedEvent[] {
   const fromJournal: SiteFeedEvent[] = c.fieldJournal.map((entry) => ({
-    kind: "field" as const,
-    date: entry.date,
-    time: entry.time,
-    author: entry.author,
-    type: entry.type,
-    text: entry.text,
-    campaignSlug: c.slug,
-    campaignTradeName: c.tradeName,
-    campaignCity: c.city,
-  }));
+    kind: "field" as const, date: entry.date, time: entry.time, author: entry.author, type: entry.type, text: entry.text, campaignSlug: c.slug, campaignTradeName: c.tradeName, campaignCity: c.city, }));
 
   const fromUpdates: SiteFeedEvent[] = c.operationalUpdates.map((u) => ({
-    kind: "update" as const,
-    date: u.date,
-    time: u.time,
-    text: u.text,
-    campaignSlug: c.slug,
-    campaignTradeName: c.tradeName,
-    campaignCity: c.city,
-  }));
+    kind: "update" as const, date: u.date, time: u.time, text: u.text, campaignSlug: c.slug, campaignTradeName: c.tradeName, campaignCity: c.city, }));
 
   return [...fromJournal, ...fromUpdates];
 }
@@ -71,7 +53,7 @@ function compare(a: SiteFeedEvent, b: SiteFeedEvent): number {
 
 /**
  * All events from all campaigns, newest first.
- * Safe to call at render time; lists are small (~5–20 entries per campaign).
+ * Safe to call at render time; lists are small (~5-20 entries per campaign).
  */
 export function siteFeed(): SiteFeedEvent[] {
   return listCampaigns().flatMap(campaignEvents).sort(compare);

@@ -23,7 +23,7 @@ import { DOSSIER_RELATED_LINKS } from "@/lib/seo/internal-links";
  * Three-tier dossier layout.
  *
  *   Header              identity + status (always above the fold)
- *   Lead                dense composite — signals · bottlenecks · top risks · verification strip
+ *   Lead                dense composite, signals · bottlenecks · top risks · verification strip
  *
  *   Primary tier        production · facility · machines · export · customers
  *   Secondary tier      field log · growth · risks · review · documents (collapsible, demoted)

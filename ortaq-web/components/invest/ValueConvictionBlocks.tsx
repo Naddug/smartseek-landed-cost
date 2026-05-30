@@ -11,7 +11,7 @@ const timelineKeys = ["1", "2", "3", "4", "5", "6", "7", "8"] as const;
 const mechanicsKeys = ["1", "2", "3", "4", "5", "6"] as const;
 const convictionKeys = ["1", "2", "3"] as const;
 
-/** Embedded in HowItWorks — ownership visualization, timeline, mechanics. Not a separate homepage section. */
+/** Embedded in HowItWorks, ownership visualization, timeline, mechanics. Not a separate homepage section. */
 export function ValueConvictionBlocks() {
   const { t } = useTranslation();
 

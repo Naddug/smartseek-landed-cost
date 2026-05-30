@@ -1,7 +1,7 @@
 import type { SimulatedCampaign } from "./types";
 
 /**
- * Simulated dossier — Gaziantep food processor (bulgur, baklagil, salça).
+ * Simulated dossier, Gaziantep food processor (bulgur, baklagil, salça).
  *
  * ASYMMETRY PROFILE: operationally strained, capacity-constrained.
  * Real export traction (Mid-East, Saudi, Iraq, Africa) but the factory
@@ -31,20 +31,20 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
   reviewStatus: "preliminary_review",
   seoTitle: "Şahin Gıda | Değerlendirme dosyası",
   seoDescription:
-    "Gaziantep 4. OSB'de bulgur, baklagil ve salça üreticisi. Değerlendirme dosyası — yatırım teklifi değildir.",
+    "Gaziantep 4. OSB'de bulgur, baklagil ve salça üreticisi. Değerlendirme dosyası, yatırım teklifi değildir.",
   story: {
     origin:
       "2003'te Gaziantep'te üç aile ortağı tarafından kuruldu. Bölgenin tahıl ve baklagil tarımına yakınlığını kullanarak küçük ölçekli bulgur üretimiyle başladı; ilk yıllar yurtiçi toptancılar.",
     today:
-      "4. OSB'de 9.200 m² kapalı alanda çalışıyor. Üretimin yaklaşık üçte ikisi ihracat — Irak ve Suudi Arabistan ağırlıklı, son üç yılda Kuzey Afrika pazarına genişleme başladı. Helal sertifikası ve BRC Food güvencesi mevcut.",
+      "4. OSB'de 9.200 m² kapalı alanda çalışıyor. Üretimin yaklaşık üçte ikisi ihracat, Irak ve Suudi Arabistan ağırlıklı, son üç yılda Kuzey Afrika pazarına genişleme başladı. Helal sertifikası ve BRC Food güvencesi mevcut.",
     production:
-      "Tahıl alımı → temizleme ve eleme → ön pişirme (bulgur) / haşlama (baklagil) → kurutma → paketleme → ihracat sevkiyatı. Salça hattı ayrı binada: domates alımı → soyma → konsantre → konserve · 25 g – 4,5 kg ambalaj.",
+      "Tahıl alımı → temizleme ve eleme → ön pişirme (bulgur) / haşlama (baklagil) → kurutma → paketleme → ihracat sevkiyatı. Salça hattı ayrı binada: domates alımı → soyma → konsantre → konserve · 25 g - 4,5 kg ambalaj.",
   },
   founder: {
     name: "Halil Şahin",
     role: "Yönetici ortak · Operasyon direktörü",
     note:
-      "Açık konuşayım: fabrika kapasitemiz üstünde çalışıyor. İhracat siparişlerini kaçırmamak için iki vardiyayı zorlama, üçüncü vardiyaya kısmi geçtik — sürdürülebilir değil. İkinci paketleme hattı ve yeni soğuk hava ünitesi olmadan büyüyemeyiz, sıkışırsak kaliteyi kaybetme riski var.",
+      "Açık konuşayım: fabrika kapasitemiz üstünde çalışıyor. İhracat siparişlerini kaçırmamak için iki vardiyayı zorlama, üçüncü vardiyaya kısmi geçtik, sürdürülebilir değil. İkinci paketleme hattı ve yeni soğuk hava ünitesi olmadan büyüyemeyiz, sıkışırsak kaliteyi kaybetme riski var.",
   },
   funding: {
     purpose:
@@ -70,7 +70,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     },
     {
       title: "Ham madde sezonsallığı",
-      text: "Domates ve buğday alımları yılda 3–4 aylık pencerelerde yapılıyor. Stok yatırımı yüksek; depo kapasitesi bu hacme tam yeterli değil.",
+      text: "Domates ve buğday alımları yılda 3-4 aylık pencerelerde yapılıyor. Stok yatırımı yüksek; depo kapasitesi bu hacme tam yeterli değil.",
     },
     {
       title: "Atıksu uyumluluğu",
@@ -84,7 +84,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
   process: [
     { label: "Ön başvuru ve sektör uygunluğu", status: "done", date: "2026-03-04" },
     { label: "Belge paketi (ticaret sicili, vergi, finansal tablo)", status: "done", date: "2026-04-10" },
-    { label: "Saha ziyareti — üretim ve depo", status: "active", date: "2026-05-21" },
+    { label: "Saha ziyareti, üretim ve depo", status: "active", date: "2026-05-21" },
     { label: "Finansal ve hukuk incelemesi", status: "pending" },
     { label: "Yatırım komitesi", status: "pending" },
     { label: "Lisanslı platform onayı", status: "pending" },
@@ -95,7 +95,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     { id: "tax", title: "Vergi levhası ve mukellef özeti", status: "available" },
     { id: "financials-2023", title: "2023 yönetim raporu", status: "available", note: "Mali müşavir onaylı · bağımsız denetim yok" },
     { id: "financials-2024", title: "2024 yönetim raporu", status: "review" },
-    { id: "export-summary", title: "İhracat fatura özeti (2022–2024)", status: "available" },
+    { id: "export-summary", title: "İhracat fatura özeti (2022-2024)", status: "available" },
     { id: "halal", title: "Helal sertifikası", status: "available", note: "GIMDES · 2025 yenileme süreci" },
     { id: "brc", title: "BRC Food sertifikası", status: "review", note: "Yıllık denetim Haziran 2026" },
     { id: "ced", title: "ÇED raporu ve atıksu uyumluluk yazısı", status: "review", note: "Kapasite artışı uyarısı dahil" },
@@ -122,12 +122,12 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     ],
     processes: ["Tahıl alım", "Temizleme · eleme", "Ön pişirme · haşlama", "Kurutma", "Paketleme", "Sevkiyat"],
     materials: ["Sert buğday (Gaziantep, Şanlıurfa)", "Mercimek, nohut (Mersin, Gaziantep)", "Salçalık domates (sezon · Hatay, Gaziantep)"],
-    shifts: "2 ana vardiya · 06:00–22:00 · sezonda 3. vardiya kısmi (22:00–02:00)",
+    shifts: "2 ana vardiya · 06:00-22:00 · sezonda 3. vardiya kısmi (22:00-02:00)",
   },
   timeline: [
-    { year: 2003, event: "Tek hat bulgur üretimi — yurtiçi toptan" },
+    { year: 2003, event: "Tek hat bulgur üretimi, yurtiçi toptan" },
     { year: 2008, event: "Baklagil paketleme hattı eklendi" },
-    { year: 2012, event: "İlk ihracat — Irak distribütörü" },
+    { year: 2012, event: "İlk ihracat, Irak distribütörü" },
     { year: 2016, event: "Salça hattı devreye · ayrı bina" },
     { year: 2019, event: "BRC Food sertifikasyonu" },
     { year: 2022, event: "Suudi Arabistan büyük market zinciri sözleşmesi" },
@@ -163,7 +163,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     {
       id: "packer-old",
       name: "Multivac otomatik paketleme",
-      role: "Paketleme · 25g–5kg",
+      role: "Paketleme · 25g-5kg",
       year: 2012,
       note: "Tek hat · darboğaz · metal dedektör eski model · ikinci hat yatırım planının %36'sı.",
     },
@@ -172,7 +172,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
       name: "Rossi & Catelli salça hattı",
       role: "Salça üretim · sezonluk",
       year: 2016,
-      note: "Sadece Ağustos–Kasım çalışır · konserve dolum otomatik · kavanoz dolum yarı-otomatik.",
+      note: "Sadece Ağustos-Kasım çalışır · konserve dolum otomatik · kavanoz dolum yarı-otomatik.",
     },
     {
       id: "cold-room",
@@ -192,7 +192,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
   bottlenecks: [
     {
       label: "Tek paketleme hattı",
-      note: "Salça dahil tüm paketleme bu hattan geçiyor. Hat arızasında ihracat siparişleri durur — yedek yok.",
+      note: "Salça dahil tüm paketleme bu hattan geçiyor. Hat arızasında ihracat siparişleri durur, yedek yok.",
     },
     {
       label: "Soğuk depo kapasitesi",
@@ -204,7 +204,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     },
     {
       label: "Sezon işgücü",
-      note: "Sezonda +20 işçi alımı zor — bölge tarım hasadı ile çakışıyor. Vardiya boşlukları sık.",
+      note: "Sezonda +20 işçi alımı zor, bölge tarım hasadı ile çakışıyor. Vardiya boşlukları sık.",
     },
   ],
   facilityNotes: [
@@ -221,14 +221,14 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
       time: "08:30",
       author: "ORTAQ saha",
       type: "observation",
-      text: "Sabah vardiyası başlangıcı. Bulgur hattı tam doluluk; operatör 4 dakika önce başlamış. Paketleme hattında 12 kişilik manuel besleme — otomasyon eksikliği belirgin.",
+      text: "Sabah vardiyası başlangıcı. Bulgur hattı tam doluluk; operatör 4 dakika önce başlamış. Paketleme hattında 12 kişilik manuel besleme, otomasyon eksikliği belirgin.",
     },
     {
       date: "2026-05-21",
       time: "10:15",
       author: "ORTAQ saha",
       type: "inspection",
-      text: "BRC denetim hazırlık dosyaları incelendi. Sıcaklık kayıt cetvelleri 14 günlük periyot eksik — sezon yoğunluğu sebebiyle vardiya kayıtları aksamış. Kalite müdürü farkında, plan dahilinde.",
+      text: "BRC denetim hazırlık dosyaları incelendi. Sıcaklık kayıt cetvelleri 14 günlük periyot eksik, sezon yoğunluğu sebebiyle vardiya kayıtları aksamış. Kalite müdürü farkında, plan dahilinde.",
     },
     {
       date: "2026-05-21",
@@ -256,7 +256,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
       time: "17:30",
       author: "ORTAQ saha",
       type: "inspection",
-      text: "Atıksu arıtma çıkış pH ölçümü alındı — uyumlu sınırda · son ÇED uyarısı kapasite yetersizliğine vurgu yapıyor. Tutanağa eklendi.",
+      text: "Atıksu arıtma çıkış pH ölçümü alındı, uyumlu sınırda · son ÇED uyarısı kapasite yetersizliğine vurgu yapıyor. Tutanağa eklendi.",
     },
   ],
   inspectionLayers: [
@@ -268,7 +268,7 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     { layer: "Çevre / ÇED uyumluluk", status: "partial", note: "ÇED kapasite uyarısı dosyada · yatırım planı çözüyor" },
   ],
   exportEvolution: [
-    { year: 2012, market: "Irak", note: "İlk ihracat — bulgur · distribütör ağı 12 şehir" },
+    { year: 2012, market: "Irak", note: "İlk ihracat, bulgur · distribütör ağı 12 şehir" },
     { year: 2015, market: "Birleşik Arap Emirlikleri", note: "Süpermarket zinciri · özel etiket dahil" },
     { year: 2019, market: "Mısır · Cezayir", note: "Sınırlı hacim · helal sertifikası anahtar oldu" },
     { year: 2022, market: "Suudi Arabistan", note: "Büyük marketler zinciri · 3 yıllık çerçeve anlaşma" },
@@ -278,8 +278,8 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     { date: "2026-05-23", time: "11:30", text: "Saha ziyareti tutanağı taslağı kalite müdürüne paylaşıldı." },
     { date: "2026-05-21", time: "18:10", text: "Saha ziyareti tamamlandı. 6 kayıt fieldJournal'a aktarıldı." },
     { date: "2026-05-15", time: "09:45", text: "ÇED uyarısı ve atıksu yatırım planı detayları belgeye eklendi." },
-    { date: "2026-05-09", time: "14:20", text: "İhracat fatura özeti 2022–2024 doğrulandı." },
-    { date: "2026-04-28", time: "10:00", text: "BRC denetim takvimi alındı — Haziran 2026 yıllık denetim onaylı." },
+    { date: "2026-05-09", time: "14:20", text: "İhracat fatura özeti 2022-2024 doğrulandı." },
+    { date: "2026-04-28", time: "10:00", text: "BRC denetim takvimi alındı, Haziran 2026 yıllık denetim onaylı." },
   ],
   marketMix: {
     domesticShare: "~%32",
@@ -306,12 +306,12 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     {
       label: "Sezon işgücü dalgalanması",
       category: "workforce",
-      note: "Ağustos–Kasım +20 işçi · tarım hasadıyla çakışıyor · son iki yıl iki kez vardiya açığı.",
+      note: "Ağustos-Kasım +20 işçi · tarım hasadıyla çakışıyor · son iki yıl iki kez vardiya açığı.",
     },
     {
       label: "Irak gümrük süre belirsizliği",
       category: "export",
-      note: "Habur ve İbrahim Halil sınır kapılarında ortalama 36 saat · zaman zaman 4–5 güne çıkıyor. Sevkiyat planlamasını zorluyor.",
+      note: "Habur ve İbrahim Halil sınır kapılarında ortalama 36 saat · zaman zaman 4-5 güne çıkıyor. Sevkiyat planlamasını zorluyor.",
     },
     {
       label: "Eski paketleme metal dedektör",
@@ -320,8 +320,8 @@ export const anatoliaGidaGaziantep: SimulatedCampaign = {
     },
   ],
   gateway: {
-    hook: "Gaziantep'te bulgur ve salça — Ortadoğu ihracatı %95 doluluk hattı zorluyor.",
+    hook: "Gaziantep'te bulgur ve salça, Ortadoğu ihracatı %95 doluluk hattı zorluyor.",
     scale: "84 çalışan · tek paketleme hattı · ~1.450 ton/ay bulgur",
-    tension: "Salça dahil tüm paketleme tek hattan — arıza durumunda ihracat durur, yedek yok.",
+    tension: "Salça dahil tüm paketleme tek hattan, arıza durumunda ihracat durur, yedek yok.",
   },
 };

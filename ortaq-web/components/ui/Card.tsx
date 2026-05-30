@@ -6,7 +6,7 @@ import type { HTMLAttributes, ReactNode } from "react";
  * Card primitives.
  *
  * Both Card and ProseBlock render the canonical `.product-card` chrome
- * (defined once in globals.css) — same radius, same border, same shadow.
+ * (defined once in globals.css), same radius, same border, same shadow.
  * Density differs at the padding/content level, not the shell.
  *
  * `tone="flat"` is intended only for low-emphasis cards nested inside another
@@ -21,22 +21,12 @@ type CardProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export function Card({
-  className,
-  tone = "default",
-  padding = "default",
-  children,
-  ...props
+  className, tone = "default", padding = "default", children, ...props
 }: CardProps) {
   return (
     <div
       className={cn(
-        "product-card",
-        tone === "flat" && "shadow-none bg-ortaq-bg-alt/40",
-        padding === "default" && "p-4 sm:p-5",
-        padding === "lg" && "p-5 sm:p-7",
-        padding === "none" && "",
-        className,
-      )}
+        "product-card", tone === "flat" && "shadow-none bg-ortaq-bg-alt/40", padding === "default" && "p-4 sm:p-5", padding === "lg" && "p-5 sm:p-7", padding === "none" && "", className, )}
       {...props}
     >
       {children}

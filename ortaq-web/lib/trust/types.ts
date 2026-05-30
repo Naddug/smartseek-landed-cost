@@ -1,4 +1,4 @@
-/** Web-facing trust types — mirrors ortaq-shared API shapes for standalone Vercel deploy. */
+/** Web-facing trust types, mirrors ortaq-shared API shapes for standalone Vercel deploy. */
 
 export type VerificationPublicLabel =
   | "not_submitted"
@@ -13,8 +13,7 @@ export type VerificationPublicLabel =
 export type PublicTransparencyRecord = {
   id: string;
   publishedAt: string;
-  category:
-    | "platform_status"
+  category: | "platform_status"
     | "campaign_decision"
     | "enforcement_action"
     | "process_update"

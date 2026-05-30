@@ -1,88 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const teknoElektronik = buildCatalogCampaign({
-  slug: "tekno-elektronik-ankara",
-  legalName: "Tekno Elektronik Montaj ve Sistemleri A.Ş.",
-  tradeName: "Tekno Elektronik",
-  sector: "Savunma ve endüstriyel elektronik montaj",
-  city: "Ankara",
-  region: "Ostim OSB",
-  founded: 2012,
-  employees: 38,
-  exportMarkets: ["Almanya", "Polonya"],
-  facilityArea: "2.600 m² SMD ve test alanı",
-  monthlyCapacity: "Aylık ~45.000 PCB montaj birimi",
-  targetTry: 5_400_000,
-  exportShare: "Gelirin ~%42'i",
-  domesticShare: "~%58",
-  reviewStatus: "preliminary_review",
-  processDone: 1,
-  fundingPurpose: "İkinci SMD hattı ve AOI test istasyonu — savunma sipariş kuyruğunu eritmek.",
-  fundingLines: [
-    { label: "SMD hattı (pick-place + reflow)", amountTry: 2_400_000, percent: 44 },
-    { label: "AOI ve fonksiyon test", amountTry: 1_100_000, percent: 20 },
-    { label: "ESD zemin ve temiz oda iyileştirme", amountTry: 650_000, percent: 12 },
-    { label: "Komponent stoku (90 gün)", amountTry: 900_000, percent: 17 },
-    { label: "İşletme sermayesi", amountTry: 350_000, percent: 7 },
-  ],
-  founderName: "Emre Tekin",
-  founderNote: "Savunma alt yüklenicisiyiz. Tek SMD hattı kuyruğu 11 hafta — ikinci hat olmadan yeni sözleşme alamıyoruz.",
-  storyOrigin: "2012'de Ostim'de kablolama atölyesi. 2017'de SMD montaj lisansı ve savunma tedarikçi kaydı.",
-  storyToday: "SMD, THT, test ve kablolama. Yurtiçi savunma %58, Almanya endüstriyel OEM %42.",
-  productionDetail: "PCB kabul → SMD → reflow → AOI → THT (gerekirse) → fonksiyon test → paketleme.",
-  processes: ["PCB kabul", "SMD", "Reflow", "AOI", "Fonksiyon test"],
-  materials: ["PCB", "SMD komponent", "Lehim pastası"],
-  machines: [
-    { id: "smd-1", name: "Juki pick-place · 2017", role: "SMD", year: 2017, note: "Kuyruk 11 hafta — darboğaz." },
-    { id: "aoi", name: "Koh Young AOI · 2019", role: "Test", year: 2019, note: "False positive oranı %2,1 — kabul edilebilir." },
-  ],
-  risks: [
-    { title: "Yarı iletken tedarik", text: "Kritik MCU stoğu 8 haftalık — tek tedarikçi." },
-    { title: "Savunma sözleşme gecikmesi", text: "Ana savunma müşterisi ödeme vadesi 120 gün — nakit akışı sıkışık." },
-  ],
-  gateway: {
-    hook: "Ostim'de savunma montaj — SMD kuyruğu 11 hafta, ikinci hat şart.",
-    scale: "38 çalışan · tek SMD hattı · ESD temiz oda",
-    tension: "Yeni savunma sözleşmesi imzalanamıyor — kapasite dolu.",
-  },
-  bottleneck: { label: "SMD kuyruk", note: "11 haftalık sipariş kuyruğu — test süresi ikinci darboğaz." },
-  journal: [
-    { date: "2026-05-17", time: "11:00", text: "SMD hattında lot değişim süresi 52 dk ölçüldü — hedef 35 dk.", type: "capacity" },
-    { date: "2026-05-17", time: "13:30", text: "ESD zemin ölçümü: 10⁶ Ω — sınırda, yenileme planı var.", type: "inspection" },
-    { date: "2026-05-09", time: "10:15", text: "Ön başvuru belgeleri eksiksiz — savunma tedarikçi kaydı kopyası alındı.", type: "observation" },
-    { date: "2026-05-02", time: "15:00", text: "Komponent stok listesi: 23 SKU kritik seviyede.", type: "capacity" },
-    { date: "2026-04-25", time: "09:40", text: "Savunma müşteri referans mektubu dosyaya eklendi.", type: "observation" },
-  ],
-  updates: [
-    { date: "2026-05-17", time: "11:30", text: "Kapasite ve ESD raporu dosyaya işlendi." },
-    { date: "2026-05-10", time: "14:00", text: "Ön inceleme onayı verildi." },
-    { date: "2026-05-03", time: "10:20", text: "Stok kritik liste şirketle paylaşıldı." },
-    { date: "2026-04-26", time: "16:00", text: "Başvuru paketi arşive alındı." },
-  ],
-  timeline: [
-    { year: 2012, event: "Kablolama atölyesi" },
-    { year: 2017, event: "SMD hattı · savunma kaydı" },
-    { year: 2021, event: "Almanya endüstriyel OEM" },
-    { year: 2025, event: "11 haftalık kuyruk krizi" },
-  ],
-  facilityNotes: [
-    { zone: "SMD temiz oda", note: "ESD sınırda" },
-    { zone: "Test", note: "AOI + fonksiyon" },
-    { zone: "Depo", note: "Komponent 23 SKU kritik" },
-  ],
-  exportEvolution: [
-    { year: 2019, market: "Almanya", note: "Endüstriyel kontrol kartı" },
-    { year: 2022, market: "Polonya", note: "Küçük OEM lotları" },
-  ],
-  inspectionLayers: [
-    { layer: "Ön başvuru", status: "done", note: "Sektör uygun" },
-    { layer: "Belge paketi", status: "partial", note: "Devam ediyor" },
-    { layer: "Saha", status: "pending", note: "Planlı" },
-  ],
-  operationalSignals: [
-    { label: "SMD kuyruk", value: "11 hafta" },
-    { label: "Aylık montaj", value: "~45.000 birim" },
-    { label: "Kritik stok SKU", value: "23" },
-    { label: "İhracat payı", value: "Gelirin ~%42'si" },
-  ],
+  slug: "tekno-elektronik-ankara", legalName: "Tekno Elektronik Montaj ve Sistemleri A.Ş.", tradeName: "Tekno Elektronik", sector: "Savunma ve endüstriyel elektronik montaj", city: "Ankara", region: "Ostim OSB", founded: 2012, employees: 38, exportMarkets: ["Almanya", "Polonya"], facilityArea: "2.600 m² SMD ve test alanı", monthlyCapacity: "Aylık ~45.000 PCB montaj birimi", targetTry: 5_400_000, exportShare: "Gelirin ~%42'i", domesticShare: "~%58", reviewStatus: "preliminary_review", processDone: 1, fundingPurpose: "İkinci SMD hattı ve AOI test istasyonu : savunma sipariş kuyruğunu eritmek.", fundingLines: [
+    { label: "SMD hattı (pick-place + reflow)", amountTry: 2_400_000, percent: 44 }, { label: "AOI ve fonksiyon test", amountTry: 1_100_000, percent: 20 }, { label: "ESD zemin ve temiz oda iyileştirme", amountTry: 650_000, percent: 12 }, { label: "Komponent stoku (90 gün)", amountTry: 900_000, percent: 17 }, { label: "İşletme sermayesi", amountTry: 350_000, percent: 7 }, ], founderName: "Emre Tekin", founderNote: "Savunma alt yüklenicisiyiz. Tek SMD hattı kuyruğu 11 hafta : ikinci hat olmadan yeni sözleşme alamıyoruz.", storyOrigin: "2012'de Ostim'de kablolama atölyesi. 2017'de SMD montaj lisansı ve savunma tedarikçi kaydı.", storyToday: "SMD, THT, test ve kablolama. Yurtiçi savunma %58, Almanya endüstriyel OEM %42.", productionDetail: "PCB kabul → SMD → reflow → AOI → THT (gerekirse) → fonksiyon test → paketleme.", processes: ["PCB kabul", "SMD", "Reflow", "AOI", "Fonksiyon test"], materials: ["PCB", "SMD komponent", "Lehim pastası"], machines: [
+    { id: "smd-1", name: "Juki pick-place · 2017", role: "SMD", year: 2017, note: "Kuyruk 11 hafta : darboğaz." }, { id: "aoi", name: "Koh Young AOI · 2019", role: "Test", year: 2019, note: "False positive oranı %2,1 : kabul edilebilir." }, ], risks: [
+    { title: "Yarı iletken tedarik", text: "Kritik MCU stoğu 8 haftalık : tek tedarikçi." }, { title: "Savunma sözleşme gecikmesi", text: "Ana savunma müşterisi ödeme vadesi 120 gün : nakit akışı sıkışık." }, ], gateway: {
+    hook: "Ostim'de savunma montaj : SMD kuyruğu 11 hafta, ikinci hat şart.", scale: "38 çalışan · tek SMD hattı · ESD temiz oda", tension: "Yeni savunma sözleşmesi imzalanamıyor : kapasite dolu.", }, bottleneck: { label: "SMD kuyruk", note: "11 haftalık sipariş kuyruğu : test süresi ikinci darboğaz." }, journal: [
+    { date: "2026-05-17", time: "11:00", text: "SMD hattında lot değişim süresi 52 dk ölçüldü : hedef 35 dk.", type: "capacity" }, { date: "2026-05-17", time: "13:30", text: "ESD zemin ölçümü: 10⁶ Ω : sınırda, yenileme planı var.", type: "inspection" }, { date: "2026-05-09", time: "10:15", text: "Ön başvuru belgeleri eksiksiz : savunma tedarikçi kaydı kopyası alındı.", type: "observation" }, { date: "2026-05-02", time: "15:00", text: "Komponent stok listesi: 23 SKU kritik seviyede.", type: "capacity" }, { date: "2026-04-25", time: "09:40", text: "Savunma müşteri referans mektubu dosyaya eklendi.", type: "observation" }, ], updates: [
+    { date: "2026-05-17", time: "11:30", text: "Kapasite ve ESD raporu dosyaya işlendi." }, { date: "2026-05-10", time: "14:00", text: "Ön inceleme onayı verildi." }, { date: "2026-05-03", time: "10:20", text: "Stok kritik liste şirketle paylaşıldı." }, { date: "2026-04-26", time: "16:00", text: "Başvuru paketi arşive alındı." }, ], timeline: [
+    { year: 2012, event: "Kablolama atölyesi" }, { year: 2017, event: "SMD hattı · savunma kaydı" }, { year: 2021, event: "Almanya endüstriyel OEM" }, { year: 2025, event: "11 haftalık kuyruk krizi" }, ], facilityNotes: [
+    { zone: "SMD temiz oda", note: "ESD sınırda" }, { zone: "Test", note: "AOI + fonksiyon" }, { zone: "Depo", note: "Komponent 23 SKU kritik" }, ], exportEvolution: [
+    { year: 2019, market: "Almanya", note: "Endüstriyel kontrol kartı" }, { year: 2022, market: "Polonya", note: "Küçük OEM lotları" }, ], inspectionLayers: [
+    { layer: "Ön başvuru", status: "done", note: "Sektör uygun" }, { layer: "Belge paketi", status: "partial", note: "Devam ediyor" }, { layer: "Saha", status: "pending", note: "Planlı" }, ], operationalSignals: [
+    { label: "SMD kuyruk", value: "11 hafta" }, { label: "Aylık montaj", value: "~45.000 birim" }, { label: "Kritik stok SKU", value: "23" }, { label: "İhracat payı", value: "Gelirin ~%42'si" }, ],
 });

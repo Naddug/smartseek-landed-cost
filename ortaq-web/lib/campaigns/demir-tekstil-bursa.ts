@@ -1,262 +1,57 @@
 import type { SimulatedCampaign } from "./types";
 
 /**
- * Simulated dossier — Bursa woven-fabric manufacturer.
+ * Simulated dossier, Bursa woven-fabric manufacturer.
  *
  * ASYMMETRY PROFILE: documentation thin, paperwork discipline behind operational reality.
  * Factory functions; books are not export-ready. Visible work-in-progress.
  *
- * HUMAN-EDIT REQUIRED before publishing:
- *  - founder.name / founder.role / founder.note
+ * HUMAN-EDIT REQUIRED before publishing: *  - founder.name / founder.role / founder.note
  *  - machines[*].name (model numbers used as plausible illustrative defaults)
  *  - funding.targetTry and funding.lines[*].amountTry
  *  - annualRevenueNote final wording
  */
 export const demirTekstilBursa: SimulatedCampaign = {
-  slug: "demir-tekstil-bursa",
-  simulated: true,
-  legalName: "Demir Dokuma Tekstil Sanayi ve Ticaret A.Ş.",
-  tradeName: "Demir Dokuma",
-  sector: "Dokuma kumaş ve konfeksiyon hammaddesi · tekstil",
-  city: "Bursa",
-  region: "Demirtaş OSB, Osmangazi",
-  founded: 2007,
-  employees: 62,
-  exportMarkets: ["İtalya", "İspanya", "Polonya"],
-  annualRevenueNote: "2024 yönetim raporu henüz teslim edilmedi · 2023 raporu mevcut",
-  productionNote: "Aylık ~85.000 metre dokuma kapasitesi (3 hat aktif, 1 hat planlı bakımda)",
-  verificationLabel: "under_review",
-  reviewStatus: "document_review",
-  seoTitle: "Demir Dokuma | Değerlendirme dosyası",
-  seoDescription:
-    "Bursa Demirtaş OSB'de pamuklu dokuma kumaş üreticisi. Değerlendirme dosyası — yatırım teklifi değildir.",
-  story: {
-    origin:
-      "2007'de Bursa'da 12 dokuma tezgâhıyla başladı. Kurucu aile önceden fason üretim yapıyordu; kendi markalı kumaş hattını 2011'de kurdu.",
-    today:
-      "Demirtaş OSB'de 5.800 m² kapalı alanda jakarlı ve düz dokuma üretimi yapılıyor. Müşterilerin yaklaşık üçte ikisi İtalya ve Polonya hazır giyim markalarına bağlı. Geri kalan kısım yurtiçi tekstil bayileri.",
-    production:
-      "İplik tedariki → büküm hazırlık → dokuma → yıkama ve haşıl → kalite kontrol → top sarım. Hat A jakarlı (40 tezgâh), Hat B düz dokuma (28 tezgâh). 2024 son çeyrekte hat C planlı bakım için durduruldu, henüz tekrar açılmadı.",
-  },
-  founder: {
-    name: "Ayhan Demir",
-    role: "Kurucu ortak · Yönetim Kurulu Başkanı",
-    note:
-      "Üretim tarafında işimizi biliyoruz ama dış kaynak yatırımcılarına anlatacak hazırlığımız yetersizdi. Belgeleri tek tek topluyoruz. ORTAQ sürecinde başvuruyu açtık, henüz kampanya açık değil. Hata yapmak istemiyoruz.",
-  },
-  funding: {
-    purpose:
-      "Üçüncü dokuma hattını yeniden devreye almak ve renk-iplik laboratuvarı kurmak. Hedef: numune hazırlama süresini 5 günden 2 güne indirmek; İtalyan müşterilerin koleksiyon takvimine yetişmek.",
-    targetTry: 6_200_000,
-    lines: [
-      { label: "Hat C revizyonu (12 dokuma tezgâhı bakım + 2 yeni)", amountTry: 2_900_000, percent: 47 },
-      { label: "Renk-iplik laboratuvarı (numune)", amountTry: 1_100_000, percent: 18 },
-      { label: "İplik stoku (3 ay)", amountTry: 1_300_000, percent: 21 },
-      { label: "Yıkama ünitesi su geri kazanım", amountTry: 500_000, percent: 8 },
-      { label: "İşletme sermayesi tamponu", amountTry: 400_000, percent: 6 },
-    ],
-  },
-  risks: [
+  slug: "demir-tekstil-bursa", simulated: true, legalName: "Demir Dokuma Tekstil Sanayi ve Ticaret A.Ş.", tradeName: "Demir Dokuma", sector: "Dokuma kumaş ve konfeksiyon hammaddesi · tekstil", city: "Bursa", region: "Demirtaş OSB, Osmangazi", founded: 2007, employees: 62, exportMarkets: ["İtalya", "İspanya", "Polonya"], annualRevenueNote: "2024 yönetim raporu henüz teslim edilmedi · 2023 raporu mevcut", productionNote: "Aylık ~85.000 metre dokuma kapasitesi (3 hat aktif, 1 hat planlı bakımda)", verificationLabel: "under_review", reviewStatus: "document_review", seoTitle: "Demir Dokuma | Değerlendirme dosyası", seoDescription: "Bursa Demirtaş OSB'de pamuklu dokuma kumaş üreticisi. Değerlendirme dosyası : yatırım teklifi değildir.", story: {
+    origin: "2007'de Bursa'da 12 dokuma tezgâhıyla başladı. Kurucu aile önceden fason üretim yapıyordu; kendi markalı kumaş hattını 2011'de kurdu.", today: "Demirtaş OSB'de 5.800 m² kapalı alanda jakarlı ve düz dokuma üretimi yapılıyor. Müşterilerin yaklaşık üçte ikisi İtalya ve Polonya hazır giyim markalarına bağlı. Geri kalan kısım yurtiçi tekstil bayileri.", production: "İplik tedariki → büküm hazırlık → dokuma → yıkama ve haşıl → kalite kontrol → top sarım. Hat A jakarlı (40 tezgâh), Hat B düz dokuma (28 tezgâh). 2024 son çeyrekte hat C planlı bakım için durduruldu, henüz tekrar açılmadı.", }, founder: {
+    name: "Ayhan Demir", role: "Kurucu ortak · Yönetim Kurulu Başkanı", note: "Üretim tarafında işimizi biliyoruz ama dış kaynak yatırımcılarına anlatacak hazırlığımız yetersizdi. Belgeleri tek tek topluyoruz. ORTAQ sürecinde başvuruyu açtık, henüz kampanya açık değil. Hata yapmak istemiyoruz.", }, funding: {
+    purpose: "Üçüncü dokuma hattını yeniden devreye almak ve renk-iplik laboratuvarı kurmak. Hedef: numune hazırlama süresini 5 günden 2 güne indirmek; İtalyan müşterilerin koleksiyon takvimine yetişmek.", targetTry: 6_200_000, lines: [
+      { label: "Hat C revizyonu (12 dokuma tezgâhı bakım + 2 yeni)", amountTry: 2_900_000, percent: 47 }, { label: "Renk-iplik laboratuvarı (numune)", amountTry: 1_100_000, percent: 18 }, { label: "İplik stoku (3 ay)", amountTry: 1_300_000, percent: 21 }, { label: "Yıkama ünitesi su geri kazanım", amountTry: 500_000, percent: 8 }, { label: "İşletme sermayesi tamponu", amountTry: 400_000, percent: 6 }, ], }, risks: [
     {
-      title: "Belge eksikliği",
-      text: "2024 yönetim raporu, ihracat fatura özeti ve stok envanteri inceleme dosyasına henüz girmedi. Komite öncesi tamamlanması gerekiyor — gecikme inceleme süresini uzatabilir.",
-    },
-    {
-      title: "Müşteri yoğunlaşması",
-      text: "İhracat gelirinin %55'i iki İtalyan hazır giyim markasına bağlı. Bu müşterilerden birinin koleksiyon değişikliği sipariş hacmini sert düşürebilir.",
-    },
-    {
-      title: "Pamuk fiyat dalgalanması",
-      text: "Ham iplik maliyeti TL bazında 2024'te %38 oynaklık gösterdi. Sözleşmelerde otomatik fiyat güncelleme yok.",
-    },
-    {
-      title: "Sermaye yapısı",
-      text: "Aile şirketi · pay devri için tüm ortakların imzası gerekli. Çıkış senaryosu sınırlı.",
-    },
-  ],
-  process: [
-    { label: "Ön başvuru ve sektör uygunluğu", status: "done", date: "2026-02-18" },
-    { label: "Belge paketi (ticaret sicili, vergi, finansal tablo)", status: "active", date: "2026-04-22" },
-    { label: "Saha ziyareti — üretim hattı", status: "pending" },
-    { label: "Finansal ve hukuk incelemesi", status: "pending" },
-    { label: "Yatırım komitesi", status: "pending" },
-    { label: "Lisanslı platform onayı", status: "pending" },
-    { label: "Bilgi formu yayını ve ortaklık", status: "pending" },
-  ],
-  documents: [
-    { id: "registry", title: "Ticaret sicil gazetesi", status: "available" },
-    { id: "tax", title: "Vergi levhası ve son 3 yıl mukellef özeti", status: "available" },
-    { id: "financials-2023", title: "2023 yönetim raporu", status: "review", note: "Bağımsız denetim yok" },
-    { id: "financials-2024", title: "2024 yönetim raporu", status: "pending", note: "Mart sonu teslim sözü verildi, geldi geciken belgeler arasında" },
-    { id: "export-summary", title: "İhracat fatura özeti (2023–2024)", status: "pending", note: "Şirket muhasebesinden bekleniyor" },
-    { id: "memorandum", title: "Bilgi formu (izahname)", status: "pending", note: "Belge paketi tamamlanmadan açılmaz" },
-    { id: "photos", title: "Fabrika fotoğrafları", status: "available" },
-    { id: "iso", title: "OEKO-TEX ve ISO 9001 sertifikaları", status: "review", note: "OEKO-TEX 2025 yenileme süreci" },
-  ],
-  economics: [
-    { label: "Kuruluş", value: "2007" },
-    { label: "Çalışan", value: "62 kişi" },
-    { label: "Kapalı alan", value: "5.800 m²" },
-    { label: "İhracat pazarları", value: "3 ülke" },
-    { label: "Ana müşteri tipi", value: "Hazır giyim markaları · tekstil bayileri" },
-    { label: "Sertifikasyon", value: "ISO 9001:2015 · OEKO-TEX (yenileme süreci)" },
-  ],
-  operations: {
+      title: "Belge eksikliği", text: "2024 yönetim raporu, ihracat fatura özeti ve stok envanteri inceleme dosyasına henüz girmedi. Komite öncesi tamamlanması gerekiyor , gecikme inceleme süresini uzatabilir.", }, {
+      title: "Müşteri yoğunlaşması", text: "İhracat gelirinin %55'i iki İtalyan hazır giyim markasına bağlı. Bu müşterilerden birinin koleksiyon değişikliği sipariş hacmini sert düşürebilir.", }, {
+      title: "Pamuk fiyat dalgalanması", text: "Ham iplik maliyeti TL bazında 2024'te %38 oynaklık gösterdi. Sözleşmelerde otomatik fiyat güncelleme yok.", }, {
+      title: "Sermaye yapısı", text: "Aile şirketi · pay devri için tüm ortakların imzası gerekli. Çıkış senaryosu sınırlı.", }, ], process: [
+    { label: "Ön başvuru ve sektör uygunluğu", status: "done", date: "2026-02-18" }, { label: "Belge paketi (ticaret sicili, vergi, finansal tablo)", status: "active", date: "2026-04-22" }, { label: "Saha ziyareti : üretim hattı", status: "pending" }, { label: "Finansal ve hukuk incelemesi", status: "pending" }, { label: "Yatırım komitesi", status: "pending" }, { label: "Lisanslı platform onayı", status: "pending" }, { label: "Bilgi formu yayını ve ortaklık", status: "pending" }, ], documents: [
+    { id: "registry", title: "Ticaret sicil gazetesi", status: "available" }, { id: "tax", title: "Vergi levhası ve son 3 yıl mukellef özeti", status: "available" }, { id: "financials-2023", title: "2023 yönetim raporu", status: "review", note: "Bağımsız denetim yok" }, { id: "financials-2024", title: "2024 yönetim raporu", status: "pending", note: "Mart sonu teslim sözü verildi, geldi geciken belgeler arasında" }, { id: "export-summary", title: "İhracat fatura özeti (2023-2024)", status: "pending", note: "Şirket muhasebesinden bekleniyor" }, { id: "memorandum", title: "Bilgi formu (izahname)", status: "pending", note: "Belge paketi tamamlanmadan açılmaz" }, { id: "photos", title: "Fabrika fotoğrafları", status: "available" }, { id: "iso", title: "OEKO-TEX ve ISO 9001 sertifikaları", status: "review", note: "OEKO-TEX 2025 yenileme süreci" }, ], economics: [
+    { label: "Kuruluş", value: "2007" }, { label: "Çalışan", value: "62 kişi" }, { label: "Kapalı alan", value: "5.800 m²" }, { label: "İhracat pazarları", value: "3 ülke" }, { label: "Ana müşteri tipi", value: "Hazır giyim markaları · tekstil bayileri" }, { label: "Sertifikasyon", value: "ISO 9001:2015 · OEKO-TEX (yenileme süreci)" }, ], operations: {
     signals: [
-      { label: "Aylık kapasite", value: "~85.000 m" },
-      { label: "Aktif dokuma hattı", value: "2 aktif · 1 bakımda" },
-      { label: "Vardiya", value: "2 vardiya, 6 gün" },
-      { label: "İhracat payı", value: "Gelirin ~%65'i" },
-      { label: "Tezgâh sayısı", value: "68 dokuma · 4 büküm" },
-      { label: "Son güncelleme", value: "Mayıs 2026 — belge inceleme" },
-    ],
-    processes: ["İplik hazırlık", "Büküm", "Dokuma", "Yıkama / haşıl", "Kalite kontrol", "Top sarım"],
-    materials: ["Pamuk ipliği (Ne 30–60)", "Polyester karışım ipliği", "Reaktif boya · OEKO-TEX onaylı"],
-    shifts: "2 vardiya · 06:00–22:00 · Cumartesi tek vardiya",
-  },
-  timeline: [
-    { year: 2007, event: "12 tezgâhla başlangıç — fason dokuma" },
-    { year: 2011, event: "Kendi marka kumaş hattı; ilk yurtiçi bayi anlaşması" },
-    { year: 2016, event: "Demirtaş OSB'ye taşınma — kapalı alan 5.800 m²" },
-    { year: 2019, event: "İlk ihracat — İtalya hazır giyim markası" },
-    { year: 2024, event: "Hat C planlı bakım için durduruldu (henüz açılmadı)" },
-    { year: 2026, event: "ORTAQ değerlendirme başvurusu — hat C revizyonu ve renk laboratuvarı" },
-  ],
-  access: {
-    status: "document_review",
-    nextGate: "Saha ziyareti — üretim hattı",
-  },
-  machines: [
+      { label: "Aylık kapasite", value: "~85.000 m" }, { label: "Aktif dokuma hattı", value: "2 aktif · 1 bakımda" }, { label: "Vardiya", value: "2 vardiya, 6 gün" }, { label: "İhracat payı", value: "Gelirin ~%65'i" }, { label: "Tezgâh sayısı", value: "68 dokuma · 4 büküm" }, { label: "Son güncelleme", value: "Mayıs 2026 : belge inceleme" }, ], processes: ["İplik hazırlık", "Büküm", "Dokuma", "Yıkama / haşıl", "Kalite kontrol", "Top sarım"], materials: ["Pamuk ipliği (Ne 30-60)", "Polyester karışım ipliği", "Reaktif boya · OEKO-TEX onaylı"], shifts: "2 vardiya : 06:00-22:00, Cumartesi tek vardiya", }, timeline: [
+    { year: 2007, event: "12 tezgâhla başlangıç : fason dokuma" }, { year: 2011, event: "Kendi marka kumaş hattı; ilk yurtiçi bayi anlaşması" }, { year: 2016, event: "Demirtaş OSB'ye taşınma : kapalı alan 5.800 m²" }, { year: 2019, event: "İlk ihracat : İtalya hazır giyim markası" }, { year: 2024, event: "Hat C planlı bakım için durduruldu (henüz açılmadı)" }, { year: 2026, event: "ORTAQ değerlendirme başvurusu : hat C revizyonu ve renk laboratuvarı" }, ], access: {
+    status: "document_review", nextGate: "Saha ziyareti : üretim hattı", }, machines: [
     {
-      id: "loom-jacquard-bank",
-      name: "Picanol OMNIplus 800 ×40",
-      role: "Jakarlı dokuma",
-      year: 2014,
-      note: "Hat A · iki vardiya · servis kayıtları muhasebede, ayrı dosyada saklanıyor.",
-    },
+      id: "loom-jacquard-bank", name: "Picanol OMNIplus 800 ×40", role: "Jakarlı dokuma", year: 2014, note: "Hat A · iki vardiya · servis kayıtları muhasebede, ayrı dosyada saklanıyor.", }, {
+      id: "loom-flat-bank", name: "Toyota JAT810 ×28", role: "Düz dokuma", year: 2016, note: "Hat B · ortalama %78 doluluk · iplik kopma oranı düşük.", }, {
+      id: "loom-old-bank", name: "Sulzer P7300HP ×12", role: "Düz dokuma (bakımda)", year: 2009, note: "Hat C · Aralık 2024'te kapatıldı. Yatırım planı bu hattı modernize ediyor.", }, {
+      id: "twister", name: "Volkmann CT III ×4", role: "İplik büküm", year: 2018, note: "Operatör eğitimi gerekli : sadece 2 usta operatör kullanıyor.", }, ], bottlenecks: [
     {
-      id: "loom-flat-bank",
-      name: "Toyota JAT810 ×28",
-      role: "Düz dokuma",
-      year: 2016,
-      note: "Hat B · ortalama %78 doluluk · iplik kopma oranı düşük.",
-    },
+      label: "Hat C kapatması", note: "12 tezgâh 5 aydır üretim dışı. Mevcut hatlar tam kapasiteye yakın, esneklik dar.", }, {
+      label: "Numune süresi", note: "Renk numunesi dışarıdan alınıyor : 5 iş günü. İtalyan koleksiyon takviminde gecikme nedeni.", }, ], facilityNotes: [
+    { zone: "Hat A · jakarlı dokuma", note: "40 tezgâh · gürültü 92 dB · kulaklık zorunlu · iyi havalandırma" }, { zone: "Hat B · düz dokuma", note: "28 tezgâh · operatör başına 7 tezgâh · disiplinli" }, { zone: "Hat C · bakım alanı", note: "12 tezgâh sökülü değil ama elektrik bağlantısı kesili · toz birikimi başlamış" }, { zone: "Yıkama / haşıl", note: "Su gideri ÇED uyumlu · geri kazanım yok · yatırım planında" }, { zone: "Numune odası", note: "8 m² · iki ışık kabinli · renk kalibrasyonu eski" }, ], fieldJournal: [
     {
-      id: "loom-old-bank",
-      name: "Sulzer P7300HP ×12",
-      role: "Düz dokuma (bakımda)",
-      year: 2009,
-      note: "Hat C · Aralık 2024'te kapatıldı. Yatırım planı bu hattı modernize ediyor.",
-    },
+      date: "2026-04-22", time: "11:40", author: "ORTAQ saha · belge", type: "inspection", text: "Belge listesi gözden geçirildi. 2024 yönetim raporu ve ihracat fatura özeti hâlâ eksik. Muhasebe ofisi Mart sonuna kadar teslim sözü verdi , verilmedi.", }, {
+      date: "2026-04-22", time: "13:05", author: "Ayhan Demir", type: "founder", text: "Bağımsız denetim hiç yapmadık. Ortaklığa giriyorsak bunun şart olduğunu kabul ediyoruz, ama maliyet ve süre konusunda netlik istiyoruz.", }, {
+      date: "2026-03-12", time: "10:15", author: "ORTAQ saha · belge", type: "observation", text: "Ön başvuru belgeleri eksiksiz. Şirket avukatı ile pay devri prosedürü konuşuldu , aile içi imza süreci karmaşık.", }, {
+      date: "2026-02-28", time: "14:20", author: "ORTAQ saha · belge", type: "inspection", text: "OEKO-TEX yenileme takvimi alındı : Mayıs 2026 denetim. ISO 9001 sertifikası 2023 yenileme, geçerli.", }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "partial", note: "2024 yönetim raporu ve ihracat özeti bekleniyor" }, { layer: "Saha doğrulama", status: "pending", note: "Belge tamamlanmadan saha planlanmıyor" }, { layer: "Kalite protokolü", status: "pending", note: "OEKO-TEX yenileme sonucu beklenecek" }, { layer: "Finansal inceleme", status: "pending", note: "Bağımsız denetim raporu yok : alternatif protokol görüşülüyor" }, { layer: "Hukuk", status: "pending", note: "Aile içi pay devri yapısı belgelendi, hukuk inceleme henüz açılmadı" }, ], exportEvolution: [
+    { year: 2019, market: "İtalya", note: "İlk distribütör · jakarlı erkek gömleklik kumaş" }, { year: 2021, market: "Polonya", note: "Çocuk konfeksiyon hazır giyim markası" }, { year: 2023, market: "İspanya", note: "Sınırlı hacim · numune aşaması · siparişe dönüşüm bekleniyor" }, ], operationalUpdates: [
+    { date: "2026-05-20", time: "09:00", text: "OEKO-TEX denetim hazırlık listesi şirkete iletildi." }, { date: "2026-05-08", time: "14:20", text: "Şirket muhasebesine 2024 raporu hatırlatması yapıldı : net teslim tarihi alınamadı." }, { date: "2026-04-22", time: "16:45", text: "Belge inceleme oturumu tamamlandı; eksik kalemler dosyaya yazıldı." }, { date: "2026-04-15", time: "09:30", text: "Ticaret sicil gazetesi ve vergi belgeleri arşive eklendi." }, { date: "2026-03-12", time: "11:50", text: "Ön başvuru paketi alındı, sektör uygunluğu onaylandı." }, ], marketMix: {
+    domesticShare: "~%35", exportShare: "~%65", segments: [
+      { label: "İtalya · hazır giyim markaları", share: "~%40", note: "İki ana markaya bağlı · siparişler 3 aylık koleksiyon takvimi" }, { label: "Polonya · konfeksiyon", share: "~%20", note: "Çocuk giyim · stabil ama düşük marj" }, { label: "Yurtiçi tekstil bayileri", share: "~%30", note: "Bursa, İstanbul, Denizli ağı" }, { label: "Diğer ihracat (İspanya, numune)", share: "~%10", note: "Sipariş henüz tekrarlı değil" }, ], }, operationalFriction: [
     {
-      id: "twister",
-      name: "Volkmann CT III ×4",
-      role: "İplik büküm",
-      year: 2018,
-      note: "Operatör eğitimi gerekli — sadece 2 usta operatör kullanıyor.",
-    },
-  ],
-  bottlenecks: [
-    {
-      label: "Hat C kapatması",
-      note: "12 tezgâh 5 aydır üretim dışı. Mevcut hatlar tam kapasiteye yakın, esneklik dar.",
-    },
-    {
-      label: "Numune süresi",
-      note: "Renk numunesi dışarıdan alınıyor — 5 iş günü. İtalyan koleksiyon takviminde gecikme nedeni.",
-    },
-  ],
-  facilityNotes: [
-    { zone: "Hat A · jakarlı dokuma", note: "40 tezgâh · gürültü 92 dB · kulaklık zorunlu · iyi havalandırma" },
-    { zone: "Hat B · düz dokuma", note: "28 tezgâh · operatör başına 7 tezgâh · disiplinli" },
-    { zone: "Hat C · bakım alanı", note: "12 tezgâh sökülü değil ama elektrik bağlantısı kesili · toz birikimi başlamış" },
-    { zone: "Yıkama / haşıl", note: "Su gideri ÇED uyumlu · geri kazanım yok · yatırım planında" },
-    { zone: "Numune odası", note: "8 m² · iki ışık kabinli · renk kalibrasyonu eski" },
-  ],
-  fieldJournal: [
-    {
-      date: "2026-04-22",
-      time: "11:40",
-      author: "ORTAQ saha · belge",
-      type: "inspection",
-      text: "Belge listesi gözden geçirildi. 2024 yönetim raporu ve ihracat fatura özeti hâlâ eksik. Muhasebe ofisi Mart sonuna kadar teslim sözü verdi — verilmedi.",
-    },
-    {
-      date: "2026-04-22",
-      time: "13:05",
-      author: "Ayhan Demir",
-      type: "founder",
-      text: "Bağımsız denetim hiç yapmadık. Ortaklığa giriyorsak bunun şart olduğunu kabul ediyoruz, ama maliyet ve süre konusunda netlik istiyoruz.",
-    },
-    {
-      date: "2026-03-12",
-      time: "10:15",
-      author: "ORTAQ saha · belge",
-      type: "observation",
-      text: "Ön başvuru belgeleri eksiksiz. Şirket avukatı ile pay devri prosedürü konuşuldu — aile içi imza süreci karmaşık.",
-    },
-    {
-      date: "2026-02-28",
-      time: "14:20",
-      author: "ORTAQ saha · belge",
-      type: "inspection",
-      text: "OEKO-TEX yenileme takvimi alındı — Mayıs 2026 denetim. ISO 9001 sertifikası 2023 yenileme, geçerli.",
-    },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "partial", note: "2024 yönetim raporu ve ihracat özeti bekleniyor" },
-    { layer: "Saha doğrulama", status: "pending", note: "Belge tamamlanmadan saha planlanmıyor" },
-    { layer: "Kalite protokolü", status: "pending", note: "OEKO-TEX yenileme sonucu beklenecek" },
-    { layer: "Finansal inceleme", status: "pending", note: "Bağımsız denetim raporu yok — alternatif protokol görüşülüyor" },
-    { layer: "Hukuk", status: "pending", note: "Aile içi pay devri yapısı belgelendi, hukuk inceleme henüz açılmadı" },
-  ],
-  exportEvolution: [
-    { year: 2019, market: "İtalya", note: "İlk distribütör · jakarlı erkek gömleklik kumaş" },
-    { year: 2021, market: "Polonya", note: "Çocuk konfeksiyon hazır giyim markası" },
-    { year: 2023, market: "İspanya", note: "Sınırlı hacim · numune aşaması · siparişe dönüşüm bekleniyor" },
-  ],
-  operationalUpdates: [
-    { date: "2026-05-20", time: "09:00", text: "OEKO-TEX denetim hazırlık listesi şirkete iletildi." },
-    { date: "2026-05-08", time: "14:20", text: "Şirket muhasebesine 2024 raporu hatırlatması yapıldı — net teslim tarihi alınamadı." },
-    { date: "2026-04-22", time: "16:45", text: "Belge inceleme oturumu tamamlandı; eksik kalemler dosyaya yazıldı." },
-    { date: "2026-04-15", time: "09:30", text: "Ticaret sicil gazetesi ve vergi belgeleri arşive eklendi." },
-    { date: "2026-03-12", time: "11:50", text: "Ön başvuru paketi alındı, sektör uygunluğu onaylandı." },
-  ],
-  marketMix: {
-    domesticShare: "~%35",
-    exportShare: "~%65",
-    segments: [
-      { label: "İtalya · hazır giyim markaları", share: "~%40", note: "İki ana markaya bağlı · siparişler 3 aylık koleksiyon takvimi" },
-      { label: "Polonya · konfeksiyon", share: "~%20", note: "Çocuk giyim · stabil ama düşük marj" },
-      { label: "Yurtiçi tekstil bayileri", share: "~%30", note: "Bursa, İstanbul, Denizli ağı" },
-      { label: "Diğer ihracat (İspanya, numune)", share: "~%10", note: "Sipariş henüz tekrarlı değil" },
-    ],
-  },
-  operationalFriction: [
-    {
-      label: "İplik tedarik gecikmesi",
-      category: "supply",
-      note: "Pamuk ipliği teslimatı 3–4 hafta. Renk batch tutarlılığı için tek tedarikçi tercih ediliyor — yedek tedarikçi protokolü yok.",
-    },
-    {
-      label: "Usta operatör bağımlılığı",
-      category: "workforce",
-      note: "Büküm hattı yalnızca 2 usta operatörle çalışıyor. Birinin ayrılması üretimi 30+ gün etkiler.",
-    },
-    {
-      label: "Renk numune dış kaynak",
-      category: "capacity",
-      note: "Numune renk eşleştirme dışarıdan yapılıyor. Yatırım planı bunu içselleştirmeyi hedefliyor.",
-    },
-    {
-      label: "Hat C bakım süresi",
-      category: "equipment",
-      note: "12 tezgâhın yenilenmesi 6–9 ay · yedek parça temininde belirsizlik (Sulzer parça pazarı dar).",
-    },
-  ],
-  gateway: {
-    hook: "Bursa OSB'de dokuma kumaş — İtalya koleksiyon takvimine bağlı, Hat C 5 aydır kapalı.",
-    scale: "62 çalışan · 3 aktif hat · aylık ~85.000 m dokuma",
-    tension: "12 tezgâh 5 aydır üretim dışı — mevcut hatlar tam kapasite, esneklik dar.",
-  },
+      label: "İplik tedarik gecikmesi", category: "supply", note: "Pamuk ipliği teslimatı 3-4 hafta. Renk batch tutarlılığı için tek tedarikçi tercih ediliyor , yedek tedarikçi protokolü yok.", }, {
+      label: "Usta operatör bağımlılığı", category: "workforce", note: "Büküm hattı yalnızca 2 usta operatörle çalışıyor. Birinin ayrılması üretimi 30+ gün etkiler.", }, {
+      label: "Renk numune dış kaynak", category: "capacity", note: "Numune renk eşleştirme dışarıdan yapılıyor. Yatırım planı bunu içselleştirmeyi hedefliyor.", }, {
+      label: "Hat C bakım süresi", category: "equipment", note: "12 tezgâhın yenilenmesi 6-9 ay : yedek parça temininde belirsizlik (Sulzer parça pazarı dar).", }, ], gateway: {
+    hook: "Bursa OSB'de dokuma kumaş : İtalya koleksiyon takvimine bağlı, Hat C 5 aydır kapalı.", scale: "62 çalışan · 3 aktif hat · aylık ~85.000 m dokuma", tension: "12 tezgâh 5 aydır üretim dışı : mevcut hatlar tam kapasite, esneklik dar.", },
 };

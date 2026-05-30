@@ -52,6 +52,16 @@ export function DossierHeader({ campaign: c }: DossierHeaderProps) {
               </span>
               <StatusBadge status="illustrative" />
               <VerificationLabel label={c.verificationLabel} />
+              {c.mouStatus && (
+                <span
+                  className={cn(
+                    typography.caption,
+                    "rounded-ortaq-sm border border-ortaq-border bg-ortaq-bg-alt px-2 py-0.5 text-ortaq-ink-muted",
+                  )}
+                >
+                  {c.mouStatus}
+                </span>
+              )}
             </div>
             <p className={cn(typography.label, "mt-2")}>{t("dossier.header.label")}</p>
             <h1 className={cn(typography.display, "mt-0.5")}>{c.tradeName}</h1>

@@ -1,91 +1,16 @@
 import { buildCatalogCampaign } from "../build-campaign";
 
 export const trakyaUnEdirne = buildCatalogCampaign({
-  slug: "trakya-un-edirne",
-  legalName: "Trakya Un ve Tahıl İşleme Sanayi A.Ş.",
-  tradeName: "Trakya Un",
-  sector: "Un ve tahıl işleme · ihracat odaklı",
-  city: "Edirne",
-  region: "Edirne OSB",
-  founded: 1998,
-  employees: 54,
-  exportMarkets: ["Irak", "Suriye (sınır ticareti)", "Bulgaristan"],
-  facilityArea: "4.800 m² değirmen ve silo",
-  monthlyCapacity: "Aylık ~2.400 ton un kapasitesi",
-  targetTry: 8_400_000,
-  exportShare: "Gelirin ~%42'si",
-  domesticShare: "~%58",
-  reviewStatus: "document_review",
-  processDone: 2,
-  fundingPurpose: "Silo kapasitesi artışı (12.000 ton), paketleme hattı hızlandırma ve sınır ötesi sevkiyat rampası.",
-  fundingLines: [
-    { label: "Silo genişletme", amountTry: 3_200_000, percent: 38 },
-    { label: "Paketleme hattı", amountTry: 2_100_000, percent: 25 },
-    { label: "Sevkiyat rampası", amountTry: 1_400_000, percent: 17 },
-    { label: "Kalite laboratuvarı", amountTry: 900_000, percent: 11 },
-    { label: "İşletme sermayesi", amountTry: 800_000, percent: 9 },
-  ],
-  founderName: "Mehmet Trakya",
-  founderNote: "Sınır ticareti hacmi 2024'te %28 arttı — silo darboğazı ihracatı sınırlıyor.",
-  storyOrigin: "1998'de Edirne'de küçük değirmen. 2008'de OSB'ye taşınma ve un markası.",
-  storyToday: "Trakya buğdayı ve ithal buğday karışımı. Irak ve Bulgaristan ağırlıklı ihracat; iç pazar İstanbul distribütörleri.",
-  productionDetail: "Buğday kabul → temizleme → öğütme → elek → paketleme → silo → sevkiyat.",
-  processes: ["Buğday kabul", "Temizleme", "Öğütme", "Paketleme", "Silo depolama"],
-  materials: ["Trakya buğdayı", "İthal buğday (Karasu)", "Ambalaj"],
-  machines: [
-    { id: "mill-1", name: "Roller değirmen · 8 ton/saat", role: "Öğütme", year: 2012, note: "Kapasite sınırda." },
-    { id: "silo-a", name: "Çelik silo · 8.000 ton", role: "Depolama", year: 2010, note: "Genişleme hedefi 12.000 ton." },
-  ],
-  risks: [
-    { title: "Buğday fiyat volatilitesi", text: "2024'te ithal buğday maliyeti %22 arttı; marj baskısı." },
-    { title: "Sınır ticareti belirsizliği", text: "Irak hattı gümrük süreleri değişken; stok maliyeti artıyor." },
-  ],
-  gateway: {
-    hook: "Edirne OSB'de un ihracatı — silo kapasitesi sınır ötesi talebi karşılamıyor.",
-    scale: "54 çalışan · 2.400 ton/ay · 3 ihracat pazarı",
-    tension: "Silo doluluk oranı sürekli %90 üzeri — yeni siparişler kuyrukta.",
-  },
-  bottleneck: { label: "Silo kapasitesi", note: "Son 4 ayda 3 kez sevkiyat ertelendi." },
-  journal: [
-    { date: "2026-05-22", time: "07:40", text: "Silo seviye sensörleri kalibre edildi — A silosu %94 dolu.", type: "capacity" },
-    { date: "2026-05-22", time: "09:15", text: "Irak sevkiyatı için 420 ton un paketleme tamamlandı.", type: "logistics" },
-    { date: "2026-05-14", time: "11:30", text: "Buğday numune analizi: protein %11.8 — karışım oranı güncellendi.", type: "observation" },
-    { date: "2026-05-08", time: "14:00", text: "Paketleme hattı hız testi — hedef 18 çuval/dk, mevcut 14.", type: "capacity" },
-    { date: "2026-04-28", time: "10:20", text: "Silo genişletme fizibilite raporu dosyaya eklendi.", type: "inspection" },
-    { date: "2026-04-15", time: "08:50", text: "Bulgaristan distribütör ziyareti — yıllık sözleşme görüşmesi.", type: "founder" },
-  ],
-  updates: [
-    { date: "2026-05-22", time: "10:00", text: "Silo seviye kayıtları ve sevkiyat manifestosu arşivlendi." },
-    { date: "2026-05-14", time: "12:00", text: "Buğday analiz raporu dosyaya bağlandı." },
-    { date: "2026-05-09", time: "09:00", text: "Paketleme hattı kapasite testi sonuçları eklendi." },
-    { date: "2026-04-29", time: "15:30", text: "Silo genişletme fizibilitesi onaylandı." },
-    { date: "2026-04-16", time: "11:00", text: "İhracat fatura özetleri örneklendi." },
-  ],
-  timeline: [
-    { year: 1998, event: "Edirne değirmen kuruluş" },
-    { year: 2008, event: "OSB taşınma" },
-    { year: 2015, event: "Irak ihracat ağı" },
-    { year: 2024, event: "Silo kapasite uyarısı" },
-  ],
-  facilityNotes: [
-    { zone: "Değirmen", note: "Roller hat" },
-    { zone: "Silo alanı", note: "Genişleme alanı ayrıldı" },
-    { zone: "Sevkiyat", note: "Tek rampa — darboğaz" },
-  ],
-  exportEvolution: [
-    { year: 2012, market: "Bulgaristan", note: "Un toptan" },
-    { year: 2016, market: "Irak", note: "Sınır ticareti" },
-    { year: 2022, market: "Suriye sınır", note: "Küçük hacim" },
-  ],
-  inspectionLayers: [
-    { layer: "Belge paketi", status: "partial", note: "Finansal tablo tamam" },
-    { layer: "Saha doğrulama", status: "pending", note: "Planlanıyor" },
-    { layer: "Gıda güvenliği", status: "partial", note: "HACCP kayıtlı" },
-  ],
-  operationalSignals: [
-    { label: "Aylık un", value: "~2.400 ton" },
-    { label: "Silo doluluk", value: "%94 ort." },
-    { label: "İhracat payı", value: "Gelirin ~%42'si" },
-    { label: "Son saha", value: "Planlanıyor" },
-  ],
+  slug: "trakya-un-edirne", legalName: "Trakya Un ve Tahıl İşleme Sanayi A.Ş.", tradeName: "Trakya Un", sector: "Un ve tahıl işleme · ihracat odaklı", city: "Edirne", region: "Edirne OSB", founded: 1998, employees: 54, exportMarkets: ["Irak", "Suriye (sınır ticareti)", "Bulgaristan"], facilityArea: "4.800 m² değirmen ve silo", monthlyCapacity: "Aylık ~2.400 ton un kapasitesi", targetTry: 8_400_000, exportShare: "Gelirin ~%42'si", domesticShare: "~%58", reviewStatus: "document_review", processDone: 2, fundingPurpose: "Silo kapasitesi artışı (12.000 ton), paketleme hattı hızlandırma ve sınır ötesi sevkiyat rampası.", fundingLines: [
+    { label: "Silo genişletme", amountTry: 3_200_000, percent: 38 }, { label: "Paketleme hattı", amountTry: 2_100_000, percent: 25 }, { label: "Sevkiyat rampası", amountTry: 1_400_000, percent: 17 }, { label: "Kalite laboratuvarı", amountTry: 900_000, percent: 11 }, { label: "İşletme sermayesi", amountTry: 800_000, percent: 9 }, ], founderName: "Mehmet Trakya", founderNote: "Sınır ticareti hacmi 2024'te %28 arttı : silo darboğazı ihracatı sınırlıyor.", storyOrigin: "1998'de Edirne'de küçük değirmen. 2008'de OSB'ye taşınma ve un markası.", storyToday: "Trakya buğdayı ve ithal buğday karışımı. Irak ve Bulgaristan ağırlıklı ihracat; iç pazar İstanbul distribütörleri.", productionDetail: "Buğday kabul → temizleme → öğütme → elek → paketleme → silo → sevkiyat.", processes: ["Buğday kabul", "Temizleme", "Öğütme", "Paketleme", "Silo depolama"], materials: ["Trakya buğdayı", "İthal buğday (Karasu)", "Ambalaj"], machines: [
+    { id: "mill-1", name: "Roller değirmen · 8 ton/saat", role: "Öğütme", year: 2012, note: "Kapasite sınırda." }, { id: "silo-a", name: "Çelik silo · 8.000 ton", role: "Depolama", year: 2010, note: "Genişleme hedefi 12.000 ton." }, ], risks: [
+    { title: "Buğday fiyat volatilitesi", text: "2024'te ithal buğday maliyeti %22 arttı; marj baskısı." }, { title: "Sınır ticareti belirsizliği", text: "Irak hattı gümrük süreleri değişken; stok maliyeti artıyor." }, ], gateway: {
+    hook: "Edirne OSB'de un ihracatı : silo kapasitesi sınır ötesi talebi karşılamıyor.", scale: "54 çalışan · 2.400 ton/ay · 3 ihracat pazarı", tension: "Silo doluluk oranı sürekli %90 üzeri : yeni siparişler kuyrukta.", }, bottleneck: { label: "Silo kapasitesi", note: "Son 4 ayda 3 kez sevkiyat ertelendi." }, journal: [
+    { date: "2026-05-22", time: "07:40", text: "Silo seviye sensörleri kalibre edildi : A silosu %94 dolu.", type: "capacity" }, { date: "2026-05-22", time: "09:15", text: "Irak sevkiyatı için 420 ton un paketleme tamamlandı.", type: "logistics" }, { date: "2026-05-14", time: "11:30", text: "Buğday numune analizi: protein %11.8 : karışım oranı güncellendi.", type: "observation" }, { date: "2026-05-08", time: "14:00", text: "Paketleme hattı hız testi : hedef 18 çuval/dk, mevcut 14.", type: "capacity" }, { date: "2026-04-28", time: "10:20", text: "Silo genişletme fizibilite raporu dosyaya eklendi.", type: "inspection" }, { date: "2026-04-15", time: "08:50", text: "Bulgaristan distribütör ziyareti : yıllık sözleşme görüşmesi.", type: "founder" }, ], updates: [
+    { date: "2026-05-22", time: "10:00", text: "Silo seviye kayıtları ve sevkiyat manifestosu arşivlendi." }, { date: "2026-05-14", time: "12:00", text: "Buğday analiz raporu dosyaya bağlandı." }, { date: "2026-05-09", time: "09:00", text: "Paketleme hattı kapasite testi sonuçları eklendi." }, { date: "2026-04-29", time: "15:30", text: "Silo genişletme fizibilitesi onaylandı." }, { date: "2026-04-16", time: "11:00", text: "İhracat fatura özetleri örneklendi." }, ], timeline: [
+    { year: 1998, event: "Edirne değirmen kuruluş" }, { year: 2008, event: "OSB taşınma" }, { year: 2015, event: "Irak ihracat ağı" }, { year: 2024, event: "Silo kapasite uyarısı" }, ], facilityNotes: [
+    { zone: "Değirmen", note: "Roller hat" }, { zone: "Silo alanı", note: "Genişleme alanı ayrıldı" }, { zone: "Sevkiyat", note: "Tek rampa : darboğaz" }, ], exportEvolution: [
+    { year: 2012, market: "Bulgaristan", note: "Un toptan" }, { year: 2016, market: "Irak", note: "Sınır ticareti" }, { year: 2022, market: "Suriye sınır", note: "Küçük hacim" }, ], inspectionLayers: [
+    { layer: "Belge paketi", status: "partial", note: "Finansal tablo tamam" }, { layer: "Saha doğrulama", status: "pending", note: "Planlanıyor" }, { layer: "Gıda güvenliği", status: "partial", note: "HACCP kayıtlı" }, ], operationalSignals: [
+    { label: "Aylık un", value: "~2.400 ton" }, { label: "Silo doluluk", value: "%94 ort." }, { label: "İhracat payı", value: "Gelirin ~%42'si" }, { label: "Son saha", value: "Planlanıyor" }, ],
 });

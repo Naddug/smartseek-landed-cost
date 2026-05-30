@@ -74,7 +74,7 @@ export function DossierDocuments({ campaign: c }: DossierDocumentsProps) {
                     </span>
                   </td>
                   <td className={cn(typography.caption, "hidden px-3 py-2.5 sm:table-cell")}>
-                    {doc.note ?? "—"}
+                    {doc.note ?? "-"}
                   </td>
                 </tr>
               ))}
