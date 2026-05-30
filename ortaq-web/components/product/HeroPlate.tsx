@@ -81,10 +81,6 @@ export function HeroPlate() {
             </div>
           </div>
 
-          {/* Caption, beneath photograph, small */}
-          <p className={cn(typography.caption, "mt-2 px-4 text-ortaq-ink-soft sm:px-0")}>
-            {lang === "tr" ? img.altTr : img.altEn}
-          </p>
         </div>
       </Container>
     </section>

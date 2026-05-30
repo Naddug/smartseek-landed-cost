@@ -6,7 +6,7 @@ import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
 const producerKeys = ["1", "2", "3"] as const;
-const investorKeys = ["1", "2", "3"] as const;
+const investorKeys = ["1", "2"] as const;
 
 export function HomepageAudience() {
   const { t } = useTranslation();

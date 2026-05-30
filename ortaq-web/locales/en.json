@@ -856,10 +856,10 @@
     "featuredBadge": "Featured dossier",
     "heroPlate": {
       "aria": "Homepage entry surface",
-      "kicker": "Türkiye's manufacturing strength",
-      "headline": "We help Turkish manufacturers find new export customers.",
-      "body": "Reach the right buyer, grow your sales. As you grow, step in front of investors.",
-      "closing": "On the exchange you watch price. Here you partner with the company that produces.",
+      "kicker": "Growth capital for manufacturers",
+      "headline": "Collateral-free growth capital for manufacturers scaling exports.",
+      "body": "Access growth capital through revenue sharing, without putting up bank collateral. You repay from sales, as your orders grow.",
+      "closing": "The capital comes from partners who want to participate in the growth of producing companies.",
       "cta": "Review the investment dossiers →"
     }
   },
@@ -2043,11 +2043,10 @@
       "investor": {
         "label": "Investor",
         "title": "If you invest",
-        "lead": "Not a listed stock. You share in a producing company's growth.",
+        "lead": "Not a listed stock. You finance a growing manufacturer and earn a revenue share from its sales.",
         "points": {
-          "1": "Revenue share: as the company sells, you receive a share at the contracted rate",
-          "2": "Equity: you own a stake in the company, exit terms are set upfront",
-          "3": "Money goes not to ORTAQ but to the escrow account at the licensed institution"
+          "1": "You earn a revenue share from the growing manufacturer's sales",
+          "2": "Execution runs in the licensed structure, not at ORTAQ"
         },
         "disclaimer": "Not investment advice. No return guarantee."
       }
@@ -2062,7 +2061,7 @@
           "1": "A fair gives visibility once, the rest is on you",
           "2": "A consultant charges whether you win or not",
           "3": "On your own, which buyer is real stays unclear for months",
-          "4": "Partner quality is unknown beforehand"
+          "4": "On Alibaba and B2B marketplaces you are on your own, buyers are not pre-screened"
         }
       },
       "ortaq": {
@@ -2071,7 +2070,7 @@
           "1": "The right buyer is found beforehand",
           "2": "You are matched with a trusted partner",
           "3": "Sales are kept on record",
-          "4": "Our earnings depend on your growth"
+          "4": "A pre-screened, verified buyer relationship"
         }
       }
     },
@@ -2120,15 +2119,15 @@
       },
       "outLabel": "Money out",
       "out": {
-        "1": "Investor",
-        "2": "Escrow account on the licensed platform",
+        "1": "Capital partner",
+        "2": "Escrow in the licensed structure",
         "3": "Manufacturer"
       },
       "backLabel": "Return",
       "back": {
         "1": "Manufacturer",
-        "2": "Revenue share or exit",
-        "3": "Investor"
+        "2": "Revenue share from sales",
+        "3": "Capital partner"
       },
       "note": "ORTAQ is the matching, preparation and dossier layer. It never touches the money."
     },
@@ -2141,23 +2140,7 @@
       "bio": "15+ years of experience in exports, international sales and distributor development. Led field sales at LEGO Group across Türkiye, Israel, Greece and the CIS region. Spent years seeing on the ground that manufacturers could not grow because they could not reach the right buyers. ORTAQ was founded to solve this problem.",
       "status": "We are currently running pilot conversations with a first group of manufacturers.",
       "linkedinLabel": "Verify on LinkedIn",
-      "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/",
-      "photosLabel": "From the field",
-      "photos": {
-        "1": {
-          "src": "/media/field/harun-leading.jpg",
-          "alt": "Harun Kaya during a field training and presentation"
-        },
-        "2": {
-          "src": "/media/field/harun-warehouse.jpg",
-          "alt": "Visit to an export warehouse and dispatch area"
-        },
-        "3": {
-          "src": "/media/field/harun-sourcing.jpg",
-          "alt": "Product inspection during a field sourcing visit"
-        }
-      },
-      "photosNote": "From the field: visits to manufacturers and suppliers."
+      "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/"
     },
     "dossier": {
       "aria": "Sample investment dossier",
@@ -2183,6 +2166,233 @@
         }
       },
       "note": "This is a sample, not real company data."
+    },
+    "investorValue": {
+      "aria": "How investors earn",
+      "label": "For capital partners",
+      "title": "How does a capital partner earn?",
+      "points": {
+        "1": {
+          "k": "Revenue share",
+          "v": "You receive a share of the financed manufacturer's sales at the contracted rate."
+        },
+        "2": {
+          "k": "Predefined cap",
+          "v": "Total repayment is limited by a cap set in the contract in advance."
+        },
+        "3": {
+          "k": "No exit needed",
+          "v": "Money returns automatically from sales; no IPO or exit event is required."
+        },
+        "4": {
+          "k": "ORTAQ's role",
+          "v": "ORTAQ verifies and prepares dossiers; execution runs through a licensed structure and collects no funds."
+        }
+      },
+      "disclaimer": "Not investment advice, no return guarantee."
+    },
+    "inThirty": {
+      "aria": "ORTAQ in 30 seconds",
+      "label": "ORTAQ in 30 seconds",
+      "title": "The system at a glance",
+      "steps": {
+        "1": {
+          "k": "Manufacturer",
+          "v": "A manufacturer with an export order or clear growth potential."
+        },
+        "2": {
+          "k": "ORTAQ verification and preparation",
+          "v": "We verify the order and commercial progress on the ground and turn it into a financing-ready dossier."
+        },
+        "3": {
+          "k": "Growth capital",
+          "v": "Collateral-free, revenue-share based growth capital is provided."
+        },
+        "4": {
+          "k": "Repayment from sales",
+          "v": "Repayment is made from the company's sales, up to the cap in the contract."
+        },
+        "5": {
+          "k": "Growth",
+          "v": "The manufacturer grows; the capital partner shares in that growth."
+        }
+      },
+      "earn": "ORTAQ earns a service fee in this process. It takes no collateral from manufacturers, no commission from partners, and collects no funds."
+    }
+  },
+  "gca": {
+    "hero": {
+      "kicker": "Growth Capital Access Network",
+      "headline": "Access to opportunities your network cannot easily reach.",
+      "sub": "Capital is abundant, access is scarce. ORTAQ opens a segment your network cannot reach efficiently: verified, investment-ready growth manufacturers in emerging markets. With standard data and a readiness score, without examining each from scratch.",
+      "support": "For growing companies: become visible, become investment-ready, reach the right capital.",
+      "ctaCapital": "I am a capital partner →",
+      "ctaCompany": "I am a growing company →"
+    },
+    "problem": {
+      "label": "The access gap",
+      "title": "The problem is not capital, it is access.",
+      "body": "Investors see thousands of companies, companies see thousands of investors. The problem is not seeing; it is that the right company and the right capital never reach each other. The best growth manufacturers stay invisible to the right capital, outside relationship and region-bound traditional networks."
+    },
+    "broken": {
+      "label": "Why networks fall short",
+      "title": "Why can't existing networks provide this access?",
+      "points": {
+        "1": {
+          "k": "Invisibility",
+          "v": "Good companies do not enter the right capital's radar in a standard way."
+        },
+        "2": {
+          "k": "Access is relationship-bound",
+          "v": "Traditional networks are limited by region and relationships; they do not cover this segment."
+        },
+        "3": {
+          "k": "Verification burden",
+          "v": "Capital examines each opportunity from scratch, so most never get evaluated."
+        }
+      }
+    },
+    "engine": {
+      "label": "Capital Access Engine",
+      "title": "ORTAQ is one access system, five layers.",
+      "intro": "Not marketing sections; real product layers that make a company accessible to the right capital.",
+      "layers": {
+        "1": {
+          "k": "Visibility Engine",
+          "v": "Turns a company into a standard, investor-friendly, comparable opportunity."
+        },
+        "2": {
+          "k": "Readiness Engine",
+          "v": "Measures and scores investment readiness. Not consulting, a scalable system."
+        },
+        "3": {
+          "k": "Matching Engine",
+          "v": "Structured access to the right capital by sector, geography, ticket size and thesis."
+        },
+        "4": {
+          "k": "Introduction Layer",
+          "v": "Qualified, double opt-in introductions. ORTAQ holds no money."
+        },
+        "5": {
+          "k": "Intelligence Layer",
+          "v": "Every interaction makes the system smarter. This is the moat."
+        }
+      }
+    },
+    "readiness": {
+      "label": "Readiness Engine",
+      "title": "A score that measures financeability.",
+      "body": "The most important differentiator. Not a hand-written report, a scalable scoring system. Capital understands opportunity quality at a glance; the company sees what to improve.",
+      "metrics": {
+        "1": "Growth readiness",
+        "2": "Capital readiness",
+        "3": "Documentation readiness",
+        "4": "Operational maturity",
+        "5": "Investor fit"
+      },
+      "scoreLabel": "Readiness Score",
+      "scoreNote": "Sample score. Not real company data."
+    },
+    "matching": {
+      "label": "Matching Engine",
+      "title": "Not more matches, the right access.",
+      "body": "The goal is not the number of introductions but qualified, low-cost access to verified companies that fit your thesis.",
+      "dims": {
+        "1": "Sector",
+        "2": "Geography",
+        "3": "Ticket size",
+        "4": "Growth stage",
+        "5": "Investment thesis",
+        "6": "Risk appetite"
+      }
+    },
+    "forCompanies": {
+      "label": "For companies",
+      "title": "Reach the right capital.",
+      "points": {
+        "1": "Enter the right capital's radar with a standard, investor-friendly profile.",
+        "2": "Become investment-ready and see your gaps with the readiness score.",
+        "3": "Qualified introductions to the right capital partners."
+      }
+    },
+    "forCapital": {
+      "label": "For capital partners",
+      "title": "Opportunities your network cannot reach.",
+      "points": {
+        "1": "A segment your network does not cover: verified, investment-ready growth manufacturers in emerging markets.",
+        "2": "Every opportunity arrives with standard data and a readiness score, cutting the from-scratch due diligence load.",
+        "3": "A pre-verified flow filtered to your thesis, not relationship-bound, accidental sourcing."
+      }
+    },
+    "intelligence": {
+      "label": "Intelligence Layer",
+      "title": "The network gets smarter over time.",
+      "body": "ORTAQ is not an AI company; it is a capital access company that gets smarter with proprietary data accumulating in this segment. That data is an advantage no generic network has.",
+      "points": {
+        "1": "Which capital is interested in which company",
+        "2": "Which matches turn into outcomes",
+        "3": "Which sector matches which capital type",
+        "4": "Where capital demand is shifting"
+      }
+    },
+    "trust": {
+      "label": "Trust",
+      "title": "ORTAQ does not sell investments.",
+      "points": {
+        "1": "Holds no money, transfers none, conducts no securities activity.",
+        "2": "Gives no investment advice and promises no returns.",
+        "3": "It is only an access, readiness and qualified introduction layer."
+      }
+    },
+    "faq": {
+      "label": "FAQ",
+      "title": "Clear answers",
+      "items": {
+        "1": {
+          "q": "Does ORTAQ sell investments?",
+          "a": "No. It holds no money and sells no shares. It is only an access and qualified introduction layer."
+        },
+        "2": {
+          "q": "How does ORTAQ earn?",
+          "a": "Through access and intelligence subscriptions: companies pay for readiness and visibility, capital partners for qualified opportunity access."
+        },
+        "3": {
+          "q": "Is this crowdfunding?",
+          "a": "No. No funds are collected from retail investors; qualified introductions are made with institutional capital partners."
+        },
+        "4": {
+          "q": "What is the Readiness Score?",
+          "a": "A scoring system that measures a company's investment readiness, not a hand-written consulting report."
+        }
+      }
+    },
+    "cta": {
+      "label": "Get started",
+      "title": "Get access from the right side.",
+      "body": "If you are a capital partner, access opportunities your network cannot reach; if you are a growing company, reach the right capital.",
+      "primary": "Apply"
+    },
+    "invisible": {
+      "label": "Why they are invisible",
+      "title": "Why are these companies not already visible?",
+      "points": {
+        "1": {
+          "k": "Focused on operations",
+          "v": "Most strong exporters focus on production and operations, not fundraising."
+        },
+        "2": {
+          "k": "Networks' blind spot",
+          "v": "Traditional investment networks never see a large part of the market."
+        },
+        "3": {
+          "k": "Visibility is not readiness",
+          "v": "Being visible and being capital-ready are not the same thing."
+        },
+        "4": {
+          "k": "ORTAQ bridges it",
+          "v": "ORTAQ closes this gap: it makes them visible, ready, and accessible to the right capital."
+        }
+      }
     }
   }
 }

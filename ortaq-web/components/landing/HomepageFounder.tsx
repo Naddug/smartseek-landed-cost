@@ -1,15 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-const photoKeys = ["1", "2", "3"] as const;
-
-/** Mütevazı kurucu notu, sayfanın en altında. Öne çıkmaz; isteyen görür. */
+/** Sade, kurumsal kurucu kredibilite notu, sayfanın en altında. */
 export function HomepageFounder() {
   const { t } = useTranslation();
   const linkedinUrl = t("homeLanding.founder.linkedinUrl");
@@ -19,7 +16,7 @@ export function HomepageFounder() {
       className="border-b border-ortaq-border bg-ortaq-bg-alt"
       aria-label={t("homeLanding.founder.aria")}
     >
-      <Container wide className="py-8 sm:py-9">
+      <Container wide className="py-9 sm:py-10">
         <div className="max-w-2xl">
           <p className={cn(typography.label, "text-ortaq-ink-soft")}>
             {t("homeLanding.founder.label")}
@@ -32,32 +29,11 @@ export function HomepageFounder() {
             </span>
           </p>
 
-          <p className={cn(typography.bodySm, "mt-2 text-ortaq-ink-muted")}>
+          <p className={cn(typography.bodySm, "mt-3 text-ortaq-ink-muted")}>
             {t("homeLanding.founder.bio")}
           </p>
 
-          {/* İnce, küçük saha şeridi */}
-          <div className="mt-4 flex gap-2">
-            {photoKeys.map((key) => (
-              <div
-                key={key}
-                className="relative h-16 w-20 overflow-hidden rounded-ortaq-sm border border-ortaq-border bg-ortaq-bg-warm sm:h-20 sm:w-28"
-              >
-                <Image
-                  src={t(`homeLanding.founder.photos.${key}.src`)}
-                  alt={t(`homeLanding.founder.photos.${key}.alt`)}
-                  fill
-                  sizes="120px"
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-          <p className={cn(typography.caption, "mt-2 text-ortaq-ink-soft")}>
-            {t("homeLanding.founder.photosNote")}
-          </p>
-
-          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-ortaq-border pt-4">
             {linkedinUrl ? (
               <Link
                 href={linkedinUrl}

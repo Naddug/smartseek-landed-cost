@@ -865,10 +865,10 @@
     "featuredBadge": "Öne çıkan dosya",
     "heroPlate": {
       "aria": "Ana sayfa giriş yüzeyi",
-      "kicker": "Türkiye'nin üretim gücü",
-      "headline": "Türk üreticilerinin yeni ihracat müşterileri bulmasına yardımcı oluyoruz.",
-      "body": "Doğru alıcıya ulaşın, satışınızı büyütün. Büyüdükçe yatırımcıların önüne çıkın.",
-      "closing": "Borsada fiyat izlersiniz. Burada üreten şirkete ortak olursunuz.",
+      "kicker": "Üretici için büyüme sermayesi",
+      "headline": "İhracatını büyüten üreticiye, teminatsız büyüme sermayesi.",
+      "body": "Bankaya teminat vermeden, gelir paylaşımıyla büyüme sermayesine erişirsiniz. Geri ödemeyi siparişleriniz büyüdükçe, satıştan yaparsınız.",
+      "closing": "Sermaye, büyüyen üretim şirketlerine katılmak isteyen ortaklardan gelir.",
       "cta": "Yatırım dosyalarını incele →"
     }
   },
@@ -1983,11 +1983,10 @@
       "investor": {
         "label": "Yatırımcı",
         "title": "Yatırımcıysanız",
-        "lead": "Borsa hissesi değil. Büyüyen bir üretim şirketinin performansına ortak olursunuz.",
+        "lead": "Borsa hissesi değil. Büyüyen bir üreticiyi finanse eder, satışlarından gelir paylaşımıyla pay alırsınız.",
         "points": {
-          "1": "Gelir paylaşımı: şirket sattıkça sözleşmedeki oran kadar pay alırsınız",
-          "2": "Ortaklık: şirkette pay sahibi olursunuz, çıkış koşulları önceden bellidir",
-          "3": "Para ORTAQ'a değil, lisanslı kuruluştaki emanet hesabına yatar"
+          "1": "Büyüyen üreticinin satışlarından gelir paylaşımıyla pay alırsınız",
+          "2": "İşlem lisanslı yapıda yürür, ORTAQ'ta değil"
         },
         "disclaimer": "Yatırım tavsiyesi değildir. Getiri garantisi yoktur."
       }
@@ -2002,7 +2001,7 @@
           "1": "Fuar bir kez görünürlük verir, sonrası size kalır",
           "2": "Danışman kazansanız da kazanmasanız da ücret alır",
           "3": "Kendi çabanızda hangi alıcı gerçek aylarca belirsiz",
-          "4": "Partner kalitesi önceden bilinmez"
+          "4": "Alibaba ve B2B pazaryerlerinde tek başınasınız, alıcı önceden elenmez"
         }
       },
       "ortaq": {
@@ -2011,7 +2010,7 @@
           "1": "Doğru alıcı önceden bulunur",
           "2": "Güvenilir partnerle eşleşirsiniz",
           "3": "Satış kayıt altına girer",
-          "4": "Kazancımız sizin büyümenize bağlıdır"
+          "4": "Önceden elenmiş, doğrulanmış alıcı ilişkisi"
         }
       }
     },
@@ -2060,15 +2059,15 @@
       },
       "outLabel": "Para gidişi",
       "out": {
-        "1": "Yatırımcı",
-        "2": "Lisanslı platformdaki emanet hesabı",
+        "1": "Sermaye ortağı",
+        "2": "Lisanslı yapıdaki emanet hesabı",
         "3": "Üretici şirket"
       },
       "backLabel": "Geri dönüş",
       "back": {
         "1": "Üretici şirket",
-        "2": "Gelir paylaşımı veya çıkış",
-        "3": "Yatırımcı"
+        "2": "Satıştan gelir paylaşımı",
+        "3": "Sermaye ortağı"
       },
       "note": "ORTAQ eşleştirme, hazırlık ve dosya katmanıdır. Paraya hiç dokunmaz."
     },
@@ -2081,23 +2080,7 @@
       "bio": "15+ yıllık ihracat, uluslararası satış ve distribütör geliştirme deneyimi. LEGO Group'ta Türkiye, İsrail, Yunanistan ve CIS bölgelerinde saha satış liderliği yaptı. Üreticilerin doğru alıcıya ulaşamadığı için büyüyemediğini yıllarca sahada gördü. ORTAQ bu problemi çözmek için kuruldu.",
       "status": "Şu anda ilk üretici grubuyla pilot görüşmeler yürütüyoruz.",
       "linkedinLabel": "LinkedIn'de doğrula",
-      "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/",
-      "photosLabel": "Sahadan",
-      "photos": {
-        "1": {
-          "src": "/media/field/harun-leading.jpg",
-          "alt": "Harun Kaya saha eğitimi ve sunum sırasında"
-        },
-        "2": {
-          "src": "/media/field/harun-warehouse.jpg",
-          "alt": "İhracat deposu ve sevkiyat alanı ziyareti"
-        },
-        "3": {
-          "src": "/media/field/harun-sourcing.jpg",
-          "alt": "Saha kaynak ziyaretinde ürün incelemesi"
-        }
-      },
-      "photosNote": "Sahadan: üretici ve tedarikçi ziyaretleri."
+      "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/"
     },
     "dossier": {
       "aria": "Örnek yatırım dosyası",
@@ -2123,6 +2106,233 @@
         }
       },
       "note": "Bu bir örnektir, gerçek bir şirket verisi değildir."
+    },
+    "investorValue": {
+      "aria": "Yatırımcı için nasıl kazanılır",
+      "label": "Sermaye ortakları için",
+      "title": "Sermaye ortağı nasıl kazanır?",
+      "points": {
+        "1": {
+          "k": "Gelir paylaşımı",
+          "v": "Finanse edilen üreticinin satışlarından, sözleşmedeki oran kadar pay alırsınız."
+        },
+        "2": {
+          "k": "Önceden yazılı tavan",
+          "v": "Toplam geri ödeme, sözleşmede önceden belirlenen bir tavanla sınırlıdır."
+        },
+        "3": {
+          "k": "Çıkış gerekmez",
+          "v": "Para satışlardan otomatik döner; halka arza veya bir çıkış olayına gerek yoktur."
+        },
+        "4": {
+          "k": "ORTAQ'ın rolü",
+          "v": "ORTAQ doğrular ve dosyalar; işlem lisanslı yapı üzerinden yürür, para toplamaz."
+        }
+      },
+      "disclaimer": "Yatırım tavsiyesi değildir, getiri garantisi yoktur."
+    },
+    "inThirty": {
+      "aria": "ORTAQ 30 saniyede",
+      "label": "ORTAQ 30 saniyede",
+      "title": "Sistem tek bakışta",
+      "steps": {
+        "1": {
+          "k": "Üretici",
+          "v": "İhracat siparişi veya net büyüme potansiyeli olan üretici."
+        },
+        "2": {
+          "k": "ORTAQ doğrulama ve hazırlık",
+          "v": "Siparişi ve ticari ilerlemeyi sahada doğrular, finansmana hazır dosyaya çeviririz."
+        },
+        "3": {
+          "k": "Büyüme sermayesi",
+          "v": "Teminatsız, gelir paylaşımına dayalı büyüme sermayesi sağlanır."
+        },
+        "4": {
+          "k": "Satıştan geri ödeme",
+          "v": "Geri ödeme şirketin satışlarından, sözleşmedeki tavana kadar yapılır."
+        },
+        "5": {
+          "k": "Büyüme",
+          "v": "Üretici büyür; sermaye ortağı bu büyümeden pay alır."
+        }
+      },
+      "earn": "ORTAQ bu süreçte hizmet bedeliyle kazanır. Üreticiden teminat, ortaktan komisyon almaz, para toplamaz."
+    }
+  },
+  "gca": {
+    "hero": {
+      "kicker": "Growth Capital Access Network",
+      "headline": "Ağınızın ulaşamadığı fırsatlara erişim.",
+      "sub": "Sermaye bol, erişim kıt. ORTAQ, ağınızın verimli ulaşamadığı bir segmenti açar: gelişmekte olan pazarların doğrulanmış, yatırıma hazır büyüme üreticileri. Standart veri ve readiness skoruyla, sıfırdan inceleme yapmadan.",
+      "support": "Büyüyen şirketler için: görünür olun, yatırıma hazır hâle gelin, doğru sermayeye erişin.",
+      "ctaCapital": "Sermaye partneriyim →",
+      "ctaCompany": "Büyüyen şirketim →"
+    },
+    "problem": {
+      "label": "Erişim açığı",
+      "title": "Sorun sermaye değil, erişim.",
+      "body": "Yatırımcı binlerce şirket görür, şirket binlerce yatırımcı görür. Sorun görmek değil; doğru şirketle doğru sermayenin birbirine ulaşamamasıdır. En iyi büyüme üreticileri, ilişki ve bölge bağlı geleneksel ağların dışında, doğru sermayeye görünmez kalır."
+    },
+    "broken": {
+      "label": "Neden ağlar yetmiyor",
+      "title": "Mevcut ağlar bu erişimi neden sağlayamıyor?",
+      "points": {
+        "1": {
+          "k": "Görünmezlik",
+          "v": "İyi şirketler doğru sermayenin radarına standart biçimde girmez."
+        },
+        "2": {
+          "k": "Erişim ilişkiye bağlı",
+          "v": "Geleneksel ağlar bölge ve ilişkiyle sınırlıdır; bu segmenti kapsamaz."
+        },
+        "3": {
+          "k": "Doğrulama yükü",
+          "v": "Sermaye her fırsatı sıfırdan inceler, bu yüzden çoğunu hiç değerlendiremez."
+        }
+      }
+    },
+    "engine": {
+      "label": "Capital Access Engine",
+      "title": "ORTAQ tek bir erişim sistemidir, beş katman.",
+      "intro": "Pazarlama bölümleri değil; şirketi doğru sermayeye erişilebilir kılan gerçek ürün katmanları.",
+      "layers": {
+        "1": {
+          "k": "Visibility Engine",
+          "v": "Şirketi standart, yatırımcı-dostu, karşılaştırılabilir bir fırsata dönüştürür."
+        },
+        "2": {
+          "k": "Readiness Engine",
+          "v": "Yatırıma hazırlığı ölçer ve skorlar. Danışmanlık değil, ölçeklenebilir sistem."
+        },
+        "3": {
+          "k": "Matching Engine",
+          "v": "Sektör, coğrafya, çek büyüklüğü ve teze göre doğru sermayeye yapılandırılmış erişim."
+        },
+        "4": {
+          "k": "Introduction Layer",
+          "v": "Çift taraflı ilgi oluşunca nitelikli tanıştırma. ORTAQ para tutmaz."
+        },
+        "5": {
+          "k": "Intelligence Layer",
+          "v": "Her etkileşim sistemi akıllandırır. Asıl moat budur."
+        }
+      }
+    },
+    "readiness": {
+      "label": "Readiness Engine",
+      "title": "Finanse edilebilirliği ölçen skor.",
+      "body": "En önemli farklılaştırıcı. Elle yazılan rapor değil, ölçeklenebilir bir skorlama. Sermaye tarafı fırsat kalitesini bir bakışta anlar; şirket neyi geliştirmesi gerektiğini görür.",
+      "metrics": {
+        "1": "Büyüme hazırlığı",
+        "2": "Sermaye hazırlığı",
+        "3": "Belge hazırlığı",
+        "4": "Operasyonel olgunluk",
+        "5": "Yatırımcı uyumu"
+      },
+      "scoreLabel": "Readiness Score",
+      "scoreNote": "Örnek skor. Gerçek şirket verisi değildir."
+    },
+    "matching": {
+      "label": "Matching Engine",
+      "title": "Daha fazla eşleşme değil, doğru erişim.",
+      "body": "Amaç tanıştırma sayısı değil; tezinize uygun, doğrulanmış şirketlere nitelikli ve düşük maliyetli erişim.",
+      "dims": {
+        "1": "Sektör",
+        "2": "Coğrafya",
+        "3": "Çek büyüklüğü",
+        "4": "Büyüme aşaması",
+        "5": "Yatırım tezi",
+        "6": "Risk iştahı"
+      }
+    },
+    "forCompanies": {
+      "label": "Şirketler için",
+      "title": "Doğru sermayeye erişin.",
+      "points": {
+        "1": "Standart, yatırımcı-dostu profil ile doğru sermayenin radarına girin.",
+        "2": "Readiness skoruyla yatırıma hazır olun ve eksiğinizi görün.",
+        "3": "Doğru sermaye partnerleriyle nitelikli tanıştırma."
+      }
+    },
+    "forCapital": {
+      "label": "Sermaye partnerleri için",
+      "title": "Ağınızın ulaşamadığı fırsatlar.",
+      "points": {
+        "1": "Ağınızın kapsamadığı segment: gelişmekte olan pazarların doğrulanmış, yatırıma hazır büyüme üreticileri.",
+        "2": "Her fırsat standart veri ve readiness skoruyla gelir; sıfırdan due diligence yükü düşer.",
+        "3": "Tezinize göre filtrelenmiş, ön-doğrulanmış akış; ilişkiye bağlı tesadüfi sourcing değil."
+      }
+    },
+    "intelligence": {
+      "label": "Intelligence Layer",
+      "title": "Ağ zamanla akıllanır.",
+      "body": "ORTAQ bir AI şirketi değildir; bu segmentte zamanla biriken tescilli veriyle akıllanan bir sermaye erişim şirketidir. Bu veri, hiçbir genel ağın sahip olmadığı bir avantajdır.",
+      "points": {
+        "1": "Hangi sermaye hangi şirkete ilgi gösteriyor",
+        "2": "Hangi eşleşmeler sonuca dönüşüyor",
+        "3": "Hangi sektör hangi sermaye türüyle eşleşiyor",
+        "4": "Sermaye talebi nereye kayıyor"
+      }
+    },
+    "trust": {
+      "label": "Güven",
+      "title": "ORTAQ yatırım satmaz.",
+      "points": {
+        "1": "Para tutmaz, transfer etmez, menkul kıymet faaliyeti yürütmez.",
+        "2": "Yatırım tavsiyesi vermez, getiri taahhüt etmez.",
+        "3": "Yalnızca erişim, hazırlık ve nitelikli tanıştırma katmanıdır."
+      }
+    },
+    "faq": {
+      "label": "Sık sorulanlar",
+      "title": "Net yanıtlar",
+      "items": {
+        "1": {
+          "q": "ORTAQ yatırım mı satıyor?",
+          "a": "Hayır. Para tutmaz, hisse satmaz. Yalnızca erişim ve nitelikli tanıştırma katmanıdır."
+        },
+        "2": {
+          "q": "ORTAQ nasıl kazanır?",
+          "a": "Erişim ve zekâ abonelikleriyle: şirketler hazırlık ve görünürlük, sermaye partnerleri nitelikli fırsat erişimi için öder."
+        },
+        "3": {
+          "q": "Bu crowdfunding mi?",
+          "a": "Hayır. Bireysel yatırımcıdan para toplanmaz; kurumsal sermaye partnerleriyle nitelikli tanıştırma yapılır."
+        },
+        "4": {
+          "q": "Readiness Score nedir?",
+          "a": "Şirketin yatırıma hazırlığını ölçen skorlama sistemidir; elle yazılan danışmanlık raporu değildir."
+        }
+      }
+    },
+    "cta": {
+      "label": "Başlayın",
+      "title": "Doğru tarafta erişin.",
+      "body": "Sermaye partneriyseniz ağınızın ulaşamadığı fırsatlara erişin; büyüyen şirketseniz doğru sermayeye erişin.",
+      "primary": "Başvur"
+    },
+    "invisible": {
+      "label": "Neden görünmüyorlar",
+      "title": "Neden bu şirketler zaten görünür değil?",
+      "points": {
+        "1": {
+          "k": "Operasyona odaklılar",
+          "v": "Güçlü ihracatçıların çoğu fon bulmaya değil, üretime ve operasyona odaklanır."
+        },
+        "2": {
+          "k": "Ağların kör noktası",
+          "v": "Geleneksel yatırım ağları pazarın büyük bölümünü hiç görmez."
+        },
+        "3": {
+          "k": "Görünürlük ≠ hazırlık",
+          "v": "Görünür olmak ile sermayeye hazır olmak aynı şey değildir."
+        },
+        "4": {
+          "k": "ORTAQ köprüsü",
+          "v": "ORTAQ bu boşluğu kapatır: görünür kılar, hazır hâle getirir, doğru sermayeye erişimi açar."
+        }
+      }
     }
   }
 }
