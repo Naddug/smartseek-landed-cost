@@ -22,7 +22,6 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-ortaq-trust/20 bg-gradient-to-b from-ortaq-trust-deep/95 via-ortaq-ink-panel to-[#0f1210] pb-[calc(4.5rem+env(safe-area-inset-bottom))] pt-6 text-ortaq-cream md:pb-10 md:pt-10">
       <Container wide>
-        {/* Legal framing band */}
         <div className="rounded-ortaq-lg border border-ortaq-cream/10 bg-ortaq-cream/[0.04] px-4 py-5 sm:px-6 sm:py-7">
           <p className={cn(typography.label, "text-ortaq-trust-soft/90")}>{t("footer.protectionLabel")}</p>
           <p className={cn(typography.bodySm, "mt-2 max-w-3xl font-medium leading-relaxed text-ortaq-cream/85")}>
@@ -48,7 +47,6 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        {/* FAQ teaser */}
         <div className="mt-5 flex flex-col gap-4 rounded-ortaq-lg border border-ortaq-cream/10 bg-ortaq-trust/15 px-4 py-4 sm:mt-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div className="min-w-0">
             <p className={cn(typography.label, "text-ortaq-trust-soft/80")}>{t("footer.faqTeaser.label")}</p>
@@ -69,9 +67,8 @@ export function SiteFooter() {
             <p className={cn(typography.label, "mb-2 text-ortaq-cream/50 sm:mb-3")}>{t("footer.learnTitle")}</p>
             <ul className="space-y-1">
               <li><Link href="/nasil-calisir" className={footerLinkClass}>{t("footer.links.process")}</Link></li>
-              <li><Link href="/basla" className={footerLinkClass}>{t("footer.links.start")}</Link></li>
+              <li><Link href="/demo/sermaye" className={footerLinkClass}>{t("footer.links.discover")}</Link></li>
               <li><Link href="/sss" className={footerLinkClass}>{t("footer.links.faq")}</Link></li>
-              <li><Link href="/sozluk" className={footerLinkClass}>{t("footer.links.glossary")}</Link></li>
               <li><Link href="/degerlendirme" className={footerLinkClass}>{t("footer.links.evaluation")}</Link></li>
             </ul>
           </div>
@@ -81,7 +78,6 @@ export function SiteFooter() {
             <ul className="space-y-1">
               <li><Link href="/guven" className={footerLinkClass}>{t("footer.links.trust")}</Link></li>
               <li><Link href="/riskler" className={footerLinkClass}>{t("footer.links.risk")}</Link></li>
-              <li><Link href="/sirketler" className={footerLinkClass}>{t("footer.links.companies")}</Link></li>
             </ul>
           </div>
 

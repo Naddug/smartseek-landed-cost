@@ -5,7 +5,7 @@ import { getCampaign, getAllCampaignSlugs } from "@/lib/campaigns";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, illustrativeCampaignSchema } from "@/lib/seo/schema";
 import { site } from "@/lib/metadata";
-import { env } from "@/lib/env";
+import { deprecatedRobots } from "@/lib/legacy-routes";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -21,7 +21,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = campaign.seoTitle;
   const description = campaign.seoDescription;
   const url = `${site.url}/sirket/${slug}`;
-  const noIndex = env.isStaging || env.isDevelopment;
 
   return {
     title: { absolute: title },
@@ -44,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
     },
-    robots: noIndex ? { index: false, follow: false } : { index: true, follow: true },
+    robots: deprecatedRobots,
   };
 }
 

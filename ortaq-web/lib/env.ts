@@ -38,7 +38,14 @@ function readSiteUrl(): string {
 }
 
 export const env = {
-  appEnv: readAppEnv(), siteUrl: readSiteUrl(), apiUrl: process.env.NEXT_PUBLIC_API_URL ?? "", isProduction: readAppEnv() === "production", isStaging: readAppEnv() === "staging", isDevelopment: readAppEnv() === "development", /** Privacy-first analytics, off unless explicitly enabled */
+  appEnv: readAppEnv(),
+  siteUrl: readSiteUrl(),
+  apiUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+  complaintsEnabled: Boolean(process.env.NEXT_PUBLIC_API_URL?.trim()),
+  isProduction: readAppEnv() === "production",
+  isStaging: readAppEnv() === "staging",
+  isDevelopment: readAppEnv() === "development",
+  /** Privacy-first analytics, off unless explicitly enabled */
   analytics: {
     enabled: process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true", provider: process.env.NEXT_PUBLIC_ANALYTICS_PROVIDER ?? "none", domain: process.env.NEXT_PUBLIC_ANALYTICS_DOMAIN ?? "", }, /** Error monitoring, wired when DSN is set (server instrumentation) */
   sentry: {

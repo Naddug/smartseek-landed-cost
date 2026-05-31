@@ -1,4 +1,9 @@
-/** HowTo schema steps, mirrors public process copy */
+/** HowTo schema steps — mirrors live /nasil-calisir process (evidence → introduction → room). */
 export const PROCESS_HOWTO_STEPS = [
-  { name: "Üye olun", text: "e-Devlet ile kimlik ve risk onayı." }, { name: "Şirketi okuyun", text: "Bilgi formu ve paranın nereye gideceği." }, { name: "Katılın", text: "Para emanet hesabına gider." }, { name: "Sermaye artırımı", text: "Hedef tutarsa işlem tamamlanır." }, { name: "Pay kaydı", text: "MKK'da adınıza açılır." },
+  { name: "Belgeler yüklenir", text: "Üretici belgelerini yükler." },
+  { name: "Belgeler incelenir", text: "Kanıt dosyalanır ve incelenir." },
+  { name: "Profil oluşturulur", text: "Dosyalanan kanıt ve eksikler profilde görünür." },
+  { name: "Keşfedilebilir hale gelir", text: "Zorunlu belgeler tamamlandığında profil keşifte görünür." },
+  { name: "Karşılıklı tanıştırma olur", text: "Sermaye partneri talep yazar; üretici kabul ederse tanıştırma açılır." },
+  { name: "Görüşme odası açılır", text: "Karşılıklı kabul sonrası yapılandırılmış görüşme ortamı açılır." },
 ] as const;

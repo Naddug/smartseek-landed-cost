@@ -48,7 +48,7 @@ const sitemapPath = join(nextDir, "server/app/sitemap.xml.body");
 if (existsSync(sitemapPath)) {
   const body = readFileSync(sitemapPath, "utf8");
   const count = (body.match(/<loc>/g) ?? []).length;
-  if (count >= 10) ok(`sitemap.xml ${count} URLs`);
+  if (count >= 8) ok(`sitemap.xml ${count} URLs`);
   else fail(`sitemap.xml only ${count} URLs`);
   if (body.includes("https://ortaq.biz")) ok("sitemap canonical domain");
   else fail("sitemap missing ortaq.biz");

@@ -8,14 +8,13 @@ import { useTranslation } from "react-i18next";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
-import { toggleLocale } from "@/lib/i18n/config";
 import { cn } from "@/lib/cn";
 
 const navItems = [
-  { href: "/sirketler", key: "companies" as const },
   { href: "/nasil-calisir", key: "howItWorks" as const },
+  { href: "/demo/sermaye", key: "discover" as const },
+  { href: "/sss", key: "faq" as const },
   { href: "/guven", key: "trust" as const },
-  { href: "/degerlendirme", key: "evaluation" as const },
 ];
 
 type SiteHeaderProps = {
@@ -23,7 +22,7 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ overlay = false }: SiteHeaderProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -60,7 +59,11 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
                   light
                     ? "text-ortaq-cream/75 hover:text-ortaq-cream"
                     : "text-ortaq-ink-muted hover:text-ortaq-ink",
-                  pathname === href && (light ? "text-ortaq-cream" : "text-ortaq-ink"),
+                  pathname === href || (href.startsWith("/demo") && pathname.startsWith("/demo"))
+                    ? light
+                      ? "text-ortaq-cream"
+                      : "text-ortaq-ink"
+                    : "",
                 )}
               >
                 {t(`nav.${key}`)}
@@ -69,17 +72,6 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={toggleLocale}
-              className={cn(
-                "hidden min-h-10 min-w-10 items-center justify-center text-xs lg:inline-flex",
-                light ? "text-ortaq-cream/60 hover:text-ortaq-cream" : "text-ortaq-ink-muted hover:text-ortaq-ink",
-              )}
-              aria-label={t("nav.langToggle")}
-            >
-              {i18n.language === "tr" ? "EN" : "TR"}
-            </button>
             <Link href="/#basvuru" className="hidden sm:block">
               <Button variant={light ? "light" : "primary"} size="sm">
                 {t("nav.explore")}

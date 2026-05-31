@@ -59,12 +59,12 @@ export function EvaluationPageView() {
         <Container narrow>
           <p className={typography.body}>
             {t("evaluationPage.exampleLabel")}{" "}
-            <Link href="/sirket/karat-parca-konya" className={typography.link}>
+            <Link href="/demo/sirket/karat-parca-konya" className={typography.link}>
               {t("evaluationPage.exampleLink")}
             </Link>{" "}
             · {t("evaluationPage.exampleMeta")}
           </p>
-          <Link href="/sirket/karat-parca-konya" className="mt-6 inline-block">
+          <Link href="/demo/sirket/karat-parca-konya" className="mt-6 inline-block">
             <Button variant="dark">{t("evaluationPage.cta")}</Button>
           </Link>
           <div className="mt-10">

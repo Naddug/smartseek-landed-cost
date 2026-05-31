@@ -5,7 +5,7 @@ import { Container, Section } from "@/components/ui/Section";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-const stepKeys = ["1", "2", "3", "4", "5"] as const;
+const stepKeys = ["1", "2", "3", "4", "5", "6"] as const;
 const journeyKeys = ["1", "2", "3", "4", "5", "6"] as const;
 
 type ProcessTimelineProps = {

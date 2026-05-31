@@ -16,6 +16,7 @@ import { markOnboardingComplete, setOnboardingStep } from "@/lib/member/storage"
 import { typography } from "@/design/typography";
 import { useEffect } from "react";
 
+/** @deprecated Legacy onboarding flow — noindex, removed from nav. */
 export function OnboardingPageView() {
   const { t } = useTranslation();
   const [stepIndex, setStepIndex] = useState(0);

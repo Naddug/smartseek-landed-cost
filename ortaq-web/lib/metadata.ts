@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { env } from "@/lib/env";
+import { deprecatedRobots } from "@/lib/legacy-routes";
 import {
   getLiveSitemapRoutes, getRouteByKey, ROUTE_KEY_MAP, type RouteKey,
 } from "@/lib/seo/routes";
 
 export const site = {
-  name: "ORTAQ", url: env.siteUrl.replace(/\/$/, ""), locale: "tr_TR", defaultTitle: "ORTAQ : Gerçek şirket ortaklığı, yatırım fırsatları", defaultDescription: "Türkiye'de üretim şirketlerine paya dayalı ortaklık. İhracat odaklı sanayi yatırımı ve şirket incelemesi. Yatırım tavsiyesi değildir; kazanç garantisi yoktur.",
+  name: "ORTAQ",
+  url: env.siteUrl.replace(/\/$/, ""),
+  locale: "tr_TR",
+  defaultTitle: "ORTAQ : Doğrulanmış sermaye erişim ağı",
+  defaultDescription:
+    "İhracat odaklı üreticilerin kanıtını düzenler, keşfedilebilir kılar ve karşılıklı tanıştırma ile görüşme odasını açar. Yatırım satmaz, fonlama garanti etmez.",
 } as const;
 
 export type { RouteKey };
@@ -21,7 +27,7 @@ function resolvePageTitle(title: string, key: string): Metadata["title"] {
   return title.replace(/\s*\|\s*ORTAQ\s*$/i, "").trim();
 }
 
-export function buildMetadata(route: RouteKey, overrides?: MetadataOverrides): Metadata {
+export function buildMetadata(route: RouteKey, overrides?: MetadataOverrides & { deprecated?: boolean }): Metadata {
   const registryKey = ROUTE_KEY_MAP[route];
   const meta = getRouteByKey(registryKey);
   if (!meta) {
@@ -31,13 +37,31 @@ export function buildMetadata(route: RouteKey, overrides?: MetadataOverrides): M
   const title = overrides?.title ?? meta.title;
   const description = overrides?.description ?? meta.description;
   const url = `${site.url}${meta.path}`;
-  const noIndex = env.isStaging || env.isDevelopment;
+  const noIndex = overrides?.deprecated || env.isStaging || env.isDevelopment;
 
   return {
-    title: resolvePageTitle(title, meta.key), description, metadataBase: new URL(site.url), alternates: {
-      canonical: meta.path, languages: { "tr-TR": meta.path }, }, openGraph: {
-      title, description, url, siteName: site.name, locale: site.locale, type: "website", }, twitter: {
-      card: "summary_large_image", title, description, }, robots: noIndex ? { index: false, follow: false } : { index: true, follow: true }, };
+    title: resolvePageTitle(title, meta.key),
+    description,
+    metadataBase: new URL(site.url),
+    alternates: {
+      canonical: meta.path,
+      languages: { "tr-TR": meta.path },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: site.name,
+      locale: site.locale,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    robots: noIndex ? deprecatedRobots : { index: true, follow: true },
+  };
 }
 
 export function getSitemapRoutes() {

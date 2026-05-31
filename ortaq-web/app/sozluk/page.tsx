@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, definedTermSetSchema, webPageSchema } from "@/lib/seo/schema";
 import { getRouteByKey } from "@/lib/seo/routes";
 
-export const metadata = buildMetadata("sozluk");
+export const metadata = buildMetadata("sozluk", { deprecated: true });
 
 export default function GlossaryPage() {
   const route = getRouteByKey("sozluk")!;

@@ -7,6 +7,7 @@ import { getRouteByKey } from "@/lib/seo/routes";
 
 export const metadata = buildMetadata("sirketler", {
   description: buildCompaniesPageDescription(),
+  deprecated: true,
 });
 
 export default function CompaniesPage() {

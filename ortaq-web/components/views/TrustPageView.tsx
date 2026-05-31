@@ -12,6 +12,7 @@ import { RelatedLinks } from "@/components/seo/RelatedLinks";
 import { Button } from "@/components/ui/Button";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
+import { env } from "@/lib/env";
 
 const infrastructureClaims = [
   { titleKey: "trustPage.claims.1.title", textKey: "trustPage.claims.1.text", status: "pending" as const },
@@ -60,7 +61,11 @@ export function TrustPageView() {
         <Container narrow>
           <SectionHeader title={t("trustPage.support.title")} description={t("trustPage.support.intro")} />
           <p className={typography.body}>{t("trustPage.support.contact.text")}</p>
-          <ComplaintForm />
+          {env.complaintsEnabled ? (
+            <ComplaintForm />
+          ) : (
+            <p className={cn(typography.bodySm, "mt-4 text-ortaq-ink-muted")}>{t("trustPage.support.complaintOffline")}</p>
+          )}
           <div className="mt-8">
             <RelatedLinks route="guven" />
           </div>

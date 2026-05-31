@@ -8,6 +8,7 @@ import { RelatedLinks } from "@/components/seo/RelatedLinks";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
+/** @deprecated Legacy glossary — noindex, removed from nav. */
 export function GlossaryPageView() {
   return (
     <PublicShell stickyCta={false}>

@@ -10,6 +10,7 @@ import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 import { RelatedLinks } from "@/components/seo/RelatedLinks";
 
+/** @deprecated Legacy crowdfunding company list — noindex, removed from nav. */
 export function CompaniesListView() {
   const { t } = useTranslation();
   const campaigns = listCampaigns();

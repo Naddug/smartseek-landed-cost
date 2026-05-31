@@ -22,7 +22,7 @@ export function MobileStickyCta() {
         </div>
         <Link href="/#basvuru" className="shrink-0">
           <Button variant="primary" size="sm">
-            {t("homeLanding.hero.ctaPrimary")}
+            {t("nav.explore")}
           </Button>
         </Link>
       </div>

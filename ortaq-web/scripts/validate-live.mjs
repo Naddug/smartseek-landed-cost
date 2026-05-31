@@ -81,7 +81,7 @@ for (const path of routes) {
   if (path === "/sitemap.xml") {
     const count = (result.text.match(/<loc>/g) ?? []).length;
     if (isStaging && count === 0) ok("staging sitemap empty");
-    else if (!isStaging && count >= 10) ok(`prod sitemap ${count} URLs`);
+    else if (!isStaging && count >= 8) ok(`prod sitemap ${count} URLs`);
     else if (isStaging && count > 0) fail("staging sitemap should be empty");
     else if (!isStaging) fail(`prod sitemap only ${count} URLs`);
   }

@@ -15,8 +15,7 @@ import { HomepageFounder } from "@/components/landing/HomepageFounder";
 import { HomepageContact } from "@/components/landing/HomepageContact";
 
 /**
- * Growth Capital Access Network — 9 bölüm, her bölüm tek soru.
- * Dışa: Access · İç moat: Readiness · Güven: Validation.
+ * Growth Capital Access Network — belge, kanıt, keşif, tanıştırma, görüşme odası.
  */
 export function HomePageView() {
   return (

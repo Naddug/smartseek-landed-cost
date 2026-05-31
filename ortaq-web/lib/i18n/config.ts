@@ -1,14 +1,12 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import tr from "@/locales/tr.json";
-import en from "@/locales/en.json";
 
 export const defaultLocale = "tr" as const;
-export type Locale = "tr" | "en";
+export type Locale = "tr";
 
 const resources = {
   tr: { translation: tr },
-  en: { translation: en },
 };
 
 let initialized = false;
@@ -28,17 +26,17 @@ export function initI18n() {
 }
 
 export function setLocale(locale: Locale) {
+  if (locale !== "tr") return;
   initI18n();
-  void i18n.changeLanguage(locale);
+  void i18n.changeLanguage("tr");
   if (typeof document !== "undefined") {
-    document.documentElement.lang = locale;
+    document.documentElement.lang = "tr";
   }
 }
 
+/** Locale switching disabled at launch — Turkish only. */
 export function toggleLocale() {
-  initI18n();
-  const next = i18n.language === "tr" ? "en" : "tr";
-  setLocale(next);
+  setLocale("tr");
 }
 
 export default i18n;
