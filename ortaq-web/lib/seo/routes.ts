@@ -35,9 +35,9 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
   {
     key: "home",
     path: "/",
-    title: "ORTAQ : Üretim şirketleri ve sermaye",
+    title: "ORTAQ : Üretici ve sermaye buluşması",
     description:
-      "İhracat yapan üreticilerin belgelerini toparlar, inceler ve listeler. Sermaye tarafı şirketi görür; iki taraf uygun bulursa görüşme başlar. Yatırım satmaz, para toplamaz.",
+      "İhracatçı üreticileri doğru sermaye ile buluşturuyoruz. Belge platformu ve tanışma hizmeti. Para toplamıyoruz, yatırım satmıyoruz.",
     cluster: "core",
     intent: "informational",
     priority: 1,

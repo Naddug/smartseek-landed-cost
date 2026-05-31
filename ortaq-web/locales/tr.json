@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Üretim şirketleri ve sermaye",
-    "navTagline": "Üretim şirketleri ve sermaye"
+    "tagline": "Üretici ve sermaye buluşması",
+    "navTagline": "Üretici · sermaye"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
@@ -1349,8 +1349,8 @@
     "intro": "Önemli kararlar burada duyurulur."
   },
   "mobileCta": {
-    "label": "ORTAQ",
-    "sublabel": "Kanıt · keşif · tanıştırma"
+    "label": "Başvuru yapın",
+    "sublabel": "Üretici veya sermaye tarafı"
   },
   "journey": {
     "label": "Süreç",
@@ -2246,16 +2246,22 @@
   },
   "gca": {
     "hero": {
-      "kicker": "İhracat yapan üreticiler için",
-      "headline": "İyi şirketler doğru sermayeyi bulamıyor. Biz aradaki boşluğu kapatıyoruz.",
-      "sub": "Belgelerinizi toplar, düzenler ve inceleriz. Sermaye tarafı şirketinizi listede görür. İki taraf da uygun bulursa görüşmeye başlarsınız. Para toplamıyoruz, yatırım satmıyoruz.",
+      "kicker": "ORTAQ nedir?",
+      "headline": "İhracatçı üreticileri doğru sermaye ile buluşturuyoruz.",
+      "sub": "Belge platformu ve tanışma hizmeti.",
       "proof": {
         "1": "Pilot dönem",
         "2": "İlk üretici grubu açık",
         "3": "Belge odaklı süreç"
       },
-      "ctaCompany": "Şirket başvurusu",
-      "ctaCapital": "Sermaye tarafı"
+      "ctaCompany": "Üretici başvurusu",
+      "ctaCapital": "Sermaye tarafı",
+      "bullets": {
+        "1": "Üretici belgelerini toplar ve inceler",
+        "2": "Sermaye tarafı şirketi listede görür",
+        "3": "İki taraf uygun bulursa görüşme başlar"
+      },
+      "note": "Para toplamıyoruz, yatırım satmıyoruz, tavsiye vermiyoruz."
     },
     "problem": {
       "label": "Asıl sorun",
@@ -2453,7 +2459,7 @@
         },
         "2": {
           "k": "Ne yapar",
-          "v": "Belgeleri toplar, inceler, profili listeler; iki taraf uygun bulursa görüşme odasını açar."
+          "v": "Belgeleri toplar, inceler, listeler; iki taraf uygun bulursa görüşme odasını açar."
         },
         "3": {
           "k": "Neden önemli",

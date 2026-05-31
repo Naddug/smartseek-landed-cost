@@ -23,9 +23,40 @@ function TransformationSpine({ active = 3, dark = false, size = "md" }: { active
   const labelIdle = dark ? "text-ortaq-cream/45" : "text-ortaq-ink-soft";
   const labelOn = dark ? "text-ortaq-cream" : "text-ortaq-ink";
   const big = size === "md";
+  const dotSize = big ? "h-6 w-6 text-[0.625rem]" : "h-5 w-5 text-[0.5625rem]";
+  const labelSize = big ? "text-[0.625rem]" : "text-[0.5625rem]";
+
   return (
     <div className="w-full">
-      <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
+      {/* Mobile: yatay kaydırma, bağlantı çizgisi yok */}
+      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 snap-x snap-mandatory sm:-mx-6 sm:px-6 lg:mx-0 lg:hidden lg:px-0">
+        {states.map((k, i) => {
+          const reached = i <= active;
+          const isOutcome = i === active;
+          return (
+            <div key={k} className="flex min-w-[4.75rem] shrink-0 snap-start flex-col items-center">
+              <span
+                className={cn(
+                  "flex items-center justify-center rounded-full border font-mono tabular-nums",
+                  dotSize,
+                  isOutcome
+                    ? "border-ortaq-trust bg-ortaq-trust text-ortaq-cream"
+                    : reached
+                      ? "border-ortaq-trust bg-ortaq-trust-soft text-ortaq-trust-muted"
+                      : dotIdle,
+                )}
+              >
+                {i + 1}
+              </span>
+              <span className={cn("mt-2 px-0.5 text-center font-medium leading-tight", labelSize, isOutcome ? cn(labelOn, "font-semibold") : labelIdle)}>
+                {t(`gca.transform.states.${k}`)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      {/* Desktop: 6 sütun grid */}
+      <div className="hidden grid-cols-6 gap-y-6 lg:grid">
         {states.map((k, i) => {
           const reached = i <= active;
           const isOutcome = i === active;
@@ -37,7 +68,7 @@ function TransformationSpine({ active = 3, dark = false, size = "md" }: { active
               <span
                 className={cn(
                   "relative z-10 flex items-center justify-center rounded-full border font-mono tabular-nums",
-                  big ? "h-6 w-6 text-[0.625rem]" : "h-5 w-5 text-[0.5625rem]",
+                  dotSize,
                   isOutcome
                     ? "border-ortaq-trust bg-ortaq-trust text-ortaq-cream"
                     : reached
@@ -47,7 +78,7 @@ function TransformationSpine({ active = 3, dark = false, size = "md" }: { active
               >
                 {i + 1}
               </span>
-              <span className={cn("mt-3 px-1 text-center font-mono uppercase tracking-[0.08em]", big ? "text-[0.625rem]" : "text-[0.5625rem]", isOutcome ? cn(labelOn, "font-semibold") : labelIdle)}>
+              <span className={cn("mt-3 px-1 text-center font-medium leading-tight", labelSize, isOutcome ? cn(labelOn, "font-semibold") : labelIdle)}>
                 {t(`gca.transform.states.${k}`)}
               </span>
             </div>
@@ -77,18 +108,18 @@ function EvidenceLedger({ dark = false }: { dark?: boolean }) {
         {rows.map((k, i) => {
           const isFiled = filed.includes(k as (typeof filed)[number]);
           return (
-            <li key={k} className={cn("flex items-center justify-between border-b px-4 py-2.5", rowBorder, i === rows.length - 1 && "border-b-0")}>
-              <span className={cn("font-mono text-[0.75rem]", rowText)}>{t(`gca.transform.evidence.${k}`)}</span>
-              <span className={cn("flex items-center gap-1.5 font-mono text-[0.625rem] uppercase tracking-[0.1em]", isFiled ? "text-ortaq-trust-muted" : dark ? "text-ortaq-cream/45" : "text-ortaq-ink-soft")}>
-                <span aria-hidden>{isFiled ? "✓" : "○"}</span>{isFiled ? t("gca.transform.filed") : t("gca.transform.pending")}
+            <li key={k} className={cn("flex items-start justify-between gap-2 border-b px-3 py-2.5 sm:px-4 sm:items-center", rowBorder, i === rows.length - 1 && "border-b-0")}>
+              <span className={cn("min-w-0 flex-1 text-[0.8125rem] leading-snug sm:text-[0.75rem]", rowText, dark ? "font-normal" : "font-normal")}>{t(`gca.transform.evidence.${k}`)}</span>
+              <span className={cn("shrink-0 text-[0.625rem] font-medium", isFiled ? "text-ortaq-trust-muted" : dark ? "text-ortaq-cream/45" : "text-ortaq-ink-soft")}>
+                {isFiled ? t("gca.transform.filed") : t("gca.transform.pending")}
               </span>
             </li>
           );
         })}
       </ul>
-      <div className={cn("border-t px-4 py-3", dark ? "border-ortaq-cream/15 bg-ortaq-cream/5" : "border-ortaq-border bg-ortaq-trust-soft")}>
-        <span className={cn("font-mono text-[0.6875rem] uppercase tracking-[0.12em] font-semibold", dark ? "text-ortaq-cream" : "text-ortaq-trust-muted")}>{t("gca.transform.derived")}</span>
-        <p className={cn("mt-1 font-mono text-[0.625rem] leading-relaxed uppercase tracking-[0.08em]", dark ? "text-ortaq-cream/60" : "text-ortaq-ink-soft")}>{t("gca.transform.openQuestions")}</p>
+      <div className={cn("border-t px-3 py-3 sm:px-4", dark ? "border-ortaq-cream/15 bg-ortaq-cream/5" : "border-ortaq-border bg-ortaq-trust-soft")}>
+        <span className={cn("text-[0.75rem] font-semibold", dark ? "text-ortaq-cream" : "text-ortaq-trust-muted")}>{t("gca.transform.derived")}</span>
+        <p className={cn("mt-1 text-[0.75rem] leading-relaxed", dark ? "text-ortaq-cream/60" : "text-ortaq-ink-soft")}>{t("gca.transform.openQuestions")}</p>
       </div>
     </div>
   );
@@ -121,29 +152,39 @@ function CapitalNetwork({ dark }: { dark?: boolean }) {
 export function GcaHero() {
   const { t } = useTranslation();
   const proof = ["1", "2", "3"] as const;
+  const bullets = ["1", "2", "3"] as const;
   return (
     <section className="bg-ortaq-dark text-ortaq-cream" aria-label={t("gca.hero.headline")}>
-      <Container wide className="py-16 sm:py-20 lg:py-24">
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
+      <Container wide className="py-10 sm:py-16 lg:py-24">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7 lg:pr-8">
             <Kicker dark>{t("gca.hero.kicker")}</Kicker>
-            <h1 className="mt-5 text-[2.25rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ortaq-cream sm:text-[3.25rem] lg:text-[3.75rem]">
+            <h1 className="mt-3 text-[1.625rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ortaq-cream sm:mt-5 sm:text-[2.25rem] sm:leading-[1.08] lg:text-[3rem]">
               {t("gca.hero.headline")}
             </h1>
-            <p className="mt-6 max-w-xl text-[0.9375rem] leading-[1.65] text-ortaq-cream/75 sm:text-base">{t("gca.hero.sub")}</p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Link href="#for-companies" className="rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-dark transition-opacity hover:opacity-90">{t("gca.hero.ctaCompany")}</Link>
-              <Link href="/demo/sermaye" className="rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-cream transition-colors hover:border-ortaq-cream/60">{t("gca.hero.ctaCapital")}</Link>
+            <p className="mt-4 max-w-xl text-[0.9375rem] leading-[1.6] text-ortaq-cream/80 sm:mt-5 sm:text-base">{t("gca.hero.sub")}</p>
+            <ul className="mt-5 space-y-2.5 sm:mt-6">
+              {bullets.map((k) => (
+                <li key={k} className="flex gap-2.5 text-[0.875rem] leading-snug text-ortaq-cream/90 sm:text-[0.9375rem]">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ortaq-trust-muted" aria-hidden />
+                  {t(`gca.hero.bullets.${k}`)}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-[0.8125rem] leading-relaxed text-ortaq-cream/55 sm:mt-5">{t("gca.hero.note")}</p>
+            <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-3">
+              <Link href="#for-companies" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-center text-[0.875rem] font-medium text-ortaq-dark transition-opacity hover:opacity-90 sm:min-h-0">{t("gca.hero.ctaCompany")}</Link>
+              <Link href="/demo/sermaye" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-center text-[0.875rem] font-medium text-ortaq-cream transition-colors hover:border-ortaq-cream/60 sm:min-h-0">{t("gca.hero.ctaCapital")}</Link>
             </div>
-            <div className="mt-10 flex flex-wrap gap-x-10 gap-y-2 border-t border-ortaq-cream/12 pt-5">
-              {proof.map((k) => <span key={k} className="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ortaq-cream/55">{t(`gca.hero.proof.${k}`)}</span>)}
+            <div className="mt-6 hidden flex-wrap gap-x-6 gap-y-2 border-t border-ortaq-cream/12 pt-4 sm:mt-8 sm:flex sm:pt-5">
+              {proof.map((k) => <span key={k} className="text-[0.6875rem] font-medium text-ortaq-cream/55">{t(`gca.hero.proof.${k}`)}</span>)}
             </div>
           </div>
-          <div className="lg:col-span-5">
-            <EvidenceLedger />
+          <div className="hidden lg:col-span-5 lg:block">
+            <EvidenceLedger dark />
           </div>
         </div>
-        <div className="mt-14 border-t border-ortaq-cream/12 pt-8">
+        <div className="mt-8 border-t border-ortaq-cream/12 pt-6 lg:mt-14 lg:pt-8">
           <TransformationSpine active={3} dark />
         </div>
       </Container>
@@ -157,11 +198,11 @@ export function GcaWhatIs() {
   const keys = ["1", "2", "3"] as const;
   return (
     <section className="border-b border-ortaq-border bg-ortaq-surface" aria-label={t("gca.whatIs.title")}>
-      <Container wide className="py-16 sm:py-20">
+      <Container wide className="py-10 sm:py-16 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Kicker>{t("gca.whatIs.label")}</Kicker>
-            <h2 className="mt-3 text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-ink sm:text-[2rem]">{t("gca.whatIs.title")}</h2>
+            <h2 className="mt-3 text-[1.375rem] font-semibold leading-[1.12] tracking-[-0.02em] text-ortaq-ink sm:text-[1.75rem] lg:text-[2rem]">{t("gca.whatIs.title")}</h2>
           </div>
           <div className="lg:col-span-8">
             {keys.map((k, i) => (
@@ -186,15 +227,15 @@ export function GcaWhyFails() {
   const keys = ["1", "2", "3"] as const;
   return (
     <section className="border-b border-ortaq-border bg-ortaq-bg" aria-label={t("gca.broken.title")}>
-      <Container wide className="py-16 sm:py-20">
+      <Container wide className="py-10 sm:py-16 lg:py-20">
         <div className="max-w-2xl">
           <Kicker>{t("gca.broken.label")}</Kicker>
           <h2 className="mt-3 text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-ink sm:text-[2rem]">{t("gca.broken.title")}</h2>
         </div>
         <div className="mt-12 border-t border-ortaq-border">
           {keys.map((k, i) => (
-            <div key={k} className="grid items-baseline gap-4 border-b border-ortaq-border py-6 sm:grid-cols-[5rem_14rem_minmax(0,1fr)]">
-              <span className="font-mono text-[1.75rem] leading-none tabular-nums text-ortaq-border-strong">0{i + 1}</span>
+            <div key={k} className="grid gap-2 border-b border-ortaq-border py-5 sm:grid-cols-[3rem_9rem_minmax(0,1fr)] sm:items-baseline sm:gap-4 sm:py-6">
+              <span className="font-mono text-[1.25rem] leading-none tabular-nums text-ortaq-border-strong sm:text-[1.75rem]">0{i + 1}</span>
               <p className="font-semibold text-ortaq-ink">{t(`gca.broken.points.${k}.k`)}</p>
               <p className={cn(typography.bodySm, "text-ortaq-ink-muted")}>{t(`gca.broken.points.${k}.v`)}</p>
             </div>
@@ -214,11 +255,11 @@ export function GcaAudience() {
     <section className="scroll-mt-20" aria-label="Şirketler ve sermaye partnerleri">
       {/* Company world — a record being built */}
       <div id="for-companies" className="border-b border-ortaq-border bg-ortaq-bg-alt scroll-mt-20">
-        <Container wide className="py-16 sm:py-20">
+        <Container wide className="py-10 sm:py-16 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <Kicker>{t("gca.forCompanies.label")}</Kicker>
-              <h2 className="mt-3 text-[1.75rem] font-semibold leading-[1.08] tracking-[-0.02em] text-ortaq-ink sm:text-[2.25rem]">{t("gca.forCompanies.title")}</h2>
+              <h2 className="mt-3 text-[1.375rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-ink sm:text-[1.75rem] lg:text-[2.25rem]">{t("gca.forCompanies.title")}</h2>
               <p className={cn(typography.body, "mt-4 max-w-xl font-medium text-ortaq-ink")}>{t("gca.forCompanies.problem")}</p>
               <ul className="mt-6 max-w-xl">
                 {c.map((k) => (
@@ -246,7 +287,7 @@ export function GcaAudience() {
 
       {/* Capital world — terminal pipeline */}
       <div id="for-capital" className="border-b border-ortaq-border bg-ortaq-dark text-ortaq-cream scroll-mt-20">
-        <Container wide className="py-16 sm:py-20">
+        <Container wide className="py-10 sm:py-16 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="order-2 lg:order-1 lg:col-span-5">
               <div className="rounded-ortaq-md border border-ortaq-cream/15">
@@ -255,9 +296,9 @@ export function GcaAudience() {
                 </div>
                 <ul>
                   {(["1", "2", "3"] as const).map((k, i) => (
-                    <li key={k} className={cn("flex items-center justify-between gap-3 px-4 py-3", i < 2 && "border-b border-ortaq-cream/10", i === 2 && "opacity-40")}>
-                      <span className="font-mono text-[0.75rem] text-ortaq-cream/80">{t(`gca.forCapital.feed.${k}.name`)}</span>
-                      <span className="shrink-0 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ortaq-trust-muted">{t(`gca.forCapital.feed.${k}.status`)}</span>
+                    <li key={k} className={cn("flex items-center justify-between gap-2 px-3 py-3 sm:px-4", i < 2 && "border-b border-ortaq-cream/10", i === 2 && "opacity-40")}>
+                      <span className="min-w-0 flex-1 truncate text-[0.8125rem] text-ortaq-cream/80">{t(`gca.forCapital.feed.${k}.name`)}</span>
+                      <span className="shrink-0 text-[0.625rem] font-medium text-ortaq-trust-muted">{t(`gca.forCapital.feed.${k}.status`)}</span>
                     </li>
                   ))}
                   <li className="px-4 py-2.5">
@@ -268,7 +309,7 @@ export function GcaAudience() {
             </div>
             <div className="order-1 lg:order-2 lg:col-span-7 lg:pl-6">
               <Kicker dark>{t("gca.forCapital.label")}</Kicker>
-              <h2 className="mt-3 text-[1.75rem] font-semibold leading-[1.08] tracking-[-0.02em] text-ortaq-cream sm:text-[2.25rem]">{t("gca.forCapital.title")}</h2>
+              <h2 className="mt-3 text-[1.375rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-cream sm:text-[1.75rem] lg:text-[2.25rem]">{t("gca.forCapital.title")}</h2>
               <p className="mt-4 max-w-xl text-[0.9375rem] font-medium text-ortaq-cream">{t("gca.forCapital.problem")}</p>
               <ul className="mt-6 max-w-xl">
                 {c.map((k) => (
@@ -291,14 +332,13 @@ export function GcaHowItWorks() {
   const keys = ["1", "2", "3", "4", "5", "6"] as const;
   return (
     <section className="border-b border-ortaq-border bg-ortaq-surface" aria-label={t("gca.how.title")}>
-      <Container wide className="py-20 sm:py-24">
+      <Container wide className="py-10 sm:py-16 lg:py-20">
         <div className="max-w-2xl">
           <Kicker>{t("gca.how.label")}</Kicker>
-          <h2 className="mt-3 text-[1.875rem] font-semibold leading-[1.06] tracking-[-0.025em] text-ortaq-ink sm:text-[2.5rem]">{t("gca.how.title")}</h2>
+          <h2 className="mt-3 text-[1.375rem] font-semibold leading-[1.12] tracking-[-0.02em] text-ortaq-ink sm:text-[2rem] lg:text-[2.5rem]">{t("gca.how.title")}</h2>
         </div>
 
-        {/* the transformation, full scale */}
-        <div className="mt-14">
+        <div className="mt-8 sm:mt-14">
           <TransformationSpine active={3} />
         </div>
 
@@ -342,9 +382,9 @@ function EvidenceReviewPanel() {
         {rows.map((k, i) => {
           const isFiled = filed.includes(k as (typeof filed)[number]);
           return (
-            <li key={k} className={cn("flex items-center justify-between border-b border-ortaq-border px-4 py-2.5", i === rows.length - 1 && "border-b-0")}>
-              <span className="font-mono text-[0.75rem] text-ortaq-ink">{t(`gca.transform.evidence.${k}`)}</span>
-              <span className={cn("font-mono text-[0.625rem] uppercase tracking-[0.1em]", isFiled ? "text-ortaq-trust-muted" : "text-ortaq-ink-soft")}>
+            <li key={k} className={cn("flex items-start justify-between gap-2 border-b border-ortaq-border px-3 py-2.5 sm:items-center sm:px-4", i === rows.length - 1 && "border-b-0")}>
+              <span className="min-w-0 flex-1 text-[0.8125rem] leading-snug text-ortaq-ink">{t(`gca.transform.evidence.${k}`)}</span>
+              <span className={cn("shrink-0 text-[0.625rem] font-medium", isFiled ? "text-ortaq-trust-muted" : "text-ortaq-ink-soft")}>
                 {isFiled ? t("gca.transform.reviewed") : t("gca.transform.pending")}
               </span>
             </li>
@@ -366,7 +406,7 @@ export function GcaTrust() {
   const keys = ["1", "2", "3"] as const;
   return (
     <section className="border-b border-ortaq-border bg-ortaq-bg" aria-label={t("gca.trust.title")}>
-      <Container wide className="py-16 sm:py-20">
+      <Container wide className="py-10 sm:py-16 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Kicker>{t("gca.trust.label")}</Kicker>
@@ -393,7 +433,7 @@ export function GcaModel() {
   const rows = ["ortaq", "company", "investor"] as const;
   return (
     <section className="border-b border-ortaq-border bg-ortaq-surface" aria-label={t("gca.model.title")}>
-      <Container wide className="py-16 sm:py-20">
+      <Container wide className="py-10 sm:py-16 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Kicker>{t("gca.model.label")}</Kicker>
@@ -403,7 +443,7 @@ export function GcaModel() {
           </div>
           <div className="lg:col-span-8">
             {rows.map((r) => (
-              <div key={r} className="grid grid-cols-[8rem_minmax(0,1fr)] gap-5 border-t border-ortaq-border py-5 first:border-t-0 sm:grid-cols-[12rem_minmax(0,1fr)]">
+              <div key={r} className="flex flex-col gap-1 border-t border-ortaq-border py-4 first:border-t-0 sm:grid sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-5 sm:py-5 lg:grid-cols-[12rem_minmax(0,1fr)]">
                 <span className="font-semibold text-ortaq-ink">{t(`gca.model.${r}.k`)}</span>
                 <span className={cn(typography.bodySm, "text-ortaq-ink-muted")}>{t(`gca.model.${r}.v`)}</span>
               </div>
@@ -420,18 +460,18 @@ export function GcaCta() {
   const { t } = useTranslation();
   return (
     <section id="cta" className="bg-ortaq-dark text-ortaq-cream scroll-mt-20" aria-label={t("gca.cta.title")}>
-      <Container wide className="py-20 sm:py-24">
-        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
+      <Container wide className="py-10 sm:py-16 lg:py-20">
+        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <Kicker dark>{t("gca.cta.label")}</Kicker>
-            <h2 className="mt-4 max-w-2xl text-[2rem] font-semibold leading-[1.04] tracking-[-0.03em] text-ortaq-cream sm:text-[2.75rem]">{t("gca.cta.title")}</h2>
-            <p className="mt-5 max-w-xl text-[0.9375rem] leading-[1.6] text-ortaq-cream/70">{t("gca.cta.body")}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <h2 className="mt-3 max-w-2xl text-[1.375rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-cream sm:mt-4 sm:text-[2rem] lg:text-[2.75rem]">{t("gca.cta.title")}</h2>
+            <p className="mt-4 max-w-xl text-[0.9375rem] leading-[1.6] text-ortaq-cream/70 sm:mt-5">{t("gca.cta.body")}</p>
+            <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-3">
               <Link href="/#basvuru" className="rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-dark transition-opacity hover:opacity-90">{t("gca.cta.primaryCompany")}</Link>
               <Link href="/demo/sermaye" className="rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-cream transition-colors hover:border-ortaq-cream/60">{t("gca.cta.secondaryCapital")}</Link>
             </div>
           </div>
-          <div className="lg:col-span-5">
+          <div className="hidden lg:col-span-5 lg:block">
             <CapitalNetwork dark />
           </div>
         </div>

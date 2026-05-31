@@ -38,8 +38,8 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
       )}
     >
       <Container wide>
-        <div className="flex h-[3.75rem] min-h-[3.75rem] items-center justify-between gap-3 sm:gap-4">
-          <div className="min-w-0 shrink">
+        <div className="flex h-[3.25rem] min-h-[3.25rem] items-center justify-between gap-2 sm:h-[3.75rem] sm:min-h-[3.75rem] sm:gap-4">
+          <div className="min-w-0 flex-1 shrink">
             <Logo
               showTagline
               theme={light ? "dark" : "light"}
