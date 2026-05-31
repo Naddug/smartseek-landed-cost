@@ -18,8 +18,8 @@ export function FaqPageView() {
         <Container narrow>
           <SectionHeader
             titleAs="h1"
-            title={t("homeProduct.invest.faq.title")}
-            description={t("homeProduct.invest.faq.lead")}
+            title={t("gca.faq.label")}
+            description={t("gca.faq.lead")}
           />
 
           <dl className="space-y-0 border-y border-ortaq-border">

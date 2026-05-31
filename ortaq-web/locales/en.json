@@ -1,15 +1,15 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Growth platform for Turkish producers",
-    "navTagline": "Export and growth capital"
+    "tagline": "Growth capital access network",
+    "navTagline": "Growth capital access network"
   },
   "nav": {
-    "howItWorks": "Investment process",
+    "howItWorks": "How it works",
     "companies": "Companies",
-    "trust": "Trust infrastructure",
+    "trust": "Trust",
     "risk": "Risk framework",
-    "evaluation": "Evaluation",
+    "evaluation": "How we select",
     "memberArea": "Your space",
     "explore": "Apply",
     "menu": "Menu",
@@ -1057,12 +1057,12 @@
     }
   },
   "trustStrip": {
-    "status": "No transactions accepted yet",
+    "status": "Currently in pilot",
     "intro": "These items describe regulatory requirements in the partnership process. ORTAQ does not process live transactions yet.",
-    "mkk": "Under regulation, share records are held at MKK",
-    "escrow": "During the campaign, funds are held in escrow",
+    "mkk": "Execution runs in a an authorized, regulated institution",
+    "escrow": "ORTAQ holds no money",
     "edevlet": "Identity verification is done via e-Government",
-    "disclosure": "Information memorandum and risk disclosure are read before any transaction"
+    "disclosure": "Validation and readiness first"
   },
   "trust": {
     "status": {
@@ -1100,8 +1100,8 @@
       }
     },
     "license": {
-      "status": "SPK-licensed platform partnership in discussion",
-      "detail": "Partnership transactions will run on listed crowdfunding platform infrastructure. Name and license number will be published here when agreed."
+      "status": "In discussion with a an authorized, regulated institution",
+      "detail": "If a financing happens, execution runs through a an authorized, regulated institution under SPK regulation. Details will appear here once the arrangement is complete."
     },
     "depth": {
       "label": "Transparency",
@@ -1111,16 +1111,16 @@
       "cta": "Trust page",
       "claims": {
         "1": {
-          "title": "SPK-licensed platform partnership",
-          "text": "Retail partnership is only possible via SPK-listed platform infrastructure. Partner selection is ongoing."
+          "title": "Licensed structure",
+          "text": "If a financing happens, execution runs through a an authorized, regulated institution under SPK regulation. In discussion."
         },
         "2": {
-          "title": "Escrow account",
-          "text": "Until the campaign completes, funds stay blocked with the escrow agent."
+          "title": "Holds no money",
+          "text": "ORTAQ holds and transfers no money; it is a validation and introduction layer."
         },
         "3": {
-          "title": "MKK share registry",
-          "text": "After the capital increase, shares appear in Central Registry under your name."
+          "title": "Independent validation",
+          "text": "Every claim is verified with evidence and labeled; what cannot be proven is not published."
         }
       }
     }
@@ -1162,20 +1162,20 @@
       },
       "money": {
         "label": "Money",
-        "title": "Where does your money go?",
+        "title": "ORTAQ and money",
         "intro": "The most common question. In short:",
         "phases": {
           "1": {
-            "title": "When you join",
-            "text": "Funds go to an escrow account. Not to the company."
+            "title": "ORTAQ holds no money",
+            "text": "Money does not go to ORTAQ; ORTAQ is a validation and introduction layer."
           },
           "2": {
-            "title": "During the campaign",
-            "text": "Funds stay blocked. The company cannot use them."
+            "title": "If a financing happens",
+            "text": "Execution runs through a an authorized, regulated institution, between the parties."
           },
           "3": {
-            "title": "When the campaign ends",
-            "text": "If the target is met, capital increase proceeds. If not, refund process applies."
+            "title": "Afterwards",
+            "text": "The process continues between the parties; ORTAQ supports them."
           },
           "4": {
             "title": "After that",
@@ -1188,7 +1188,7 @@
         "label": "Risks",
         "title": "Know the risks",
         "intro": "You can lose money in partnership. We do not hide that.",
-        "ack": "I have read the risk items. I know I may lose everything, cannot withdraw quickly, and annual limits apply."
+        "ack": "I have read the risks. I know there is no outcome guarantee."
       },
       "process": {
         "label": "Process",
@@ -1197,10 +1197,10 @@
       },
       "wait": {
         "label": "For now",
-        "title": "No transactions yet",
-        "text": "ORTAQ does not process transactions yet. You are here to read. That is normal.",
+        "title": "Pilot stage",
+        "text": "ORTAQ is currently in pilot; we are in talks with a first manufacturer cohort.",
         "emptyTitle": "Platform not ready",
-        "emptyText": "When the licensed platform agreement is final, you will continue from here. Reading is enough for now.",
+        "emptyText": "You continue as access opens.",
         "partnerNote": "Platform agreement not yet in place",
         "delay": "If there is a delay, we will say so on this page. Nothing opens silently.",
         "whatYouCanDo": "What you can do now",
@@ -1213,55 +1213,55 @@
     }
   },
   "risk": {
-    "label": "Know this first",
-    "title": "Every partnership carries risk",
-    "intro": "ORTAQ aims to align the process with regulation; it does not remove risk.",
+    "label": "Limits",
+    "title": "ORTAQ builds the process, not the outcome",
+    "intro": "ORTAQ provides validation and access; it does not guarantee an outcome. The decision is the parties'.",
     "items": {
-      "1": "You may lose your entire contribution.",
-      "2": "Money does not return quickly; exit can take years.",
-      "3": "The company may miss or delay targets.",
-      "4": "Annual participation limits apply. Amounts are in the information memorandum and regulation.",
-      "5": "ORTAQ does not give investment advice. The decision is yours."
+      "1": "Access and introduction do not guarantee an outcome.",
+      "2": "A financing does not always happen.",
+      "3": "The readiness score is not a guarantee.",
+      "4": "ORTAQ holds no money and gives no advice.",
+      "5": "A company's future performance cannot be guaranteed."
     },
     "cooling": "Legal cooling-off applies during the campaign. Terms are in the information memorandum.",
     "preface": "A short list to read before deciding.",
     "fullPageLink": "All risks and limits"
   },
   "process": {
-    "label": "Investment process",
-    "title": "From dossier review to value creation: six steps",
-    "intro": "Dossier review begins inside ORTAQ's evaluation layer; selection passes through structural due diligence; participation completes on the licensed platform under SPK regulation. Five steps summarise the legal partnership flow.",
-    "journeyLabel": "Investor journey",
+    "label": "How it works",
+    "title": "From visibility to qualified introduction",
+    "intro": "A company profile is built and verified; investment readiness is scored; direct, verified access is provided to the capital partner that fits the thesis. ORTAQ is the validation and introduction layer; it holds no money.",
+    "journeyLabel": "Process",
     "journey": {
-      "1": "Dossier review",
+      "1": "Visibility",
       "2": "Verification",
-      "3": "Committee approval",
-      "4": "Participation",
-      "5": "Monitoring",
-      "6": "Value creation"
+      "3": "Readiness",
+      "4": "Match",
+      "5": "Introduction",
+      "6": "Growth"
     },
-    "journeyNote": "ORTAQ provides the review and verification layer; selection passes through six-stage due diligence; transactions run on the licensed platform.",
+    "journeyNote": "ORTAQ provides the validation and readiness layer; introductions happen on mutual consent; ORTAQ holds no money.",
     "stepLabel": "Step {{step}}",
     "steps": {
       "1": {
-        "title": "Dossier review",
-        "text": "Read the company dossiers: capacity, export profile, machine park, capital use plan, and review stages."
+        "title": "Visibility",
+        "text": "The company becomes a standard, investor-friendly, comparable profile."
       },
       "2": {
         "title": "Verification",
-        "text": "Document, field, and operational data layers are evaluated under the SPK framework."
+        "text": "Export, capacity and documents are verified on the ground and with data."
       },
       "3": {
-        "title": "Committee approval",
-        "text": "The investment committee reviews the dossier for publication and issues the listing decision."
+        "title": "Readiness",
+        "text": "Investment readiness is measured and scored; gaps are identified."
       },
       "4": {
-        "title": "Participation",
-        "text": "Equity-partnership acquisition via the licensed platform; capital sits in escrow until the campaign closes."
+        "title": "Match",
+        "text": "Suitable capital partners are identified by sector, geography, ticket size and thesis."
       },
       "5": {
-        "title": "Monitoring",
-        "text": "Capital increase, MKK share registration, and operational updates: value creation tracks company performance."
+        "title": "Introduction",
+        "text": "On mutual interest, a qualified introduction is made; the process continues between the parties."
       }
     }
   },
@@ -1318,7 +1318,7 @@
       "title": "Reminders",
       "items": {
         "1": "No return is guaranteed.",
-        "2": "Funds stay in escrow; they do not go directly to the company.",
+        "2": "ORTAQ holds no money; if a financing happens, execution runs in a an authorized, regulated institution.",
         "3": "Do not decide without understanding: you can ask questions."
       }
     },
@@ -1338,19 +1338,19 @@
     }
   },
   "footer": {
-    "tagline": "Disciplined discovery layer for Turkish industrial investment: a clear path to partnership in real companies.",
-    "protectionLabel": "Investor protection",
-    "regulatory": "Equity crowdfunding requires annual limits, information memorandum, risk disclosure, and cooling-off rights for individual participants. Transactions run on an SPK-regulated licensed platform.",
-    "notAdvice": "ORTAQ does not provide investment advice. Content is for information only; returns are not guaranteed.",
+    "tagline": "A growth capital access network that makes strong but invisible manufacturers investment-ready and visible.",
+    "protectionLabel": "Trust and compliance",
+    "regulatory": "ORTAQ holds no money, sells no investments and conducts no securities activity. It only provides validation, readiness and qualified introductions.",
+    "notAdvice": "ORTAQ gives no investment advice. The content here is for information.",
     "trustPills": {
-      "1": "SPK-compliant process framework",
-      "2": "Escrow account protection",
-      "3": "Transparent reporting and dossiers",
-      "4": "MKK share registry discipline"
+      "1": "Independent validation layer",
+      "2": "Holds and transfers no money",
+      "3": "Gives no investment advice",
+      "4": "Execution via an authorized, regulated institution"
     },
     "faqTeaser": {
-      "label": "Investment questions",
-      "title": "Clear answers on partnership, returns, and risk",
+      "label": "FAQ",
+      "title": "Clear answers on access, readiness and process",
       "link": "Full FAQ"
     },
     "trustTitle": "Trust",
@@ -1377,11 +1377,11 @@
     "subtitle": "Serious investment layer: we do not state what we cannot prove. From dossier review to structural evaluation, from the trust framework to participation , legal protection and operational transparency at every step."
   },
   "journey": {
-    "label": "Investor process",
-    "note": "Dossier review → verification → trust layer → partnership. ORTAQ is a documented evaluation infrastructure followed step by step.",
-    "processLink": "Participation process",
-    "evaluationLink": "Company selection",
-    "trustLink": "Investor protection",
+    "label": "Process",
+    "note": "Visibility → verification → readiness → introduction. ORTAQ is a step-by-step documented validation and access layer.",
+    "processLink": "Process",
+    "evaluationLink": "How we select",
+    "trustLink": "Trust and compliance",
     "riskLink": "Risks"
   },
   "mobileCta": {
@@ -1389,18 +1389,18 @@
     "sublabel": "Export, verified partners, growth capital"
   },
   "evaluationPage": {
-    "label": "Company selection",
-    "title": "How are companies evaluated?",
-    "lead": "Not every application is accepted. ORTAQ files only manufacturing companies with verifiable operations and long-term economic logic , six-stage due diligence before investors see a dossier.",
-    "leadSecondary": "This is the verification leg of the investor journey: after discovery, before participation. Trust layers and the participation process build on this review.",
-    "journeyContext": "After evaluation, read the trust framework, then proceed to the participation process.",
+    "label": "How we select",
+    "title": "How do we select companies?",
+    "lead": "Not every application is accepted. ORTAQ makes only producing, verifiable companies with clear growth logic investment-ready, through multi-stage verification before they reach a capital partner.",
+    "leadSecondary": "This is the readiness leg of access: after visibility, before introduction. The trust framework and introduction are built on it.",
+    "journeyContext": "After verification, read the trust framework, then move to the access process.",
     "stageLabel": "Stage {{key}}",
     "rejectLabel": "Example rejection reason:",
     "exampleLabel": "Sample dossier:",
     "exampleLink": "Karat Parça Makina",
-    "exampleMeta": "Konya · field verification in progress.",
-    "cta": "Review evaluation dossier",
-    "journeyLink": "Full investment journey →",
+    "exampleMeta": "Konya · in verification.",
+    "cta": "Review the verification process",
+    "journeyLink": "Full process →",
     "stages": {
       "1": {
         "title": "Initial screening",
@@ -1428,16 +1428,16 @@
         "reject": "Misleading statements, press pressure, unrealistic growth claims."
       },
       "6": {
-        "title": "Committee and platform",
-        "text": "Finance, field, and legal vote. Licensed crowdfunding platform final approval.",
-        "reject": "Committee rejection or platform non-approval."
+        "title": "Readiness approval",
+        "text": "Validation and readiness review is completed; the company is deemed fit to present to a capital partner.",
+        "reject": "Failing validation or readiness criteria."
       }
     }
   },
   "trustPage": {
-    "title": "Trust and investor protection",
-    "subtitle": "Serious investment layer: we do not publish unproven claims. From discovery to evaluation, from trust framework to participation , legal protection and operational transparency at every step.",
-    "journeyNote": "After reading company selection, verify trust layers here; then proceed to the participation process.",
+    "title": "Trust and compliance",
+    "subtitle": "ORTAQ holds no money, sells no investments and gives no advice. It is a validation, readiness and qualified introduction layer; evidence and transparency at every step.",
+    "journeyNote": "After reading the verification process, see the trust layers here, then move to the access process.",
     "layersTitle": "What the process includes",
     "infrastructure": {
       "title": "Infrastructure status",
@@ -1445,38 +1445,38 @@
     },
     "claims": {
       "1": {
-        "title": "Platform partner",
-        "text": "Talks with an SPK-listed crowdfunding platform are ongoing. Name and license number will appear here."
+        "title": "Independent validation",
+        "text": "Every claim is labeled; what cannot be proven is not published."
       },
       "2": {
-        "title": "Escrow agent",
-        "text": "Escrow structure will be defined with the partner platform per regulation."
+        "title": "Holds no money",
+        "text": "ORTAQ holds and transfers no money."
       },
       "3": {
-        "title": "MKK integration",
-        "text": "After partnership completes, share records are held at MKK in the participant's name."
+        "title": "Licensed structure",
+        "text": "If a financing happens, execution runs through a an authorized, regulated institution."
       }
     },
     "layers": {
       "1": {
-        "title": "Legal framework",
-        "text": "Equity partnership runs under SPK regulation."
+        "title": "Role separation",
+        "text": "ORTAQ validates and introduces; execution runs between the parties and the an authorized, regulated institution."
       },
       "2": {
-        "title": "Fund protection",
-        "text": "Funds stay blocked in escrow until the campaign ends."
+        "title": "Money",
+        "text": "ORTAQ holds no money; financing runs in the an authorized, regulated institution."
       },
       "3": {
-        "title": "Share registry",
-        "text": "Partnership rights are recorded at MKK."
+        "title": "Validation",
+        "text": "Company signals are verified with evidence and labeled."
       },
       "4": {
-        "title": "Human review",
-        "text": "Projects are reviewed by the investment committee."
+        "title": "Review",
+        "text": "Files go through readiness review; if unfit, the reason is shared."
       },
       "5": {
-        "title": "Open communication",
-        "text": "Delays and bad news are not hidden."
+        "title": "Communication",
+        "text": "Bad news is not hidden; written notice is sent."
       }
     },
     "committee": {
@@ -1496,7 +1496,7 @@
           "desc": "Trade registry, SPK compliance, memorandum integrity."
         }
       },
-      "note": "Names and bios published together with the platform partner."
+      "note": "Companies go through validation and readiness review; the process is documented."
     },
     "support": {
       "title": "Contact and complaints",
@@ -1518,36 +1518,36 @@
   },
   "riskPage": {
     "title": "Risks and limits",
-    "subtitle": "Read before deciding on partnership.",
-    "notAdvice": "This page is not investment advice.",
+    "subtitle": "Know these before you decide.",
+    "notAdvice": "This page is not advice.",
     "sections": {
       "1": {
-        "title": "Principal risk",
-        "text": "You may lose everything. No return guarantee."
+        "title": "No outcome guarantee",
+        "text": "Access and introduction do not guarantee an outcome; a financing may not happen."
       },
       "2": {
-        "title": "Liquidity",
-        "text": "You may not sell when you want. Exit can take years."
+        "title": "Meeting outcome",
+        "text": "A meeting with a capital partner may not end positively."
       },
       "3": {
-        "title": "Retail limits",
-        "text": "Non-qualified individuals face annual limits per regulation."
+        "title": "Readiness score",
+        "text": "The readiness score is an assessment, not a guarantee."
       },
       "4": {
-        "title": "Cooling-off",
-        "text": "Legal cooling-off during the campaign per information memorandum."
+        "title": "Timing",
+        "text": "Access and introduction can take time."
       },
       "5": {
-        "title": "Tax",
-        "text": "Partnership may create tax obligations. Consult your accountant."
+        "title": "Data accuracy",
+        "text": "Profile and data accuracy is the responsibility of the sharing party."
       },
       "6": {
-        "title": "Company risk",
-        "text": "The company may fail, miss targets, or change management."
+        "title": "Company",
+        "text": "A company's future performance cannot be guaranteed."
       },
       "7": {
-        "title": "Platform role",
-        "text": "ORTAQ provides an interface; it does not guarantee company performance."
+        "title": "ORTAQ's role",
+        "text": "ORTAQ is a validation and introduction layer; it holds no money, gives no advice, guarantees no outcome."
       }
     },
     "help": {
@@ -1569,7 +1569,7 @@
       "title": "Terms of use",
       "updated": "Last updated: May 2026",
       "p1": "ORTAQ does not give investment advice.",
-      "p2": "Partnership will run on SPK-licensed crowdfunding platform infrastructure.",
+      "p2": "If a financing happens, execution runs through a an authorized, regulated institution under SPK regulation; ORTAQ holds no money and conducts no capital markets activity.",
       "p3": "Full terms published before platform partnership."
     },
     "back": "Back to home"
@@ -1808,7 +1808,7 @@
       "aria": "Application",
       "label": "Contact",
       "title": "Contact",
-      "lead": "Write as a producer or investor; we will reply shortly.",
+      "lead": "Write as a company or capital partner; we will get back to you shortly.",
       "teamLabel": "Team",
       "team": {
         "1": {
@@ -1832,7 +1832,7 @@
         "role": "You are applying as",
         "rolePlaceholder": "Select",
         "roleCompany": "Production company",
-        "roleInvestor": "Investor",
+        "roleInvestor": "Capital partner",
         "rolePartner": "Licensed partner / fund",
         "roleOther": "Other",
         "message": "Message",
@@ -2046,7 +2046,7 @@
         "lead": "Not a listed stock. You finance a growing manufacturer and earn a revenue share from its sales.",
         "points": {
           "1": "You earn a revenue share from the growing manufacturer's sales",
-          "2": "Execution runs in the licensed structure, not at ORTAQ"
+          "2": "Execution runs in the an authorized, regulated institution, not at ORTAQ"
         },
         "disclaimer": "Not investment advice. No return guarantee."
       }
@@ -2120,7 +2120,7 @@
       "outLabel": "Money out",
       "out": {
         "1": "Capital partner",
-        "2": "Escrow in the licensed structure",
+        "2": "Escrow in the an authorized, regulated institution",
         "3": "Manufacturer"
       },
       "backLabel": "Return",
@@ -2186,7 +2186,7 @@
         },
         "4": {
           "k": "ORTAQ's role",
-          "v": "ORTAQ verifies and prepares dossiers; execution runs through a licensed structure and collects no funds."
+          "v": "ORTAQ verifies and prepares dossiers; execution runs through a an authorized, regulated institution and collects no funds."
         }
       },
       "disclaimer": "Not investment advice, no return guarantee."
@@ -2222,12 +2222,16 @@
   },
   "gca": {
     "hero": {
-      "kicker": "Growth Capital Access Network",
-      "headline": "Access to opportunities your network cannot easily reach.",
-      "sub": "Capital is abundant, access is scarce. ORTAQ opens a segment your network cannot reach efficiently: verified, investment-ready growth manufacturers in emerging markets. With standard data and a readiness score, without examining each from scratch.",
-      "support": "For growing companies: become visible, become investment-ready, reach the right capital.",
-      "ctaCapital": "I am a capital partner →",
-      "ctaCompany": "I am a growing company →"
+      "kicker": "Growth capital access network",
+      "headline": "We make strong companies the right capital cannot see visible.",
+      "sub": "We make exporting and growing manufacturers investment-ready and visible, so the right capital partners find you. We do not sell investments, we are not a fund.",
+      "proof": {
+        "1": "Pilot stage",
+        "2": "First manufacturer cohort open",
+        "3": "Verified access model"
+      },
+      "ctaCompany": "Assess your company",
+      "ctaCapital": "See opportunities"
     },
     "problem": {
       "label": "The access gap",
@@ -2235,8 +2239,8 @@
       "body": "Investors see thousands of companies, companies see thousands of investors. The problem is not seeing; it is that the right company and the right capital never reach each other. The best growth manufacturers stay invisible to the right capital, outside relationship and region-bound traditional networks."
     },
     "broken": {
-      "label": "Why networks fall short",
-      "title": "Why can't existing networks provide this access?",
+      "label": "Why it fails",
+      "title": "Why does traditional capital access fail?",
       "points": {
         "1": {
           "k": "Invisibility",
@@ -2313,7 +2317,9 @@
         "1": "Enter the right capital's radar with a standard, investor-friendly profile.",
         "2": "Become investment-ready and see your gaps with the readiness score.",
         "3": "Qualified introductions to the right capital partners."
-      }
+      },
+      "problem": "You have orders and growth, but the right capital does not see you.",
+      "cta": "Assess your company"
     },
     "forCapital": {
       "label": "For capital partners",
@@ -2322,7 +2328,9 @@
         "1": "A segment your network does not cover: verified, investment-ready growth manufacturers in emerging markets.",
         "2": "Every opportunity arrives with standard data and a readiness score, cutting the from-scratch due diligence load.",
         "3": "A pre-verified flow filtered to your thesis, not relationship-bound, accidental sourcing."
-      }
+      },
+      "problem": "Your network does not cover a strong, hard-to-verify segment.",
+      "cta": "See opportunities"
     },
     "intelligence": {
       "label": "Intelligence Layer",
@@ -2364,13 +2372,15 @@
           "q": "What is the Readiness Score?",
           "a": "A scoring system that measures a company's investment readiness, not a hand-written consulting report."
         }
-      }
+      },
+      "lead": "Clear answers on access, readiness and process."
     },
     "cta": {
       "label": "Get started",
-      "title": "Get access from the right side.",
-      "body": "If you are a capital partner, access opportunities your network cannot reach; if you are a growing company, reach the right capital.",
-      "primary": "Apply"
+      "title": "Start from the right side.",
+      "body": "If you are a strong company, become visible and investment-ready; if you are a capital partner, see opportunities your network cannot reach.",
+      "primaryCompany": "Assess your company",
+      "secondaryCapital": "See opportunities"
     },
     "invisible": {
       "label": "Why they are invisible",
@@ -2393,6 +2403,123 @@
           "v": "ORTAQ closes this gap: it makes them visible, ready, and accessible to the right capital."
         }
       }
+    },
+    "whatIs": {
+      "label": "What ORTAQ is",
+      "title": "What is ORTAQ?",
+      "cards": {
+        "1": {
+          "k": "Who it is for",
+          "v": "For exporting and growing manufacturers, and the capital partners who want to reach them."
+        },
+        "2": {
+          "k": "What it does",
+          "v": "Makes a company investment-ready and visible, and provides qualified introductions to the right capital."
+        },
+        "3": {
+          "k": "Why it matters",
+          "v": "Strong companies and the right capital often never reach each other through traditional channels. ORTAQ builds that access."
+        }
+      }
+    },
+    "how": {
+      "label": "How it works",
+      "title": "How it works",
+      "steps": {
+        "1": {
+          "k": "Visibility",
+          "v": "The company becomes a standard, comparable profile."
+        },
+        "2": {
+          "k": "Readiness",
+          "v": "Investment readiness is measured and scored. The common language capital trusts is built here."
+        },
+        "3": {
+          "k": "Access",
+          "v": "Structured access to verified capital partners that fit the thesis."
+        },
+        "4": {
+          "k": "Introduction",
+          "v": "Qualified introductions on mutual interest. ORTAQ holds no money."
+        }
+      },
+      "heroStep": "2",
+      "scoreLabel": "Readiness Score",
+      "scoreNote": "Sample score. Not real company data.",
+      "note": "The system gets smarter with every match.",
+      "engineLabel": "Readiness Engine",
+      "inputsLabel": "Inputs (data)",
+      "inputs": {
+        "1": "Export and order records",
+        "2": "Production capacity",
+        "3": "Financial statements",
+        "4": "Documents",
+        "5": "Operations data"
+      },
+      "criteriaLabel": "Score criteria",
+      "engineNote": "The score is produced automatically from this data: a repeatable, scalable system, not a hand-written report. Humans are involved only in verification."
+    },
+    "surface": {
+      "sample": "Sample interface",
+      "profileLabel": "Company profile",
+      "companyName": "Manufacturing Co.",
+      "sector": "Machinery · Export",
+      "scoreLabel": "Readiness Score",
+      "verifyLabel": "Verification",
+      "verify": {
+        "1": "Export record",
+        "2": "Production capacity",
+        "3": "Document set"
+      },
+      "matchLabel": "Capital match",
+      "matchValue": "3 matching partners",
+      "companyJourney": {
+        "1": "Profile",
+        "2": "Readiness",
+        "3": "Introduction"
+      },
+      "capitalJourney": {
+        "1": "Thesis",
+        "2": "Matched opportunities",
+        "3": "Introduction"
+      }
+    },
+    "transform": {
+      "label": "Transformation",
+      "states": {
+        "1": "Unreadable company",
+        "2": "Qualified",
+        "3": "Investment-ready",
+        "4": "Matched with capital"
+      },
+      "evidenceLabel": "Evidence · signals",
+      "evidence": {
+        "1": "Export record",
+        "2": "Production capacity",
+        "3": "Recurring buyer demand",
+        "4": "Document set"
+      },
+      "verified": "VERIFIED",
+      "derived": "Result · investment-ready",
+      "scoreTag": "score 78"
+    },
+    "model": {
+      "label": "Business model",
+      "title": "How does ORTAQ earn?",
+      "ortaq": {
+        "k": "ORTAQ",
+        "v": "Both sides pay a subscription: companies for readiness and visibility, capital partners for access to verified deal flow. No commission on investments, no money held."
+      },
+      "company": {
+        "k": "Benefit to the company",
+        "v": "It becomes visible and investment-ready, and reaches the right capital faster, with fewer barriers."
+      },
+      "investor": {
+        "k": "Benefit to the capital partner",
+        "v": "Access to verified, ready opportunities; lower discovery and due-diligence time and risk."
+      },
+      "align": "ORTAQ only earns when it produces genuinely investment-ready companies and genuine qualified access. So its incentive is aligned with both sides.",
+      "note": "A subscription, not a commission. Revenue comes from access and data, so ORTAQ only earns when it produces real value."
     }
   }
 }

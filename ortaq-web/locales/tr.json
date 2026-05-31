@@ -1,15 +1,15 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Türk üreticileri için büyüme platformu",
-    "navTagline": "İhracat ve büyüme sermayesi"
+    "tagline": "Büyüme sermayesi erişim ağı",
+    "navTagline": "Büyüme sermayesi erişim ağı"
   },
   "nav": {
-    "howItWorks": "Yatırım süreci",
+    "howItWorks": "Nasıl çalışır",
     "companies": "Şirketler",
-    "trust": "Güven altyapısı",
+    "trust": "Güven",
     "risk": "Risk çerçevesi",
-    "evaluation": "Değerlendirme",
+    "evaluation": "Nasıl seçiyoruz",
     "memberArea": "Alanınız",
     "explore": "Başvuru yap",
     "menu": "Menü",
@@ -1056,10 +1056,10 @@
     }
   },
   "trustStrip": {
-    "status": "Henüz işlem kabul edilmiyor",
-    "escrow": "Para emanet hesabında kalır",
-    "mkk": "Pay MKK'da kayıtlı olur",
-    "disclosure": "Önce bilgi formu okunur"
+    "status": "Şu an pilot aşaması",
+    "escrow": "ORTAQ para tutmaz",
+    "mkk": "İşlem yetkili ve denetlenen bir kuruluşda yürür",
+    "disclosure": "Önce doğrulama ve hazırlık"
   },
   "trust": {
     "status": {
@@ -1097,8 +1097,8 @@
       }
     },
     "license": {
-      "status": "Lisanslı platform ile görüşme sürüyor",
-      "detail": "Ortaklık, SPK listesindeki kitle fonlama platformu üzerinden yürüyecek. Anlaşma tamamlanınca platform adı ve lisans numarası burada olacak."
+      "status": "Lisanslı yapı ile görüşme sürüyor",
+      "detail": "Bir finansman gerçekleştiğinde işlem SPK düzenlemesi altındaki yetkili ve denetlenen bir kuruluş üzerinden yürür. Anlaşma tamamlanınca ayrıntılar burada olacak."
     },
     "depth": {
       "label": "Durum",
@@ -1108,16 +1108,16 @@
       "cta": "Güven sayfası",
       "claims": {
         "1": {
-          "title": "Lisanslı platform",
-          "text": "Bireysel ortaklık yalnızca SPK listesindeki platform üzerinden olur. Platform seçimi sürüyor."
+          "title": "Lisanslı yapı",
+          "text": "Bir finansman gerçekleşirse işlem SPK düzenlemesi altındaki yetkili ve denetlenen bir kuruluş üzerinden yürür. Görüşme sürüyor."
         },
         "2": {
-          "title": "Emanet hesabı",
-          "text": "Kampanya bitene kadar para emanet hesabında kalır. Doğrudan şirkete gitmez."
+          "title": "Para tutmaz",
+          "text": "ORTAQ para tutmaz veya transfer etmez; doğrulama ve tanıştırma katmanıdır."
         },
         "3": {
-          "title": "MKK kaydı",
-          "text": "Sermaye artırımından sonra payınız MKK kayıtlarında adınıza görünür."
+          "title": "Bağımsız doğrulama",
+          "text": "Her iddia kanıtla doğrulanır ve etiketlenir; kanıtlanamayan yayınlanmaz."
         }
       }
     }
@@ -1149,80 +1149,80 @@
         "isNot": "ORTAQ banka değil, danışman değil, kazanç vaat etmez."
       },
       "money": {
-        "title": "Paranız nereye gider?",
+        "title": "ORTAQ ve para",
         "phases": {
           "1": {
-            "title": "Katılınca",
-            "text": "Para emanet hesabına gider. Şirkete gitmez."
+            "title": "ORTAQ para tutmaz",
+            "text": "Para ORTAQ'a gitmez; ORTAQ doğrulama ve tanıştırma katmanıdır."
           },
           "2": {
-            "title": "Kampanya bitince",
-            "text": "Hedef tutmazsa iade; tutarsa sermaye artırımı olur."
+            "title": "Finansman gerçekleşirse",
+            "text": "İşlem yetkili ve denetlenen bir kuruluş üzerinden, taraflar arasında yürür."
           },
           "3": {
             "title": "Sonrasında",
-            "text": "Payınız MKK'da adınıza kayıtlı olur."
+            "text": "Süreç taraflar arasında ilerler; ORTAQ tarafları destekler."
           }
         }
       },
       "risk": {
         "title": "Riskleri bilin",
-        "ack": "Riskleri okudum. Kazanç garantisi olmadığını biliyorum."
+        "ack": "Riskleri okudum. Sonuç garantisi olmadığını biliyorum."
       },
       "wait": {
-        "title": "Henüz işlem yok",
-        "text": "ORTAQ şu an işlem kabul etmiyor. Okumak için buradasınız.",
-        "emptyText": "Lisanslı platform anlaşması bitince devam edersiniz."
+        "title": "Pilot aşaması",
+        "text": "ORTAQ şu an pilot aşamasında; ilk üretici kohortuyla görüşülüyor.",
+        "emptyText": "Erişim açıldıkça devam edersiniz."
       }
     }
   },
   "risk": {
-    "label": "Değerlendirme",
-    "title": "Her ortaklık uzun vadeli değerlendirilir",
-    "intro": "ORTAQ süreci düzenler; riski ortadan kaldırmaz. Karar sizindir.",
+    "label": "Sınırlar",
+    "title": "ORTAQ süreci kurar, sonucu garanti etmez",
+    "intro": "ORTAQ doğrulama ve erişim sağlar; sonucu garanti etmez. Karar taraflarındır.",
     "items": {
-      "1": "Yatırdığınız parayı tamamen kaybedebilirsiniz.",
-      "2": "Yatırım uzun vadelidir; erken çıkış imkânı sınırlıdır.",
-      "3": "Şirket hedeflerine ulaşamayabilir.",
-      "4": "Yıllık katılım limiti vardır.",
-      "5": "ORTAQ ne alıp satacağınızı söylemez."
+      "1": "Erişim ve tanıştırma bir sonucu garanti etmez.",
+      "2": "Bir finansman her zaman gerçekleşmez.",
+      "3": "Readiness skoru garanti değildir.",
+      "4": "ORTAQ para tutmaz, tavsiye vermez.",
+      "5": "Şirketin gelecekteki performansı garanti edilemez."
     },
     "fullPageLink": "Tüm riskler →"
   },
   "process": {
-    "label": "Yatırım süreci",
-    "title": "Dosya incelemesinden değer oluşumuna: altı adım",
-    "intro": "Dosya inceleme ORTAQ değerlendirme katmanında başlar; şirket seçimi yapısal due-diligence sürecinden geçer; katılım SPK düzenlemesi altındaki lisanslı platformda tamamlanır. Beş adım, yasal ortaklık akışını özetler.",
-    "journeyLabel": "Yatırımcı yolculuğu",
+    "label": "Nasıl çalışır",
+    "title": "Görünürlükten nitelikli tanıştırmaya",
+    "intro": "Şirket profili oluşturulur ve doğrulanır; yatırıma hazırlık skorlanır; tezine uyan sermaye partnerine doğrudan ve doğrulanmış erişim sağlanır. ORTAQ doğrulama ve tanıştırma katmanıdır; para tutmaz.",
+    "journeyLabel": "Süreç",
     "journey": {
-      "1": "Dosya inceleme",
+      "1": "Görünürlük",
       "2": "Doğrulama",
-      "3": "Komite onayı",
-      "4": "Katılım",
-      "5": "İzleme",
-      "6": "Değer oluşumu"
+      "3": "Hazırlık",
+      "4": "Eşleşme",
+      "5": "Tanıştırma",
+      "6": "Büyüme"
     },
-    "journeyNote": "ORTAQ inceleme ve doğrulama katmanını sağlar; şirket seçimi altı aşamalı due-diligence'ten geçer; işlem lisanslı platform üzerinden yürür.",
+    "journeyNote": "ORTAQ doğrulama ve hazırlık katmanını sağlar; tanıştırma çift taraflı onayla yapılır; ORTAQ para tutmaz.",
     "steps": {
       "1": {
-        "title": "Dosya inceleme",
-        "text": "Şirket dosyalarını okuyun: kapasite, ihracat, makine parkı, sermaye kullanım planı ve inceleme adımları."
+        "title": "Görünürlük",
+        "text": "Şirket standart, yatırımcı-dostu ve karşılaştırılabilir bir profile dönüşür."
       },
       "2": {
         "title": "Doğrulama",
-        "text": "Belge, saha ve operasyonel veri katmanları SPK çerçevesinde değerlendirilir."
+        "text": "İhracat, kapasite ve belge sahada ve veriyle doğrulanır."
       },
       "3": {
-        "title": "Komite onayı",
-        "text": "Yatırım komitesi dosyanın yayına uygunluğunu inceler ve yayım kararını verir."
+        "title": "Hazırlık",
+        "text": "Yatırıma hazırlık ölçülür ve skorlanır; eksikler belirlenir."
       },
       "4": {
-        "title": "Katılım",
-        "text": "Lisanslı platform üzerinden paya dayalı ortaklık alımı; sermaye emanet hesabında tutulur."
+        "title": "Eşleşme",
+        "text": "Sektör, coğrafya, çek büyüklüğü ve teze göre uygun sermaye partnerleri belirlenir."
       },
       "5": {
-        "title": "İzleme",
-        "text": "Sermaye artırımı, MKK pay kaydı ve operasyonel güncellemeler: değer oluşumu performansa bağlıdır."
+        "title": "Tanıştırma",
+        "text": "Çift taraflı ilgi oluşunca nitelikli tanıştırma; süreç taraflar arasında ilerler."
       }
     }
   },
@@ -1279,7 +1279,7 @@
       "title": "Hatırlatmalar",
       "items": {
         "1": "Kazanç garantisi yoktur.",
-        "2": "Para emanet hesabında kalır; şirkete doğrudan gitmez.",
+        "2": "ORTAQ para tutmaz; bir finansman gerçekleşirse işlem yetkili ve denetlenen bir kuruluşda yürür.",
         "3": "Anlamadan karar vermeyin: soru sorabilirsiniz."
       }
     },
@@ -1299,19 +1299,19 @@
     }
   },
   "footer": {
-    "tagline": "Türk sanayi yatırımı için disiplinli inceleme altyapısı: üretim şirketlerinde paya dayalı ortaklığı yapısal olarak belgeler.",
-    "protectionLabel": "Yatırımcı koruması",
-    "regulatory": "Paya dayalı kitle fonlamasında bireysel katılımcılar için yıllık limit, bilgi formu, risk bildirimi ve cayma hakkı zorunludur. İşlem SPK düzenlemesi altındaki lisanslı platform üzerinden yürür.",
-    "notAdvice": "ORTAQ yatırım tavsiyesi vermez. Buradaki yazılar bilgi içindir; kazanç garantisi yoktur.",
+    "tagline": "Güçlü ama görünmez üretim şirketlerini yatırıma hazır ve görünür kılan büyüme sermayesi erişim ağı.",
+    "protectionLabel": "Güven ve uyum",
+    "regulatory": "ORTAQ para tutmaz, yatırım satmaz ve menkul kıymet faaliyeti yürütmez. Yalnızca doğrulama, hazırlık ve nitelikli tanıştırma sağlar.",
+    "notAdvice": "ORTAQ yatırım tavsiyesi vermez. Buradaki içerik bilgilendirme amaçlıdır.",
     "trustPills": {
-      "1": "SPK uyumlu süreç çerçevesi",
-      "2": "Emanet hesabı koruması",
-      "3": "Şeffaf raporlama ve dosya",
-      "4": "MKK pay kaydı disiplini"
+      "1": "Bağımsız doğrulama katmanı",
+      "2": "Para tutmaz, transfer etmez",
+      "3": "Yatırım tavsiyesi vermez",
+      "4": "Lisanslı yapı üzerinden işlem"
     },
     "faqTeaser": {
-      "label": "Yatırım soruları",
-      "title": "Ortaklık, getiri ve risk hakkında net yanıtlar",
+      "label": "Sık sorulanlar",
+      "title": "Erişim, hazırlık ve süreç hakkında net yanıtlar",
       "link": "Tüm SSS"
     },
     "trustTitle": "Güven",
@@ -1346,26 +1346,26 @@
     "sublabel": "İhracat, doğrulanmış partnerler, büyüme sermayesi"
   },
   "journey": {
-    "label": "Yatırımcı süreci",
-    "note": "Dosya inceleme → doğrulama → güven katmanı → ortaklık. ORTAQ süreci adım adım belgelenmiş bir değerlendirme katmanıdır.",
-    "processLink": "Katılım süreci",
-    "evaluationLink": "Şirket seçimi",
-    "trustLink": "Yatırımcı koruması",
+    "label": "Süreç",
+    "note": "Görünürlük → doğrulama → hazırlık → tanıştırma. ORTAQ adım adım belgelenmiş bir doğrulama ve erişim katmanıdır.",
+    "processLink": "Süreç",
+    "evaluationLink": "Nasıl seçiyoruz",
+    "trustLink": "Güven ve uyum",
     "riskLink": "Riskler"
   },
   "evaluationPage": {
-    "label": "Şirket seçimi",
-    "title": "Şirketler nasıl değerlendirilir?",
-    "lead": "Her başvuru kabul edilmez. ORTAQ yalnızca üretim yapan, belgelenebilir ve uzun vadeli ekonomik mantığı olan şirketleri dosyalar , yatırımcıya sunulmadan önce altı aşamalı due diligence.",
-    "leadSecondary": "Bu, yatırımcı yolculuğunun doğrulama ayağıdır: dosya incelemesinden sonra, katılımdan önce. Güven katmanı ve katılım süreci bu incelemenin üzerine inşa edilir.",
-    "journeyContext": "Değerlendirme tamamlandıktan sonra güven çerçevesini okuyun, ardından katılım sürecine geçin.",
+    "label": "Nasıl seçiyoruz",
+    "title": "Şirketleri nasıl seçiyoruz?",
+    "lead": "Her başvuru kabul edilmez. ORTAQ yalnızca üretim yapan, doğrulanabilir ve net büyüme mantığı olan şirketleri yatırıma hazır hale getirir; sermaye partnerine sunulmadan önce çok aşamalı doğrulamadan geçer.",
+    "leadSecondary": "Bu, erişimin hazırlık ayağıdır: görünürlükten sonra, tanıştırmadan önce. Güven çerçevesi ve tanıştırma bunun üzerine kurulur.",
+    "journeyContext": "Doğrulama tamamlandıktan sonra güven çerçevesini okuyun, ardından erişim sürecine geçin.",
     "stageLabel": "Aşama {{key}}",
     "rejectLabel": "Red gerekçesi örneği:",
     "exampleLabel": "Örnek dosya:",
     "exampleLink": "Karat Parça Makina",
-    "exampleMeta": "Konya · saha doğrulaması aşamasında.",
-    "cta": "Değerlendirme dosyasını inceleyin",
-    "journeyLink": "Yatırım yolculuğunun tamamı →",
+    "exampleMeta": "Konya · doğrulama aşamasında.",
+    "cta": "Doğrulama sürecini inceleyin",
+    "journeyLink": "Tüm süreç →",
     "stages": {
       "1": {
         "title": "Ön eleme",
@@ -1393,16 +1393,16 @@
         "reject": "Yanıltıcı beyan, basın baskısı, gerçek dışı büyüme iddiası."
       },
       "6": {
-        "title": "Komite ve platform",
-        "text": "Finans, saha ve hukuk oylaması. Lisanslı kitle fonlama platformu nihai onay.",
-        "reject": "Komite red kararı veya platform uygun bulmaması."
+        "title": "Hazırlık onayı",
+        "text": "Doğrulama ve hazırlık değerlendirmesi tamamlanır; şirket sermaye partnerine sunulmaya uygun bulunur.",
+        "reject": "Doğrulama veya hazırlık ölçütlerini karşılamama."
       }
     }
   },
   "trustPage": {
-    "title": "Güven altyapısı ve yatırımcı koruması",
-    "subtitle": "Ciddi yatırım katmanı: kanıtlayamadığımızı yazmıyoruz. Dosya incelemesinden yapısal değerlendirmeye, güven çerçevesinden katılıma , her adımda yasal koruma ve operasyonel şeffaflık.",
-    "journeyNote": "Şirket seçim sürecini okuduktan sonra burada güven katmanlarını doğrulayın; ardından katılım sürecine geçin.",
+    "title": "Güven ve uyum",
+    "subtitle": "ORTAQ para tutmaz, yatırım satmaz, tavsiye vermez. Doğrulama, hazırlık ve nitelikli tanıştırma katmanıdır; her adımda kanıt ve şeffaflık.",
+    "journeyNote": "Doğrulama sürecini okuduktan sonra burada güven katmanlarını görün; ardından erişim sürecine geçin.",
     "layersTitle": "Neler var",
     "infrastructure": {
       "title": "Altyapı",
@@ -1410,42 +1410,42 @@
     },
     "claims": {
       "1": {
-        "title": "Lisanslı platform",
-        "text": "SPK listesindeki platform ile görüşme sürüyor."
+        "title": "Bağımsız doğrulama",
+        "text": "Her iddia etiketlenir; kanıtlanamayan yayınlanmaz."
       },
       "2": {
-        "title": "Emanet",
-        "text": "Para kampanya bitene kadar emanet hesabında."
+        "title": "Para tutmaz",
+        "text": "ORTAQ para tutmaz veya transfer etmez."
       },
       "3": {
-        "title": "MKK kaydı",
-        "text": "Payınız MKK'da adınıza kayıtlı olur."
+        "title": "Lisanslı yapı",
+        "text": "Bir finansman gerçekleşirse işlem yetkili ve denetlenen bir kuruluş üzerinden yürür."
       }
     },
     "layers": {
       "1": {
-        "title": "Yasal çerçeve",
-        "text": "Paya dayalı ortaklık SPK düzenlemesi altında yürür."
+        "title": "Rol ayrımı",
+        "text": "ORTAQ doğrular ve tanıştırır; işlem taraflar ve yetkili ve denetlenen bir kuruluş arasında yürür."
       },
       "2": {
         "title": "Para",
-        "text": "Kampanya bitene kadar para emanet hesabında kalır."
+        "text": "ORTAQ para tutmaz; finansman yetkili ve denetlenen bir kuruluşda yürür."
       },
       "3": {
-        "title": "Pay kaydı",
-        "text": "Ortaklık hakkınız MKK kayıtlarında görünür."
+        "title": "Doğrulama",
+        "text": "Şirket sinyalleri kanıtla doğrulanır ve etiketlenir."
       },
       "4": {
         "title": "İnceleme",
-        "text": "Dosyalar komiteye gider. Reddedilirse gerekçe açıklanır."
+        "text": "Dosyalar hazırlık değerlendirmesinden geçer; uygun değilse gerekçe paylaşılır."
       },
       "5": {
         "title": "İletişim",
-        "text": "Kötü haber saklanmaz. Yazılı bilgilendirme gider."
+        "text": "Kötü haber saklanmaz; yazılı bilgilendirme gider."
       }
     },
     "committee": {
-      "note": "Kampanyalar finans, saha ve hukuk incelemesinden geçer. Komite isimleri platform anlaşmasıyla açıklanır."
+      "note": "Şirketler doğrulama ve hazırlık incelemesinden geçer; süreç belgelenir."
     },
     "support": {
       "title": "Sorular ve şikâyet",
@@ -1457,37 +1457,37 @@
     "back": "Ana sayfaya dön"
   },
   "riskPage": {
-    "title": "Riskler ve limitler",
+    "title": "Riskler ve sınırlar",
     "subtitle": "Karar vermeden önce bunları bilin.",
     "notAdvice": "Bu sayfa tavsiye değildir.",
     "sections": {
       "1": {
-        "title": "Para kaybı",
-        "text": "Yatırdığınız paranın tamamını kaybedebilirsiniz. Kazanç garantisi yoktur."
+        "title": "Sonuç garantisi yok",
+        "text": "Erişim ve tanıştırma bir sonucu garanti etmez; finansman gerçekleşmeyebilir."
       },
       "2": {
-        "title": "Parayı geri alamama",
-        "text": "Payınızı istediğiniz zaman satamayabilirsiniz. Çıkış yıllar sürebilir."
+        "title": "Görüşme sonucu",
+        "text": "Sermaye partneriyle görüşme olumlu sonuçlanmayabilir."
       },
       "3": {
-        "title": "Yıllık limit",
-        "text": "Bireysel katılımcılar için yıllık üst sınır vardır. Güncel tutar bilgi formunda ve kanunda yazar."
+        "title": "Hazırlık skoru",
+        "text": "Readiness skoru bir değerlendirmedir, garanti değildir."
       },
       "4": {
-        "title": "Cayma",
-        "text": "Kampanya süresince cayma hakkınız vardır. Süre ve koşullar bilgi formunda yazar."
+        "title": "Zamanlama",
+        "text": "Erişim ve tanıştırma zaman alabilir."
       },
       "5": {
-        "title": "Vergi",
-        "text": "Ortaklık vergi doğurabilir. Durumunuz için mali müşavirinize sorun."
+        "title": "Veri doğruluğu",
+        "text": "Profil ve veri doğruluğu paylaşan tarafın sorumluluğundadır."
       },
       "6": {
         "title": "Şirket",
-        "text": "Şirket batarsa, hedefini tutturamazsa veya yönetimi değişirse zarar görebilirsiniz."
+        "text": "Şirketin gelecekteki performansı garanti edilemez."
       },
       "7": {
         "title": "ORTAQ'ın rolü",
-        "text": "ORTAQ arayüz sağlar. Şirketin ileride ne yapacağını garanti etmez."
+        "text": "ORTAQ doğrulama ve tanıştırma katmanıdır; para tutmaz, tavsiye vermez, sonuç taahhüt etmez."
       }
     },
     "help": {
@@ -1509,7 +1509,7 @@
       "title": "Kullanım koşulları",
       "updated": "Son güncelleme: Mayıs 2026",
       "p1": "ORTAQ yatırım tavsiyesi vermez.",
-      "p2": "Ortaklık işlemleri SPK lisanslı kitle fonlama platformu üzerinden yürüyecek.",
+      "p2": "Bir finansman gerçekleştiğinde işlem SPK düzenlemesi altındaki yetkili ve denetlenen bir kuruluş üzerinden yürür; ORTAQ para tutmaz ve sermaye piyasası faaliyeti yürütmez.",
       "p3": "Tam metin, platform anlaşması öncesinde yayımlanacak."
     },
     "back": "Ana sayfaya dön"
@@ -1748,7 +1748,7 @@
       "aria": "Başvuru",
       "label": "İletişim",
       "title": "İletişim",
-      "lead": "Üretici veya yatırımcı olarak yazın; en kısa sürede döneriz.",
+      "lead": "Şirket veya sermaye partneri olarak yazın; en kısa sürede döneriz.",
       "teamLabel": "Ekip",
       "team": {
         "1": {
@@ -1772,7 +1772,7 @@
         "role": "Kim olarak başvuruyorsunuz?",
         "rolePlaceholder": "Seçin",
         "roleCompany": "Üretim şirketi",
-        "roleInvestor": "Yatırımcı",
+        "roleInvestor": "Sermaye partneri",
         "rolePartner": "Lisanslı partner / fon",
         "roleOther": "Diğer",
         "message": "Mesaj",
@@ -1986,7 +1986,7 @@
         "lead": "Borsa hissesi değil. Büyüyen bir üreticiyi finanse eder, satışlarından gelir paylaşımıyla pay alırsınız.",
         "points": {
           "1": "Büyüyen üreticinin satışlarından gelir paylaşımıyla pay alırsınız",
-          "2": "İşlem lisanslı yapıda yürür, ORTAQ'ta değil"
+          "2": "İşlem yetkili ve denetlenen bir kuruluşda yürür, ORTAQ'ta değil"
         },
         "disclaimer": "Yatırım tavsiyesi değildir. Getiri garantisi yoktur."
       }
@@ -2126,7 +2126,7 @@
         },
         "4": {
           "k": "ORTAQ'ın rolü",
-          "v": "ORTAQ doğrular ve dosyalar; işlem lisanslı yapı üzerinden yürür, para toplamaz."
+          "v": "ORTAQ doğrular ve dosyalar; işlem yetkili ve denetlenen bir kuruluş üzerinden yürür, para toplamaz."
         }
       },
       "disclaimer": "Yatırım tavsiyesi değildir, getiri garantisi yoktur."
@@ -2162,12 +2162,16 @@
   },
   "gca": {
     "hero": {
-      "kicker": "Growth Capital Access Network",
-      "headline": "Ağınızın ulaşamadığı fırsatlara erişim.",
-      "sub": "Sermaye bol, erişim kıt. ORTAQ, ağınızın verimli ulaşamadığı bir segmenti açar: gelişmekte olan pazarların doğrulanmış, yatırıma hazır büyüme üreticileri. Standart veri ve readiness skoruyla, sıfırdan inceleme yapmadan.",
-      "support": "Büyüyen şirketler için: görünür olun, yatırıma hazır hâle gelin, doğru sermayeye erişin.",
-      "ctaCapital": "Sermaye partneriyim →",
-      "ctaCompany": "Büyüyen şirketim →"
+      "kicker": "Büyüme sermayesi erişim ağı",
+      "headline": "Doğru sermayenin göremediği güçlü şirketleri görünür hale getiriyoruz.",
+      "sub": "İhracatçı ve büyüyen üretim şirketlerini yatırıma hazır ve görünür kılarız; doğru sermaye partnerleri sizi bulur. Yatırım satmayız, fon değiliz.",
+      "proof": {
+        "1": "Pilot aşaması",
+        "2": "İlk üretici kohortu açık",
+        "3": "Doğrulanmış erişim modeli"
+      },
+      "ctaCompany": "Şirketinizi değerlendirin",
+      "ctaCapital": "Fırsatları görün"
     },
     "problem": {
       "label": "Erişim açığı",
@@ -2175,8 +2179,8 @@
       "body": "Yatırımcı binlerce şirket görür, şirket binlerce yatırımcı görür. Sorun görmek değil; doğru şirketle doğru sermayenin birbirine ulaşamamasıdır. En iyi büyüme üreticileri, ilişki ve bölge bağlı geleneksel ağların dışında, doğru sermayeye görünmez kalır."
     },
     "broken": {
-      "label": "Neden ağlar yetmiyor",
-      "title": "Mevcut ağlar bu erişimi neden sağlayamıyor?",
+      "label": "Neden başarısız",
+      "title": "Neden geleneksel sermaye erişimi başarısız?",
       "points": {
         "1": {
           "k": "Görünmezlik",
@@ -2207,7 +2211,7 @@
         },
         "3": {
           "k": "Matching Engine",
-          "v": "Sektör, coğrafya, çek büyüklüğü ve teze göre doğru sermayeye yapılandırılmış erişim."
+          "v": "Sektör, coğrafya, çek büyüklüğü ve teze göre doğru sermayeye doğrudan ve doğrulanmış erişim."
         },
         "4": {
           "k": "Introduction Layer",
@@ -2253,7 +2257,9 @@
         "1": "Standart, yatırımcı-dostu profil ile doğru sermayenin radarına girin.",
         "2": "Readiness skoruyla yatırıma hazır olun ve eksiğinizi görün.",
         "3": "Doğru sermaye partnerleriyle nitelikli tanıştırma."
-      }
+      },
+      "problem": "Siparişiniz ve büyümeniz var, ama doğru sermaye sizi görmüyor.",
+      "cta": "Şirketinizi değerlendirin"
     },
     "forCapital": {
       "label": "Sermaye partnerleri için",
@@ -2262,7 +2268,9 @@
         "1": "Ağınızın kapsamadığı segment: gelişmekte olan pazarların doğrulanmış, yatırıma hazır büyüme üreticileri.",
         "2": "Her fırsat standart veri ve readiness skoruyla gelir; sıfırdan due diligence yükü düşer.",
         "3": "Tezinize göre filtrelenmiş, ön-doğrulanmış akış; ilişkiye bağlı tesadüfi sourcing değil."
-      }
+      },
+      "problem": "Ağınız, doğrulanması zor güçlü bir segmenti kapsamıyor.",
+      "cta": "Fırsatları görün"
     },
     "intelligence": {
       "label": "Intelligence Layer",
@@ -2304,13 +2312,15 @@
           "q": "Readiness Score nedir?",
           "a": "Şirketin yatırıma hazırlığını ölçen skorlama sistemidir; elle yazılan danışmanlık raporu değildir."
         }
-      }
+      },
+      "lead": "Erişim, hazırlık ve süreç hakkında net yanıtlar."
     },
     "cta": {
       "label": "Başlayın",
-      "title": "Doğru tarafta erişin.",
-      "body": "Sermaye partneriyseniz ağınızın ulaşamadığı fırsatlara erişin; büyüyen şirketseniz doğru sermayeye erişin.",
-      "primary": "Başvur"
+      "title": "Doğru tarafta başlayın.",
+      "body": "Güçlü bir şirketseniz görünür ve yatırıma hazır olun; sermaye partneriyseniz ağınızın ulaşamadığı fırsatları görün.",
+      "primaryCompany": "Şirketinizi Değerlendirin",
+      "secondaryCapital": "Fırsatları Görün"
     },
     "invisible": {
       "label": "Neden görünmüyorlar",
@@ -2333,6 +2343,123 @@
           "v": "ORTAQ bu boşluğu kapatır: görünür kılar, hazır hâle getirir, doğru sermayeye erişimi açar."
         }
       }
+    },
+    "whatIs": {
+      "label": "ORTAQ nedir",
+      "title": "ORTAQ nedir?",
+      "cards": {
+        "1": {
+          "k": "Kimler için",
+          "v": "İhracatçı ve büyüyen üretim şirketleri ile onlara ulaşmak isteyen sermaye partnerleri için."
+        },
+        "2": {
+          "k": "Ne yapar",
+          "v": "Şirketi yatırıma hazır ve görünür kılar, doğru sermayeyle nitelikli tanıştırma sağlar."
+        },
+        "3": {
+          "k": "Neden önemli",
+          "v": "Güçlü şirketlerle doğru sermaye geleneksel yollarla çoğu zaman birbirine ulaşamaz. ORTAQ bu erişimi kurar."
+        }
+      }
+    },
+    "how": {
+      "label": "Nasıl çalışır",
+      "title": "Nasıl çalışır?",
+      "steps": {
+        "1": {
+          "k": "Görünürlük",
+          "v": "Şirket standart, karşılaştırılabilir bir profile dönüşür."
+        },
+        "2": {
+          "k": "Hazırlık",
+          "v": "Yatırıma hazırlık ölçülür ve skorlanır. Sermayenin güvendiği ortak dil burada oluşur."
+        },
+        "3": {
+          "k": "Erişim",
+          "v": "Teze uygun, doğrulanmış sermaye partnerlerine doğrudan ve doğrulanmış erişim."
+        },
+        "4": {
+          "k": "Tanıştırma",
+          "v": "Çift taraflı ilgi oluşunca nitelikli tanıştırma. ORTAQ para tutmaz."
+        }
+      },
+      "heroStep": "2",
+      "scoreLabel": "Readiness Score",
+      "scoreNote": "Örnek skor. Gerçek şirket verisi değildir.",
+      "note": "Sistem her eşleşmeyle akıllanır.",
+      "engineLabel": "Readiness Engine",
+      "inputsLabel": "Girdiler (veri)",
+      "inputs": {
+        "1": "İhracat ve sipariş kaydı",
+        "2": "Üretim kapasitesi",
+        "3": "Finansal tablolar",
+        "4": "Belgeler",
+        "5": "Operasyon verisi"
+      },
+      "criteriaLabel": "Skor kriterleri",
+      "engineNote": "Skor bu verilerden otomatik üretilir: tekrar edilebilir ve ölçeklenebilir bir sistemdir, elle yazılan rapor değildir. İnsan yalnızca doğrulamada devrededir."
+    },
+    "surface": {
+      "sample": "Örnek arayüz",
+      "profileLabel": "Şirket profili",
+      "companyName": "Üretim Şirketi A.Ş.",
+      "sector": "Makine imalatı · İhracat",
+      "scoreLabel": "Readiness Score",
+      "verifyLabel": "Doğrulama",
+      "verify": {
+        "1": "İhracat kaydı",
+        "2": "Üretim kapasitesi",
+        "3": "Belge seti"
+      },
+      "matchLabel": "Sermaye eşleşmesi",
+      "matchValue": "3 uygun partner",
+      "companyJourney": {
+        "1": "Profil",
+        "2": "Readiness",
+        "3": "Tanıştırma"
+      },
+      "capitalJourney": {
+        "1": "Tez",
+        "2": "Eşleşen fırsatlar",
+        "3": "Tanıştırma"
+      }
+    },
+    "transform": {
+      "label": "Dönüşüm",
+      "states": {
+        "1": "Okunamayan şirket",
+        "2": "Nitelikli",
+        "3": "Yatırıma hazır",
+        "4": "Sermayeyle eşleşti"
+      },
+      "evidenceLabel": "Kanıt · sinyaller",
+      "evidence": {
+        "1": "İhracat kaydı",
+        "2": "Üretim kapasitesi",
+        "3": "Tekrar eden alıcı talebi",
+        "4": "Belge seti"
+      },
+      "verified": "DOĞRULANDI",
+      "derived": "Sonuç · yatırıma hazır",
+      "scoreTag": "skor 78"
+    },
+    "model": {
+      "label": "İş modeli",
+      "title": "ORTAQ nasıl kazanır?",
+      "ortaq": {
+        "k": "ORTAQ",
+        "v": "İki taraf da abonelik öder: şirketler hazırlık ve görünürlük için, sermaye partnerleri doğrulanmış fırsat akışına erişim için. Yatırımdan komisyon alınmaz, para tutulmaz."
+      },
+      "company": {
+        "k": "Şirkete faydası",
+        "v": "Görünür ve yatırıma hazır olur; doğru sermayeyle daha hızlı, daha az engelle buluşur."
+      },
+      "investor": {
+        "k": "Sermaye partnerine faydası",
+        "v": "Doğrulanmış, hazır fırsatlara erişir; keşif ve inceleme süresi ile riski azalır."
+      },
+      "align": "ORTAQ ancak gerçekten yatırıma hazır şirketler ve gerçek nitelikli erişim ürettiğinde kazanır. Bu yüzden çıkarı her iki tarafla da aynı yöndedir.",
+      "note": "Komisyon değil, abonelik. Gelir erişim ve veriden gelir; bu yüzden ORTAQ ancak gerçek değer ürettiğinde kazanır."
     }
   }
 }
