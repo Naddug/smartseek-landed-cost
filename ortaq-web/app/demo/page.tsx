@@ -37,23 +37,23 @@ export default function DemoHub() {
           <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ortaq-cream/55">Keşif</span>
           <p className="mt-2 text-[1.25rem] font-semibold text-ortaq-cream">Kapasite darboğazı olan ihracatçılar</p>
           <p className="mt-2 text-[0.875rem] leading-[1.55] text-ortaq-cream/75">
-            Tezinize uyan fırsatlar; her profilde dosyalanmış belgeler, açık sorular ve görüşme yolu.
+            Tezinize uyan fırsatlar; her profilde hazır belgeler, açık sorular ve görüşme yolu.
           </p>
           <span className="mt-4 inline-block text-[0.8125rem] font-medium text-ortaq-cream group-hover:underline">Fırsatları keşfet →</span>
         </Link>
 
         <Link href="/demo/uretici" className="group rounded-ortaq-lg border border-ortaq-border bg-ortaq-surface p-7 transition hover:border-ortaq-border-strong">
           <span className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ortaq-ink-soft">Üretici tarafı</span>
-          <p className="mt-2 text-[1.25rem] font-semibold text-ortaq-ink">Belge yükleme ve keşfedilebilir profil</p>
+          <p className="mt-2 text-[1.25rem] font-semibold text-ortaq-ink">Belge yükleme ve listede görünme</p>
           <p className="mt-2 text-[0.875rem] leading-[1.55] text-ortaq-ink-muted">
-            {spotlight.name} belgelerini nasıl yüklediğini ve profilin ne zaman keşfedilebilir olduğunu görün.
+            {spotlight.name} belgelerini nasıl yüklediğini ve profilin ne zaman listede göründüğünü görün.
           </p>
           <span className="mt-4 inline-block text-[0.8125rem] font-medium text-ortaq-trust-muted group-hover:underline">Üretici tarafını gör →</span>
         </Link>
       </div>
 
       <p className="mt-8 text-[0.75rem] leading-[1.5] text-ortaq-ink-muted">
-        ORTAQ yatırım satmaz, fonlama garanti etmez ve para tutmaz. Kanıt düzenler, keşif açar ve karşılıklı tanıştırma sağlar.
+        ORTAQ yatırım satmaz, fon garanti etmez ve para tutmaz. Belgeleri toparlar, listeler ve iki tarafı bir araya getirir.
       </p>
     </div>
   );
