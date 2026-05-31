@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Doğrulanmış sermaye erişim ağı",
-    "navTagline": "Doğrulanmış sermaye erişim ağı"
+    "tagline": "Üretim şirketleri ve sermaye",
+    "navTagline": "Üretim şirketleri ve sermaye"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
@@ -1193,42 +1193,42 @@
   },
   "process": {
     "label": "Nasıl çalışır",
-    "title": "Belgelerden görüşme odasına",
-    "intro": "Üretici belgelerini yükler; kanıt dosyalanır ve incelenir; profil keşfedilebilir olur; sermaye partneri kanıtı ve açık soruları görür; karşılıklı kabul sonrası görüşme odası açılır. ORTAQ kanıt ve tanıştırma katmanıdır; para tutmaz, skor vermez.",
+    "title": "Belgelerden görüşmeye",
+    "intro": "Üretici belgelerini yükler. Biz dosyalar, inceler ve listeye alırız. Sermaye tarafı şirketi görür; iki taraf da uygun bulursa görüşme odası açılır. Para toplamıyoruz, skor vermiyoruz.",
     "journeyLabel": "Süreç",
     "journey": {
       "1": "Belgeler",
-      "2": "Kanıt incelenir",
-      "3": "Keşfedilebilir profil",
-      "4": "Keşif",
-      "5": "Karşılıklı tanıştırma",
-      "6": "Görüşme odası"
+      "2": "İnceleme",
+      "3": "Listede",
+      "4": "Arama",
+      "5": "Tanışma",
+      "6": "Görüşme"
     },
-    "journeyNote": "ORTAQ kanıt düzenler ve tanıştırma yolunu açar; tanıştırma çift taraflı onayla yapılır; fonlama veya sonuç garanti edilmez.",
+    "journeyNote": "Her adım iki taraflı onay ister. Fon veya anlaşma garantisi yoktur.",
     "steps": {
       "1": {
         "title": "Belgeler",
-        "text": "Üretici ihracat kaydı, kapasite, finansal tablolar ve ilgili kanıtları yükler."
+        "text": "İhracat kaydı, kapasite, finansal tablolar ve diğer belgeler yüklenir."
       },
       "2": {
-        "title": "Kanıt incelenir",
-        "text": "Belgeler dosyalanır ve incelenir; dosyalanan kanıt ve eksikler profilde görünür."
+        "title": "İnceleme",
+        "text": "Belgeler dosyalanır, incelenir; eksikler profilde açıkça yazılır."
       },
       "3": {
-        "title": "Keşfedilebilir profil",
-        "text": "Zorunlu belgeler tamamlandığında profil keşifte görünür hale gelir."
+        "title": "Listede",
+        "text": "Zorunlu belgeler tamamlanınca profil sermaye tarafının aramasında görünür."
       },
       "4": {
-        "title": "Keşif",
-        "text": "Sermaye partneri tezine uyan şirketleri bulur; kanıt ve açık soruları inceler."
+        "title": "Arama",
+        "text": "Sermaye tarafı kriterlerine uyan şirketleri bulur; belgeleri ve açık soruları okur."
       },
       "5": {
-        "title": "Karşılıklı tanıştırma",
-        "text": "Sermaye partneri talep yazar; üretici kabul ederse tanıştırma açılır. Her iki taraf da reddedebilir."
+        "title": "Tanışma",
+        "text": "Sermaye tarafı talep yazar; üretici kabul ederse tanışma açılır. Her iki taraf da reddedebilir."
       },
       "6": {
         "title": "Görüşme odası",
-        "text": "Karşılıklı kabul sonrası yapılandırılmış görüşme ortamı açılır; açık belge soruları burada netleşir."
+        "text": "İki taraf da kabul edince görüşme odası açılır; belge soruları burada netleşir."
       }
     }
   },
@@ -1305,7 +1305,7 @@
     }
   },
   "footer": {
-    "tagline": "İhracat odaklı üreticilerin kanıtını düzenler, keşfedilebilir kılar ve karşılıklı tanıştırma ile görüşme odasını açar.",
+    "tagline": "Üretim şirketleri ve sermaye tarafı için belge, liste ve tanışma.",
     "protectionLabel": "Güven ve uyum",
     "regulatory": "ORTAQ para tutmaz, yatırım satmaz ve menkul kıymet faaliyeti yürütmez. Kanıt düzenleme, keşif ve nitelikli tanıştırma sağlar.",
     "notAdvice": "ORTAQ yatırım tavsiyesi vermez, fonlama veya getiri garanti etmez. Buradaki içerik bilgilendirme amaçlıdır.",
@@ -1408,7 +1408,7 @@
   },
   "trustPage": {
     "title": "Güven ve uyum",
-    "subtitle": "ORTAQ para tutmaz, yatırım satmaz, tavsiye vermez. Kanıt düzenleme, keşif ve nitelikli tanıştırma katmanıdır; her adımda kanıt ve şeffaflık.",
+    "subtitle": "Para tutmaz, yatırım satmaz, tavsiye vermez.",
     "journeyNote": "Doğrulama sürecini okuduktan sonra burada güven katmanlarını görün; ardından erişim sürecine geçin.",
     "layersTitle": "Neler var",
     "infrastructure": {
@@ -1462,7 +1462,8 @@
       },
       "complaintOffline": "Çevrimiçi şikâyet formu şu an kullanılamıyor. Lütfen destek@ortaq.biz adresine yazın."
     },
-    "back": "Ana sayfaya dön"
+    "back": "Ana sayfaya dön",
+    "tagline": "Belgeleri toparlar, şirketleri listeler, iki tarafı bir araya getirir."
   },
   "riskPage": {
     "title": "Riskler ve sınırlar",
@@ -1829,8 +1830,8 @@
     "contact": {
       "aria": "Başvuru",
       "label": "İletişim",
-      "title": "İletişim",
-      "lead": "Şirket veya sermaye partneri olarak yazın; en kısa sürede döneriz.",
+      "title": "Başvuru",
+      "lead": "Kısa formu doldurun; ekibimiz dönüş yapar.",
       "teamLabel": "Ekip",
       "team": {
         "1": {
@@ -1861,8 +1862,8 @@
         "messagePlaceholder": "Kısa not (isteğe bağlı)",
         "submit": "Gönder",
         "submitting": "Gönderiliyor…",
-        "success": "Başvurunuz alındı. Kısa sürede dönüş yapacağız.",
-        "error": "Başvuru şu an iletilemedi. Lütfen doğrudan e-posta gönderin:"
+        "success": "Başvurunuz alındı. En kısa sürede dönüş yapacağız.",
+        "error": "Gönderilemedi. Lütfen tekrar deneyin veya doğrudan yazın:"
       }
     },
     "instant": {
@@ -2245,85 +2246,85 @@
   },
   "gca": {
     "hero": {
-      "kicker": "Doğrulanmış sermaye erişim ağı",
-      "headline": "İhracatçı üreticilerin kanıtını düzenler, keşfedilebilir kılar ve karşılıklı tanıştırma ile görüşmeye açarız.",
-      "sub": "Belgeler dosyalanır ve incelenir; profil keşfedilebilir olur; nitelikli sermaye partnerleri kanıtı ve açık soruları görür; karşılıklı kabul sonrası görüşme odası açılır. Yatırım satmayız, fonlama garanti etmeyiz.",
+      "kicker": "İhracat yapan üreticiler için",
+      "headline": "İyi şirketler doğru sermayeyi bulamıyor. Biz aradaki boşluğu kapatıyoruz.",
+      "sub": "Belgelerinizi toplar, düzenler ve inceleriz. Sermaye tarafı şirketinizi listede görür. İki taraf da uygun bulursa görüşmeye başlarsınız. Para toplamıyoruz, yatırım satmıyoruz.",
       "proof": {
-        "1": "Pilot aşaması",
+        "1": "Pilot dönem",
         "2": "İlk üretici grubu açık",
-        "3": "Belge ve kanıt odaklı erişim"
+        "3": "Belge odaklı süreç"
       },
-      "ctaCompany": "Şirketinizi değerlendirin",
-      "ctaCapital": "Keşfi görün"
+      "ctaCompany": "Şirket başvurusu",
+      "ctaCapital": "Sermaye tarafı"
     },
     "problem": {
-      "label": "Erişim açığı",
-      "title": "Sorun sermaye değil, erişim.",
-      "body": "Yatırımcı binlerce şirket görür, şirket binlerce yatırımcı görür. Sorun görmek değil; doğru şirketle doğru sermayenin birbirine ulaşamamasıdır. En iyi büyüme üreticileri, ilişki ve bölge bağlı geleneksel ağların dışında, doğru sermayeye görünmez kalır."
+      "label": "Asıl sorun",
+      "title": "Sermaye az değil; doğru eşleşme zor.",
+      "body": "Yatırımcı binlerce şirket görür, şirket binlerce yatırımcı görür. Ama iyi üreticilerle doğru sermaye çoğu zaman birbirine ulaşamaz. İlişki ağının dışında kalan ihracatçılar görünmez kalır."
     },
     "broken": {
-      "label": "Neden başarısız",
-      "title": "Neden geleneksel sermaye erişimi başarısız?",
+      "label": "Neden tıkanıyor",
+      "title": "Geleneksel yollar neden yetmiyor?",
       "points": {
         "1": {
           "k": "Görünmezlik",
-          "v": "İyi şirketler doğru sermayenin radarına standart biçimde girmez."
+          "v": "Güçlü şirketler standart listelerde öne çıkmaz."
         },
         "2": {
-          "k": "Erişim ilişkiye bağlı",
-          "v": "Geleneksel ağlar bölge ve ilişkiyle sınırlıdır; bu şirket grubui kapsamaz."
+          "k": "Ağ bağımlılığı",
+          "v": "Erişim çoğu zaman tanıdık ve bölgeyle sınırlıdır."
         },
         "3": {
-          "k": "Doğrulama yükü",
-          "v": "Sermaye her fırsatı sıfırdan inceler, bu yüzden çoğunu hiç değerlendiremez."
+          "k": "Belge yükü",
+          "v": "Sermaye tarafı her fırsatı sıfırdan inceler; çoğuna hiç bakamaz."
         }
       }
     },
     "engine": {
-      "label": "Erişim katmanları",
-      "title": "ORTAQ kanıt ve tanıştırma katmanları.",
-      "intro": "Pazarlama bölümleri değil; şirketi keşfedilebilir kılan ve tanıştırmayı açan ürün adımları.",
+      "label": "Nasıl çalışır",
+      "title": "ORTAQ'ta süreç adım adım.",
+      "intro": "Pazarlama cümlesi değil; ürünün gerçek adımları.",
       "layers": {
         "1": {
           "k": "Belgeler",
-          "v": "Üretici kanıtını yükler; dosyalanır ve incelenir."
+          "v": "Üretici belgelerini yükler; dosyalanır."
         },
         "2": {
-          "k": "Keşfedilebilir profil",
-          "v": "Zorunlu belgeler tamamlandığında profil keşifte görünür."
+          "k": "Listede profil",
+          "v": "Zorunlu belgeler tamamlanınca profil aramada görünür."
         },
         "3": {
-          "k": "Keşif",
-          "v": "Sermaye partneri tezine uyan şirketleri ve açık soruları görür."
+          "k": "Arama",
+          "v": "Sermaye tarafı kriterlerine uyan şirketleri bulur."
         },
         "4": {
-          "k": "Karşılıklı tanıştırma",
-          "v": "Çift taraflı onay sonrası tanıştırma açılır. ORTAQ para tutmaz."
+          "k": "Tanışma",
+          "v": "İki taraf da onay verirse tanışma açılır. ORTAQ para tutmaz."
         },
         "5": {
           "k": "Görüşme odası",
-          "v": "Yapılandırılmış görüşme ortamı; açık belge soruları netleşir."
+          "v": "Belge soruları burada netleşir; görüşme burada yürür."
         }
       }
     },
     "readiness": {
       "label": "Belge incelemesi",
-      "title": "Kanıt dosyalanır ve incelenir.",
-      "body": "Skor verilmez. Belgeler dosyalanır; dosyalanan kanıt ve eksikler profilde görünür.",
+      "title": "Belgeler dosyalanır, incelenir.",
+      "body": "Skor yok. Hangi belge geldi, ne eksik kaldı profilde açıkça yazar.",
       "metrics": {
         "1": "İhracat kaydı",
         "2": "Üretim kapasitesi",
         "3": "Finansal tablolar",
-        "4": "Operasyonel kanıt",
+        "4": "Operasyonel kayıtlar",
         "5": "Açık sorular"
       },
       "scoreLabel": "İnceleme durumu",
-      "scoreNote": "Örnek durum. Gerçek şirket verisi değildir."
+      "scoreNote": "Örnek ekran. Gerçek şirket verisi değildir."
     },
     "matching": {
-      "label": "Matching Engine",
-      "title": "Daha fazla eşleşme değil, doğru erişim.",
-      "body": "Amaç tanıştırma sayısı değil; kriterlerinize uygun, doğrulanmış şirketlere nitelikli ve düşük maliyetli erişim.",
+      "label": "Eşleşme",
+      "title": "Çok eşleşme değil; doğru erişim.",
+      "body": "Amaç sayı değil. Kriterlerinize uyan, belgeleri hazır şirketlere ulaşmak.",
       "dims": {
         "1": "Sektör",
         "2": "Coğrafya",
@@ -2334,102 +2335,111 @@
       }
     },
     "forCompanies": {
-      "label": "Şirketler için",
-      "title": "Kanıtınızı düzenleyin, keşfedilebilir olun.",
+      "label": "Üreticiyseniz",
+      "title": "Belgelerinizi toparlayın, listede görünün.",
       "points": {
-        "1": "Belgelerinizi yükleyin; kanıt dosyalanır ve incelenir.",
-        "2": "Profil keşfedilebilir olur; hangi kanıtın sunulduğu ve neyin eksik kaldığı görünür.",
-        "3": "Nitelikli sermaye partnerlerinden karşılıklı tanıştırma talebi alın; kabul sonrası görüşme odası açılır."
+        "1": "Belgelerinizi yükleyin; dosyalanır ve incelenir.",
+        "2": "Profil listede görünür; ne sunduğunuz, ne eksik kaldığı yazılıdır.",
+        "3": "Sermaye tarafından gelen tanışma taleplerini kabul edin; görüşme odası açılır."
       },
-      "problem": "Siparişiniz ve büyümeniz var, ama kanıtınız dağınık; doğru sermaye sizi bulamıyor.",
-      "cta": "Şirketinizi değerlendirin"
+      "problem": "Siparişiniz var, büyüyorsunuz; ama belgeler dağınık, doğru sermaye sizi bulamıyor.",
+      "cta": "Şirket başvurusu"
     },
     "forCapital": {
-      "label": "Sermaye partnerleri için",
-      "title": "Dosyalanmış kanıtı olan ihracatçı üreticileri keşfedin.",
+      "label": "Sermaye tarafıysanız",
+      "title": "Belgeli ihracatçı üreticileri arayın.",
       "points": {
-        "1": "Keşifte tezinize uyan üreticileri görün; her profilde dosyalanmış kanıt ve açık sorular.",
-        "2": "Sıfırdan belge toplamak yerine incelenmiş kanıtla başlayın; tanıştırma karşılıklı onay gerektirir.",
-        "3": "Karşılıklı kabul sonrası görüşme odasında kapasite, marj ve açık belge sorularını doğrudan sorun."
+        "1": "Kriterlerinize uyan üreticileri görün; belgeler ve açık sorular hazır.",
+        "2": "Sıfırdan belge toplamak yerine incelenmiş dosyayla başlayın.",
+        "3": "İki taraf da kabul edince görüşme odasında doğrudan sorun."
       },
-      "problem": "Güçlü ama kanıtı düzensiz üreticileri bulup değerlendirmek aylar alır; çoğu hiç önünüze gelmez.",
-      "cta": "Keşfi görün",
+      "problem": "Güçlü ama dosyası dağınık üreticileri bulmak aylar alır; çoğu hiç önünüze gelmez.",
+      "cta": "Keşif önizlemesi",
       "feedLink": "Keşif önizlemesi",
       "feed": {
-        "1": { "name": "Karat Parça · Makine", "status": "Belgeler incelendi" },
-        "2": { "name": "Anadolu Cam · Cam", "status": "Belgeler incelendi" },
-        "3": { "name": "Ege Mobilya · Mobilya", "status": "İnceleme sürüyor" }
+        "1": {
+          "name": "Karat Parça · Makine",
+          "status": "Belgeler incelendi"
+        },
+        "2": {
+          "name": "Anadolu Cam · Cam",
+          "status": "Belgeler incelendi"
+        },
+        "3": {
+          "name": "Ege Mobilya · Mobilya",
+          "status": "İnceleme sürüyor"
+        }
       }
     },
     "intelligence": {
-      "label": "Keşif verisi",
-      "title": "Ağ zamanla daha verimli keşif sunar.",
-      "body": "ORTAQ bir AI şirketi değildir. Platform, hangi kanıt türlerinin hangi soruları açtığına dair operasyonel veri biriktirir; bu veri keşif sürecini hızlandırır.",
+      "label": "Veri",
+      "title": "Zamanla arama daha hızlı olur.",
+      "body": "ORTAQ bir yapay zeka şirketi değil. Hangi belgelerin hangi soruları açtığını operasyonel olarak öğrenir; arama sürecini kısaltır.",
       "points": {
-        "1": "Hangi belge türleri hangi açık soruları tetikler",
-        "2": "Hangi sektörler hangi sermaye tezleriyle eşleşir",
-        "3": "Tanıştırma sonrası hangi konular görüşmede netleşir",
-        "4": "Eksik belge kalıpları"
+        "1": "Hangi belge türleri hangi soruları açar",
+        "2": "Hangi sektörler hangi sermaye tezleriyle örtüşür",
+        "3": "Tanışma sonrası görüşmede ne netleşir",
+        "4": "Sık görülen eksik belgeler"
       }
     },
     "trust": {
       "label": "Güven",
       "title": "ORTAQ yatırım satmaz.",
       "points": {
-        "1": "Para tutmaz, transfer etmez, menkul kıymet faaliyeti yürütmez.",
-        "2": "Yatırım tavsiyesi vermez, fonlama veya getiri garanti etmez.",
-        "3": "Yalnızca kanıt düzenleme, keşif ve karşılıklı tanıştırma katmanıdır."
+        "1": "Para tutmaz, transfer etmez, menkul kıymet işlemi yapmaz.",
+        "2": "Yatırım tavsiyesi vermez; fon veya getiri garanti etmez.",
+        "3": "Yalnızca belge, liste ve tanışma hizmeti verir."
       }
     },
     "faq": {
       "label": "Sık sorulanlar",
-      "title": "Net yanıtlar",
+      "title": "Kısa yanıtlar",
       "items": {
         "1": {
           "q": "ORTAQ yatırım mı satıyor?",
-          "a": "Hayır. Kanıt düzenler, keşif açar ve karşılıklı tanıştırma sağlar; para tutmaz, fonlama garanti etmez."
+          "a": "Hayır. Belgeleri toparlar, listeler ve iki tarafı bir araya getirir. Para toplamaz."
         },
         "2": {
-          "q": "Karşılıklı tanıştırma nedir?",
-          "a": "Sermaye partneri ilgi yazar; üretici kabul ederse görüşme odası açılır. Her iki taraf da reddedebilir."
+          "q": "Tanışma nasıl olur?",
+          "a": "Sermaye tarafı talep yazar; üretici kabul ederse görüşme odası açılır. Her iki taraf da reddedebilir."
         },
         "3": {
           "q": "Bu crowdfunding mi?",
-          "a": "Hayır. Bireysel yatırımcıdan para toplanmaz; nitelikli sermaye partnerleriyle karşılıklı tanıştırma yapılır."
+          "a": "Hayır. Bireysel yatırımcıdan para toplanmaz."
         },
         "4": {
           "q": "Görüşme odası nedir?",
-          "a": "Karşılıklı kabul sonrası açılan yapılandırılmış görüşme ortamı; açık belge soruları burada netleşir."
+          "a": "İki taraf kabul edince açılan ortak alan; belge soruları burada netleşir."
         }
       },
-      "lead": "Belgeler, keşif, tanıştırma ve görüşme odası hakkında net yanıtlar."
+      "lead": "Belgeler, arama, tanışma ve görüşme hakkında kısa yanıtlar."
     },
     "cta": {
       "label": "Başlayın",
-      "title": "Doğru tarafta başlayın.",
-      "body": "Üreticiyseniz belgelerinizi düzenleyin ve keşfedilebilir olun; sermaye partneriyseniz dosyalanmış kanıtı olan fırsatları keşfedin.",
-      "primaryCompany": "Şirketinizi Değerlendirin",
-      "secondaryCapital": "Keşfi Görün"
+      "title": "Doğru taraftan girin.",
+      "body": "Üreticiyseniz belgelerinizi yükleyin; sermaye tarafıysanız listeyi inceleyin.",
+      "primaryCompany": "Şirket başvurusu",
+      "secondaryCapital": "Keşif önizlemesi"
     },
     "invisible": {
       "label": "Neden görünmüyorlar",
-      "title": "Neden bu şirketler zaten görünür değil?",
+      "title": "Bu şirketler neden zaten listede değil?",
       "points": {
         "1": {
-          "k": "Operasyona odaklılar",
-          "v": "Güçlü ihracatçıların çoğu fon bulmaya değil, üretime ve operasyona odaklanır."
+          "k": "Üretime odaklılar",
+          "v": "Güçlü ihracatçıların çoğu fon aramaktan çok üretime bakar."
         },
         "2": {
           "k": "Ağların kör noktası",
-          "v": "Geleneksel yatırım ağları pazarın büyük bölümünü hiç görmez."
+          "v": "Geleneksel yatırım çevreleri pazarın büyük kısmını hiç görmez."
         },
         "3": {
-          "k": "Görünürlük ≠ kanıt",
-          "v": "Görünür olmak ile kanıtı dosyalanmış ve keşfedilebilir olmak aynı şey değildir."
+          "k": "Görünürlük ≠ dosya",
+          "v": "Tanıdık olmak ile belgeleri hazır olmak aynı şey değil."
         },
         "4": {
-          "k": "ORTAQ köprüsü",
-          "v": "ORTAQ bu boşluğu kapatır: kanıtı düzenler, profili keşfedilebilir kılar, karşılıklı tanıştırma ile görüşmeyi açar."
+          "k": "ORTAQ ne yapar",
+          "v": "Dosyayı toparlar, profili listeler, iki tarafı bir araya getirir."
         }
       }
     },
@@ -2439,81 +2449,81 @@
       "cards": {
         "1": {
           "k": "Kimler için",
-          "v": "İhracatçı ve büyüyen üretim şirketleri ile onlara ulaşmak isteyen sermaye partnerleri için."
+          "v": "İhracat yapan üretim şirketleri ve onlara ulaşmak isteyen sermaye tarafı."
         },
         "2": {
           "k": "Ne yapar",
-          "v": "Belgeleri dosyalar, kanıtı düzenler, profili keşfedilebilir kılar ve karşılıklı tanıştırma ile görüşme odasını açar."
+          "v": "Belgeleri toplar, inceler, profili listeler; iki taraf uygun bulursa görüşme odasını açar."
         },
         "3": {
           "k": "Neden önemli",
-          "v": "Güçlü şirketlerle doğru sermaye geleneksel yollarla çoğu zaman birbirine ulaşamaz. ORTAQ bu erişimi kurar."
+          "v": "Güçlü şirketlerle doğru sermaye çoğu zaman birbirini bulamaz. ORTAQ bu boşluğu kapatır."
         }
       }
     },
     "how": {
-      "label": "Nasıl çalışır",
-      "title": "Nasıl çalışır?",
+      "label": "Adımlar",
+      "title": "Adım adım",
       "steps": {
         "1": {
           "k": "Belgeler",
-          "v": "Üretici belgelerini yükler; ihracat kaydı, kapasite, finansal tablolar ve ilgili kanıtlar toplanır."
+          "v": "İhracat kaydı, kapasite, finansal tablolar ve ilgili belgeler yüklenir."
         },
         "2": {
-          "k": "Kanıt incelenir",
-          "v": "Belgeler dosyalanır ve incelenir; dosyalanan kanıt ve eksikler profilde görünür."
+          "k": "İnceleme",
+          "v": "Belgeler dosyalanır; eksikler profilde yazılır."
         },
         "3": {
-          "k": "Keşfedilebilir profil",
-          "v": "Zorunlu belgeler tamamlandığında profil keşifte görünür hale gelir."
+          "k": "Listede",
+          "v": "Zorunlu belgeler tamamlanınca profil aramada görünür."
         },
         "4": {
-          "k": "Keşif",
-          "v": "Sermaye partneri tezine uyan şirketleri bulur; kanıt ve açık soruları inceler."
+          "k": "Arama",
+          "v": "Sermaye tarafı kriterlerine uyan şirketleri bulur."
         },
         "5": {
-          "k": "Karşılıklı tanıştırma",
-          "v": "Sermaye partneri talep yazar; üretici kabul ederse tanıştırma açılır. ORTAQ para tutmaz."
+          "k": "Tanışma",
+          "v": "Talep yazar; üretici kabul ederse tanışma açılır."
         },
         "6": {
           "k": "Görüşme odası",
-          "v": "Karşılıklı kabul sonrası yapılandırılmış görüşme ortamı açılır; açık sorular burada netleşir."
+          "v": "İki taraf kabul edince görüşme burada yürür."
         }
       },
-      "note": "ORTAQ skor vermez ve fonlama garanti etmez; kanıt düzenler ve tanıştırma yolunu açar.",
+      "note": "Skor yok, fon garantisi yok. Sadece belge ve tanışma yolu.",
       "panelLabel": "İncelenen belgeler",
-      "panelNote": "Zorunlu belgeler dosyalandığında karşılıklı tanıştırma mümkün olur."
+      "panelNote": "Zorunlu belgeler tamamlanınca tanışma mümkün olur."
     },
     "surface": {
-      "sample": "Örnek arayüz",
+      "sample": "Örnek ekran",
       "profileLabel": "Şirket profili",
       "companyName": "Karat Parça Makina",
       "sector": "Makine imalatı · İhracat",
       "companyJourney": {
         "1": "Belgeler",
-        "2": "Kanıt incelenir",
-        "3": "Keşfedilebilir profil",
-        "4": "Keşif",
-        "5": "Karşılıklı tanıştırma",
-        "6": "Görüşme odası"
+        "2": "İnceleme",
+        "3": "Listede",
+        "4": "Arama",
+        "5": "Tanışma",
+        "6": "Görüşme"
       },
       "capitalJourney": {
-        "1": "Keşif",
-        "2": "Kanıt ve açık sorular",
-        "3": "Tanıştırma talebi",
+        "1": "Arama",
+        "2": "Belgeler ve sorular",
+        "3": "Tanışma talebi",
         "4": "Karşılıklı kabul",
         "5": "Görüşme odası"
       }
     },
     "transform": {
-      "label": "Dönüşüm",
+      "label": "Süreç",
       "states": {
         "1": "Belgeler",
-        "2": "Kanıt incelenir",
-        "3": "Keşfedilebilir",
-        "4": "Keşif",
-        "5": "Tanıştırma",
-        "6": "Görüşme odası"
+        "2": "İnceleme",
+        "3": "Listede",
+        "4": "Arama",
+        "5": "Tanışma",
+        "6": "Görüşme"
       },
       "evidenceLabel": "İncelenen belgeler",
       "evidence": {
@@ -2524,28 +2534,28 @@
       },
       "filed": "Dosyalandı",
       "reviewed": "İncelendi",
-      "pending": "Henüz sunulmadı",
+      "pending": "Henüz yok",
       "verified": "İncelendi",
-      "derived": "Keşfedilebilir profil",
-      "openQuestions": "Açık sorular görüşmede netleşir: bağımsız denetim, marj yapısı."
+      "derived": "Listede profil",
+      "openQuestions": "Açık sorular görüşmede netleşir: denetim, marj yapısı."
     },
     "model": {
       "label": "İş modeli",
       "title": "ORTAQ nasıl kazanır?",
       "ortaq": {
         "k": "ORTAQ",
-        "v": "Erişim abonelikleri: şirketler profil ve belge düzenleme için, sermaye partnerleri keşif ve tanıştırma erişimi için öder. Yatırımdan komisyon alınmaz, para tutulmaz."
+        "v": "Erişim aboneliği: şirketler profil ve belge hizmeti, sermaye tarafı arama ve tanışma erişimi için öder. Yatırımdan komisyon alınmaz."
       },
       "company": {
         "k": "Şirkete faydası",
-        "v": "Kanıtı düzenlenmiş, keşfedilebilir profil; nitelikli tanıştırma talepleri; görüşme odasına yapılandırılmış erişim."
+        "v": "Düzenli profil, tanışma talepleri, görüşme odasına erişim."
       },
       "investor": {
-        "k": "Sermaye partnerine faydası",
-        "v": "Dosyalanmış kanıt ve açık sorularla başlayan keşif; karşılıklı kabul sonrası görüşme odası."
+        "k": "Sermaye tarafına faydası",
+        "v": "İncelenmiş belgelerle başlayan arama; kabul sonrası görüşme odası."
       },
-      "align": "ORTAQ ancak gerçek kanıt düzenleme ve nitelikli tanıştırma ürettiğinde kazanır. Çıkarı her iki tarafla aynı yöndedir.",
-      "note": "Komisyon değil, erişim aboneliği. ORTAQ skor satmaz; kanıt ve tanıştırma yolunu açar."
+      "align": "ORTAQ ancak gerçek tanışma ürettiğinde kazanır. Çıkar her iki tarafla aynı yönde.",
+      "note": "Komisyon değil, abonelik. Skor satılmaz."
     }
   }
 }
