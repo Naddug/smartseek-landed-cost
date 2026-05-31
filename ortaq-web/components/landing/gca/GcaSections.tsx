@@ -247,7 +247,7 @@ export function GcaAudience() {
             <div className="order-2 lg:order-1 lg:col-span-5">
               <div className="rounded-ortaq-md border border-ortaq-cream/15">
                 <div className="border-b border-ortaq-cream/15 px-4 py-2.5">
-                  <span className={cn(mono, "text-ortaq-cream/50")}>{t("gca.forCapital.label")} · PIPELINE</span>
+                  <span className={cn(mono, "text-ortaq-cream/50")}>{t("gca.forCapital.label")} · FIRSAT LİSTESİ</span>
                 </div>
                 <ul>
                   {["AB · Makine", "Körfez · Gıda", "AB · Tekstil"].map((row, i) => (

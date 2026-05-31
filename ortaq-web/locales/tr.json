@@ -311,7 +311,7 @@
       "valueTimeline": {
         "label": "Kurumsal zaman çizelgesi",
         "title": "Dosya incelemesinden likiditeye: disiplinli yolculuk",
-        "lead": "Her aşama belgelenir. Süre kısıtı yoktur; ciddi yatırım due diligence ve operasyonel takip gerektirir.",
+        "lead": "Her aşama belgelenir. Süre kısıtı yoktur; ciddi yatırım ön inceleme ve operasyonel takip gerektirir.",
         "phases": {
           "1": {
             "phase": "Aşama 01",
@@ -445,7 +445,7 @@
           "3": "Kapasite ve makine yatırımıyla değer birikimi",
           "4": "Tarihsel olarak bireysel erişime kapalı katman"
         },
-        "barrier": "Bu katman due diligence maliyeti, kapalı ağlar ve dağınık süreç yüzünden bireysel yatırımcıdan uzak kaldı. ORTAQ disiplinli dosya ve doğrulama ile erişimi görünür kılar.",
+        "barrier": "Bu katman ön inceleme maliyeti, kapalı ağlar ve dağınık süreç yüzünden bireysel yatırımcıdan uzak kaldı. ORTAQ disiplinli dosya ve doğrulama ile erişimi görünür kılar.",
         "positioning": "Bireysel yatırımcı ile Türk sanayi büyümesi arasında ciddi bir köprü: hype değil, operasyonel ortaklık."
       },
       "activity": {
@@ -502,7 +502,7 @@
         "3": "Makine parkı ve kapasite büyümesi",
         "4": "Halka açık olmayan sanayi ortaklığı"
       },
-      "barrier": "Bu katman opak kaldı: due diligence pahalı, erişim kapalı, süreç dağınık. Büyük fonlar ve yerel ağlar hariç, bireysel katılım neredeyse imkânsız.",
+      "barrier": "Bu katman opak kaldı: ön inceleme pahalı, erişim kapalı, süreç dağınık. Büyük fonlar ve yerel ağlar hariç, bireysel katılım neredeyse imkânsız.",
       "ortaq": "ORTAQ, bu katmanı dosya, saha incelemesi ve doğrulama disipliniyle görünür kılar , acele etmeden, şeffaf biçimde."
     },
     "stats": {
@@ -691,7 +691,7 @@
       "label": "Pazar katmanı",
       "visualCaption": "Depo ve sevkiyat · özel şirket gerçeği",
       "title": "Özel sanayi sermayesi hep vardı; erişim yoktu.",
-      "lead": "Türkiye'de üretim şirketlerinin çoğu halka kapalıdır. Sahiplik vardır; güvenilir erişim tarihsel olarak kurumsal ağlar ve pahalı due diligence gerektirdi.",
+      "lead": "Türkiye'de üretim şirketlerinin çoğu halka kapalıdır. Sahiplik vardır; güvenilir erişim tarihsel olarak kurumsal ağlar ve pahalı ön inceleme gerektirdi.",
       "points": {
         "1": "Sorun ilgi değil; doğrulama maliyeti, parçalı sinyaller ve tutarsız açıklamadır.",
         "2": "Operasyonel büyüme spekülasyon değildir: kapasite, ihracat, marj ve darboğaz fabrika zemininde ölçülür.",
@@ -806,7 +806,7 @@
       "liquidity": "Bu yolların hiçbiri garanti değildir. İkincil likidite sınırlıdır; vade ve çıkış zamanlaması şirket, pazar ve düzenleyici koşullara bağlıdır.",
       "marketWhy": {
         "label": "Bu pazar neden var",
-        "body": "Türkiye üretim ekonomisinin büyük kısmı hâlâ halka kapalı şirketlerden oluşur. Bireysel yatırımcı tarihsel olarak bu katmana erişemedi , due diligence maliyeti, kapalı ağlar ve dağınık süreç yüzünden. ORTAQ bu yapısal erişim boşluğunu dosya disipliniyle kapatmayı hedefler; spekülasyon katmanı yaratmaz."
+        "body": "Türkiye üretim ekonomisinin büyük kısmı hâlâ halka kapalı şirketlerden oluşur. Bireysel yatırımcı tarihsel olarak bu katmana erişemedi , ön inceleme maliyeti, kapalı ağlar ve dağınık süreç yüzünden. ORTAQ bu yapısal erişim boşluğunu dosya disipliniyle kapatmayı hedefler; spekülasyon katmanı yaratmaz."
       },
       "footnote": "Yatırım tavsiyesi değildir · getiri veya likidite garantisi yoktur"
     },
@@ -963,13 +963,13 @@
     "customers": {
       "label": "Müşteri yapısı",
       "title": "Gelir dağılımı",
-      "description": "Yurtiçi / ihracat mix ve müşteri segmentleri: şirket beyanı.",
+      "description": "Yurtiçi / ihracat mix ve müşteri şirket grubuleri: şirket beyanı.",
       "domestic": "Yurtiçi pay",
       "export": "İhracat pay",
-      "segment": "Segment",
+      "segment": "Pazar",
       "share": "Pay",
       "note": "Açıklama",
-      "disclaimer": "Kesin müşteri listesi paylaşılmadı: segment tahminleri yönetim görüşmesine dayanır."
+      "disclaimer": "Kesin müşteri listesi paylaşılmadı: şirket grubu tahminleri yönetim görüşmesine dayanır."
     },
     "field": {
       "label": "Saha kaydı",
@@ -1171,7 +1171,7 @@
       },
       "wait": {
         "title": "Pilot aşaması",
-        "text": "ORTAQ şu an pilot aşamasında; ilk üretici kohortuyla görüşülüyor.",
+        "text": "ORTAQ şu an pilot aşamasında; ilk üretici grubuyla görüşülüyor.",
         "emptyText": "Erişim açıldıkça devam edersiniz."
       }
     }
@@ -1183,7 +1183,7 @@
     "items": {
       "1": "Erişim ve tanıştırma bir sonucu garanti etmez.",
       "2": "Bir finansman her zaman gerçekleşmez.",
-      "3": "Readiness skoru garanti değildir.",
+      "3": "Yatırıma hazırlık puanı garanti değildir.",
       "4": "ORTAQ para tutmaz, tavsiye vermez.",
       "5": "Şirketin gelecekteki performansı garanti edilemez."
     },
@@ -1192,7 +1192,7 @@
   "process": {
     "label": "Nasıl çalışır",
     "title": "Görünürlükten nitelikli tanıştırmaya",
-    "intro": "Şirket profili oluşturulur ve doğrulanır; yatırıma hazırlık skorlanır; tezine uyan sermaye partnerine doğrudan ve doğrulanmış erişim sağlanır. ORTAQ doğrulama ve tanıştırma katmanıdır; para tutmaz.",
+    "intro": "Şirket profili oluşturulur ve doğrulanır; yatırıma hazırlık skorlanır; aradığına uyan sermaye partnerine doğrudan ve doğrulanmış erişim sağlanır. ORTAQ doğrulama ve tanıştırma katmanıdır; para tutmaz.",
     "journeyLabel": "Süreç",
     "journey": {
       "1": "Görünürlük",
@@ -1218,7 +1218,7 @@
       },
       "4": {
         "title": "Eşleşme",
-        "text": "Sektör, coğrafya, çek büyüklüğü ve teze göre uygun sermaye partnerleri belirlenir."
+        "text": "Sektör, coğrafya, çek büyüklüğü ve aradıkları kritere göre uygun sermaye partnerleri belirlenir."
       },
       "5": {
         "title": "Tanıştırma",
@@ -1471,7 +1471,7 @@
       },
       "3": {
         "title": "Hazırlık skoru",
-        "text": "Readiness skoru bir değerlendirmedir, garanti değildir."
+        "text": "Yatırıma hazırlık puanı bir değerlendirmedir, garanti değildir."
       },
       "4": {
         "title": "Zamanlama",
@@ -2167,7 +2167,7 @@
       "sub": "İhracatçı ve büyüyen üretim şirketlerini yatırıma hazır ve görünür kılarız; doğru sermaye partnerleri sizi bulur. Yatırım satmayız, fon değiliz.",
       "proof": {
         "1": "Pilot aşaması",
-        "2": "İlk üretici kohortu açık",
+        "2": "İlk üretici grubu açık",
         "3": "Doğrulanmış erişim modeli"
       },
       "ctaCompany": "Şirketinizi değerlendirin",
@@ -2188,7 +2188,7 @@
         },
         "2": {
           "k": "Erişim ilişkiye bağlı",
-          "v": "Geleneksel ağlar bölge ve ilişkiyle sınırlıdır; bu segmenti kapsamaz."
+          "v": "Geleneksel ağlar bölge ve ilişkiyle sınırlıdır; bu şirket grubui kapsamaz."
         },
         "3": {
           "k": "Doğrulama yükü",
@@ -2206,12 +2206,12 @@
           "v": "Şirketi standart, yatırımcı-dostu, karşılaştırılabilir bir fırsata dönüştürür."
         },
         "2": {
-          "k": "Readiness Engine",
+          "k": "Hazırlık Motoru",
           "v": "Yatırıma hazırlığı ölçer ve skorlar. Danışmanlık değil, ölçeklenebilir sistem."
         },
         "3": {
           "k": "Matching Engine",
-          "v": "Sektör, coğrafya, çek büyüklüğü ve teze göre doğru sermayeye doğrudan ve doğrulanmış erişim."
+          "v": "Sektör, coğrafya, çek büyüklüğü ve aradıkları kritere göre doğru sermayeye doğrudan ve doğrulanmış erişim."
         },
         "4": {
           "k": "Introduction Layer",
@@ -2224,7 +2224,7 @@
       }
     },
     "readiness": {
-      "label": "Readiness Engine",
+      "label": "Hazırlık Motoru",
       "title": "Finanse edilebilirliği ölçen skor.",
       "body": "En önemli farklılaştırıcı. Elle yazılan rapor değil, ölçeklenebilir bir skorlama. Sermaye tarafı fırsat kalitesini bir bakışta anlar; şirket neyi geliştirmesi gerektiğini görür.",
       "metrics": {
@@ -2234,19 +2234,19 @@
         "4": "Operasyonel olgunluk",
         "5": "Yatırımcı uyumu"
       },
-      "scoreLabel": "Readiness Score",
+      "scoreLabel": "Yatırıma Hazırlık Puanı",
       "scoreNote": "Örnek skor. Gerçek şirket verisi değildir."
     },
     "matching": {
       "label": "Matching Engine",
       "title": "Daha fazla eşleşme değil, doğru erişim.",
-      "body": "Amaç tanıştırma sayısı değil; tezinize uygun, doğrulanmış şirketlere nitelikli ve düşük maliyetli erişim.",
+      "body": "Amaç tanıştırma sayısı değil; kriterlerinize uygun, doğrulanmış şirketlere nitelikli ve düşük maliyetli erişim.",
       "dims": {
         "1": "Sektör",
         "2": "Coğrafya",
         "3": "Çek büyüklüğü",
         "4": "Büyüme aşaması",
-        "5": "Yatırım tezi",
+        "5": "Yatırım kriteri",
         "6": "Risk iştahı"
       }
     },
@@ -2254,28 +2254,28 @@
       "label": "Şirketler için",
       "title": "Doğru sermayeye erişin.",
       "points": {
-        "1": "Standart, yatırımcı-dostu profil ile doğru sermayenin radarına girin.",
-        "2": "Readiness skoruyla yatırıma hazır olun ve eksiğinizi görün.",
-        "3": "Doğru sermaye partnerleriyle nitelikli tanıştırma."
+        "1": "Şirketinizi, yatırımcının kolayca anlayacağı tek bir profile dönüştürürüz.",
+        "2": "Yatırıma hazırlık puanıyla nerede olduğunuzu ve neyi geliştirmeniz gerektiğini görürsünüz.",
+        "3": "Sizi doğru sermaye partnerleriyle nitelikli biçimde tanıştırırız."
       },
       "problem": "Siparişiniz ve büyümeniz var, ama doğru sermaye sizi görmüyor.",
       "cta": "Şirketinizi değerlendirin"
     },
     "forCapital": {
       "label": "Sermaye partnerleri için",
-      "title": "Ağınızın ulaşamadığı fırsatlar.",
+      "title": "Normalde yalnızca büyük fonların gördüğü, doğrulanmış büyüme fırsatlarını görün.",
       "points": {
-        "1": "Ağınızın kapsamadığı segment: gelişmekte olan pazarların doğrulanmış, yatırıma hazır büyüme üreticileri.",
-        "2": "Her fırsat standart veri ve readiness skoruyla gelir; sıfırdan due diligence yükü düşer.",
-        "3": "Tezinize göre filtrelenmiş, ön-doğrulanmış akış; ilişkiye bağlı tesadüfi sourcing değil."
+        "1": "İki sermaye profili: kurumsal sermaye (özel sermaye, büyüme fonları, family office, stratejik yatırımcılar) ve nitelikli özel sermaye (başarılı iş insanları, fabrika sahipleri, deneyimli yatırımcılar).",
+        "2": "Türkiye'nin büyüyen, ihracat yapan üreticilerine; önceden incelenmiş ve yatırıma hazırlık puanıyla erişirsiniz. Baştan inceleme yapmaz, zaman kazanırsınız.",
+        "3": "Nasıl kazanırsınız: şirkete ortak olur veya finansman sağlarsınız; kazancınız şirketin büyümesinden gelir (kâr payı, payın değer artışı veya gelir paylaşımı). Koşulları siz ve şirket belirler; ORTAQ taraf olmaz, nitelikli tanıştırmayı yapar."
       },
-      "problem": "Ağınız, doğrulanması zor güçlü bir segmenti kapsamıyor.",
+      "problem": "Güçlü ama bilinmeyen üreticileri bulup incelemek aylar alır; çoğu hiç önünüze gelmez. ORTAQ bir sermaye ağı kuruyor, bir fon listesi değil.",
       "cta": "Fırsatları görün"
     },
     "intelligence": {
       "label": "Intelligence Layer",
       "title": "Ağ zamanla akıllanır.",
-      "body": "ORTAQ bir AI şirketi değildir; bu segmentte zamanla biriken tescilli veriyle akıllanan bir sermaye erişim şirketidir. Bu veri, hiçbir genel ağın sahip olmadığı bir avantajdır.",
+      "body": "ORTAQ bir AI şirketi değildir; bu şirket grubute zamanla biriken tescilli veriyle akıllanan bir sermaye erişim şirketidir. Bu veri, hiçbir genel ağın sahip olmadığı bir avantajdır.",
       "points": {
         "1": "Hangi sermaye hangi şirkete ilgi gösteriyor",
         "2": "Hangi eşleşmeler sonuca dönüşüyor",
@@ -2309,7 +2309,7 @@
           "a": "Hayır. Bireysel yatırımcıdan para toplanmaz; kurumsal sermaye partnerleriyle nitelikli tanıştırma yapılır."
         },
         "4": {
-          "q": "Readiness Score nedir?",
+          "q": "Yatırıma Hazırlık Puanı nedir?",
           "a": "Şirketin yatırıma hazırlığını ölçen skorlama sistemidir; elle yazılan danışmanlık raporu değildir."
         }
       },
@@ -2384,10 +2384,10 @@
         }
       },
       "heroStep": "2",
-      "scoreLabel": "Readiness Score",
+      "scoreLabel": "Yatırıma Hazırlık Puanı",
       "scoreNote": "Örnek skor. Gerçek şirket verisi değildir.",
       "note": "Sistem her eşleşmeyle akıllanır.",
-      "engineLabel": "Readiness Engine",
+      "engineLabel": "Hazırlık Motoru",
       "inputsLabel": "Girdiler (veri)",
       "inputs": {
         "1": "İhracat ve sipariş kaydı",
@@ -2404,7 +2404,7 @@
       "profileLabel": "Şirket profili",
       "companyName": "Üretim Şirketi A.Ş.",
       "sector": "Makine imalatı · İhracat",
-      "scoreLabel": "Readiness Score",
+      "scoreLabel": "Hazırlık",
       "verifyLabel": "Doğrulama",
       "verify": {
         "1": "İhracat kaydı",
@@ -2415,7 +2415,7 @@
       "matchValue": "3 uygun partner",
       "companyJourney": {
         "1": "Profil",
-        "2": "Readiness",
+        "2": "Hazırlık",
         "3": "Tanıştırma"
       },
       "capitalJourney": {

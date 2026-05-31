@@ -2314,22 +2314,22 @@
       "label": "For companies",
       "title": "Reach the right capital.",
       "points": {
-        "1": "Enter the right capital's radar with a standard, investor-friendly profile.",
-        "2": "Become investment-ready and see your gaps with the readiness score.",
-        "3": "Qualified introductions to the right capital partners."
+        "1": "We turn your company into a single profile investors can easily understand.",
+        "2": "With a readiness score you see where you stand and what to improve.",
+        "3": "We make qualified introductions to the right capital partners."
       },
       "problem": "You have orders and growth, but the right capital does not see you.",
       "cta": "Assess your company"
     },
     "forCapital": {
       "label": "For capital partners",
-      "title": "Opportunities your network cannot reach.",
+      "title": "See verified growth opportunities that normally only large funds can access.",
       "points": {
-        "1": "A segment your network does not cover: verified, investment-ready growth manufacturers in emerging markets.",
-        "2": "Every opportunity arrives with standard data and a readiness score, cutting the from-scratch due diligence load.",
-        "3": "A pre-verified flow filtered to your thesis, not relationship-bound, accidental sourcing."
+        "1": "Two capital profiles: institutional capital (private equity, growth funds, family offices, strategic investors) and qualified private capital (successful entrepreneurs, business owners, experienced investors).",
+        "2": "You reach Türkiye's growing, exporting manufacturers, pre-checked and with a readiness score. You skip starting due diligence from scratch and save time.",
+        "3": "How you earn: you take equity or provide financing; your return comes from the company's growth (dividends, value appreciation or revenue share). Terms are set between you and the company; ORTAQ is not a party, it makes the qualified introduction."
       },
-      "problem": "Your network does not cover a strong, hard-to-verify segment.",
+      "problem": "Finding and vetting strong but unknown manufacturers takes months; most never reach you. ORTAQ is building a capital network, not a fund directory.",
       "cta": "See opportunities"
     },
     "intelligence": {
