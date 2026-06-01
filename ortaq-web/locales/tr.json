@@ -2278,24 +2278,24 @@
     },
     "problem": {
       "label": "Asıl sorun",
-      "title": "Sermaye az değil; doğru eşleşme zor.",
-      "body": "Yatırımcı binlerce şirket görür, şirket binlerce yatırımcı görür. Ama iyi üreticilerle doğru sermaye çoğu zaman birbirine ulaşamaz. İlişki ağının dışında kalan ihracatçılar görünmez kalır."
+      "title": "Üretici çalışıyor; sermaye tarafı bunu göremiyor.",
+      "body": "İhracat yapan bir üretici güçlü sipariş ve kapasiteye sahip olabilir. Ama belgeler dağınıksa veya tanıdık ağının dışındaysa, doğru sermaye partneriyle hiç aynı masaya oturamayabilir."
     },
     "broken": {
       "label": "Neden tıkanıyor",
-      "title": "Geleneksel yollar neden yetmiyor?",
+      "title": "Görüşme bile başlamadan süreç kesiliyor",
       "points": {
         "1": {
-          "k": "Görünmezlik",
-          "v": "Güçlü şirketler standart listelerde öne çıkmaz."
+          "k": "Belge dağınık",
+          "v": "İhracat kaydı, kapasite ve finansal tablolar farklı yerlerde duruyor. Sermaye tarafı tek bakışta güvenemediği için görüşmeye geçmiyor."
         },
         "2": {
-          "k": "Ağ bağımlılığı",
-          "v": "Erişim çoğu zaman tanıdık ve bölgeyle sınırlıdır."
+          "k": "Kapalı ağlar",
+          "v": "Fon ve ortaklık görüşmeleri çoğu kez tanıdık zinciriyle ilerler. Bu zincire girmeyen üretici, ne kadar iyi üretse de kapıyı çalamıyor."
         },
         "3": {
-          "k": "Belge yükü",
-          "v": "Sermaye tarafı her fırsatı sıfırdan inceler; çoğuna hiç bakamaz."
+          "k": "İnceleme kapasitesi",
+          "v": "Sermaye ekibi her şirketi sıfırdan kuracak vakti yok. Dosyası hazır olmayan başvuru ilk turda eleniyor; iyi fırsatlar da sessizce kayboluyor."
         }
       }
     },
@@ -2361,7 +2361,7 @@
         "2": "Profil listede görünür; ne sunduğunuz, ne eksik kaldığı yazılıdır.",
         "3": "Sermaye tarafından gelen tanışma taleplerini kabul edin; görüşme odası açılır."
       },
-      "problem": "Siparişiniz var, büyüyorsunuz; ama belgeler dağınık, doğru sermaye sizi bulamıyor.",
+      "problem": "Üretim ve sipariş var; belgeler tek dosyada değil. Sermaye tarafı önce düzen ister, görüşme çoğu zaman orada biter.",
       "cta": "Şirket başvurusu",
       "privacyNote": "Belgeleriniz yalnızca sizin onayladığınız sermaye partnerleriyle paylaşılır."
     },
@@ -2444,24 +2444,24 @@
       "secondary": "Sermaye önizlemesi"
     },
     "invisible": {
-      "label": "Neden görünmüyorlar",
-      "title": "Bu şirketler neden zaten listede değil?",
+      "label": "Neden kaçırılıyor",
+      "title": "İyi üretici neden sermaye radarına girmiyor?",
       "points": {
         "1": {
-          "k": "Üretime odaklılar",
-          "v": "Güçlü ihracatçıların çoğu fon aramaktan çok üretime bakar."
+          "k": "Zaman üretimde",
+          "v": "Sahada büyüme varken kurucu çoğu zaman dosya hazırlamaya değil, teslimata odaklanır."
         },
         "2": {
-          "k": "Ağların kör noktası",
-          "v": "Geleneksel yatırım çevreleri pazarın büyük kısmını hiç görmez."
+          "k": "Borsada değiller",
+          "v": "Özel ve orta ölçekli ihracatçı borsa listesinde değil; sermaye tarafı onları otomatik olarak görmez."
         },
         "3": {
-          "k": "Görünürlük ≠ dosya",
-          "v": "Tanıdık olmak ile belgeleri hazır olmak aynı şey değil."
+          "k": "Tanıdık ≠ dosya",
+          "v": "Referansı olan şirket yine de dağınık belgeyle kalır; referansı olmayan hiç masaya oturamaz."
         },
         "4": {
           "k": "ORTAQ ne yapar",
-          "v": "Dosyayı toparlar, profili listeler, iki tarafı bir araya getirir."
+          "v": "Belgeleri toparlar, inceler ve sermaye tarafının arayabileceği profile dönüştürür."
         }
       }
     },
