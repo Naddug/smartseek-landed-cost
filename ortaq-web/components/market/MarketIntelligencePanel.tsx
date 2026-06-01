@@ -31,6 +31,9 @@ export function MarketIntelligencePanel() {
                   {t("market.intelligence.colSignal")}
                 </th>
                 <th className={cn(typography.caption, "pb-2 font-medium text-ortaq-ink-soft")}>
+                  {t("market.intelligence.colProof")}
+                </th>
+                <th className={cn(typography.caption, "pb-2 font-medium text-ortaq-ink-soft")}>
                   {t("market.intelligence.colCoverage")}
                 </th>
               </tr>
@@ -42,6 +45,9 @@ export function MarketIntelligencePanel() {
                     {row.sector}
                   </td>
                   <td className={cn(typography.bodySm, "py-3 pr-4 align-top text-ortaq-ink")}>{row.signal}</td>
+                  <td className={cn(typography.caption, "py-3 pr-4 align-top font-mono text-[0.6875rem] text-ortaq-ink-soft")}>
+                    {row.proof}
+                  </td>
                   <td className="py-3 align-top">
                     <Link
                       href={`/sirket/${row.slug}`}

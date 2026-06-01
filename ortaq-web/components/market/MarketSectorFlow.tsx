@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 import { getSectorClusters } from "@/lib/intelligence/discovery";
+import { countFeedBySectorCluster } from "@/lib/market/feed-rhythm";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -13,6 +14,7 @@ export function MarketSectorFlow() {
   const { t } = useTranslation();
   const clusters = getSectorClusters();
   const byId = Object.fromEntries(clusters.map((c) => [c.id, c]));
+  const feedBySector = countFeedBySectorCluster(14);
 
   return (
     <section className="border-b border-ortaq-border bg-ortaq-bg-alt" aria-label={t("market.sectorFlow.aria")}>
@@ -27,6 +29,7 @@ export function MarketSectorFlow() {
           {CHIP_IDS.map((id) => {
             const cluster = byId[id];
             const count = cluster?.count ?? 0;
+            const recent = feedBySector[id] ?? 0;
             return (
               <Link
                 key={id}
@@ -39,6 +42,11 @@ export function MarketSectorFlow() {
                 <span className="font-mono text-[0.6875rem] font-semibold tabular-nums text-ortaq-trust-muted">
                   {count}
                 </span>
+                {recent > 0 ? (
+                  <span className="text-[0.625rem] tabular-nums text-ortaq-ink-soft">
+                    {t("market.sectorFlow.recent", { count: recent })}
+                  </span>
+                ) : null}
               </Link>
             );
           })}

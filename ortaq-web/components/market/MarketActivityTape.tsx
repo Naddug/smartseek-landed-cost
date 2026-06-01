@@ -66,6 +66,7 @@ export function MarketActivityTape() {
                       </span>
                       <span className={cn(typography.caption, "tabular-nums text-ortaq-cream/40")}>
                         {formatDaysAgo(ev.date, locale)}
+                        {ev.time ? ` · ${ev.time.slice(0, 5)}` : ""}
                       </span>
                     </div>
                   </Link>

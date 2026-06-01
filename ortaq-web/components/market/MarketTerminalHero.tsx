@@ -18,23 +18,42 @@ export function MarketTerminalHero() {
     ? formatPulseDate(pulse.lastFeedDate, locale)
     : "—";
 
+  const headline = t("market.terminal.headline", { count: pulse.coverage });
+  const rhythm =
+    pulse.hottestSector && pulse.eventsLast14Days > 0
+      ? t("market.terminal.rhythm", {
+          count: pulse.eventsLast14Days,
+          sector: pulse.hottestSector,
+          sectorCount: pulse.hottestSectorCount,
+        })
+      : null;
+
   return (
     <section className="intel-band-ink border-b border-white/10">
       <Container wide className="py-8 sm:py-10">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span className="intel-live-dot intel-live-dot-dark text-[0.6875rem] font-medium uppercase tracking-[0.08em] text-ortaq-cream/70">
             {t("market.terminal.live")}
           </span>
           <span className="text-[0.6875rem] tabular-nums text-ortaq-cream/45">
             {t("market.terminal.lastSync", { date: lastLabel })}
           </span>
+          {pulse.exportHeavyCount > 0 ? (
+            <span className="text-[0.6875rem] text-ortaq-cream/45">
+              {t("market.terminal.exportNote", { count: pulse.exportHeavyCount })}
+            </span>
+          ) : null}
         </div>
 
-        <p className={cn(typography.label, "mt-4 text-ortaq-cream/50")}>{t("market.terminal.kicker")}</p>
-        <h1 className="mt-2 max-w-3xl text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.03em] text-ortaq-cream sm:text-[2.125rem]">
-          {t("market.terminal.headline")}
+        <h1 className="mt-5 max-w-3xl text-[1.625rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ortaq-cream sm:text-[2.125rem]">
+          {headline}
         </h1>
-        <p className={cn(typography.bodySm, "mt-3 max-w-2xl text-ortaq-cream/70")}>{t("market.terminal.sub")}</p>
+        <p className={cn(typography.bodySm, "mt-3 max-w-2xl leading-relaxed text-ortaq-cream/75")}>
+          {t("market.terminal.sub")}
+        </p>
+        {rhythm ? (
+          <p className={cn(typography.caption, "mt-2 font-mono text-ortaq-cream/55")}>{rhythm}</p>
+        ) : null}
 
         <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-ortaq-md border border-white/12 bg-white/8 sm:grid-cols-4">
           {STAT_KEYS.map((key) => (
@@ -55,8 +74,8 @@ export function MarketTerminalHero() {
           ))}
         </dl>
 
-        <p className={cn(typography.bodySm, "mt-4 max-w-2xl text-ortaq-cream/70")}>{t("market.terminal.access")}</p>
-        <p className={cn(typography.caption, "mt-2 max-w-2xl text-ortaq-cream/45")}>{t("market.terminal.legal")}</p>
+        <p className={cn(typography.bodySm, "mt-5 max-w-2xl text-ortaq-cream/70")}>{t("market.terminal.access")}</p>
+        <p className={cn(typography.caption, "mt-2 max-w-2xl text-ortaq-cream/42")}>{t("market.terminal.legal")}</p>
 
         <div className="mt-5 flex flex-wrap gap-2.5">
           <Link

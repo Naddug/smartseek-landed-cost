@@ -1360,13 +1360,14 @@
   },
   "market": {
     "terminal": {
-      "live": "Canlı",
-      "lastSync": "Veriler: {{date}}",
-      "kicker": "ORTAQ",
-      "headline": "Türkiye'deki üretici şirketlerde son hareketler",
-      "sub": "Kapasite, ihracat ve saha notları burada toplanır. Aşağıdaki listeden şirketi seçip ayrıntıyı okuyabilirsiniz.",
-      "access": "İlgi notu bırakabilirsiniz. İki taraf da uygun görürse tanışma açılır.",
-      "legal": "Yatırım veya hisse satışı yapılmaz; bilgi ve tanışma amaçlı bir servistir.",
+      "live": "Güncel veri",
+      "lastSync": "Son kayıt: {{date}}",
+      "headline": "{{count}} üretici şirket · güncel üretim notları",
+      "sub": "Halka açık olmayan şirketlerin kapasite, ihracat ve saha kayıtları burada. Önce akışa bakın; ilgilendiğiniz şirketin dosyasını açın.",
+      "rhythm": "Son 14 günde {{count}} kayıt · en çok hareket: {{sector}} ({{sectorCount}} kayıt)",
+      "exportNote": "{{count}} şirket ihracat ağırlıklı",
+      "access": "Dosyayı okuduktan sonra ilgi notu bırakabilirsiniz. Karşı taraf da uygun görürse görüşme açılır.",
+      "legal": "Hisse veya fon satışı yok. Okuma ve tanışma altyapısı.",
       "cta": "Şirket listesi",
       "ctaWorkspace": "Takip listem",
       "stats": {
@@ -1379,13 +1380,14 @@
     "sectorFlow": {
       "aria": "Sektöre göre filtrele",
       "label": "Sektöre göre bak",
-      "fullTape": "Tüm şirketler"
+      "fullTape": "Tüm şirketler",
+      "recent": "{{count}} kayıt / 14 gün"
     },
     "tape": {
       "label": "Akış",
-      "title": "Son güncellemeler",
+      "title": "Son kayıtlar",
       "expand": "Tüm listeyi aç",
-      "footnote": "Saha ve dosya notlarından derlenir.",
+      "footnote": "Her satır saha veya dosya güncellemesidir; en yenisi üstte.",
       "types": {
         "export_market": "İhracat",
         "facility": "Tesis",
@@ -1397,21 +1399,22 @@
     },
     "intelligence": {
       "label": "Özet",
-      "title": "Sektörlere göre öne çıkanlar",
-      "lead": "Kısa başlık burada; tam açıklama şirket sayfasında.",
+      "title": "Şu aralar öne çıkanlar",
+      "lead": "Sol sütun ne değiştiğini söyler; sağdaki rakamlar dosyadan.",
       "colSector": "Sektör",
-      "colSignal": "Durum",
+      "colSignal": "Ne değişti",
+      "colProof": "Dosyadan",
       "colCoverage": "Şirket"
     },
     "coverage": {
       "label": "Liste",
-      "title": "Güncellenen şirketler",
-      "lead": "Her satırda o şirketle ilgili son gelişme yazıyor.",
+      "title": "Son güncellenen şirketler",
+      "lead": "Kartın üstünde şirket; ortada gelişme; altta doğrulanabilir rakamlar.",
       "link": "Tüm şirketler"
     },
     "infrastructure": {
-      "role": "ORTAQ şirket bilgilerini yayınlar, ilgi notlarını iletir ve uygun olduğunda tanışmayı sağlar.",
-      "operator": "LEGO Group, Petlas ve Yiğit Akü deneyimine sahip ekip tarafından işletilir."
+      "role": "Şirket dosyası burada okunur. İlgi notu bırakırsınız; karşı taraf da uygun görürse görüşme açılır.",
+      "operator": "LEGO, Petlas ve Yiğit Akü tecrübesi olan ekip tarafından işletilir."
     },
     "catalog": {
       "label": "Liste",
@@ -1421,7 +1424,8 @@
       "legalStrip": "Bilgilendirme amaçlıdır."
     },
     "companyCard": {
-      "cta": "Dosyayı aç"
+      "cta": "Dosyayı aç",
+      "employees": "{{count}} çalışan"
     }
   },
   "discovery": {

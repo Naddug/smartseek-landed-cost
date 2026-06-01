@@ -1,4 +1,5 @@
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
+import { siteFeed } from "@/lib/feed/site-feed";
 
 /**
  * One line per company: what changed recently, in plain Turkish.
@@ -51,7 +52,16 @@ function sanitize(line: string): string | null {
   return trimmed;
 }
 
+function deriveFromFeed(c: SimulatedCampaign): string | null {
+  const ev = siteFeed().find((e) => e.campaignSlug === c.slug);
+  if (ev?.text) return sanitize(ev.text);
+  return null;
+}
+
 function deriveFromCampaign(c: SimulatedCampaign): string | null {
+  const fromFeed = deriveFromFeed(c);
+  if (fromFeed) return fromFeed;
+
   const journal = c.fieldJournal[0]?.text;
   if (journal) {
     const line = sanitize(journal);
@@ -76,5 +86,5 @@ function deriveFromCampaign(c: SimulatedCampaign): string | null {
 export function getOperationalRelevanceLine(c: SimulatedCampaign): string {
   const curated = OPERATIONAL_RELEVANCE[c.slug];
   if (curated) return curated;
-  return deriveFromCampaign(c) ?? "Son günlerde operasyon kaydı güncellendi.";
+  return deriveFromCampaign(c) ?? "Dosyada yeni saha veya kapasite notu var.";
 }
