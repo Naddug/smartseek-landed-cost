@@ -111,7 +111,7 @@ export const CURRENT_PARTNER: CapitalPartner = {
   thesis: {
     sectors: ["Makine imalatı", "Kimya", "Cam ve refrakter"],
     markets: ["AB", "Körfez"],
-    ticket: "0.5M – 2M USD",
+    ticket: "0,5M ile 2M USD",
     note: "İhracatı kanıtlanmış, kapasite darboğazı olan üreticiler.",
   },
 };

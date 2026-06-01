@@ -28,7 +28,7 @@ export function CategoryClarityBlock({ className, dark = false }: CategoryClarit
         <ul className="mt-2 space-y-1.5">
           {NOT_KEYS.map((k) => (
             <li key={k} className={cn(typography.bodySm, dark ? "text-ortaq-cream/70" : "text-ortaq-ink-muted")}>
-              — {t(`categoryClarity.not.${k}`)}
+              {t(`categoryClarity.not.${k}`)}
             </li>
           ))}
         </ul>

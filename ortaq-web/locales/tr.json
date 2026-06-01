@@ -2169,10 +2169,10 @@
       "linkedinLabel": "LinkedIn'de doğrula",
       "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/",
       "credentials": {
-        "1": "LEGO Group — Türkiye, İsrail, Yunanistan ve CIS bölgelerinde saha satış liderliği",
-        "2": "Petlas — ihracat ve satış",
-        "3": "Yiğit Akü — ihracat ve satış",
-        "4": "ABD — girişimcilik deneyimi",
+        "1": "LEGO Group: Türkiye, İsrail, Yunanistan ve CIS saha satış liderliği",
+        "2": "Petlas: ihracat ve satış",
+        "3": "Yiğit Akü: ihracat ve satış",
+        "4": "ABD: girişimcilik deneyimi",
         "5": "Uluslararası satış ve ihracat"
       }
     },
@@ -2278,24 +2278,24 @@
     },
     "problem": {
       "label": "Asıl sorun",
-      "title": "Üretici çalışıyor; sermaye tarafı bunu göremiyor.",
-      "body": "İhracat yapan bir üretici güçlü sipariş ve kapasiteye sahip olabilir. Ama belgeler dağınıksa veya tanıdık ağının dışındaysa, doğru sermaye partneriyle hiç aynı masaya oturamayabilir."
+      "title": "Sermaye eksikliği değil, hazırlık ve erişim",
+      "body": "İhracat yapan üretici sipariş ve kapasiteyle büyüyebilir. Sorun çoğu zaman üretimde değil: belgeler dağınık, ağ dışı kalınmış veya karşı tarafın inceleyecek vakti yok."
     },
     "broken": {
       "label": "Neden tıkanıyor",
-      "title": "Görüşme bile başlamadan süreç kesiliyor",
+      "title": "Üretim güçlü, görüşme yine de başlamıyor",
       "points": {
         "1": {
-          "k": "Belge dağınık",
-          "v": "İhracat kaydı, kapasite ve finansal tablolar farklı yerlerde duruyor. Sermaye tarafı tek bakışta güvenemediği için görüşmeye geçmiyor."
+          "k": "Dosya hazır değil",
+          "v": "İhracat kaydı bir yerde, kapasite başka yerde, finansal tablolar ayrı. Karşı taraf önce tek dosya ister; dosya gelmeden konuşma açılmaz."
         },
         "2": {
-          "k": "Kapalı ağlar",
-          "v": "Fon ve ortaklık görüşmeleri çoğu kez tanıdık zinciriyle ilerler. Bu zincire girmeyen üretici, ne kadar iyi üretse de kapıyı çalamıyor."
+          "k": "Tanıdık zinciri",
+          "v": "Fon ve ortaklık görüşmelerinin çoğu referansla başlar. Referansı olmayan üretici, fabrikası dolu olsa bile masaya oturamaz."
         },
         "3": {
-          "k": "İnceleme kapasitesi",
-          "v": "Sermaye ekibi her şirketi sıfırdan kuracak vakti yok. Dosyası hazır olmayan başvuru ilk turda eleniyor; iyi fırsatlar da sessizce kayboluyor."
+          "k": "Zaman yetmiyor",
+          "v": "Sermaye ekibi her başvuruyu sıfırdan kuramaz. Düzensiz dosya ilk turda elenir; iyi fırsat da sessizce kaybolur."
         }
       }
     },
