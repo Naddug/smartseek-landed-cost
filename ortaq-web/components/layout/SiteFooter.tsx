@@ -92,9 +92,14 @@ export function SiteFooter() {
           <div className="col-span-2 lg:col-span-2">
             <p className={cn(typography.label, "mb-2 text-ortaq-cream/50 sm:mb-3")}>{t("footer.supportTitle")}</p>
             <p className={cn(typography.bodySm, "text-ortaq-cream/70")}>{t("footer.supportText")}</p>
-            <a href="mailto:destek@ortaq.biz" className={cn(typography.bodySm, "mt-2 inline-flex min-h-10 items-center font-medium text-ortaq-trust-soft hover:text-ortaq-cream hover:underline")}>
-              destek@ortaq.biz
-            </a>
+            <ul className="mt-2 space-y-1">
+              <li>
+                <a href="mailto:destek@ortaq.biz" className={cn(typography.bodySm, "inline-flex min-h-10 items-center font-medium text-ortaq-trust-soft hover:text-ortaq-cream hover:underline")}>
+                  {t("footer.contactEmail")}
+                </a>
+              </li>
+              <li className={cn(typography.bodySm, "text-ortaq-cream/60")}>{t("footer.contactLocation")}</li>
+            </ul>
             <p className={cn(typography.caption, "mt-3 max-w-xs leading-relaxed text-ortaq-cream/45")}>{t("footer.dispute")}</p>
           </div>
         </div>

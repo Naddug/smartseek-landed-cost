@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
+import { CategoryClarityBlock } from "@/components/trust/CategoryClarityBlock";
+import { VerificationFrameworkBlock } from "@/components/trust/VerificationFrameworkBlock";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -162,7 +164,10 @@ export function GcaHero() {
             <h1 className="mt-3 text-[1.625rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ortaq-cream sm:mt-5 sm:text-[2.25rem] sm:leading-[1.08] lg:text-[3rem]">
               {t("gca.hero.headline")}
             </h1>
-            <p className="mt-4 max-w-xl text-[0.9375rem] leading-[1.6] text-ortaq-cream/80 sm:mt-5 sm:text-base">{t("gca.hero.sub")}</p>
+            <p className="mt-4 max-w-xl text-[0.9375rem] font-medium leading-[1.55] text-ortaq-cream/90 sm:mt-5 sm:text-base">
+              {t("gca.hero.clarity")}
+            </p>
+            <p className="mt-3 max-w-xl text-[0.875rem] leading-[1.55] text-ortaq-cream/70 sm:text-[0.9375rem]">{t("gca.hero.sub")}</p>
             <ul className="mt-5 space-y-2.5 sm:mt-6">
               {bullets.map((k) => (
                 <li key={k} className="flex gap-2.5 text-[0.875rem] leading-snug text-ortaq-cream/90 sm:text-[0.9375rem]">
@@ -173,8 +178,12 @@ export function GcaHero() {
             </ul>
             <p className="mt-4 text-[0.8125rem] leading-relaxed text-ortaq-cream/55 sm:mt-5">{t("gca.hero.note")}</p>
             <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-3">
-              <Link href="#for-companies" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-center text-[0.875rem] font-medium text-ortaq-dark transition-opacity hover:opacity-90 sm:min-h-0">{t("gca.hero.ctaCompany")}</Link>
-              <Link href="/demo/sermaye" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-center text-[0.875rem] font-medium text-ortaq-cream transition-colors hover:border-ortaq-cream/60 sm:min-h-0">{t("gca.hero.ctaCapital")}</Link>
+              <Link href="/#basvuru" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-center text-[0.875rem] font-semibold text-ortaq-dark transition-opacity hover:opacity-90 sm:min-h-0">
+                {t("gca.hero.ctaPrimary")}
+              </Link>
+              <Link href="/demo/sermaye" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-center text-[0.875rem] font-medium text-ortaq-cream/90 transition-colors hover:border-ortaq-cream/50 sm:min-h-0">
+                {t("gca.hero.ctaSecondary")}
+              </Link>
             </div>
             <div className="mt-6 hidden flex-wrap gap-x-6 gap-y-2 border-t border-ortaq-cream/12 pt-4 sm:mt-8 sm:flex sm:pt-5">
               {proof.map((k) => <span key={k} className="text-[0.6875rem] font-medium text-ortaq-cream/55">{t(`gca.hero.proof.${k}`)}</span>)}
@@ -187,6 +196,28 @@ export function GcaHero() {
         <div className="mt-8 border-t border-ortaq-cream/12 pt-6 lg:mt-14 lg:pt-8">
           <TransformationSpine active={3} dark />
         </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ===================================================== verification framework */
+export function GcaVerification() {
+  return (
+    <section className="border-b border-ortaq-border bg-ortaq-bg-alt" aria-labelledby="verification-framework-title">
+      <Container wide className="py-8 sm:py-12">
+        <VerificationFrameworkBlock />
+      </Container>
+    </section>
+  );
+}
+
+/* ========================================================= category clarity */
+export function GcaCategoryClarity() {
+  return (
+    <section className="border-b border-ortaq-border bg-ortaq-bg" aria-labelledby="category-clarity-title">
+      <Container wide className="py-8 sm:py-10">
+        <CategoryClarityBlock />
       </Container>
     </section>
   );
@@ -266,7 +297,8 @@ export function GcaAudience() {
                   <li key={k} className={cn(typography.bodySm, "border-t border-ortaq-border py-3 text-ortaq-ink-muted first:border-t-0")}>{t(`gca.forCompanies.points.${k}`)}</li>
                 ))}
               </ul>
-              <Link href="/#basvuru" className="mt-7 inline-block rounded-ortaq-md bg-ortaq-trust px-5 py-2.5 text-[0.8125rem] font-medium text-ortaq-cream transition-opacity hover:opacity-90">{t("gca.forCompanies.cta")}</Link>
+              <p className={cn(typography.caption, "mt-4 max-w-xl text-ortaq-ink-soft")}>{t("gca.forCompanies.privacyNote")}</p>
+              <Link href="/#basvuru" className="mt-5 inline-block rounded-ortaq-md bg-ortaq-trust px-5 py-2.5 text-[0.8125rem] font-semibold text-ortaq-cream transition-opacity hover:opacity-90">{t("gca.forCompanies.cta")}</Link>
             </div>
             <div className="lg:col-span-5 lg:border-l lg:border-ortaq-border lg:pl-10">
               <ol className="relative">
@@ -467,8 +499,12 @@ export function GcaCta() {
             <h2 className="mt-3 max-w-2xl text-[1.375rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-cream sm:mt-4 sm:text-[2rem] lg:text-[2.75rem]">{t("gca.cta.title")}</h2>
             <p className="mt-4 max-w-xl text-[0.9375rem] leading-[1.6] text-ortaq-cream/70 sm:mt-5">{t("gca.cta.body")}</p>
             <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-3">
-              <Link href="/#basvuru" className="rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-dark transition-opacity hover:opacity-90">{t("gca.cta.primaryCompany")}</Link>
-              <Link href="/demo/sermaye" className="rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-cream transition-colors hover:border-ortaq-cream/60">{t("gca.cta.secondaryCapital")}</Link>
+              <Link href="/#basvuru" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md bg-ortaq-cream px-5 py-2.5 text-[0.875rem] font-semibold text-ortaq-dark transition-opacity hover:opacity-90">
+                {t("gca.cta.primary")}
+              </Link>
+              <Link href="/demo/sermaye" className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md border border-ortaq-cream/25 px-5 py-2.5 text-[0.875rem] font-medium text-ortaq-cream/90 transition-colors hover:border-ortaq-cream/50">
+                {t("gca.cta.secondary")}
+              </Link>
             </div>
           </div>
           <div className="hidden lg:col-span-5 lg:block">

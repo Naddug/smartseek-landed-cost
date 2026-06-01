@@ -1307,7 +1307,7 @@
   "footer": {
     "tagline": "Üretim şirketleri ve sermaye tarafı için belge, liste ve tanışma.",
     "protectionLabel": "Güven ve uyum",
-    "regulatory": "ORTAQ para tutmaz, yatırım satmaz ve menkul kıymet faaliyeti yürütmez. Kanıt düzenleme, keşif ve nitelikli tanıştırma sağlar.",
+    "regulatory": "ORTAQ para tutmaz, yatırım satmaz ve menkul kıymet işlemi yürütmez. Belge inceleme, keşif ve tanıştırma hizmeti verir.",
     "notAdvice": "ORTAQ yatırım tavsiyesi vermez, fonlama veya getiri garanti etmez. Buradaki içerik bilgilendirme amaçlıdır.",
     "trustPills": {
       "1": "Bağımsız doğrulama katmanı",
@@ -1317,7 +1317,7 @@
     },
     "faqTeaser": {
       "label": "Sık sorulanlar",
-      "title": "Belgeler, keşif ve tanıştırma hakkında net yanıtlar",
+      "title": "Belgeler, keşif ve tanıştırma hakkında yanıtlar",
       "link": "Tüm SSS"
     },
     "trustTitle": "Güven",
@@ -1342,7 +1342,9 @@
       "companies": "Yatırım dosyaları",
       "start": "Başlangıç okuması"
     },
-    "subtitle": "Kanıt düzenleme, keşif ve karşılıklı tanıştırma katmanı. Kanıtlayamadığımızı yazmıyoruz."
+    "subtitle": "Kanıt düzenleme, keşif ve karşılıklı tanıştırma katmanı. Kanıtlayamadığımızı yazmıyoruz.",
+    "contactEmail": "destek@ortaq.biz",
+    "contactLocation": "İstanbul, Türkiye"
   },
   "transparency": {
     "title": "Ne değişti?",
@@ -1354,7 +1356,7 @@
   },
   "journey": {
     "label": "Süreç",
-    "note": "Belgeler → kanıt incelemesi → keşfedilebilir profil → keşif → karşılıklı tanıştırma → görüşme odası. ORTAQ skor vermez, para tutmaz.",
+    "note": "Belgeler → inceleme → listede profil → arama → tanışma → görüşme. ORTAQ skor vermez, para tutmaz.",
     "processLink": "Süreç",
     "evaluationLink": "Nasıl seçiyoruz",
     "trustLink": "Güven ve uyum",
@@ -1864,7 +1866,8 @@
         "submitting": "Gönderiliyor…",
         "success": "Başvurunuz alındı. En kısa sürede dönüş yapacağız.",
         "error": "Gönderilemedi. Lütfen tekrar deneyin veya doğrudan yazın:"
-      }
+      },
+      "producerTrust": "Belgeleriniz yalnızca sizin onayladığınız sermaye partnerleriyle paylaşılır."
     },
     "instant": {
       "aria": "15 saniye özeti",
@@ -2161,10 +2164,17 @@
       "title": "Bu işi kim yürütüyor?",
       "name": "Harun Kaya",
       "role": "Kurucu",
-      "bio": "15+ yıllık ihracat, uluslararası satış ve distribütör geliştirme deneyimi. LEGO Group'ta Türkiye, İsrail, Yunanistan ve CIS bölgelerinde saha satış liderliği yaptı. Üreticilerin doğru alıcıya ulaşamadığı için büyüyemediğini yıllarca sahada gördü. ORTAQ bu problemi çözmek için kuruldu.",
+      "bio": "15 yılı aşkın ihracat, uluslararası satış ve distribütör geliştirme deneyimi. Üreticinin doğru sermayeye ulaşamadığı için büyüyemediğini sahada gördü; ORTAQ bu boşluğu kapatmak için kuruldu.",
       "status": "Şu anda ilk üretici grubuyla pilot görüşmeler yürütüyoruz.",
       "linkedinLabel": "LinkedIn'de doğrula",
-      "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/"
+      "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/",
+      "credentials": {
+        "1": "LEGO Group — Türkiye, İsrail, Yunanistan ve CIS bölgelerinde saha satış liderliği",
+        "2": "Petlas — ihracat ve satış",
+        "3": "Yiğit Akü — ihracat ve satış",
+        "4": "ABD — girişimcilik deneyimi",
+        "5": "Uluslararası satış ve ihracat"
+      }
     },
     "dossier": {
       "aria": "Örnek yatırım dosyası",
@@ -2261,7 +2271,10 @@
         "2": "Sermaye tarafı şirketi listede görür",
         "3": "İki taraf uygun bulursa görüşme başlar"
       },
-      "note": "Para toplamıyoruz, yatırım satmıyoruz, tavsiye vermiyoruz."
+      "note": "Para toplamıyoruz, yatırım satmıyoruz, tavsiye vermiyoruz.",
+      "clarity": "ORTAQ, ihracatçı üreticilerin belgelerini doğrular; onları nitelikli sermaye partnerleri için keşfedilebilir kılar ve karşılıklı tanıştırma sürecini yönetir.",
+      "ctaPrimary": "Başvuru yap",
+      "ctaSecondary": "Sermaye önizlemesi"
     },
     "problem": {
       "label": "Asıl sorun",
@@ -2349,7 +2362,8 @@
         "3": "Sermaye tarafından gelen tanışma taleplerini kabul edin; görüşme odası açılır."
       },
       "problem": "Siparişiniz var, büyüyorsunuz; ama belgeler dağınık, doğru sermaye sizi bulamıyor.",
-      "cta": "Şirket başvurusu"
+      "cta": "Şirket başvurusu",
+      "privacyNote": "Belgeleriniz yalnızca sizin onayladığınız sermaye partnerleriyle paylaşılır."
     },
     "forCapital": {
       "label": "Sermaye tarafıysanız",
@@ -2425,7 +2439,9 @@
       "title": "Doğru taraftan girin.",
       "body": "Üreticiyseniz belgelerinizi yükleyin; sermaye tarafıysanız listeyi inceleyin.",
       "primaryCompany": "Şirket başvurusu",
-      "secondaryCapital": "Keşif önizlemesi"
+      "secondaryCapital": "Keşif önizlemesi",
+      "primary": "Başvuru yap",
+      "secondary": "Sermaye önizlemesi"
     },
     "invisible": {
       "label": "Neden görünmüyorlar",
@@ -2563,5 +2579,35 @@
       "align": "ORTAQ ancak gerçek tanışma ürettiğinde kazanır. Çıkar her iki tarafla aynı yönde.",
       "note": "Komisyon değil, abonelik. Skor satılmaz."
     }
+  },
+  "trustFramework": {
+    "label": "Doğrulama çerçevesi",
+    "title": "Doğrulanmış ne anlama gelir?",
+    "intro": "ORTAQ, üreticiden gelen belgeleri dosyalar ve aşağıdaki alanlarda inceler. Sonuç profilde açıkça gösterilir.",
+    "areas": {
+      "1": "Ticaret sicili",
+      "2": "İhracat geçmişi",
+      "3": "Üretim kapasitesi",
+      "4": "Finansal göstergeler"
+    },
+    "disclaimer": "“Doğrulanmış” bir garanti değildir. ORTAQ yalnızca sunulan belgeleri inceler ve etiketler; gelecekteki performans veya finansman sonucu taahhüt etmez."
+  },
+  "categoryClarity": {
+    "notLabel": "ORTAQ şunlar değildir",
+    "isLabel": "ORTAQ şunlardır",
+    "not": {
+      "1": "yatırım platformu",
+      "2": "crowdfunding platformu",
+      "3": "yatırım tavsiyesi veren kurum"
+    },
+    "is": {
+      "1": "doğrulama",
+      "2": "keşif",
+      "3": "tanıştırma katmanı"
+    }
+  },
+  "demo": {
+    "previewNotice": "Bu ekranlar ORTAQ'ın çalışma mantığını gösteren ürün önizlemesidir; gerçek yatırım veya fonlama işlemi yapılmaz.",
+    "producerTrust": "Belgeleriniz yalnızca sizin onayladığınız sermaye partnerleriyle paylaşılır."
   }
 }

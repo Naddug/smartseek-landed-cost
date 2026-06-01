@@ -8,6 +8,7 @@ import { LicenseBadge } from "@/components/trust/LicenseBadge";
 import { ClaimRow } from "@/components/trust/ClaimRow";
 import { ComplaintForm } from "@/components/trust/ComplaintForm";
 import { TransparencySection } from "@/components/trust/TransparencySection";
+import { VerificationFrameworkBlock } from "@/components/trust/VerificationFrameworkBlock";
 import { RelatedLinks } from "@/components/seo/RelatedLinks";
 import { Button } from "@/components/ui/Button";
 import { typography } from "@/design/typography";
@@ -46,6 +47,7 @@ export function TrustPageView() {
 
       <Section tone="alt" spacing="compact">
         <Container narrow>
+          <VerificationFrameworkBlock className="mb-8" />
           <div className="border-t border-ortaq-border pt-2">
             {infrastructureClaims.map((c) => (
               <ClaimRow key={c.titleKey} {...c} />

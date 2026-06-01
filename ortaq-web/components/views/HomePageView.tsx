@@ -3,6 +3,8 @@
 import { PublicShell } from "@/components/layout/PublicShell";
 import {
   GcaHero,
+  GcaVerification,
+  GcaCategoryClarity,
   GcaWhatIs,
   GcaWhyFails,
   GcaAudience,
@@ -21,6 +23,8 @@ export function HomePageView() {
   return (
     <PublicShell stickyCta>
       <GcaHero />
+      <GcaVerification />
+      <GcaCategoryClarity />
       <GcaWhatIs />
       <GcaWhyFails />
       <GcaAudience />

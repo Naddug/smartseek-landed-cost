@@ -31,6 +31,13 @@ export function DemoNav() {
               </Link>
             );
           })}
+          <button
+            onClick={() => { try { localStorage.removeItem("ortaq-demo-v2"); } catch {} location.reload(); }}
+            className="ml-2 text-[0.75rem] text-ortaq-ink-soft hover:text-ortaq-ink"
+            title="Demoyu başlangıç durumuna döndür"
+          >
+            Sıfırla
+          </button>
           <Link href="/" className="ml-2 text-[0.75rem] text-ortaq-ink-soft hover:text-ortaq-ink">Siteye dön</Link>
         </nav>
       </div>

@@ -47,6 +47,9 @@ export function HomepageContact() {
           <p className={typography.label}>{t("homeLanding.contact.label")}</p>
           <h2 className={cn(typography.h2, "mt-2 text-xl sm:text-2xl")}>{t("homeLanding.contact.title")}</h2>
           <p className={cn(typography.bodySm, "mt-2")}>{t("homeLanding.contact.lead")}</p>
+          <p className={cn(typography.caption, "mt-3 rounded-ortaq-md border border-ortaq-border bg-ortaq-bg-alt px-3 py-2.5 leading-relaxed text-ortaq-ink-muted")}>
+            {t("homeLanding.contact.producerTrust")}
+          </p>
 
           {status === "success" ? (
             <p className={cn(typography.body, "mt-6 text-ortaq-trust")}>{t("homeLanding.contact.form.success")}</p>

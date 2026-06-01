@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { useDemo } from "@/lib/demo/store";
 import { Mono, Tag, Panel, PanelHead, ProfileStatus, FlowContext } from "@/components/demo/DemoKit";
+import { typography } from "@/design/typography";
+import { cn } from "@/lib/cn";
 
 export default function UploadFlow() {
+  const { t } = useTranslation();
   const { docs, uploadDoc, profileVisibility } = useDemo();
   const allVerified = docs.every((d) => d.status === "verified");
   const reviewing = docs.some((d) => d.status === "reviewing");
@@ -42,6 +46,10 @@ export default function UploadFlow() {
       </div>
 
       <FlowContext {...flow} lens="producer" />
+
+      <p className={cn(typography.caption, "rounded-ortaq-md border border-ortaq-border bg-ortaq-bg-alt px-3 py-2.5 leading-relaxed text-ortaq-ink-muted")}>
+        {t("demo.producerTrust")}
+      </p>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
         <Panel>

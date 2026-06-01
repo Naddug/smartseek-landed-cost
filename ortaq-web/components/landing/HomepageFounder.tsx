@@ -33,6 +33,14 @@ export function HomepageFounder() {
             {t("homeLanding.founder.bio")}
           </p>
 
+          <ul className="mt-4 space-y-2 border-t border-ortaq-border pt-4">
+            {(["1", "2", "3", "4", "5"] as const).map((k) => (
+              <li key={k} className={cn(typography.bodySm, "text-ortaq-ink-muted")}>
+                {t(`homeLanding.founder.credentials.${k}`)}
+              </li>
+            ))}
+          </ul>
+
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-ortaq-border pt-4">
             {linkedinUrl ? (
               <Link
