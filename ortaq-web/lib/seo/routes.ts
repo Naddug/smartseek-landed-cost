@@ -35,9 +35,9 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
   {
     key: "home",
     path: "/",
-    title: "ORTAQ : Üretici ve sermaye buluşması",
+    title: "ORTAQ : Özel şirket keşif alanı",
     description:
-      "İhracatçı üreticileri doğru sermaye ile buluşturuyoruz. Belge platformu ve tanışma hizmeti. Para toplamıyoruz, yatırım satmıyoruz.",
+      "İhracat yapan üreticilerin doğrulanmış araştırma profilleri. Keşif, ilgi bildirimi ve karşılıklı tanıştırma. Menkul kıymet satışı yok.",
     cluster: "core",
     intent: "informational",
     priority: 1,
@@ -51,6 +51,19 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
       "görüşme odası",
       "doğrulanmış profil",
     ],
+  },
+  {
+    key: "kesfet",
+    path: "/kesfet",
+    title: "Keşfet · Üretici profilleri | ORTAQ",
+    description:
+      "İncelenen ihracatçı üretici profilleri: sektör, kapasite, ihracat ve belge durumu. Araştırma amaçlı; menkul kıymet teklifi değildir.",
+    cluster: "campaign",
+    intent: "navigational",
+    priority: 0.95,
+    changeFrequency: "weekly",
+    live: true,
+    keywords: ["şirket keşfi", "üretici profili", "ihracatçı üretici", "özel piyasa araştırma"],
   },
   {
     key: "nasil-calisir",
@@ -224,6 +237,7 @@ export function getLiveSitemapRoutes(): RouteSeoConfig[] {
 
 export type RouteKey =
   | "home"
+  | "kesfet"
   | "nasilCalisir"
   | "ekip"
   | "guven"
@@ -239,6 +253,7 @@ export type RouteKey =
 
 export const ROUTE_KEY_MAP: Record<RouteKey, string> = {
   home: "home",
+  kesfet: "kesfet",
   nasilCalisir: "nasil-calisir",
   ekip: "ekip",
   guven: "guven",

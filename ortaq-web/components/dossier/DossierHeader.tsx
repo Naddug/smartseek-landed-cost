@@ -63,7 +63,7 @@ export function DossierHeader({ campaign: c }: DossierHeaderProps) {
                 </span>
               )}
             </div>
-            <p className={cn(typography.label, "mt-2")}>{t("dossier.header.label")}</p>
+            <p className={cn(typography.label, "mt-2")}>{t("discovery.profile.label")}</p>
             <h1 className={cn(typography.display, "mt-0.5")}>{c.tradeName}</h1>
             <p className={cn(typography.bodySm, "mt-1 text-ortaq-ink-soft")}>{c.legalName}</p>
             <p className={cn(typography.bodySm, "mt-2")}>

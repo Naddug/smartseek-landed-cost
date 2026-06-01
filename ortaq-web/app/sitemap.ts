@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { env } from "@/lib/env";
+import { getAllCampaignSlugs } from "@/lib/campaigns";
 import { getSitemapRoutes, site } from "@/lib/metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -7,10 +8,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return [];
   }
 
-  return getSitemapRoutes().map((route) => ({
+  const staticRoutes = getSitemapRoutes().map((route) => ({
     url: `${site.url}${route.path}`,
     lastModified: new Date(),
     changeFrequency: route.changeFrequency,
     priority: route.priority,
   }));
+
+  const profiles = getAllCampaignSlugs().map((slug) => ({
+    url: `${site.url}/sirket/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...profiles];
 }

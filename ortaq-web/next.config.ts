@@ -30,6 +30,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [],
   },
 
+  async redirects() {
+    return [
+      { source: "/sirketler", destination: "/kesfet", permanent: true },
+      { source: "/demo/sermaye", destination: "/kesfet", permanent: false },
+    ];
+  },
+
   async headers() {
     return [
       {

@@ -9,9 +9,9 @@ export const site = {
   name: "ORTAQ",
   url: env.siteUrl.replace(/\/$/, ""),
   locale: "tr_TR",
-  defaultTitle: "ORTAQ : Üretici ve sermaye buluşması",
+  defaultTitle: "ORTAQ : Özel şirket keşif alanı",
   defaultDescription:
-    "İhracatçı üreticileri doğru sermaye ile buluşturuyoruz. Belge platformu ve tanışma hizmeti. Para toplamıyoruz, yatırım satmıyoruz.",
+    "İhracat yapan üreticilerin doğrulanmış araştırma profilleri. Keşif, ilgi bildirimi ve karşılıklı tanıştırma.",
 } as const;
 
 export type { RouteKey };

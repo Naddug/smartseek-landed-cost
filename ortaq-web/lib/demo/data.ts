@@ -140,8 +140,9 @@ export function companyPitch(m: Manufacturer) {
   return `${m.city} · ${m.sector} · ${m.revenue} · ${m.growth} büyüme`;
 }
 
+/** Operational pressure line for discovery UI (no ticket sizing). */
 export function capitalAsk(m: Manufacturer) {
-  return `${m.need} · ${m.use}`;
+  return m.attentionNow;
 }
 
 export function introGateLine(m: Manufacturer) {

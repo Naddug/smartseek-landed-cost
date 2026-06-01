@@ -1,12 +1,12 @@
-import { TrustDashboardView } from "@/components/views/TrustDashboardView";
+import { WorkspaceView } from "@/components/views/WorkspaceView";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Alanınız | ORTAQ",
-  description: "Okuma ilerlemeniz ve süreç durumu. Yatırım hesabı değil.",
+  description: "İzleme listesi ve ilgi bildirimleri. Yatırım hesabı değil; araştırma çalışma alanı.",
   robots: { index: false, follow: true },
 };
 
-export default function MemberAreaPage() {
-  return <TrustDashboardView />;
+export default function WorkspacePage() {
+  return <WorkspaceView />;
 }

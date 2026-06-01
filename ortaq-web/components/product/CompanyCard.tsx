@@ -92,7 +92,7 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
         )}
 
         <span className={cn(typography.bodySm, "mt-auto pt-3 font-medium text-ortaq-trust-muted group-hover:underline")}>
-          {t("homeProduct.companyCard.viewDossier")} →
+          {t("discovery.companyCard.cta")} →
         </span>
       </div>
     </Link>

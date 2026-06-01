@@ -1,12 +1,12 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Üretici ve sermaye buluşması",
-    "navTagline": "Üretici · sermaye"
+    "tagline": "Özel şirket keşif alanı",
+    "navTagline": "Keşif · araştırma · tanıştırma"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
-    "discover": "Keşif",
+    "discover": "Keşfet",
     "faq": "SSS",
     "companies": "Şirketler",
     "trust": "Güven",
@@ -14,7 +14,9 @@
     "risk": "Risk çerçevesi",
     "evaluation": "Nasıl seçiyoruz",
     "memberArea": "Alanınız",
-    "explore": "Başvuru yap",
+    "explore": "Şirketleri keşfet",
+    "applyProducer": "Üretici başvurusu",
+    "workspace": "Alanınız",
     "menu": "Menü",
     "langToggle": "Dil değiştir",
     "ariaMain": "Ana menü",
@@ -1353,8 +1355,94 @@
     "intro": "Önemli kararlar burada duyurulur."
   },
   "mobileCta": {
-    "label": "Başvuru yapın",
-    "sublabel": "Üretici veya sermaye tarafı"
+    "label": "Profilleri keşfedin",
+    "sublabel": "İzleme listesi ve ilgi bildirimi"
+  },
+  "discovery": {
+    "home": {
+      "kicker": "Özel piyasa istihbaratı",
+      "headline": "Normalde göremeyeceğiniz şirketleri keşfedin.",
+      "sub": "İhracat yapan üreticilerin doğrulanmış araştırma profilleri. Sektör, kapasite, ihracat ve saha kayıtları tek dosyada.",
+      "legal": "Menkul kıymet satışı yok. Para toplamıyoruz. İlgi bildirimi bağlayıcı teklif değildir.",
+      "ctaPrimary": "Şirketleri keşfet",
+      "ctaSecondary": "Nasıl çalışır",
+      "ctaWorkspace": "Alanınız",
+      "stats": {
+        "1": { "label": "Açık profil", "value": "12+" },
+        "2": { "label": "Sektör", "value": "9" },
+        "3": { "label": "Saha kaydı", "value": "Canlı" }
+      },
+      "featured": {
+        "label": "Öne çıkanlar",
+        "title": "İncelenen üretici profilleri",
+        "lead": "Her kart operasyonel bir kayıttır: fabrika gerçeği, ihracat sinyali ve belge durumu.",
+        "link": "Tüm profiller"
+      },
+      "capitalBand": {
+        "label": "Sermaye tarafı",
+        "title": "Kriterlerinize uyan üreticileri bulun",
+        "body": "Profilleri okuyun, izleme listesi oluşturun, uygun kayıtlarda ilgi bildirin. Tanışma karşılıklı onaylıdır."
+      },
+      "producerBand": {
+        "label": "Üretici",
+        "title": "Profiliniz keşfedilebilir olsun",
+        "body": "Belgeleriniz dosyalanır ve incelenir. Onay sonrası nitelikli sermaye kaynaklarının arama katmanında görünürsünüz."
+      }
+    },
+    "catalog": {
+      "label": "Keşif",
+      "title": "Üretici araştırma profilleri",
+      "lead": "Özel erişim hissi veren, kamuya açık olmayan üretici kayıtları. Liste yatırım teklifi değildir.",
+      "legalStrip": "Profiller bilgilendirme ve ön inceleme içindir.",
+      "evalLink": "Profiller nasıl doğrulanır?",
+      "empty": "Filtrenize uyan profil yok."
+    },
+    "companyCard": {
+      "cta": "Profili incele"
+    },
+    "profile": {
+      "label": "Araştırma profili",
+      "disclaimer": "Bu sayfa bilgilendirme ve ön inceleme içindir. Menkul kıymet teklifi değildir; ilgi bildirimi yatırım taahhüdü oluşturmaz.",
+      "railLabel": "İlgi ve izleme",
+      "interestAria": "İlgi bildirimi ve izleme listesi",
+      "watch": "İzleme listesine ekle",
+      "watching": "İzleme listesinde",
+      "interest": "İlgi bildir",
+      "workspaceLink": "Alanınızda gör",
+      "growthLabel": "Büyüme odağı",
+      "growthTitle": "Operasyonel öncelik",
+      "growthNote": "Kapasite ve ihracat tarafındaki darboğaz özeti. Hedef tutar veya pay oranı bu profilde yer almaz."
+    },
+    "interest": {
+      "placeholder": "Kısa not: neden bu profil? (isteğe bağlı)",
+      "defaultNote": "Profili inceledim; tanışma için ilgi bildiriyorum.",
+      "pending": "İlgi bildiriminiz kayıt altında. ORTAQ süreci değerlendirir; sonuç garanti edilmez.",
+      "submit": "Gönder"
+    },
+    "momentum": {
+      "label": "Akış",
+      "steps": {
+        "1": { "title": "Profili okuyun", "body": "Üretim, ihracat, müşteri ve saha notlarını tek kayıtta gezin." },
+        "2": { "title": "İlgi bildirin", "body": "İzleme listesine alın veya kısa notla ilgi kaydı bırakın." },
+        "3": { "title": "Tanışma açılır", "body": "Karşı taraf da uygun görürse karşılıklı tanışma süreci başlar." }
+      },
+      "note": "ORTAQ araştırma ve tanıştırma katmanıdır.",
+      "processLink": "Süreç detayı"
+    },
+    "workspace": {
+      "title": "Alanınız",
+      "subtitle": "İzleme listesi ve ilgi bildirimleri. Portföy veya yatırım hesabı değil.",
+      "legal": "Buradaki kayıtlar araştırma notlarıdır; işlem veya menkul kıymet satışı yapılmaz.",
+      "watchTitle": "İzleme listesi",
+      "watchEmpty": "Henüz profil eklemediniz. Keşfet sayfasından izlemeye alın.",
+      "interestTitle": "İlgi bildirimleri",
+      "interestEmpty": "Henüz ilgi bildirimi yok.",
+      "introStatus": {
+        "pending": "Değerlendirmede",
+        "accepted": "Tanışma açıldı",
+        "declined": "Uygun bulunmadı"
+      }
+    }
   },
   "journey": {
     "label": "Süreç",

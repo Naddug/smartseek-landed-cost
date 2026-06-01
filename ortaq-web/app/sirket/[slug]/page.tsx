@@ -5,7 +5,6 @@ import { getCampaign, getAllCampaignSlugs } from "@/lib/campaigns";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, illustrativeCampaignSchema } from "@/lib/seo/schema";
 import { site } from "@/lib/metadata";
-import { deprecatedRobots } from "@/lib/legacy-routes";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -43,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
     },
-    robots: deprecatedRobots,
+    robots: { index: true, follow: true },
   };
 }
 
@@ -59,7 +58,7 @@ export default async function CampaignPage({ params }: Props) {
           illustrativeCampaignSchema(slug, campaign.seoTitle, campaign.seoDescription),
           breadcrumbSchema([
             { name: "Ana sayfa", path: "/" },
-            { name: "Şirketler", path: "/sirketler" },
+            { name: "Keşfet", path: "/kesfet" },
             { name: campaign.tradeName, path: `/sirket/${slug}` },
           ]),
         ]}

@@ -20,11 +20,18 @@ export function MobileStickyCta() {
             {t("mobileCta.sublabel")}
           </p>
         </div>
-        <Link href="/#basvuru" className="shrink-0">
-          <Button variant="primary" size="sm">
-            {t("nav.explore")}
-          </Button>
-        </Link>
+        <div className="flex shrink-0 gap-2">
+          <Link href="/kesfet">
+            <Button variant="primary" size="sm">
+              {t("nav.explore")}
+            </Button>
+          </Link>
+          <Link href="/alan" className="hidden min-[400px]:inline-flex">
+            <Button variant="secondary" size="sm">
+              {t("nav.workspace")}
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

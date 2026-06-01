@@ -8,9 +8,15 @@ export type RelatedLink = {
 
 /** Contextual internal links — launch product only (no legacy crowdfunding routes). */
 const RELATED_MAP: Record<RouteKey, RelatedLink[]> = {
+  kesfet: [
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Keşiften tanıştırmaya" },
+    { href: "/degerlendirme", title: "Belge incelemesi", description: "Profil doğrulama katmanı" },
+    { href: "/guven", title: "Güven", description: "Rol ayrımı ve sınırlar" },
+    { href: "/alan", title: "Alanınız", description: "İzleme listesi ve ilgi bildirimleri" },
+  ],
   home: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Belgelerden görüşme odasına süreç" },
-    { href: "/demo/sermaye", title: "Keşif önizlemesi", description: "Sermaye partneri keşif akışı" },
+    { href: "/kesfet", title: "Keşfet", description: "Tüm üretici profilleri" },
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Keşiften tanıştırmaya" },
     { href: "/guven", title: "Güven", description: "Rol ayrımı, doğrulama ve şeffaflık" },
     { href: "/ekip", title: "Ekip", description: "Kurucu operatörler" },
     { href: "/sss", title: "Sık sorulan sorular", description: "Belgeler, tanıştırma, görüşme odası" },

@@ -1,39 +1,8 @@
 "use client";
 
-import { PublicShell } from "@/components/layout/PublicShell";
-import {
-  GcaHero,
-  GcaVerification,
-  GcaCategoryClarity,
-  GcaWhatIs,
-  GcaWhyFails,
-  GcaAudience,
-  GcaHowItWorks,
-  GcaTrust,
-  GcaModel,
-  GcaCta,
-} from "@/components/landing/gca/GcaSections";
-import { HomepageTeam } from "@/components/landing/HomepageTeam";
-import { HomepageContact } from "@/components/landing/HomepageContact";
+import { DiscoveryHomeView } from "@/components/views/DiscoveryHomeView";
 
-/**
- * Growth Capital Access Network — belge, kanıt, keşif, tanıştırma, görüşme odası.
- */
+/** Private company discovery storefront. */
 export function HomePageView() {
-  return (
-    <PublicShell stickyCta>
-      <GcaHero />
-      <GcaVerification />
-      <GcaCategoryClarity />
-      <GcaWhatIs />
-      <GcaWhyFails />
-      <GcaAudience />
-      <GcaHowItWorks />
-      <GcaTrust />
-      <GcaModel />
-      <HomepageTeam />
-      <GcaCta />
-      <HomepageContact />
-    </PublicShell>
-  );
+  return <DiscoveryHomeView />;
 }

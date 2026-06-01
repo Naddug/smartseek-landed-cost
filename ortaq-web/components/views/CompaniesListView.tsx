@@ -20,9 +20,9 @@ export function CompaniesListView() {
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
           <div className="py-6 sm:py-8">
-            <p className={typography.label}>{t("homeProduct.companiesPage.label")}</p>
-            <h1 className={cn(typography.h1, "mt-1")}>{t("homeProduct.companiesPage.title")}</h1>
-            <p className={cn(typography.bodySm, "mt-1.5 max-w-xl")}>{t("homeProduct.companiesPage.lead")}</p>
+            <p className={typography.label}>{t("discovery.catalog.label")}</p>
+            <h1 className={cn(typography.h1, "mt-1")}>{t("discovery.catalog.title")}</h1>
+            <p className={cn(typography.bodySm, "mt-1.5 max-w-xl")}>{t("discovery.catalog.lead")}</p>
           </div>
         </Container>
       </section>
@@ -34,11 +34,12 @@ export function CompaniesListView() {
               <CompanyCard key={c.slug} campaign={c} />
             ))}
           </div>
-          <Link href="/degerlendirme" className={cn(typography.bodySm, typography.link, "mt-5 inline-block")}>
-            {t("homeProduct.companiesPage.evalLink")} →
+          <p className={cn(typography.caption, "mt-6 text-ortaq-ink-soft")}>{t("discovery.catalog.legalStrip")}</p>
+          <Link href="/degerlendirme" className={cn(typography.bodySm, typography.link, "mt-3 inline-block")}>
+            {t("discovery.catalog.evalLink")} →
           </Link>
           <div className="mt-10">
-            <RelatedLinks route="sirketler" />
+            <RelatedLinks route="kesfet" />
           </div>
         </Container>
       </section>
