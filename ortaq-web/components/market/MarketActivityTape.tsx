@@ -1,15 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 import { siteFeedTop } from "@/lib/feed/site-feed";
 import { classifyFeedUpdateType } from "@/lib/feed/feed-update-type";
+import { getFeedDisplayLine } from "@/lib/feed/feed-display";
+import { getCampaign } from "@/lib/campaigns";
+import { getCampaignMediaAsset, getCampaignMediaAlt } from "@/lib/product/company-summary";
 import { formatDaysAgo } from "@/lib/product/company-summary";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-const LIMIT = 12;
+const LIMIT = 8;
 
 export function MarketActivityTape() {
   const { t, i18n } = useTranslation();
@@ -17,65 +21,67 @@ export function MarketActivityTape() {
   const events = siteFeedTop(LIMIT);
 
   return (
-    <section className="intel-band-ink border-b border-white/10" aria-labelledby="market-tape-title">
+    <section className="border-b border-ortaq-border bg-ortaq-bg-alt" aria-labelledby="market-tape-title">
       <Container wide className="py-8 sm:py-10">
-        <div className="intel-signal-header-dark -mx-0 mb-0 flex flex-col gap-2 rounded-t-ortaq-md border border-b-0 border-white/10 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2 px-1">
-            <span className="intel-live-dot intel-live-dot-dark text-[0.6875rem] font-semibold uppercase tracking-[0.06em] text-ortaq-cream/80">
-              {t("market.tape.label")}
-            </span>
-            <h2 id="market-tape-title" className="text-[1.125rem] font-semibold text-ortaq-cream sm:text-[1.25rem]">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className={typography.label}>{t("market.tape.label")}</p>
+            <h2 id="market-tape-title" className="mt-2 text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
               {t("market.tape.title")}
             </h2>
+            <p className={cn(typography.bodySm, "mt-2 max-w-xl text-ortaq-ink-muted")}>{t("market.tape.lead")}</p>
           </div>
-          <Link
-            href="/kesfet"
-            className={cn(typography.caption, "px-1 font-semibold text-ortaq-cream/65 hover:text-ortaq-cream hover:underline")}
-          >
+          <Link href="/kesfet" className={cn(typography.bodySm, typography.link, "shrink-0 font-semibold")}>
             {t("market.tape.expand")} →
           </Link>
         </div>
 
-        <div className="intel-signal-panel-dark rounded-t-none border border-t-0 border-white/10">
-          <ul>
-            {events.map((ev, i) => {
-              const type = classifyFeedUpdateType(ev);
-              return (
-                <li
-                  key={`${ev.campaignSlug}-${ev.date}-${ev.time}-${i}`}
-                  className={cn(
-                    "intel-signal-row-dark border-b border-white/8 last:border-0",
-                    i === 0 && "bg-white/[0.03]",
-                  )}
+        <ul className="mt-6 divide-y divide-ortaq-border overflow-hidden rounded-ortaq-md border border-ortaq-border bg-ortaq-surface">
+          {events.map((ev, i) => {
+            const type = classifyFeedUpdateType(ev);
+            const line = getFeedDisplayLine(ev, type);
+            const campaign = getCampaign(ev.campaignSlug);
+            const media = getCampaignMediaAsset(ev.campaignSlug, campaign?.sector);
+            return (
+              <li key={`${ev.campaignSlug}-${ev.date}-${ev.time}-${i}`}>
+                <Link
+                  href={`/sirket/${ev.campaignSlug}`}
+                  className="group flex gap-3 p-3 transition-colors hover:bg-ortaq-bg sm:gap-4 sm:p-4"
                 >
-                  <Link
-                    href={`/sirket/${ev.campaignSlug}`}
-                    className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className={cn(typography.bodySm, "line-clamp-2 text-ortaq-cream/85")}>{ev.text}</p>
-                      <p className={cn(typography.caption, "mt-1 text-ortaq-cream/45")}>
-                        <span className="font-medium text-ortaq-cream/70">{ev.campaignTradeName}</span>
-                        {" · "}
-                        {ev.campaignCity}
-                      </p>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-3 sm:flex-col sm:items-end sm:gap-1">
-                      <span className="text-[0.6875rem] font-medium uppercase tracking-[0.04em] text-ortaq-trust-muted">
-                        {t(`market.tape.types.${type}`)}
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-ortaq-sm border border-ortaq-border bg-ortaq-bg-alt sm:h-16 sm:w-16">
+                    <Image
+                      src={media.src}
+                      alt={getCampaignMediaAlt(media, i18n.language)}
+                      fill
+                      className="object-cover transition-transform group-hover:scale-[1.03]"
+                      style={{ objectPosition: media.focalPoint }}
+                      sizes="64px"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className={cn(typography.bodySm, "font-semibold text-ortaq-ink group-hover:underline")}>
+                      {line.company}
+                      <span className="font-normal text-ortaq-ink-muted">
+                        {" "}
+                        · {line.sector} · {line.place}
                       </span>
-                      <span className={cn(typography.caption, "tabular-nums text-ortaq-cream/40")}>
-                        {formatDaysAgo(ev.date, locale)}
-                        {ev.time ? ` · ${ev.time.slice(0, 5)}` : ""}
-                      </span>
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <p className={cn(typography.caption, "mt-3 text-ortaq-cream/40")}>{t("market.tape.footnote")}</p>
+                    </p>
+                    <p className={cn(typography.bodySm, "mt-1 leading-relaxed text-ortaq-ink-muted")}>
+                      <span className="font-medium text-ortaq-ink">{line.typeLabel}:</span> {line.summary}
+                    </p>
+                  </div>
+                  <div className="hidden shrink-0 text-right sm:block">
+                    <span className={cn(typography.caption, "tabular-nums text-ortaq-ink-soft")}>
+                      {formatDaysAgo(ev.date, locale)}
+                      {ev.time ? ` · ${ev.time.slice(0, 5)}` : ""}
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        <p className={cn(typography.caption, "mt-3 text-ortaq-ink-soft")}>{t("market.tape.footnote")}</p>
       </Container>
     </section>
   );

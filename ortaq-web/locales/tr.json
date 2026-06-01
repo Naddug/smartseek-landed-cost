@@ -1372,7 +1372,8 @@
       "live": "Güncel veri",
       "lastSync": "Son kayıt: {{date}}",
       "headline": "{{count}} üretici şirket · güncel üretim notları",
-      "sub": "Kapasite, ihracat ve saha kayıtları. Şirket seçin; ayrıntı dosyada.",
+      "sub": "Türkiye'deki özel üretici şirketlerin canlı dosyaları. Her kart bir şirket; altındaki satırlar son operasyon kaydı.",
+      "imageCaption": "Örnek üretim ve sevkiyat ortamı · editoryal stok",
       "rhythm": "Son 14 günde {{count}} kayıt · en çok hareket: {{sector}} ({{sectorCount}} kayıt)",
       "exportNote": "{{count}} şirket ihracat ağırlıklı",
       "access": "Dosyayı okuduktan sonra ilgi notu bırakabilirsiniz. Karşı taraf da uygun görürse görüşme açılır.",
@@ -1393,10 +1394,11 @@
       "recent": "{{count}} kayıt / 14 gün"
     },
     "tape": {
-      "label": "Akış",
-      "title": "Son kayıtlar",
-      "expand": "Tüm listeyi aç",
-      "footnote": "Her satır saha veya dosya güncellemesidir; en yenisi üstte.",
+      "label": "Piyasa akışı",
+      "title": "Şirketlerde son hareket",
+      "lead": "Her satır bir şirketin dosyasındaki yeni kayıt. Başlık şirketi, kalın etiket kayıt türünü, devamı ayrıntıyı anlatır.",
+      "expand": "Tüm şirketler",
+      "footnote": "Kayıtlar saha ziyareti veya dosya güncellemesinden gelir; en yenisi üstte.",
       "types": {
         "export_market": "İhracat",
         "facility": "Tesis",
@@ -1416,10 +1418,10 @@
       "colCoverage": "Şirket"
     },
     "coverage": {
-      "label": "Liste",
-      "title": "Son güncellenen şirketler",
-      "lead": "Kartın üstünde şirket; ortada gelişme; altta doğrulanabilir rakamlar.",
-      "link": "Tüm şirketler"
+      "label": "Kapsam",
+      "title": "İzlenen üretici şirketler",
+      "lead": "Fotoğraf ve isim üstte; altındaki kısa metin o şirkette şu an ne değiştiğini özetler.",
+      "link": "Tüm listeyi aç"
     },
     "infrastructure": {
       "role": "Şirket dosyası burada okunur. İlgi notu bırakırsınız; karşı taraf da uygun görürse görüşme açılır.",
@@ -1433,7 +1435,10 @@
       "legalStrip": "Bilgilendirme amaçlıdır."
     },
     "companyCard": {
-      "cta": "Dosyayı aç",
+      "cta": "Şirket dosyası",
+      "updateLabel": "Son gelişme",
+      "exportLabel": "İhracat",
+      "updated": "Dosya güncellemesi: {{when}}",
       "employees": "{{count}} çalışan"
     }
   },
