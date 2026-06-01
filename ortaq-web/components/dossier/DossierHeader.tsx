@@ -14,7 +14,7 @@ import { ReviewStepper } from "@/components/product/ReviewStepper";
 import { StatusBadge } from "@/components/trust/StatusBadge";
 import { VerificationLabel } from "@/components/trust/VerificationLabel";
 import { Container } from "@/components/ui/Section";
-import { getCampaignTensionLine } from "@/lib/intelligence/tension";
+import { getOperationalRelevanceLine } from "@/lib/product/operational-relevance";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -27,7 +27,7 @@ export function DossierHeader({ campaign: c }: DossierHeaderProps) {
   const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const { activeStep } = getReviewProgress(c);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
-  const tension = getCampaignTensionLine(c);
+  const situation = getOperationalRelevanceLine(c);
 
   return (
     <header className="border-b border-ortaq-border bg-ortaq-surface">
@@ -92,8 +92,8 @@ export function DossierHeader({ campaign: c }: DossierHeaderProps) {
         </div>
 
         <div className="intel-header-tension">
-          <p className={typography.label}>{t("dossier.header.tensionLabel")}</p>
-          <p className={cn(typography.bodySm, "mt-1 font-medium text-ortaq-ink")}>{tension}</p>
+          <p className={typography.label}>{t("discovery.profile.whyNow.label")}</p>
+          <p className={cn(typography.body, "mt-1 font-medium text-ortaq-ink")}>{situation}</p>
         </div>
       </Container>
     </header>

@@ -1,40 +1,64 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { CompanyCard } from "@/components/product/CompanyCard";
+import { MarketCatalogHeader } from "@/components/market/MarketCatalogHeader";
+import { MarketSectorFlow } from "@/components/market/MarketSectorFlow";
 import { Container } from "@/components/ui/Section";
 import { listCampaigns } from "@/lib/campaigns";
+import { sectorMatchers } from "@/lib/product/home-data";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 import { RelatedLinks } from "@/components/seo/RelatedLinks";
 
-/** @deprecated Legacy crowdfunding company list — noindex, removed from nav. */
+const FILTERABLE_SECTORS = ["machinery", "food", "textile", "chemicals", "logistics"] as const;
+
+type SectorFilter = (typeof FILTERABLE_SECTORS)[number];
+
+function isSectorFilter(value: string | null): value is SectorFilter {
+  return value !== null && (FILTERABLE_SECTORS as readonly string[]).includes(value);
+}
+
 export function CompaniesListView() {
   const { t } = useTranslation();
-  const campaigns = listCampaigns();
+  const searchParams = useSearchParams();
+  const sectorParam = searchParams.get("sector");
+  const sectorFilter = isSectorFilter(sectorParam) ? sectorParam : null;
+
+  const campaigns = useMemo(() => {
+    const all = listCampaigns();
+    if (!sectorFilter) return all;
+    const matcher = sectorMatchers[sectorFilter];
+    return matcher ? all.filter((c) => matcher.test(c.sector)) : all;
+  }, [sectorFilter]);
 
   return (
     <PublicShell stickyCta={false}>
-      <section className="border-b border-ortaq-border bg-ortaq-surface">
-        <Container wide>
-          <div className="py-6 sm:py-8">
-            <p className={typography.label}>{t("discovery.catalog.label")}</p>
-            <h1 className={cn(typography.h1, "mt-1")}>{t("discovery.catalog.title")}</h1>
-            <p className={cn(typography.bodySm, "mt-1.5 max-w-xl")}>{t("discovery.catalog.lead")}</p>
-          </div>
-        </Container>
-      </section>
+      <MarketCatalogHeader />
+      <MarketSectorFlow />
 
       <section className="product-section bg-ortaq-bg">
         <Container wide>
+          {sectorFilter ? (
+            <p className={cn(typography.caption, "mb-4 text-ortaq-ink-soft")}>
+              {t("discovery.catalog.sectorFilter", {
+                sector: t(`discovery.home.sectorChips.${sectorFilter}`),
+                count: campaigns.length,
+              })}
+            </p>
+          ) : null}
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
-            {campaigns.map((c) => (
-              <CompanyCard key={c.slug} campaign={c} />
-            ))}
+            {campaigns.length === 0 ? (
+              <p className={cn(typography.bodySm, "text-ortaq-ink-muted")}>{t("discovery.catalog.empty")}</p>
+            ) : (
+              campaigns.map((c) => <CompanyCard key={c.slug} campaign={c} />)
+            )}
           </div>
-          <p className={cn(typography.caption, "mt-6 text-ortaq-ink-soft")}>{t("discovery.catalog.legalStrip")}</p>
+          <p className={cn(typography.caption, "mt-6 text-ortaq-ink-soft")}>{t("market.catalog.legalStrip")}</p>
           <Link href="/degerlendirme" className={cn(typography.bodySm, typography.link, "mt-3 inline-block")}>
             {t("discovery.catalog.evalLink")} →
           </Link>

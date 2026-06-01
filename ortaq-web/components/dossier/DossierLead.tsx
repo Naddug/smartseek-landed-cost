@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign, InspectionLayer } from "@/lib/campaigns/types";
 import { Container } from "@/components/ui/Section";
 import { getOperationalSignal } from "@/lib/product/company-summary";
-import { getCampaignTensionLine } from "@/lib/intelligence/tension";
+import { getWhyNowBriefing } from "@/lib/product/why-now";
 import { formatPulseDate } from "@/lib/operations/pulse";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
@@ -39,8 +39,8 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
   const { t, i18n } = useTranslation();
   const capacity = getOperationalSignal(c, "kapasite", "capacity");
   const exportShare = getOperationalSignal(c, "ihracat", "export");
-  const tension = getCampaignTensionLine(c);
   const locale = i18n.language === "tr" ? "tr-TR" : "en-GB";
+  const briefing = getWhyNowBriefing(c, locale);
   const recentField = [...c.fieldJournal]
     .sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`))
     .slice(0, 2);
@@ -52,18 +52,14 @@ export function DossierLead({ campaign: c }: DossierLeadProps) {
       className="border-b border-ortaq-border bg-ortaq-surface scroll-mt-[7.5rem] sm:scroll-mt-24"
     >
       <Container wide>
-        <div className="intel-tension-banner mt-5 sm:mt-6">
-          <p className={typography.label}>{t("dossier.lead.primaryTension")}</p>
-          <p className={cn(typography.body, "mt-1 font-medium text-ortaq-ink")}>{tension}</p>
-        </div>
-
-        <div className="grid gap-5 pb-5 pt-4 sm:pb-6 sm:pt-5 lg:grid-cols-[1.2fr_1fr_0.9fr] lg:gap-6">
+        <div className="grid gap-5 pb-5 pt-5 sm:pb-6 sm:pt-6 lg:grid-cols-[1.2fr_1fr_0.9fr] lg:gap-6">
           {/* Column 1, operational signals */}
           <div className="min-w-0">
             <p className={typography.label}>{t("dossier.lead.signalsLabel")}</p>
-            <h2 className={cn(typography.h2, "mt-1")}>
-              {t("dossier.lead.signalsTitle")}
-            </h2>
+            <h2 className={cn(typography.h2, "mt-1")}>{t("dossier.lead.signalsTitle")}</h2>
+            {briefing.recentChange ? (
+              <p className={cn(typography.bodySm, "mt-2 text-ortaq-ink-muted")}>{briefing.recentChange}</p>
+            ) : null}
             <dl className="mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-3">
               {c.operations.signals.map((s) => (
                 <div

@@ -5,9 +5,6 @@ import { media, companyMedia, type MediaAsset, type MediaKey } from "@/lib/media
  * Campaign → sector fallback for unknown slugs.
  * Published campaigns use unique files in /media/companies/{slug}.jpg.
  */
-// Sector fallback uses only verified-content media keys. Files known to carry
-// wrong-content stock (chemicalPlant, plasticExtrusion, industrialLine,
-// textileFloor) are not referenced here until those JPGs are replaced.
 const sectorFallback: { test: RegExp; key: MediaKey }[] = [
   { test: /lojistik|depolama|sevkiyat|logistic/i, key: "logisticsDock" },
   { test: /iplik|dokuma|tekstil|konfeksiyon|textile|garment/i, key: "spinningMill" },
@@ -24,7 +21,6 @@ const sectorFallback: { test: RegExp; key: MediaKey }[] = [
   { test: /döküm|dokum|metal|kaynak|gemi|denizcilik|marine|foundry|welding/i, key: "machineOperator" },
 ];
 
-/** Resolved image asset for a campaign card or dossier header. */
 export function getCampaignMediaAsset(slug: string, sector?: string): MediaAsset {
   if (slug in companyMedia) {
     return companyMedia[slug as keyof typeof companyMedia];
@@ -71,6 +67,43 @@ export function getLatestOperationalNote(c: SimulatedCampaign) {
   return null;
 }
 
+/** Most recent ISO date string from updates, journal, or process steps. */
+export function getLastUpdatedIso(c: SimulatedCampaign): string | null {
+  const candidates: string[] = [];
+  if (c.operationalUpdates[0]?.date) candidates.push(c.operationalUpdates[0].date);
+  for (const j of c.fieldJournal.slice(0, 3)) {
+    if (j.date) candidates.push(j.date);
+  }
+  for (const p of c.process) {
+    if (p.date) candidates.push(p.date);
+  }
+  if (candidates.length === 0) return null;
+  return candidates.sort((a, b) => b.localeCompare(a))[0] ?? null;
+}
+
+export function formatDaysAgo(iso: string, locale: string): string {
+  const then = new Date(iso);
+  const now = new Date();
+  const diffMs = now.getTime() - then.getTime();
+  const days = Math.max(0, Math.floor(diffMs / 86_400_000));
+  if (locale.startsWith("tr")) {
+    if (days === 0) return "bugün";
+    if (days === 1) return "1 gün önce";
+    return `${days} gün önce`;
+  }
+  if (days === 0) return "today";
+  if (days === 1) return "1 day ago";
+  return `${days} days ago`;
+}
+
+export function getExportMarketsLine(c: SimulatedCampaign, max = 3): string {
+  if (!c.exportMarkets?.length) return "";
+  const slice = c.exportMarkets.slice(0, max);
+  const rest = c.exportMarkets.length - slice.length;
+  if (rest > 0) return `${slice.join(", ")} +${rest}`;
+  return slice.join(", ");
+}
+
 export function getProductionType(c: SimulatedCampaign) {
   const firstProcess = c.operations.processes[0];
   if (firstProcess) return firstProcess;
@@ -79,32 +112,34 @@ export function getProductionType(c: SimulatedCampaign) {
 
 export function getSectorTag(c: SimulatedCampaign): string {
   const s = c.sector.toLowerCase();
-  if (s.includes("lojistik") || s.includes("depolama")) return "LOJİSTİK";
-  if (s.includes("makine") || s.includes("parça") || s.includes("cnc") || s.includes("otomotiv")) return "ÜRETİM";
-  if (s.includes("tekstil") || s.includes("iplik")) return "TEKSTİL";
-  if (s.includes("gıda") || s.includes("tarım") || s.includes("fındık") || s.includes("un ")) return "GIDA";
-  if (s.includes("metal") || s.includes("döküm") || s.includes("cam") || s.includes("seramik")) return "METAL";
-  if (s.includes("kimya")) return "KİMYA";
-  if (s.includes("elektronik")) return "ELEKTRONİK";
-  if (s.includes("mobilya") || s.includes("ahşap")) return "MOBİLYA";
-  if (s.includes("gemi") || s.includes("deniz")) return "DENİZCİLİK";
-  if (s.includes("ambalaj") || s.includes("plastik")) return "AMBALAJ";
-  if (s.includes("sera") || s.includes("seracılık")) return "TARIM";
-  return "SANAYİ";
+  if (s.includes("makine") || s.includes("parça") || s.includes("cnc")) return "Makine";
+  if (s.includes("tekstil") || s.includes("dokuma") || s.includes("konfeksiyon")) return "Tekstil";
+  if (s.includes("gıda") || s.includes("tarım") || s.includes("narenciye")) return "Gıda";
+  if (s.includes("lojistik") || s.includes("depolama")) return "Lojistik";
+  if (s.includes("kimya") || s.includes("proses")) return "Kimya";
+  if (s.includes("metal") || s.includes("döküm")) return "Metal";
+  if (s.includes("mobilya") || s.includes("ahşap")) return "Mobilya";
+  if (s.includes("otomotiv")) return "Otomotiv";
+  if (s.includes("cam") || s.includes("seramik")) return "Cam";
+  if (s.includes("ambalaj") || s.includes("plastik")) return "Ambalaj";
+  if (s.includes("gemi") || s.includes("deniz")) return "Denizcilik";
+  return c.sector.split(/[·,]/)[0]?.trim().slice(0, 12) ?? "Üretim";
 }
 
 export function getSectorTagEn(c: SimulatedCampaign): string {
-  const s = c.sector.toLowerCase();
-  if (s.includes("logistic") || s.includes("lojistik") || s.includes("depolama")) return "LOGISTICS";
-  if (s.includes("machin") || s.includes("parts") || s.includes("cnc") || s.includes("makine") || s.includes("parça") || s.includes("otomotiv")) return "MFG";
-  if (s.includes("textile") || s.includes("tekstil") || s.includes("iplik") || s.includes("dokuma")) return "TEXTILE";
-  if (s.includes("food") || s.includes("agri") || s.includes("gıda") || s.includes("tarım") || s.includes("hazelnut") || s.includes("fındık")) return "FOOD";
-  if (s.includes("metal") || s.includes("döküm") || s.includes("dokum") || s.includes("cam") || s.includes("ceramic") || s.includes("seramik")) return "METAL";
-  if (s.includes("kimya") || s.includes("chemical")) return "CHEMICAL";
-  if (s.includes("elektronik") || s.includes("electronic")) return "ELECTRONICS";
-  if (s.includes("mobilya") || s.includes("furniture") || s.includes("ahşap")) return "FURNITURE";
-  if (s.includes("gemi") || s.includes("deniz") || s.includes("marine")) return "MARINE";
-  if (s.includes("ambalaj") || s.includes("plastik") || s.includes("packaging")) return "PACKAGING";
-  if (s.includes("sera") || s.includes("greenhouse")) return "AGTECH";
-  return "INDUSTRY";
+  const tag = getSectorTag(c);
+  const map: Record<string, string> = {
+    Makine: "Machinery",
+    Tekstil: "Textile",
+    Gıda: "Food",
+    Lojistik: "Logistics",
+    Kimya: "Chemicals",
+    Metal: "Metal",
+    Mobilya: "Furniture",
+    Otomotiv: "Automotive",
+    Cam: "Glass",
+    Ambalaj: "Packaging",
+    Denizcilik: "Marine",
+  };
+  return map[tag] ?? tag;
 }

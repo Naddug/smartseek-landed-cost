@@ -9,9 +9,9 @@ export const site = {
   name: "ORTAQ",
   url: env.siteUrl.replace(/\/$/, ""),
   locale: "tr_TR",
-  defaultTitle: "ORTAQ : Üretici şirket dosyaları",
+  defaultTitle: "ORTAQ | Üretici şirketler",
   defaultDescription:
-    "İhracat yapan üreticilerin şirket dosyaları. Kapasite, ihracat, saha notu. Okursunuz; uygunsa görüşme istersiniz.",
+    "Türkiye'deki üretici şirketlerde kapasite, ihracat ve saha notları. Okuma ve tanışma altyapısı; yatırım platformu değildir.",
 } as const;
 
 export type { RouteKey };

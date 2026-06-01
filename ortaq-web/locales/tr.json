@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Üretici şirket dosyaları",
-    "navTagline": "Şirketler · saha · tanışma"
+    "tagline": "Üretici şirketler",
+    "navTagline": "Şirketler · güncellemeler · tanışma"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
@@ -13,10 +13,10 @@
     "team": "Ekip",
     "risk": "Risk çerçevesi",
     "evaluation": "Nasıl seçiyoruz",
-    "memberArea": "Listem",
+    "memberArea": "Takip listesi",
     "explore": "Şirketlere bak",
     "applyProducer": "Üretici başvurusu",
-    "workspace": "Listem",
+    "workspace": "Takip listesi",
     "menu": "Menü",
     "langToggle": "Dil değiştir",
     "ariaMain": "Ana menü",
@@ -150,9 +150,9 @@
         "imageEvidence": "Saha gözlemi · kampanya görseli değildir"
       },
       "feed": {
-        "label": "Sahadan gelenler",
-        "title": "Son hareketler",
-        "lead": "Hangisi kapasite doldurdu, hangisine belge eklendi, kim sahaya gitti.",
+        "label": "Son güncellemeler",
+        "title": "Şirket kayıtları",
+        "lead": "Profil güncellemeleri, belge eklemeleri ve inceleme durumu değişiklikleri.",
         "archiveFootnote": "{{total}} kayıttan {{shown}} satır · tamamı şirket dosyasında",
         "queueLabel": "Şu an nerede",
         "queueTitle": "İnceleme sırası",
@@ -532,7 +532,7 @@
       "lead": "CNC, gıda, lojistik, kimya, tekstil, seracılık, ambalaj: ihracat odaklı üretim şirketlerinde saha incelemeli dosyalar.",
       "viewAll": "Tüm şirketler",
       "enter": "Dosyayı incele",
-      "footnote": "Yatırım teklifi değil. Her dosya sermaye kullanım planı, operasyonel gerilim ve inceleme durumu içerir.",
+      "footnote": "Yatırım teklifi değil. Her profil kapasite, ihracat ve inceleme durumu bilgisi içerir.",
       "pipeline": "Değerlendirme hattı",
       "pipelineText": "Yeni başvurular ön inceleme sürecinden geçiyor. Uygun bulunan dosyalar burada yayınlanır.",
       "pipelineLink": "Seçim kriterleri"
@@ -887,14 +887,14 @@
       "export": "İhracat",
       "customers": "Alıcılar",
       "field": "Saha notları",
-      "growth": "Darboğaz",
+      "growth": "Öncelikler",
       "risks": "Riskler",
       "review": "İnceleme",
       "documents": "Belgeler"
     },
     "header": {
       "label": "Şirket dosyası",
-      "tensionLabel": "Sahadan",
+      "tensionLabel": "Özet",
       "employees": "kişi",
       "reviewStatus": "Durum",
       "activeStep": "Aşama",
@@ -908,17 +908,17 @@
       "partial_open": "Kısmi erişim"
     },
     "lead": {
-      "aria": "Şirket özeti",
-      "primaryTension": "Şu an ne tıkanıyor",
-      "signalsLabel": "Fabrikadan",
+      "aria": "Operasyon özeti",
+      "primaryTension": "Güncel durum",
+      "signalsLabel": "Ölçümler",
       "signalsTitle": "Kapasite ve hat",
-      "tensionLabel": "Dikkat",
-      "tensionTitle": "Riskler",
-      "bottlenecks": "Darboğaz",
+      "tensionLabel": "Odak",
+      "tensionTitle": "Operasyon ve risk",
+      "bottlenecks": "Öncelikler",
       "topRisks": "Öne çıkan risk",
       "allRisks": "Tüm riskler",
-      "verifyLabel": "Belgeler",
-      "verifyTitle": "Ne doğrulandı",
+      "verifyLabel": "Kayıtlar",
+      "verifyTitle": "Belge ve saha durumu",
       "fullTimeline": "İnceleme zaman çizelgesi",
       "recentField": "Son saha notu",
       "fullField": "Tüm saha notları"
@@ -1356,92 +1356,193 @@
   },
   "mobileCta": {
     "label": "Şirketlere bak",
-    "sublabel": "Listene ekle, not bırak"
+    "sublabel": "Güncellemeler · takip listesi"
+  },
+  "market": {
+    "terminal": {
+      "live": "Güncel",
+      "lastSync": "Son güncelleme: {{date}}",
+      "kicker": "Türkiye üretim şirketleri",
+      "headline": "Hangi fabrikada ne oluyor, buradan takip edin.",
+      "sub": "Kapasite, ihracat ve sahadan gelen notlar burada güncelleniyor. Önce akışa bakın, sonra ilgilendiğiniz şirkete girin.",
+      "access": "İlgi bırakırsanız ve iki taraf da uygun görürse tanışma açılır.",
+      "legal": "Yatırım veya fon teklifi yok; okuma ve tanışma için bir altyapı.",
+      "cta": "Tüm şirketler",
+      "stats": {
+        "coverage": { "label": "Şirket" },
+        "sectors": { "label": "Sektör" },
+        "cities": { "label": "Şehir" },
+        "feed": { "label": "Güncelleme" }
+      }
+    },
+    "sectorFlow": {
+      "aria": "Sektöre göre gezin",
+      "label": "Sektör",
+      "fullTape": "Tüm şirketler"
+    },
+    "tape": {
+      "label": "Güncel",
+      "title": "Son güncellemeler",
+      "expand": "Tümünü gör",
+      "footnote": "Saha ve dosya notlarından; yatırım tavsiyesi değil.",
+      "types": {
+        "export_market": "İhracat",
+        "facility": "Tesis",
+        "capacity": "Kapasite",
+        "document": "Belge",
+        "field_note": "Saha notu",
+        "operational_note": "Dosya"
+      }
+    },
+    "intelligence": {
+      "label": "Özet",
+      "title": "Şu aralar dikkat çekenler",
+      "lead": "Sektöre göre kısa özet; ayrıntı ilgili şirket sayfasında.",
+      "colSector": "Sektör",
+      "colSignal": "Ne oluyor",
+      "colCoverage": "Şirket"
+    },
+    "coverage": {
+      "label": "Şirketler",
+      "title": "Şu an öne çıkanlar",
+      "lead": "Her kartta o şirkette son dönemde ne değiştiği yazıyor.",
+      "link": "Daha fazla şirket"
+    },
+    "infrastructure": {
+      "role": "ORTAQ şirket dosyalarını yayınlar, ilgi notlarını iletir ve uygun olduğunda tanışmayı açar.",
+      "operator": "LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından yürütülür."
+    },
+    "catalog": {
+      "label": "Şirketler",
+      "title": "Tüm üretici şirketler",
+      "lead": "Sektöre göre süzebilirsiniz. Her sayfada üretim, ihracat ve güncel notlar var.",
+      "pulse": "{{coverage}} şirket · {{sectors}} sektör",
+      "legalStrip": "Bilgi amaçlıdır; yatırım teklifi değildir."
+    },
+    "companyCard": {
+      "cta": "Şirketi incele"
+    }
   },
   "discovery": {
     "home": {
-      "kicker": "Saha kayıtları",
-      "headline": "Kapalı kapıdaki fabrikalar, burada listeleniyor.",
-      "sub": "Konya CNC, Adana soğuk depo, Tuzla lojistik: sipariş, kapasite, ihracat ve son saha notu. Şirket dosyasından okursunuz.",
-      "legal": "Yatırım satışı yok. Okursunuz; uygunsa görüşme istersiniz.",
-      "ctaPrimary": "Şirketlere bak",
+      "headline": "Üretici şirketlerde son hareket",
+      "sub": "Kapasite, ihracat ve operasyon notları güncelleniyor. Aşağıdan bir şirket seçin.",
+      "accessLine": "İlgi bildirimi sonrası uygun profiller için karşılıklı tanışma açılabilir.",
+      "marketRole": "ORTAQ şirket profillerini yayınlar, ilgi kayıtlarını iletir ve karşılıklı tanışma süreçlerini yönetir.",
+      "legalLine1": "Bilgilendirme amaçlıdır;",
+      "legalLine2": "yatırım teklifi değildir.",
+      "sectorChips": {
+        "machinery": "Makine",
+        "food": "Gıda",
+        "textile": "Tekstil",
+        "chemicals": "Kimya",
+        "logistics": "Lojistik",
+        "all": "Tümü"
+      },
+      "ctaPrimary": "Tüm şirketler",
       "ctaSecondary": "Nasıl çalışır",
-      "ctaWorkspace": "Listem",
-      "stats": {
-        "1": { "label": "Dosya", "value": "12+" },
-        "2": { "label": "Şehir", "value": "9+" },
-        "3": { "label": "Saha", "value": "Bugün" }
+      "catalogCount": "{{count}} şirket profili",
+      "movement": {
+        "title": "Son güncellemeler",
+        "lead": "Profil, kapasite ve ihracat kayıtlarındaki son değişiklikler.",
+        "viewAll": "Tüm şirketler",
+        "archiveTitle": "Operasyon kayıtları",
+        "archiveLead": "Saha ve dosya güncellemeleri, en yeniden eskiye.",
+        "archiveFootnote": "{{total}} kayıttan {{shown}} satır gösteriliyor.",
+        "types": {
+          "export_market": "İhracat pazarı",
+          "facility": "Tesis bilgisi",
+          "capacity": "Üretim kapasitesi",
+          "document": "Belge incelemesi",
+          "field_note": "Operasyon notu",
+          "operational_note": "Dosya güncellemesi"
+        }
+      },
+      "operator": {
+        "aria": "Piyasa operatörü",
+        "trustLine": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından yürütülmektedir."
       },
       "featured": {
-        "label": "Bu hafta",
-        "title": "İncelenen üreticiler",
-        "lead": "Her kart bir fabrika. Hat doluluk, sevkiyat gecikmesi, eksik belge: sahadan gelen cümleler.",
-        "link": "Tüm şirketler"
+        "label": "Şu an",
+        "title": "Okunması gereken şirketler",
+        "lead": "Her kartta o şirkette şu an ne değiştiğini görürsünüz.",
+        "link": "Daha fazla şirket"
       },
       "capitalBand": {
         "label": "Sermaye tarafı",
-        "title": "Önce dosyayı oku",
-        "body": "Sektöre göre gez, listene al, uygun fabrikada kısa not bırak. Görüşme iki taraf da isterse açılır."
+        "title": "Şirket profillerini inceleyin",
+        "body": "Sektöre göre filtreleyin, takibe alın ve uygun şirketlerde tanışma talebi gönderin. Görüşme karşılıklı onayla açılır."
       },
       "producerBand": {
         "label": "Üretici",
-        "title": "Dosyan burada dursun",
-        "body": "Belgelerini yüklersin, saha ekibimiz okur. Uygun bulunursan sermaye tarafı seni listede görür."
+        "title": "Şirket profilinizi ekleyin",
+        "body": "Belgelerinizi yükleyin; inceleme tamamlandığında profil keşif listesinde yer alır."
       }
     },
     "catalog": {
       "label": "Şirketler",
-      "title": "Tüm üretici dosyaları",
-      "lead": "OSB'de çalışan, ihracat yapan, belgesi dosyalanmış şirketler. Vitrin değil; okunacak dosya listesi.",
-      "legalStrip": "Liste okuma amaçlıdır.",
-      "evalLink": "Dosyalar nasıl toplanır?",
-      "empty": "Bu filtrede şirket yok."
+      "title": "Üretici şirket profilleri",
+      "lead": "İhracat yapan üretici şirketlerin kapasite, ihracat ve inceleme bilgileri.",
+      "legalStrip": "Liste bilgilendirme amaçlıdır; yatırım teklifi değildir.",
+      "evalLink": "İnceleme süreci",
+      "empty": "Bu filtrede şirket bulunamadı.",
+      "sectorFilter": "{{sector}} · {{count}} şirket"
     },
     "companyCard": {
-      "cta": "Dosyayı aç",
-      "capacity": "Kapasite",
-      "exportShare": "İhracat",
+      "cta": "Kapsam notu",
+      "lastUpdated": "Son güncelleme: {{when}}",
+      "exportMarkets": "İhracat",
+      "employees": "Çalışan",
       "facility": "Tesis",
-      "facilityStatus": "Durum",
+      "site": "Lokasyon",
+      "review": "İnceleme",
       "employeesUnit": "kişi"
     },
     "profile": {
       "label": "Şirket dosyası",
-      "disclaimer": "Okuma dosyası. Bıraktığın not teklif sayılmaz.",
-      "railLabel": "Bu şirket",
-      "interestAria": "Liste ve görüşme notu",
-      "watch": "Listeye al",
-      "watching": "Listende",
-      "interest": "Görüşmek istiyorum",
-      "workspaceLink": "Listemde gör",
-      "growthLabel": "Sahadan",
-      "growthTitle": "Darboğaz",
-      "growthNote": "Paranın nereye gideceği değil; hat neden tıkanıyor. Tutar ve pay oranı bu sayfada yok."
+      "whyNow": {
+        "aria": "Neden şimdi",
+        "label": "Neden şimdi",
+        "activity": "Son kayıt: {{when}}",
+        "recent": "Son değişiklik",
+        "challenge": "Operasyonel odak",
+        "export": "İhracat gelişimi"
+      },
+      "disclaimer": "Bilgi amaçlı dosya. Tanışma talebi yatırım teklifi sayılmaz.",
+      "railLabel": "İşlemler",
+      "interestAria": "Takip ve tanışma",
+      "watch": "Takibe al",
+      "watching": "Takipte",
+      "interest": "Tanışma talebi gönder",
+      "workspaceLink": "Takip listesinde gör",
+      "growthLabel": "Öncelikler",
+      "growthTitle": "Kapasite öncelikleri",
+      "growthNote": "Şirketin belirttiği operasyon öncelikleri. Finansal teklif bilgisi bu sayfada yer almaz."
     },
     "interest": {
-      "placeholder": "Neden bu fabrika? (kısa, isteğe bağlı)",
-      "defaultNote": "Dosyayı okudum, kısa bir görüşme isterim.",
-      "pending": "Notun kayıtta. Dönüş olursa Listem'den görürsün.",
+      "placeholder": "Kısa not (isteğe bağlı)",
+      "defaultNote": "Profili inceledim; tanışma talebi gönderiyorum.",
+      "pending": "Talebiniz kayıtta. Durum takip listesinden görüntülenir.",
       "submit": "Gönder"
     },
     "momentum": {
-      "label": "Nasıl ilerlersin",
+      "label": "Kullanım",
       "steps": {
-        "1": { "title": "Dosyayı aç", "body": "Üretim, ihracat, alıcı, saha notu: hepsi aynı şirkette." },
-        "2": { "title": "Listene al veya not bırak", "body": "Takip ettiğin fabrikaları işaretle; uygunsa görüşme notu yaz." },
-        "3": { "title": "İki taraf da isterse görüşürsün", "body": "Karşılıklı onay olmadan numara veya toplantı açılmaz." }
+        "1": { "title": "Şirketi inceleyin", "body": "Üretim, ihracat, alıcılar ve inceleme notları aynı profilde." },
+        "2": { "title": "Takibe alın veya talep gönderin", "body": "İlgilendiğiniz şirketleri işaretleyin; uygunsa tanışma talebi bırakın." },
+        "3": { "title": "Karşılıklı onayla görüşün", "body": "İletişim bilgisi paylaşımı iki tarafın onayıyla açılır." }
       },
-      "note": "Burada şirket okursun; platform kendini anlatmaz.",
-      "processLink": "Arka plandaki süreç"
+      "note": "ORTAQ aracılık eder; yatırım taahhüdü veya işlem platformu değildir.",
+      "processLink": "İnceleme süreci"
     },
     "workspace": {
-      "title": "Listem",
-      "subtitle": "Takip ettiğin şirketler ve bıraktığın notlar.",
-      "legal": "Portföy hesabı değil; okuma notların.",
-      "watchTitle": "Takip listesi",
-      "watchEmpty": "Henüz şirket eklemedin. Şirketler sayfasından listene al.",
-      "interestTitle": "Bıraktığın notlar",
-      "interestEmpty": "Henüz not yok.",
+      "title": "Takip listesi",
+      "subtitle": "Takip ettiğiniz şirketler ve tanışma talepleri.",
+      "legal": "Yatırım hesabı değildir; kişisel inceleme notlarınız.",
+      "watchTitle": "Takip edilen şirketler",
+      "watchEmpty": "Henüz şirket eklemediniz. Keşif sayfasından takibe alın.",
+      "interestTitle": "Tanışma talepleri",
+      "interestEmpty": "Henüz talep yok.",
       "introStatus": {
         "pending": "Beklemede",
         "accepted": "Görüşme açıldı",

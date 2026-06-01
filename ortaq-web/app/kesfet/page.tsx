@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { CompaniesListView } from "@/components/views/CompaniesListView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMetadata } from "@/lib/metadata";
@@ -20,7 +21,9 @@ export default function DiscoverPage() {
           ]),
         ]}
       />
-      <CompaniesListView />
+      <Suspense fallback={null}>
+        <CompaniesListView />
+      </Suspense>
     </>
   );
 }

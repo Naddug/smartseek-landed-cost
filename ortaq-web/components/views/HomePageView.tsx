@@ -1,8 +1,8 @@
 "use client";
 
-import { DiscoveryHomeView } from "@/components/views/DiscoveryHomeView";
+import { MarketHomeView } from "@/components/views/MarketHomeView";
 
-/** Private company discovery storefront. */
+/** Private company market terminal (homepage). */
 export function HomePageView() {
-  return <DiscoveryHomeView />;
+  return <MarketHomeView />;
 }

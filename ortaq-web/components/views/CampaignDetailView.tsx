@@ -6,6 +6,7 @@ import { PublicShell } from "@/components/layout/PublicShell";
 import { Container } from "@/components/ui/Section";
 import { DossierHeader } from "@/components/dossier/DossierHeader";
 import { DossierStickyNav } from "@/components/dossier/DossierStickyNav";
+import { DossierWhyNow } from "@/components/dossier/DossierWhyNow";
 import { DossierLead } from "@/components/dossier/DossierLead";
 import { DossierProduction } from "@/components/dossier/DossierProduction";
 import { DossierFacility } from "@/components/dossier/DossierFacility";
@@ -32,6 +33,7 @@ export function CampaignDetailView({ campaign }: CampaignDetailViewProps) {
   return (
     <PublicShell stickyCta={false}>
       <DossierHeader campaign={campaign} />
+      <DossierWhyNow campaign={campaign} />
       <DossierStickyNav />
       <DossierLead campaign={campaign} />
 

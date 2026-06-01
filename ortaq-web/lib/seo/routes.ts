@@ -35,9 +35,9 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
   {
     key: "home",
     path: "/",
-    title: "ORTAQ : Üretici şirket dosyaları",
+    title: "ORTAQ | Üretici şirketler",
     description:
-      "Kapalı kapıdaki fabrikaların şirket dosyaları: kapasite, ihracat, saha notu. Okuma amaçlı; yatırım satışı yok.",
+      "Türkiye'deki üretici şirketler: güncel kapasite, ihracat ve saha notları. Okuma ve tanışma altyapısı.",
     cluster: "core",
     intent: "informational",
     priority: 1,
@@ -57,7 +57,7 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
     path: "/kesfet",
     title: "Şirketler | ORTAQ",
     description:
-      "OSB'deki üreticiler: sipariş, kapasite, ihracat, belge durumu. Şirket dosyası listesi; teklif listesi değil.",
+      "Üretici şirket listesi: sektöre göre süzün, kapasite ve ihracat bilgisine bakın.",
     cluster: "campaign",
     intent: "navigational",
     priority: 0.95,
