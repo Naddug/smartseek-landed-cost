@@ -19,11 +19,9 @@ export function MarketCoveragePanel() {
       <Container wide className="py-8 sm:py-10">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className={cn(typography.label, "text-ortaq-ink-soft")}>{t("market.coverage.label")}</p>
-            <h2 id="market-coverage-title" className="mt-2 text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
+            <h2 id="market-coverage-title" className="text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
               {t("market.coverage.title")}
             </h2>
-            <p className={cn(typography.bodySm, "mt-2 max-w-xl text-ortaq-ink-muted")}>{t("market.coverage.lead")}</p>
           </div>
           <Link href="/kesfet" className={cn(typography.bodySm, typography.link, "shrink-0 font-semibold")}>
             {t("market.coverage.link")} →

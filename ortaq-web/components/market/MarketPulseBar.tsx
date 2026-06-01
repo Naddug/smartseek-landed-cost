@@ -34,8 +34,6 @@ export function MarketPulseBar() {
             <h1 className="mt-3 max-w-xl text-[1.5rem] font-semibold leading-[1.12] tracking-[-0.03em] text-ortaq-ink sm:text-[2rem]">
               {t("market.terminal.headline", { count: pulse.coverage })}
             </h1>
-            <p className={cn(typography.bodySm, "mt-3 max-w-lg text-ortaq-ink-muted")}>{t("market.terminal.sub")}</p>
-
             <dl className="mt-5 flex flex-wrap gap-2">
               {STAT_KEYS.map((key) => (
                 <div
@@ -76,9 +74,6 @@ export function MarketPulseBar() {
               style={{ objectPosition: hero.focalPoint }}
               sizes="(max-width: 1024px) 0px, 420px"
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ortaq-ink/70 to-transparent px-3 py-2">
-              <p className={cn(typography.caption, "text-ortaq-cream/90")}>{t("market.terminal.imageCaption")}</p>
-            </div>
           </div>
         </div>
       </Container>

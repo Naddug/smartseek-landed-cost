@@ -25,11 +25,9 @@ export function MarketActivityTape() {
       <Container wide className="py-8 sm:py-10">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className={typography.label}>{t("market.tape.label")}</p>
-            <h2 id="market-tape-title" className="mt-2 text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
+            <h2 id="market-tape-title" className="text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
               {t("market.tape.title")}
             </h2>
-            <p className={cn(typography.bodySm, "mt-2 max-w-xl text-ortaq-ink-muted")}>{t("market.tape.lead")}</p>
           </div>
           <Link href="/kesfet" className={cn(typography.bodySm, typography.link, "shrink-0 font-semibold")}>
             {t("market.tape.expand")} →
@@ -81,7 +79,6 @@ export function MarketActivityTape() {
             );
           })}
         </ul>
-        <p className={cn(typography.caption, "mt-3 text-ortaq-ink-soft")}>{t("market.tape.footnote")}</p>
       </Container>
     </section>
   );
