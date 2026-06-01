@@ -4,8 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
-import { getCampaignMediaAsset, getCampaignMediaAlt } from "@/lib/product/company-summary";
-import { getCompanyFacet } from "@/lib/market/company-facet";
+import {
+  formatDaysAgo,
+  getCampaignMediaAlt,
+  getCampaignMediaAsset,
+  getLastUpdatedIso,
+  getSectorTag,
+} from "@/lib/product/company-summary";
+import { getOperationalRelevanceLine } from "@/lib/product/operational-relevance";
+import { reviewStatusLabels } from "@/lib/product/home-data";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -18,8 +25,10 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
   const { t, i18n } = useTranslation();
   const locale = i18n.language === "tr" ? "tr-TR" : "en-GB";
   const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
-  const facet = getCompanyFacet(c, locale);
-  const proofShowsHeadcount = /çalışan|employee/i.test(facet.proofLine);
+  const sectorTag = getSectorTag(c);
+  const situation = getOperationalRelevanceLine(c);
+  const lastIso = getLastUpdatedIso(c);
+  const updatedAgo = lastIso ? formatDaysAgo(lastIso, locale) : null;
 
   return (
     <Link
@@ -29,49 +38,42 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
         featured && "w-[calc(100vw-2.5rem)] max-w-[21.25rem] shrink-0 snap-start sm:w-auto sm:max-w-none sm:shrink",
       )}
     >
-      <div className="relative h-20 w-full shrink-0 overflow-hidden border-b border-ortaq-border bg-ortaq-bg-alt">
+      <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-ortaq-border bg-ortaq-bg-alt">
         <Image
           src={mediaAsset.src}
           alt={getCampaignMediaAlt(mediaAsset, i18n.language)}
           fill
           loading="lazy"
-          className="object-cover opacity-80 transition-opacity group-hover:opacity-95"
+          className="object-cover transition-opacity group-hover:opacity-95"
           style={{ objectPosition: mediaAsset.focalPoint }}
           sizes={featured ? "340px" : "(max-width: 640px) 88vw, 400px"}
         />
-        {facet.updatedAgo ? (
-          <span className="absolute right-2 top-2 rounded-ortaq-sm bg-ortaq-ink/75 px-1.5 py-0.5 text-[0.625rem] font-medium tabular-nums text-ortaq-cream">
-            {facet.updatedAgo}
-          </span>
-        ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col p-3.5 sm:p-4">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className={cn(typography.h3, "truncate text-ortaq-ink")}>{facet.tradeName}</h3>
-        </div>
-        <p className={cn(typography.caption, "mt-0.5 text-ortaq-ink-muted")}>
-          {facet.city} · {facet.sector}
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className={cn(typography.h3, "text-ortaq-ink")}>{c.tradeName}</h3>
+        <p className={cn(typography.caption, "mt-1 text-ortaq-ink-muted")}>
+          {c.city} · {sectorTag}
         </p>
 
-        <p className={cn(typography.bodySm, "mt-2.5 line-clamp-3 leading-snug text-ortaq-ink")}>
-          {facet.situation}
+        <p className={cn(typography.bodySm, "mt-3 line-clamp-3 leading-relaxed text-ortaq-ink-muted")}>
+          {situation}
         </p>
 
-        <p className={cn(typography.caption, "mt-2 font-mono text-[0.6875rem] leading-relaxed text-ortaq-ink-soft")}>
-          {facet.proofLine}
-          {!proofShowsHeadcount ? (
+        <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-ortaq-border pt-3">
+          <span className={cn(typography.caption, "text-ortaq-ink-soft")}>{reviewStatusLabels[c.reviewStatus]}</span>
+          {updatedAgo ? (
             <>
-              <span className="text-ortaq-border-strong"> · </span>
-              {t("market.companyCard.employees", { count: facet.employees })}
+              <span className="text-ortaq-border-strong" aria-hidden>
+                ·
+              </span>
+              <span className={cn(typography.caption, "tabular-nums text-ortaq-ink-soft")}>{updatedAgo}</span>
             </>
           ) : null}
-          <span className="text-ortaq-border-strong"> · </span>
-          {facet.reviewLabel}
-        </p>
+        </div>
 
         <span className={cn(typography.bodySm, "mt-3 font-medium text-ortaq-trust-muted group-hover:underline")}>
-          {t("market.companyCard.cta")} →
+          {t("discovery.companyCard.cta")} →
         </span>
       </div>
     </Link>

@@ -3,7 +3,6 @@
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import { getWhyNowBriefing } from "@/lib/product/why-now";
-import { getCompanyFacet } from "@/lib/market/company-facet";
 import { Container } from "@/components/ui/Section";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
@@ -16,7 +15,6 @@ export function DossierWhyNow({ campaign: c }: DossierWhyNowProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === "tr" ? "tr-TR" : "en-GB";
   const b = getWhyNowBriefing(c, locale);
-  const facet = getCompanyFacet(c, locale);
 
   const rows = [
     b.recentChange && { label: t("discovery.profile.whyNow.recent"), value: b.recentChange },
@@ -35,10 +33,11 @@ export function DossierWhyNow({ campaign: c }: DossierWhyNowProps) {
         <p className="mt-2 max-w-3xl text-[1.125rem] font-semibold leading-snug tracking-[-0.02em] text-ortaq-ink sm:text-[1.25rem]">
           {b.headline}
         </p>
-        <p className={cn(typography.caption, "mt-2 font-mono text-[0.6875rem] text-ortaq-ink-soft")}>
-          {facet.city} · {facet.sector} · {facet.proofLine}
-          {b.lastActivityWhen ? ` · ${t("discovery.profile.whyNow.activity", { when: b.lastActivityWhen })}` : ""}
-        </p>
+        {b.lastActivityWhen ? (
+          <p className={cn(typography.caption, "mt-2 text-ortaq-ink-soft")}>
+            {t("discovery.profile.whyNow.activity", { when: b.lastActivityWhen })}
+          </p>
+        ) : null}
 
         {rows.length > 0 ? (
           <dl className="mt-4 grid gap-3 sm:grid-cols-3">

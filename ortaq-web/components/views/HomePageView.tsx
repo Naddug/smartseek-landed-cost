@@ -1,8 +1,7 @@
 "use client";
 
-import { MarketHomeView } from "@/components/views/MarketHomeView";
+import { InstitutionalHomeView } from "@/components/views/InstitutionalHomeView";
 
-/** Private company market terminal (homepage). */
 export function HomePageView() {
-  return <MarketHomeView />;
+  return <InstitutionalHomeView />;
 }

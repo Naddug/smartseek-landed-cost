@@ -2,7 +2,7 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "Üretici şirket bilgileri",
-    "navTagline": "Şirketler · notlar · tanışma"
+    "navTagline": "Özel üretici şirket keşfi"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
@@ -14,7 +14,7 @@
     "risk": "Risk çerçevesi",
     "evaluation": "Nasıl seçiyoruz",
     "memberArea": "Takip listesi",
-    "explore": "Şirketlere bak",
+    "explore": "Şirketleri incele",
     "applyProducer": "Üretici başvurusu",
     "workspace": "Takip listesi",
     "menu": "Menü",
@@ -24,6 +24,9 @@
   },
   "media": {
     "credit": "Görsel: {{source}} · editoryal stok. Kampanya fotoğrafı değil.",
+    "heroExportPartnership": {
+      "alt": "Üretim şirketinde yönetim ve saha incelemesi"
+    },
     "factoryFloor": {
       "alt": "Fabrika üretim alanı, geç öğleden sonra ışığı"
     },
@@ -1430,8 +1433,8 @@
   },
   "discovery": {
     "home": {
-      "headline": "Üretici şirketlerde son hareket",
-      "sub": "Kapasite, ihracat ve operasyon notları güncelleniyor. Aşağıdan bir şirket seçin.",
+      "headline": "Türkiye'deki özel üretici şirketler",
+      "sub": "Kapasite, ihracat ve saha notları tek dosyada. İlgilendiğiniz şirketi seçip okuyun.",
       "accessLine": "İlgi bildirimi sonrası uygun profiller için karşılıklı tanışma açılabilir.",
       "marketRole": "ORTAQ şirket profillerini yayınlar, ilgi kayıtlarını iletir ve karşılıklı tanışma süreçlerini yönetir.",
       "legalLine1": "Bilgilendirme amaçlıdır;",
@@ -1448,8 +1451,8 @@
       "ctaSecondary": "Nasıl çalışır",
       "catalogCount": "{{count}} şirket profili",
       "movement": {
-        "title": "Son güncellemeler",
-        "lead": "Profil, kapasite ve ihracat kayıtlarındaki son değişiklikler.",
+        "title": "Son dosya güncellemeleri",
+        "lead": "Saha ve operasyon notlarından seçilmiş kayıtlar.",
         "viewAll": "Tüm şirketler",
         "archiveTitle": "Operasyon kayıtları",
         "archiveLead": "Saha ve dosya güncellemeleri, en yeniden eskiye.",
@@ -1468,10 +1471,10 @@
         "trustLine": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından yürütülmektedir."
       },
       "featured": {
-        "label": "Şu an",
-        "title": "Okunması gereken şirketler",
-        "lead": "Her kartta o şirkette şu an ne değiştiğini görürsünüz.",
-        "link": "Daha fazla şirket"
+        "label": "Kapsam",
+        "title": "İncelenen üretici şirketler",
+        "lead": "Her profil kapasite, ihracat ve inceleme durumunu içerir. Karttan şirket dosyasına geçin.",
+        "link": "Tüm şirketler"
       },
       "capitalBand": {
         "label": "Sermaye tarafı",
@@ -1487,14 +1490,14 @@
     "catalog": {
       "label": "Şirketler",
       "title": "Üretici şirket profilleri",
-      "lead": "İhracat yapan üretici şirketlerin kapasite, ihracat ve inceleme bilgileri.",
+      "lead": "Halka açık olmayan üreticilerin kapasite, ihracat ve inceleme dosyaları. Sektöre göre süzebilirsiniz.",
       "legalStrip": "Liste bilgilendirme amaçlıdır; yatırım teklifi değildir.",
       "evalLink": "İnceleme süreci",
       "empty": "Bu filtrede şirket bulunamadı.",
       "sectorFilter": "{{sector}} · {{count}} şirket"
     },
     "companyCard": {
-      "cta": "Kapsam notu",
+      "cta": "Dosyayı aç",
       "lastUpdated": "Son güncelleme: {{when}}",
       "exportMarkets": "İhracat",
       "employees": "Çalışan",
@@ -1842,6 +1845,54 @@
   "notFound": {
     "title": "Bu sayfa yok",
     "back": "Ana sayfaya dön"
+  },
+  "home": {
+    "institutional": {
+      "eyebrow": "ORTAQ",
+      "headline": "Türkiye'nin halka açık olmayan üreticilerine yapılandırılmış erişim",
+      "lead": "Kapasite, ihracat ve saha notlarını tek dosyada topluyoruz. Okuma serbest; tanışma karşılıklı onayla açılır.",
+      "body": "Aile ofisleri, stratejik alıcılar ve ihracat ortakları için şeffaf ön bilgi. Üreticiler için ise doğru profile ulaşma kanalı.",
+      "ctaPrimary": "Şirketleri incele",
+      "ctaSecondary": "Nasıl çalışır",
+      "disclaimer": "Bilgilendirme ve tanışma amaçlıdır. Hisse veya fon satışı yapılmaz; yatırım teklifi değildir.",
+      "thesis": {
+        "title": "Neden ORTAQ var?",
+        "lead": "Borsa dışı üretici kitlesi büyük; güvenilir bilgi ve erişim ise dağınık.",
+        "problem": {
+          "label": "Sorun",
+          "body": "Binlerce üretici şirket halka açık değil. Kapasite ve ihracat bilgisi çoğu zaman telefon, fuar veya aracı sözlüsüyle gelir; doğrulanmış dosya yoktur."
+        },
+        "solution": {
+          "label": "Yaklaşım",
+          "body": "Her şirket için saha ve belge incelemeli dosya. İlgi notu iki tarafa gider; uygunluk varsa tanışma açılır. ORTAQ taraf tutmaz, süreci düzenler."
+        },
+        "audience": {
+          "label": "Kimler için",
+          "body": "Yurt dışı alıcı ve sermaye tarafı dosyayı okur. Üretici tarafı görünürlük ve doğru eşleşme ister. İkisi de aynı şeffaf çerçevede buluşur."
+        },
+        "operator": "Platform LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından işletilir.",
+        "teamLink": "Ekibi tanıyın"
+      },
+      "process": {
+        "label": "Süreç",
+        "title": "Üç adımda",
+        "link": "Ayrıntılı anlatım",
+        "steps": {
+          "read": {
+            "title": "Dosyayı okuyun",
+            "body": "Üretim, ihracat, risk ve saha notları tek profilde. Karar vermeden önce bağlamı görürsünüz."
+          },
+          "signal": {
+            "title": "İlgi bildirin",
+            "body": "Takibe alın veya ilgi notu bırakın. Şirket tarafı talebi görür; zorunlu yanıt yoktur."
+          },
+          "intro": {
+            "title": "Karşılıklı tanışma",
+            "body": "İki taraf da uygun görürse görüşme açılır. ORTAQ aracılık eder; işlem veya sözleşme taraflar arasında kalır."
+          }
+        }
+      }
+    }
   },
   "homeLanding": {
     "hero": {

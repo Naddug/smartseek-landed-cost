@@ -6,8 +6,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { CompanyCard } from "@/components/product/CompanyCard";
-import { MarketCatalogHeader } from "@/components/market/MarketCatalogHeader";
-import { MarketSectorFlow } from "@/components/market/MarketSectorFlow";
+import { CatalogPageHeader } from "@/components/catalog/CatalogPageHeader";
+import { SectorNavChips } from "@/components/discovery/SectorNavChips";
 import { Container } from "@/components/ui/Section";
 import { listCampaigns } from "@/lib/campaigns";
 import { sectorMatchers } from "@/lib/product/home-data";
@@ -38,8 +38,8 @@ export function CompaniesListView() {
 
   return (
     <PublicShell stickyCta={false}>
-      <MarketCatalogHeader />
-      <MarketSectorFlow />
+      <CatalogPageHeader />
+      <SectorNavChips />
 
       <section className="product-section bg-ortaq-bg">
         <Container wide>
