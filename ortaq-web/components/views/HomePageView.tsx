@@ -1,7 +1,8 @@
 "use client";
 
-import { InstitutionalHomeView } from "@/components/views/InstitutionalHomeView";
+import { DiscoveryHomeView } from "@/components/views/DiscoveryHomeView";
 
+/** Private company discovery storefront (homepage). */
 export function HomePageView() {
-  return <InstitutionalHomeView />;
+  return <DiscoveryHomeView />;
 }

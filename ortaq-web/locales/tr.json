@@ -2,7 +2,7 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "Üretici şirket bilgileri",
-    "navTagline": "Özel üretici şirket keşfi"
+    "navTagline": "Şirketler · notlar · tanışma"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
@@ -14,7 +14,7 @@
     "risk": "Risk çerçevesi",
     "evaluation": "Nasıl seçiyoruz",
     "memberArea": "Takip listesi",
-    "explore": "Şirketleri incele",
+    "explore": "Şirketlere bak",
     "applyProducer": "Üretici başvurusu",
     "workspace": "Takip listesi",
     "menu": "Menü",
@@ -1433,8 +1433,8 @@
   },
   "discovery": {
     "home": {
-      "headline": "Türkiye'deki özel üretici şirketler",
-      "sub": "Kapasite, ihracat ve saha notları tek dosyada. İlgilendiğiniz şirketi seçip okuyun.",
+      "headline": "Üretici şirketlerde son hareket",
+      "sub": "Kapasite, ihracat ve operasyon notları güncelleniyor. Aşağıdan bir şirket seçin.",
       "accessLine": "İlgi bildirimi sonrası uygun profiller için karşılıklı tanışma açılabilir.",
       "marketRole": "ORTAQ şirket profillerini yayınlar, ilgi kayıtlarını iletir ve karşılıklı tanışma süreçlerini yönetir.",
       "legalLine1": "Bilgilendirme amaçlıdır;",
@@ -1451,8 +1451,8 @@
       "ctaSecondary": "Nasıl çalışır",
       "catalogCount": "{{count}} şirket profili",
       "movement": {
-        "title": "Son dosya güncellemeleri",
-        "lead": "Saha ve operasyon notlarından seçilmiş kayıtlar.",
+        "title": "Son güncellemeler",
+        "lead": "Profil, kapasite ve ihracat kayıtlarındaki son değişiklikler.",
         "viewAll": "Tüm şirketler",
         "archiveTitle": "Operasyon kayıtları",
         "archiveLead": "Saha ve dosya güncellemeleri, en yeniden eskiye.",
@@ -1471,10 +1471,10 @@
         "trustLine": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından yürütülmektedir."
       },
       "featured": {
-        "label": "Kapsam",
-        "title": "İncelenen üretici şirketler",
-        "lead": "Her profil kapasite, ihracat ve inceleme durumunu içerir. Karttan şirket dosyasına geçin.",
-        "link": "Tüm şirketler"
+        "label": "Şu an",
+        "title": "Okunması gereken şirketler",
+        "lead": "Her kartta o şirkette şu an ne değiştiğini görürsünüz.",
+        "link": "Daha fazla şirket"
       },
       "capitalBand": {
         "label": "Sermaye tarafı",
@@ -1490,14 +1490,14 @@
     "catalog": {
       "label": "Şirketler",
       "title": "Üretici şirket profilleri",
-      "lead": "Halka açık olmayan üreticilerin kapasite, ihracat ve inceleme dosyaları. Sektöre göre süzebilirsiniz.",
+      "lead": "İhracat yapan üretici şirketlerin kapasite, ihracat ve inceleme bilgileri.",
       "legalStrip": "Liste bilgilendirme amaçlıdır; yatırım teklifi değildir.",
       "evalLink": "İnceleme süreci",
       "empty": "Bu filtrede şirket bulunamadı.",
       "sectorFilter": "{{sector}} · {{count}} şirket"
     },
     "companyCard": {
-      "cta": "Dosyayı aç",
+      "cta": "Kapsam notu",
       "lastUpdated": "Son güncelleme: {{when}}",
       "exportMarkets": "İhracat",
       "employees": "Çalışan",

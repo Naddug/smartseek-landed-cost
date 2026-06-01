@@ -58,7 +58,7 @@ export function CompaniesListView() {
               campaigns.map((c) => <CompanyCard key={c.slug} campaign={c} />)
             )}
           </div>
-          <p className={cn(typography.caption, "mt-6 text-ortaq-ink-soft")}>{t("market.catalog.legalStrip")}</p>
+          <p className={cn(typography.caption, "mt-6 text-ortaq-ink-soft")}>{t("discovery.catalog.legalStrip")}</p>
           <Link href="/degerlendirme" className={cn(typography.bodySm, typography.link, "mt-3 inline-block")}>
             {t("discovery.catalog.evalLink")} →
           </Link>
