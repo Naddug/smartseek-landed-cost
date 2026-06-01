@@ -1,20 +1,17 @@
 "use client";
 
 import { PublicShell } from "@/components/layout/PublicShell";
-import { MarketTerminalHero } from "@/components/market/MarketTerminalHero";
+import { MarketPulseBar } from "@/components/market/MarketPulseBar";
 import { MarketCoveragePanel } from "@/components/market/MarketCoveragePanel";
 import { MarketActivityTape } from "@/components/market/MarketActivityTape";
 import { MarketSectorFlow } from "@/components/market/MarketSectorFlow";
 import { MarketIntelligencePanel } from "@/components/market/MarketIntelligencePanel";
 
-/**
- * Layer 1 — Market homepage.
- * Priority: companies → activity → sectors → movement. No ORTAQ pitch, no contact form.
- */
+/** Layer 1 — Market: companies and movement first; investor/process copy lives on /investors. */
 export function MarketHomeView() {
   return (
     <PublicShell stickyCta headerOverlay={false}>
-      <MarketTerminalHero />
+      <MarketPulseBar />
       <MarketCoveragePanel />
       <MarketActivityTape />
       <MarketSectorFlow />

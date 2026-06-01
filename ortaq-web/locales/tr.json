@@ -1372,7 +1372,7 @@
       "live": "Güncel veri",
       "lastSync": "Son kayıt: {{date}}",
       "headline": "{{count}} üretici şirket · güncel üretim notları",
-      "sub": "Halka açık olmayan şirketlerin kapasite, ihracat ve saha kayıtları burada. Önce akışa bakın; ilgilendiğiniz şirketin dosyasını açın.",
+      "sub": "Kapasite, ihracat ve saha kayıtları. Şirket seçin; ayrıntı dosyada.",
       "rhythm": "Son 14 günde {{count}} kayıt · en çok hareket: {{sector}} ({{sectorCount}} kayıt)",
       "exportNote": "{{count}} şirket ihracat ağırlıklı",
       "access": "Dosyayı okuduktan sonra ilgi notu bırakabilirsiniz. Karşı taraf da uygun görürse görüşme açılır.",
