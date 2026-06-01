@@ -79,6 +79,19 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
     keywords: ["sermaye erişimi süreci", "belge inceleme", "karşılıklı tanıştırma"],
   },
   {
+    key: "investors",
+    path: "/investors",
+    title: "Yatırımcılar | ORTAQ",
+    description:
+      "ORTAQ yatırımcı özeti: özel üretici piyasası problemi, çözüm, doğrulama çerçevesi, iş modeli ve düzenleyici konum. Menkul kıymet veya kitle fonlama değildir.",
+    cluster: "trust",
+    intent: "informational",
+    priority: 0.75,
+    changeFrequency: "monthly",
+    live: true,
+    keywords: ["ORTAQ yatırım", "özel şirket piyasası", "Türkiye üretim", "nearshoring"],
+  },
+  {
     key: "ekip",
     path: "/ekip",
     title: "Ekip | ORTAQ",
@@ -238,6 +251,7 @@ export function getLiveSitemapRoutes(): RouteSeoConfig[] {
 export type RouteKey =
   | "home"
   | "kesfet"
+  | "investors"
   | "nasilCalisir"
   | "ekip"
   | "guven"
@@ -254,6 +268,7 @@ export type RouteKey =
 export const ROUTE_KEY_MAP: Record<RouteKey, string> = {
   home: "home",
   kesfet: "kesfet",
+  investors: "investors",
   nasilCalisir: "nasil-calisir",
   ekip: "ekip",
   guven: "guven",

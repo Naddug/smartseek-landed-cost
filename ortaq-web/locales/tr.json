@@ -890,7 +890,7 @@
       "export": "İhracat",
       "customers": "Alıcılar",
       "field": "Saha notları",
-      "growth": "Öncelikler",
+      "operations": "Operasyon",
       "risks": "Riskler",
       "review": "İnceleme",
       "documents": "Belgeler"
@@ -925,6 +925,11 @@
       "fullTimeline": "İnceleme zaman çizelgesi",
       "recentField": "Son saha notu",
       "fullField": "Tüm saha notları"
+    },
+    "operations": {
+      "label": "Operasyon",
+      "title": "Operasyonel öncelikler",
+      "footnote": "Kapasite ve tedarik darboğazları; şirket beyanı ve saha notlarına dayanır. Finansman talebi değildir."
     },
     "snapshot": {
       "label": "Operasyonel özet",
@@ -1337,6 +1342,7 @@
     "links": {
       "trust": "Güven",
       "team": "Ekip",
+      "investors": "Yatırımcılar",
       "risk": "Riskler",
       "process": "Nasıl çalışır",
       "discover": "Keşif önizlemesi",
@@ -1615,6 +1621,73 @@
         "title": "Profil onayı",
         "text": "Belge incelemesi tamamlanır; profil keşfedilebilir hale gelir ve karşılıklı tanıştırma yolu açılır.",
         "reject": "Zorunlu belgelerin eksik veya doğrulanamaması."
+      }
+    }
+  },
+  "investorsPage": {
+    "eyebrow": "Yatırımcı özeti",
+    "title": "ORTAQ neden var?",
+    "lead": "Türkiye'de halka açık olmayan üretici şirketler için yapılandırılmış keşif ve tanışma altyapısı. Menkul kıymet satışı veya kitle fonlama değildir.",
+    "audience": "Bu sayfa melek yatırımcı, VC, aile ofisi, hızlandırıcı ve stratejik ortaklar içindir. Ürün piyasası ana sayfada; şirket dosyaları profil sayfalarında.",
+    "closing": "Görüşme talebi veya veri odası için iletişime geçin. Pilot metrikler şeffaf paylaşılır.",
+    "ctaContact": "İletişim",
+    "ctaTeam": "Kurucu ekip",
+    "sections": {
+      "problem": {
+        "title": "1. Problem",
+        "body": "Türkiye'de on binlerce üretici şirket borsada değil. Kapasite, ihracat ve saha gerçekleri dağınık: telefon, fuar, aracı. Sermaye tarafı ve alıcılar aynı şirketi farklı kanallardan duyuyor; doğrulanmış tek dosya yok.",
+        "body2": "Sonuç: iyi üreticiler görünmez kalıyor; yanlış eşleşme ve güvensiz ön bilgi pahalıya mal oluyor."
+      },
+      "solution": {
+        "title": "2. Çözüm",
+        "body": "ORTAQ her şirket için saha ve belge temelli bir dosya yayınlar: üretim, ihracat, operasyon, risk. Okuma herkese açık; ilgi notu ve tanışma karşılıklı onayla açılır.",
+        "body2": "Platform taraf tutmaz: kanıt düzenler, hareketi görünür kılar, uygun tarafları buluşturur."
+      },
+      "whyNow": {
+        "title": "3. Neden şimdi",
+        "body": "Çin+1 ve yakın coğrafyaya kayış Türkiye üretimini yeniden görünür kılıyor. Nearshoring ile Avrupa alıcıları daha kısa tedarik zinciri arıyor.",
+        "body2": "Özel şirket piyasası için dijital altyapı eksik; ilk doğru katman bu boşluğu kapatır."
+      },
+      "founder": {
+        "title": "4. Kurucu-pazar uyumu",
+        "body": "Harun Kaya kurucu ortak. Üreticinin güçlü olduğu hâlde sermayeye ulaşamadığını LEGO, Petlas ve Yiğit Akü sahasında gördü.",
+        "b1": "LEGO Group — bölgesel satış liderliği (Türkiye, İsrail, Yunanistan, CIS)",
+        "b2": "Petlas ve Yiğit Akü — ihracat ve uluslararası satış",
+        "b3": "ABD girişimcilik ve distribütör geliştirme geçmişi",
+        "b4": "Muhsin Kayıkçı — Çin/ASEAN tedarik doğrulama ve belge operasyonu (kurucu ortak)",
+        "b5": "Ekip dosyayı okur, sahaya iner; sunum ekibi değil operatör profili"
+      },
+      "verification": {
+        "title": "5. Doğrulama çerçevesi",
+        "body": "Doğrulanan: ticari unvan, tesis ve kapasite sinyalleri, ihracat yapısı, incelenen belge listesi, saha notları, inceleme durumu etiketleri.",
+        "body2": "Doğrulanmayan veya kısmi: gelecekteki gelir, müşteri adları (gizlilik), bağımsız denetim, yatırım getirisi. Kanıtlanamayan iddia yayınlanmaz."
+      },
+      "businessModel": {
+        "title": "6. İş modeli",
+        "body": "Gelir: üretici listeleme ve dosya hazırlığı, sermaye/alıcı tarafı erişim ve tanışma süreci, ileride veri ve analitik katmanları.",
+        "body2": "Kim öder: önce üretici ve kurumsal okuyucu; tanışma açıldığında süreç ücreti. Ne zaman: dosya yayında ve ilgi oluştuğunda."
+      },
+      "regulatory": {
+        "title": "7. Düzenleyici konum",
+        "body": "ORTAQ menkul kıymet satmaz, halka arz düzenlemez, kitle fonlama yapmaz, emanet veya escrow tutmaz, yatırım tavsiyesi vermez.",
+        "body2": "Hizmet: bilgilendirme, belge düzenleme ve nitelikli tanıştırma. Finansman gerçekleşirse işlem taraflar ve yetkili kuruluş arasında kalır."
+      },
+      "validation": {
+        "title": "8. 90 günlük doğrulama planı",
+        "body": "Pilot dönemde ölçülenler: dosya sayısı, aktif okuyucu, ilgi notu, karşılıklı tanışma, sermaye ortağı görüşmeleri.",
+        "m1Label": "Şirket dosyası",
+        "m1Value": "18+ üretici (pilot kapsam)",
+        "m2Label": "Tanışma",
+        "m2Value": "Karşılıklı onaylı görüşme hedefi",
+        "m3Label": "Sermaye ortağı",
+        "m3Value": "Aile ofisi ve kurumsal okuyucu görüşmeleri",
+        "m4Label": "Etkileşim",
+        "m4Value": "Akış ve profil okuma metrikleri"
+      },
+      "vision": {
+        "title": "9. Uzun vadeli vizyon",
+        "body": "ORTAQ, Türkiye'nin özel şirket piyasası için işletim katmanı olmak: hareket, dosya, erişim ve güven tek yerde.",
+        "body2": "Kategori: private market intelligence — PitchBook/Bloomberg tonunda veri, yerel saha derinliği ile."
       }
     }
   },

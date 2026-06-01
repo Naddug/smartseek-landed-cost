@@ -6,7 +6,7 @@ export const dossierSections = [
   { id: "export", key: "export" },
   { id: "customers", key: "customers" },
   { id: "field", key: "field" },
-  { id: "growth", key: "growth" },
+  { id: "operations", key: "operations" },
   { id: "risks", key: "risks" },
   { id: "review", key: "review" },
   { id: "documents", key: "documents" },

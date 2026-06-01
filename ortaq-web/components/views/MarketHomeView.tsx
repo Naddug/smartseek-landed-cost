@@ -2,24 +2,23 @@
 
 import { PublicShell } from "@/components/layout/PublicShell";
 import { MarketTerminalHero } from "@/components/market/MarketTerminalHero";
-import { MarketSectorFlow } from "@/components/market/MarketSectorFlow";
-import { MarketActivityTape } from "@/components/market/MarketActivityTape";
-import { MarketIntelligencePanel } from "@/components/market/MarketIntelligencePanel";
 import { MarketCoveragePanel } from "@/components/market/MarketCoveragePanel";
-import { MarketInfrastructureBar } from "@/components/market/MarketInfrastructureBar";
-import { HomepageContact } from "@/components/landing/HomepageContact";
+import { MarketActivityTape } from "@/components/market/MarketActivityTape";
+import { MarketSectorFlow } from "@/components/market/MarketSectorFlow";
+import { MarketIntelligencePanel } from "@/components/market/MarketIntelligencePanel";
 
-/** Homepage: private market terminal (movement-first, not company directory). */
+/**
+ * Layer 1 — Market homepage.
+ * Priority: companies → activity → sectors → movement. No ORTAQ pitch, no contact form.
+ */
 export function MarketHomeView() {
   return (
     <PublicShell stickyCta headerOverlay={false}>
       <MarketTerminalHero />
-      <MarketSectorFlow />
-      <MarketActivityTape />
-      <MarketIntelligencePanel />
       <MarketCoveragePanel />
-      <MarketInfrastructureBar />
-      <HomepageContact />
+      <MarketActivityTape />
+      <MarketSectorFlow />
+      <MarketIntelligencePanel />
     </PublicShell>
   );
 }

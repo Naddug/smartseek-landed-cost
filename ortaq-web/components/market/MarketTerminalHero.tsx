@@ -74,10 +74,7 @@ export function MarketTerminalHero() {
           ))}
         </dl>
 
-        <p className={cn(typography.bodySm, "mt-5 max-w-2xl text-ortaq-cream/70")}>{t("market.terminal.access")}</p>
-        <p className={cn(typography.caption, "mt-2 max-w-2xl text-ortaq-cream/42")}>{t("market.terminal.legal")}</p>
-
-        <div className="mt-5 flex flex-wrap gap-2.5">
+        <div className="mt-6 flex flex-wrap gap-2.5">
           <Link
             href="/kesfet"
             className="inline-flex min-h-10 items-center rounded-ortaq-md bg-ortaq-cream px-4 text-[0.8125rem] font-semibold text-ortaq-ink transition-opacity hover:opacity-90"

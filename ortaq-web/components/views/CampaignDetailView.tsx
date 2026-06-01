@@ -14,7 +14,7 @@ import { DossierMachines } from "@/components/dossier/DossierMachines";
 import { DossierExport } from "@/components/dossier/DossierExport";
 import { DossierCustomers } from "@/components/dossier/DossierCustomers";
 import { DossierFieldLog } from "@/components/dossier/DossierFieldLog";
-import { DossierGrowth } from "@/components/dossier/DossierGrowth";
+import { DossierOperations } from "@/components/dossier/DossierOperations";
 import { DossierRisks } from "@/components/dossier/DossierRisks";
 import { DossierReview } from "@/components/dossier/DossierReview";
 import { DossierDocuments } from "@/components/dossier/DossierDocuments";
@@ -45,12 +45,12 @@ export function CampaignDetailView({ campaign }: CampaignDetailViewProps) {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start">
           <div className="min-w-0 space-y-0">
             <DossierProduction campaign={campaign} />
+            <DossierExport campaign={campaign} />
             <DossierFacility campaign={campaign} />
             <DossierMachines campaign={campaign} />
-            <DossierExport campaign={campaign} />
             <DossierCustomers campaign={campaign} />
             <DossierFieldLog campaign={campaign} />
-            <DossierGrowth campaign={campaign} />
+            <DossierOperations campaign={campaign} />
             <DossierRisks campaign={campaign} />
             <DossierReview campaign={campaign} />
             <DossierDocuments campaign={campaign} />

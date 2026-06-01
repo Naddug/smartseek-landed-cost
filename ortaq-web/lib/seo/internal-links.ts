@@ -21,6 +21,12 @@ const RELATED_MAP: Record<RouteKey, RelatedLink[]> = {
     { href: "/ekip", title: "Ekip", description: "Kurucu operatörler" },
     { href: "/sss", title: "Sık sorulan sorular", description: "Belgeler, tanıştırma, görüşme odası" },
   ],
+  investors: [
+    { href: "/ekip", title: "Ekip", description: "Kurucu-pazar uyumu" },
+    { href: "/guven", title: "Güven", description: "Doğrulama ve düzenleyici sınırlar" },
+    { href: "/degerlendirme", title: "Belge incelemesi", description: "Ne doğrulanır?" },
+    { href: "/kesfet", title: "Şirketler", description: "Canlı piyasa kapsamı" },
+  ],
   nasilCalisir: [
     { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
     { href: "/guven", title: "Güven", description: "ORTAQ para tutmaz, tavsiye vermez" },
