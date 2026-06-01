@@ -1370,13 +1370,14 @@
   "market": {
     "terminal": {
       "live": "Güncel veri",
-      "lastSync": "Son kayıt: {{date}}",
-      "headline": "{{count}} üretici şirket · güncel üretim notları",
+      "lastSync": "Son güncelleme {{date}}",
+      "headline": "{{count}} özel üretici şirket",
+      "scope": "{{sectors}} sektör · {{cities}} şehir · {{records}} dosya kaydı",
       "rhythm": "Son 14 günde {{count}} kayıt · en çok hareket: {{sector}} ({{sectorCount}} kayıt)",
       "exportNote": "{{count}} şirket ihracat ağırlıklı",
       "access": "Dosyayı okuduktan sonra ilgi notu bırakabilirsiniz. Karşı taraf da uygun görürse görüşme açılır.",
       "legal": "Hisse veya fon satışı yok. Okuma ve tanışma altyapısı.",
-      "cta": "Şirket listesi",
+      "cta": "Tüm şirketler",
       "ctaWorkspace": "Takip listem",
       "stats": {
         "coverage": { "label": "Şirket" },
@@ -1393,7 +1394,7 @@
     },
     "tape": {
       "label": "Piyasa akışı",
-      "title": "Şirketlerde son hareket",
+      "title": "Son kayıtlar",
       "expand": "Tüm şirketler",
       "types": {
         "export_market": "İhracat",
@@ -1415,7 +1416,7 @@
     },
     "coverage": {
       "label": "Kapsam",
-      "title": "İzlenen üretici şirketler",
+      "title": "Şirketler",
       "link": "Tüm şirketler"
     },
     "infrastructure": {
