@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Üretici şirketler",
-    "navTagline": "Şirketler · güncellemeler · tanışma"
+    "tagline": "Üretici şirket bilgileri",
+    "navTagline": "Şirketler · notlar · tanışma"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
@@ -1360,31 +1360,32 @@
   },
   "market": {
     "terminal": {
-      "live": "Güncel",
-      "lastSync": "Son güncelleme: {{date}}",
-      "kicker": "Türkiye üretim şirketleri",
-      "headline": "Hangi fabrikada ne oluyor, buradan takip edin.",
-      "sub": "Kapasite, ihracat ve sahadan gelen notlar burada güncelleniyor. Önce akışa bakın, sonra ilgilendiğiniz şirkete girin.",
-      "access": "İlgi bırakırsanız ve iki taraf da uygun görürse tanışma açılır.",
-      "legal": "Yatırım veya fon teklifi yok; okuma ve tanışma için bir altyapı.",
-      "cta": "Tüm şirketler",
+      "live": "Canlı",
+      "lastSync": "Veriler: {{date}}",
+      "kicker": "ORTAQ",
+      "headline": "Türkiye'deki üretici şirketlerde son hareketler",
+      "sub": "Kapasite, ihracat ve saha notları burada toplanır. Aşağıdaki listeden şirketi seçip ayrıntıyı okuyabilirsiniz.",
+      "access": "İlgi notu bırakabilirsiniz. İki taraf da uygun görürse tanışma açılır.",
+      "legal": "Yatırım veya hisse satışı yapılmaz; bilgi ve tanışma amaçlı bir servistir.",
+      "cta": "Şirket listesi",
+      "ctaWorkspace": "Takip listem",
       "stats": {
         "coverage": { "label": "Şirket" },
         "sectors": { "label": "Sektör" },
         "cities": { "label": "Şehir" },
-        "feed": { "label": "Güncelleme" }
+        "feed": { "label": "Kayıt" }
       }
     },
     "sectorFlow": {
-      "aria": "Sektöre göre gezin",
-      "label": "Sektör",
+      "aria": "Sektöre göre filtrele",
+      "label": "Sektöre göre bak",
       "fullTape": "Tüm şirketler"
     },
     "tape": {
-      "label": "Güncel",
+      "label": "Akış",
       "title": "Son güncellemeler",
-      "expand": "Tümünü gör",
-      "footnote": "Saha ve dosya notlarından; yatırım tavsiyesi değil.",
+      "expand": "Tüm listeyi aç",
+      "footnote": "Saha ve dosya notlarından derlenir.",
       "types": {
         "export_market": "İhracat",
         "facility": "Tesis",
@@ -1396,31 +1397,31 @@
     },
     "intelligence": {
       "label": "Özet",
-      "title": "Şu aralar dikkat çekenler",
-      "lead": "Sektöre göre kısa özet; ayrıntı ilgili şirket sayfasında.",
+      "title": "Sektörlere göre öne çıkanlar",
+      "lead": "Kısa başlık burada; tam açıklama şirket sayfasında.",
       "colSector": "Sektör",
-      "colSignal": "Ne oluyor",
+      "colSignal": "Durum",
       "colCoverage": "Şirket"
     },
     "coverage": {
-      "label": "Şirketler",
-      "title": "Şu an öne çıkanlar",
-      "lead": "Her kartta o şirkette son dönemde ne değiştiği yazıyor.",
-      "link": "Daha fazla şirket"
+      "label": "Liste",
+      "title": "Güncellenen şirketler",
+      "lead": "Her satırda o şirketle ilgili son gelişme yazıyor.",
+      "link": "Tüm şirketler"
     },
     "infrastructure": {
-      "role": "ORTAQ şirket dosyalarını yayınlar, ilgi notlarını iletir ve uygun olduğunda tanışmayı açar.",
-      "operator": "LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından yürütülür."
+      "role": "ORTAQ şirket bilgilerini yayınlar, ilgi notlarını iletir ve uygun olduğunda tanışmayı sağlar.",
+      "operator": "LEGO Group, Petlas ve Yiğit Akü deneyimine sahip ekip tarafından işletilir."
     },
     "catalog": {
-      "label": "Şirketler",
-      "title": "Tüm üretici şirketler",
-      "lead": "Sektöre göre süzebilirsiniz. Her sayfada üretim, ihracat ve güncel notlar var.",
-      "pulse": "{{coverage}} şirket · {{sectors}} sektör",
-      "legalStrip": "Bilgi amaçlıdır; yatırım teklifi değildir."
+      "label": "Liste",
+      "title": "Tüm şirketler",
+      "lead": "Sektöre göre süzebilirsiniz. Her şirket sayfasında üretim, ihracat ve notlar yer alır.",
+      "pulse": "{{coverage}} şirket, {{sectors}} sektör",
+      "legalStrip": "Bilgilendirme amaçlıdır."
     },
     "companyCard": {
-      "cta": "Şirketi incele"
+      "cta": "Dosyayı aç"
     }
   },
   "discovery": {
@@ -1501,14 +1502,14 @@
     "profile": {
       "label": "Şirket dosyası",
       "whyNow": {
-        "aria": "Neden şimdi",
-        "label": "Neden şimdi",
+        "aria": "Güncel durum",
+        "label": "Güncel durum",
         "activity": "Son kayıt: {{when}}",
-        "recent": "Son değişiklik",
-        "challenge": "Operasyonel odak",
-        "export": "İhracat gelişimi"
+        "recent": "Son not",
+        "challenge": "Operasyon",
+        "export": "İhracat"
       },
-      "disclaimer": "Bilgi amaçlı dosya. Tanışma talebi yatırım teklifi sayılmaz.",
+      "disclaimer": "Bilgi amaçlıdır. Tanışma talebi yatırım teklifi değildir.",
       "railLabel": "İşlemler",
       "interestAria": "Takip ve tanışma",
       "watch": "Takibe al",

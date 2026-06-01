@@ -55,16 +55,21 @@ export function MarketTerminalHero() {
           ))}
         </dl>
 
-        <p className={cn(typography.caption, "mt-4 max-w-2xl text-ortaq-cream/50")}>
-          {t("market.terminal.access")} · {t("market.terminal.legal")}
-        </p>
+        <p className={cn(typography.bodySm, "mt-4 max-w-2xl text-ortaq-cream/70")}>{t("market.terminal.access")}</p>
+        <p className={cn(typography.caption, "mt-2 max-w-2xl text-ortaq-cream/45")}>{t("market.terminal.legal")}</p>
 
-        <div className="mt-5">
+        <div className="mt-5 flex flex-wrap gap-2.5">
           <Link
             href="/kesfet"
             className="inline-flex min-h-10 items-center rounded-ortaq-md bg-ortaq-cream px-4 text-[0.8125rem] font-semibold text-ortaq-ink transition-opacity hover:opacity-90"
           >
             {t("market.terminal.cta")}
+          </Link>
+          <Link
+            href="/alan"
+            className="inline-flex min-h-10 items-center rounded-ortaq-md border border-ortaq-cream/35 px-4 text-[0.8125rem] font-medium text-ortaq-cream transition-colors hover:border-ortaq-cream/55"
+          >
+            {t("market.terminal.ctaWorkspace")}
           </Link>
         </div>
       </Container>

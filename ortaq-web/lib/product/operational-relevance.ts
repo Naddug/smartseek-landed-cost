@@ -1,48 +1,48 @@
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 
 /**
- * Situation line for cards and headers: reveals what is changing, not what the company "is".
+ * One line per company: what changed recently, in plain Turkish.
  */
 export const OPERATIONAL_RELEVANCE: Record<string, string> = {
   "karat-parca-konya":
-    "Avrupa siparişleri nedeniyle ikinci vardiya değerlendiriliyor.",
+    "Avrupa siparişleri artınca mevcut hat yetmiyor; ikinci vardiya değerlendiriliyor.",
   "anatolia-gida-gaziantep":
-    "Orta Doğu çerçeve sözleşmeleri paketleme hattını zorluyor.",
+    "Orta Doğu siparişleri paketleme hattını zorluyor.",
   "yildiz-dokum-manisa":
-    "Almanya OEM programı pres hatlarında tam doluluk yaratıyor.",
+    "Almanya OEM programı pres hatlarında tam doluluk oluşturuyor.",
   "demir-tekstil-bursa":
-    "Güney Avrupa numune talepleri dokuma planını yeniden sıralıyor.",
+    "Güney Avrupa için yeni numune talepleri geliyor.",
   "adana-tarim-isleme":
-    "Hasat döneminde kapasite kullanımı kritik seviyelere ulaşıyor.",
+    "Hasat döneminde soğuk depo doluyor; sevkiyat sırası uzuyor.",
   "atlas-lojistik-istanbul":
-    "Yeni ihracat koridorları operasyon planını değiştiriyor.",
+    "Avrupa ihracatı depo doluluk oranını yükseltiyor.",
   "trakya-un-edirne":
-    "Sınır ötesi talep silo doluluğunu sürekli yüksek tutuyor.",
+    "Sınır ötesi talep siloları sürekli yüksek tutuyor.",
   "antalya-sera-teknoloji":
-    "Rusya sevkiyat penceresi paketleme kuyruğunu uzatıyor.",
+    "İhracat domatesi paketleme kuyruğunu uzatıyor.",
   "vizyon-otomotiv-bursa":
-    "Almanya OEM pres kuyruğu beş haftayı aştı.",
+    "Almanya OEM siparişleri pres kuyruğunu doldurdu.",
   "marmara-kimya-kocaeli":
-    "Irak batch siparişleri reaktör planını sıkıştırıyor.",
+    "Irak siparişleri üretim planını sıkıştırıyor.",
   "tekno-elektronik-ankara":
-    "Savunma montaj kuyruğu teslim takvimini geriye itiyor.",
+    "Savunma montaj siparişleri teslim süresini uzatıyor.",
   "eskisehir-seramik":
-    "Romanya sipariş artışı fırın çıkışını zorluyor.",
+    "Romanya siparişleri fırın kapasitesine bindiriyor.",
   "trabzon-findik-isleme":
-    "Avrupa kavurma talebi sezon öncesi hattı doldurdu.",
+    "Avrupa talebi kavurma hattını yoğun kullanıyor.",
   "denizli-iplik-dokuma":
-    "İtalya iplik siparişleri ring doluluğunu yükseltti.",
+    "İtalya siparişleri ring hat doluluğunu artırdı.",
   "tekirdag-ambalaj-plastik":
-    "AB ambalaj kuralları üretim karışımını yeniden tanımlıyor.",
+    "AB ambalaj kuralları üretim planını değiştiriyor.",
   "ege-mobilya-izmir":
-    "Almanya numune baskısı CNC önceliğini değiştiriyor.",
+    "Almanya numune talepleri CNC sırasını uzatıyor.",
   "deniz-gemi-parca-tuzla":
-    "Norveç tersane programı kaynak takvimini belirliyor.",
+    "Norveç tersane işi kaynak takvimini belirliyor.",
   "anadolu-cam-kayseri":
-    "Irak cephe projeleri lamine teslim süresini uzatıyor.",
+    "Irak cephe işleri lamine teslim süresini uzatıyor.",
 };
 
-const BLOCKED = /yatırım|fonlama|getiri|sermaye|pay oran|raise|ortaklık teklif|komite onay|yatırımı|fon/i;
+const BLOCKED = /yatırım|fonlama|getiri|sermaye|pay oran|raise|hisse|menkul/i;
 
 function sanitize(line: string): string | null {
   const trimmed = line.replace(/\s+/g, " ").trim();
@@ -64,9 +64,9 @@ function deriveFromCampaign(c: SimulatedCampaign): string | null {
     if (line) return line;
   }
 
-  const bottleneck = c.bottlenecks[0];
-  if (bottleneck?.note) {
-    const line = sanitize(bottleneck.note);
+  const bottleneck = c.bottlenecks[0]?.note;
+  if (bottleneck) {
+    const line = sanitize(bottleneck);
     if (line) return line;
   }
 
@@ -76,5 +76,5 @@ function deriveFromCampaign(c: SimulatedCampaign): string | null {
 export function getOperationalRelevanceLine(c: SimulatedCampaign): string {
   const curated = OPERATIONAL_RELEVANCE[c.slug];
   if (curated) return curated;
-  return deriveFromCampaign(c) ?? "Operasyon kayıtlarında yeni hareket var.";
+  return deriveFromCampaign(c) ?? "Son günlerde operasyon kaydı güncellendi.";
 }
