@@ -1,7 +1,10 @@
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 
 export const reviewStatusLabels: Record<SimulatedCampaign["reviewStatus"], string> = {
-  preliminary_review: "Ön inceleme", document_review: "Belge incelemesi", field_verification: "Saha doğrulaması", committee: "Komite değerlendirmesi",
+  preliminary_review: "Ön eleme",
+  document_review: "Belgelerde",
+  field_verification: "Sahada",
+  committee: "Son tur",
 };
 
 /** Sector taxonomy, counts derived from live catalog in getSectorClusters(). */

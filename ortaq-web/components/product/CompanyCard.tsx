@@ -68,17 +68,17 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
           <VerificationLabel label={c.verificationLabel} className="max-w-[45%] sm:max-w-none" />
         </div>
 
-        <p className={cn(typography.caption, "mt-2 text-ortaq-ink-muted")}>
-          {c.city} · {c.employees} {t("homeProduct.companyCard.employeesUnit")} · {facilityArea}
+          <p className={cn(typography.caption, "mt-2 text-ortaq-ink-muted")}>
+          {c.city} · {c.employees} {t("discovery.companyCard.employeesUnit")} · {facilityArea}
         </p>
 
         <p className={cn(typography.caption, "mt-2 line-clamp-1 text-ortaq-ink-muted")}>{tension}</p>
 
         <dl className="mt-3 grid grid-cols-2 gap-2">
-          <MetricCell label={t("homeProduct.companyCard.capacity")} value={capacity?.value ?? "-"} />
-          <MetricCell label={t("homeProduct.companyCard.exportShare")} value={exportShare?.value ?? "-"} />
-          <MetricCell label={t("homeProduct.companyCard.facility")} value={facilityArea} />
-          <MetricCell label={t("homeProduct.companyCard.facilityStatus")} value={statusLabel} />
+          <MetricCell label={t("discovery.companyCard.capacity")} value={capacity?.value ?? "-"} />
+          <MetricCell label={t("discovery.companyCard.exportShare")} value={exportShare?.value ?? "-"} />
+          <MetricCell label={t("discovery.companyCard.facility")} value={facilityArea} />
+          <MetricCell label={t("discovery.companyCard.facilityStatus")} value={statusLabel} />
         </dl>
 
         <ReviewStepper campaign={c} className="mt-3" />

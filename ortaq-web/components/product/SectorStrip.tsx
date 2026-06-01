@@ -15,13 +15,13 @@ export function SectorStrip() {
   return (
     <section
       className="border-b border-ortaq-border bg-ortaq-surface"
-      aria-label={t("homeProduct.sectors.aria")}
+      aria-label={t("discovery.sectors.aria")}
     >
       <Container wide>
         <div className="flex flex-wrap items-baseline justify-between gap-2 py-4 sm:py-5">
-          <p className={typography.label}>{t("homeProduct.sectors.label")}</p>
+          <p className={typography.label}>{t("discovery.sectors.label")}</p>
           <p className={cn(typography.caption, "text-ortaq-ink-soft")}>
-            {t("homeProduct.sectors.coverage", { count: sectors.length })}
+            {t("discovery.sectors.coverage", { count: sectors.length })}
           </p>
         </div>
         <div className="grid grid-cols-2 gap-2 pb-5 sm:grid-cols-4 sm:pb-6 lg:grid-cols-5">
@@ -39,7 +39,7 @@ export function SectorStrip() {
               <p className={cn(typography.caption, "mt-1 truncate")}>
                 {sector.cities.length > 0
                   ? sector.cities.join(" · ")
-                  : t("homeProduct.sectors.noCities")}
+                  : t("discovery.sectors.noCities")}
               </p>
             </div>
           ))}

@@ -1,22 +1,22 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Özel şirket keşif alanı",
-    "navTagline": "Keşif · araştırma · tanıştırma"
+    "tagline": "Üretici şirket dosyaları",
+    "navTagline": "Şirketler · saha · tanışma"
   },
   "nav": {
     "howItWorks": "Nasıl çalışır",
-    "discover": "Keşfet",
+    "discover": "Şirketler",
     "faq": "SSS",
     "companies": "Şirketler",
     "trust": "Güven",
     "team": "Ekip",
     "risk": "Risk çerçevesi",
     "evaluation": "Nasıl seçiyoruz",
-    "memberArea": "Alanınız",
-    "explore": "Şirketleri keşfet",
+    "memberArea": "Listem",
+    "explore": "Şirketlere bak",
     "applyProducer": "Üretici başvurusu",
-    "workspace": "Alanınız",
+    "workspace": "Listem",
     "menu": "Menü",
     "langToggle": "Dil değiştir",
     "ariaMain": "Ana menü",
@@ -150,26 +150,26 @@
         "imageEvidence": "Saha gözlemi · kampanya görseli değildir"
       },
       "feed": {
-        "label": "İnceleme akışı",
-        "title": "Dosyalar arası operasyonel hareket",
-        "lead": "Saha gözlemleri, dosya güncellemeleri, inceleme notları ve kapasite verileri: değerlendirme altındaki her şirketten derlenir.",
-        "archiveFootnote": "{{total}} kayıttan {{shown}} tanesi gösteriliyor · tam geçmiş ilgili dosyanın içindedir",
-        "queueLabel": "Değerlendirme hattı",
-        "queueTitle": "Aktif değerlendirme",
-        "queueNote": "Yayımlanan dosyalardaki gerçek inceleme aşamaları: yatırımcı sayısı değildir.",
-        "criteria": "Seçim kriterleri"
+        "label": "Sahadan gelenler",
+        "title": "Son hareketler",
+        "lead": "Hangisi kapasite doldurdu, hangisine belge eklendi, kim sahaya gitti.",
+        "archiveFootnote": "{{total}} kayıttan {{shown}} satır · tamamı şirket dosyasında",
+        "queueLabel": "Şu an nerede",
+        "queueTitle": "İnceleme sırası",
+        "queueNote": "Sayılar dosya aşaması; yatırımcı sayısı değil.",
+        "criteria": "Nasıl seçiyoruz"
       },
       "queue": {
-        "preliminary_review": "Ön inceleme",
-        "document_review": "Belge incelemesi",
-        "field_verification": "Saha doğrulaması",
-        "committee": "Komite kuyruğu"
+        "preliminary_review": "Ön eleme",
+        "document_review": "Belgelerde",
+        "field_verification": "Sahada",
+        "committee": "Son tur"
       },
       "sectors": {
         "label": "Sektör gezgini",
         "title": "İncelemedeki sanayi kümeleri",
-        "browse": "Tüm dosyalar",
-        "explore": "Dosyaları gör"
+        "browse": "Tüm şirketler",
+        "explore": "Şirketlere bak"
       },
       "featured": {
         "label": "Öne çıkan dosyalar",
@@ -538,13 +538,13 @@
       "pipelineLink": "Seçim kriterleri"
     },
     "sectors": {
-      "label": "Sektör kapsamı",
-      "title": "Türk sanayi kapsamı",
-      "active": "{{count}} dosya",
+      "label": "Sektör",
+      "title": "Hangi sanayide kaç fabrika",
+      "active": "{{count}} şirket",
       "soon": "Yakında",
-      "aria": "Sektör kapsamı",
-      "coverage": "{{count}} sektör · sadece dosya bulunan kategoriler",
-      "noCities": "-"
+      "aria": "Sektöre göre şirketler",
+      "coverage": "{{count}} kategori",
+      "noCities": "—"
     },
     "verification": {
       "gate": "Giriş için gerekli",
@@ -600,17 +600,17 @@
       "evalLink": "Değerlendirme kriterleri"
     },
     "activity": {
-      "label": "Operasyon kaydı",
-      "title": "Dosyalar arası operasyonel süreklilik",
-      "subtitle": "Eklenen saha kayıtları ve dosya güncellemeleri · piyasa bandı değil",
-      "aria": "Çapraz inceleme akışı",
+      "label": "Kayıt defteri",
+      "title": "Şirketler arası son notlar",
+      "subtitle": "Sahadan ve dosyadan gelen satırlar",
+      "aria": "Son şirket hareketleri",
       "colDate": "Tarih",
       "colTime": "Saat",
       "colCompany": "Şirket",
-      "colType": "Tür",
+      "colType": "Ne oldu",
       "colNote": "Not",
-      "updateChip": "Dosya",
-      "note": "Saha kayıtları ve dosya güncellemeleri burada toplanır. Kanıt sürekliliği: yatırımcı sayısı değil."
+      "updateChip": "Güncelleme",
+      "note": "Yatırımcı sayısı değil; fabrikada olan."
     },
     "process": {
       "label": "Süreç",
@@ -644,14 +644,14 @@
     "companyCard": {
       "location": "Konum",
       "employees": "Çalışan",
-      "employeesUnit": "çalışan",
+      "employeesUnit": "kişi",
       "capacity": "Kapasite",
-      "exportShare": "İhracat payı",
-      "facility": "Tesis alanı",
-      "facilityStatus": "İnceleme durumu",
-      "reviewProgress": "İnceleme ilerlemesi",
-      "activeStep": "Aktif",
-      "viewDossier": "Dosyayı inceleyin"
+      "exportShare": "İhracat",
+      "facility": "Tesis",
+      "facilityStatus": "Durum",
+      "reviewProgress": "Aşama",
+      "activeStep": "Şu an",
+      "viewDossier": "Dosyayı aç"
     },
     "companiesPage": {
       "label": "Yatırım dosyaları",
@@ -879,49 +879,49 @@
   },
   "dossier": {
     "nav": {
-      "aria": "Dosya bölümleri",
+      "aria": "Şirket dosyası bölümleri",
       "snapshot": "Özet",
       "production": "Üretim",
       "facility": "Tesis",
-      "machines": "Makine",
+      "machines": "Makine parkı",
       "export": "İhracat",
-      "customers": "Müşteri",
-      "field": "Saha",
-      "growth": "Büyüme",
-      "risks": "Risk",
+      "customers": "Alıcılar",
+      "field": "Saha notları",
+      "growth": "Darboğaz",
+      "risks": "Riskler",
       "review": "İnceleme",
-      "documents": "Belge"
+      "documents": "Belgeler"
     },
     "header": {
-      "label": "Yatırım dosyası",
-      "tensionLabel": "Operasyonel gerilim",
-      "employees": "çalışan",
-      "reviewStatus": "İnceleme durumu",
-      "activeStep": "Aktif adım",
-      "nextGate": "Bir sonraki adım"
+      "label": "Şirket dosyası",
+      "tensionLabel": "Sahadan",
+      "employees": "kişi",
+      "reviewStatus": "Durum",
+      "activeStep": "Aşama",
+      "nextGate": "Sırada"
     },
     "access": {
-      "preliminary": "Ön inceleme sürüyor",
-      "document_review": "Belge incelemesi sürüyor",
-      "field_verification": "Saha doğrulaması sürüyor",
-      "committee": "Yatırım komitesi sırasında",
-      "partial_open": "Kısmi dosya erişimi"
+      "preliminary": "Ön elemede",
+      "document_review": "Belgeler okunuyor",
+      "field_verification": "Sahada",
+      "committee": "Son turda",
+      "partial_open": "Kısmi erişim"
     },
     "lead": {
-      "aria": "Yatırım özeti: kararın temel görünümü",
-      "primaryTension": "Birincil operasyonel gerilim",
-      "signalsLabel": "Operasyonel sinyaller",
-      "signalsTitle": "Üretim ölçeği ve hat durumu",
-      "tensionLabel": "Risk ve gerilim",
-      "tensionTitle": "Yapısal belirsizlikler",
-      "bottlenecks": "Kritik darboğazlar",
-      "topRisks": "Öne çıkan yapısal riskler",
-      "allRisks": "Tüm risk profili",
-      "verifyLabel": "Doğrulama",
-      "verifyTitle": "Doğrulama katmanları",
-      "fullTimeline": "Doğrulama zaman çizelgesi",
-      "recentField": "Son saha kayıtları",
-      "fullField": "Tam saha kaydı"
+      "aria": "Şirket özeti",
+      "primaryTension": "Şu an ne tıkanıyor",
+      "signalsLabel": "Fabrikadan",
+      "signalsTitle": "Kapasite ve hat",
+      "tensionLabel": "Dikkat",
+      "tensionTitle": "Riskler",
+      "bottlenecks": "Darboğaz",
+      "topRisks": "Öne çıkan risk",
+      "allRisks": "Tüm riskler",
+      "verifyLabel": "Belgeler",
+      "verifyTitle": "Ne doğrulandı",
+      "fullTimeline": "İnceleme zaman çizelgesi",
+      "recentField": "Son saha notu",
+      "fullField": "Tüm saha notları"
     },
     "snapshot": {
       "label": "Operasyonel özet",
@@ -1355,93 +1355,104 @@
     "intro": "Önemli kararlar burada duyurulur."
   },
   "mobileCta": {
-    "label": "Profilleri keşfedin",
-    "sublabel": "İzleme listesi ve ilgi bildirimi"
+    "label": "Şirketlere bak",
+    "sublabel": "Listene ekle, not bırak"
   },
   "discovery": {
     "home": {
-      "kicker": "Özel piyasa istihbaratı",
-      "headline": "Normalde göremeyeceğiniz şirketleri keşfedin.",
-      "sub": "İhracat yapan üreticilerin doğrulanmış araştırma profilleri. Sektör, kapasite, ihracat ve saha kayıtları tek dosyada.",
-      "legal": "Menkul kıymet satışı yok. Para toplamıyoruz. İlgi bildirimi bağlayıcı teklif değildir.",
-      "ctaPrimary": "Şirketleri keşfet",
+      "kicker": "Saha kayıtları",
+      "headline": "Kapalı kapıdaki fabrikalar, burada listeleniyor.",
+      "sub": "Konya CNC, Adana soğuk depo, Tuzla lojistik: sipariş, kapasite, ihracat ve son saha notu. Şirket dosyasından okursunuz.",
+      "legal": "Yatırım satışı yok. Okursunuz; uygunsa görüşme istersiniz.",
+      "ctaPrimary": "Şirketlere bak",
       "ctaSecondary": "Nasıl çalışır",
-      "ctaWorkspace": "Alanınız",
+      "ctaWorkspace": "Listem",
       "stats": {
-        "1": { "label": "Açık profil", "value": "12+" },
-        "2": { "label": "Sektör", "value": "9" },
-        "3": { "label": "Saha kaydı", "value": "Canlı" }
+        "1": { "label": "Dosya", "value": "12+" },
+        "2": { "label": "Şehir", "value": "9+" },
+        "3": { "label": "Saha", "value": "Bugün" }
       },
       "featured": {
-        "label": "Öne çıkanlar",
-        "title": "İncelenen üretici profilleri",
-        "lead": "Her kart operasyonel bir kayıttır: fabrika gerçeği, ihracat sinyali ve belge durumu.",
-        "link": "Tüm profiller"
+        "label": "Bu hafta",
+        "title": "İncelenen üreticiler",
+        "lead": "Her kart bir fabrika. Hat doluluk, sevkiyat gecikmesi, eksik belge: sahadan gelen cümleler.",
+        "link": "Tüm şirketler"
       },
       "capitalBand": {
         "label": "Sermaye tarafı",
-        "title": "Kriterlerinize uyan üreticileri bulun",
-        "body": "Profilleri okuyun, izleme listesi oluşturun, uygun kayıtlarda ilgi bildirin. Tanışma karşılıklı onaylıdır."
+        "title": "Önce dosyayı oku",
+        "body": "Sektöre göre gez, listene al, uygun fabrikada kısa not bırak. Görüşme iki taraf da isterse açılır."
       },
       "producerBand": {
         "label": "Üretici",
-        "title": "Profiliniz keşfedilebilir olsun",
-        "body": "Belgeleriniz dosyalanır ve incelenir. Onay sonrası nitelikli sermaye kaynaklarının arama katmanında görünürsünüz."
+        "title": "Dosyan burada dursun",
+        "body": "Belgelerini yüklersin, saha ekibimiz okur. Uygun bulunursan sermaye tarafı seni listede görür."
       }
     },
     "catalog": {
-      "label": "Keşif",
-      "title": "Üretici araştırma profilleri",
-      "lead": "Özel erişim hissi veren, kamuya açık olmayan üretici kayıtları. Liste yatırım teklifi değildir.",
-      "legalStrip": "Profiller bilgilendirme ve ön inceleme içindir.",
-      "evalLink": "Profiller nasıl doğrulanır?",
-      "empty": "Filtrenize uyan profil yok."
+      "label": "Şirketler",
+      "title": "Tüm üretici dosyaları",
+      "lead": "OSB'de çalışan, ihracat yapan, belgesi dosyalanmış şirketler. Vitrin değil; okunacak dosya listesi.",
+      "legalStrip": "Liste okuma amaçlıdır.",
+      "evalLink": "Dosyalar nasıl toplanır?",
+      "empty": "Bu filtrede şirket yok."
     },
     "companyCard": {
-      "cta": "Profili incele"
+      "cta": "Dosyayı aç",
+      "capacity": "Kapasite",
+      "exportShare": "İhracat",
+      "facility": "Tesis",
+      "facilityStatus": "Durum",
+      "employeesUnit": "kişi"
     },
     "profile": {
-      "label": "Araştırma profili",
-      "disclaimer": "Bu sayfa bilgilendirme ve ön inceleme içindir. Menkul kıymet teklifi değildir; ilgi bildirimi yatırım taahhüdü oluşturmaz.",
-      "railLabel": "İlgi ve izleme",
-      "interestAria": "İlgi bildirimi ve izleme listesi",
-      "watch": "İzleme listesine ekle",
-      "watching": "İzleme listesinde",
-      "interest": "İlgi bildir",
-      "workspaceLink": "Alanınızda gör",
-      "growthLabel": "Büyüme odağı",
-      "growthTitle": "Operasyonel öncelik",
-      "growthNote": "Kapasite ve ihracat tarafındaki darboğaz özeti. Hedef tutar veya pay oranı bu profilde yer almaz."
+      "label": "Şirket dosyası",
+      "disclaimer": "Okuma dosyası. Bıraktığın not teklif sayılmaz.",
+      "railLabel": "Bu şirket",
+      "interestAria": "Liste ve görüşme notu",
+      "watch": "Listeye al",
+      "watching": "Listende",
+      "interest": "Görüşmek istiyorum",
+      "workspaceLink": "Listemde gör",
+      "growthLabel": "Sahadan",
+      "growthTitle": "Darboğaz",
+      "growthNote": "Paranın nereye gideceği değil; hat neden tıkanıyor. Tutar ve pay oranı bu sayfada yok."
     },
     "interest": {
-      "placeholder": "Kısa not: neden bu profil? (isteğe bağlı)",
-      "defaultNote": "Profili inceledim; tanışma için ilgi bildiriyorum.",
-      "pending": "İlgi bildiriminiz kayıt altında. ORTAQ süreci değerlendirir; sonuç garanti edilmez.",
+      "placeholder": "Neden bu fabrika? (kısa, isteğe bağlı)",
+      "defaultNote": "Dosyayı okudum, kısa bir görüşme isterim.",
+      "pending": "Notun kayıtta. Dönüş olursa Listem'den görürsün.",
       "submit": "Gönder"
     },
     "momentum": {
-      "label": "Akış",
+      "label": "Nasıl ilerlersin",
       "steps": {
-        "1": { "title": "Profili okuyun", "body": "Üretim, ihracat, müşteri ve saha notlarını tek kayıtta gezin." },
-        "2": { "title": "İlgi bildirin", "body": "İzleme listesine alın veya kısa notla ilgi kaydı bırakın." },
-        "3": { "title": "Tanışma açılır", "body": "Karşı taraf da uygun görürse karşılıklı tanışma süreci başlar." }
+        "1": { "title": "Dosyayı aç", "body": "Üretim, ihracat, alıcı, saha notu: hepsi aynı şirkette." },
+        "2": { "title": "Listene al veya not bırak", "body": "Takip ettiğin fabrikaları işaretle; uygunsa görüşme notu yaz." },
+        "3": { "title": "İki taraf da isterse görüşürsün", "body": "Karşılıklı onay olmadan numara veya toplantı açılmaz." }
       },
-      "note": "ORTAQ araştırma ve tanıştırma katmanıdır.",
-      "processLink": "Süreç detayı"
+      "note": "Burada şirket okursun; platform kendini anlatmaz.",
+      "processLink": "Arka plandaki süreç"
     },
     "workspace": {
-      "title": "Alanınız",
-      "subtitle": "İzleme listesi ve ilgi bildirimleri. Portföy veya yatırım hesabı değil.",
-      "legal": "Buradaki kayıtlar araştırma notlarıdır; işlem veya menkul kıymet satışı yapılmaz.",
-      "watchTitle": "İzleme listesi",
-      "watchEmpty": "Henüz profil eklemediniz. Keşfet sayfasından izlemeye alın.",
-      "interestTitle": "İlgi bildirimleri",
-      "interestEmpty": "Henüz ilgi bildirimi yok.",
+      "title": "Listem",
+      "subtitle": "Takip ettiğin şirketler ve bıraktığın notlar.",
+      "legal": "Portföy hesabı değil; okuma notların.",
+      "watchTitle": "Takip listesi",
+      "watchEmpty": "Henüz şirket eklemedin. Şirketler sayfasından listene al.",
+      "interestTitle": "Bıraktığın notlar",
+      "interestEmpty": "Henüz not yok.",
       "introStatus": {
-        "pending": "Değerlendirmede",
-        "accepted": "Tanışma açıldı",
-        "declined": "Uygun bulunmadı"
+        "pending": "Beklemede",
+        "accepted": "Görüşme açıldı",
+        "declined": "Uygun değil"
       }
+    },
+    "sectors": {
+      "label": "Sektör",
+      "coverage": "{{count}} kategori",
+      "aria": "Sektöre göre şirketler",
+      "noCities": "—"
     }
   },
   "journey": {
@@ -1508,11 +1519,11 @@
     "ctaProducer": "Üretici başvurusu",
     "ctaProcess": "Süreci oku",
     "home": {
-      "aria": "Kurucu ekip",
-      "label": "Ekip",
-      "title": "Bu işi kim yürütüyor?",
-      "lead": "İki kurucu ortak. İhracat satışı, belge inceleme ve sınır ötesi operasyon deneyimi.",
-      "link": "Tüm ekip profili"
+      "aria": "Ekibi tanıyın",
+      "label": "Kim bakıyor",
+      "title": "Dosyayı kim topluyor?",
+      "lead": "İhracat ve satış geçmişi olan iki kurucu. Fabrikaya giden, belgeyi okuyan ekip.",
+      "link": "Ekip profili"
     },
     "members": {
       "harun": {
