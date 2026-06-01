@@ -13,6 +13,7 @@ import { cn } from "@/lib/cn";
 const navItems = [
   { href: "/nasil-calisir", key: "howItWorks" as const },
   { href: "/demo/sermaye", key: "discover" as const },
+  { href: "/ekip", key: "team" as const },
   { href: "/sss", key: "faq" as const },
   { href: "/guven", key: "trust" as const },
 ];

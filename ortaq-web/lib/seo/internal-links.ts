@@ -12,6 +12,7 @@ const RELATED_MAP: Record<RouteKey, RelatedLink[]> = {
     { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Belgelerden görüşme odasına süreç" },
     { href: "/demo/sermaye", title: "Keşif önizlemesi", description: "Sermaye partneri keşif akışı" },
     { href: "/guven", title: "Güven", description: "Rol ayrımı, doğrulama ve şeffaflık" },
+    { href: "/ekip", title: "Ekip", description: "Kurucu operatörler" },
     { href: "/sss", title: "Sık sorulan sorular", description: "Belgeler, tanıştırma, görüşme odası" },
   ],
   nasilCalisir: [
@@ -27,7 +28,14 @@ const RELATED_MAP: Record<RouteKey, RelatedLink[]> = {
     { href: "/riskler", title: "Riskler", description: "Sınırlar ve sorumluluklar" },
     { href: "/sss", title: "SSS", description: "Belge ve keşif soruları" },
   ],
+  ekip: [
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Belgelerden tanıştırmaya süreç" },
+    { href: "/guven", title: "Güven", description: "Rol ayrımı ve doğrulama" },
+    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
+    { href: "/sss", title: "SSS", description: "Platform soruları" },
+  ],
   guven: [
+    { href: "/ekip", title: "Ekip", description: "Kurucu operatörler" },
     { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
     { href: "/sss", title: "SSS", description: "Platform rolü ve süreç" },
     { href: "/riskler", title: "Riskler", description: "Ne garanti edilmez?" },

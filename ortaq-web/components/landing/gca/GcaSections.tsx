@@ -259,18 +259,34 @@ export function GcaWhyFails() {
   return (
     <section className="border-b border-ortaq-border bg-ortaq-bg" aria-label={t("gca.broken.title")}>
       <Container wide className="py-10 sm:py-16 lg:py-20">
-        <div className="max-w-2xl">
-          <Kicker>{t("gca.broken.label")}</Kicker>
-          <h2 className="mt-3 text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-ink sm:text-[2rem]">{t("gca.broken.title")}</h2>
-        </div>
-        <div className="mt-12 border-t border-ortaq-border">
-          {keys.map((k, i) => (
-            <div key={k} className="grid gap-2 border-b border-ortaq-border py-5 sm:grid-cols-[3rem_9rem_minmax(0,1fr)] sm:items-baseline sm:gap-4 sm:py-6">
-              <span className="font-mono text-[1.25rem] leading-none tabular-nums text-ortaq-border-strong sm:text-[1.75rem]">0{i + 1}</span>
-              <p className="font-semibold text-ortaq-ink">{t(`gca.broken.points.${k}.k`)}</p>
-              <p className={cn(typography.bodySm, "text-ortaq-ink-muted")}>{t(`gca.broken.points.${k}.v`)}</p>
-            </div>
-          ))}
+        <div className="lg:grid lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-16 lg:items-start">
+          <div className="max-w-2xl lg:sticky lg:top-24">
+            <Kicker>{t("gca.broken.label")}</Kicker>
+            <h2 className="mt-3 text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.02em] text-ortaq-ink sm:text-[2rem]">
+              {t("gca.broken.title")}
+            </h2>
+            <p className={cn(typography.body, "mt-4 text-ortaq-ink-muted")}>{t("gca.broken.intro")}</p>
+            <p className={cn(typography.bodySm, "mt-4 border-l-2 border-ortaq-trust pl-4 font-medium text-ortaq-ink")}>
+              {t("gca.broken.bridge")}
+            </p>
+          </div>
+
+          <ol className="mt-10 border-t border-ortaq-border lg:mt-0 lg:border-t-0">
+            {keys.map((k, i) => (
+              <li
+                key={k}
+                className="grid gap-3 border-b border-ortaq-border py-6 first:lg:pt-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:gap-5"
+              >
+                <span className="font-mono text-[1.25rem] leading-none tabular-nums text-ortaq-border-strong sm:text-[1.75rem]">
+                  0{i + 1}
+                </span>
+                <div>
+                  <p className="text-[1.0625rem] font-semibold leading-snug text-ortaq-ink">{t(`gca.broken.points.${k}.k`)}</p>
+                  <p className={cn(typography.body, "mt-2 text-ortaq-ink-muted")}>{t(`gca.broken.points.${k}.v`)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </Container>
     </section>

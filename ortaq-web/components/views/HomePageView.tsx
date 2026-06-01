@@ -13,7 +13,7 @@ import {
   GcaModel,
   GcaCta,
 } from "@/components/landing/gca/GcaSections";
-import { HomepageFounder } from "@/components/landing/HomepageFounder";
+import { HomepageTeam } from "@/components/landing/HomepageTeam";
 import { HomepageContact } from "@/components/landing/HomepageContact";
 
 /**
@@ -31,7 +31,7 @@ export function HomePageView() {
       <GcaHowItWorks />
       <GcaTrust />
       <GcaModel />
-      <HomepageFounder />
+      <HomepageTeam />
       <GcaCta />
       <HomepageContact />
     </PublicShell>

@@ -66,6 +66,19 @@ export const SEO_ROUTES: RouteSeoConfig[] = [
     keywords: ["sermaye erişimi süreci", "belge inceleme", "karşılıklı tanıştırma"],
   },
   {
+    key: "ekip",
+    path: "/ekip",
+    title: "Ekip | ORTAQ",
+    description:
+      "ORTAQ kurucu ekibi: ihracat, uluslararası satış ve sınır ötesi ticaret operasyonlarından gelen operatörler.",
+    cluster: "trust",
+    intent: "informational",
+    priority: 0.72,
+    changeFrequency: "monthly",
+    live: true,
+    keywords: ["kurucu ekip", "ihracat deneyimi", "ORTAQ ekibi"],
+  },
+  {
     key: "guven",
     path: "/guven",
     title: "Güven ve uyum | ORTAQ",
@@ -212,6 +225,7 @@ export function getLiveSitemapRoutes(): RouteSeoConfig[] {
 export type RouteKey =
   | "home"
   | "nasilCalisir"
+  | "ekip"
   | "guven"
   | "degerlendirme"
   | "riskler"
@@ -226,6 +240,7 @@ export type RouteKey =
 export const ROUTE_KEY_MAP: Record<RouteKey, string> = {
   home: "home",
   nasilCalisir: "nasil-calisir",
+  ekip: "ekip",
   guven: "guven",
   degerlendirme: "degerlendirme",
   riskler: "riskler",

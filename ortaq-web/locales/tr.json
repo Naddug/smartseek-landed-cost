@@ -10,6 +10,7 @@
     "faq": "SSS",
     "companies": "Şirketler",
     "trust": "Güven",
+    "team": "Ekip",
     "risk": "Risk çerçevesi",
     "evaluation": "Nasıl seçiyoruz",
     "memberArea": "Alanınız",
@@ -1330,6 +1331,7 @@
     "entityNote": "",
     "links": {
       "trust": "Güven",
+      "team": "Ekip",
       "risk": "Riskler",
       "process": "Nasıl çalışır",
       "discover": "Keşif önizlemesi",
@@ -1405,6 +1407,39 @@
         "title": "Profil onayı",
         "text": "Belge incelemesi tamamlanır; profil keşfedilebilir hale gelir ve karşılıklı tanıştırma yolu açılır.",
         "reject": "Zorunlu belgelerin eksik veya doğrulanamaması."
+      }
+    }
+  },
+  "teamPage": {
+    "title": "Ekip",
+    "subtitle": "İhracat ve sınır ötesi ticaretten gelen operatörler. Sunum ekibi değil, sahada çalışmış kurucular.",
+    "intro": "ORTAQ, Türkiye, BDT, ASEAN, Çin ve ABD'de ihracat, ithalat ve endüstriyel ticaret programları yürüten bir kurucu ekibi tarafından kuruldu. Harun uluslararası satış ve distribütör geliştirmede; Muhsin tedarikçi doğrulama ve operasyonel incelemede derin saha deneyimine sahip.",
+    "principle": "Pazarlama vaadi değil, dosyayı okuyup anlayan bir ekip. ORTAQ para toplamaz; belge düzenler, profil hazırlar ve nitelikli tanıştırma yapar.",
+    "closing": "İlk üretici grubuyla pilot görüşmeler sürüyor. Üretici veya sermaye tarafıysanız süreci birlikte netleştirebiliriz.",
+    "linkedinLabel": "LinkedIn",
+    "ctaProducer": "Üretici başvurusu",
+    "ctaProcess": "Süreci oku",
+    "home": {
+      "aria": "Kurucu ekip",
+      "label": "Ekip",
+      "title": "Bu işi kim yürütüyor?",
+      "lead": "İki kurucu ortak. İhracat satışı, belge inceleme ve sınır ötesi operasyon deneyimi.",
+      "link": "Tüm ekip profili"
+    },
+    "members": {
+      "harun": {
+        "name": "Harun Kaya",
+        "role": "Kurucu ortak",
+        "focus": "Uluslararası satış · ihracat/ithalat · üretici ve sermaye tanıştırması",
+        "bio": "ABD girişimcilik geçmişi olan eski LEGO bölgesel satış lideri. Türkiye, İsrail, Yunanistan ve CIS'te saha satış yönetti; Petlas ve Yiğit Akü'de ihracat ve satış rollerinde bulundu. Üreticinin güçlü olmasına rağmen sermayeye ulaşamadığını sahada gördü; ORTAQ bu boşluğu kapatmak için kuruldu.",
+        "linkedinUrl": "https://www.linkedin.com/in/harunkaya1985/"
+      },
+      "muhsin": {
+        "name": "Muhsin Kayıkçı",
+        "role": "Kurucu ortak",
+        "focus": "Uluslararası ticaret · belge ve süreç doğrulama · Çin ve ASEAN operasyonları",
+        "bio": "ABD merkezli uluslararası ticaret operasyonlarında 15 yılı aşkın deneyim. Çin ve ASEAN programlarında tedarikçi doğrulama, satın alma koordinasyonu ve operasyonel inceleme yürüttü. Sicil kontrolü, spesifikasyon alımı ve teklif normalizasyonu (MOQ, termin, Incoterms) alanında çalışır. ORTAQ'ta belge ve süreç katmanının operasyonel omurgasıdır.",
+        "linkedinUrl": ""
       }
     }
   },
@@ -2282,20 +2317,22 @@
       "body": "İhracat yapan üretici sipariş ve kapasiteyle büyüyebilir. Sorun çoğu zaman üretimde değil: belgeler dağınık, ağ dışı kalınmış veya karşı tarafın inceleyecek vakti yok."
     },
     "broken": {
-      "label": "Neden tıkanıyor",
-      "title": "Üretim güçlü, görüşme yine de başlamıyor",
+      "label": "Sorun",
+      "title": "Sipariş var, görüşme yok",
+      "intro": "İhracatçı üreticinin çoğunda sipariş, kapasite ve çalışan vardır. Sorun üretimde değil: karşı taraf sizi tanımadan önce tek dosyada kanıt görmek ister; çoğu görüşme de tanıdık zinciriyle açılır.",
+      "bridge": "ORTAQ, bu üç engeli belge ve tanışma katmanında aşmak için kuruldu.",
       "points": {
         "1": {
-          "k": "Dosya hazır değil",
-          "v": "İhracat kaydı bir yerde, kapasite başka yerde, finansal tablolar ayrı. Karşı taraf önce tek dosya ister; dosya gelmeden konuşma açılmaz."
+          "k": "Kanıtlar tek dosyada değil",
+          "v": "İhracat faturası, kapasite raporu ve finansal tablolar ayrı yerlerde. Sermaye tarafı önce tek özet ister; özet yoksa görüşme başlamaz."
         },
         "2": {
-          "k": "Tanıdık zinciri",
-          "v": "Fon ve ortaklık görüşmelerinin çoğu referansla başlar. Referansı olmayan üretici, fabrikası dolu olsa bile masaya oturamaz."
+          "k": "Kapı çoğu kez referansla açılır",
+          "v": "Fon ve ortaklık görüşmelerinin büyük kısmı tanıdık zincirinden gelir. Referansı olmayan üretici, fabrika dolu olsa bile sıraya giremez."
         },
         "3": {
-          "k": "Zaman yetmiyor",
-          "v": "Sermaye ekibi her başvuruyu sıfırdan kuramaz. Düzensiz dosya ilk turda elenir; iyi fırsat da sessizce kaybolur."
+          "k": "İlk tur kısa sürer",
+          "v": "Sermaye ekibinin her başvuruyu sıfırdan inceleyecek vakti yok. Dağınık dosya ilk turda kapanır; güçlü fırsatlar da çoğu zaman sessizce kaybolur."
         }
       }
     },

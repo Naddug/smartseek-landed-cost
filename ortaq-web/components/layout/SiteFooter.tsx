@@ -77,6 +77,7 @@ export function SiteFooter() {
             <p className={cn(typography.label, "mb-2 text-ortaq-cream/50 sm:mb-3")}>{t("footer.trustTitle")}</p>
             <ul className="space-y-1">
               <li><Link href="/guven" className={footerLinkClass}>{t("footer.links.trust")}</Link></li>
+              <li><Link href="/ekip" className={footerLinkClass}>{t("footer.links.team")}</Link></li>
               <li><Link href="/riskler" className={footerLinkClass}>{t("footer.links.risk")}</Link></li>
             </ul>
           </div>
