@@ -13,7 +13,7 @@ import { formatDaysAgo } from "@/lib/product/company-summary";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-const LIMIT = 8;
+const LIMIT = 10;
 
 export function MarketActivityTape() {
   const { t, i18n } = useTranslation();
@@ -26,7 +26,7 @@ export function MarketActivityTape() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 id="market-tape-title" className="text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
-              {t("market.tape.title")}
+              {t("market.tape.weekTitle")}
             </h2>
           </div>
           <Link href="/kesfet" className={cn(typography.bodySm, typography.link, "shrink-0 font-semibold")}>

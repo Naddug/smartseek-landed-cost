@@ -1371,13 +1371,24 @@
     "terminal": {
       "live": "Güncel veri",
       "lastSync": "Son güncelleme {{date}}",
-      "headline": "{{count}} özel üretici şirket",
-      "scope": "{{sectors}} sektör · {{cities}} şehir · {{records}} dosya kaydı",
+      "weekOf": "Bu hafta · {{date}}",
+      "headline": "Türkiye’nin Özel Şirket Piyasası",
+      "sub": "İhracat yapan üreticiler, büyüyen fabrikalar ve sahadan gelen güncellemeler.",
+      "sub2": "Normalde yalnızca dar çevrelerin ulaşabildiği şirket dosyalarını inceleyin ve ilgilendiğiniz şirketlerle tanışma talebinde bulunun.",
+      "snapshotTitle": "This Week",
+      "snapshot": {
+        "updates": "yeni şirket güncellemesi",
+        "lines": "yeni üretim hattı bildirimi",
+        "exports": "ihracat gelişmesi",
+        "sectors": "yeni sektör kaydı"
+      },
       "rhythm": "Son 14 günde {{count}} kayıt · en çok hareket: {{sector}} ({{sectorCount}} kayıt)",
       "exportNote": "{{count}} şirket ihracat ağırlıklı",
       "access": "Dosyayı okuduktan sonra ilgi notu bırakabilirsiniz. Karşı taraf da uygun görürse görüşme açılır.",
       "legal": "Hisse veya fon satışı yok. Okuma ve tanışma altyapısı.",
       "cta": "Tüm şirketler",
+      "ctaPrimary": "Şirketleri keşfet",
+      "ctaSecondary": "Nasıl çalışır",
       "ctaWorkspace": "Takip listem",
       "stats": {
         "coverage": { "label": "Şirket" },
@@ -1395,6 +1406,7 @@
     "tape": {
       "label": "Piyasa akışı",
       "title": "Son kayıtlar",
+      "weekTitle": "Bu hafta neler oldu?",
       "expand": "Tüm şirketler",
       "types": {
         "export_market": "İhracat",
@@ -1421,7 +1433,7 @@
     },
     "infrastructure": {
       "role": "Şirket dosyası burada okunur. İlgi notu bırakırsınız; karşı taraf da uygun görürse görüşme açılır.",
-      "operator": "LEGO, Petlas ve Yiğit Akü tecrübesi olan ekip tarafından işletilir."
+      "operator": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip bir ekip tarafından yürütülmektedir."
     },
     "catalog": {
       "label": "Liste",
@@ -1431,7 +1443,7 @@
       "legalStrip": "Bilgilendirme amaçlıdır."
     },
     "companyCard": {
-      "cta": "Şirket dosyası",
+      "cta": "Şirketi incele",
       "exportLabel": "İhracat",
       "updated": "Dosya güncellemesi: {{when}}",
       "employees": "{{count}} çalışan"

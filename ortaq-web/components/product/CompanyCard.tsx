@@ -63,7 +63,7 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <p className={cn(typography.bodySm, "line-clamp-3 leading-relaxed text-ortaq-ink")}>{situation}</p>
+        <p className={cn(typography.bodySm, "line-clamp-3 font-semibold leading-relaxed text-ortaq-ink")}>{situation}</p>
 
         {exportLine ? (
           <p className={cn(typography.caption, "mt-2 text-ortaq-ink-soft")}>
