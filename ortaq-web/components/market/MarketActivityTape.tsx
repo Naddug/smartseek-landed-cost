@@ -5,15 +5,14 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 import { siteFeedTop } from "@/lib/feed/site-feed";
-import { classifyFeedUpdateType } from "@/lib/feed/feed-update-type";
-import { getFeedDisplayLine } from "@/lib/feed/feed-display";
+import { getFeedActivityRow } from "@/lib/feed/feed-display";
 import { getCampaign } from "@/lib/campaigns";
 import { getCampaignMediaAsset, getCampaignMediaAlt } from "@/lib/product/company-summary";
 import { formatDaysAgo } from "@/lib/product/company-summary";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
-const LIMIT = 10;
+const LIMIT = 8;
 
 export function MarketActivityTape() {
   const { t, i18n } = useTranslation();
@@ -24,20 +23,17 @@ export function MarketActivityTape() {
     <section className="border-b border-ortaq-border bg-ortaq-bg-alt" aria-labelledby="market-tape-title">
       <Container wide className="py-8 sm:py-10">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 id="market-tape-title" className="text-[1.25rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.375rem]">
-              {t("market.tape.weekTitle")}
-            </h2>
-          </div>
+          <h2 id="market-tape-title" className="text-[1.125rem] font-semibold tracking-[-0.02em] text-ortaq-ink sm:text-[1.25rem]">
+            {t("market.tape.title")}
+          </h2>
           <Link href="/kesfet" className={cn(typography.bodySm, typography.link, "shrink-0 font-semibold")}>
             {t("market.tape.expand")} →
           </Link>
         </div>
 
-        <ul className="mt-6 divide-y divide-ortaq-border overflow-hidden rounded-ortaq-md border border-ortaq-border bg-ortaq-surface">
+        <ul className="mt-5 divide-y divide-ortaq-border overflow-hidden rounded-ortaq-md border border-ortaq-border bg-ortaq-surface">
           {events.map((ev, i) => {
-            const type = classifyFeedUpdateType(ev);
-            const line = getFeedDisplayLine(ev, type);
+            const row = getFeedActivityRow(ev);
             const campaign = getCampaign(ev.campaignSlug);
             const media = getCampaignMediaAsset(ev.campaignSlug, campaign?.sector);
             return (
@@ -51,28 +47,22 @@ export function MarketActivityTape() {
                       src={media.src}
                       alt={getCampaignMediaAlt(media, i18n.language)}
                       fill
-                      className="object-cover transition-transform group-hover:scale-[1.03]"
+                      className="object-cover"
                       style={{ objectPosition: media.focalPoint }}
                       sizes="64px"
                     />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className={cn(typography.bodySm, "font-semibold text-ortaq-ink group-hover:underline")}>
-                      {line.company}
-                      <span className="font-normal text-ortaq-ink-muted">
-                        {" "}
-                        · {line.sector} · {line.place}
-                      </span>
+                    <p className={cn(typography.caption, "text-ortaq-ink-muted")}>
+                      {row.company} · {row.place} · {row.sector}
                     </p>
-                    <p className={cn(typography.bodySm, "mt-1 leading-relaxed text-ortaq-ink-muted")}>
-                      <span className="font-medium text-ortaq-ink">{line.typeLabel}:</span> {line.summary}
+                    <p className={cn(typography.bodySm, "mt-1 font-medium leading-relaxed text-ortaq-ink group-hover:underline")}>
+                      {row.sentence}
                     </p>
-                  </div>
-                  <div className="hidden shrink-0 text-right sm:block">
-                    <span className={cn(typography.caption, "tabular-nums text-ortaq-ink-soft")}>
+                    <p className={cn(typography.caption, "mt-1.5 tabular-nums text-ortaq-ink-soft")}>
                       {formatDaysAgo(ev.date, locale)}
                       {ev.time ? ` · ${ev.time.slice(0, 5)}` : ""}
-                    </span>
+                    </p>
                   </div>
                 </Link>
               </li>

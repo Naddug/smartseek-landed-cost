@@ -1,20 +1,19 @@
 "use client";
 
 import { PublicShell } from "@/components/layout/PublicShell";
-import { MarketPulseBar } from "@/components/market/MarketPulseBar";
-import { MarketActivityTape } from "@/components/market/MarketActivityTape";
-import { MarketInfrastructureBar } from "@/components/market/MarketInfrastructureBar";
 import { MarketCoveragePanel } from "@/components/market/MarketCoveragePanel";
 import { MarketSectorFlow } from "@/components/market/MarketSectorFlow";
-/** Layer 1 — Market: companies and movement first; investor/process copy lives on /investors. */
+import { MarketActivityTape } from "@/components/market/MarketActivityTape";
+import { MarketAccessFooter } from "@/components/market/MarketAccessFooter";
+
+/** Layer 1 — Industrial market front page: companies, activity, ORTAQ last. */
 export function MarketHomeView() {
   return (
     <PublicShell stickyCta headerOverlay={false}>
-      <MarketPulseBar />
-      <MarketActivityTape />
-      <MarketInfrastructureBar />
       <MarketCoveragePanel />
+      <MarketActivityTape />
       <MarketSectorFlow />
+      <MarketAccessFooter />
     </PublicShell>
   );
 }

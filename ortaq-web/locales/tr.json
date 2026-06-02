@@ -1371,17 +1371,7 @@
     "terminal": {
       "live": "Güncel veri",
       "lastSync": "Son güncelleme {{date}}",
-      "weekOf": "Bu hafta · {{date}}",
-      "headline": "Türkiye’nin Özel Şirket Piyasası",
-      "sub": "İhracat yapan üreticiler, büyüyen fabrikalar ve sahadan gelen güncellemeler.",
-      "sub2": "Normalde yalnızca dar çevrelerin ulaşabildiği şirket dosyalarını inceleyin ve ilgilendiğiniz şirketlerle tanışma talebinde bulunun.",
-      "snapshotTitle": "This Week",
-      "snapshot": {
-        "updates": "yeni şirket güncellemesi",
-        "lines": "yeni üretim hattı bildirimi",
-        "exports": "ihracat gelişmesi",
-        "sectors": "yeni sektör kaydı"
-      },
+      "headline": "Türkiye'nin özel üretici şirket piyasası",
       "rhythm": "Son 14 günde {{count}} kayıt · en çok hareket: {{sector}} ({{sectorCount}} kayıt)",
       "exportNote": "{{count}} şirket ihracat ağırlıklı",
       "access": "Dosyayı okuduktan sonra ilgi notu bırakabilirsiniz. Karşı taraf da uygun görürse görüşme açılır.",
@@ -1399,14 +1389,13 @@
     },
     "sectorFlow": {
       "aria": "Sektöre göre filtrele",
-      "label": "Sektöre göre bak",
+      "label": "Sektör",
       "fullTape": "Tüm şirketler",
       "recent": "{{count}} kayıt / 14 gün"
     },
     "tape": {
       "label": "Piyasa akışı",
-      "title": "Son kayıtlar",
-      "weekTitle": "Bu hafta neler oldu?",
+      "title": "Bu hafta neler oldu?",
       "expand": "Tüm şirketler",
       "types": {
         "export_market": "İhracat",
@@ -1429,7 +1418,23 @@
     "coverage": {
       "label": "Kapsam",
       "title": "Şirketler",
+      "heroTitle": "Türkiye’nin Özel Şirket Piyasası",
+      "heroSub1": "İhracat yapan üreticiler, büyüyen fabrikalar ve sahadan gelen güncellemeler.",
+      "heroSub2": "Normalde yalnızca dar çevrelerin ulaşabildiği şirket dosyalarını inceleyin ve ilgilendiğiniz şirketlerle tanışma talebinde bulunun.",
+      "weekTitle": "This Week",
+      "week": {
+        "updates": "yeni şirket güncellemesi",
+        "lines": "yeni üretim hattı bildirimi",
+        "exports": "ihracat gelişmesi",
+        "sectors": "yeni sektör kaydı"
+      },
+      "ctaPrimary": "Şirketleri keşfet",
+      "ctaSecondary": "Nasıl çalışır",
       "link": "Tüm şirketler"
+    },
+    "access": {
+      "operator": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip bir ekip tarafından yürütülmektedir.",
+      "how": "Nasıl çalışır"
     },
     "infrastructure": {
       "role": "Şirket dosyası burada okunur. İlgi notu bırakırsınız; karşı taraf da uygun görürse görüşme açılır.",

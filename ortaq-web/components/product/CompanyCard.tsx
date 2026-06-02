@@ -5,16 +5,12 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import type { SimulatedCampaign } from "@/lib/campaigns/types";
 import {
-  formatDaysAgo,
   getCampaignMediaAsset,
   getCampaignMediaAlt,
-  getExportMarketsLine,
-  getLastUpdatedIso,
   getSectorTag,
   getSectorTagEn,
 } from "@/lib/product/company-summary";
 import { getOperationalRelevanceLine } from "@/lib/product/operational-relevance";
-import { reviewStatusLabels } from "@/lib/product/home-data";
 import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
@@ -25,11 +21,8 @@ type CompanyCardProps = {
 
 export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps) {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language === "tr" ? "tr-TR" : "en-GB";
   const mediaAsset = getCampaignMediaAsset(c.slug, c.sector);
   const sectorTag = i18n.language === "en" ? getSectorTagEn(c) : getSectorTag(c);
-  const exportLine = getExportMarketsLine(c, 2);
-  const lastIso = getLastUpdatedIso(c);
   const situation = getOperationalRelevanceLine(c);
 
   return (
@@ -57,25 +50,10 @@ export function CompanyCard({ campaign: c, featured = false }: CompanyCardProps)
             {c.city} · {sectorTag}
           </p>
         </div>
-        <span className="absolute right-2 top-2 rounded-ortaq-sm bg-ortaq-ink/80 px-2 py-0.5 text-[0.625rem] font-medium text-ortaq-cream">
-          {reviewStatusLabels[c.reviewStatus]}
-        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-4">
         <p className={cn(typography.bodySm, "line-clamp-3 font-semibold leading-relaxed text-ortaq-ink")}>{situation}</p>
-
-        {exportLine ? (
-          <p className={cn(typography.caption, "mt-2 text-ortaq-ink-soft")}>
-            {t("market.companyCard.exportLabel")}: {exportLine}
-          </p>
-        ) : null}
-
-        {lastIso ? (
-          <p className={cn(typography.caption, "mt-2 tabular-nums text-ortaq-ink-soft")}>
-            {t("market.companyCard.updated", { when: formatDaysAgo(lastIso, locale) })}
-          </p>
-        ) : null}
 
         <span className={cn(typography.bodySm, "mt-3 font-semibold text-ortaq-trust-muted group-hover:underline")}>
           {t("market.companyCard.cta")} →
