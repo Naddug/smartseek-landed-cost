@@ -10,7 +10,8 @@ export async function POST(req: Request) {
       name?: string;
       company?: string;
       email?: string;
-      corridor?: string;
+      corridor?: string;  // kept for backwards compat; maps to "problem" in new form
+      problem?: string;
       message?: string;
     };
 
@@ -25,6 +26,8 @@ export async function POST(req: Request) {
     const apiKey = process.env.RESEND_API_KEY;
     const to = process.env.LEAD_NOTIFY_EMAIL ?? "destek@ortaq.biz";
     const from = process.env.RESEND_FROM_EMAIL ?? "ORTAQ Demo <demo@ortaq.biz>";
+
+    const problem = body.problem || body.corridor;
 
     if (apiKey) {
       await fetch("https://api.resend.com/emails", {
@@ -42,7 +45,7 @@ export async function POST(req: Request) {
             `Ad Soyad: ${body.name}`,
             `Şirket: ${body.company}`,
             `E-posta: ${body.email}`,
-            `Koridor: ${body.corridor || "Belirtilmedi"}`,
+            `Sorun / Neden?: ${problem || "Belirtilmedi"}`,
             `Not: ${body.message || "—"}`,
           ].join("\n"),
         }),

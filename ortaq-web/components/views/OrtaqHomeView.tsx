@@ -66,15 +66,15 @@ export function OrtaqHomeView() {
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   href="/demo"
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-ink px-7 text-[0.9375rem] font-semibold text-ortaq-cream shadow-sm transition-all hover:bg-ortaq-ink-muted active:scale-[0.98]"
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
                 >
-                  {t("home.hero.cta")}
+                  {t("home.hero.cta")} →
                 </Link>
                 <Link
                   href="/nasil-calisir"
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-border-strong px-5 text-[0.9375rem] font-medium text-ortaq-ink transition-colors hover:bg-ortaq-bg"
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-border px-5 text-[0.9375rem] font-medium text-ortaq-ink-muted transition-colors hover:border-ortaq-border-strong hover:text-ortaq-ink"
                 >
-                  {t("home.hero.ctaSecondary")} →
+                  {t("home.hero.ctaSecondary")}
                 </Link>
               </div>
             </div>
@@ -84,6 +84,11 @@ export function OrtaqHomeView() {
           </div>
         </Container>
       </section>
+
+      {/* ══ TRUST STRIP — between hero and section 2 ═════════════════════
+          Three concrete signals. Not marketing. Not metrics.
+          These reduce trust friction before the visitor reads further.        */}
+      <TrustStrip isTR={isTR} />
 
       {/* ══ SECTION 2 — REAL EXAMPLE ══════════════════════════════════════
           One real transaction. Three real questions. Three real answers.
@@ -97,6 +102,11 @@ export function OrtaqHomeView() {
       >
         <RealExample />
       </S>
+
+      {/* ══ MID-PAGE CTA — after real example ════════════════════════════
+          Visitors who engaged with the real example are now qualified.
+          Give them a conversion point before they scroll further.            */}
+      <MidPageCta isTR={isTR} />
 
       {/* ══ SECTION 3 — TRANSACTION LIFECYCLE ════════════════════════════
           The actual business process. Not software features.
@@ -182,15 +192,15 @@ export function OrtaqHomeView() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/demo"
-                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-ortaq-trust px-8 text-[1rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-soft active:scale-[0.98]"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-ortaq-trust px-8 text-[1rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
               >
-                {t("home.cta.primary")}
+                {t("home.cta.primary")} →
               </Link>
               <Link
-                href="/nasil-calisir"
-                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-ortaq-cream/20 px-6 text-[1rem] font-medium text-ortaq-cream/80 transition-colors hover:border-ortaq-cream/40 hover:text-ortaq-cream"
+                href="/senaryolar"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-ortaq-cream/20 px-6 text-[1rem] font-medium text-ortaq-cream/70 transition-colors hover:border-ortaq-cream/40 hover:text-ortaq-cream"
               >
-                {t("home.cta.secondary")} →
+                {isTR ? "15 Senaryo" : "15 Scenarios"}
               </Link>
             </div>
 
@@ -202,7 +212,7 @@ export function OrtaqHomeView() {
   );
 }
 
-/* ── Section wrapper — keep it simple ────────────────────────────────────── */
+/* ── Section wrapper ─────────────────────────────────────────────────────── */
 
 function S({
   title, sub, tone, children,
@@ -231,5 +241,90 @@ function S({
         </div>
       </Container>
     </section>
+  );
+}
+
+/* ── Trust strip — between hero and Section 2 ────────────────────────────── */
+
+function TrustStrip({ isTR }: { isTR: boolean }) {
+  const signals = isTR ? [
+    {
+      icon: "📄",
+      label: "Alıcı ve satıcı aynı belgeyi görür.",
+      note: "Farklı versiyonlar yok. Tek kayıt.",
+    },
+    {
+      icon: "🔒",
+      label: "Dahili notlar gerçekten özel.",
+      note: "Karşı taraf görmez — bulanık değil, yok.",
+    },
+    {
+      icon: "⏱",
+      label: "Kurulum yok.",
+      note: "Bugün başlayabilirsiniz. Ay değil, saat.",
+    },
+  ] : [
+    {
+      icon: "📄",
+      label: "Buyer and seller see the same document.",
+      note: "No different versions. One record.",
+    },
+    {
+      icon: "🔒",
+      label: "Internal notes are truly private.",
+      note: "Counterparty can't see them — not blurred, not there.",
+    },
+    {
+      icon: "⏱",
+      label: "No setup required.",
+      note: "Start today. Hours, not months.",
+    },
+  ];
+
+  return (
+    <div className="border-b border-ortaq-border bg-white">
+      <Container wide>
+        <div className="grid grid-cols-1 divide-y divide-ortaq-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {signals.map(s => (
+            <div key={s.label} className="flex items-start gap-3 px-0 py-5 sm:px-6 sm:py-6 first:pl-0 last:pr-0">
+              <span className="shrink-0 text-xl leading-none">{s.icon}</span>
+              <div>
+                <p className="text-[0.8125rem] font-semibold text-ortaq-ink leading-snug">{s.label}</p>
+                <p className="mt-0.5 text-[0.6875rem] text-ortaq-ink-muted">{s.note}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </div>
+  );
+}
+
+/* ── Mid-page CTA — after Real Example ──────────────────────────────────── */
+
+function MidPageCta({ isTR }: { isTR: boolean }) {
+  return (
+    <div className="border-b border-ortaq-border bg-ortaq-trust/[0.04]">
+      <Container wide>
+        <div className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-9">
+          <div>
+            <p className="text-[0.75rem] font-bold text-ortaq-trust uppercase tracking-[0.06em]">
+              {isTR ? "Tanıdık geldi mi?" : "Did this sound familiar?"}
+            </p>
+            <p className="mt-1 text-[1rem] font-bold text-ortaq-ink leading-snug sm:text-[1.125rem]">
+              {isTR
+                ? "Aktif bir işleminizi getirin. 30 dakikada görelim."
+                : "Bring one active deal. Let's look at it in 30 minutes."}
+            </p>
+          </div>
+          <Link
+            href="/demo"
+            className="inline-flex shrink-0 min-h-10 items-center justify-center rounded-lg bg-ortaq-trust px-6 text-[0.875rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
+          >
+            {isTR ? "Demo İsteyin →" : "Request Demo →"}
+          </Link>
+        </div>
+      </Container>
+    </div>
   );
 }
