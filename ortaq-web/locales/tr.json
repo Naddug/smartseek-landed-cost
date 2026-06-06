@@ -2,7 +2,7 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "Tüm ticari iletişim. Tek bir yer.",
-    "navTagline": "Ticari İşlem Platformu"
+    "navTagline": "Ticari İşlem Alanı"
   },
   "nav": {
     "howItWorks": "Nasıl Çalışır?",
@@ -24,7 +24,7 @@
     "corridors": "Koridorlar",
     "tradeRoom": "İşlem Odası",
     "startDemo": "Anlaşma Odası Oluştur",
-    "platform": "Platform",
+    "platform": "Alan",
     "workflow": "Workflow",
     "requestDemo": "Demo Talep Et"
   },
@@ -102,7 +102,7 @@
     "lastUpdated": "Güncellendi: {{date}}",
     "more": "Güven sayfası →",
     "notes": {
-      "platform": "Lisanslı platform görüşmeleri sürüyor.",
+      "platform": "Lisanslı çalışma alanı görüşmeleri sürüyor.",
       "legal": "Gizlilik ve kullanım metinleri hukuk incelemesinde.",
       "verify": "Kampanya öncesi doğrulama süreci yayınlandı."
     }
@@ -117,12 +117,12 @@
       "trust": {
         "1": "Üretim şirketinde gerçek pay · MKK kayıtlı ortaklık",
         "2": "Kapasite, ihracat ve operasyonel büyüme verileri",
-        "3": "SPK çerçevesi · emanet hesabı · lisanslı platform",
+        "3": "SPK çerçevesi · emanet hesabı · lisanslı çalışma alanı",
         "4": "Saha doğrulaması ve disiplinli dosya seçimi"
       },
       "points": {
         "1": "Doğrulanmış şirket dosyaları, kapasite ve ihracat metrikleri",
-        "2": "Lisanslı platform, emanet hesabı ve MKK kaydı çerçevesi",
+        "2": "Lisanslı çalışma alanı, emanet hesabı ve MKK kaydı çerçevesi",
         "3": "İnceleme durumu her aşamada görünür: sahte aciliyet yok"
       },
       "ctaPrimary": "Yatırım dosyaları",
@@ -220,7 +220,7 @@
       "trust": {
         "label": "Güven altyapısı",
         "title": "Operasyonel derinlik, güvenin temelidir",
-        "lead": "Lisanslı platform, emanet hesabı, MKK kaydı ve saha incelemesi: kompakt, hukuk dersi değil."
+        "lead": "Lisanslı çalışma alanı, emanet hesabı, MKK kaydı ve saha incelemesi: kompakt, hukuk dersi değil."
       },
       "access": {
         "label": "Disiplinli erişim",
@@ -240,8 +240,8 @@
         "ctaSecondary": "Ortaklık nasıl işler?",
         "featuredBadge": "Öne çıkan dosya",
         "location": "Konum",
-        "ecosystemLabel": "Aktif şirket ekosistemi",
-        "activityNote": "{{count}} operasyonel iz · ekosistem genelinde canlı inceleme",
+        "ecosystemLabel": "Aktif şirket i",
+        "activityNote": "{{count}} operasyonel iz ·  genelinde canlı inceleme",
         "viewRegistry": "Tüm dosya kaydı"
       },
       "opportunities": {
@@ -279,11 +279,11 @@
           },
           "3": {
             "title": "Doğrulama",
-            "text": "SPK çerçevesi, lisanslı platform, emanet hesabı ve MKK pay kaydını anlayın."
+            "text": "SPK çerçevesi, lisanslı çalışma alanı, emanet hesabı ve MKK pay kaydını anlayın."
           },
           "4": {
             "title": "Katılım",
-            "text": "Hazır olduğunuzda lisanslı platform üzerinden pay alımı yapılır; sermaye, kampanya tamamlanana kadar emanet hesabında tutulur."
+            "text": "Hazır olduğunuzda lisanslı çalışma alanı üzerinden pay alımı yapılır; sermaye, kampanya tamamlanana kadar emanet hesabında tutulur."
           },
           "5": {
             "title": "İzleme",
@@ -340,7 +340,7 @@
           "3": {
             "phase": "Aşama 03",
             "title": "Sermaye tahsisi",
-            "text": "Katılım lisanslı platform üzerinden; fonlar kampanya kapanana kadar emanet hesabında kalır."
+            "text": "Katılım lisanslı çalışma alanı üzerinden; fonlar kampanya kapanana kadar emanet hesabında kalır."
           },
           "4": {
             "phase": "Aşama 04",
@@ -372,7 +372,7 @@
       "mechanics": {
         "label": "Yatırım mekaniği",
         "title": "Ne satın alırsınız: hukuken ve operasyonel olarak",
-        "lead": "Gerçek finansal altyapı: düzenlenmiş platform, saklama, kayıt ve raporlama. Kripto cüzdanı değil; MKK kayıtlı pay ortaklığı.",
+        "lead": "Gerçek finansal altyapı: düzenlenmiş çalışma alanı, saklama, kayıt ve raporlama. Kripto cüzdanı değil; MKK kayıtlı pay ortaklığı.",
         "items": {
           "1": {
             "title": "Hukuki sahiplik",
@@ -380,7 +380,7 @@
           },
           "2": {
             "title": "SPK çerçevesi",
-            "text": "Paya dayalı ortaklık, SPK listesindeki lisanslı kitle fonlama platformu üzerinden , bireysel yatırımcı koruma kuralları geçerlidir."
+            "text": "Paya dayalı ortaklık, SPK listesindeki lisanslı kitle fonlama çalışma alanıu üzerinden , bireysel yatırımcı koruma kuralları geçerlidir."
           },
           "3": {
             "title": "Emanet / saklama",
@@ -485,7 +485,7 @@
         "lead": "Ne satın alırsınız, ortaklık nasıl işler, değer nasıl oluşur, riskler neler: kısa, net yanıtlar. Yatırım tavsiyesi değildir; kazanç garantisi yoktur.",
         "legalTitle": "Yasal yapı özeti",
         "legal": {
-          "1": "SPK düzenlemesi altında lisanslı kitle fonlama platformu çerçevesi",
+          "1": "SPK düzenlemesi altında lisanslı kitle fonlama çalışma alanıu çerçevesi",
           "2": "Emanet hesabı: kampanya kapanana kadar fonlar şirkete aktarılmaz",
           "3": "MKK pay kaydı: sermaye artırımı sonrası adınıza açılır",
           "4": "Altı aşamalı şirket incelemesi: saha, belge ve finans doğrulaması"
@@ -494,7 +494,7 @@
       }
     },
     "visibility": {
-      "label": "Operasyonel görünürlük",
+      "label": "Operasyonel durum takibi",
       "title": "Katman gerçekte neye benziyor.",
       "lead": "Şirket profili değil: saha incelemesi ve operasyon kayıtlarından çıkarılmış üretim sinyalleri."
     },
@@ -590,7 +590,7 @@
       "lead": "Her iddia etiketlenir, her süreç belgelenir. Güven slogandan değil: operasyonel şeffaflıktan gelir.",
       "items": {
         "1": {
-          "title": "Lisanslı platform",
+          "title": "Lisanslı çalışma alanı",
           "text": "SPK çerçevesinde paya dayalı ortaklık: bireysel yatırımcı koruma kuralları, denetlenebilir süreç."
         },
         "2": {
@@ -637,7 +637,7 @@
         },
         "3": {
           "title": "Hazır olduğunuzda",
-          "text": "Lisanslı platform üzerinden katılım; süre kısıtı yoktur."
+          "text": "Lisanslı çalışma alanı üzerinden katılım; süre kısıtı yoktur."
         }
       }
     },
@@ -669,7 +669,7 @@
       "evalLink": "Şirketler nasıl seçilir?"
     },
     "masthead": {
-      "aria": "Platform operasyon durumu",
+      "aria": "Alan operasyon durumu",
       "essence": "ORTAQ nedir",
       "title": "Türkiye'de üretim şirketlerine paya dayalı ortaklık: dosya dosya.",
       "subline": "Borsa değil; fabrika gerçeği. Saha doğrulaması, kapasite, ihracat ve risk kayıtları tek değerlendirme katmanında toplanır.",
@@ -729,7 +729,7 @@
         },
         "3": {
           "title": "Düzenlenmiş katılım",
-          "body": "SPK lisanslı platform, emanet hesabı, MKK pay kaydı. Fon kampanya kapanana kadar şirkete aktarılmaz."
+          "body": "SPK lisanslı çalışma alanı, emanet hesabı, MKK pay kaydı. Fon kampanya kapanana kadar şirkete aktarılmaz."
         },
         "4": {
           "title": "Değerleme aritmetiği",
@@ -781,7 +781,7 @@
         },
         "3": {
           "title": "Düzenlenmiş katılım",
-          "body": "SPK lisanslı platform, emanet hesabı, MKK pay kaydı. Fon kampanya kapanana kadar şirkete aktarılmaz."
+          "body": "SPK lisanslı çalışma alanı, emanet hesabı, MKK pay kaydı. Fon kampanya kapanana kadar şirkete aktarılmaz."
         },
         "4": {
           "title": "Değerleme aritmetiği",
@@ -1064,14 +1064,14 @@
         "pending": "Bekliyor"
       },
       "pendingChecks": "Bekleyen kontroller",
-      "disclaimer": "Belgeler lisanslı platform sürecinde resmi olarak yayınlanır. Burada yalnızca inceleme durumu gösterilir."
+      "disclaimer": "Belgeler lisanslı çalışma alanı sürecinde resmi olarak yayınlanır. Burada yalnızca inceleme durumu gösterilir."
     },
     "actions": {
       "track": "Dosyayı takip et",
       "saved": "Dosya kaydedildi",
       "criteria": "Değerlendirme kriterleri",
       "back": "Tüm şirketler",
-      "footer": "Değerlendirme dosyası · Kampanya lisanslı platform üzerinden açılır · Getiri garantisi yoktur."
+      "footer": "Değerlendirme dosyası · Kampanya lisanslı çalışma alanı üzerinden açılır · Getiri garantisi yoktur."
     }
   },
   "trustStrip": {
@@ -1280,7 +1280,7 @@
       "title": "Süreç durumu",
       "items": {
         "platform": {
-          "label": "Lisanslı platform",
+          "label": "Lisanslı çalışma alanı",
           "status": "Görüşme sürüyor"
         },
         "transactions": {
@@ -1310,7 +1310,7 @@
       "title": "Şeffaflık güncellemeleri",
       "more": "Güven sayfası →"
     },
-    "updates.1.title": "Lisanslı platform görüşmeleri sürüyor",
+    "updates.1.title": "Lisanslı çalışma alanı görüşmeleri sürüyor",
     "updates.1.text": "Anlaşma tamamlanana kadar yatırım alınmaz.",
     "updates.2.title": "Doğrulama süreci yayınlandı",
     "updates.2.text": "Kampanya öncesi şirket, belge ve finans incelemesi yapılacak.",
@@ -1588,7 +1588,7 @@
           "body": "İletişim bilgisi paylaşımı iki tarafın onayıyla açılır."
         }
       },
-      "note": "ORTAQ aracılık eder; yatırım taahhüdü veya işlem platformu değildir.",
+      "note": "ORTAQ aracılık eder; yatırım taahhüdü veya işlem çalışma alanıu değildir.",
       "processLink": "İnceleme süreci"
     },
     "workspace": {
@@ -1683,7 +1683,7 @@
       "solution": {
         "title": "2. Çözüm",
         "body": "ORTAQ her şirket için saha ve belge temelli bir dosya yayınlar: üretim, ihracat, operasyon, risk. Okuma herkese açık; ilgi notu ve tanışma karşılıklı onayla açılır.",
-        "body2": "Platform taraf tutmaz: kanıt düzenler, hareketi görünür kılar, uygun tarafları buluşturur."
+        "body2": "Alan taraf tutmaz: kanıt düzenler, hareketi görünür kılar, uygun tarafları buluşturur."
       },
       "whyNow": {
         "title": "3. Neden şimdi",
@@ -1761,7 +1761,7 @@
         "name": "Muhsin Kayıkçı",
         "role": "Kurucu ortak",
         "focus": "Uluslararası ticaret · belge ve süreç doğrulama · Çin ve ASEAN operasyonları",
-        "bio": "ABD merkezli uluslararası ticaret operasyonlarında 15 yılı aşkın deneyim. Çin ve ASEAN programlarında tedarikçi doğrulama, satın alma koordinasyonu ve operasyonel inceleme yürüttü. Sicil kontrolü, spesifikasyon alımı ve teklif normalizasyonu (MOQ, termin, Incoterms) alanında çalışır. ORTAQ'ta belge ve süreç katmanının operasyonel omurgasıdır.",
+        "bio": "ABD merkezli uluslararası ticaret operasyonlarında 15 yılı aşkın deneyim. Çin ve ASEAN programlarında tedarikçi doğrulama, satın alma takipu ve operasyonel inceleme yürüttü. Sicil kontrolü, spesifikasyon alımı ve teklif normalizasyonu (MOQ, termin, Incoterms) alanında çalışır. ORTAQ'ta belge ve süreç katmanının operasyonel omurgasıdır.",
         "linkedinUrl": ""
       }
     }
@@ -1870,7 +1870,7 @@
     "privacy": {
       "title": "Gizlilik politikası",
       "updated": "Son güncelleme: Mayıs 2026",
-      "intro": "ORTAQ (ortaq.biz) olarak kişisel verilerinizi 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında işleriz. Bu metin, doğrulanmış sermaye erişim ağı platformumuzda toplanan verileri açıklar.",
+      "intro": "ORTAQ (ortaq.biz) olarak kişisel verilerinizi 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında işleriz. Bu metin, doğrulanmış sermaye erişim ağı çalışma alanıumuzda toplanan verileri açıklar.",
       "contact": "Gizlilik talepleri ve sorularınız için: destek@ortaq.biz",
       "sections": {
         "1": {
@@ -1907,18 +1907,18 @@
         },
         "9": {
           "title": "Sorumluluk reddi",
-          "body": "ORTAQ yatırım tavsiyesi vermez, fonlama garanti etmez ve para tutmaz. Platformdaki şirket bilgileri paylaşan tarafların sorumluluğundadır; ORTAQ ticari karar vermez."
+          "body": "ORTAQ yatırım tavsiyesi vermez, fonlama garanti etmez ve para tutmaz. Alandaki şirket bilgileri paylaşan tarafların sorumluluğundadır; ORTAQ ticari karar vermez."
         }
       }
     },
     "terms": {
       "title": "Kullanım koşulları",
       "updated": "Son güncelleme: Mayıs 2026",
-      "intro": "ortaq.biz sitesini ve ORTAQ hizmetlerini kullanarak bu koşulları kabul etmiş sayılırsınız. ORTAQ, ihracat odaklı üreticiler ile nitelikli sermaye partnerleri arasında kanıt düzenleme, keşif ve karşılıklı tanıştırma sağlayan bir platform katmanıdır.",
+      "intro": "ortaq.biz sitesini ve ORTAQ hizmetlerini kullanarak bu koşulları kabul etmiş sayılırsınız. ORTAQ, ihracat odaklı üreticiler ile nitelikli sermaye partnerleri arasında kanıt düzenleme, keşif ve karşılıklı tanıştırma sağlayan bir çalışma alanı katmanıdır.",
       "contact": "Koşullar hakkında sorularınız için: destek@ortaq.biz",
       "sections": {
         "1": {
-          "title": "Platform amacı",
+          "title": "Alan amacı",
           "body": "ORTAQ belgeleri dosyalar, kanıtı düzenler, şirket profillerini keşfedilebilir kılar ve karşılıklı onayla tanıştırma ile görüşme odasını açar. Yatırım satmaz, crowdfunding yürütmez, para toplamaz veya tutmaz."
         },
         "2": {
@@ -2097,11 +2097,11 @@
           "href": "#yatirim"
         }
       },
-      "disclaimer": "Yatırım tavsiyesi verilmez. Getiri garantisi yoktur. İşlemler SPK lisanslı platform ortağında ve nitelikli yatırımcı çerçevesinde yürür."
+      "disclaimer": "Yatırım tavsiyesi verilmez. Getiri garantisi yoktur. İşlemler SPK lisanslı çalışma alanı ortağında ve nitelikli yatırımcı çerçevesinde yürür."
     },
     "showcase": {
-      "aria": "Platform ekranları",
-      "label": "Platformdan görünüm",
+      "aria": "Alan ekranları",
+      "label": "Alandan görünüm",
       "title": "Uygulama içi görünüm",
       "lead": "Eşleştirme, ihracat kaydı ve yatırımcı akışı. İsimler örnektir.",
       "pillars": {
@@ -2237,7 +2237,7 @@
         "3": {
           "step": "3",
           "title": "Lisanslı yatırım",
-          "body": "Hazır dosya, lisanslı kitle fonlama platformunda yatırımcıyla buluşur."
+          "body": "Hazır dosya, lisanslı kitle fonlama çalışma alanıunda yatırımcıyla buluşur."
         }
       },
       "lead": "Üç adım: önce ticaret, sonra dosya, en son lisanslı ortakta yatırım."
@@ -2319,11 +2319,11 @@
         },
         "forWhom": {
           "label": "Kimler için",
-          "body": "Üretim şirketi, nitelikli yatırımcı ve lisanslı platform ortağı."
+          "body": "Üretim şirketi, nitelikli yatırımcı ve lisanslı çalışma alanı ortağı."
         },
         "regulation": {
           "label": "Regülasyon",
-          "body": "Yatırım SPK çerçevesinde lisanslı kitle fonlama platformu üzerinden; ORTAQ hazırlık katmanıdır."
+          "body": "Yatırım SPK çerçevesinde lisanslı kitle fonlama çalışma alanıu üzerinden; ORTAQ hazırlık katmanıdır."
         }
       },
       "faqLabel": "Sık sorulanlar",
@@ -2381,7 +2381,7 @@
         },
         "partner": {
           "role": "Lisanslı partner",
-          "duty": "Kampanya, emanet hesabı ve işlem lisanslı platformda."
+          "duty": "Kampanya, emanet hesabı ve işlem lisanslı çalışma alanıda."
         },
         "investor": {
           "role": "Yatırımcı",
@@ -2391,7 +2391,7 @@
       "points": {
         "1": "ORTAQ nasıl kazanır: yatırımcıdan komisyon almaz, para toplamaz. Kazancı, hazırladığı şirketin süreci ilerlediğinde aldığı hizmet bedelinden gelir.",
         "2": "Para akışı: yatırımcının parası lisanslı kuruluştaki emanet hesabına gider, oradan şirkete aktarılır. ORTAQ bu paraya dokunmaz.",
-        "3": "Lisanslı partner yapısı: kampanya, emanet hesabı ve işlem SPK lisanslı platformda açılır; pay kaydı MKK disipliniyle tutulur.",
+        "3": "Lisanslı partner yapısı: kampanya, emanet hesabı ve işlem SPK lisanslı çalışma alanıda açılır; pay kaydı MKK disipliniyle tutulur.",
         "4": "Fon, kampanya koşullarına göre lisanslı ortakta işler.",
         "5": "Pay yapılarında MKK kaydı lisanslı süreçte yürür."
       },
@@ -2428,7 +2428,7 @@
       "object": "Borsaya kote bir hisse değil: büyüyen bir üretim şirketinin ticari performansına bağlı yapı.",
       "points": {
         "1": "Önce şirketin yurtdışı satış ve operasyon kanıtı toplanır.",
-        "2": "Sonra lisanslı platformda kampanya veya enstrüman açılır.",
+        "2": "Sonra lisanslı çalışma alanıda kampanya veya enstrüman açılır.",
         "3": "Kazanç: sözleşmedeki gelir payı veya şirkette pay; vaat yok."
       },
       "tagRevenue": "Gelir paylaşımı",
@@ -2472,7 +2472,7 @@
       "items": {
         "1": {
           "q": "ORTAQ banka mı?",
-          "a": "Hayır. Büyüme ve eşleştirme platformu; yatırım işlemi lisanslı ortakta."
+          "a": "Hayır. Büyüme ve eşleştirme çalışma alanıu; yatırım işlemi lisanslı ortakta."
         },
         "2": {
           "q": "Herkes yatırım yapabilir mi?",
@@ -2519,7 +2519,7 @@
       "traditional": {
         "label": "Geleneksel yöntem",
         "items": {
-          "1": "Fuar bir kez görünürlük verir, sonrası size kalır",
+          "1": "Fuar bir kez durum takibi verir, sonrası size kalır",
           "2": "Danışman kazansanız da kazanmasanız da ücret alır",
           "3": "Kendi çabanızda hangi alıcı gerçek aylarca belirsiz",
           "4": "Alibaba ve B2B pazaryerlerinde tek başınasınız, alıcı önceden elenmez"
@@ -2549,7 +2549,7 @@
         },
         "3": {
           "title": "Lisanslı ortakta işlem",
-          "body": "Para ORTAQ'ta toplanmaz. Ortaklık lisanslı platformda açılır."
+          "body": "Para ORTAQ'ta toplanmaz. Ortaklık lisanslı çalışma alanıda açılır."
         }
       }
     },
@@ -2692,7 +2692,7 @@
     "hero": {
       "kicker": "ORTAQ nedir?",
       "headline": "İhracatçı üreticileri doğru sermaye ile buluşturuyoruz.",
-      "sub": "Belge platformu ve tanışma hizmeti.",
+      "sub": "Belge çalışma alanıu ve tanışma hizmeti.",
       "proof": {
         "1": "Pilot dönem",
         "2": "İlk üretici grubu açık",
@@ -3032,8 +3032,8 @@
     "notLabel": "ORTAQ şunlar değildir",
     "isLabel": "ORTAQ şunlardır",
     "not": {
-      "1": "yatırım platformu",
-      "2": "crowdfunding platformu",
+      "1": "yatırım çalışma alanıu",
+      "2": "crowdfunding çalışma alanıu",
       "3": "yatırım tavsiyesi veren kurum"
     },
     "is": {
@@ -3165,7 +3165,7 @@
     "modules": {
       "label": "Modüller",
       "headline": "Her Adım Yapılandırılmış.",
-      "sub": "Beş temel modül, yedi adımlık iş akışının tamamını kapsar.",
+      "sub": "Beş temel modül, yedi adımlık işlem sırasının tamamını kapsar.",
       "offers": {
         "name": "Teklifler",
         "desc": "LOI, SCO ve FCO'yu tek iş parçacığında yönetin. Versiyon geçmişi otomatik.",
@@ -3308,14 +3308,14 @@
   },
   "cop": {
     "hero": {
-      "eyebrow": "Commercial Operations Platform",
+      "eyebrow": "Commercial Operations Alan",
       "headline": "The Control Center\nFor B2B Commerce.",
       "sub": "Manage negotiations, documents, approvals, inspections, shipments and payments from one operational workspace.",
       "primary": "Request Demo",
       "secondary": "See How It Works"
     },
     "nav": {
-      "platform": "Platform",
+      "platform": "Alan",
       "workflow": "Workflow",
       "requestDemo": "Request Demo"
     },
@@ -3377,7 +3377,7 @@
       ]
     },
     "modules": {
-      "eyebrow": "Platform modules",
+      "eyebrow": "Alan modules",
       "headline": "Everything a commercial operation needs.",
       "sub": "Built as integrated modules — not a collection of disconnected tools.",
       "items": [
@@ -3444,7 +3444,7 @@
       "secondary": "Talk to the team →"
     },
     "footer": {
-      "tagline": "Commercial Operations Platform for B2B companies."
+      "tagline": "Commercial Operations Alan for B2B companies."
     }
   },
   "visuals": {

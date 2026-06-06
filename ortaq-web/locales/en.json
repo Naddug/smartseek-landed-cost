@@ -2,7 +2,7 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "All commercial work. One place.",
-    "navTagline": "Commercial Transaction Platform"
+    "navTagline": "Commercial Transaction Workspace"
   },
   "nav": {
     "howItWorks": "How It Works",
@@ -95,12 +95,12 @@
       "trust": {
         "1": "Real equity in production companies · MKK-registered partnership",
         "2": "Capacity, export, and operational growth metrics",
-        "3": "SPK framework · escrow account · licensed platform",
+        "3": "SPK framework · escrow account · licensed workspace",
         "4": "Field verification and disciplined dossier selection"
       },
       "points": {
         "1": "Verified company files with capacity and export metrics",
-        "2": "Licensed platform, escrow account, and MKK registry framework",
+        "2": "Licensed workspace, escrow account, and MKK registry framework",
         "3": "Review status visible at every stage: no manufactured urgency"
       },
       "ctaPrimary": "Investment dossiers",
@@ -198,7 +198,7 @@
       "trust": {
         "label": "Trust infrastructure",
         "title": "Operational depth is the foundation of trust",
-        "lead": "Licensed platform, escrow account, MKK registry, and field review: compact, not a legal lecture."
+        "lead": "Licensed workspace, escrow account, MKK registry, and field review: compact, not a legal lecture."
       },
       "access": {
         "label": "Disciplined access",
@@ -218,7 +218,7 @@
         "ctaSecondary": "How partnership works",
         "featuredBadge": "Featured opportunity",
         "location": "Location",
-        "ecosystemLabel": "Active company ecosystem",
+        "ecosystemLabel": "Active company ",
         "activityNote": "{{count}} operational traces · cross-dossier",
         "viewRegistry": "Full dossier registry"
       },
@@ -257,11 +257,11 @@
           },
           "3": {
             "title": "Verification",
-            "text": "Understand the SPK framework, licensed platform, escrow account, and MKK share registry."
+            "text": "Understand the SPK framework, licensed workspace, escrow account, and MKK share registry."
           },
           "4": {
             "title": "Participation",
-            "text": "When ready, acquire shares via the licensed platform; capital remains in escrow until the campaign closes."
+            "text": "When ready, acquire shares via the licensed workspace; capital remains in escrow until the campaign closes."
           },
           "5": {
             "title": "Monitoring",
@@ -318,7 +318,7 @@
           "3": {
             "phase": "Phase 03",
             "title": "Capital allocation",
-            "text": "Participation via licensed platform; funds remain in escrow until the campaign closes."
+            "text": "Participation via licensed workspace; funds remain in escrow until the campaign closes."
           },
           "4": {
             "phase": "Phase 04",
@@ -350,7 +350,7 @@
       "mechanics": {
         "label": "Investment mechanics",
         "title": "What you own: legally and operationally",
-        "lead": "Real financial infrastructure: regulated platform, custody, registry, and reporting. Not a crypto wallet , MKK-registered equity partnership.",
+        "lead": "Real financial infrastructure: regulated workspace, custody, registry, and reporting. Not a crypto wallet , MKK-registered equity partnership.",
         "items": {
           "1": {
             "title": "Legal ownership",
@@ -358,7 +358,7 @@
           },
           "2": {
             "title": "SPK framework",
-            "text": "Equity-based partnership through an SPK-listed licensed crowdfunding platform: individual investor protection rules apply."
+            "text": "Equity-based partnership through an SPK-listed licensed crowdfunding workspace: individual investor protection rules apply."
           },
           "3": {
             "title": "Escrow / custody",
@@ -463,7 +463,7 @@
         "lead": "What you buy, how partnership works, how value forms, what the risks are: short, clear answers. Not investment advice; no return guarantee.",
         "legalTitle": "Legal structure summary",
         "legal": {
-          "1": "Licensed crowdfunding platform framework under SPK regulation",
+          "1": "Licensed crowdfunding workspace framework under SPK regulation",
           "2": "Escrow account: funds are not transferred to the company until the campaign closes",
           "3": "MKK share registry: opened in your name after capital increase",
           "4": "Six-stage company review: field, document, and financial verification"
@@ -472,7 +472,7 @@
       }
     },
     "visibility": {
-      "label": "Operational visibility",
+      "label": "Operational status tracking",
       "title": "What the layer actually looks like.",
       "lead": "Not company profiles: production signals from field review and operational records."
     },
@@ -569,7 +569,7 @@
       "lead": "Every claim is labelled, every step documented. Trust comes from operational transparency , not slogans.",
       "items": {
         "1": {
-          "title": "Licensed platform",
+          "title": "Licensed workspace",
           "text": "Equity partnership under SPK regulation: individual investor protection rules, auditable process."
         },
         "2": {
@@ -616,7 +616,7 @@
         },
         "3": {
           "title": "When you are ready",
-          "text": "Participate via the licensed platform; no time constraint."
+          "text": "Participate via the licensed workspace; no time constraint."
         }
       }
     },
@@ -648,7 +648,7 @@
       "evalLink": "Read the selection process"
     },
     "masthead": {
-      "aria": "Platform operations status",
+      "aria": "Workspace operations status",
       "essence": "What ORTAQ is",
       "title": "Equity partnership in Turkish production companies: dossier by dossier.",
       "subline": "Not the stock market; factory reality. Field verification, capacity, export profile, and risk records in one evaluation layer.",
@@ -708,7 +708,7 @@
         },
         "3": {
           "title": "Regulated participation",
-          "body": "SPK-licensed platform, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
+          "body": "SPK-licensed workspace, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
         },
         "4": {
           "title": "Valuation arithmetic",
@@ -760,7 +760,7 @@
         },
         "3": {
           "title": "Regulated participation",
-          "body": "SPK-licensed platform, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
+          "body": "SPK-licensed workspace, escrow account, MKK share registry. Funds are not transferred to the company until the campaign closes."
         },
         "4": {
           "title": "Valuation arithmetic",
@@ -1038,14 +1038,14 @@
         "pending": "Pending"
       },
       "pendingChecks": "Pending checks",
-      "disclaimer": "Documents are officially published in the licensed platform process. Only review status is shown here."
+      "disclaimer": "Documents are officially published in the licensed workspace process. Only review status is shown here."
     },
     "actions": {
       "track": "Track dossier",
       "saved": "Dossier saved",
       "criteria": "Evaluation criteria",
       "back": "All companies",
-      "footer": "Review dossier · Campaign opens via licensed platform · No return guarantee."
+      "footer": "Review dossier · Campaign opens via licensed workspace · No return guarantee."
     }
   },
   "pulse": {
@@ -1053,7 +1053,7 @@
     "lastUpdated": "Updated: {{date}}",
     "more": "Trust page →",
     "notes": {
-      "platform": "Licensed platform talks ongoing. No transactions until agreement is complete.",
+      "platform": "Licensed workspace talks ongoing. No transactions until agreement is complete.",
       "legal": "Privacy and terms under legal review.",
       "verify": "Pre-campaign verification process published."
     }
@@ -1184,7 +1184,7 @@
             "text": "Shares are registered at MKK in your name."
           }
         },
-        "note": "ORTAQ does not hold funds. Escrow is set up within the licensed platform framework."
+        "note": "ORTAQ does not hold funds. Escrow is set up within the licensed workspace framework."
       },
       "risk": {
         "label": "Risks",
@@ -1195,15 +1195,15 @@
       "process": {
         "label": "Process",
         "title": "What comes next?",
-        "intro": "If a platform agreement is in place, the flow is roughly:"
+        "intro": "If a workspace agreement is in place, the flow is roughly:"
       },
       "wait": {
         "label": "For now",
         "title": "Pilot stage",
         "text": "ORTAQ is currently in pilot; we are in talks with a first manufacturer cohort.",
-        "emptyTitle": "Platform not ready",
+        "emptyTitle": "Workspace not ready",
         "emptyText": "You continue as access opens.",
-        "partnerNote": "Platform agreement not yet in place",
+        "partnerNote": "Workspace agreement not yet in place",
         "delay": "If there is a delay, we will say so on this page. Nothing opens silently.",
         "whatYouCanDo": "What you can do now",
         "actions": {
@@ -1231,11 +1231,11 @@
   },
   "process": {
     "label": "How it works",
-    "title": "From visibility to qualified introduction",
+    "title": "From status tracking to qualified introduction",
     "intro": "A company profile is built and verified; investment readiness is scored; direct, verified access is provided to the capital partner that fits the thesis. ORTAQ is the validation and introduction layer; it holds no money.",
     "journeyLabel": "Process",
     "journey": {
-      "1": "Visibility",
+      "1": "Status tracking",
       "2": "Verification",
       "3": "Readiness",
       "4": "Match",
@@ -1246,7 +1246,7 @@
     "stepLabel": "Step {{step}}",
     "steps": {
       "1": {
-        "title": "Visibility",
+        "title": "Status tracking",
         "text": "The company becomes a standard, investor-friendly, comparable profile."
       },
       "2": {
@@ -1298,7 +1298,7 @@
       "title": "Process status",
       "items": {
         "platform": {
-          "label": "Licensed platform",
+          "label": "Licensed workspace",
           "status": "In discussion"
         },
         "transactions": {
@@ -1328,7 +1328,7 @@
       "title": "Transparency updates",
       "more": "Trust page →"
     },
-    "updates.1.title": "Licensed platform talks ongoing",
+    "updates.1.title": "Licensed workspace talks ongoing",
     "updates.1.text": "No investments until the agreement is complete.",
     "updates.2.title": "Verification process published",
     "updates.2.text": "Company, document, and financial review before any campaign.",
@@ -1360,7 +1360,7 @@
     "legalTitle": "Legal",
     "supportTitle": "Contact",
     "supportText": "For questions",
-    "dispute": "Complaints are accepted in writing and reviewed alongside licensed platform procedures.",
+    "dispute": "Complaints are accepted in writing and reviewed alongside licensed workspace procedures.",
     "entity": "ORTAQ · Istanbul",
     "entityNote": "",
     "links": {
@@ -1380,21 +1380,21 @@
   },
   "journey": {
     "label": "Process",
-    "note": "Visibility → verification → readiness → introduction. ORTAQ is a step-by-step documented validation and access layer.",
+    "note": "Status tracking → verification → readiness → introduction. ORTAQ is a step-by-step documented validation and access layer.",
     "processLink": "Process",
     "evaluationLink": "How we select",
     "trustLink": "Trust and compliance",
     "riskLink": "Risks"
   },
   "mobileCta": {
-    "label": "ORTAQ growth platform",
+    "label": "ORTAQ growth workspace",
     "sublabel": "Export, verified partners, growth capital"
   },
   "evaluationPage": {
     "label": "How we select",
     "title": "How do we select companies?",
     "lead": "Not every application is accepted. ORTAQ makes only producing, verifiable companies with clear growth logic investment-ready, through multi-stage verification before they reach a capital partner.",
-    "leadSecondary": "This is the readiness leg of access: after visibility, before introduction. The trust framework and introduction are built on it.",
+    "leadSecondary": "This is the readiness leg of access: after status tracking, before introduction. The trust framework and introduction are built on it.",
     "journeyContext": "After verification, read the trust framework, then move to the access process.",
     "stageLabel": "Stage {{key}}",
     "rejectLabel": "Example rejection reason:",
@@ -1483,7 +1483,7 @@
     },
     "committee": {
       "title": "Investment committee",
-      "intro": "Roles are assigned within the partner platform framework. Names announced after agreement.",
+      "intro": "Roles are assigned within the partner workspace framework. Names announced after agreement.",
       "roles": {
         "1": {
           "role": "Financial review",
@@ -1509,7 +1509,7 @@
       },
       "dispute": {
         "title": "Complaints",
-        "text": "Disputes are recorded. ORTAQ and the partner platform respond together."
+        "text": "Disputes are recorded. ORTAQ and the partner workspace respond together."
       },
       "response": {
         "title": "Response times",
@@ -1565,14 +1565,14 @@
       "updated": "Last updated: May 2026",
       "p1": "ORTAQ processes personal data under Turkish KVKK.",
       "p2": "e-Government verification uses data only for verification.",
-      "p3": "Full text published after legal review before platform partnership goes live."
+      "p3": "Full text published after legal review before workspace partnership goes live."
     },
     "terms": {
       "title": "Terms of use",
       "updated": "Last updated: May 2026",
       "p1": "ORTAQ does not give investment advice.",
       "p2": "If a financing happens, execution runs through a an authorized, regulated institution under SPK regulation; ORTAQ holds no money and conducts no capital markets activity.",
-      "p3": "Full terms published before platform partnership."
+      "p3": "Full terms published before workspace partnership."
     },
     "back": "Back to home"
   },
@@ -1640,11 +1640,11 @@
           "href": "#yatirim"
         }
       },
-      "disclaimer": "No investment advice. No guaranteed returns. Transactions run at an SPK-licensed platform partner under qualified investor rules."
+      "disclaimer": "No investment advice. No guaranteed returns. Transactions run at an SPK-licensed workspace partner under qualified investor rules."
     },
     "showcase": {
-      "aria": "Platform screens",
-      "label": "Inside the platform",
+      "aria": "Workspace screens",
+      "label": "Inside the workspace",
       "title": "Inside the application",
       "lead": "Matching, export log, and investor flow. Names are illustrative.",
       "pillars": {
@@ -1780,7 +1780,7 @@
         "3": {
           "step": "3",
           "title": "Licensed investment",
-          "body": "Ready dossier meets investors on the licensed crowdfunding platform."
+          "body": "Ready dossier meets investors on the licensed crowdfunding workspace."
         }
       },
       "lead": "Three steps: trade first, then the file, then investment at the licensed partner."
@@ -1860,11 +1860,11 @@
         },
         "forWhom": {
           "label": "Who it is for",
-          "body": "Production companies, qualified investors, and licensed platform partners."
+          "body": "Production companies, qualified investors, and licensed workspace partners."
         },
         "regulation": {
           "label": "Regulation",
-          "body": "Investment under SPK framework via licensed crowdfunding platform; ORTAQ is the preparation layer."
+          "body": "Investment under SPK framework via licensed crowdfunding workspace; ORTAQ is the preparation layer."
         }
       },
       "faqLabel": "Common questions",
@@ -1922,7 +1922,7 @@
         },
         "partner": {
           "role": "Licensed partner",
-          "duty": "Campaign, escrow, and execution on the licensed platform."
+          "duty": "Campaign, escrow, and execution on the licensed workspace."
         },
         "investor": {
           "role": "Investor",
@@ -1932,7 +1932,7 @@
       "points": {
         "1": "How ORTAQ earns: it takes no commission from investors and collects no funds. It earns a service fee when a company it prepares advances through the process.",
         "2": "Money flow: the investor's money goes to the escrow account at the licensed institution, then to the company. ORTAQ never touches it.",
-        "3": "Licensed partner structure: the campaign, escrow account and execution open on the SPK licensed platform; share registration follows MKK discipline.",
+        "3": "Licensed partner structure: the campaign, escrow account and execution open on the SPK licensed workspace; share registration follows MKK discipline.",
         "4": "Funds are processed at the licensed partner per campaign terms.",
         "5": "For equity structures, MKK registration follows the licensed process."
       },
@@ -1969,7 +1969,7 @@
       "object": "Not a listed ticker: structures tied to a growing manufacturer's commercial performance.",
       "points": {
         "1": "Export and operations evidence is collected first.",
-        "2": "Then a campaign or instrument opens on the licensed platform.",
+        "2": "Then a campaign or instrument opens on the licensed workspace.",
         "3": "Return: contractual revenue share or equity; no promises."
       },
       "tagRevenue": "Revenue share",
@@ -2013,7 +2013,7 @@
       "items": {
         "1": {
           "q": "Is ORTAQ a bank?",
-          "a": "No. Growth and matching platform; investment at licensed partner."
+          "a": "No. Growth and matching workspace; investment at licensed partner."
         },
         "2": {
           "q": "Can anyone invest?",
@@ -2060,7 +2060,7 @@
       "traditional": {
         "label": "Traditional approach",
         "items": {
-          "1": "A fair gives visibility once, the rest is on you",
+          "1": "A fair gives status tracking once, the rest is on you",
           "2": "A consultant charges whether you win or not",
           "3": "On your own, which buyer is real stays unclear for months",
           "4": "On Alibaba and B2B marketplaces you are on your own, buyers are not pre-screened"
@@ -2090,7 +2090,7 @@
         },
         "3": {
           "title": "Deal at licensed partner",
-          "body": "Funds do not sit at ORTAQ. The partnership opens on a licensed platform."
+          "body": "Funds do not sit at ORTAQ. The partnership opens on a licensed workspace."
         }
       }
     },
@@ -2245,7 +2245,7 @@
       "title": "Why does traditional capital access fail?",
       "points": {
         "1": {
-          "k": "Invisibility",
+          "k": "Instatus tracking",
           "v": "Good companies do not enter the right capital's radar in a standard way."
         },
         "2": {
@@ -2264,7 +2264,7 @@
       "intro": "Not marketing sections; real product layers that make a company accessible to the right capital.",
       "layers": {
         "1": {
-          "k": "Visibility Engine",
+          "k": "Status tracking Engine",
           "v": "Turns a company into a standard, investor-friendly, comparable opportunity."
         },
         "2": {
@@ -2364,7 +2364,7 @@
         },
         "2": {
           "q": "How does ORTAQ earn?",
-          "a": "Through access and intelligence subscriptions: companies pay for readiness and visibility, capital partners for qualified opportunity access."
+          "a": "Through access and intelligence subscriptions: companies pay for readiness and status tracking, capital partners for qualified opportunity access."
         },
         "3": {
           "q": "Is this crowdfunding?",
@@ -2397,7 +2397,7 @@
           "v": "Traditional investment networks never see a large part of the market."
         },
         "3": {
-          "k": "Visibility is not readiness",
+          "k": "Status tracking is not readiness",
           "v": "Being visible and being capital-ready are not the same thing."
         },
         "4": {
@@ -2429,7 +2429,7 @@
       "title": "How it works",
       "steps": {
         "1": {
-          "k": "Visibility",
+          "k": "Status tracking",
           "v": "The company becomes a standard, comparable profile."
         },
         "2": {
@@ -2510,7 +2510,7 @@
       "title": "How does ORTAQ earn?",
       "ortaq": {
         "k": "ORTAQ",
-        "v": "Both sides pay a subscription: companies for readiness and visibility, capital partners for access to verified deal flow. No commission on investments, no money held."
+        "v": "Both sides pay a subscription: companies for readiness and status tracking, capital partners for access to verified deal flow. No commission on investments, no money held."
       },
       "company": {
         "k": "Benefit to the company",

@@ -4,32 +4,24 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/cn";
 
 /**
- * TransformationHero — the most important visual on the homepage.
+ * TransformationHero — same deal, two realities.
  *
- * Split screen. SAME deal. Two realities.
+ * LEFT (chaos): Real app mini-windows with authentic brand colors.
+ *   WhatsApp · WeChat · Outlook · Excel · SGS Report · BL Draft
+ *   Every floating card is immediately recognizable without reading.
  *
- * The deal identity (name, counterparty, amount) is prominently visible
- * on BOTH sides so the visitor immediately understands:
- * "This is the same transaction. Before and after ORTAQ."
+ * RIGHT (ORTAQ): Same deal, same amount, same counterparty — organized.
+ *   6 answer rows, each directly answering one of the questions on the left.
  *
- * LEFT  (chaos):
- *   - Deal identity in the header (Çelik Tedariki · BestBuild · €840.000)
- *   - 6 scattered app windows: WhatsApp, Email, PDF x2, Excel, SGS
- *   - 5 unanswered questions as red chips
- *   - "DURUM BELİRSİZ" in red at the bottom
- *
- * RIGHT (ORTAQ):
- *   - SAME deal identity in the header (mirrored)
- *   - 6 answered rows — each directly answers one of the 5 questions
- *   - "DURUM NET" in green at the bottom
- *
- * Design rules:
- *  - Questions on left map 1:1 to answers on right
- *  - No randomness — chaos is visually recognizable, not just messy
- *  - The contrast does all the work; no paragraph copy needed
+ * Design rule: visitor must understand the contrast in < 3 seconds
+ * without reading a single line of text.
  */
 export function TransformationHero() {
   const { t } = useTranslation();
+
+  const dealName      = t("transform.dealName");
+  const counterparty  = t("transform.counterparty");
+  const amount        = t("transform.amount");
 
   const questions = [
     t("transform.q1"),
@@ -42,15 +34,11 @@ export function TransformationHero() {
   const answers = [
     { main: t("transform.a1"), detail: t("transform.a1detail"), tag: t("transform.a1tag"), type: "confirmed" as const },
     { main: t("transform.a2"), detail: t("transform.a2detail"), tag: t("transform.a2tag"), type: "confirmed" as const },
-    { main: t("transform.a3"), detail: t("transform.a3detail"), tag: t("transform.a3tag"), type: "pending" as const },
-    { main: t("transform.a4"), detail: t("transform.a4detail"), tag: t("transform.a4tag"), type: "pending" as const },
+    { main: t("transform.a3"), detail: t("transform.a3detail"), tag: t("transform.a3tag"), type: "pending"   as const },
+    { main: t("transform.a4"), detail: t("transform.a4detail"), tag: t("transform.a4tag"), type: "pending"   as const },
     { main: t("transform.a5"), detail: t("transform.a5detail"), tag: t("transform.a5tag"), type: "confirmed" as const },
-    { main: t("transform.a6"), detail: t("transform.a6detail"), tag: t("transform.a6tag"), type: "live" as const },
-  ] as const;
-
-  const dealName = t("transform.dealName");
-  const counterparty = t("transform.counterparty");
-  const amount = t("transform.amount");
+    { main: t("transform.a6"), detail: t("transform.a6detail"), tag: t("transform.a6tag"), type: "live"      as const },
+  ];
 
   return (
     <div className="overflow-hidden rounded-2xl border border-ortaq-border shadow-[0_12px_48px_rgb(20_19_16/0.13)]">
@@ -59,206 +47,192 @@ export function TransformationHero() {
         {/* ══ LEFT — CHAOS ════════════════════════════════════════ */}
         <div className="flex flex-col border-b border-ortaq-border bg-[#FBF0ED] sm:border-b-0 sm:border-r">
 
-          {/* Panel header — deal identity clearly shown on left too */}
-          <div className="border-b border-red-200/50 bg-[#f5e4df] px-4 py-2.5">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
-                <span className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-red-700">
-                  {t("transform.chaosLabel")}
-                </span>
-              </div>
-              {/* Same deal identity as right panel */}
-              <div className="flex items-center gap-1.5 text-right">
-                <span className="text-[0.4375rem] font-semibold text-red-900/60">{dealName}</span>
-                <span className="text-[0.4375rem] text-red-400">·</span>
-                <span className="text-[0.4375rem] font-semibold text-red-900/60">{counterparty}</span>
-                <span className="text-[0.4375rem] text-red-400">·</span>
-                <span className="text-[0.4375rem] font-bold text-red-700">{amount}</span>
-              </div>
-            </div>
-          </div>
+          {/* Header — deal identity visible even in chaos */}
+          <DealHeader
+            side="chaos"
+            label={t("transform.chaosLabel")}
+            dealName={dealName}
+            counterparty={counterparty}
+            amount={amount}
+          />
 
-          {/* Scattered app windows — organized chaos */}
-          <div className="relative overflow-hidden" style={{ aspectRatio: "4/3", minHeight: 240 }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-red-100/20 via-transparent to-orange-100/15" />
+          {/* Floating app windows */}
+          <div className="relative overflow-hidden" style={{ aspectRatio: "4/3", minHeight: 248 }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-red-100/20 via-transparent to-orange-100/10" />
 
             {/* WhatsApp */}
-            <MiniCard style={{ top: "4%", left: "2%", width: "44%", zIndex: 8 }} rotate="-2deg">
-              <MiniBar app="WhatsApp" color="#075E54" dot="#25D366" />
-              <div className="space-y-0.5 p-1.5">
-                <WaBubble text={t("transform.q1")} incoming />
-                <WaBubble text={t("transform.q4")} incoming />
-                <div className="mt-0.5 flex items-center gap-0.5 text-[0.35rem] text-[#128C7E]">
+            <FloatCard style={{ top: "3%", left: "1%", width: "44%", zIndex: 9 }} rotate="-2deg">
+              <AppBar app="WhatsApp" icon="💬" color="#075E54" dot="#25D366" />
+              <div className="space-y-1 p-2">
+                <WaBubble text={t("transform.q1")} />
+                <WaBubble text={t("transform.q4")} />
+                <p className="text-[0.34rem] text-[#128C7E] flex items-center gap-0.5">
                   <span className="h-1 w-1 rounded-full bg-[#25D366] animate-pulse" />
-                  <span>47 okunmamış</span>
-                </div>
+                  47 okunmamış mesaj
+                </p>
               </div>
-            </MiniCard>
+            </FloatCard>
 
-            {/* Email */}
-            <MiniCard style={{ top: "3%", right: "2%", width: "46%", zIndex: 7 }} rotate="1.5deg">
-              <MiniBar app="Email" color="#0078D4" dot="#0078D4" />
-              <div className="p-1.5 space-y-0.5">
-                <div className="rounded bg-blue-50 px-1 py-0.5">
-                  <p className="truncate text-[0.4rem] font-bold text-blue-900">Re: Re: Fwd: SPA_v12_final_FINAL.pdf</p>
-                  <p className="truncate text-[0.35rem] text-gray-400">{t("transform.q2")}</p>
-                </div>
-                <div className="flex items-center gap-0.5 text-[0.35rem] text-gray-400">
-                  <span>📎</span><span className="line-through">SPA_v11.pdf</span>
-                </div>
-              </div>
-            </MiniCard>
-
-            {/* PDF v12 */}
-            <MiniCard style={{ top: "42%", left: "5%", width: "38%", zIndex: 10 }} rotate="-3deg">
-              <MiniBar app="PDF" color="#C0392B" dot="#C0392B" />
-              <div className="flex items-start gap-1 p-1.5">
-                <span className="text-[0.75rem]">📄</span>
-                <div>
-                  <p className="text-[0.4rem] font-bold text-gray-800 leading-tight">SPA_v12_final_FINAL.pdf</p>
-                  <div className="mt-0.5 rounded border border-amber-200 bg-amber-50 px-0.5 py-px">
-                    <p className="text-[0.35rem] font-bold text-amber-700">Bu mu güncel?</p>
+            {/* WeChat — Chinese supplier */}
+            <FloatCard style={{ top: "2%", right: "1%", width: "38%", zIndex: 8 }} rotate="2deg">
+              <AppBar app="WeChat" icon="💚" color="#07C160" dot="#07C160" />
+              <div className="space-y-1 p-2">
+                {/* WeChat-style bubble layout */}
+                <div className="flex items-start gap-1">
+                  <span className="mt-0.5 flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#07C160] text-[0.3rem] text-white font-bold">供</span>
+                  <div className="rounded-lg rounded-tl-none bg-white px-1.5 py-0.5 shadow-sm">
+                    <p className="text-[0.38rem] text-gray-700">Price OK. Waiting LC.</p>
                   </div>
                 </div>
-              </div>
-            </MiniCard>
-
-            {/* PDF v11 (behind) */}
-            <MiniCard style={{ top: "49%", left: "18%", width: "34%", zIndex: 6 }} rotate="1.5deg">
-              <MiniBar app="PDF" color="#C0392B" dot="#C0392B" dim />
-              <div className="flex items-start gap-1 p-1.5 opacity-50">
-                <span className="text-[0.75rem]">📄</span>
-                <p className="text-[0.35rem] font-bold text-gray-400 line-through leading-tight">SPA_v11_revize.pdf</p>
-              </div>
-            </MiniCard>
-
-            {/* Excel */}
-            <MiniCard style={{ top: "38%", right: "2%", width: "42%", zIndex: 9 }} rotate="2deg">
-              <MiniBar app="Excel" color="#217346" dot="#217346" />
-              <div className="p-1.5">
-                <p className="text-[0.4rem] font-semibold text-green-800 leading-tight">FIYAT_v3_FINAL_revize.xlsx</p>
-                <div className="mt-1 flex gap-0.5">
-                  {["v1","v2","v3","v4"].map((v,i) => (
-                    <span key={v} className={cn(
-                      "rounded px-0.5 py-px text-[0.3rem] font-bold",
-                      i === 3 ? "bg-green-200 text-green-700" : "bg-gray-100 text-gray-300 line-through"
-                    )}>{v}</span>
-                  ))}
-                </div>
-              </div>
-            </MiniCard>
-
-            {/* SGS */}
-            <MiniCard style={{ bottom: "5%", left: "12%", width: "40%", zIndex: 8 }} rotate="-1.5deg">
-              <MiniBar app="SGS Raporu" color="#E31837" dot="#E31837" />
-              <div className="p-1.5">
-                <p className="text-[0.4rem] font-bold text-gray-700">{t("transform.q3")}</p>
-                <div className="mt-0.5 rounded bg-amber-100 px-1 py-px">
-                  <p className="text-[0.35rem] font-bold text-amber-700">TASLAK — Onaylı değil</p>
-                </div>
-              </div>
-            </MiniCard>
-
-            {/* Voice note */}
-            <MiniCard style={{ bottom: "4%", right: "3%", width: "36%", zIndex: 7 }} rotate="2.5deg">
-              <MiniBar app="WhatsApp" color="#075E54" dot="#25D366" />
-              <div className="p-1.5">
-                <div className="flex items-center gap-1 rounded-lg bg-[#ECE5DD] px-1 py-1">
-                  <span className="h-3 w-3 rounded-full bg-[#25D366] text-[0.3rem] text-white flex items-center justify-center shrink-0">▶</span>
-                  <div className="flex gap-px flex-1 justify-center">
-                    {[2,4,3,5,2,4,3,2].map((h,i) => (
-                      <div key={i} className="w-px rounded-full bg-[#128C7E]" style={{height: h * 1.5}} />
-                    ))}
+                <div className="flex items-start justify-end gap-1">
+                  <div className="rounded-lg rounded-tr-none bg-[#95EC69] px-1.5 py-0.5">
+                    <p className="text-[0.38rem] text-gray-700">{t("transform.q3")}</p>
                   </div>
-                  <p className="text-[0.35rem] text-[#128C7E] shrink-0">1:47</p>
                 </div>
-                <p className="mt-0.5 text-[0.3rem] text-red-500 font-semibold">Dinlenmedi · 2 gün</p>
+                <p className="text-right text-[0.34rem] text-gray-400">Son mesaj: 2 gün önce</p>
               </div>
-            </MiniCard>
+            </FloatCard>
+
+            {/* Outlook email chain */}
+            <FloatCard style={{ top: "42%", left: "3%", width: "46%", zIndex: 10 }} rotate="-2.5deg">
+              <AppBar app="Outlook" icon="📧" color="#0078D4" dot="#0078D4" />
+              <div className="p-2 space-y-0.5">
+                <div className="rounded bg-blue-50 px-1.5 py-1">
+                  <p className="text-[0.38rem] font-bold text-blue-900 leading-tight truncate">
+                    Re: Re: Fwd: SPA_v12_final_FINAL.pdf
+                  </p>
+                  <p className="text-[0.33rem] text-gray-400 truncate">{t("transform.q2")}</p>
+                </div>
+                <div className="flex items-center gap-0.5">
+                  <span className="text-[0.5rem]">📎</span>
+                  <p className="text-[0.33rem] text-gray-400 line-through">SPA_v11_revize.pdf</p>
+                </div>
+                <div className="flex items-center gap-0.5">
+                  <span className="text-[0.5rem]">📎</span>
+                  <p className="text-[0.33rem] text-gray-500 font-semibold">SPA_v12_FINAL.pdf</p>
+                </div>
+              </div>
+            </FloatCard>
+
+            {/* Excel — price sheet */}
+            <FloatCard style={{ top: "37%", right: "2%", width: "42%", zIndex: 9 }} rotate="1.5deg">
+              <AppBar app="Excel" icon="📊" color="#217346" dot="#217346" />
+              <div className="p-2">
+                <p className="text-[0.38rem] font-semibold text-green-800 truncate">FIYAT_v4_REVIZE_SON.xlsx</p>
+                <div className="mt-1 grid grid-cols-3 divide-x divide-green-100 rounded border border-green-100 bg-green-50/50">
+                  <ExcelCell label="v2" val="1.180" dim />
+                  <ExcelCell label="v3" val="1.240" dim />
+                  <ExcelCell label="v4" val="1.260" active />
+                </div>
+                <p className="mt-0.5 text-[0.3rem] text-amber-600 font-semibold">Hangi versiyon geçerli?</p>
+              </div>
+            </FloatCard>
+
+            {/* SGS Report */}
+            <FloatCard style={{ bottom: "5%", left: "10%", width: "38%", zIndex: 8 }} rotate="-1.5deg">
+              <AppBar app="SGS Raporu" icon="🔬" color="#E31837" dot="#E31837" />
+              <div className="p-2">
+                <div className="flex items-center gap-1">
+                  <span className="text-[0.9rem]">📄</span>
+                  <div>
+                    <p className="text-[0.38rem] font-bold text-gray-700 leading-tight">SGS_TASLAK_v1.pdf</p>
+                    <span className="rounded bg-amber-100 px-1 py-px text-[0.3rem] font-bold text-amber-700">
+                      ONAYSIZ
+                    </span>
+                  </div>
+                </div>
+                <p className="mt-0.5 text-[0.33rem] font-semibold text-red-600">{t("transform.q3")}</p>
+              </div>
+            </FloatCard>
+
+            {/* BL Draft */}
+            <FloatCard style={{ bottom: "4%", right: "2%", width: "40%", zIndex: 7 }} rotate="2.5deg">
+              <AppBar app="BL Draft" icon="🚢" color="#1e3a5f" dot="#4a90d9" />
+              <div className="p-2">
+                <p className="text-[0.38rem] font-bold text-[#1e3a5f] leading-tight">BL_TASLAK_v3.pdf</p>
+                <div className="mt-1 space-y-0.5">
+                  <div className="flex items-center gap-1">
+                    <span className="h-1 w-1 rounded-full bg-red-400" />
+                    <p className="text-[0.33rem] text-red-500">SGS onayı eksik</p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="h-1 w-1 rounded-full bg-red-400" />
+                    <p className="text-[0.33rem] text-red-500">LC numarası bekleniyor</p>
+                  </div>
+                </div>
+                <p className="mt-0.5 text-[0.3rem] text-gray-400">{t("transform.q5")}</p>
+              </div>
+            </FloatCard>
           </div>
 
-          {/* Questions */}
-          <div className="flex flex-wrap gap-1.5 px-4 pb-3 pt-2">
+          {/* Unanswered questions as chips */}
+          <div className="flex flex-wrap gap-1 px-4 pb-3 pt-2">
             {questions.map((q) => (
-              <span key={q} className="rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[0.5rem] font-medium text-red-700">
+              <span key={q} className="rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[0.46rem] font-medium text-red-700">
                 {q}
               </span>
             ))}
           </div>
 
-          {/* Status bar */}
-          <div className="flex items-center justify-between border-t border-red-200/50 bg-red-900/8 px-4 py-3">
+          {/* Status footer */}
+          <div className="flex items-center justify-between border-t border-red-200/50 bg-red-900/5 px-4 py-3">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-red-500" />
-              <span className="text-[0.75rem] font-bold tracking-[0.03em] text-red-700">
+              <span className="text-[0.75rem] font-bold tracking-[0.02em] text-red-700">
                 {t("transform.chaosStatus")}
               </span>
             </div>
-            <span className="text-[0.4375rem] font-medium text-red-500/70">5 soru · 0 cevap</span>
+            <span className="text-[0.4rem] text-red-400/80">5 soru · 0 cevap</span>
           </div>
         </div>
 
         {/* ══ RIGHT — ORTAQ ═══════════════════════════════════════ */}
         <div className="flex flex-col bg-white">
 
-          {/* Panel header — SAME deal identity mirrored */}
-          <div className="border-b border-emerald-200/50 bg-emerald-50/40 px-4 py-2.5">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                <span className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-emerald-700">
-                  {t("transform.ortaqLabel")}
-                </span>
-              </div>
-              {/* Same deal identity — mirrored from left */}
-              <div className="flex items-center gap-1.5 text-right">
-                <span className="text-[0.4375rem] font-semibold text-ortaq-ink">{dealName}</span>
-                <span className="text-[0.4375rem] text-ortaq-ink-soft">·</span>
-                <span className="text-[0.4375rem] font-semibold text-ortaq-ink">{counterparty}</span>
-                <span className="text-[0.4375rem] text-ortaq-ink-soft">·</span>
-                <span className="text-[0.4375rem] font-bold text-ortaq-trust">{amount}</span>
-              </div>
-            </div>
-          </div>
+          {/* Header — SAME deal identity mirrored */}
+          <DealHeader
+            side="ortaq"
+            label={t("transform.ortaqLabel")}
+            dealName={dealName}
+            counterparty={counterparty}
+            amount={amount}
+          />
 
-          {/* Progress */}
+          {/* Progress bar */}
           <div className="border-b border-ortaq-border px-4 py-2">
-            <div className="flex items-center gap-3">
-              <div className="flex-1 h-1.5 overflow-hidden rounded-full bg-ortaq-border">
+            <div className="flex items-center gap-2.5">
+              <div className="flex-1 h-1.5 overflow-hidden rounded-full bg-gray-100">
                 <div className="h-full w-[78%] rounded-full bg-ortaq-trust" />
               </div>
               <span className="text-[0.5rem] font-bold text-ortaq-trust shrink-0">78%</span>
               <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[0.375rem] font-bold text-amber-700 shrink-0">
-                Muayene Aşaması
+                Muayene
               </span>
             </div>
           </div>
 
-          {/* Answered rows — each directly answers a question from the left */}
-          <div className="flex-1 divide-y divide-ortaq-border/60">
+          {/* Answered rows */}
+          <div className="flex-1 divide-y divide-ortaq-border/50">
             {answers.map((a, i) => (
               <AnswerRow key={i} {...a} />
             ))}
           </div>
 
-          {/* Status bar */}
-          <div className="flex items-center justify-between border-t border-emerald-200/50 bg-emerald-50/40 px-4 py-3">
+          {/* Status footer */}
+          <div className="flex items-center justify-between border-t border-emerald-200/50 bg-emerald-50/30 px-4 py-3">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-              <span className="text-[0.75rem] font-bold tracking-[0.03em] text-emerald-700">
+              <span className="text-[0.75rem] font-bold tracking-[0.02em] text-emerald-700">
                 {t("transform.ortaqStatus")}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="flex -space-x-1">
-                {["YÇ","SK","MK","BB"].map((init) => (
-                  <span key={init} className="inline-flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-ortaq-trust/15 text-[0.35rem] font-bold text-ortaq-trust">
-                    {init}
-                  </span>
-                ))}
-              </div>
-              <span className="text-[0.4375rem] text-ortaq-ink-soft">Her iki taraf görüyor</span>
+              {["YÇ","SK","MK","BB"].map((init) => (
+                <span key={init} className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-ortaq-trust/15 text-[0.3rem] font-bold text-ortaq-trust shadow-sm">
+                  {init}
+                </span>
+              ))}
+              <span className="text-[0.4rem] text-ortaq-ink-soft">Her iki taraf görüyor</span>
             </div>
           </div>
         </div>
@@ -268,12 +242,55 @@ export function TransformationHero() {
   );
 }
 
-/* ── helpers ── */
+/* ── Sub-components ─────────────────────────────────────────────────────── */
 
-function MiniCard({ children, style, rotate = "0deg" }: { children: React.ReactNode; style: React.CSSProperties; rotate?: string }) {
+function DealHeader({ side, label, dealName, counterparty, amount }: {
+  side: "chaos" | "ortaq";
+  label: string;
+  dealName: string;
+  counterparty: string;
+  amount: string;
+}) {
+  const isChaos = side === "chaos";
+  return (
+    <div className={cn(
+      "border-b px-4 py-2.5",
+      isChaos ? "border-red-200/50 bg-[#f5e4df]" : "border-emerald-200/50 bg-emerald-50/40",
+    )}>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5">
+          <span className={cn(
+            "h-1.5 w-1.5 rounded-full",
+            isChaos ? "animate-pulse bg-red-500" : "bg-emerald-500",
+          )} />
+          <span className={cn(
+            "text-[0.475rem] font-bold uppercase tracking-[0.07em]",
+            isChaos ? "text-red-700" : "text-emerald-700",
+          )}>
+            {label}
+          </span>
+        </div>
+        {/* Deal identity — identical on both sides */}
+        <div className="flex items-center gap-1 text-right">
+          <span className={cn("text-[0.4rem] font-semibold", isChaos ? "text-red-900/60" : "text-ortaq-ink")}>{dealName}</span>
+          <span className={cn("text-[0.375rem]", isChaos ? "text-red-400" : "text-ortaq-ink-soft")}>·</span>
+          <span className={cn("text-[0.4rem] font-semibold", isChaos ? "text-red-900/60" : "text-ortaq-ink")}>{counterparty}</span>
+          <span className={cn("text-[0.375rem]", isChaos ? "text-red-400" : "text-ortaq-ink-soft")}>·</span>
+          <span className={cn("text-[0.4rem] font-bold", isChaos ? "text-red-700" : "text-ortaq-trust")}>{amount}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FloatCard({ children, style, rotate = "0deg" }: {
+  children: React.ReactNode;
+  style: React.CSSProperties;
+  rotate?: string;
+}) {
   return (
     <div
-      className="absolute overflow-hidden rounded-lg border border-black/[0.07] bg-white shadow-[0_3px_12px_rgb(0_0_0/0.14)]"
+      className="absolute overflow-hidden rounded-lg border border-black/[0.07] bg-white shadow-[0_4px_14px_rgb(0_0_0/0.13)]"
       style={{ ...style, transform: `rotate(${rotate})` }}
     >
       {children}
@@ -281,68 +298,60 @@ function MiniCard({ children, style, rotate = "0deg" }: { children: React.ReactN
   );
 }
 
-function MiniBar({ app, color, dot, dim }: { app: string; color: string; dot: string; dim?: boolean }) {
+function AppBar({ app, icon, color, dot }: { app: string; icon: string; color: string; dot: string }) {
   return (
-    <div className={cn("flex items-center gap-0.5 border-b border-black/[0.05] px-1.5 py-0.5", dim ? "bg-gray-50" : "bg-[#f7f7f7]")}>
+    <div className="flex items-center gap-1 border-b border-black/[0.05] bg-[#f7f7f7] px-1.5 py-0.5">
       <span className="h-1.5 w-1.5 rounded-full bg-[#ff5f57]" />
       <span className="h-1.5 w-1.5 rounded-full bg-[#febc2e]" />
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: dot }} />
-      <span className="ml-1 text-[0.35rem] font-semibold" style={{ color }}>{app}</span>
+      <span className="ml-1 text-[0.35rem]">{icon}</span>
+      <span className="text-[0.34rem] font-semibold" style={{ color }}>{app}</span>
     </div>
   );
 }
 
-function WaBubble({ text, incoming }: { text: string; incoming?: boolean }) {
+function WaBubble({ text }: { text: string }) {
   return (
-    <div className={cn("flex", incoming ? "justify-start" : "justify-end")}>
-      <div className={cn(
-        "max-w-[90%] rounded-xl px-1.5 py-0.5 text-[0.4rem] leading-snug",
-        incoming ? "rounded-tl-none bg-white shadow-sm text-gray-700" : "rounded-tr-none bg-[#DCF8C6] text-gray-700"
-      )}>
+    <div className="flex justify-start">
+      <div className="max-w-[90%] rounded-xl rounded-tl-none bg-white px-1.5 py-0.5 text-[0.38rem] leading-snug shadow-sm text-gray-700">
         {text}
       </div>
     </div>
   );
 }
 
+function ExcelCell({ label, val, dim, active }: { label: string; val: string; dim?: boolean; active?: boolean }) {
+  return (
+    <div className="flex flex-col items-center py-0.5 px-1">
+      <span className={cn("text-[0.28rem]", dim ? "text-gray-300" : "text-gray-400")}>{label}</span>
+      <span className={cn(
+        "text-[0.38rem] font-bold",
+        active ? "text-green-700" : dim ? "text-gray-300 line-through" : "text-gray-500",
+      )}>{val}</span>
+    </div>
+  );
+}
+
 const answerStyles = {
-  confirmed: {
-    row: "bg-emerald-50/30",
-    icon: "bg-emerald-100 text-emerald-700",
-    tag: "bg-emerald-100 text-emerald-700",
-    symbol: "✓",
-  },
-  pending: {
-    row: "bg-amber-50/30",
-    icon: "bg-amber-100 text-amber-700",
-    tag: "bg-amber-100 text-amber-700",
-    symbol: "⏳",
-  },
-  live: {
-    row: "bg-ortaq-trust/[0.04]",
-    icon: "bg-ortaq-trust/15 text-ortaq-trust",
-    tag: "bg-ortaq-trust/15 text-ortaq-trust",
-    symbol: "●",
-  },
+  confirmed: { row: "bg-emerald-50/30", icon: "bg-emerald-100 text-emerald-700", tag: "bg-emerald-100 text-emerald-700", symbol: "✓" },
+  pending:   { row: "bg-amber-50/30",   icon: "bg-amber-100 text-amber-700",     tag: "bg-amber-100 text-amber-700",     symbol: "⏳" },
+  live:      { row: "bg-sky-50/30",     icon: "bg-sky-100 text-sky-700",         tag: "bg-sky-100 text-sky-700",         symbol: "●" },
 } as const;
 
 function AnswerRow({ main, detail, tag, type }: {
-  main: string;
-  detail: string;
-  tag: string;
-  type: keyof typeof answerStyles;
+  main: string; detail: string; tag: string; type: keyof typeof answerStyles;
 }) {
   const s = answerStyles[type];
   return (
-    <div className={cn("flex items-start gap-2.5 px-3 py-2", s.row)}>
-      <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[0.5rem] font-bold", s.icon)}>
+    <div className={cn("flex items-start gap-2 px-3 py-2", s.row)}>
+      <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[0.46rem] font-bold", s.icon)}>
         {s.symbol}
       </span>
       <div className="flex-1 min-w-0">
         <p className="text-[0.5625rem] font-semibold text-ortaq-ink leading-snug">{main}</p>
-        <p className="text-[0.4375rem] text-ortaq-ink-soft leading-snug">{detail}</p>
+        <p className="text-[0.4rem] text-ortaq-ink-soft leading-snug">{detail}</p>
       </div>
-      <span className={cn("shrink-0 rounded-full px-1.5 py-0.5 text-[0.375rem] font-bold whitespace-nowrap", s.tag)}>
+      <span className={cn("shrink-0 rounded-full px-1.5 py-0.5 text-[0.35rem] font-bold whitespace-nowrap", s.tag)}>
         {tag}
       </span>
     </div>
