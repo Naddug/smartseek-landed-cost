@@ -66,11 +66,10 @@ export function SiteFooter() {
           <div className="lg:col-span-2">
             <p className={cn(typography.label, "mb-2 text-ortaq-cream/50 sm:mb-3")}>{t("footer.learnTitle")}</p>
             <ul className="space-y-1">
-              <li><Link href="/kesfet" className={footerLinkClass}>{t("footer.links.discover")}</Link></li>
               <li><Link href="/nasil-calisir" className={footerLinkClass}>{t("footer.links.process")}</Link></li>
-              <li><Link href="/alan" className={footerLinkClass}>{t("nav.workspace")}</Link></li>
+              <li><Link href="/corridors" className={footerLinkClass}>{t("nav.corridors")}</Link></li>
+              <li><Link href="/demo" className={footerLinkClass}>{t("nav.startDemo")}</Link></li>
               <li><Link href="/sss" className={footerLinkClass}>{t("footer.links.faq")}</Link></li>
-              <li><Link href="/degerlendirme" className={footerLinkClass}>{t("footer.links.evaluation")}</Link></li>
             </ul>
           </div>
 

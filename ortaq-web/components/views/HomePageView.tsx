@@ -1,7 +1,7 @@
 "use client";
 
-import { MarketHomeView } from "@/components/views/MarketHomeView";
+import { TradeHomeView } from "@/components/views/TradeHomeView";
 
 export function HomePageView() {
-  return <MarketHomeView />;
+  return <TradeHomeView />;
 }

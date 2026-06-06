@@ -11,11 +11,9 @@ import { Container } from "@/components/ui/Section";
 import { cn } from "@/lib/cn";
 
 const navItems = [
-  { href: "/kesfet", key: "discover" as const },
   { href: "/nasil-calisir", key: "howItWorks" as const },
-  { href: "/guven", key: "trust" as const },
+  { href: "/corridors", key: "corridors" as const },
   { href: "/ekip", key: "team" as const },
-  { href: "/sss", key: "faq" as const },
 ];
 
 type SiteHeaderProps = {
@@ -60,7 +58,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
                   light
                     ? "text-ortaq-cream/75 hover:text-ortaq-cream"
                     : "text-ortaq-ink-muted hover:text-ortaq-ink",
-                  pathname === href || (href === "/kesfet" && pathname.startsWith("/sirket"))
+                  pathname === href || (href === "/corridors" && pathname.startsWith("/corridors"))
                     ? light
                       ? "text-ortaq-cream"
                       : "text-ortaq-ink"
@@ -73,19 +71,10 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link href="/kesfet" className="hidden sm:block">
+            <Link href="/demo" className="hidden sm:block">
               <Button variant={light ? "light" : "primary"} size="sm">
-                {t("nav.explore")}
+                {t("nav.startDemo")}
               </Button>
-            </Link>
-            <Link
-              href="/#basvuru"
-              className={cn(
-                "hidden text-[0.8125rem] font-medium lg:inline-flex",
-                light ? "text-ortaq-cream/70 hover:text-ortaq-cream" : "text-ortaq-ink-muted hover:text-ortaq-ink",
-              )}
-            >
-              {t("nav.applyProducer")}
             </Link>
             <button
               type="button"
@@ -123,15 +112,10 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
                 </li>
               ))}
               <li className="pt-2">
-                <Link href="/kesfet" onClick={() => setOpen(false)}>
+                <Link href="/demo" onClick={() => setOpen(false)}>
                   <Button variant="primary" fullWidth size="sm">
-                    {t("nav.explore")}
+                    {t("nav.startDemo")}
                   </Button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/#basvuru" onClick={() => setOpen(false)} className="flex min-h-11 items-center text-[0.9375rem] text-ortaq-ink-muted">
-                  {t("nav.applyProducer")}
                 </Link>
               </li>
             </ul>

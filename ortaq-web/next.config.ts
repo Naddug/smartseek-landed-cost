@@ -32,8 +32,16 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      { source: "/sirketler", destination: "/kesfet", permanent: true },
-      { source: "/demo/sermaye", destination: "/kesfet", permanent: false },
+      // Trade OS — legacy routes → new structure
+      { source: "/kesfet", destination: "/nasil-calisir", permanent: true },
+      { source: "/sirket/:slug", destination: "/", permanent: true },
+      { source: "/sirketler", destination: "/", permanent: true },
+      { source: "/alan", destination: "/demo", permanent: true },
+      { source: "/degerlendirme", destination: "/nasil-calisir", permanent: true },
+      { source: "/riskler", destination: "/guven", permanent: true },
+      { source: "/sozluk", destination: "/", permanent: true },
+      { source: "/basla", destination: "/demo", permanent: true },
+      { source: "/demo/sermaye", destination: "/demo", permanent: false },
     ];
   },
 

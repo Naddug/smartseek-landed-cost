@@ -1,11 +1,11 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Üretici şirket bilgileri",
-    "navTagline": "Şirketler · notlar · tanışma"
+    "tagline": "Sınır ötesi ticaret yönetim sistemi",
+    "navTagline": "Sınır ötesi ticaret altyapısı"
   },
   "nav": {
-    "howItWorks": "Nasıl çalışır",
+    "howItWorks": "Nasıl Çalışır?",
     "discover": "Şirketler",
     "faq": "SSS",
     "companies": "Şirketler",
@@ -20,7 +20,10 @@
     "menu": "Menü",
     "langToggle": "Dil değiştir",
     "ariaMain": "Ana menü",
-    "ariaMobile": "Mobil menü"
+    "ariaMobile": "Mobil menü",
+    "corridors": "Koridorlar",
+    "tradeRoom": "İşlem Odası",
+    "startDemo": "Demo Talep Et"
   },
   "media": {
     "credit": "Görsel: {{source}} · editoryal stok. Kampanya fotoğrafı değil.",
@@ -1381,10 +1384,18 @@
       "ctaSecondary": "Nasıl çalışır",
       "ctaWorkspace": "Takip listem",
       "stats": {
-        "coverage": { "label": "Şirket" },
-        "sectors": { "label": "Sektör" },
-        "cities": { "label": "Şehir" },
-        "feed": { "label": "Kayıt" }
+        "coverage": {
+          "label": "Şirket"
+        },
+        "sectors": {
+          "label": "Sektör"
+        },
+        "cities": {
+          "label": "Şehir"
+        },
+        "feed": {
+          "label": "Kayıt"
+        }
       }
     },
     "sectorFlow": {
@@ -1559,9 +1570,18 @@
     "momentum": {
       "label": "Kullanım",
       "steps": {
-        "1": { "title": "Şirketi inceleyin", "body": "Üretim, ihracat, alıcılar ve inceleme notları aynı profilde." },
-        "2": { "title": "Takibe alın veya talep gönderin", "body": "İlgilendiğiniz şirketleri işaretleyin; uygunsa tanışma talebi bırakın." },
-        "3": { "title": "Karşılıklı onayla görüşün", "body": "İletişim bilgisi paylaşımı iki tarafın onayıyla açılır." }
+        "1": {
+          "title": "Şirketi inceleyin",
+          "body": "Üretim, ihracat, alıcılar ve inceleme notları aynı profilde."
+        },
+        "2": {
+          "title": "Takibe alın veya talep gönderin",
+          "body": "İlgilendiğiniz şirketleri işaretleyin; uygunsa tanışma talebi bırakın."
+        },
+        "3": {
+          "title": "Karşılıklı onayla görüşün",
+          "body": "İletişim bilgisi paylaşımı iki tarafın onayıyla açılır."
+        }
       },
       "note": "ORTAQ aracılık eder; yatırım taahhüdü veya işlem platformu değildir.",
       "processLink": "İnceleme süreci"
@@ -2992,5 +3012,183 @@
   "demo": {
     "previewNotice": "Bu ekranlar ORTAQ'ın çalışma mantığını gösteren ürün önizlemesidir; gerçek yatırım veya fonlama işlemi yapılmaz.",
     "producerTrust": "Belgeleriniz yalnızca sizin onayladığınız sermaye partnerleriyle paylaşılır."
+  },
+  "trade": {
+    "hero": {
+      "label": "Sınır ötesi ticaret",
+      "headline": "Tek Alan, Her İşlem.",
+      "sub": "Teklifler, sözleşmeler, denetim, sevkiyat ve ödemeyi tek yapılandırılmış iş akışında yönetin.",
+      "ctaPrimary": "Demo Talep Et",
+      "ctaSecondary": "Nasıl Çalışır?"
+    },
+    "workflow": {
+      "label": "İş akışı",
+      "title": "LOI'den Ödemeye, Tek Hatta.",
+      "sub": "Her ticaret aynı yedi adımdan geçer. ORTAQ bu adımların her birini yapılandırır, belgeler ve izler.",
+      "steps": {
+        "loi": {
+          "name": "LOI",
+          "full": "Letter of Intent",
+          "desc": "Alıcı niyet bildirimi"
+        },
+        "sco": {
+          "name": "SCO",
+          "full": "Soft Corporate Offer",
+          "desc": "Satıcı indikatif teklif"
+        },
+        "fco": {
+          "name": "FCO",
+          "full": "Full Corporate Offer",
+          "desc": "Bağlayıcı ticaret teklifi"
+        },
+        "spa": {
+          "name": "SPA",
+          "full": "Sales & Purchase Agreement",
+          "desc": "İmzalı ticaret sözleşmesi"
+        },
+        "inspection": {
+          "name": "Denetim",
+          "full": "Third-party Inspection",
+          "desc": "SGS / Intertek raporu"
+        },
+        "shipment": {
+          "name": "Sevkiyat",
+          "full": "Shipment & Logistics",
+          "desc": "Konşimento, AWB, takip"
+        },
+        "payment": {
+          "name": "Ödeme",
+          "full": "Payment Settlement",
+          "desc": "LC, TT, SWIFT onayı"
+        }
+      }
+    },
+    "problem": {
+      "label": "Mevcut durum",
+      "headline": "WhatsApp ile Milyonluk İşlem Yürütmeyi Bırakın.",
+      "sub": "Çoğu sınır ötesi ticaret hâlâ dört bağlantısız araç üzerinden yürüyor. Her biri ayrı bir hata noktası.",
+      "tools": {
+        "whatsapp": {
+          "name": "WhatsApp",
+          "problem": "Mesajlar kayboluyor, hangi sürüm geçerli belirsiz, arama yapmak imkânsız."
+        },
+        "email": {
+          "name": "E-posta",
+          "problem": "Konu başlıkları dağılıyor, ekleri bulmak saatler alıyor, karşı taraf farklı bir zincirde."
+        },
+        "excel": {
+          "name": "Excel",
+          "problem": "Fiyat tabloları çakışıyor, v3_FINAL_son.xlsx nerede, kim ne değiştirdi bilinmiyor."
+        },
+        "pdf": {
+          "name": "PDF",
+          "problem": "Sözleşmeler dağılmış, imza doğrulaması yok, hangi belge geçerli belirsiz."
+        }
+      }
+    },
+    "product": {
+      "label": "Çözüm",
+      "headline": "İşlem Odası. Tek Kaynak. Sıfır Versiyon Karışıklığı.",
+      "sub": "Her ticaret kendi yapılandırılmış çalışma alanını alır. Karşı taraflar, belgeler, kilometre taşları ve yazışmalar — hepsi tek yerde.",
+      "previewLabel": "ORTAQ İşlem Odası — FCO adımı",
+      "roomTitle": "FCO — Full Corporate Offer",
+      "fields": {
+        "commodity": "Ürün",
+        "commodityValue": "Fındık içi, Grade A",
+        "quantity": "Miktar",
+        "quantityValue": "500 MT",
+        "price": "Fiyat",
+        "priceValue": "USD 4.250/MT CIF Dubai",
+        "validity": "Geçerlilik",
+        "validityValue": "72 saat"
+      },
+      "ctaAccept": "FCO'yu Kabul Et",
+      "ctaRevise": "Revizyon Talep Et"
+    },
+    "modules": {
+      "label": "Modüller",
+      "headline": "Her Adım Yapılandırılmış.",
+      "sub": "Beş temel modül, yedi adımlık iş akışının tamamını kapsar.",
+      "offers": {
+        "name": "Teklifler",
+        "desc": "LOI, SCO ve FCO'yu tek iş parçacığında yönetin. Versiyon geçmişi otomatik.",
+        "items": [
+          "LOI şablonu",
+          "SCO karşı teklif",
+          "FCO onay akışı"
+        ]
+      },
+      "contracts": {
+        "name": "Sözleşmeler",
+        "desc": "SPA madde kütüphanesi, revizyon takibi ve dijital onay.",
+        "items": [
+          "SPA şablonları",
+          "Madde kütüphanesi",
+          "Dijital imza"
+        ]
+      },
+      "inspection": {
+        "name": "Denetim",
+        "desc": "SGS, Intertek veya BV kilometre taşlarını tek panelde takip edin.",
+        "items": [
+          "Denetim randevusu",
+          "Rapor yükleme",
+          "Onay bildirimi"
+        ]
+      },
+      "logistics": {
+        "name": "Lojistik",
+        "desc": "Konşimento, AWB ve sevkiyat belgelerini yapılandırılmış şekilde saklayın.",
+        "items": [
+          "B/L ve AWB",
+          "Çeki listesi",
+          "ETA takibi"
+        ]
+      },
+      "payment": {
+        "name": "Ödeme",
+        "desc": "Akreditif, havale ve SWIFT onaylarını kilometre taşı olarak kaydedin.",
+        "items": [
+          "LC takibi",
+          "TT onayı",
+          "SWIFT belgesi"
+        ]
+      }
+    },
+    "corridors": {
+      "label": "Koridorlar",
+      "headline": "Faaliyet Koridorları.",
+      "sub": "Her koridor farklı uyum gereksinimleri, belge standartları ve tipik ticaret süreleri içerir.",
+      "learnMore": "Detaylara bak →",
+      "openRoom": "Bu Koridor İçin İşlem Odası Aç",
+      "asean": {
+        "name": "Türkiye ↔ ASEAN",
+        "markets": "Malezya, Singapur, Tayland, Endonezya, Vietnam",
+        "goods": "Makine, kimya, tekstil, gıda",
+        "timeline": "Ortalama 45–90 gün liman-liman",
+        "docs": "EUR.1, fitosaniter, helal sertifikası"
+      },
+      "gulf": {
+        "name": "Türkiye ↔ Körfez",
+        "markets": "BAE, Suudi Arabistan, Katar, Kuveyt",
+        "goods": "Gıda, metal, inşaat malzemeleri, ambalaj",
+        "timeline": "Ortalama 15–30 gün liman-liman",
+        "docs": "Menşe şahadetnamesi, helal sertifikası, akreditif"
+      },
+      "europe": {
+        "name": "Türkiye ↔ Avrupa",
+        "markets": "Almanya, Hollanda, İtalya, Polonya",
+        "goods": "Otomotiv yan sanayi, ambalaj, kimya, tekstil",
+        "timeline": "Ortalama 7–21 gün kara/deniz",
+        "docs": "EUR.1, A.TR, CE belgesi, cmr"
+      }
+    },
+    "cta": {
+      "headline": "İlk İşlem Odanızı Açın.",
+      "sub": "Demo talepte bulunun, ekibimiz 24 saat içinde size ulaşsın.",
+      "primary": "Demo Talep Et",
+      "secondary": "Ekiple Görüş →",
+      "operator": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip bir ekip tarafından yürütülmektedir."
+    }
   }
 }
