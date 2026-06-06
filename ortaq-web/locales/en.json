@@ -2,7 +2,7 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "All commercial work. One place.",
-    "navTagline": "Commercial Transaction Workspace"
+    "navTagline": "The record both companies share for every deal."
   },
   "nav": {
     "howItWorks": "How It Works",
@@ -13,11 +13,12 @@
     "memberArea": "Your space",
     "explore": "Apply",
     "menu": "Menu",
-    "langToggle": "TR",
+    "langToggle": "Switch language",
     "ariaMain": "Main navigation",
     "ariaMobile": "Mobile navigation",
     "team": "Team",
-    "requestDemo": "Request Demo"
+    "requestDemo": "Request Demo",
+    "whoFor": "Who Is It For"
   },
   "media": {
     "credit": "Image: {{source}} · editorial stock. Not a campaign photograph.",
@@ -1340,7 +1341,7 @@
     }
   },
   "footer": {
-    "tagline": "A growth capital access network that makes strong but invisible manufacturers investment-ready and visible.",
+    "tagline": "ORTAQ is the transaction record that buyer and seller share. SGS, BL, LC and contract — two companies, one screen.",
     "protectionLabel": "Trust and compliance",
     "regulatory": "ORTAQ holds no money, sells no investments and conducts no securities activity. It only provides validation, readiness and qualified introductions.",
     "notAdvice": "ORTAQ gives no investment advice. The content here is for information.",
@@ -1351,32 +1352,37 @@
       "4": "Execution via an authorized, regulated institution"
     },
     "faqTeaser": {
-      "label": "FAQ",
-      "title": "Clear answers on access, readiness and process",
-      "link": "Full FAQ"
+      "label": "Have questions?",
+      "title": "We answered the most common ones.",
+      "link": "See FAQ"
     },
-    "trustTitle": "Trust",
-    "learnTitle": "Learn",
+    "trustTitle": "Company",
+    "learnTitle": "Product",
     "legalTitle": "Legal",
     "supportTitle": "Contact",
-    "supportText": "For questions",
+    "supportText": "Reach us with your questions.",
     "dispute": "Complaints are accepted in writing and reviewed alongside licensed workspace procedures.",
-    "entity": "ORTAQ · Istanbul",
+    "entity": "ORTAQ.BIZ",
     "entityNote": "",
     "links": {
-      "trust": "Trust",
+      "trust": "Trust & Security",
       "risk": "Risks",
-      "process": "How it works",
+      "process": "How It Works",
       "faq": "FAQ",
       "glossary": "Glossary",
       "memberArea": "Your space",
-      "privacy": "Privacy",
-      "terms": "Terms",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
       "evaluation": "Evaluation",
       "companies": "Investment opportunities",
-      "start": "Start reading"
+      "start": "Start reading",
+      "team": "Team",
+      "useCases": "Use Cases",
+      "whoFor": "Who Is It For"
     },
-    "subtitle": "Serious investment layer: we do not state what we cannot prove. From dossier review to structural evaluation, from the trust framework to participation , legal protection and operational transparency at every step."
+    "subtitle": "Serious investment layer: we do not state what we cannot prove. From dossier review to structural evaluation, from the trust framework to participation , legal protection and operational transparency at every step.",
+    "contactEmail": "hello@ortaq.biz",
+    "contactLocation": "Istanbul, Turkey"
   },
   "journey": {
     "label": "Process",
@@ -2526,10 +2532,10 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "For exporters and manufacturers",
-      "h1a": "Has SGS arrived? Is payment out?",
-      "h1b": "Whose turn is it?",
-      "sub": "Instead of searching for these answers across WhatsApp, WeChat, email, Excel and PDF, see everything in one place.",
+      "eyebrow": "For buyers and sellers",
+      "h1a": "Whatever version BestBuild sees,",
+      "h1b": "you see the same one.",
+      "sub": "ORTAQ is the transaction record that buyer and seller share. SGS status, BL date, contract version — clear for both parties, without asking anyone.",
       "cta": "Request Demo",
       "ctaSecondary": "How It Works"
     },
@@ -2593,11 +2599,11 @@
       "callout": "ORTAQ is where commercial commitments become visible, trackable and actionable."
     },
     "cta": {
-      "h2a": "In your next deal,",
-      "h2b": "stop asking 'what is the latest status?'",
-      "sub": "Request a demo. We will walk through one of your active deals together.",
+      "h2a": "You no longer send BestBuild",
+      "h2b": "an email asking 'what is the latest status?'",
+      "sub": "Request a demo. Bring one active deal. Add your counterparty. 30 minutes.",
       "primary": "Request Demo",
-      "secondary": "See How It Works"
+      "secondary": "How It Works"
     },
     "home": {
       "cta": {
@@ -2814,15 +2820,15 @@
     }
   },
   "transform": {
-    "sectionTitle": "Same deal. Two different experiences.",
-    "sectionSub": "Left: how it looks now. Right: how it looks with ORTAQ.",
+    "sectionTitle": "Same deal. Two parties. Two different realities.",
+    "sectionSub": "Left: how it looks today. Right: the ORTAQ record both parties see.",
     "dealName": "Steel Supply",
     "counterparty": "BestBuild GmbH",
     "amount": "€840,000",
     "chaosLabel": "Right now",
-    "ortaqLabel": "With ORTAQ",
+    "ortaqLabel": "ORTAQ record",
     "chaosStatus": "STATUS UNKNOWN",
-    "ortaqStatus": "STATUS CLEAR",
+    "ortaqStatus": "BOTH PARTIES SEE THIS",
     "q1": "What was the final price?",
     "q2": "Which PDF is current?",
     "q3": "Has SGS arrived?",

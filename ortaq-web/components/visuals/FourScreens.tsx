@@ -116,18 +116,25 @@ export function FourScreens() {
         ))}
       </div>
 
-      {/* The message — under the grid */}
-      <div className="mt-4 rounded-xl border border-ortaq-border bg-ortaq-surface px-5 py-3.5 text-center">
-        <p className="text-[0.875rem] font-bold text-ortaq-ink">
-          {isTR
-            ? "Dört farklı şehir. Dört farklı ekip. Aynı bilgi."
-            : "Four cities. Four teams. The same information."}
-        </p>
-        <p className="mt-1 text-[0.5625rem] text-ortaq-ink-soft">
-          {isTR
-            ? "Kimse farklı bir PDF veya eski bir Excel ile çalışmıyor."
-            : "Nobody is working from a different PDF or an old Excel file."}
-        </p>
+      {/* The shared record message — two-company framing */}
+      <div className="mt-4 overflow-hidden rounded-xl border border-ortaq-trust/20 bg-ortaq-trust/[0.04]">
+        <div className="px-5 py-4">
+          <p className="text-[0.9375rem] font-bold text-ortaq-ink">
+            {isTR
+              ? "Bu dört ekran aynı ORTAQ kaydını gösteriyor."
+              : "These four screens show the same ORTAQ record."}
+          </p>
+          <p className="mt-1.5 text-[0.5625rem] text-ortaq-ink-soft">
+            {isTR
+              ? "BestBuild Hamburg ofisinde ne görüyorsa, İstanbul'daki ekibiniz de tam bunu görüyor. Farklı PDF yok. Farklı Excel yok. Farklı gerçek yok."
+              : "Whatever BestBuild sees in their Hamburg office, your Istanbul team sees exactly the same. No different PDF. No different Excel. No different version of reality."}
+          </p>
+        </div>
+        <div className="border-t border-ortaq-trust/15 bg-ortaq-trust/[0.06] px-5 py-2.5">
+          <p className="text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust">
+            {isTR ? "Şirketler Arası İşlem Kaydı — iki şirket, tek ekran." : "Company-to-Company Transaction Record — two companies, one screen."}
+          </p>
+        </div>
       </div>
     </div>
   );

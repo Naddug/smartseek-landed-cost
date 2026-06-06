@@ -13,25 +13,27 @@ import { FourScreens }        from "@/components/visuals/FourScreens";
 import { RiskBoard }          from "@/components/visuals/RiskBoard";
 
 /**
- * OrtaqHomeView — V7: Narrative-first homepage.
+ * OrtaqHomeView — V8: Two-company positioning throughout.
  *
- * Built around ONE real transaction: Çelik Tedariki · BestBuild GmbH · €840.000
+ * Category: Şirketler Arası İşlem Kaydı
+ * (Company-to-Company Transaction Record)
  *
- * Every section is a scene from that transaction's life.
- * Not a product tour. A story the visitor already lives every day.
+ * POSITIONING RULE: every sentence must name BOTH sides of the deal.
+ * The counterparty (BestBuild, the buyer, the supplier) is not a data point.
+ * The counterparty is the whole point of the product.
  *
- * Section 1  — The questions every exporter asks every morning (hero)
- * Section 2  — "Bir gününüz böyle geçiyor mu?" (pain recognition)
- * Section 3  — "Bir işlemin tüm hikayesi" (deal journey, real docs)
- * Section 4  — "Kim ne görüyor?" (4 parties, identical status)
- * Section 5  — "Bugün müdahale etmeniz gereken işlemler" (risk board)
- * Section 6  — "Artık kimse 'son durum ne?' diye sormaz" (CTA)
+ * Section 1 — "BestBuild hangi sözleşmeyi görüyorsa, siz de aynısını görüyorsunuz."
+ * Section 2 — "Siz v12 diyorsunuz. BestBuild v10 diyor." (two-company conflict)
+ * Section 3 — "Aynı işlem. İki taraf. Tek kayıt." (shared deal record)
+ * Section 4 — "İstanbul ne biliyorsa Hamburg da biliyor." (shared visibility)
+ * Section 5 — "Bugün kimin elinde?" (risk board with counterparty column)
+ * Section 6 — "BestBuild'e de artık 'son durum ne?' diye e-posta atmıyorsunuz."
  *
- * Language rules:
- *   Never: platform, visibility, workflow, ecosystem, coordination
- *   Always: SGS, BL, LC, sevkiyat, sözleşme, ödeme, imza, revizyon
- *   No em dashes. No startup language. No SaaS marketing.
- *   Write like a trader. Write like an operations manager.
+ * Language rules — NEVER:
+ *   platform · workflow · dashboard · koordinasyon · ekosistem
+ * ALWAYS:
+ *   her iki taraf · BestBuild · karşı taraf · alıcı · satıcı
+ *   SGS · BL · LC · sözleşme · sevkiyat · ödeme
  */
 
 export function OrtaqHomeView() {
@@ -41,32 +43,35 @@ export function OrtaqHomeView() {
   return (
     <PublicShell stickyCta={false}>
 
-      {/* ══ SECTION 1 — THE DAILY QUESTIONS ══════════════════════════════
-          Visitor must feel: "Yes. These are exactly the questions I ask every morning."
-          Not: "Here is a product."                                          */}
+      {/* ══ SECTION 1 ════════════════════════════════════════════════════════
+          Positioning statement: ORTAQ is the shared transaction record.
+          Both sides see the same version. That is the category definition.  */}
       <section className="relative border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
           <div className="py-12 sm:py-16">
 
-            {/* Eyebrow */}
-            <div className="mb-5 flex justify-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-ortaq-trust/30 bg-ortaq-trust/6 px-3 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
-                <span className="text-[0.6875rem] font-semibold text-ortaq-trust">
-                  {t("home.hero.eyebrow")}
-                </span>
-              </div>
-            </div>
-
-            {/* Headline — the pain, not the software */}
             <div className="mb-8 text-center">
-              <h1 className="mx-auto max-w-2xl font-body font-bold tracking-[-0.04em] text-ortaq-ink leading-[1.02] text-[2.25rem] sm:text-[3rem]">
+              {/* Eyebrow — names both sides immediately */}
+              <div className="mb-4 flex justify-center">
+                <div className="inline-flex items-center gap-2 rounded-full border border-ortaq-trust/30 bg-ortaq-trust/6 px-3 py-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
+                  <span className="text-[0.6875rem] font-semibold text-ortaq-trust">
+                    {t("home.hero.eyebrow")}
+                  </span>
+                </div>
+              </div>
+
+              {/* Hero headline — the category claim, not the pain cry */}
+              <h1 className="mx-auto max-w-3xl font-body font-bold tracking-[-0.04em] text-ortaq-ink leading-[1.02] text-[2.25rem] sm:text-[3rem]">
                 {t("home.hero.h1a")}<br />
                 <span className="text-ortaq-trust">{t("home.hero.h1b")}</span>
               </h1>
-              <p className="mx-auto mt-5 max-w-[32rem] text-[1rem] leading-[1.7] text-ortaq-ink-muted">
+
+              {/* Sub — names the shared record explicitly */}
+              <p className="mx-auto mt-5 max-w-[34rem] text-[1rem] leading-[1.7] text-ortaq-ink-muted">
                 {t("home.hero.sub")}
               </p>
+
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   href="/demo"
@@ -83,155 +88,164 @@ export function OrtaqHomeView() {
               </div>
             </div>
 
-            {/* The transformation visual — left: chaos / right: ORTAQ */}
+            {/* The transformation — both panels show the same deal identity */}
             <TransformationHero />
           </div>
         </Container>
       </section>
 
-      {/* ══ SECTION 2 — DAY IN LIFE ═══════════════════════════════════════
-          Visitor must feel: "This is my team. This is what happens every day."
-          Three situations. Three questions. Three answers.                  */}
+      {/* ══ SECTION 2 ════════════════════════════════════════════════════════
+          The two-company problem. Not internal team confusion.
+          Siz v12 diyorsunuz. BestBuild v10 diyor. Hangisi doğru?            */}
       <SectionWrap
-        sectionLabel={isTR ? "Günlük Gerçeklik" : "Daily Reality"}
-        title={isTR ? "Bir gününüz böyle geçiyor mu?" : "Does your day look like this?"}
+        title={isTR
+          ? "Siz v12 diyorsunuz. BestBuild v10 diyor."
+          : "You say v12. BestBuild says v10."}
         sub={isTR
-          ? "Bir soru sorulur. Herkes farklı bir yere bakar. Cevap geç gelir."
-          : "A question is asked. Everyone looks in a different place. The answer comes late."
-        }
+          ? "İki şirket aynı işlemi yönetiyor ama her taraf farklı bir belgeye, farklı bir versiyona bakıyor. Bu problem her aktif işlemde var."
+          : "Two companies managing the same deal, each looking at a different document and a different version. This problem exists in every active deal."}
         tone="white"
       >
         <DayInLife />
       </SectionWrap>
 
-      {/* ══ SECTION 3 — DEAL JOURNEY ══════════════════════════════════════
-          Visitor must see: a real commercial transaction from start to finish.
-          Real documents. Real stages. Real artifacts. Not a product feature list. */}
+      {/* ══ SECTION 3 ════════════════════════════════════════════════════════
+          One deal. Two parties. One record.
+          Show the deal journey with both sides' responsibility at each stage. */}
       <SectionWrap
-        sectionLabel={isTR ? "Tek İşlem" : "Single Deal"}
-        title={isTR ? "Bir işlemin tüm hikayesi" : "The full story of one deal"}
+        title={isTR
+          ? "Aynı işlem. İki taraf. Tek kayıt."
+          : "Same deal. Two parties. One record."}
         sub={isTR
-          ? "Tekliften ödemeye. Her adımda hangi belge var, kimin elinde, ne durumda."
-          : "From offer to payment. Which document exists at each stage, with whom, at what status."
-        }
+          ? "Tekliften ödemeye, her adımda hangi belge var, kimin elinde ve ne durumda — her iki taraf aynı anda görüyor."
+          : "From offer to payment, which document exists at each stage, with whom, at what status — both parties see this at the same time."}
         tone="warm"
       >
         <DealJourney />
       </SectionWrap>
 
-      {/* ══ SECTION 4 — FOUR SCREENS ══════════════════════════════════════
-          Visitor must understand: nobody is working from different information.
-          The same deal. The same status. Four cities.                       */}
+      {/* ══ SECTION 4 ════════════════════════════════════════════════════════
+          The shared visibility claim.
+          İstanbul ne biliyorsa Hamburg da biliyor. Aynı anda.               */}
       <SectionWrap
-        sectionLabel={isTR ? "Her Taraf" : "Every Party"}
-        title={isTR ? "Kim ne görüyor?" : "What does each party see?"}
+        title={isTR
+          ? "İstanbul ne biliyorsa Hamburg da biliyor."
+          : "What Istanbul knows, Hamburg knows too."}
         sub={isTR
-          ? "Türkiye, Almanya, Tayland ve Japonya aynı işlemi aynı anda görüyor."
-          : "Turkey, Germany, Thailand and Japan see the same deal at the same time."
-        }
+          ? "Tedarikçi, alıcı, lojistik ve finans — aynı işlemi, aynı anda, aynı ekranda görüyor. Farklı PDF yok. Farklı versiyon yok."
+          : "Supplier, buyer, logistics and finance — all seeing the same deal at the same time on the same screen. No different PDF. No different version."}
         tone="white"
       >
         <FourScreens />
       </SectionWrap>
 
-      {/* ══ SECTION 5 — RISK BOARD ════════════════════════════════════════
-          Visitor must feel: "This is why I would open this every morning."
-          Risk, not analytics. Urgency, not size.                            */}
+      {/* ══ SECTION 5 ════════════════════════════════════════════════════════
+          Risk board — names which SIDE each blocker is on.
+          "5 gündür cevap yok" → "5 gündür cevap yok · BestBuild'de"         */}
       <SectionWrap
-        sectionLabel={isTR ? "Sabah Görünümü" : "Morning View"}
-        title={isTR ? "Bugün müdahale etmeniz gereken işlemler" : "Deals that need your attention today"}
+        title={isTR
+          ? "Bugün kimin elinde?"
+          : "Whose turn is it today?"}
         sub={isTR
-          ? "5 gündür cevap yok. SGS bekleniyor. LC eksik. Sıra kimde?"
-          : "No response for 5 days. SGS pending. LC missing. Whose turn is it?"
-        }
+          ? "Hangi işlem sizde bekliyor, hangi işlem karşı tarafta — sabah 08:30'da, hiç kimseye sormadan."
+          : "Which deal is waiting on your side, which is waiting on your counterparty — at 08:30, without asking anyone."}
         tone="warm"
       >
         <RiskBoard />
       </SectionWrap>
 
-      {/* ══ SECTION 6 — NOBODY ASKS ═══════════════════════════════════════
-          The emotional close. Contrast the old pain against the new reality.
-          Then: one clear CTA. No vague language.                            */}
+      {/* ══ SECTION 6 — CTA ══════════════════════════════════════════════════
+          The emotional close names the counterparty explicitly.
+          Both sides. Same screen. No more asking each other.                 */}
       <section className="border-t border-ortaq-border bg-ortaq-ink">
         <Container wide>
           <div className="py-16 sm:py-20">
+            <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
 
-            <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-
-              {/* Left: the messages fading out */}
+              {/* Left: the cross-company messages that disappear */}
               <div>
-                <p className="mb-4 text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/50">
-                  {isTR ? "Eskiden" : "Before"}
+                <p className="mb-4 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/40">
+                  {isTR ? "Şu an böyle oluyor" : "This is what happens now"}
                 </p>
                 <div className="space-y-2">
                   {(isTR ? [
-                    { app: "WhatsApp", who: "CEO",    text: "Sıra kimde, ne bekliyoruz?" },
-                    { app: "Email",    who: "Finans", text: "SGS onaylandı mı? LC açamıyoruz." },
-                    { app: "WhatsApp", who: "Ops",    text: "BL ne zaman kesilecek?" },
-                    { app: "Tel",      who: "Satış",  text: "3 kez aradım, kimse cevaplamıyor" },
-                    { app: "Email",    who: "Hukuk",  text: "Hangi sözleşme versiyonu geçerli?" },
+                    { app: "Email",    from: "siz → BestBuild", text: "SPA'nın hangi versiyonu bizde? v12 mi v10 mu?" },
+                    { app: "WhatsApp", from: "CEO → Ops",        text: "BestBuild'den SGS haberi var mı?" },
+                    { app: "Email",    from: "BestBuild → siz",  text: "BL taslağını gönderdik, onayladınız mı?" },
+                    { app: "WhatsApp", from: "Finans → Satış",   text: "LC için hangi BL'yi kullanacağız?" },
+                    { app: "Email",    from: "siz → BestBuild",  text: "Son durum ne? Sevkiyat tarihi değişti mi?" },
                   ] : [
-                    { app: "WhatsApp", who: "CEO",    text: "Whose turn is it, what are we waiting for?" },
-                    { app: "Email",    who: "Finance", text: "Has SGS been approved? We cannot open LC." },
-                    { app: "WhatsApp", who: "Ops",    text: "When will BL be issued?" },
-                    { app: "Phone",    who: "Sales",  text: "Called 3 times, nobody answers" },
-                    { app: "Email",    who: "Legal",  text: "Which contract version is current?" },
+                    { app: "Email",    from: "you → BestBuild", text: "Which version of the SPA do we have? v12 or v10?" },
+                    { app: "WhatsApp", from: "CEO → Ops",        text: "Any news from BestBuild on the SGS?" },
+                    { app: "Email",    from: "BestBuild → you",  text: "We sent the BL draft, did you approve it?" },
+                    { app: "WhatsApp", from: "Finance → Sales",  text: "Which BL do we use for the LC?" },
+                    { app: "Email",    from: "you → BestBuild",  text: "What is the latest status? Has shipment date changed?" },
                   ]).map((msg, i) => (
                     <div
                       key={i}
                       className="flex items-start gap-3 rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/5 px-4 py-3"
-                      style={{ opacity: 1 - i * 0.12 }}
+                      style={{ opacity: Math.max(0.35, 1 - i * 0.14) }}
                     >
                       <AppBadge app={msg.app} />
                       <div className="min-w-0">
-                        <p className="text-[0.45rem] font-bold text-ortaq-cream/50">{msg.who}</p>
+                        <p className="text-[0.4rem] font-bold text-ortaq-cream/40 italic">{msg.from}</p>
                         <p className="text-[0.5625rem] text-ortaq-cream/75">{msg.text}</p>
                       </div>
                     </div>
                   ))}
-                  <p className="pt-1 text-[0.5rem] font-semibold text-red-400/80">
-                    {isTR ? "Cevap yok. Kimse bilmiyor. Her gün." : "No answers. Nobody knows. Every day."}
+                  <p className="pt-2 text-[0.5rem] font-semibold text-red-400/80">
+                    {isTR
+                      ? "İki şirket. Aynı işlem. Her gün ayrı ayrı soruluyor."
+                      : "Two companies. Same deal. Asked separately every day."}
                   </p>
                 </div>
               </div>
 
-              {/* Right: the CTA + new reality */}
+              {/* Right: CTA — clean, outcome-first */}
               <div className="text-center lg:text-left">
-                <p className="mb-2 text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust">
+                <p className="mb-3 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust">
                   {isTR ? "ORTAQ ile" : "With ORTAQ"}
                 </p>
+
                 <h2 className="text-[1.875rem] font-bold tracking-[-0.03em] text-ortaq-cream leading-[1.1] sm:text-[2.25rem]">
                   {t("home.cta.h2a")}<br />
                   <span className="text-ortaq-trust">{t("home.cta.h2b")}</span>
                 </h2>
+
                 <p className="mt-4 text-[0.9375rem] leading-relaxed text-ortaq-cream/70">
                   {t("home.cta.sub")}
                 </p>
 
-                {/* Live status mini-board */}
+                {/* The shared record — shown with both companies' perspective */}
                 <div className="mt-6 overflow-hidden rounded-2xl border border-ortaq-cream/10 bg-ortaq-cream/5">
-                  <div className="border-b border-ortaq-cream/10 px-4 py-3">
-                    <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-cream/50">
-                      {isTR ? "Çelik Tedariki · Anlık Durum" : "Steel Supply · Current Status"}
+                  <div className="flex items-center justify-between border-b border-ortaq-cream/10 px-4 py-2.5">
+                    <p className="text-[0.4375rem] font-bold uppercase tracking-[0.07em] text-ortaq-cream/50">
+                      {isTR ? "Çelik Tedariki · BestBuild GmbH · €840.000" : "Steel Supply · BestBuild GmbH · €840,000"}
                     </p>
+                    <div className="flex items-center gap-1">
+                      <span className="h-1 w-1 rounded-full bg-emerald-400" />
+                      <span className="text-[0.375rem] font-semibold text-emerald-400">
+                        {isTR ? "Her iki taraf görüyor" : "Both parties see this"}
+                      </span>
+                    </div>
                   </div>
                   <div className="divide-y divide-ortaq-cream/[0.06]">
                     {(isTR ? [
-                      { label: "Sözleşme", value: "SPA v12 · İmzalı",          color: "text-emerald-400" },
-                      { label: "SGS",      value: "Bekleniyor · BestBuild",    color: "text-amber-400"  },
-                      { label: "BL",       value: "28 Haziran · SGS sonrası",   color: "text-sky-400"    },
-                      { label: "Ödeme",    value: "LC hazırlanıyor · HSBC",    color: "text-amber-400"  },
-                      { label: "Sıradaki", value: "SGS · BestBuild sorumlu",  color: "text-ortaq-trust" },
+                      { label: "Sözleşme", value: "SPA v12 · İmzalı · Her iki taraf",      color: "text-emerald-400" },
+                      { label: "SGS",      value: "Bekleniyor · BestBuild'de",              color: "text-amber-400" },
+                      { label: "BL",       value: "28 Haziran · SGS onayı sonrası",          color: "text-sky-400" },
+                      { label: "Ödeme",    value: "LC hazırlanıyor · HSBC Dubai",           color: "text-amber-400" },
+                      { label: "Sıradaki", value: "SGS · BestBuild sorumlu",                color: "text-ortaq-trust" },
                     ] : [
-                      { label: "Contract", value: "SPA v12 · Signed",          color: "text-emerald-400" },
-                      { label: "SGS",      value: "Pending · BestBuild",        color: "text-amber-400"  },
-                      { label: "BL",       value: "June 28 · After SGS",        color: "text-sky-400"    },
-                      { label: "Payment",  value: "LC being prepared · HSBC",   color: "text-amber-400"  },
-                      { label: "Next",     value: "SGS · BestBuild responsible", color: "text-ortaq-trust" },
+                      { label: "Contract", value: "SPA v12 · Signed · Both parties",        color: "text-emerald-400" },
+                      { label: "SGS",      value: "Pending · With BestBuild",                color: "text-amber-400" },
+                      { label: "BL",       value: "June 28 · After SGS approval",           color: "text-sky-400" },
+                      { label: "Payment",  value: "LC being prepared · HSBC Dubai",         color: "text-amber-400" },
+                      { label: "Next",     value: "SGS · BestBuild responsible",            color: "text-ortaq-trust" },
                     ]).map((row) => (
                       <div key={row.label} className="flex items-center justify-between gap-3 px-4 py-2.5">
                         <span className="text-[0.4375rem] font-semibold text-ortaq-cream/50">{row.label}</span>
-                        <span className={cn("text-[0.5rem] font-bold", row.color)}>{row.value}</span>
+                        <span className={cn("text-right text-[0.5rem] font-bold", row.color)}>{row.value}</span>
                       </div>
                     ))}
                   </div>
@@ -252,8 +266,8 @@ export function OrtaqHomeView() {
                   </Link>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
         </Container>
       </section>
@@ -265,13 +279,8 @@ export function OrtaqHomeView() {
 /* ── Section wrapper ──────────────────────────────────────────────────────── */
 
 function SectionWrap({
-  sectionLabel,
-  title,
-  sub,
-  tone,
-  children,
+  title, sub, tone, children,
 }: {
-  sectionLabel: string;
   title: string;
   sub: string;
   tone: "white" | "warm";
@@ -285,9 +294,6 @@ function SectionWrap({
       <Container wide>
         <div className="py-14 sm:py-18">
           <div className="mb-8">
-            <p className="mb-2 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust">
-              {sectionLabel}
-            </p>
             <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink sm:text-[1.875rem] leading-[1.1]">
               {title}
             </h2>
@@ -302,7 +308,7 @@ function SectionWrap({
   );
 }
 
-/* ── App badge (for "nobody asks" section) ────────────────────────────────── */
+/* ── App badge ────────────────────────────────────────────────────────────── */
 
 const APP_COLORS: Record<string, string> = {
   WhatsApp: "bg-[#075E54]",
@@ -316,24 +322,10 @@ const APP_COLORS: Record<string, string> = {
 function AppBadge({ app }: { app: string }) {
   return (
     <span className={cn(
-      "shrink-0 rounded px-1.5 py-0.5 text-[0.35rem] font-bold text-white",
+      "shrink-0 rounded px-1.5 py-0.5 text-[0.35rem] font-bold text-white whitespace-nowrap",
       APP_COLORS[app] ?? "bg-gray-600",
     )}>
       {app}
     </span>
-  );
-}
-
-/* ── Grid background (unused, kept for future) ────────────────────────────── */
-function GridPattern() {
-  return (
-    <div
-      className="pointer-events-none absolute inset-0 opacity-[0.015]"
-      style={{
-        backgroundImage: `linear-gradient(var(--color-ortaq-ink) 1px, transparent 1px),
-                          linear-gradient(90deg, var(--color-ortaq-ink) 1px, transparent 1px)`,
-        backgroundSize: "40px 40px",
-      }}
-    />
   );
 }

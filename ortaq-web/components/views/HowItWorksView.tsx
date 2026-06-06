@@ -7,28 +7,35 @@ import { Container } from "@/components/ui/Section";
 import { cn } from "@/lib/cn";
 
 /**
- * HowItWorksView — 4-step visual story. No paragraphs.
+ * HowItWorksView — V8: Two-company story. No paragraphs.
  *
- * STEP 1: One transaction. Six apps. Zero clarity.
- *   Visual: floating app windows (WhatsApp, WeChat, Outlook, Excel, SGS, BL Draft)
- *   all containing fragments of the same deal.
+ * Category: Şirketler Arası İşlem Kaydı
+ * (Company-to-Company Transaction Record)
  *
- * STEP 2: ORTAQ gathers everything under one transaction.
- *   Visual: same documents / messages now attached to a central deal card.
- *   Stage, status, next action, documents — all visible at once.
+ * POSITIONING REWRITE: This page explains ONE transaction between TWO companies.
+ * Not a product. Not a workflow. The buyer and seller are always named.
  *
- * STEP 3: Every party sees the same screen.
- *   Visual: 4 role views (Tedarikçi, Alıcı, Lojistik, Finans) showing
- *   identical status for the same transaction.
+ * STEP 1: "Siz v12 diyorsunuz. BestBuild v10 diyor."
+ *   The two-company gap: same deal, two different realities.
+ *   Visual: messages flying between the two companies, out of sync.
  *
- * STEP 4: "Son durum ne?" is the last question anyone asks.
- *   Visual: "before" = phone + WhatsApp status queries.
- *           "after"  = the answer is already on screen.
+ * STEP 2: "ORTAQ, iki tarafın paylaştığı tek kayıttır."
+ *   The record is created. Both companies write to it and read from it.
+ *   Visual: BestBuild + your team both connected to the same deal card.
+ *
+ * STEP 3: "BestBuild ne görüyorsa, siz de aynısını görüyorsunuz."
+ *   The shared visibility: same SGS status, same BL draft, same payment step.
+ *   Visual: two screens side by side — perfectly mirrored.
+ *
+ * STEP 4: "BestBuild'e artık 'son durum ne?' diye e-posta atmıyorsunuz."
+ *   The elimination of the status-check email — between companies, not inside.
+ *   Visual: the cross-company email disappears. The ORTAQ record answers it.
  *
  * Design rules:
- *   - Each step has ONE headline question, ONE visual, ONE sentence.
+ *   - BUYER and SELLER named in every step. "Her iki taraf" is not enough.
+ *   - Named counterparty: BestBuild GmbH, Hamburg.
  *   - No paragraph longer than 15 words.
- *   - Trade terminology only: SGS, BL, LC, sözleşme, sevkiyat, ödeme.
+ *   - Trade terms only: SGS, BL, LC, sözleşme, ödeme.
  *   - No startup/software language.
  */
 
@@ -49,14 +56,14 @@ export function HowItWorksView() {
               </p>
               <h1 className="mt-3 text-[2rem] font-bold tracking-[-0.03em] text-ortaq-ink sm:text-[2.5rem] leading-[1.05]">
                 {isTR
-                  ? <>Bir işlemin tüm tarafları<br /><span className="text-ortaq-trust">aynı ekranı görsün.</span></>
-                  : <>Every party in a deal<br /><span className="text-ortaq-trust">sees the same screen.</span></>
+                  ? <>BestBuild ne görüyorsa,<br /><span className="text-ortaq-trust">siz de aynısını görüyorsunuz.</span></>
+                  : <>Whatever BestBuild sees,<br /><span className="text-ortaq-trust">you see exactly the same.</span></>
                 }
               </h1>
               <p className="mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
                 {isTR
-                  ? "WhatsApp, e-posta ve PDF arasında kalan işlemler ORTAQ ile tek yerde toplanır."
-                  : "Deals scattered across WhatsApp, email and PDF come together in one place with ORTAQ."
+                  ? "ORTAQ, alıcı ve satıcının aynı işlem kaydını paylaştığı sistemdir. Tek SGS durumu. Tek BL versiyonu. Tek sözleşme — iki taraf için."
+                  : "ORTAQ is the transaction record buyer and seller share. One SGS status. One BL version. One contract — for both parties."
                 }
               </p>
             </div>
@@ -66,51 +73,55 @@ export function HowItWorksView() {
         {/* Steps */}
         <div className="divide-y divide-ortaq-border">
 
-          {/* ══ STEP 1: Chaos ══════════════════════════════════════ */}
+          {/* ══ STEP 1: The two-company gap ═══════════════════════ */}
           <Step
             number="01"
-            question={isTR ? "Bir işlem. Altı uygulama. Sıfır netlik." : "One deal. Six apps. Zero clarity."}
+            question={isTR
+              ? "Siz v12 diyorsunuz. BestBuild v10 diyor."
+              : "You say v12. BestBuild says v10."}
             answer={isTR
-              ? "Fiyat WhatsApp'ta, sözleşme Outlook'ta, SGS raporu PDF'te, son numara Excel'de."
-              : "Price on WhatsApp, contract in Outlook, SGS report in PDF, final number in Excel."
-            }
+              ? "Aynı işlem. İki şirket. Her taraf farklı bir belgeye, farklı bir versiyona bakıyor."
+              : "Same deal. Two companies. Each side looking at a different document, a different version."}
           >
             <Step1Visual isTR={isTR} />
           </Step>
 
-          {/* ══ STEP 2: ORTAQ collects ═════════════════════════════ */}
+          {/* ══ STEP 2: The shared record ══════════════════════════ */}
           <Step
             number="02"
-            question={isTR ? "ORTAQ her şeyi tek işlem altında toplar." : "ORTAQ gathers everything under one deal."}
+            question={isTR
+              ? "ORTAQ, iki tarafın paylaştığı tek kayıttır."
+              : "ORTAQ is the single record both parties share."}
             answer={isTR
-              ? "Sözleşme, SGS, BL taslağı ve mesajlar — hepsi aynı işlem kaydına bağlanır."
-              : "Contract, SGS, BL draft and messages — all linked to the same deal record."
-            }
+              ? "BestBuild ve siz aynı SPA'ya, aynı SGS durumuna, aynı BL taslağına bakıyorsunuz. Aynı anda."
+              : "BestBuild and you look at the same SPA, the same SGS status, the same BL draft. At the same time."}
             reverse
           >
             <Step2Visual isTR={isTR} />
           </Step>
 
-          {/* ══ STEP 3: Shared status ══════════════════════════════ */}
+          {/* ══ STEP 3: Mirrored screens ═══════════════════════════ */}
           <Step
             number="03"
-            question={isTR ? "Her taraf aynı durumu görüyor." : "Every party sees the same status."}
+            question={isTR
+              ? "BestBuild ne görüyorsa, siz de aynısını görüyorsunuz."
+              : "Whatever BestBuild sees, you see exactly the same."}
             answer={isTR
-              ? "Tedarikçi, alıcı, lojistik ve finans ekibi — hepsi tek ekranda, aynı anda."
-              : "Supplier, buyer, logistics and finance team — all on one screen, at the same time."
-            }
+              ? "Hamburg ve İstanbul. Farklı ekranlar, aynı bilgi. Farklı sözleşme yok. Farklı PDF yok."
+              : "Hamburg and Istanbul. Different screens, same information. No different contract. No different PDF."}
           >
             <Step3Visual isTR={isTR} />
           </Step>
 
-          {/* ══ STEP 4: No more asking ════════════════════════════ */}
+          {/* ══ STEP 4: The email that disappears ════════════════════ */}
           <Step
             number="04"
-            question={isTR ? "'Son durum ne?' sorusu biter." : "'What is the latest status?' stops."}
+            question={isTR
+              ? "BestBuild'e artık 'son durum ne?' diye e-posta atmıyorsunuz."
+              : "You no longer send BestBuild an email asking 'what is the latest status?'"}
             answer={isTR
-              ? "Cevap her zaman ekranda. SGS onayı, BL tarihi, LC durumu — aramadan görünür."
-              : "The answer is always on screen. SGS approval, BL date, LC status — visible without asking."
-            }
+              ? "Cevap ORTAQ kaydında. BestBuild ne yaptıysa, ne onayladıysa — anında görünüyor."
+              : "The answer is in the ORTAQ record. Whatever BestBuild did, whatever they approved — visible instantly."}
             reverse
           >
             <Step4Visual isTR={isTR} />
@@ -125,21 +136,19 @@ export function HowItWorksView() {
               <h2 className="text-[1.625rem] font-bold tracking-[-0.03em] text-ortaq-ink sm:text-[2rem]">
                 {isTR
                   ? "Aktif işlemlerinizden biriyle deneyin."
-                  : "Try it with one of your active deals."
-                }
+                  : "Try it with one of your active deals."}
               </h2>
               <p className="mt-3 text-[0.9375rem] text-ortaq-ink-muted">
                 {isTR
-                  ? "Demo isteyin. Gerçek bir işlemi birlikte inceleyelim."
-                  : "Request a demo. We will walk through a real deal together."
-                }
+                  ? "Demo isteyin. Aktif bir işleminizi getirin. Karşı tarafınızı da ekleyin. 30 dakika."
+                  : "Request a demo. Bring one active deal. Add your counterparty. 30 minutes."}
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <Link
                   href="/demo"
                   className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-ink px-7 text-[0.9375rem] font-semibold text-ortaq-cream shadow-sm transition-all hover:bg-ortaq-ink-muted"
                 >
-                  {isTR ? "Demo Talep Et" : "Request Demo"}
+                  {isTR ? "Demo İsteyin" : "Request Demo"}
                 </Link>
                 <Link
                   href="/"

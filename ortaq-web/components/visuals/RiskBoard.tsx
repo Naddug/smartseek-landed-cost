@@ -40,14 +40,16 @@ export function RiskBoard() {
   const { i18n } = useTranslation();
   const isTR = (i18n.language ?? "tr").startsWith("tr");
 
+  // Every row names WHOSE SIDE the problem is on.
+  // This is the two-company positioning: not just "blocked" but "blocked — Siam Electric'te"
   const deals: Deal[] = isTR ? [
     {
       name: "Elektrik Kablosu",
       counterparty: "Siam Electric · Bangkok",
       stage: "Sözleşme",
-      risk: "5 gündür cevap yok",
+      risk: "5 gündür cevap yok · Siam Electric'te",
       riskType: "blocked",
-      responsible: "Karşı taraf",
+      responsible: "Siam Electric sorumlu",
       days: "5G",
       amount: "€290K",
     },
@@ -55,9 +57,9 @@ export function RiskBoard() {
       name: "Ayçiçek Yağı",
       counterparty: "Al Noor Trading · Dubai",
       stage: "LC",
-      risk: "LC eksik · Akreditif bekleniyor",
+      risk: "LC eksik · Al Noor HSBC'ye göndermedi",
       riskType: "blocked",
-      responsible: "Alıcı · HSBC",
+      responsible: "Al Noor · HSBC Dubai",
       days: "3G",
       amount: "€620K",
     },
@@ -65,9 +67,9 @@ export function RiskBoard() {
       name: "Çelik Tedariki",
       counterparty: "BestBuild GmbH · Hamburg",
       stage: "SGS",
-      risk: "SGS bekleniyor",
+      risk: "SGS bekleniyor · BestBuild'de",
       riskType: "waiting",
-      responsible: "BestBuild · Pazartesi",
+      responsible: "BestBuild sorumlu · Pazartesi",
       days: "1G",
       amount: "€840K",
     },
@@ -75,9 +77,9 @@ export function RiskBoard() {
       name: "Endüstri Makinesi",
       counterparty: "Yamato Corp · Osaka",
       stage: "Sözleşme",
-      risk: "İmza bekleniyor",
+      risk: "İmza bekleniyor · Yamato hukuk ekibi",
       riskType: "waiting",
-      responsible: "Hukuk · Yamato",
+      responsible: "Yamato hukuk · 2 gün",
       days: "2G",
       amount: "€1.2M",
     },
@@ -85,9 +87,9 @@ export function RiskBoard() {
       name: "Ham Kahve",
       counterparty: "Green Origin · Jakarta",
       stage: "Muayene",
-      risk: "Numune bekleniyor",
+      risk: "Numune bekleniyor · bizde",
       riskType: "waiting",
-      responsible: "Lojistik ekibi",
+      responsible: "Lojistik ekibimiz",
       days: "4G",
       amount: "€185K",
     },
@@ -95,9 +97,9 @@ export function RiskBoard() {
       name: "Pamuk İpliği",
       counterparty: "Tex Asia · Ho Chi Minh",
       stage: "Sevkiyat",
-      risk: "BL yolda · Zamanında",
+      risk: "BL yolda · Tex Asia onayladı",
       riskType: "moving",
-      responsible: "Armatör",
+      responsible: "Armatör · zamanında",
       days: "",
       amount: "€320K",
     },
@@ -106,9 +108,9 @@ export function RiskBoard() {
       name: "Electric Cable",
       counterparty: "Siam Electric · Bangkok",
       stage: "Contract",
-      risk: "No response for 5 days",
+      risk: "No response for 5 days · Siam Electric side",
       riskType: "blocked",
-      responsible: "Counterparty",
+      responsible: "Siam Electric responsible",
       days: "5D",
       amount: "€290K",
     },
@@ -116,9 +118,9 @@ export function RiskBoard() {
       name: "Sunflower Oil",
       counterparty: "Al Noor Trading · Dubai",
       stage: "LC",
-      risk: "LC missing · LC pending",
+      risk: "LC missing · Al Noor has not sent to HSBC",
       riskType: "blocked",
-      responsible: "Buyer · HSBC",
+      responsible: "Al Noor · HSBC Dubai",
       days: "3D",
       amount: "€620K",
     },
@@ -126,9 +128,9 @@ export function RiskBoard() {
       name: "Steel Supply",
       counterparty: "BestBuild GmbH · Hamburg",
       stage: "SGS",
-      risk: "SGS pending",
+      risk: "SGS pending · With BestBuild",
       riskType: "waiting",
-      responsible: "BestBuild · Monday",
+      responsible: "BestBuild responsible · Monday",
       days: "1D",
       amount: "€840K",
     },
@@ -136,9 +138,9 @@ export function RiskBoard() {
       name: "Industrial Machine",
       counterparty: "Yamato Corp · Osaka",
       stage: "Contract",
-      risk: "Awaiting signature",
+      risk: "Awaiting signature · Yamato legal team",
       riskType: "waiting",
-      responsible: "Legal · Yamato",
+      responsible: "Yamato legal · 2 days",
       days: "2D",
       amount: "€1.2M",
     },
@@ -146,9 +148,9 @@ export function RiskBoard() {
       name: "Raw Coffee",
       counterparty: "Green Origin · Jakarta",
       stage: "Inspection",
-      risk: "Sample pending",
+      risk: "Sample pending · our side",
       riskType: "waiting",
-      responsible: "Logistics team",
+      responsible: "Our logistics team",
       days: "4D",
       amount: "€185K",
     },
@@ -156,9 +158,9 @@ export function RiskBoard() {
       name: "Cotton Yarn",
       counterparty: "Tex Asia · Ho Chi Minh",
       stage: "Shipment",
-      risk: "BL in transit · On time",
+      risk: "BL in transit · Tex Asia approved",
       riskType: "moving",
-      responsible: "Carrier",
+      responsible: "Carrier · on time",
       days: "",
       amount: "€320K",
     },
@@ -265,12 +267,12 @@ export function RiskBoard() {
         })}
       </div>
 
-      {/* Morning context note */}
+      {/* Two-company context note */}
       <div className="mt-4 rounded-xl border border-ortaq-border bg-ortaq-surface px-5 py-3.5">
         <p className="text-[0.5625rem] text-ortaq-ink-soft">
           {isTR
-            ? "Bu tablo her sabah değişir. Bugün kırmızı olanlar dünden bekliyor. Müdahale edin."
-            : "This board changes every morning. Red rows have been waiting since yesterday. Act now."}
+            ? "Her satırda kimin beklediği yazıyor — sizin ekibiniz mi yoksa karşı taraf mı. Kimseye sormadan."
+            : "Every row shows whose side is waiting — your team or your counterparty. Without asking anyone."}
         </p>
       </div>
     </div>

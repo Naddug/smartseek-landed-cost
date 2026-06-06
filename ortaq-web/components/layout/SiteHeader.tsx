@@ -13,7 +13,8 @@ import { setLocale, currentLocale, type Locale } from "@/lib/i18n/config";
 
 const navItems = [
   { href: "/nasil-calisir", key: "howItWorks" as const },
-  { href: "/ekip", key: "team" as const },
+  { href: "/kimler-icin",   key: "whoFor"    as const },
+  { href: "/ekip",          key: "team"      as const },
 ];
 
 type SiteHeaderProps = {

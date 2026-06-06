@@ -2,10 +2,10 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "Tüm ticari iletişim. Tek bir yer.",
-    "navTagline": "Ticari İşlem Alanı"
+    "navTagline": "İki şirketin aynı işlemi gördüğü kayıt."
   },
   "nav": {
-    "howItWorks": "Nasıl Çalışır?",
+    "howItWorks": "Nasıl Çalışır",
     "discover": "Şirketler",
     "faq": "SSS",
     "companies": "Şirketler",
@@ -18,7 +18,7 @@
     "applyProducer": "Üretici başvurusu",
     "workspace": "Takip listesi",
     "menu": "Menü",
-    "langToggle": "EN",
+    "langToggle": "Dili değiştir",
     "ariaMain": "Ana menü",
     "ariaMobile": "Mobil menü",
     "corridors": "Koridorlar",
@@ -26,7 +26,8 @@
     "startDemo": "Anlaşma Odası Oluştur",
     "platform": "Alan",
     "workflow": "Workflow",
-    "requestDemo": "Demo Talep Et"
+    "requestDemo": "Demo İsteyin",
+    "whoFor": "Kimler İçin"
   },
   "media": {
     "credit": "Görsel: {{source}} · editoryal stok. Kampanya fotoğrafı değil.",
@@ -1322,7 +1323,7 @@
     }
   },
   "footer": {
-    "tagline": "Aktif ticari işlemlerinizi tek ekranda yönetin. Fiyat, sözleşme, SGS, sevkiyat ve ödeme her işlem için net görünür.",
+    "tagline": "ORTAQ, alıcı ve satıcının aynı işlem kaydını paylaştığı sistemdir. SGS, BL, LC ve sözleşme — iki şirket, tek ekran.",
     "protectionLabel": "Güven ve uyum",
     "regulatory": "ORTAQ para tutmaz, yatırım satmaz ve menkul kıymet işlemi yürütmez. Belge inceleme, keşif ve tanıştırma hizmeti verir.",
     "notAdvice": "ORTAQ yatırım tavsiyesi vermez, fonlama veya getiri garanti etmez. Buradaki içerik bilgilendirme amaçlıdır.",
@@ -1343,7 +1344,7 @@
     "supportTitle": "İletişim",
     "supportText": "Sorularınız için bize ulaşın.",
     "dispute": "Şikâyetler destek@ortaq.biz üzerinden yazıyla alınır.",
-    "entity": "ORTAQ · İstanbul",
+    "entity": "ORTAQ.BIZ",
     "entityNote": "",
     "links": {
       "trust": "Güven ve Güvenlik",
@@ -1963,11 +1964,11 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "İhracatçılar ve üreticiler için",
-      "h1a": "SGS geldi mi? Ödeme çıktı mı?",
-      "h1b": "Sıra kimde?",
-      "sub": "Bu cevapları WhatsApp, WeChat, e-posta, Excel ve PDF'lerde aramak yerine tek yerde görün.",
-      "cta": "Demo Talep Et",
+      "eyebrow": "Alıcı ve satıcı için",
+      "h1a": "BestBuild hangi sözleşme versiyonunu görüyorsa,",
+      "h1b": "siz de aynısını görüyorsunuz.",
+      "sub": "ORTAQ, alıcı ve satıcının aynı işlem kaydını paylaştığı sistemdir. SGS durumu, BL tarihi, sözleşme versiyonu — aramadan, sormadan, her iki taraf için net.",
+      "cta": "Demo İsteyin",
       "ctaSecondary": "Nasıl Çalışır"
     },
     "fragmentation": {
@@ -2030,10 +2031,10 @@
       "callout": "ORTAQ, ticari taahhütlerin görünür, takip edilebilir ve eyleme dönüştürülebilir hale geldiği yerdir."
     },
     "cta": {
-      "h2a": "Artık kimse",
-      "h2b": "'son durum ne?' diye sormaz.",
-      "sub": "Demo isteyin. Aktif işlemlerinizden birini birlikte inceleyelim.",
-      "primary": "Demo Talep Et",
+      "h2a": "BestBuild'e de artık",
+      "h2b": "'son durum ne?' diye e-posta atmıyorsunuz.",
+      "sub": "Demo isteyin. Aktif bir işleminizi getirin. Karşı tarafınızı da ekleyin. 30 dakika.",
+      "primary": "Demo İsteyin",
       "secondary": "Nasıl Çalışır"
     }
   },
@@ -3652,15 +3653,15 @@
     }
   },
   "transform": {
-    "sectionTitle": "Aynı işlem. İki farklı deneyim.",
-    "sectionSub": "Solda şu anki durumunuz. Sağda ORTAQ ile nasıl görünür.",
+    "sectionTitle": "Aynı işlem. İki taraf. İki farklı gerçeklik.",
+    "sectionSub": "Solda şu anki durumunuz. Sağda — her iki tarafın gördüğü ORTAQ kaydı.",
     "dealName": "Çelik Tedariki",
     "counterparty": "BestBuild GmbH",
     "amount": "€840.000",
     "chaosLabel": "Şu an",
-    "ortaqLabel": "ORTAQ ile",
+    "ortaqLabel": "ORTAQ kaydı",
     "chaosStatus": "DURUM BELİRSİZ",
-    "ortaqStatus": "DURUM NET",
+    "ortaqStatus": "HER İKİ TARAF GÖRÜYOR",
     "q1": "Son fiyat neydi?",
     "q2": "Hangi PDF güncel?",
     "q3": "SGS geldi mi?",

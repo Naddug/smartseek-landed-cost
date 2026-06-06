@@ -8,28 +8,24 @@ import { typography } from "@/design/typography";
 import { cn } from "@/lib/cn";
 
 /**
- * SiteFooter — simplified to what actually helps visitors.
+ * SiteFooter — two-company positioning throughout.
  *
- * Sitemap audit result:
+ * TAGLINE: "ORTAQ, alıcı ve satıcının aynı işlem kaydını paylaştığı sistemdir."
  *
- * KEEP:
- *   Nasıl Çalışır   — visitors need to understand the product
- *   Demo Talep Et   — primary conversion
- *   SSS             — answers objections without a sales call
- *   Ekip            — trust builder for B2B buyers
- *   Gizlilik        — legally required
- *   Kullanım        — legally required
+ * Every label in the footer reinforces the category:
+ *   Şirketler Arası İşlem Kaydı (Company-to-Company Transaction Record)
  *
- * REMOVE from public nav:
- *   Yatırımcılar    — irrelevant to buyers; creates wrong impression
- *   Riskler         — sounds defensive; not a buying signal
- *   Güven           — content merges into product pages naturally
+ * Demo CTA: "Demo İsteyin" (not "Demo Talep Et" — sounds bureaucratic)
+ * Email CTA: "Karşı tarafınızla birlikte deneyin" — names both sides
  *
- * ADD (or placeholder for future):
- *   Kimler İçin     — helps exporters, manufacturers, procurement self-identify
- *   Kullanım Senaryoları — real examples convert better than features
+ * Removed:
+ *   - Yatırımcılar — wrong audience
+ *   - Riskler — defensive signal
+ *   - Güven as standalone — merge into product pages
  *
- * Language: no startup language. Simple, direct.
+ * Added placeholder:
+ *   - Kimler İçin — self-identification for exporters, procurement, traders
+ *   - Kullanım Senaryoları — real examples > feature lists
  */
 
 const linkClass = cn(
@@ -44,10 +40,10 @@ export function SiteFooter() {
     <footer className="border-t border-white/10 bg-ortaq-dark pb-[calc(4rem+env(safe-area-inset-bottom))] pt-10 text-ortaq-cream md:pb-10">
       <Container wide>
 
-        {/* SSS teaser — useful conversion nudge */}
-        <div className="mb-8 flex flex-col gap-3 rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        {/* Demo teaser — names both parties explicitly */}
+        <div className="mb-8 flex flex-col gap-3 rounded-xl border border-ortaq-trust/20 bg-ortaq-trust/[0.06] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-cream/40">
+            <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust/60">
               {t("footer.faqTeaser.label")}
             </p>
             <p className="mt-1 text-[0.875rem] font-semibold text-ortaq-cream/90">
@@ -55,10 +51,10 @@ export function SiteFooter() {
             </p>
           </div>
           <Link
-            href="/sss"
-            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-ortaq-cream/15 bg-ortaq-cream/8 px-4 text-[0.8125rem] font-semibold text-ortaq-cream/80 transition-colors hover:border-ortaq-cream/30 hover:text-ortaq-cream sm:shrink-0"
+            href="/demo"
+            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-ortaq-trust/30 bg-ortaq-trust/10 px-4 text-[0.8125rem] font-semibold text-ortaq-trust transition-colors hover:border-ortaq-trust/50 hover:bg-ortaq-trust/20 sm:shrink-0"
           >
-            {t("footer.faqTeaser.link")} →
+            {t("nav.requestDemo")} →
           </Link>
         </div>
 
@@ -88,7 +84,7 @@ export function SiteFooter() {
                   href="/demo"
                   className={cn(linkClass, "font-semibold text-ortaq-trust hover:text-ortaq-trust-soft")}
                 >
-                  Demo Talep Et →
+                  {t("nav.requestDemo")} →
                 </Link>
               </li>
             </ul>
@@ -132,8 +128,8 @@ export function SiteFooter() {
         {/* Bottom bar */}
         <div className={cn(typography.caption, "mt-8 flex flex-col gap-1 border-t border-ortaq-cream/10 pt-5 text-ortaq-cream/35 sm:flex-row sm:items-center sm:justify-between")}>
           <p>© {new Date().getFullYear()} ORTAQ.BIZ — İstanbul, Türkiye</p>
-          <p className="max-w-md text-right leading-relaxed">
-            {t("footer.entity")}
+          <p className="max-w-md text-right leading-relaxed text-ortaq-cream/25">
+            Şirketler Arası İşlem Kaydı
           </p>
         </div>
 
