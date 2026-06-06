@@ -1,12 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import tr from "@/locales/tr.json";
+import en from "@/locales/en.json";
 
 export const defaultLocale = "tr" as const;
-export type Locale = "tr";
+export type Locale = "tr" | "en";
 
 const resources = {
   tr: { translation: tr },
+  en: { translation: en },
 };
 
 let initialized = false;
@@ -14,9 +16,14 @@ let initialized = false;
 export function initI18n() {
   if (initialized || i18n.isInitialized) return i18n;
 
+  const saved =
+    typeof window !== "undefined"
+      ? (localStorage.getItem("ortaq-lang") as Locale | null)
+      : null;
+
   void i18n.use(initReactI18next).init({
     resources,
-    lng: defaultLocale,
+    lng: saved ?? defaultLocale,
     fallbackLng: defaultLocale,
     interpolation: { escapeValue: false },
   });
@@ -26,17 +33,21 @@ export function initI18n() {
 }
 
 export function setLocale(locale: Locale) {
-  if (locale !== "tr") return;
   initI18n();
-  void i18n.changeLanguage("tr");
+  void i18n.changeLanguage(locale);
   if (typeof document !== "undefined") {
-    document.documentElement.lang = "tr";
+    document.documentElement.lang = locale;
+    localStorage.setItem("ortaq-lang", locale);
   }
 }
 
-/** Locale switching disabled at launch — Turkish only. */
 export function toggleLocale() {
-  setLocale("tr");
+  const current = i18n.language as Locale;
+  setLocale(current === "tr" ? "en" : "tr");
+}
+
+export function currentLocale(): Locale {
+  return (i18n.language ?? defaultLocale) as Locale;
 }
 
 export default i18n;

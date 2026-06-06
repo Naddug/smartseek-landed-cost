@@ -1,11 +1,11 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Growth capital access network",
-    "navTagline": "Growth capital access network"
+    "tagline": "All commercial work. One place.",
+    "navTagline": "Commercial Transaction Platform"
   },
   "nav": {
-    "howItWorks": "How it works",
+    "howItWorks": "How It Works",
     "companies": "Companies",
     "trust": "Trust",
     "risk": "Risk framework",
@@ -13,9 +13,11 @@
     "memberArea": "Your space",
     "explore": "Apply",
     "menu": "Menu",
-    "langToggle": "Change language",
-    "ariaMain": "Main menu",
-    "ariaMobile": "Mobile menu"
+    "langToggle": "TR",
+    "ariaMain": "Main navigation",
+    "ariaMobile": "Mobile navigation",
+    "team": "Team",
+    "requestDemo": "Request Demo"
   },
   "media": {
     "credit": "Image: {{source}} · editorial stock. Not a campaign photograph.",
@@ -2520,6 +2522,82 @@
       },
       "align": "ORTAQ only earns when it produces genuinely investment-ready companies and genuine qualified access. So its incentive is aligned with both sides.",
       "note": "A subscription, not a commission. Revenue comes from access and data, so ORTAQ only earns when it produces real value."
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Commercial Transaction Platform",
+      "h1a": "All commercial work.",
+      "h1b": "One place.",
+      "sub": "WhatsApp, email, documents, approvals and transactions — bring your scattered commercial communication into one workspace.",
+      "cta": "Request Demo",
+      "ctaSecondary": "How It Works"
+    },
+    "fragmentation": {
+      "eyebrow": "The problem",
+      "h2": "Does this look familiar?",
+      "sub": "Every deal's information lives somewhere different. Nobody sees the full picture.",
+      "items": [
+        {
+          "tool": "WhatsApp",
+          "desc": "Who approved the last price?",
+          "thread": "47 unread messages"
+        },
+        {
+          "tool": "Email",
+          "desc": "Which attachment was final?",
+          "thread": "6 separate threads"
+        },
+        {
+          "tool": "Excel",
+          "desc": "v_FINAL_2 or v3_REAL?",
+          "thread": "4 open versions"
+        },
+        {
+          "tool": "PDF",
+          "desc": "Which copy is signed?",
+          "thread": "12 files"
+        },
+        {
+          "tool": "Phone",
+          "desc": "What did we agree last week?",
+          "thread": "No record"
+        },
+        {
+          "tool": "ERP",
+          "desc": "Was inventory updated?",
+          "thread": "No access"
+        }
+      ],
+      "conclusion": "Nobody sees the full picture. This is why deals slow down."
+    },
+    "unified": {
+      "eyebrow": "The solution",
+      "h2": "Everything in one feed.",
+      "sub": "WhatsApp, email, documents, approvals and internal messages — in deal context, in chronological order, visible to both sides."
+    },
+    "approvals": {
+      "eyebrow": "Approvals",
+      "h2": "Decisions don't disappear.",
+      "sub": "Approval requests are sent, tracked and resolved. Every decision is on record. Both sides see it."
+    },
+    "documents": {
+      "eyebrow": "Documents",
+      "h2": "Which version is current?",
+      "sub": "Every document is attached to the deal. Versions are tracked. The current copy is always known."
+    },
+    "category": {
+      "eyebrow": "The category",
+      "h2": "System of Record Between Companies.",
+      "sub": "Salesforce manages customer relationships. ERP manages internal operations. Nothing manages the commercial work between two companies. ORTAQ fills that gap.",
+      "callout": "ORTAQ is where commercial commitments become visible, trackable and actionable."
+    },
+    "cta": {
+      "h2a": "Both companies.",
+      "h2b": "Same commercial reality.",
+      "sub": "Request a demo. We will show you what your most complex active deal looks like inside ORTAQ — all commitments, approvals and outstanding actions, visible to both sides in one view.",
+      "primary": "Request Demo",
+      "secondary": "Talk to the team →"
     }
   }
 }

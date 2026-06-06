@@ -9,6 +9,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
 import { cn } from "@/lib/cn";
+import { setLocale, currentLocale, type Locale } from "@/lib/i18n/config";
 
 const navItems = [
   { href: "/nasil-calisir", key: "howItWorks" as const },
@@ -20,9 +21,18 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ overlay = false }: SiteHeaderProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [lang, setLang] = useState<Locale>(() =>
+    typeof window !== "undefined" ? currentLocale() : "tr",
+  );
+
+  function handleLangToggle() {
+    const next: Locale = lang === "tr" ? "en" : "tr";
+    setLocale(next);
+    setLang(next);
+  }
 
   const light = overlay;
 
@@ -70,9 +80,24 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* Language switcher */}
+            <button
+              type="button"
+              onClick={handleLangToggle}
+              className={cn(
+                "hidden sm:inline-flex h-8 items-center gap-1 rounded-md border px-2.5 text-[0.6875rem] font-bold tracking-[0.04em] transition-colors",
+                light
+                  ? "border-white/20 text-ortaq-cream/70 hover:border-white/40 hover:text-ortaq-cream"
+                  : "border-ortaq-border text-ortaq-ink-soft hover:border-ortaq-border-strong hover:text-ortaq-ink",
+              )}
+              aria-label={t("nav.langToggle")}
+            >
+              {lang === "tr" ? "EN" : "TR"}
+            </button>
+
             <Link href="/demo" className="hidden sm:block">
               <Button variant={light ? "light" : "primary"} size="sm">
-                Request Demo
+                {t("nav.requestDemo")}
               </Button>
             </Link>
             <button
@@ -113,9 +138,21 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
               <li className="pt-2">
                 <Link href="/demo" onClick={() => setOpen(false)}>
                   <Button variant="primary" fullWidth size="sm">
-                    Request Demo
+                    {t("nav.requestDemo")}
                   </Button>
                 </Link>
+              </li>
+              <li className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => { handleLangToggle(); setOpen(false); }}
+                  className={cn(
+                    "flex min-h-11 w-full items-center text-[0.9375rem] font-semibold",
+                    light ? "text-ortaq-cream" : "text-ortaq-ink-muted",
+                  )}
+                >
+                  {lang === "tr" ? "Switch to English" : "Türkçe'ye geç"}
+                </button>
               </li>
             </ul>
           </nav>

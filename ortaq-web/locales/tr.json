@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Commercial Operations Platform for B2B companies",
-    "navTagline": "Commercial Operations Platform"
+    "tagline": "Tüm ticari iletişim. Tek bir yer.",
+    "navTagline": "Ticari İşlem Platformu"
   },
   "nav": {
     "howItWorks": "Nasıl Çalışır?",
@@ -18,7 +18,7 @@
     "applyProducer": "Üretici başvurusu",
     "workspace": "Takip listesi",
     "menu": "Menü",
-    "langToggle": "Dil değiştir",
+    "langToggle": "EN",
     "ariaMain": "Ana menü",
     "ariaMobile": "Mobil menü",
     "corridors": "Koridorlar",
@@ -26,7 +26,7 @@
     "startDemo": "Anlaşma Odası Oluştur",
     "platform": "Platform",
     "workflow": "Workflow",
-    "requestDemo": "Request Demo"
+    "requestDemo": "Demo Talep Et"
   },
   "media": {
     "credit": "Görsel: {{source}} · editoryal stok. Kampanya fotoğrafı değil.",
@@ -1960,51 +1960,79 @@
     "back": "Ana sayfaya dön"
   },
   "home": {
-    "institutional": {
-      "eyebrow": "ORTAQ",
-      "headline": "Türkiye'nin halka açık olmayan üreticilerine yapılandırılmış erişim",
-      "lead": "Kapasite, ihracat ve saha notlarını tek dosyada topluyoruz. Okuma serbest; tanışma karşılıklı onayla açılır.",
-      "body": "Aile ofisleri, stratejik alıcılar ve ihracat ortakları için şeffaf ön bilgi. Üreticiler için ise doğru profile ulaşma kanalı.",
-      "ctaPrimary": "Şirketleri incele",
-      "ctaSecondary": "Nasıl çalışır",
-      "disclaimer": "Bilgilendirme ve tanışma amaçlıdır. Hisse veya fon satışı yapılmaz; yatırım teklifi değildir.",
-      "thesis": {
-        "title": "Neden ORTAQ var?",
-        "lead": "Borsa dışı üretici kitlesi büyük; güvenilir bilgi ve erişim ise dağınık.",
-        "problem": {
-          "label": "Sorun",
-          "body": "Binlerce üretici şirket halka açık değil. Kapasite ve ihracat bilgisi çoğu zaman telefon, fuar veya aracı sözlüsüyle gelir; doğrulanmış dosya yoktur."
+    "hero": {
+      "eyebrow": "Şirketler Arası Ticari Platform",
+      "h1a": "Tüm ticari iletişim.",
+      "h1b": "Tek bir yer.",
+      "sub": "WhatsApp, e-posta, belgeler, onaylar ve işlemler — dağılmış verilerinizi tek bir çalışma alanında toplayın.",
+      "cta": "Demo Talep Et",
+      "ctaSecondary": "Nasıl Çalışır?"
+    },
+    "fragmentation": {
+      "eyebrow": "Sorun",
+      "h2": "Bu sahneler tanıdık geliyor mu?",
+      "sub": "Her anlaşmanın bilgisi farklı bir yerde. Hiç kimse tam resmi görmüyor.",
+      "items": [
+        {
+          "tool": "WhatsApp",
+          "desc": "Son fiyatı kim onayladı?",
+          "thread": "47 okunmamış mesaj"
         },
-        "solution": {
-          "label": "Yaklaşım",
-          "body": "Her şirket için saha ve belge incelemeli dosya. İlgi notu iki tarafa gider; uygunluk varsa tanışma açılır. ORTAQ taraf tutmaz, süreci düzenler."
+        {
+          "tool": "E-posta",
+          "desc": "Hangi ek son haliydi?",
+          "thread": "6 ayrı konu"
         },
-        "audience": {
-          "label": "Kimler için",
-          "body": "Yurt dışı alıcı ve sermaye tarafı dosyayı okur. Üretici tarafı görünürlük ve doğru eşleşme ister. İkisi de aynı şeffaf çerçevede buluşur."
+        {
+          "tool": "Excel",
+          "desc": "v_FINAL_2 mi, yoksa v3_GERÇEK mi?",
+          "thread": "4 farklı sürüm"
         },
-        "operator": "Platform LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip tarafından işletilir.",
-        "teamLink": "Ekibi tanıyın"
-      },
-      "process": {
-        "label": "Süreç",
-        "title": "Üç adımda",
-        "link": "Ayrıntılı anlatım",
-        "steps": {
-          "read": {
-            "title": "Dosyayı okuyun",
-            "body": "Üretim, ihracat, risk ve saha notları tek profilde. Karar vermeden önce bağlamı görürsünüz."
-          },
-          "signal": {
-            "title": "İlgi bildirin",
-            "body": "Takibe alın veya ilgi notu bırakın. Şirket tarafı talebi görür; zorunlu yanıt yoktur."
-          },
-          "intro": {
-            "title": "Karşılıklı tanışma",
-            "body": "İki taraf da uygun görürse görüşme açılır. ORTAQ aracılık eder; işlem veya sözleşme taraflar arasında kalır."
-          }
+        {
+          "tool": "PDF",
+          "desc": "İmzalı kopya hangisi?",
+          "thread": "12 dosya"
+        },
+        {
+          "tool": "Telefon",
+          "desc": "Geçen hafta ne kararlaştırdık?",
+          "thread": "Kayıt yok"
+        },
+        {
+          "tool": "ERP",
+          "desc": "Stok durumu güncellendi mi?",
+          "thread": "Erişim yok"
         }
-      }
+      ],
+      "conclusion": "Kimse tam resmi görmüyor. Bu yüzden anlaşmalar yavaşlıyor."
+    },
+    "unified": {
+      "eyebrow": "Çözüm",
+      "h2": "Hepsi tek akışta.",
+      "sub": "WhatsApp, e-posta, belgeler, onaylar ve dahili mesajlar — anlaşma bağlamında, kronolojik sırada, her iki taraf için."
+    },
+    "approvals": {
+      "eyebrow": "Onaylar",
+      "h2": "Kararlar kaybolmaz.",
+      "sub": "Onay talepleri gönderilir, takip edilir ve yanıtlanır. Her karar kayıt altına alınır. Her iki taraf görür."
+    },
+    "documents": {
+      "eyebrow": "Belgeler",
+      "h2": "Hangi sürüm geçerli?",
+      "sub": "Her belge anlaşmaya bağlıdır. Sürümler takip edilir. Geçerli kopya her zaman bilinir."
+    },
+    "category": {
+      "eyebrow": "Kategori",
+      "h2": "Şirketler arası kayıt sistemi.",
+      "sub": "Salesforce müşteri ilişkilerini yönetir. ERP dahili operasyonları yönetir. İki şirket arasındaki ticari işi hiçbir sistem yönetmiyor. ORTAQ bu boşluğu dolduruyor.",
+      "callout": "ORTAQ, ticari taahhütlerin görünür, takip edilebilir ve eyleme dönüştürülebilir hale geldiği yerdir."
+    },
+    "cta": {
+      "h2a": "İki şirket.",
+      "h2b": "Aynı ticari gerçeklik.",
+      "sub": "Demo isteyin. En karmaşık aktif anlaşmanızı ORTAQ içinde gösterelim — tüm taahhütler, onaylar ve beklenen eylemler, her iki taraf için tek görünümde.",
+      "primary": "Demo Talep Et",
+      "secondary": "Ekiple Konuş →"
     }
   },
   "homeLanding": {
