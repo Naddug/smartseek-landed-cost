@@ -2527,9 +2527,9 @@
   "home": {
     "hero": {
       "eyebrow": "For exporters and manufacturers",
-      "h1a": "The real status of your",
-      "h1b": "commercial transactions.",
-      "sub": "Clarify commercial processes lost across WhatsApp, email, PDF and Excel — in a single view.",
+      "h1a": "Who is waiting, which document is current,",
+      "h1b": "where is the payment?",
+      "sub": "ORTAQ brings your active commercial transactions into one screen. Without searching through WhatsApp, email and PDF, you instantly see where a deal stands and what comes next.",
       "cta": "Request Demo",
       "ctaSecondary": "See How It Works"
     },
@@ -2593,11 +2593,11 @@
       "callout": "ORTAQ is where commercial commitments become visible, trackable and actionable."
     },
     "cta": {
-      "h2a": "Your commercial operations.",
-      "h2b": "Clear and trackable.",
-      "sub": "Who approved the price? Which contract version is current? When does SGS arrive? Stop searching. See it instantly.",
+      "h2a": "In your next deal,",
+      "h2b": "stop asking 'what is the latest status?'",
+      "sub": "Request a demo. We will walk through one of your active deals together.",
       "primary": "Request Demo",
-      "secondary": "Meet the Team"
+      "secondary": "See How It Works"
     }
   },
   "visuals": {
@@ -2723,8 +2723,8 @@
       "a2deal": "Machinery Imp."
     },
     "global": {
-      "title": "Different countries. One workspace.",
-      "sub": "Supplier, buyer, operations, logistics and finance — everyone sees the same reality at the same time.",
+      "title": "Turkey, Germany, Thailand and Japan see the same deal at the same time.",
+      "sub": "Supplier, buyer, logistics and finance team work on one screen without separate tools.",
       "p1Name": "Yılmaz Ç.",
       "p1Role": "Supplier",
       "p1Country": "🇹🇷",
@@ -2748,28 +2748,28 @@
       "sharedView": "Everyone sees this simultaneously"
     },
     "value": {
-      "sectionTitle": "Every decision. Instantly visible.",
-      "sectionSub": "No more searching. No more asking. No more guessing.",
-      "q1Before": "Which contract version are we using?",
+      "sectionTitle": "The most common questions are already answered.",
+      "sectionSub": "You no longer need to call anyone for a deal status.",
+      "q1Before": "Which contract version was signed?",
       "q1Before2": "v10? v11? v12_final_FINAL?",
-      "q1After": "v12 · Signed · Current Version",
+      "q1After": "Contract v12 signed",
       "q1AfterSub": "Approved by both parties · Jun 15, 10:35",
-      "q2Before": "Did they approve the revised price?",
-      "q2Before2": "Someone said something on WhatsApp...",
+      "q2Before": "Who approved the revised price?",
+      "q2Before2": "Someone mentioned it on WhatsApp...",
       "q2After": "Mehmet K. approved",
       "q2AfterSub": "Finance Director · Yesterday 14:32 · €1,260/MT",
-      "q3Before": "Who is waiting? Whose turn is it?",
-      "q3Before2": "Is it them or us?",
-      "q3After": "BestBuild GmbH is waiting",
-      "q3AfterSub": "SGS approval · 2 days left · Yılmaz Ç. responsible",
-      "q4Before": "When can we ship?",
-      "q4Before2": "When will the BL be ready?",
+      "q3Before": "Whose turn is it? Are we waiting or are they?",
+      "q3Before2": "Who sent the last message?",
+      "q3After": "BestBuild's turn",
+      "q3AfterSub": "SGS approval pending · 2 days left · Yılmaz Ç. following up",
+      "q4Before": "When can the cargo be shipped?",
+      "q4Before2": "What are we waiting for before BL issuance?",
       "q4After": "June 28 · 3 days away",
-      "q4AfterSub": "SGS approval needed before BL issuance"
+      "q4AfterSub": "BL can be issued once SGS is approved"
     },
     "command": {
-      "sectionTitle": "Commercial command center.",
-      "sectionSub": "CEO, Export Director, Procurement — everyone sees the same board at the same time. Nothing is missed.",
+      "sectionTitle": "Your full portfolio at a glance.",
+      "sectionSub": "Which deals are moving, which are blocked, who is approving.",
       "live": "Live",
       "totalLabel": "Total Portfolio",
       "totalVal": "€4.2M",
@@ -2805,8 +2805,8 @@
     }
   },
   "transform": {
-    "sectionTitle": "The real status of your commercial transactions.",
-    "sectionSub": "Same deal. How it looks now. How it looks inside ORTAQ.",
+    "sectionTitle": "Same deal. Two different experiences.",
+    "sectionSub": "Left: how it looks now. Right: how it looks with ORTAQ.",
     "dealName": "Steel Supply",
     "counterparty": "BestBuild GmbH",
     "amount": "€840,000",
@@ -2818,29 +2818,35 @@
     "q2": "Which PDF is current?",
     "q3": "Has SGS arrived?",
     "q4": "Who is waiting?",
-    "q5": "When will payment go out?",
-    "a1": "Price confirmed — €1,260/MT",
+    "q5": "Where is the payment?",
+    "a1": "Price confirmed",
     "a1tag": "Confirmed",
-    "a2": "SPA v12 active version",
+    "a2": "Contract v12 active version",
     "a2tag": "Current",
-    "a3": "SGS pending — counterparty",
+    "a3": "SGS pending",
     "a3tag": "Waiting",
-    "a4": "Waiting on counterparty action",
+    "a4": "BestBuild's turn",
     "a4tag": "Waiting",
     "a5": "Shipment: June 28",
     "a5tag": "Scheduled",
-    "a6": "Last updated: 14 minutes ago",
-    "a6tag": "Live"
+    "a6": "Updated 14 minutes ago",
+    "a6tag": "Live",
+    "a1detail": "€1,260/MT CIF Rotterdam",
+    "a2detail": "v11 and v10 superseded",
+    "a3detail": "Waiting on counterparty",
+    "a4detail": "Cargo plan approval",
+    "a5detail": "SGS required before BL issuance",
+    "a6detail": "Both parties can see this"
   },
   "usage": {
     "sectionTitle": "First 2 hours of the morning.",
-    "sectionSub": "Every team sees what they need, at the same time. Without searching for tools.",
-    "dashTitle": "This is how a company uses ORTAQ.",
-    "dashSub": "4 active deals. Status of each, who is waiting, when it will be delivered — on one screen.",
+    "sectionSub": "Every team sees what they need. Without opening WhatsApp, searching emails, or comparing PDF versions.",
+    "dashTitle": "Your active deals on one screen.",
+    "dashSub": "Which deal is moving, which is blocked, what comes next.",
     "t1time": "08:30",
     "t1role": "CEO",
     "t1insight": "2 deals blocked, 3 moving.",
-    "t1sub": "Full picture at a glance. Without reading.",
+    "t1sub": "Full picture before the morning meeting. No reading.",
     "t1b1": "Steel · BestBuild",
     "t1s1": "moving",
     "t1b2": "Coffee · Dubai",
@@ -2854,15 +2860,18 @@
     "t2time": "09:15",
     "t2role": "Procurement",
     "t2insight": "2 deals waiting for SGS.",
-    "t2sub": "Knows whose turn it is. Without searching tools.",
+    "t2sub": "Knows whose turn it is. Directs the team.",
     "t2b1": "Steel · SGS pending",
     "t2b2": "Machinery · Inspection scheduled",
     "t3time": "10:00",
     "t3role": "Finance",
     "t3insight": "3 deals at payment stage.",
-    "t3sub": "Planning payments. Bank details visible.",
+    "t3sub": "BL and LC status visible. Planning bank discussions.",
     "t3b1": "Machinery · €1.2M · BL ready",
     "t3b2": "Coffee · €290K · Letter of Credit",
-    "t3b3": "Steel · €840K · LC pending"
+    "t3b3": "Steel · €840K · LC pending",
+    "t1before": "Instead of opening WhatsApp and email",
+    "t2before": "Instead of comparing PDF versions",
+    "t3before": "Instead of searching old emails"
   }
 }
