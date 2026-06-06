@@ -1,7 +1,7 @@
 "use client";
 
-import { CommercialOpsHomeView } from "@/components/views/CommercialOpsHomeView";
+import { OrtaqHomeView } from "@/components/views/OrtaqHomeView";
 
 export function HomePageView() {
-  return <CommercialOpsHomeView />;
+  return <OrtaqHomeView />;
 }
