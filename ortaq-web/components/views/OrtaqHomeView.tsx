@@ -7,34 +7,51 @@ import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { TransactionStatus } from "@/components/ortaq/TransactionStatus";
 
+/**
+ * Homepage critical test: every section must be asked —
+ * "If this disappeared, would the visitor still understand why ORTAQ matters?"
+ * If yes → cut.
+ *
+ * Sections that pass:
+ * 1. Hero — stops chasing updates (outcome-led)
+ * 2. Recognition — 5 sentences every visitor has said
+ * 3. The gap — category positioning (between companies, not inside)
+ * 4. Product visual — progress, not storage
+ * 5. 4 outcomes — not 9 features
+ * 6. Team (credibility)
+ * 7. CTA
+ */
 export function OrtaqHomeView() {
   return (
     <PublicShell stickyCta={false}>
 
-      {/* ══ HERO ══════════════════════════════════════════════════════ */}
+      {/* ══ 1. HERO — outcome-driven ════════════════════════════════ */}
       <section className="relative border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
-          <div className="grid min-h-[calc(100dvh-3.75rem)] grid-cols-1 items-center gap-10 py-14 lg:grid-cols-[1fr_1.3fr] lg:gap-10 lg:py-16">
+          <div className="grid min-h-[calc(100dvh-3.75rem)] grid-cols-1 items-center gap-10 py-14 lg:grid-cols-[1fr_1.35fr] lg:gap-10 lg:py-16">
 
             {/* Copy */}
             <div className="flex flex-col">
-              <p className={cn(typography.label, "mb-5 text-ortaq-ink-soft")}>
-                B2B Transaction Coordination
-              </p>
+              <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-ortaq-border bg-ortaq-bg px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
+                <span className="text-[0.6875rem] font-medium text-ortaq-ink-muted">
+                  Coordination layer between companies
+                </span>
+              </div>
 
               <h1
                 className={cn(
                   "font-body font-bold tracking-[-0.04em] text-ortaq-ink",
-                  "text-[2.5rem] leading-[1.04] sm:text-[3rem] lg:text-[3.25rem] xl:text-[3.625rem]",
+                  "text-[2.625rem] leading-[1.02] sm:text-[3.25rem] lg:text-[3.5rem] xl:text-[4rem]",
                 )}
               >
-                Commercial<br />Transactions.<br />
-                <span className="text-ortaq-trust">Organized.</span>
+                Stop Chasing<br />
+                <span className="text-ortaq-trust">Updates.</span>
               </h1>
 
-              <p className="mt-5 max-w-md text-[1rem] leading-[1.65] text-ortaq-ink-muted sm:text-[1.0625rem]">
-                Bring conversations, documents, approvals, inspections and
-                execution into one coordinated workspace.
+              <p className="mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.6] text-ortaq-ink-muted">
+                ORTAQ keeps both companies on the same page — what&apos;s agreed,
+                what&apos;s blocked, who acts next, and when the deal closes.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -52,12 +69,12 @@ export function OrtaqHomeView() {
                 </Link>
               </div>
 
-              <p className={cn(typography.caption, "mt-7 text-ortaq-ink-soft")}>
-                Founded by operators from LEGO Group, Petlas and Yiğit Akü.
+              <p className={cn(typography.caption, "mt-6 text-ortaq-ink-soft")}>
+                Built by operators. LEGO Group · Petlas · Yiğit Akü.
               </p>
             </div>
 
-            {/* Visual — the core product insight */}
+            {/* Visual — live deal action board */}
             <div>
               <TransactionStatus />
             </div>
@@ -65,176 +82,195 @@ export function OrtaqHomeView() {
         </Container>
       </section>
 
-      {/* ══ THE ONE QUESTION ══════════════════════════════════════════ */}
+      {/* ══ 2. RECOGNITION — 5 sentences every visitor has said ═══ */}
       <section className="border-b border-ortaq-border bg-ortaq-bg">
         <Container wide>
-          <div className="py-16 sm:py-20">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className={cn(typography.label, "mb-4 text-ortaq-ink-soft")}>
-                Why ORTAQ exists
-              </p>
-              <p
-                className={cn(
-                  "font-body font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.12]",
-                  "text-[1.625rem] sm:text-[2rem]",
-                )}
-              >
-                At any moment, ORTAQ answers<br className="hidden sm:block" /> one question:
-              </p>
-              <div className="mx-auto mt-6 max-w-xl rounded-xl border border-ortaq-trust/20 bg-ortaq-trust/5 px-6 py-5">
-                <p
-                  className={cn(
-                    "font-body font-bold text-ortaq-trust tracking-[-0.02em] leading-[1.2]",
-                    "text-[1.25rem] sm:text-[1.5rem]",
-                  )}
+          <div className="py-12 sm:py-14">
+            <p className={cn(typography.label, "mb-6 text-center text-ortaq-ink-soft")}>
+              If you have ever said any of these
+            </p>
+
+            <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  quote: "&ldquo;Where are we on this deal? I haven&apos;t heard anything in three days.&rdquo;",
+                  raw: "Where are we on this deal? I haven't heard anything in three days.",
+                },
+                {
+                  quote: "&ldquo;Which version of the contract are we actually working from?&rdquo;",
+                  raw: "Which version of the contract are we actually working from?",
+                },
+                {
+                  quote: "&ldquo;Who approved the payment terms? I can&apos;t find the confirmation.&rdquo;",
+                  raw: "Who approved the payment terms? I can't find the confirmation.",
+                },
+                {
+                  quote: "&ldquo;The inspection is next week and nobody has confirmed the date yet.&rdquo;",
+                  raw: "The inspection is next week and nobody has confirmed the date yet.",
+                },
+                {
+                  quote: "&ldquo;I need to send another follow-up. They haven&apos;t responded in a week.&rdquo;",
+                  raw: "I need to send another follow-up. They haven't responded in a week.",
+                },
+                {
+                  quote: "&ldquo;Can someone tell me exactly what we&apos;ve agreed so far?&rdquo;",
+                  raw: "Can someone tell me exactly what we've agreed so far?",
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="rounded-xl border border-ortaq-border bg-ortaq-surface px-5 py-4"
                 >
-                  &ldquo;What is happening with this deal right now — and what should happen next?&rdquo;
-                </p>
-              </div>
-              <p className={cn(typography.body, "mx-auto mt-5 max-w-lg")}>
-                Not where the document is stored. Not what was said in the last meeting.
-                What is the current state, and what is blocking progress.
-              </p>
+                  <p className="text-[0.875rem] font-medium italic leading-[1.5] text-ortaq-ink-muted">
+                    &ldquo;{item.raw}&rdquo;
+                  </p>
+                </div>
+              ))}
             </div>
+
+            <p
+              className={cn(
+                "mx-auto mt-7 max-w-lg text-center font-body font-semibold tracking-[-0.02em] text-ortaq-ink",
+                "text-[1.125rem] sm:text-[1.25rem]",
+              )}
+            >
+              ORTAQ exists so you never need to ask these questions again.
+            </p>
           </div>
         </Container>
       </section>
 
-      {/* ══ PROBLEM — lean ════════════════════════════════════════════ */}
+      {/* ══ 3. THE GAP — category statement ════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
           <div className="py-14 sm:py-16">
-            <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 lg:items-center">
-
-              {/* Left */}
-              <div>
-                <p className={cn(typography.label, "mb-3 text-ortaq-accent")}>
-                  The problem
-                </p>
-                <h2
-                  className={cn(
-                    "font-body font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.1]",
-                    "text-[1.75rem] sm:text-[2.125rem]",
-                  )}
-                >
-                  The problem is not storage.<br />
-                  The problem is visibility.
-                </h2>
-                <p className={cn(typography.body, "mt-4 max-w-md")}>
-                  Every deal has all the information it needs — buried across email
-                  threads, WhatsApp chats, spreadsheets and document folders.
-                  Nobody can see the full picture. Nobody knows what is blocking progress.
-                </p>
-
-                <div className="mt-7 space-y-3">
-                  {[
-                    "What is the current agreed price?",
-                    "Who needs to approve the contract revision?",
-                    "When is the inspection confirmed?",
-                    "What is blocking payment release?",
-                  ].map((q) => (
-                    <div key={q} className="flex items-start gap-3">
-                      <svg className="mt-1 h-4 w-4 shrink-0 text-ortaq-accent" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={1.75}>
-                        <circle cx="8" cy="8" r="6" />
-                        <path strokeLinecap="round" d="M8 5.5v.5m0 2.5v2" />
-                      </svg>
-                      <p className="text-[0.875rem] text-ortaq-ink-muted">{q}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <p className={cn(typography.body, "mt-5 font-medium text-ortaq-ink")}>
-                  These questions should not require searching through 6 tools.
-                </p>
+            <div className="mx-auto max-w-3xl">
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  {
+                    tool: "Salesforce",
+                    manages: "Manages your customer relationships.",
+                    context: "Internal to your company.",
+                    covered: true,
+                  },
+                  {
+                    tool: "Your ERP",
+                    manages: "Manages your internal operations.",
+                    context: "Internal to your company.",
+                    covered: true,
+                  },
+                  {
+                    tool: "The space between companies",
+                    manages: "Nobody manages this.",
+                    context: "Where deals actually happen.",
+                    covered: false,
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.tool}
+                    className={cn(
+                      "rounded-xl border p-5",
+                      item.covered
+                        ? "border-ortaq-border bg-ortaq-bg"
+                        : "border-ortaq-trust/30 bg-ortaq-trust/5 ring-1 ring-ortaq-trust/20",
+                    )}
+                  >
+                    <p className={cn("text-[0.8125rem] font-bold", item.covered ? "text-ortaq-ink-soft" : "text-ortaq-trust")}>
+                      {item.tool}
+                    </p>
+                    <p className={cn("mt-1.5 text-[0.875rem] font-medium leading-snug", item.covered ? "text-ortaq-ink-muted" : "text-ortaq-ink")}>
+                      {item.manages}
+                    </p>
+                    <p className={cn(typography.caption, "mt-1", item.covered ? "" : "font-medium text-ortaq-trust/80")}>
+                      {item.context}
+                    </p>
+                  </div>
+                ))}
               </div>
 
-              {/* Right — fragmentation visual */}
-              <div className="relative">
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { tool: "WhatsApp", status: "47 unread messages", note: "Latest price in chat #3" },
-                    { tool: "Email", status: "6 active threads", note: "Contract attached in thread 2" },
-                    { tool: "Excel", status: "4 versions open", note: "v_FINAL_2 or v3_REAL?" },
-                    { tool: "PDFs", status: "12 documents", note: "Which is the signed copy?" },
-                    { tool: "Phone calls", status: "No record", note: "What was agreed last week?" },
-                    { tool: "Team chat", status: "Ongoing", note: "Context lost in thread" },
-                  ].map((item) => (
-                    <div
-                      key={item.tool}
-                      className="rounded-lg border border-ortaq-border bg-ortaq-bg p-3"
-                    >
-                      <p className="text-[0.75rem] font-semibold text-ortaq-ink">{item.tool}</p>
-                      <p className="mt-0.5 text-[0.625rem] text-ortaq-accent">{item.status}</p>
-                      <p className="mt-1 text-[0.5625rem] text-ortaq-ink-soft leading-snug">{item.note}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 rounded-lg border border-red-100 bg-red-50 px-4 py-3">
-                  <p className="text-[0.75rem] font-semibold text-red-700">
-                    Nobody has the full picture.
-                  </p>
-                  <p className="mt-0.5 text-[0.6875rem] text-red-600">
-                    Not your team. Not your counterparty. Not you.
-                  </p>
-                </div>
+              <div className="mt-8 text-center">
+                <p
+                  className={cn(
+                    "font-body font-bold tracking-[-0.025em] text-ortaq-ink leading-[1.15]",
+                    "text-[1.5rem] sm:text-[1.875rem]",
+                  )}
+                >
+                  ORTAQ manages the space<br className="hidden sm:block" /> between two companies.
+                </p>
+                <p className={cn(typography.body, "mx-auto mt-3 max-w-md")}>
+                  Not your internal CRM. Not your ERP. The work that happens between
+                  your organization and theirs — negotiations, agreements, approvals,
+                  inspections, execution.
+                </p>
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* ══ ORTAQ ANSWER ══════════════════════════════════════════════ */}
+      {/* ══ 4. PROGRESS IS THE PRODUCT — visual reframe ══════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-bg-alt">
         <Container wide>
           <div className="py-14 sm:py-16">
             <div className="mb-10 text-center">
               <p className={cn(typography.label, "mb-3 text-ortaq-trust")}>
-                How ORTAQ works
+                What ORTAQ shows
               </p>
               <h2
                 className={cn(
-                  "font-body font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.1]",
-                  "text-[1.75rem] sm:text-[2.125rem]",
+                  "font-body font-bold tracking-[-0.03em] text-ortaq-ink",
+                  "text-[1.75rem] sm:text-[2.25rem]",
                 )}
               >
-                One coordinated workspace.<br />Both parties. Every step.
+                Not where things are stored.<br />
+                Where things stand.
               </h2>
+              <p className={cn(typography.body, "mx-auto mt-3 max-w-md")}>
+                Every view in ORTAQ answers the same question: what needs to happen
+                next, and who is responsible for it?
+              </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3">
+            {/* Four signals */}
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 {
-                  step: "01",
-                  name: "Organize",
-                  headline: "All context in one place.",
-                  desc: "Every conversation, document, approval and decision attached to the transaction — not scattered across tools.",
-                  detail: "Messages from WhatsApp and email are captured in context. Documents are versioned. Agreements are logged.",
+                  signal: "Your Turn",
+                  desc: "Actions that are waiting on you. Named. Deadlined. Unambiguous.",
+                  color: "trust",
                 },
                 {
-                  step: "02",
-                  name: "Coordinate",
-                  headline: "Everyone knows what is pending.",
-                  desc: "Tasks, approvals and responsibilities are explicit. No more status meetings. No more follow-up messages. The system surfaces what needs to happen next.",
-                  detail: "Both parties see the same pending items. Blockers are visible. Ownership is clear.",
+                  signal: "Their Turn",
+                  desc: "What you are waiting on from the other side. No more guessing.",
+                  color: "neutral",
                 },
                 {
-                  step: "03",
-                  name: "Execute",
-                  headline: "Deals move forward.",
-                  desc: "From lead to payment — every milestone tracked, every action logged, every agreement confirmed. The deal closes.",
-                  detail: "Inspection scheduling, shipment tracking, payment confirmation — all in one transaction record.",
+                  signal: "Active Blockers",
+                  desc: "What is currently preventing the deal from moving forward. Visible to everyone.",
+                  color: "accent",
+                },
+                {
+                  signal: "What Has Been Decided",
+                  desc: "All agreements confirmed by both parties. No disputes about what was said.",
+                  color: "trust",
                 },
               ].map((item) => (
-                <div key={item.step} className="rounded-xl border border-ortaq-border bg-ortaq-surface p-6">
-                  <div className="mb-4 flex items-center gap-3">
-                    <span className="text-[1.5rem] font-bold text-ortaq-border leading-none">{item.step}</span>
-                    <div>
-                      <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.07em] text-ortaq-trust">{item.name}</p>
-                      <p className="text-[0.9375rem] font-bold text-ortaq-ink leading-tight">{item.headline}</p>
-                    </div>
-                  </div>
-                  <p className={cn(typography.body, "mb-3")}>{item.desc}</p>
-                  <p className={cn(typography.caption, "leading-relaxed")}>{item.detail}</p>
+                <div
+                  key={item.signal}
+                  className="rounded-xl border border-ortaq-border bg-ortaq-surface p-5"
+                >
+                  <div
+                    className={cn(
+                      "mb-3 inline-flex h-2 w-2 rounded-full",
+                      item.color === "trust"
+                        ? "bg-ortaq-trust"
+                        : item.color === "accent"
+                          ? "bg-ortaq-accent"
+                          : "bg-ortaq-border-strong",
+                    )}
+                  />
+                  <p className="text-[0.875rem] font-bold text-ortaq-ink">{item.signal}</p>
+                  <p className={cn(typography.bodySm, "mt-1.5 leading-relaxed")}>{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -242,94 +278,72 @@ export function OrtaqHomeView() {
         </Container>
       </section>
 
-      {/* ══ FEATURES — execution-focused ══════════════════════════════ */}
+      {/* ══ 5. FOUR OUTCOMES — not features ══════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
           <div className="py-14 sm:py-16">
             <div className="mb-10">
               <p className={cn(typography.label, "mb-3 text-ortaq-ink-soft")}>
-                Platform capabilities
+                What changes when you use ORTAQ
               </p>
               <h2
                 className={cn(
-                  "font-body font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.1]",
-                  "text-[1.75rem] sm:text-[2.125rem]",
+                  "font-body font-bold tracking-[-0.03em] text-ortaq-ink",
+                  "text-[1.75rem] sm:text-[2.25rem]",
                 )}
               >
-                Built for execution,<br />not for storage.
+                Less searching.<br />More execution.
               </h2>
-              <p className={cn(typography.body, "mt-3 max-w-lg")}>
-                Every feature exists to help a deal move forward. If it only stores
-                information without driving execution, it is not in the platform.
-              </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2">
               {[
                 {
-                  name: "Transaction Workspace",
-                  desc: "One workspace per transaction. Both parties see the current state, pending items and next actions — always.",
-                  tag: "Core",
+                  before: "\"Where are we on this?\" sent 4 times this week.",
+                  after: "Current status visible to both sides. Always.",
+                  headline: "No more status updates",
                 },
                 {
-                  name: "Task Coordination",
-                  desc: "Explicit tasks with owners and deadlines. The system knows when something is overdue and surfaces it.",
-                  tag: "Core",
+                  before: "Approval sent by email. Followed up twice. Still waiting.",
+                  after: "Approvals are routed, tracked, and resolved. Decisions do not disappear.",
+                  headline: "Decisions get made",
                 },
                 {
-                  name: "Approval Flows",
-                  desc: "Route any decision for structured approval. No more approvals lost in email. Every decision is recorded.",
-                  tag: "Core",
+                  before: "Both parties think different people are responsible for the same task.",
+                  after: "Every action has a named owner. Both companies see the same responsibilities.",
+                  headline: "Accountability is explicit",
                 },
                 {
-                  name: "Document Intelligence",
-                  desc: "Documents are attached to the deal, versioned and classified. The system knows which document is current.",
-                  tag: "Core",
+                  before: "The deal closes late because nobody was tracking what was blocking it.",
+                  after: "Blockers are surfaced immediately. The deal moves forward faster.",
+                  headline: "Deals close faster",
                 },
-                {
-                  name: "Communication Context",
-                  desc: "Messages — from WhatsApp, email or in-platform — are captured in the context of the deal, not lost in chat history.",
-                  tag: "Core",
-                },
-                {
-                  name: "Inspection Tracking",
-                  desc: "Schedule inspection, track confirmation, receive report. Every inspection milestone visible to both parties.",
-                  tag: "Core",
-                },
-                {
-                  name: "Execution Tracking",
-                  desc: "Shipment milestones, payment confirmations, delivery records — logged against the deal timeline.",
-                  tag: "Core",
-                },
-                {
-                  name: "AI Summaries",
-                  desc: "At any point: what has been agreed, what is pending, what is the current risk. In one paragraph.",
-                  tag: "AI",
-                },
-                {
-                  name: "Action Recommendations",
-                  desc: "The system identifies what is blocking progress and surfaces the next action — to the right person.",
-                  tag: "AI",
-                },
-              ].map((f) => (
+              ].map((item) => (
                 <div
-                  key={f.name}
-                  className="rounded-xl border border-ortaq-border bg-ortaq-bg p-5 transition-shadow hover:shadow-[var(--shadow-product-hover)]"
+                  key={item.headline}
+                  className="rounded-xl border border-ortaq-border bg-ortaq-bg p-6"
                 >
-                  <div className="mb-2 flex items-start justify-between gap-2">
-                    <p className="text-[0.875rem] font-semibold text-ortaq-ink">{f.name}</p>
-                    <span
-                      className={cn(
-                        "shrink-0 rounded-full px-1.5 py-0.5 text-[0.5rem] font-bold",
-                        f.tag === "AI"
-                          ? "bg-blue-50 text-blue-600"
-                          : "bg-ortaq-trust/10 text-ortaq-trust",
-                      )}
-                    >
-                      {f.tag}
-                    </span>
+                  <p className="text-[0.9375rem] font-bold text-ortaq-ink mb-4">
+                    {item.headline}
+                  </p>
+                  <div className="space-y-3">
+                    <div className="rounded-lg border border-red-100 bg-red-50 px-4 py-3">
+                      <p className={cn(typography.caption, "mb-0.5 font-semibold uppercase tracking-[0.05em] text-red-400")}>
+                        Before
+                      </p>
+                      <p className="text-[0.8125rem] italic leading-snug text-red-700">
+                        {item.before}
+                      </p>
+                    </div>
+                    <div className="rounded-lg border border-ortaq-trust/20 bg-ortaq-trust/5 px-4 py-3">
+                      <p className={cn(typography.caption, "mb-0.5 font-semibold uppercase tracking-[0.05em] text-ortaq-trust/70")}>
+                        With ORTAQ
+                      </p>
+                      <p className="text-[0.8125rem] leading-snug text-ortaq-ink-muted">
+                        {item.after}
+                      </p>
+                    </div>
                   </div>
-                  <p className={cn(typography.bodySm, "leading-relaxed")}>{f.desc}</p>
                 </div>
               ))}
             </div>
@@ -337,26 +351,30 @@ export function OrtaqHomeView() {
         </Container>
       </section>
 
-      {/* ══ TRUST ═════════════════════════════════════════════════════ */}
+      {/* ══ 6. TEAM — operator credibility ════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-bg">
         <Container wide>
           <div className="py-12">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="max-w-lg">
+              <div className="max-w-md">
                 <p className={cn(typography.label, "mb-2 text-ortaq-ink-soft")}>
                   Built by operators
                 </p>
-                <h2 className={cn(typography.h1, "mb-3")}>
-                  We have run these deals. We know what breaks.
+                <h2
+                  className={cn(
+                    "font-body font-bold tracking-[-0.025em] text-ortaq-ink leading-[1.12]",
+                    "text-[1.375rem] sm:text-[1.625rem]",
+                  )}
+                >
+                  We have run these deals.<br />We know what breaks.
                 </h2>
-                <p className={cn(typography.body)}>
-                  ORTAQ was built by a team with direct experience in international
-                  sales, export operations, distribution and manufacturing. Not
-                  consultants. Not academics. People who have sat on both sides of
-                  complex commercial transactions.
+                <p className={cn(typography.body, "mt-3")}>
+                  ORTAQ is built by people who have managed complex international
+                  transactions firsthand. The product is designed around real problems —
+                  not hypothetical workflows.
                 </p>
               </div>
-              <div className="flex shrink-0 flex-wrap gap-2 sm:flex-col sm:gap-2">
+              <div className="flex shrink-0 flex-col gap-2">
                 {["LEGO Group", "Petlas", "Yiğit Akü"].map((c) => (
                   <div
                     key={c}
@@ -371,23 +389,23 @@ export function OrtaqHomeView() {
         </Container>
       </section>
 
-      {/* ══ FINAL CTA ═════════════════════════════════════════════════ */}
+      {/* ══ 7. CTA — direct ════════════════════════════════════════ */}
       <section className="bg-ortaq-dark">
         <Container wide>
           <div className="py-16 sm:py-20 lg:py-24">
-            <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto max-w-xl text-center">
               <h2
                 className={cn(
                   "font-body font-bold tracking-[-0.035em] text-ortaq-cream leading-[1.08]",
                   "text-[2rem] sm:text-[2.625rem]",
                 )}
               >
-                Stop searching for answers<br />
-                that should be obvious.
+                Your next deal should not run on WhatsApp.
               </h2>
               <p className={cn(typography.body, "mx-auto mt-4 max-w-md text-ortaq-cream/70")}>
-                Request a demo. We will show you what your most complex transaction
-                looks like inside ORTAQ — organized, coordinated, executing.
+                Request a demo. We will show you what your most complex
+                active transaction looks like inside ORTAQ — organized,
+                coordinated, moving.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
