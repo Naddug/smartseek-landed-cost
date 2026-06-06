@@ -1,3 +1,17 @@
+/**
+ * FAQ_ITEMS — the canonical FAQ list for ORTAQ.
+ *
+ * Phase 7: Completely replaced — previous items were for the old capital
+ * marketplace product. These questions reflect ORTAQ as a B2B commercial
+ * transaction record system.
+ *
+ * Rules:
+ *   - Real questions. Direct answers.
+ *   - No promotional language. No startup jargon.
+ *   - If the answer is "no", say "no" first.
+ *   - Sorted by category: Ürün, Erişim, Veri, Fiyatlandırma, Güvenilirlik
+ */
+
 export type FaqItem = {
   id: string;
   question: string;
@@ -6,119 +20,161 @@ export type FaqItem = {
 };
 
 export const FAQ_ITEMS: FaqItem[] = [
+  /* ── ÜRÜN ─────────────────────────────────────────────────────────── */
   {
     id: "ortaq-ne",
     question: "ORTAQ nedir?",
-    answer: "ORTAQ, ihracat odaklı üreticiler için doğrulanmış bir sermaye erişim ağıdır. Şirketler belgelerini yükler; kanıt dosyalanır ve incelenir; profil keşfedilebilir olur; sermaye partnerleri kanıtı ve açık soruları görür; karşılıklı tanıştırma sonrası görüşme odası açılır. Yatırım satmaz, fonlama garanti etmez, para tutmaz.",
-    links: [{ href: "/demo", label: "Ürün önizlemesi" }, { href: "/#basvuru", label: "Başvur" }],
+    answer:
+      "ORTAQ, iki şirket arasındaki ticari işlemin ortak kaydıdır. Sözleşme, SGS raporu, BL, proforma fatura gibi belgeler; onay adımları ve taraflar arası mesajlar tek işlem kaydında bir araya gelir. Alıcı ve satıcı aynı kaydı görür — iki ayrı sistem değil, aynı kayıt.",
+    links: [{ href: "/nasil-calisir", label: "Nasıl çalışır" }, { href: "/urun", label: "Ürün ekranları" }],
   },
   {
     id: "ne-degil",
     question: "ORTAQ ne değildir?",
-    answer: "Crowdfunding platformu, yatırım platformu, aracı kurum, fon, skorlama ürünü veya yatırım danışmanlığı değildir. ORTAQ kanıt düzenleme, keşif ve karşılıklı tanıştırma katmanıdır; sermaye piyasası faaliyeti yürütmez.",
-    links: [{ href: "/guven", label: "Güven ve uyum" }],
+    answer:
+      "ERP değil: muhasebe, stok ve fatura yapmaz. CRM değil: müşteri adayı, satış hunisi veya e-posta kampanyası yok. Mesajlaşma uygulaması değil: WhatsApp'ın yerini almaz. Lojistik takip değil: gemi konumu veya gümrük durumu göstermez. Ticari işlemin belge ve onay kaydını tutar — bunun dışında değil.",
+    links: [{ href: "/guven#ne-yapar", label: "Ne yapar / yapmaz" }],
   },
   {
-    id: "belgeler",
-    question: "Hangi belgeler gerekir?",
-    answer: "Sektöre göre değişir; tipik set ihracat kaydı, üretim kapasitesi, tekrar eden alıcı talebi, finansal tablolar ve ilgili sözleşmeleri kapsar. Zorunlu belgeler dosyalanıp incelendikten sonra profil keşfedilebilir olur; eksik belgeler profilde açıkça gösterilir.",
-    links: [{ href: "/demo/uretici", label: "Üretici profili örneği" }, { href: "/degerlendirme", label: "Nasıl seçiyoruz" }],
+    id: "nasil-calisir",
+    question: "Sistemde bir işlem nasıl açılır?",
+    answer:
+      "Bir işlem açtığınızda alıcı ve satıcı tarafını, işlem tutarını ve para birimini girersiniz. Ardından belgeleri yükler, onay adımlarını tanımlar ve karşı tarafı sisteme davet edersiniz. Alıcı daveti kabul ettiğinde aynı işlem kaydını görür — siz neyi paylaşmak istediğinizi kontrol edersiniz.",
+    links: [{ href: "/nasil-calisir", label: "Süreç detayı" }],
   },
   {
-    id: "kim-gorur",
-    question: "Profilimi kim görebilir?",
-    answer: "Zorunlu belgeler incelenene kadar profil keşifte görünmez. Keşfedilebilir olduktan sonra yalnızca kayıtlı nitelikli sermaye partnerleri profili, dosyalanmış kanıtı ve açık soruları görür. Tanıştırma talebi karşılıklı onay gerektirir; tek taraflı erişim yoktur.",
-    links: [{ href: "/gizlilik", label: "Gizlilik" }],
+    id: "hangi-belgeler",
+    question: "Hangi belgeler yüklenebilir?",
+    answer:
+      "Herhangi bir belge. SGS muayene raporu, BL taslağı, imzalı sözleşme, proforma fatura, packing list, LC belgesi, sigorta poliçesi — dosya türü ve içerik kısıtlaması yoktur. Her belge versiyonlanır; en güncel versiyon açıkça işaretlenir.",
+    links: [{ href: "/urun", label: "Belge Merkezi ekranı" }],
   },
   {
-    id: "tanistirma",
-    question: "Karşılıklı tanıştırma nedir?",
-    answer: "Sermaye partneri ilgisini ve gerekçesini yazar; üretici kabul ederse tanıştırma açılır. Her iki taraf da reddedebilir. ORTAQ tarafları zorlamaz; yalnızca belgeler incelendikten sonra tanıştırma yolunu açar.",
-    links: [{ href: "/demo/sermaye", label: "Keşif örneği" }, { href: "/nasil-calisir", label: "Süreç" }],
+    id: "alici-olmadan",
+    question: "Alıcım ORTAQ'a kayıtlı olmak zorunda mı?",
+    answer:
+      "Alıcı, paylaştığınız belgeleri ve işlem kaydını görmek için ORTAQ'ta ücretsiz bir hesap oluşturmalıdır. Hesap açma dakikalar içinde tamamlanır. Alıcı daveti e-posta yoluyla alır ve katılım isteğe bağlıdır — size de, alıcıya da zorunlu değildir.",
+    links: [],
   },
   {
-    id: "gorusme-odasi",
-    question: "Görüşme odası nedir?",
-    answer: "Karşılıklı kabul sonrası açılan yapılandırılmış görüşme ortamıdır. Taraflar kapasite planı, marj yapısı ve açık belge sorularını doğrudan sorar. ORTAQ görüşme içeriğine müdahale etmez; fonlama garanti etmez.",
-    links: [{ href: "/demo", label: "Ürün önizlemesi" }],
+    id: "kac-islem",
+    question: "Aynı anda kaç işlem yönetebilirim?",
+    answer:
+      "Kısıtlama yoktur. Çelik, tekstil, makine, gıda gibi farklı kategorilerde aynı anda onlarca aktif işlem yönetilebilir. Portföy Görünümü ekranı tüm işlemleri, durumlarını ve bekleyen adımlarını bir arada gösterir.",
+    links: [{ href: "/urun", label: "Portföy Görünümü" }],
+  },
+
+  /* ── ERİŞİM ───────────────────────────────────────────────────────── */
+  {
+    id: "alici-notlari-gorur-mu",
+    question: "Alıcım dahili notlarımı görebilir mi?",
+    answer:
+      "Hayır. Dahili olarak işaretlenen mesajlar ve belgeler yalnızca kendi şirketinizin kullanıcılarına görünür. Alıcı bu öğelerin var olduğundan bile haberdar olmaz. Bulanık değil — gerçekten yok. Alıcı görünümü her zaman ayrı bir ekranla doğrulanabilir.",
+    links: [{ href: "/urun", label: "Karşı Taraf Görünümü ekranı" }],
   },
   {
-    id: "acik-sorular",
-    question: "Belgeler incelendikten sonra ne bilinmeden kalır?",
-    answer: "Dosyalanmış kanıt değerlendirmeyi kolaylaştırır; tüm soruları kapatmaz. Eksik belgeler, bağımsız denetim, marj yapısı ve müşteri konsantrasyonu gibi konular profilde açık soru olarak gösterilir ve görüşme odasında netleştirilir.",
-    links: [{ href: "/demo/sirket/karat-parca-konya", label: "Örnek profil" }],
+    id: "ortaq-calisanlar-gorur-mu",
+    question: "ORTAQ çalışanları işlem verilerimi görebilir mi?",
+    answer:
+      "Destek amacı dışında hayır. Teknik ekip altyapı sorunlarını çözmek için şifreli verilere erişebilir, ancak sözleşme içerikleri, fiyatlandırma veya taraf yazışmaları rutin olarak incelenmez. Bu taahhüt erişim denetim kayıtlarıyla desteklenmektedir.",
+    links: [{ href: "/guven#guvenlik", label: "Güvenlik ve gizlilik" }],
   },
   {
-    id: "fonlama-garantisi",
-    question: "ORTAQ fonlama garanti eder mi?",
-    answer: "Hayır. ORTAQ kanıt düzenler, keşfi açar ve karşılıklı tanıştırma sağlar; yatırım sonucu, getiri veya anlaşma garanti etmez. Karar ve koşullar taraflara aittir.",
-    links: [{ href: "/riskler", label: "Riskler" }],
+    id: "kim-ne-gorur",
+    question: "Bir işlemde kimin neyi göreceğini nasıl belirlerim?",
+    answer:
+      "Her belge ve mesaj için görünürlük ayarlanabilir: yalnızca kendi şirketiniz (dahili) veya her iki taraf (paylaşılan). Onay adımlarında hangi tarafın beklediği açıkça gösterilir. Karşı taraf görünümü ayrı bir ekranda her zaman doğrulanabilir.",
+    links: [{ href: "/urun", label: "Ürün ekranları" }],
   },
   {
-    id: "farkli-ne",
-    question: "ORTAQ broker, referans, LinkedIn veya danışmandan nasıl farklı?",
-    answer: "Broker ve referans ilişkiye dayanır; LinkedIn kanıt düzenlemez; danışman rapor her seferinde sıfırdan yazılır. ORTAQ belgeleri dosyalar, kanıtı standart profilde sunar, açık soruları gösterir ve yalnızca karşılıklı kabul sonrası görüşme odasını açar. Skor vermez, yatırım satmaz.",
-    links: [{ href: "/demo", label: "Ürün önizlemesi" }],
+    id: "kullanici-sayisi",
+    question: "Şirketimden kaç kullanıcı ekleyebilirim?",
+    answer:
+      "Kullanıcı sayısı fiyatlandırma planına göre değişir. Tipik olarak dış ticaret ekibi, satın alma müdürü ve genel müdür aynı anda aynı işlem kaydını görebilir — farklı erişim seviyeleriyle. Detaylar demo görüşmesinde netleştirilir.",
+    links: [{ href: "/demo", label: "Demo İsteyin" }],
+  },
+
+  /* ── VERİ ─────────────────────────────────────────────────────────── */
+  {
+    id: "veri-nerede",
+    question: "Verilerim nerede saklanıyor?",
+    answer:
+      "Tüm veriler Avrupa'daki veri merkezlerinde barındırılır (Frankfurt ve Paris). Aktarımda TLS 1.3, depolamada AES-256 şifreleme uygulanır. Veriler Türkiye dışına çıkmaz — teknik altyapı hizmetleri (CDN vb.) hariç.",
+    links: [{ href: "/guven#guvenlik", label: "Güvenlik detayı" }, { href: "/gizlilik", label: "Gizlilik politikası" }],
   },
   {
-    id: "sirket-ne-kazanir",
-    question: "Bir şirket ne kazanır?",
-    answer: "Dağınık belgeleri yatırımcının okuyabileceği tek profilde toplar; hangi kanıtın dosyalandığını ve neyin eksik kaldığını görür; nitelikli sermaye partnerlerinden karşılıklı tanıştırma talebi alır.",
-    links: [{ href: "/demo/uretici", label: "Üretici tarafı" }],
+    id: "verilerimi-cikararim",
+    question: "Verilerimi ORTAQ'tan dışa aktarabilir miyim?",
+    answer:
+      "Evet, her zaman. Herhangi bir işlem kaydını — belgeler, mesajlar, onay geçmişi, denetim izi dahil — PDF veya JSON formatında dışa aktarabilirsiniz. Aboneliğiniz aktif olmasa bile 90 gün boyunca dışa aktarım penceresi açık kalır.",
+    links: [{ href: "/guven#ticari-guvenilirlik", label: "Ticari güvenilirlik" }],
   },
   {
-    id: "sermaye-ne-kazanir",
-    question: "Sermaye partneri ne kazanır?",
-    answer: "Ağının ulaşamadığı ihracatçı üreticilere erişir; her profilde dosyalanmış kanıt, açık sorular ve tez uyumu görür; sıfırdan belge toplama yükü azalır; karşılıklı kabul sonrası yapılandırılmış görüşme odasına girer.",
-    links: [{ href: "/demo/sermaye", label: "Keşif örneği" }],
+    id: "ortaq-kapanirsa",
+    question: "ORTAQ kapanırsa ne olur?",
+    answer:
+      "Hizmet kapanmadan en az 90 gün önce bildirim yapılır ve tüm verilerinizi dışa aktarmanız için pencere açık tutulur. Bu taahhüt hizmet koşullarına yazılıdır. Verilerinizi tutmak için sistemi kullanmaya devam etmek zorunda değilsiniz.",
+    links: [{ href: "/guven#ticari-guvenilirlik", label: "Ticari güvenilirlik" }],
   },
   {
-    id: "nasil-kazanir",
-    question: "ORTAQ nasıl kazanır?",
-    answer: "Erişim abonelikleriyle: şirketler profil ve belge düzenleme için, sermaye partnerleri keşif ve tanıştırma erişimi için öder. Yatırımdan komisyon almaz, para toplamaz.",
-    links: [{ href: "/nasil-calisir", label: "Nasıl çalışır" }],
+    id: "gdpr",
+    question: "GDPR uyumlu mu?",
+    answer:
+      "Evet. Kişisel veriler GDPR kapsamında işlenir. Silme talebi, veri taşıma talebi ve veri işleme anlaşması (DPA) desteklenmektedir.",
+    links: [{ href: "/gizlilik", label: "Gizlilik politikası" }],
   },
   {
-    id: "neden-gorunmez",
-    question: "Bu şirketler neden zaten görünür değil?",
-    answer: "Güçlü ihracatçıların çoğu fon aramaya değil üretime odaklanır; geleneksel ağlar bölge ve ilişkiyle sınırlıdır. Görünür olmak ile kanıtı düzenlenmiş ve keşfedilebilir olmak aynı şey değildir.",
-    links: [{ href: "/nasil-calisir", label: "Nasıl çalışır" }],
+    id: "islem-bittikten-sonra",
+    question: "İşlem tamamlandıktan sonra kayıt ne olur?",
+    answer:
+      "Kayıt arşivlenir ve erişilebilir kalır. Belgeler, onay geçmişi ve denetim izi silinmez. Aylar sonra bir anlaşmazlık veya denetim için yeniden açılabilir.",
+    links: [],
+  },
+
+  /* ── FİYATLANDIRMA ────────────────────────────────────────────────── */
+  {
+    id: "ucret",
+    question: "ORTAQ'ın maliyeti nedir?",
+    answer:
+      "Fiyatlandırma şirket ölçeği ve işlem hacmine göre demo görüşmesinde belirlenir. Gizli ücret yoktur. Fiyat değişikliği 60 gün önceden bildirilir. Bağlayıcı uzun vadeli sözleşme zorunluluğu yoktur.",
+    links: [{ href: "/demo", label: "Demo İsteyin" }],
   },
   {
-    id: "para-tutuyor-mu",
-    question: "ORTAQ para tutuyor mu?",
-    answer: "Hayır. ORTAQ para tutmaz, transfer etmez ve menkul kıymet faaliyeti yürütmez. Finansman gerçekleşirse işlem taraflar arasında yürür; ORTAQ kanıt ve tanıştırma katmanıdır.",
-    links: [{ href: "/guven", label: "Güven" }],
+    id: "deneme",
+    question: "Satın almadan önce deneyebilir miyim?",
+    answer:
+      "Demo görüşmesinde aktif bir işleminizi sistemde birlikte inceleriz. Bu genel bir tanıtım değil — kendi verilerinizle, kendi iş akışınızla bakarsınız. Demo ücretsizdir.",
+    links: [{ href: "/demo", label: "Demo İsteyin" }],
+  },
+
+  /* ── GÜVENİLİRLİK ─────────────────────────────────────────────────── */
+  {
+    id: "erp-degisir-mi",
+    question: "ERP veya muhasebe sistemimi değiştirmem gerekiyor mu?",
+    answer:
+      "Hayır. ORTAQ mevcut sistemlerinize dokunmaz. ERP'niz, muhasebe yazılımınız ve WhatsApp kullanımınız değişmez. ORTAQ yalnızca ticari işlemin belge ve onay kaydını tutar — zaten mevcut olan araçların yerini almaz.",
+    links: [],
   },
   {
-    id: "crowdfunding-mi",
-    question: "Bu crowdfunding mi?",
-    answer: "Hayır. Bireysel yatırımcıdan para toplanmaz, halka kampanya açılmaz. ORTAQ, doğrulanmış şirketleri nitelikli sermaye partnerleriyle karşılıklı tanıştırır.",
-    links: [{ href: "/guven", label: "Güven ve uyum" }],
+    id: "whatsapp",
+    question: "WhatsApp mesajlarım otomatik ORTAQ'a aktarılıyor mu?",
+    answer:
+      "Hayır. ORTAQ mesajları otomatik olarak içe aktarmaz. WhatsApp konuşmaları WhatsApp'ta kalır. ORTAQ'taki mesajlar doğrudan bu sisteme yazılır ve her zaman bir işleme bağlıdır.",
+    links: [],
   },
   {
-    id: "tavsiye-mi",
-    question: "ORTAQ yatırım tavsiyesi veriyor mu?",
-    answer: "Hayır. ORTAQ yatırım tavsiyesi vermez, getiri taahhüt etmez. Dosyalanmış kanıt ve açık sorular sunar; kararı taraflar kendi değerlendirmesiyle verir.",
-    links: [{ href: "/riskler", label: "Riskler" }],
+    id: "kucuk-sirket-miyiz",
+    question: "ORTAQ küçük bir şirket mi?",
+    answer:
+      "Evet. Büyük kurumsal yazılım sağlayıcılarına kıyasla daha küçük bir ekibiz. Bunu açıkça söylüyoruz. Bu bir risk faktörüdür ve karar verirken göz önünde bulundurulmalıdır. Büyük ölçekli kurumsal risk gereksinimleri için şu aşamada uygun olmayabiliriz.",
+    links: [{ href: "/guven#donuk-sinirlar", label: "Dürüst sınırlar" }],
   },
   {
-    id: "uygunluk",
-    question: "Hangi şirketler uygundur?",
-    answer: "İhracat odaklı, üretim yapan ve doğrulanabilir ticari geçmişi olan şirketler. Her başvuru kabul edilmez; seçim belge ve kanıt temellidir.",
-    links: [{ href: "/degerlendirme", label: "Nasıl seçiyoruz" }],
-  },
-  {
-    id: "veri-gizlilik",
-    question: "Verilerim nasıl korunur?",
-    answer: "Şirket ve sermaye tarafı bilgileri rıza temelinde işlenir; tanıştırma çift taraflı onayla yapılır. Detaylar gizlilik politikasında yer alır.",
-    links: [{ href: "/gizlilik", label: "Gizlilik" }],
-  },
-  {
-    id: "iletisim",
-    question: "Nasıl başlarım?",
-    answer: "Şirketseniz değerlendirme için, sermaye partneriyseniz erişim için başvurun. Ürün akışını /demo adresinde görebilirsiniz.",
-    links: [{ href: "/demo", label: "Ürün önizlemesi" }, { href: "/#basvuru", label: "Başvur" }],
+    id: "denetim-izi",
+    question: "Onay kayıtları hukuki süreçlerde kullanılabilir mi?",
+    answer:
+      "ORTAQ'taki denetim izi değiştirilemez. Kimin ne zaman neyi onayladığı kalıcı olarak kayıt altındadır. Bu kayıt bir anlaşmazlıkta kanıt niteliğinde kullanılabilir. Ancak ORTAQ hukuki tavsiye sunmaz — bu değerlendirmeyi hukuk danışmanınızla yapmanız gerekir.",
+    links: [{ href: "/urun", label: "Denetim İzi ekranı" }],
   },
 ];
 

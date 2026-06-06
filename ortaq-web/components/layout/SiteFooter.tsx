@@ -40,22 +40,30 @@ export function SiteFooter() {
     <footer className="border-t border-white/10 bg-ortaq-dark pb-[calc(4rem+env(safe-area-inset-bottom))] pt-10 text-ortaq-cream md:pb-10">
       <Container wide>
 
-        {/* Demo teaser — names both parties explicitly */}
-        <div className="mb-8 flex flex-col gap-3 rounded-xl border border-ortaq-trust/20 bg-ortaq-trust/[0.06] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        {/* Trust teaser */}
+        <div className="mb-8 flex flex-col gap-3 rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/[0.04] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust/60">
-              {t("footer.faqTeaser.label")}
+            <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-cream/40">
+              Sisteme koymadan önce
             </p>
-            <p className="mt-1 text-[0.875rem] font-semibold text-ortaq-cream/90">
-              {t("footer.faqTeaser.title")}
+            <p className="mt-1 text-[0.875rem] font-semibold text-ortaq-cream/80">
+              Soru sormak hakkınız. Güven sayfasında yanıtladık.
             </p>
           </div>
-          <Link
-            href="/demo"
-            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-ortaq-trust/30 bg-ortaq-trust/10 px-4 text-[0.8125rem] font-semibold text-ortaq-trust transition-colors hover:border-ortaq-trust/50 hover:bg-ortaq-trust/20 sm:shrink-0"
-          >
-            {t("nav.requestDemo")} →
-          </Link>
+          <div className="flex flex-wrap gap-2 sm:shrink-0">
+            <Link
+              href="/guven"
+              className="inline-flex min-h-10 items-center justify-center rounded-lg border border-ortaq-cream/15 px-4 text-[0.8125rem] font-semibold text-ortaq-cream/60 transition-colors hover:border-ortaq-cream/30 hover:text-ortaq-cream/80"
+            >
+              Güven sayfası →
+            </Link>
+            <Link
+              href="/demo"
+              className="inline-flex min-h-10 items-center justify-center rounded-lg border border-ortaq-trust/30 bg-ortaq-trust/10 px-4 text-[0.8125rem] font-semibold text-ortaq-trust transition-colors hover:border-ortaq-trust/50 hover:bg-ortaq-trust/20"
+            >
+              {t("nav.requestDemo")} →
+            </Link>
+          </div>
         </div>
 
         {/* Main footer grid */}
@@ -96,6 +104,9 @@ export function SiteFooter() {
               {t("footer.trustTitle")}
             </p>
             <ul className="space-y-1">
+              <li><Link href="/guven"      className={linkClass}>{t("footer.links.trust")}</Link></li>
+              <li><Link href="/sss"        className={linkClass}>{t("footer.links.faq")}</Link></li>
+              <li><Link href="/neden-ortaq" className={linkClass}>{t("nav.whyOrtaq")}</Link></li>
               <li><Link href="/ekip"       className={linkClass}>{t("footer.links.team")}</Link></li>
               <li><Link href="/iletisim"   className={linkClass}>İletişim</Link></li>
             </ul>
