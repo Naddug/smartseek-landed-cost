@@ -6,6 +6,7 @@ import { typography } from "@/design/typography";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { TransactionStatus } from "@/components/ortaq/TransactionStatus";
+import { CommercialLayer } from "@/components/ortaq/CommercialLayer";
 
 /**
  * Homepage critical test: every section must be asked —
@@ -77,6 +78,52 @@ export function OrtaqHomeView() {
             {/* Visual — live deal action board */}
             <div>
               <TransactionStatus />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ══ 1b. COMMERCIAL LAYER — zoom out from one deal ══════════ */}
+      <section className="border-b border-ortaq-border bg-ortaq-bg">
+        <Container wide>
+          <div className="py-14 sm:py-16">
+            <div className="mb-8 grid gap-4 sm:grid-cols-2 sm:items-end">
+              <div>
+                <p className={cn(typography.label, "mb-3 text-ortaq-ink-soft")}>
+                  Commercial Coordination Platform
+                </p>
+                <h2
+                  className={cn(
+                    "font-body font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.1]",
+                    "text-[1.75rem] sm:text-[2.125rem]",
+                  )}
+                >
+                  Not one deal.<br />Your entire commercial operation.
+                </h2>
+              </div>
+              <p className={cn(typography.body, "sm:text-right sm:max-w-sm sm:ml-auto")}>
+                Supplier, Buyer, Sales, Procurement, Operations, Logistics and Finance
+                — each currently working in a separate system. ORTAQ gives all of
+                them one shared view.
+              </p>
+            </div>
+
+            <CommercialLayer />
+
+            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+              {[
+                "WhatsApp threads → one shared timeline",
+                "Email chains → tracked commitments",
+                "Excel versions → single source of truth",
+                "PDF attachments → contextual documents",
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-2">
+                  <svg className="h-3 w-3 shrink-0 text-ortaq-trust" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" />
+                  </svg>
+                  <span className={cn(typography.caption, "text-ortaq-ink-muted")}>{item}</span>
+                </div>
+              ))}
             </div>
           </div>
         </Container>
