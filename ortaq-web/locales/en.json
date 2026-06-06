@@ -2527,11 +2527,11 @@
   "home": {
     "hero": {
       "eyebrow": "For exporters and manufacturers",
-      "h1a": "Who is waiting, which document is current,",
-      "h1b": "where is the payment?",
-      "sub": "ORTAQ brings your active commercial transactions into one screen. Without searching through WhatsApp, email and PDF, you instantly see where a deal stands and what comes next.",
+      "h1a": "Has SGS arrived? Is payment out?",
+      "h1b": "Whose turn is it?",
+      "sub": "Instead of searching for these answers across WhatsApp, WeChat, email, Excel and PDF, see everything in one place.",
       "cta": "Request Demo",
-      "ctaSecondary": "See How It Works"
+      "ctaSecondary": "How It Works"
     },
     "fragmentation": {
       "eyebrow": "The problem",
@@ -2598,6 +2598,15 @@
       "sub": "Request a demo. We will walk through one of your active deals together.",
       "primary": "Request Demo",
       "secondary": "See How It Works"
+    },
+    "home": {
+      "cta": {
+        "h2a": "Nobody ever asks",
+        "h2b": "'what is the latest status?' again.",
+        "sub": "Request a demo. We will walk through one of your active deals together.",
+        "primary": "Request Demo",
+        "secondary": "How It Works"
+      }
     }
   },
   "visuals": {

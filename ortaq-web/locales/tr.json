@@ -1964,9 +1964,9 @@
   "home": {
     "hero": {
       "eyebrow": "İhracatçılar ve üreticiler için",
-      "h1a": "Kim bekliyor, hangi belge güncel,",
-      "h1b": "ödeme ne durumda?",
-      "sub": "ORTAQ, aktif ticari işlemlerinizi tek ekranda toplar. WhatsApp, e-posta ve PDF arasında cevap aramadan, işlemin nerede olduğunu ve sırada ne olduğunu anında görürsünüz.",
+      "h1a": "SGS geldi mi? Ödeme çıktı mı?",
+      "h1b": "Sıra kimde?",
+      "sub": "Bu cevapları WhatsApp, WeChat, e-posta, Excel ve PDF'lerde aramak yerine tek yerde görün.",
       "cta": "Demo Talep Et",
       "ctaSecondary": "Nasıl Çalışır"
     },
@@ -2030,8 +2030,8 @@
       "callout": "ORTAQ, ticari taahhütlerin görünür, takip edilebilir ve eyleme dönüştürülebilir hale geldiği yerdir."
     },
     "cta": {
-      "h2a": "Bir sonraki işleminizde",
-      "h2b": "kimseye 'son durum ne?' diye sormayın.",
+      "h2a": "Artık kimse",
+      "h2b": "'son durum ne?' diye sormaz.",
       "sub": "Demo isteyin. Aktif işlemlerinizden birini birlikte inceleyelim.",
       "primary": "Demo Talep Et",
       "secondary": "Nasıl Çalışır"
