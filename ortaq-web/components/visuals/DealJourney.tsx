@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
 /**
  * DealJourney — Section 3: "Bir işlemin tüm hikayesi"
  *
- * One deal (Çelik Tedariki · BestBuild GmbH · €840.000)
+ * One deal — Çelik Tedariki · Alman alıcı · €840.000
  * shown from first offer to payment.
  *
  * At each stage: real document names, not generic milestones.
@@ -160,7 +160,7 @@ export function DealJourney() {
             {isTR ? "Tek İşlem" : "Single Deal"}
           </p>
           <p className="mt-0.5 text-[0.9375rem] font-bold text-ortaq-ink">
-            {isTR ? "Çelik Tedariki · BestBuild GmbH" : "Steel Supply · BestBuild GmbH"}
+            {isTR ? "Çelik Tedariki · Alman alıcı" : "Steel Supply · German buyer"}
           </p>
         </div>
         <div className="text-right">
@@ -202,7 +202,7 @@ export function DealJourney() {
             {isTR ? "Şu An Bu Noktadasınız" : "Current Position"}
           </p>
           <p className="mt-0.5 text-[0.875rem] font-bold text-amber-900">
-            {isTR ? "Muayene Aşaması · SGS onayı bekleniyor · BestBuild GmbH sorumlu" : "Inspection Stage · SGS approval pending · BestBuild GmbH responsible"}
+            {isTR ? "Muayene Aşaması · SGS onayı bekleniyor · alıcı taraf sorumlu" : "Inspection Stage · SGS approval pending · buyer side responsible"}
           </p>
           <p className="mt-0.5 text-[0.5rem] text-amber-600">
             {isTR ? "BL kesilebilmesi için SGS onayı gerekiyor. Sevkiyat tarihi: 28 Haziran." : "SGS approval required before BL issuance. Shipment date: June 28."}

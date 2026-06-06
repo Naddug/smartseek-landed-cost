@@ -15,25 +15,25 @@ import { cn } from "@/lib/cn";
  * POSITIONING REWRITE: This page explains ONE transaction between TWO companies.
  * Not a product. Not a workflow. The buyer and seller are always named.
  *
- * STEP 1: "Siz v12 diyorsunuz. BestBuild v10 diyor."
+ * STEP 1: "Alıcı v10 diyor. Siz v12 diyorsunuz."
  *   The two-company gap: same deal, two different realities.
  *   Visual: messages flying between the two companies, out of sync.
  *
  * STEP 2: "ORTAQ, iki tarafın paylaştığı tek kayıttır."
  *   The record is created. Both companies write to it and read from it.
- *   Visual: BestBuild + your team both connected to the same deal card.
+ *   Visual: Alıcı + your team both connected to the same deal card.
  *
- * STEP 3: "BestBuild ne görüyorsa, siz de aynısını görüyorsunuz."
+ * STEP 3: "Alıcı ne görüyorsa, siz de aynısını görüyorsunuz."
  *   The shared visibility: same SGS status, same BL draft, same payment step.
  *   Visual: two screens side by side — perfectly mirrored.
  *
- * STEP 4: "BestBuild'e artık 'son durum ne?' diye e-posta atmıyorsunuz."
+ * STEP 4: "Alıcıya artık 'son durum ne?' diye e-posta atmıyorsunuz."
  *   The elimination of the status-check email — between companies, not inside.
  *   Visual: the cross-company email disappears. The ORTAQ record answers it.
  *
  * Design rules:
  *   - BUYER and SELLER named in every step. "Her iki taraf" is not enough.
- *   - Named counterparty: BestBuild GmbH, Hamburg.
+ *   - Use generic trade terms: alıcı, satıcı, Alman alıcı.
  *   - No paragraph longer than 15 words.
  *   - Trade terms only: SGS, BL, LC, sözleşme, ödeme.
  *   - No startup/software language.
@@ -56,14 +56,14 @@ export function HowItWorksView() {
               </p>
               <h1 className="mt-3 text-[2rem] font-bold tracking-[-0.03em] text-ortaq-ink sm:text-[2.5rem] leading-[1.05]">
                 {isTR
-                  ? <>BestBuild ne görüyorsa,<br /><span className="text-ortaq-trust">siz de aynısını görüyorsunuz.</span></>
-                  : <>Whatever BestBuild sees,<br /><span className="text-ortaq-trust">you see exactly the same.</span></>
+                  ? <>Bir ticari işlem.<br /><span className="text-ortaq-trust">Tek kayıt.</span></>
+                  : <>One commercial transaction.<br /><span className="text-ortaq-trust">One record.</span></>
                 }
               </h1>
               <p className="mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
                 {isTR
-                  ? "ORTAQ, alıcı ve satıcının aynı işlem kaydını paylaştığı sistemdir. Tek SGS durumu. Tek BL versiyonu. Tek sözleşme — iki taraf için."
-                  : "ORTAQ is the transaction record buyer and seller share. One SGS status. One BL version. One contract — for both parties."
+                  ? "Teklif, sözleşme, SGS, BL, sevkiyat ve ödeme — hepsi aynı işlem kaydında. WhatsApp, e-posta ve PDF'lerde değil."
+                  : "Offer, contract, SGS, BL, shipment and payment — all in the same deal record. Not in WhatsApp, email and PDFs."
                 }
               </p>
             </div>
@@ -73,55 +73,55 @@ export function HowItWorksView() {
         {/* Steps */}
         <div className="divide-y divide-ortaq-border">
 
-          {/* ══ STEP 1: The two-company gap ═══════════════════════ */}
+          {/* ══ STEP 1: The problem ════════════════════════════════ */}
           <Step
             number="01"
             question={isTR
-              ? "Siz v12 diyorsunuz. BestBuild v10 diyor."
-              : "You say v12. BestBuild says v10."}
+              ? "Bir işlem. Birden fazla uygulama. Sıfır netlik."
+              : "One deal. Multiple apps. Zero clarity."}
             answer={isTR
-              ? "Aynı işlem. İki şirket. Her taraf farklı bir belgeye, farklı bir versiyona bakıyor."
-              : "Same deal. Two companies. Each side looking at a different document, a different version."}
+              ? "Fiyat WhatsApp'ta. Sözleşme Outlook'ta. SGS raporu PDF'te. Son karar belirsiz."
+              : "Price on WhatsApp. Contract in Outlook. SGS report in a PDF. Latest decision unclear."}
           >
             <Step1Visual isTR={isTR} />
           </Step>
 
-          {/* ══ STEP 2: The shared record ══════════════════════════ */}
+          {/* ══ STEP 2: ORTAQ collects ═════════════════════════════ */}
           <Step
             number="02"
             question={isTR
-              ? "ORTAQ, iki tarafın paylaştığı tek kayıttır."
-              : "ORTAQ is the single record both parties share."}
+              ? "ORTAQ her şeyi tek işlem kaydında toplar."
+              : "ORTAQ gathers everything into one deal record."}
             answer={isTR
-              ? "BestBuild ve siz aynı SPA'ya, aynı SGS durumuna, aynı BL taslağına bakıyorsunuz. Aynı anda."
-              : "BestBuild and you look at the same SPA, the same SGS status, the same BL draft. At the same time."}
+              ? "Sözleşme, SGS, BL taslağı, mesajlar ve onaylar — hepsi aynı işlem kaydına bağlanır."
+              : "Contract, SGS, BL draft, messages and approvals — all linked to the same deal record."}
             reverse
           >
             <Step2Visual isTR={isTR} />
           </Step>
 
-          {/* ══ STEP 3: Mirrored screens ═══════════════════════════ */}
+          {/* ══ STEP 3: Every party sees the same ════════════════════ */}
           <Step
             number="03"
             question={isTR
-              ? "BestBuild ne görüyorsa, siz de aynısını görüyorsunuz."
-              : "Whatever BestBuild sees, you see exactly the same."}
+              ? "Tedarikçi, alıcı, lojistik ve finans aynı durumu görüyor."
+              : "Supplier, buyer, logistics and finance see the same status."}
             answer={isTR
-              ? "Hamburg ve İstanbul. Farklı ekranlar, aynı bilgi. Farklı sözleşme yok. Farklı PDF yok."
-              : "Hamburg and Istanbul. Different screens, same information. No different contract. No different PDF."}
+              ? "Farklı PDF yok. Farklı Excel yok. Herkes aynı kayda bakıyor, aynı anda."
+              : "No different PDF. No different Excel. Everyone looks at the same record, at the same time."}
           >
             <Step3Visual isTR={isTR} />
           </Step>
 
-          {/* ══ STEP 4: The email that disappears ════════════════════ */}
+          {/* ══ STEP 4: No more asking ════════════════════════════════ */}
           <Step
             number="04"
             question={isTR
-              ? "BestBuild'e artık 'son durum ne?' diye e-posta atmıyorsunuz."
-              : "You no longer send BestBuild an email asking 'what is the latest status?'"}
+              ? "'SGS geldi mi?' artık sorulmuyor."
+              : "'Has SGS arrived?' is no longer asked."}
             answer={isTR
-              ? "Cevap ORTAQ kaydında. BestBuild ne yaptıysa, ne onayladıysa — anında görünüyor."
-              : "The answer is in the ORTAQ record. Whatever BestBuild did, whatever they approved — visible instantly."}
+              ? "Cevap her zaman ekranda. SGS, BL, LC durumu — kimseye sormadan görünüyor."
+              : "The answer is always on screen. SGS, BL, LC status — visible without asking anyone."}
             reverse
           >
             <Step4Visual isTR={isTR} />
@@ -281,7 +281,7 @@ function Step1Visual({ isTR }: { isTR: boolean }) {
       <div className="absolute inset-x-0 top-[42%] flex justify-center" style={{ zIndex: 20 }}>
         <div className="rounded-full border-2 border-red-300 bg-white px-3 py-1 shadow-lg">
           <p className="text-[0.5625rem] font-bold text-red-700">
-            {isTR ? "Çelik Tedariki · €840.000 · BestBuild GmbH" : "Steel Supply · €840,000 · BestBuild GmbH"}
+            {isTR ? "Çelik Tedariki · €840.000 · Alman alıcı" : "Steel Supply · €840,000 · Alman alıcı"}
           </p>
         </div>
       </div>
@@ -308,7 +308,7 @@ function Step2Visual({ isTR }: { isTR: boolean }) {
   ];
 
   const items = [
-    { who: "YÇ", text: isTR ? "SGS bekleniyor. BestBuild'e ilettim." : "SGS pending. Forwarded to BestBuild.", time: "14:32" },
+    { who: "YÇ", text: isTR ? "SGS bekleniyor. alıcıya ilettim." : "SGS pending. Forwarded to buyer.", time: "14:32" },
     { who: "BB", text: isTR ? "Pazartesiye kadar gönderirim." : "I will send by Monday.", time: "15:10" },
   ];
 
@@ -329,7 +329,7 @@ function Step2Visual({ isTR }: { isTR: boolean }) {
               {isTR ? "Aktif İşlem" : "Active Deal"}
             </p>
             <p className="text-[0.875rem] font-bold text-ortaq-ink">
-              {isTR ? "Çelik Tedariki · BestBuild GmbH" : "Steel Supply · BestBuild GmbH"}
+              {isTR ? "Çelik Tedariki · Alman alıcı" : "Steel Supply · Alman alıcı"}
             </p>
           </div>
           <span className="rounded-full bg-ortaq-trust/10 px-3 py-1 text-[0.5rem] font-bold text-ortaq-trust">€840.000</span>
@@ -484,7 +484,7 @@ function Step4Visual({ isTR }: { isTR: boolean }) {
   ];
 
   const answers = [
-    { label: "SGS",                                      value: isTR ? "Bekleniyor · BestBuild" : "Pending · BestBuild",  type: "warn"    as const },
+    { label: "SGS",                                      value: isTR ? "Bekleniyor · alıcı tarafta" : "Pending · buyer side",  type: "warn"    as const },
     { label: "BL",                                       value: isTR ? "28 Haziran · SGS sonrası" : "Jun 28 · After SGS", type: "info"    as const },
     { label: isTR ? "Fiyat" : "Price",                  value: "€1.260/MT · " + (isTR ? "Onaylandı" : "Approved"),       type: "confirm" as const },
     { label: isTR ? "Sevkiyat" : "Shipment",            value: isTR ? "28 Haziran · Planlandı" : "Jun 28 · Scheduled",   type: "confirm" as const },

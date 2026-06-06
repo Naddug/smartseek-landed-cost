@@ -2,7 +2,7 @@
   "brand": {
     "name": "ORTAQ",
     "tagline": "All commercial work. One place.",
-    "navTagline": "The record both companies share for every deal."
+    "navTagline": "Commercial transactions. One record."
   },
   "nav": {
     "howItWorks": "How It Works",
@@ -1341,7 +1341,7 @@
     }
   },
   "footer": {
-    "tagline": "ORTAQ is the transaction record that buyer and seller share. SGS, BL, LC and contract — two companies, one screen.",
+    "tagline": "Gather all documents, approvals and responsibilities of your commercial transactions in one record.",
     "protectionLabel": "Trust and compliance",
     "regulatory": "ORTAQ holds no money, sells no investments and conducts no securities activity. It only provides validation, readiness and qualified introductions.",
     "notAdvice": "ORTAQ gives no investment advice. The content here is for information.",
@@ -1365,7 +1365,7 @@
     "entity": "ORTAQ.BIZ",
     "entityNote": "",
     "links": {
-      "trust": "Trust & Security",
+      "trust": "Trust",
       "risk": "Risks",
       "process": "How It Works",
       "faq": "FAQ",
@@ -2533,9 +2533,9 @@
   "home": {
     "hero": {
       "eyebrow": "For buyers and sellers",
-      "h1a": "Whatever version BestBuild sees,",
-      "h1b": "you see the same one.",
-      "sub": "ORTAQ is the transaction record that buyer and seller share. SGS status, BL date, contract version — clear for both parties, without asking anyone.",
+      "h1a": "Contract, SGS, shipment and payment.",
+      "h1b": "All in one place.",
+      "sub": "Your commercial transactions scattered across WhatsApp, WeChat, email and PDFs — gathered in one record. Every document. Every approval. Every responsibility.",
       "cta": "Request Demo",
       "ctaSecondary": "How It Works"
     },
@@ -2599,9 +2599,9 @@
       "callout": "ORTAQ is where commercial commitments become visible, trackable and actionable."
     },
     "cta": {
-      "h2a": "You no longer send BestBuild",
-      "h2b": "an email asking 'what is the latest status?'",
-      "sub": "Request a demo. Bring one active deal. Add your counterparty. 30 minutes.",
+      "h2a": "Let us walk through one of",
+      "h2b": "your active deals together.",
+      "sub": "Request a demo. Bring a real deal. 30 minutes.",
       "primary": "Request Demo",
       "secondary": "How It Works"
     },
@@ -2820,38 +2820,38 @@
     }
   },
   "transform": {
-    "sectionTitle": "Same deal. Two parties. Two different realities.",
-    "sectionSub": "Left: how it looks today. Right: the ORTAQ record both parties see.",
+    "sectionTitle": "Same deal. Two different realities.",
+    "sectionSub": "Left: what is happening now. Right: the ORTAQ record.",
     "dealName": "Steel Supply",
-    "counterparty": "BestBuild GmbH",
+    "counterparty": "German buyer",
     "amount": "€840,000",
     "chaosLabel": "Right now",
     "ortaqLabel": "ORTAQ record",
     "chaosStatus": "STATUS UNKNOWN",
-    "ortaqStatus": "BOTH PARTIES SEE THIS",
-    "q1": "What was the final price?",
-    "q2": "Which PDF is current?",
-    "q3": "Has SGS arrived?",
-    "q4": "Who is waiting?",
-    "q5": "Where is the payment?",
-    "a1": "Price confirmed",
-    "a1tag": "Confirmed",
-    "a2": "Contract v12 active version",
-    "a2tag": "Current",
-    "a3": "SGS pending",
-    "a3tag": "Waiting",
-    "a4": "BestBuild's turn",
-    "a4tag": "Waiting",
-    "a5": "Shipment: June 28",
-    "a5tag": "Scheduled",
-    "a6": "Updated 14 minutes ago",
-    "a6tag": "Live",
-    "a1detail": "€1,260/MT CIF Rotterdam",
-    "a2detail": "v11 and v10 superseded",
-    "a3detail": "Waiting on counterparty",
-    "a4detail": "Cargo plan approval",
-    "a5detail": "SGS required before BL issuance",
-    "a6detail": "Both parties can see this"
+    "ortaqStatus": "ALL ON RECORD",
+    "q1": "Has SGS arrived?",
+    "q2": "Which contract is current?",
+    "q3": "When is payment going out?",
+    "q4": "Whose turn is it?",
+    "q5": "Has BL been issued?",
+    "a1": "SPA v12",
+    "a1tag": "Current version",
+    "a2": "SGS · TÜV Thailand",
+    "a2tag": "Buyer responsible",
+    "a3": "LC · HSBC Dubai",
+    "a3tag": "In bank process",
+    "a4": "Buyer side",
+    "a4tag": "Action required",
+    "a5": "BL Draft v2",
+    "a5tag": "Pending approval",
+    "a6": "Shipment date",
+    "a6tag": "Scheduled",
+    "a1detail": "Signed · June 10",
+    "a2detail": "Pending · buyer side",
+    "a3detail": "Being prepared · 3 days",
+    "a4detail": "Awaiting SGS approval",
+    "a5detail": "Awaiting buyer approval · June 25",
+    "a6detail": "June 28 · After SGS approval"
   },
   "usage": {
     "sectionTitle": "First 2 hours of the morning.",

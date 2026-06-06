@@ -34,19 +34,19 @@ export function FourScreens() {
 
   // Identical status fields — shared across all four screens
   const statusFields = isTR ? [
-    { label: "Sözleşme",    value: "SPA v12 · İmzalı",          type: "confirmed" as const },
-    { label: "SGS",         value: "Bekleniyor · BestBuild",    type: "waiting"   as const },
-    { label: "BL",          value: "Taslak v3 · SGS sonrası",   type: "waiting"   as const },
-    { label: "Sevkiyat",    value: "28 Haziran",                  type: "scheduled" as const },
-    { label: "Ödeme",       value: "LC hazırlanıyor",             type: "waiting"   as const },
-    { label: "Sıradaki",    value: "SGS · BestBuild'de",         type: "action"    as const },
+    { label: "Sözleşme",    value: "SPA v12 · İmzalı",           type: "confirmed" as const },
+    { label: "SGS",         value: "Bekleniyor · alıcı tarafta", type: "waiting"   as const },
+    { label: "BL",          value: "Taslak v3 · SGS sonrası",    type: "waiting"   as const },
+    { label: "Sevkiyat",    value: "28 Haziran",                   type: "scheduled" as const },
+    { label: "Ödeme",       value: "LC hazırlanıyor · HSBC",      type: "waiting"   as const },
+    { label: "Sıradaki",    value: "SGS · alıcı sorumlu",         type: "action"    as const },
   ] : [
-    { label: "Contract",   value: "SPA v12 · Signed",           type: "confirmed" as const },
-    { label: "SGS",        value: "Pending · BestBuild",         type: "waiting"   as const },
-    { label: "BL",         value: "Draft v3 · After SGS",        type: "waiting"   as const },
-    { label: "Shipment",   value: "June 28",                     type: "scheduled" as const },
-    { label: "Payment",    value: "LC being prepared",           type: "waiting"   as const },
-    { label: "Next",       value: "SGS · With BestBuild",        type: "action"    as const },
+    { label: "Contract",   value: "SPA v12 · Signed",            type: "confirmed" as const },
+    { label: "SGS",        value: "Pending · buyer side",         type: "waiting"   as const },
+    { label: "BL",         value: "Draft v3 · After SGS",         type: "waiting"   as const },
+    { label: "Shipment",   value: "June 28",                      type: "scheduled" as const },
+    { label: "Payment",    value: "LC being prepared · HSBC",     type: "waiting"   as const },
+    { label: "Next",       value: "SGS · buyer responsible",      type: "action"    as const },
   ];
 
   const fieldStyle = {
@@ -61,7 +61,7 @@ export function FourScreens() {
       {/* Deal banner */}
       <div className="mb-5 flex items-center gap-3 rounded-xl border border-ortaq-border bg-ortaq-surface px-5 py-3">
         <span className="text-[0.875rem] font-bold text-ortaq-ink">
-          {isTR ? "Çelik Tedariki · BestBuild GmbH · €840.000" : "Steel Supply · BestBuild GmbH · €840,000"}
+          {isTR ? "Çelik Tedariki · €840.000 · Alman alıcı" : "Steel Supply · €840,000 · German buyer"}
         </span>
         <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[0.5rem] font-bold text-amber-700">
           {isTR ? "Muayene Aşaması" : "Inspection Stage"}
@@ -126,8 +126,8 @@ export function FourScreens() {
           </p>
           <p className="mt-1.5 text-[0.5625rem] text-ortaq-ink-soft">
             {isTR
-              ? "BestBuild Hamburg ofisinde ne görüyorsa, İstanbul'daki ekibiniz de tam bunu görüyor. Farklı PDF yok. Farklı Excel yok. Farklı gerçek yok."
-              : "Whatever BestBuild sees in their Hamburg office, your Istanbul team sees exactly the same. No different PDF. No different Excel. No different version of reality."}
+              ? "Alman alıcı Hamburg'da ne görüyorsa, İstanbul'daki ekibiniz de tam bunu görüyor. Farklı PDF yok. Farklı Excel yok. Farklı gerçek yok."
+              : "Whatever the German buyer sees in their Hamburg office, your Istanbul team sees exactly the same. No different PDF. No different Excel. No different version of reality."}
           </p>
         </div>
         <div className="border-t border-ortaq-trust/15 bg-ortaq-trust/[0.06] px-5 py-2.5">
