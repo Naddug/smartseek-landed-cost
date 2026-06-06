@@ -51,8 +51,8 @@ export function OrtaqHomeView() {
               </h1>
 
               <p className="mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.6] text-ortaq-ink-muted">
-                ORTAQ keeps both companies on the same page — what&apos;s agreed,
-                what&apos;s blocked, who acts next, and when the deal closes.
+                Both companies always know what has been committed, who approved it,
+                who is accountable, and what must happen next.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -102,9 +102,9 @@ export function OrtaqHomeView() {
                 </h2>
               </div>
               <p className={cn(typography.body, "sm:text-right sm:max-w-sm sm:ml-auto")}>
+                Every negotiation, approval, commitment and decision — across
                 Supplier, Buyer, Sales, Procurement, Operations, Logistics and Finance
-                — each currently working in a separate system. ORTAQ gives all of
-                them one shared view.
+                — visible to everyone in one shared view.
               </p>
             </div>
 
@@ -112,10 +112,10 @@ export function OrtaqHomeView() {
 
             <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
               {[
-                "WhatsApp threads → one shared timeline",
-                "Email chains → tracked commitments",
-                "Excel versions → single source of truth",
-                "PDF attachments → contextual documents",
+                "Who approved this? → Named, confirmed, dated",
+                "What was agreed? → Visible to both companies",
+                "Who is responsible? → Explicitly assigned",
+                "What changed? → Tracked and attributed",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-2">
                   <svg className="h-3 w-3 shrink-0 text-ortaq-trust" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
@@ -140,28 +140,22 @@ export function OrtaqHomeView() {
             <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  quote: "&ldquo;Where are we on this deal? I haven&apos;t heard anything in three days.&rdquo;",
-                  raw: "Where are we on this deal? I haven't heard anything in three days.",
+                  raw: "Who approved the price revision? I can't find any confirmation.",
                 },
                 {
-                  quote: "&ldquo;Which version of the contract are we actually working from?&rdquo;",
-                  raw: "Which version of the contract are we actually working from?",
+                  raw: "We think the deal is moving. They think we're still negotiating.",
                 },
                 {
-                  quote: "&ldquo;Who approved the payment terms? I can&apos;t find the confirmation.&rdquo;",
-                  raw: "Who approved the payment terms? I can't find the confirmation.",
+                  raw: "Did we commit to June 30 delivery? I need to know what was actually agreed.",
                 },
                 {
-                  quote: "&ldquo;The inspection is next week and nobody has confirmed the date yet.&rdquo;",
-                  raw: "The inspection is next week and nobody has confirmed the date yet.",
+                  raw: "The inspection is next week and nobody has confirmed the date.",
                 },
                 {
-                  quote: "&ldquo;I need to send another follow-up. They haven&apos;t responded in a week.&rdquo;",
-                  raw: "I need to send another follow-up. They haven't responded in a week.",
+                  raw: "Who promised the contract revision? It was supposed to come yesterday.",
                 },
                 {
-                  quote: "&ldquo;Can someone tell me exactly what we&apos;ve agreed so far?&rdquo;",
-                  raw: "Can someone tell me exactly what we've agreed so far?",
+                  raw: "Can someone tell me exactly what we've committed to so far?",
                 },
               ].map((item, i) => (
                 <div
@@ -181,7 +175,7 @@ export function OrtaqHomeView() {
                 "text-[1.125rem] sm:text-[1.25rem]",
               )}
             >
-              ORTAQ exists so you never need to ask these questions again.
+              When commitments are unclear, deals slow down. ORTAQ makes every commitment visible.
             </p>
           </div>
         </Container>
@@ -194,8 +188,8 @@ export function OrtaqHomeView() {
             <div className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {[
                 {
-                  label: "The Symptom",
-                  lines: ["Chasing updates.", "Missing context.", "Fragmented deals."],
+                  label: "The Problem",
+                  lines: ["Commitments unclear.", "Approvals missing.", "Nobody knows what was agreed."],
                   dim: true,
                 },
                 {
@@ -205,8 +199,8 @@ export function OrtaqHomeView() {
                   large: true,
                 },
                 {
-                  label: "The Outcome",
-                  lines: ["Both sides always know", "what is happening", "and what comes next."],
+                  label: "The Result",
+                  lines: ["Both companies see", "the same commercial", "reality."],
                   dim: true,
                 },
               ].map((col) => (
@@ -308,10 +302,10 @@ export function OrtaqHomeView() {
                   ORTAQ is the System of Record<br className="hidden sm:block" /> Between Companies.
                 </p>
                 <p className="mx-auto mt-4 max-w-md text-[0.9375rem] leading-[1.6] text-white/60">
-                  Not another workflow tool. Not a document archive. Not a CRM.
-                  The authoritative source of truth for the commercial work
-                  that happens between your organization and theirs —
-                  from first conversation to final payment.
+                  Not a workflow tool. Not a document archive. Not a CRM.
+                  The place where commercial commitments become visible —
+                  who agreed, who approved, who is accountable,
+                  what is still outstanding.
                 </p>
               </div>
             </div>
@@ -333,12 +327,12 @@ export function OrtaqHomeView() {
                   "text-[1.75rem] sm:text-[2.25rem]",
                 )}
               >
-                Not where things are stored.<br />
-                Where things stand.
+                Not where documents live.<br />
+                Where commitments stand.
               </h2>
               <p className={cn(typography.body, "mx-auto mt-3 max-w-md")}>
-                Every view in ORTAQ answers the same question: what needs to happen
-                next, and who is responsible for it?
+                Every view in ORTAQ answers one question: what has been committed,
+                by whom, and what is still outstanding?
               </p>
             </div>
 
@@ -346,23 +340,23 @@ export function OrtaqHomeView() {
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 {
-                  signal: "Your Turn",
-                  desc: "Actions that are waiting on you. Named. Deadlined. Unambiguous.",
+                  signal: "Your Commitments",
+                  desc: "What you have promised and not yet delivered. Named, deadlined, visible to the other side.",
                   color: "trust",
                 },
                 {
-                  signal: "Their Turn",
-                  desc: "What you are waiting on from the other side. No more guessing.",
+                  signal: "Their Commitments",
+                  desc: "What the other party has promised and not yet delivered. No ambiguity about who is waiting on whom.",
                   color: "neutral",
                 },
                 {
-                  signal: "Active Blockers",
-                  desc: "What is currently preventing the deal from moving forward. Visible to everyone.",
+                  signal: "Unresolved Decisions",
+                  desc: "Approvals not yet given. Agreements not yet confirmed. Nothing falls through.",
                   color: "accent",
                 },
                 {
-                  signal: "What Has Been Decided",
-                  desc: "All agreements confirmed by both parties. No disputes about what was said.",
+                  signal: "Confirmed Agreements",
+                  desc: "Every commitment both parties have made and confirmed. Immutable record. No disputes.",
                   color: "trust",
                 },
               ].map((item) => (
@@ -403,31 +397,31 @@ export function OrtaqHomeView() {
                   "text-[1.75rem] sm:text-[2.25rem]",
                 )}
               >
-                Less searching.<br />More execution.
+                Commitments visible.<br />Deals moving.
               </h2>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               {[
                 {
-                  before: "\"Where are we on this?\" sent 4 times this week.",
-                  after: "Current status visible to both sides. Always.",
-                  headline: "No more status updates",
+                  headline: "Every approval is on record",
+                  before: "Who approved the price? Nobody can find the confirmation. The deal is stuck.",
+                  after: "Every approval is named, dated and visible to both companies. No more searching.",
                 },
                 {
-                  before: "Approval sent by email. Followed up twice. Still waiting.",
-                  after: "Approvals are routed, tracked, and resolved. Decisions do not disappear.",
-                  headline: "Decisions get made",
+                  headline: "Every commitment is attributed",
+                  before: "Both sides remember the negotiation differently. Nobody agreed to put it in writing.",
+                  after: "Every commitment made is recorded against the deal. Both sides see the same history.",
                 },
                 {
-                  before: "Both parties think different people are responsible for the same task.",
-                  after: "Every action has a named owner. Both companies see the same responsibilities.",
-                  headline: "Accountability is explicit",
+                  headline: "Accountability is impossible to avoid",
+                  before: "The revision was promised last week. Nobody knows who is responsible for it.",
+                  after: "Every promise has a named owner and a deadline. Both companies see it. Nothing disappears.",
                 },
                 {
-                  before: "The deal closes late because nobody was tracking what was blocking it.",
-                  after: "Blockers are surfaced immediately. The deal moves forward faster.",
-                  headline: "Deals close faster",
+                  headline: "Deals close on their own momentum",
+                  before: "The deal slows down because nobody knows what is blocking it or who needs to act.",
+                  after: "Every outstanding commitment is surfaced. The next action is always clear.",
                 },
               ].map((item) => (
                 <div
@@ -480,9 +474,9 @@ export function OrtaqHomeView() {
                   We have run these deals.<br />We know what breaks.
                 </h2>
                 <p className={cn(typography.body, "mt-3")}>
-                  ORTAQ is built by people who have managed complex international
-                  transactions firsthand. The product is designed around real problems —
-                  not hypothetical workflows.
+                  ORTAQ is built by people who have sat on both sides of complex
+                  commercial transactions. We know what happens when commitments are
+                  unclear — delayed deals, damaged relationships, lost revenue.
                 </p>
               </div>
               <div className="flex shrink-0 flex-col gap-2">
@@ -511,12 +505,12 @@ export function OrtaqHomeView() {
                   "text-[2rem] sm:text-[2.625rem]",
                 )}
               >
-                Your next deal should not run on WhatsApp.
+                Both companies.<br />Same commercial reality.
               </h2>
               <p className={cn(typography.body, "mx-auto mt-4 max-w-md text-ortaq-cream/70")}>
-                Request a demo. We will show you what your most complex
-                active transaction looks like inside ORTAQ — organized,
-                coordinated, moving.
+                Request a demo. We will take your most complex active deal
+                and show you every commitment, approval and outstanding
+                action — visible to both sides in one view.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
