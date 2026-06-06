@@ -2526,12 +2526,12 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Commercial Transaction Platform",
-      "h1a": "All commercial work.",
-      "h1b": "One place.",
-      "sub": "WhatsApp, email, documents, approvals and transactions — bring your scattered commercial communication into one workspace.",
+      "eyebrow": "Commercial Operations Platform",
+      "h1a": "All your active commercial",
+      "h1b": "transactions. One screen.",
+      "sub": "Exporters, manufacturers and procurement teams use ORTAQ to manage active commercial transactions — from offer to contract, inspection to payment — in one operational workspace.",
       "cta": "Request Demo",
-      "ctaSecondary": "How It Works"
+      "ctaSecondary": "See How It Works"
     },
     "fragmentation": {
       "eyebrow": "The problem",
@@ -2593,11 +2593,11 @@
       "callout": "ORTAQ is where commercial commitments become visible, trackable and actionable."
     },
     "cta": {
-      "h2a": "Both companies.",
-      "h2b": "Same commercial reality.",
-      "sub": "Request a demo. We will show you what your most complex active deal looks like inside ORTAQ — all commitments, approvals and outstanding actions, visible to both sides in one view.",
+      "h2a": "Manage your commercial",
+      "h2b": "operations from one place.",
+      "sub": "Deal status, who is waiting, what is blocked, what happens next — instantly visible. Stop searching across tools.",
       "primary": "Request Demo",
-      "secondary": "Talk to the team →"
+      "secondary": "Meet the Team"
     }
   },
   "visuals": {

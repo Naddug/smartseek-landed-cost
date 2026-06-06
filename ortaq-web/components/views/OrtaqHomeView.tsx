@@ -6,27 +6,29 @@ import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 
-/* Visuals */
-import { ChaosVisual }    from "@/components/visuals/ChaosVisual";
-import { OrtaqPanel }     from "@/components/visuals/OrtaqPanel";
-import { DecisionCards }  from "@/components/visuals/DecisionCards";
-import { CommandCenter }  from "@/components/visuals/CommandCenter";
-import { GlobalCollab }   from "@/components/visuals/GlobalCollab";
+/* Visuals — ordered by homepage priority */
+import { HeroDashboard }  from "@/components/visuals/HeroDashboard";   // P1: transactions first
+import { ChaosVisual }    from "@/components/visuals/ChaosVisual";      // P2a: why current state is broken
+import { OrtaqPanel }     from "@/components/visuals/OrtaqPanel";       // P2b: what changes inside ORTAQ
+import { DecisionCards }  from "@/components/visuals/DecisionCards";    // P3: critical answers
+import { CommandCenter }  from "@/components/visuals/CommandCenter";    // P4: manager view
+import { GlobalCollab }   from "@/components/visuals/GlobalCollab";     // P5: multi-company
 
 /**
- * ORTAQ Homepage — visual-first emotional story arc.
+ * ORTAQ Homepage — visual-first, transaction-centric.
  *
- * Rule: if all text vanished, a visitor should still understand
- * what ORTAQ does purely through visuals.
+ * RULE: the central object on every screen is the TRANSACTION.
+ * Not messages. Not files. Not communication.
+ * A visitor in 10 seconds must think:
+ * "ORTAQ helps my company manage commercial transactions."
  *
- * Emotional arc:
- *   Hero       → "This product exists"
- *   Chaos      → "Yes. This is my life." (recognition)
- *   ORTAQ View → "Everything is finally in one place." (relief)
- *   Decisions  → "I need this right now." (desire)
- *   Command    → "This is serious." (trust)
- *   Global     → "This works across borders." (scale)
- *   CTA        → "Request a demo."
+ * Page answers 5 visual questions in order:
+ *  1. What does ORTAQ manage? (Hero: active transaction dashboard)
+ *  2. Why is the current state broken? (Chaos)
+ *  3. What changes inside ORTAQ? (ORTAQ View)
+ *  4. What answers become instantly visible? (Decision Cards)
+ *  5. How do managers monitor all deals? (Command Center)
+ *  6. How do companies collaborate? (Global)
  */
 export function OrtaqHomeView() {
   const { t } = useTranslation();
@@ -34,72 +36,84 @@ export function OrtaqHomeView() {
   return (
     <PublicShell stickyCta={false}>
 
-      {/* ══ HERO — minimal copy, big promise ══════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════
+          HERO — "What does ORTAQ manage?"
+          Answer: active commercial transactions.
+          Visual: an operational dashboard showing 4 live deals,
+          their stages, who is waiting, what is blocked, next action.
+          NOT: a messaging interface. NOT: WhatsApp icons.
+      ══════════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden border-b border-ortaq-border bg-ortaq-surface">
         <GridPattern />
         <Container wide>
-          <div className="relative py-16 sm:py-20 lg:py-24">
+          <div className="relative grid min-h-[calc(100dvh-3.75rem)] grid-cols-1 items-center gap-10 py-12 lg:grid-cols-[1fr_1.8fr] lg:gap-12 lg:py-16">
 
-            {/* Eyebrow */}
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-ortaq-trust/30 bg-ortaq-trust/6 px-3 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
-              <span className="text-[0.6875rem] font-semibold text-ortaq-trust">
-                {t("home.hero.eyebrow")}
-              </span>
-            </div>
-
-            {/* Main headline — deliberately short */}
-            <h1 className="font-body font-bold tracking-[-0.04em] text-ortaq-ink leading-[1.02] text-[2.75rem] sm:text-[3.5rem] lg:text-[4.5rem] max-w-2xl">
-              {t("home.hero.h1a")}<br />
-              <span className="text-ortaq-trust">{t("home.hero.h1b")}</span>
-            </h1>
-
-            <p className="mt-5 max-w-[26rem] text-[1.0625rem] leading-[1.65] text-ortaq-ink-muted">
-              {t("home.hero.sub")}
-            </p>
-
-            {/* Source flow — visual language that replaces a paragraph */}
-            <div className="mt-6 flex flex-wrap items-center gap-1.5">
-              {[
-                { label: "WhatsApp", c: "bg-[#25D366]/10 text-[#128C7E] border-[#25D366]/30" },
-                { label: "E-posta",  c: "bg-blue-50 text-blue-600 border-blue-200" },
-                { label: "PDF",      c: "bg-red-50 text-red-500 border-red-200" },
-                { label: "Excel",    c: "bg-green-50 text-green-700 border-green-200" },
-                { label: "ERP",      c: "bg-ortaq-bg text-ortaq-ink-soft border-ortaq-border" },
-                { label: "Toplantılar", c: "bg-violet-50 text-violet-600 border-violet-200" },
-              ].map((s) => (
-                <span key={s.label} className={cn("rounded-full border px-2.5 py-1 text-[0.5625rem] font-semibold", s.c)}>
-                  {s.label}
+            {/* Left: positioning */}
+            <div className="flex flex-col">
+              <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-ortaq-trust/30 bg-ortaq-trust/6 px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
+                <span className="text-[0.6875rem] font-semibold text-ortaq-trust">
+                  {t("home.hero.eyebrow")}
                 </span>
-              ))}
-              <span className="ml-1 text-[1rem] font-bold text-ortaq-trust">→</span>
-              <span className="rounded-full border border-ortaq-trust/30 bg-ortaq-trust/10 px-3 py-1 text-[0.5625rem] font-bold text-ortaq-trust">
-                ORTAQ
-              </span>
+              </div>
+
+              <h1 className="font-body font-bold tracking-[-0.04em] text-ortaq-ink leading-[1.02] text-[2.5rem] sm:text-[3rem] xl:text-[3.5rem]">
+                {t("home.hero.h1a")}<br />
+                <span className="text-ortaq-trust">{t("home.hero.h1b")}</span>
+              </h1>
+
+              <p className="mt-5 max-w-[22rem] text-[1rem] leading-[1.7] text-ortaq-ink-muted">
+                {t("home.hero.sub")}
+              </p>
+
+              {/* Transaction types — not tool icons */}
+              <div className="mt-6 flex flex-wrap gap-1.5">
+                {([
+                  "İhracat",
+                  "İthalat",
+                  "Tedarik",
+                  "Üretim",
+                  "Dağıtım",
+                  "Proje",
+                ] as const).map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-ortaq-border-strong bg-ortaq-bg px-2.5 py-1 text-[0.5625rem] font-semibold text-ortaq-ink-muted"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/demo"
+                  className="inline-flex min-h-12 items-center justify-center rounded-lg bg-ortaq-ink px-8 text-[0.9375rem] font-semibold text-ortaq-cream shadow-[var(--shadow-product)] transition-all hover:bg-ortaq-ink-muted active:scale-[0.98]"
+                >
+                  {t("home.hero.cta")}
+                </Link>
+                <Link
+                  href="/nasil-calisir"
+                  className="inline-flex min-h-12 items-center justify-center rounded-lg border border-ortaq-border-strong px-6 text-[0.9375rem] font-medium text-ortaq-ink transition-colors hover:bg-ortaq-bg"
+                >
+                  {t("home.hero.ctaSecondary")} →
+                </Link>
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/demo"
-                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-ortaq-ink px-8 text-[0.9375rem] font-semibold text-ortaq-cream shadow-[var(--shadow-product)] transition-all hover:bg-ortaq-ink-muted active:scale-[0.98]"
-              >
-                {t("home.hero.cta")}
-              </Link>
-              <Link
-                href="/nasil-calisir"
-                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-ortaq-border-strong px-6 text-[0.9375rem] font-medium text-ortaq-ink transition-colors hover:bg-ortaq-bg"
-              >
-                {t("home.hero.ctaSecondary")} →
-              </Link>
+            {/* Right: TRANSACTION DASHBOARD — hero visual */}
+            <div className="w-full">
+              <HeroDashboard />
             </div>
           </div>
         </Container>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          VISUAL 1 — THE CHAOS
-          Emotional target: "Yes. This is exactly my life."
-          Background: warm red-tint — it should feel stressful.
+          SECTION 2 — "Why is the current state broken?"
+          One transaction scattered across 14 separate tools.
+          Visitor recognition: "Yes. This is exactly my situation."
+          Background: warm red — feel the stress.
       ══════════════════════════════════════════════════════════════ */}
       <section className="border-b border-ortaq-border bg-[#FDF0ED]">
         <Container wide>
@@ -107,8 +121,8 @@ export function OrtaqHomeView() {
             <SectionHead
               label={t("visuals.chaos.sectionTitle")}
               sub={t("visuals.chaos.sectionSub")}
-              labelColor="text-[#8B3A2C]"
               align="center"
+              labelColor="text-[#8B3A2C]"
             />
             <div className="mt-8">
               <ChaosVisual />
@@ -118,9 +132,10 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          VISUAL 2 — THE ORTAQ VIEW
-          Same deal. One screen. Dramatic calm after the storm.
-          Background: green-tint — relief, clarity, control.
+          SECTION 3 — "What changes inside ORTAQ?"
+          Same deal. One unified operational view.
+          Everything linked. Every item in context.
+          Background: calm green — feel the relief.
       ══════════════════════════════════════════════════════════════ */}
       <section className="border-b border-ortaq-border bg-[#F2FAF4]">
         <Container wide>
@@ -128,8 +143,8 @@ export function OrtaqHomeView() {
             <SectionHead
               label={t("visuals.ortaqView.sectionTitle")}
               sub={t("visuals.ortaqView.sectionSub")}
-              labelColor="text-ortaq-trust"
               align="center"
+              labelColor="text-ortaq-trust"
             />
             <div className="mt-8">
               <OrtaqPanel />
@@ -139,9 +154,9 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          VISUAL 3 — THE MOMENT OF VALUE
-          Four decisions. Before: darkness. After: clarity.
-          "I need this right now."
+          SECTION 4 — "What answers become instantly visible?"
+          Four commercial decisions. Before: darkness. After: clarity.
+          Not features — outcomes. Not tools — decisions.
       ══════════════════════════════════════════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
@@ -159,9 +174,9 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          VISUAL 4 — COMMERCIAL COMMAND CENTER
-          Dark background. Mission control. "This is serious."
-          Large numbers. Unambiguous color. No reading required.
+          SECTION 5 — "How do managers see all active transactions?"
+          Dark. Mission control. Unambiguous.
+          Large numbers. Color carries meaning. No reading required.
       ══════════════════════════════════════════════════════════════ */}
       <section className="border-b border-white/10 bg-[#0D0C0A]">
         <Container wide>
@@ -169,9 +184,9 @@ export function OrtaqHomeView() {
             <SectionHead
               label={t("visuals.command.sectionTitle")}
               sub={t("visuals.command.sectionSub")}
+              align="center"
               labelColor="text-white"
               subColor="text-white/40"
-              align="center"
             />
             <div className="mt-8">
               <CommandCenter />
@@ -181,8 +196,9 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          VISUAL 5 — GLOBAL WORKSPACE
-          Different countries. Same screen. Shared visibility.
+          SECTION 6 — "How do multiple companies collaborate?"
+          Turkey, Thailand, Germany, Singapore — one workspace.
+          Both sides see the same deal state simultaneously.
       ══════════════════════════════════════════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
@@ -200,7 +216,7 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════
-          CTA — simple, confident, earned
+          CTA — earned confidence
       ══════════════════════════════════════════════════════════════ */}
       <section className="bg-ortaq-dark">
         <Container wide>
@@ -234,7 +250,7 @@ export function OrtaqHomeView() {
   );
 }
 
-/* ── layout helpers ── */
+/* ── helpers ── */
 
 function SectionHead({
   label,

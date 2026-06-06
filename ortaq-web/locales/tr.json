@@ -1961,12 +1961,12 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Şirketler Arası Ticari Platform",
-      "h1a": "Tüm ticari iletişim.",
-      "h1b": "Tek bir yer.",
-      "sub": "WhatsApp, e-posta, belgeler, onaylar ve işlemler — dağılmış verilerinizi tek bir çalışma alanında toplayın.",
+      "eyebrow": "Ticari Operasyon Platformu",
+      "h1a": "Tüm aktif anlaşmalarınız",
+      "h1b": "tek ekranda.",
+      "sub": "İhracatçılar, üreticiler ve tedarik ekipleri ORTAQ ile aktif ticari işlemlerini — tekliften sözleşmeye, muayeneden ödemeye kadar — tek bir operasyonel çalışma alanında yönetir.",
       "cta": "Demo Talep Et",
-      "ctaSecondary": "Nasıl Çalışır?"
+      "ctaSecondary": "Nasıl Çalışır"
     },
     "fragmentation": {
       "eyebrow": "Sorun",
@@ -2028,11 +2028,11 @@
       "callout": "ORTAQ, ticari taahhütlerin görünür, takip edilebilir ve eyleme dönüştürülebilir hale geldiği yerdir."
     },
     "cta": {
-      "h2a": "İki şirket.",
-      "h2b": "Aynı ticari gerçeklik.",
-      "sub": "Demo isteyin. En karmaşık aktif anlaşmanızı ORTAQ içinde gösterelim — tüm taahhütler, onaylar ve beklenen eylemler, her iki taraf için tek görünümde.",
+      "h2a": "Ticari operasyonlarınızı",
+      "h2b": "tek yerden yönetin.",
+      "sub": "Anlaşmaların durumu, kimin beklediği, sırada ne olduğu — hepsi anında görünür. Araç aramaya son.",
       "primary": "Demo Talep Et",
-      "secondary": "Ekiple Konuş →"
+      "secondary": "Ekibimizle Tanışın"
     }
   },
   "homeLanding": {
