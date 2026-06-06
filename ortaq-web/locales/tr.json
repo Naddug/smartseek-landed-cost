@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Sınır ötesi ticaret yönetim sistemi",
-    "navTagline": "Sınır ötesi ticaret altyapısı"
+    "tagline": "Commercial Operations Platform for B2B companies",
+    "navTagline": "Commercial Operations Platform"
   },
   "nav": {
     "howItWorks": "Nasıl Çalışır?",
@@ -23,7 +23,10 @@
     "ariaMobile": "Mobil menü",
     "corridors": "Koridorlar",
     "tradeRoom": "İşlem Odası",
-    "startDemo": "Demo Talep Et"
+    "startDemo": "Anlaşma Odası Oluştur",
+    "platform": "Platform",
+    "workflow": "Workflow",
+    "requestDemo": "Request Demo"
   },
   "media": {
     "credit": "Görsel: {{source}} · editoryal stok. Kampanya fotoğrafı değil.",
@@ -3015,11 +3018,12 @@
   },
   "trade": {
     "hero": {
-      "label": "Sınır ötesi ticaret",
-      "headline": "Tek Alan, Her İşlem.",
-      "sub": "Teklifler, sözleşmeler, denetim, sevkiyat ve ödemeyi tek yapılandırılmış iş akışında yönetin.",
-      "ctaPrimary": "Demo Talep Et",
-      "ctaSecondary": "Nasıl Çalışır?"
+      "eyebrow": "Anlaşma Çalışma Alanı",
+      "headline": "Her Anlaşma. Tek Alan.",
+      "sub": "ORTAQ, en önemli iş anlaşmalarınızın gerçekleştiği ortak çalışma alanıdır. İki taraf, tüm belgeler, her kilometre taşı — tek yapılandırılmış ortamda.",
+      "ctaPrimary": "Anlaşma Odası Oluştur",
+      "ctaSecondary": "Demo İzle",
+      "label": "Sınır ötesi ticaret"
     },
     "workflow": {
       "label": "İş akışı",
@@ -3064,34 +3068,57 @@
       }
     },
     "problem": {
+      "eyebrow": "Sorun",
+      "headline": "En Büyük Anlaşmalarınız WhatsApp'tan Yürüyor.",
+      "sub": "43 mesaj. 6 e-posta zinciri. 4 versiyonu olan bir belge. Güncel durum hâlâ belirsiz. Anlaşma geç kapanıyor — ya da hiç kapanmıyor.",
+      "chaos": {
+        "label": "Bugünkü tablo",
+        "items": [
+          {
+            "tool": "WhatsApp",
+            "problem": "Hangi mesaj geçerli? Hangi versiyon son?"
+          },
+          {
+            "tool": "E-posta",
+            "problem": "Konu başlıkları dağılıyor. Ekler kayboldu."
+          },
+          {
+            "tool": "Excel",
+            "problem": "v3_FINAL_son.xlsx — hangi sütun güncel?"
+          },
+          {
+            "tool": "PDF",
+            "problem": "Belge dağılmış. İmza doğrulaması yok."
+          }
+        ]
+      },
       "label": "Mevcut durum",
-      "headline": "WhatsApp ile Milyonluk İşlem Yürütmeyi Bırakın.",
-      "sub": "Çoğu sınır ötesi ticaret hâlâ dört bağlantısız araç üzerinden yürüyor. Her biri ayrı bir hata noktası.",
       "tools": {
         "whatsapp": {
           "name": "WhatsApp",
-          "problem": "Mesajlar kayboluyor, hangi sürüm geçerli belirsiz, arama yapmak imkânsız."
+          "problem": "Hangi mesaj geçerli? Hangi versiyon son?"
         },
         "email": {
           "name": "E-posta",
-          "problem": "Konu başlıkları dağılıyor, ekleri bulmak saatler alıyor, karşı taraf farklı bir zincirde."
+          "problem": "Konu başlıkları dağılıyor. Ekler kayboldu."
         },
         "excel": {
           "name": "Excel",
-          "problem": "Fiyat tabloları çakışıyor, v3_FINAL_son.xlsx nerede, kim ne değiştirdi bilinmiyor."
+          "problem": "v3_FINAL_son.xlsx — hangi sütun güncel?"
         },
         "pdf": {
           "name": "PDF",
-          "problem": "Sözleşmeler dağılmış, imza doğrulaması yok, hangi belge geçerli belirsiz."
+          "problem": "Belge dağılmış. İmza doğrulaması yok."
         }
       }
     },
     "product": {
+      "eyebrow": "Anlaşma Odası",
+      "headline": "Tek Alan. İki Taraf. Her Adım.",
+      "sub": "Her anlaşma, siz ve karşı tarafınız arasında paylaşılan özel bir çalışma alanı alır. Belgeleri takip edin, şartları müzakere edin, onayları yönetin — birlikte.",
+      "previewLabel": "ORTAQ Anlaşma Odası",
+      "roomTitle": "Çelik Tedarik Anlaşması — Q3 2026",
       "label": "Çözüm",
-      "headline": "İşlem Odası. Tek Kaynak. Sıfır Versiyon Karışıklığı.",
-      "sub": "Her ticaret kendi yapılandırılmış çalışma alanını alır. Karşı taraflar, belgeler, kilometre taşları ve yazışmalar — hepsi tek yerde.",
-      "previewLabel": "ORTAQ İşlem Odası — FCO adımı",
-      "roomTitle": "FCO — Full Corporate Offer",
       "fields": {
         "commodity": "Ürün",
         "commodityValue": "Fındık içi, Grade A",
@@ -3102,7 +3129,7 @@
         "validity": "Geçerlilik",
         "validityValue": "72 saat"
       },
-      "ctaAccept": "FCO'yu Kabul Et",
+      "ctaAccept": "Onayla",
       "ctaRevise": "Revizyon Talep Et"
     },
     "modules": {
@@ -3184,11 +3211,210 @@
       }
     },
     "cta": {
-      "headline": "İlk İşlem Odanızı Açın.",
-      "sub": "Demo talepte bulunun, ekibimiz 24 saat içinde size ulaşsın.",
-      "primary": "Demo Talep Et",
+      "headline": "Bir Sonraki Anlaşmanız Daha İyi Bir Alan Hak Ediyor.",
+      "sub": "60 saniyede ilk Anlaşma Odanızı oluşturun.",
+      "primary": "Anlaşma Odası Oluştur",
       "secondary": "Ekiple Görüş →",
       "operator": "ORTAQ, LEGO Group, Petlas ve Yiğit Akü geçmişine sahip bir ekip tarafından yürütülmektedir."
+    },
+    "useCases": {
+      "eyebrow": "Kullanım alanları",
+      "headline": "Her Türlü B2B Anlaşması İçin.",
+      "sub": "Satış, tedarik, dağıtım, ortaklık — ORTAQ her türlü önemli iş anlaşmasını yapılandırır.",
+      "items": {
+        "sales": {
+          "name": "Satış",
+          "desc": "Teklifler, kural sayfaları, sözleşmeler — ilk tekliften kapanışa kadar yapılandırılmış."
+        },
+        "procurement": {
+          "name": "Satın Alma",
+          "desc": "Tedarikçi müzakereleri, satıcı anlaşmaları, satın alma emirleri — görünür ve denetlenebilir."
+        },
+        "distribution": {
+          "name": "Dağıtım",
+          "desc": "Distribütörlük anlaşmaları, fiyat müzakereleri, bölge sözleşmeleri — iki taraf uyumlu."
+        },
+        "partnerships": {
+          "name": "Ortaklık",
+          "desc": "MOU, JV anlaşmaları, gelir paylaşım sözleşmeleri — LOI'den imzaya takip edilir."
+        },
+        "manufacturing": {
+          "name": "Üretim",
+          "desc": "Tedarik anlaşmaları, kapasite taahhütleri, spesifikasyon onayları — belgelenmiş."
+        },
+        "trade": {
+          "name": "Uluslararası Ticaret",
+          "desc": "Sınır ötesi anlaşmalar, tam belge izi — denetimden ödemeye."
+        }
+      }
+    },
+    "howItWorks": {
+      "eyebrow": "Nasıl çalışır",
+      "headline": "60 Saniyede Başlayın.",
+      "steps": {
+        "s1": {
+          "number": "01",
+          "name": "Anlaşma Odası Oluşturun",
+          "desc": "Anlaşmanıza isim verin. Tarafları belirleyin. Türünü seçin — satış, tedarik, dağıtım, ortaklık."
+        },
+        "s2": {
+          "number": "02",
+          "name": "Karşı Tarafı Davet Edin",
+          "desc": "Bir bağlantıyla katılıyorlar. İncelemek için hesap açmaları gerekmiyor. Yanıt verdiklerinde oluşturuyorlar."
+        },
+        "s3": {
+          "number": "03",
+          "name": "Anlaşmayı Kapatın",
+          "desc": "Belgeler, kilometre taşları, onaylar, imzalar — tek yapılandırılmış yerde. İki taraf her zaman uyumlu."
+        }
+      }
+    },
+    "trust": {
+      "eyebrow": "Karmaşık anlaşmalar yürütmüş kurucular tarafından inşa edildi",
+      "headline": "Masanın Her İki Tarafında Bulunduk.",
+      "sub": "ORTAQ; uluslararası satış, ihracat, dağıtım ve üretim alanlarında derin operasyonel deneyime sahip bir ekip tarafından kuruldu. Bulmak istediğimiz ama bulamadığımız aracı biz inşa ettik.",
+      "credential": "LEGO Group · Petlas · Yiğit Akü geçmişine sahip kurucu ekip"
+    }
+  },
+  "cop": {
+    "hero": {
+      "eyebrow": "Commercial Operations Platform",
+      "headline": "The Control Center\nFor B2B Commerce.",
+      "sub": "Manage negotiations, documents, approvals, inspections, shipments and payments from one operational workspace.",
+      "primary": "Request Demo",
+      "secondary": "See How It Works"
+    },
+    "nav": {
+      "platform": "Platform",
+      "workflow": "Workflow",
+      "requestDemo": "Request Demo"
+    },
+    "problem": {
+      "eyebrow": "The problem",
+      "headline": "Your commercial operations are running on chaos.",
+      "sub": "Every deal runs across six disconnected tools. Nothing is in one place. Nothing is traceable. Nothing is under control.",
+      "todayLabel": "Today",
+      "todayItems": [
+        "WhatsApp",
+        "Email",
+        "Excel",
+        "PDFs",
+        "Phone calls",
+        "Shared folders"
+      ],
+      "todayResult": "Confusion. Delays. Lost information. Version problems.",
+      "ortaqLabel": "ORTAQ",
+      "ortaqItems": [
+        "One workspace",
+        "One timeline",
+        "One source of truth"
+      ],
+      "ortaqResult": "Every deal. Tracked. Controlled. Closed."
+    },
+    "workflow": {
+      "eyebrow": "The workflow",
+      "headline": "Every Transaction. One Workspace.",
+      "sub": "From the first contact to the final payment — every step tracked, documented and visible to both parties.",
+      "steps": [
+        {
+          "name": "Lead",
+          "desc": "Capture and qualify incoming opportunities. Assign counterparty."
+        },
+        {
+          "name": "Quotation",
+          "desc": "Issue and version-control commercial offers. Track responses."
+        },
+        {
+          "name": "Negotiation",
+          "desc": "Manage term revisions. Comment on specific clauses. Log every change."
+        },
+        {
+          "name": "Contract",
+          "desc": "Finalize SPA or distribution agreement. Route for approval and signature."
+        },
+        {
+          "name": "Inspection",
+          "desc": "Schedule third-party inspection. Attach report. Track milestone."
+        },
+        {
+          "name": "Shipment",
+          "desc": "Log B/L, AWB, packing list. Track ETA. Alert on delays."
+        },
+        {
+          "name": "Payment",
+          "desc": "Confirm LC, TT or SWIFT receipt. Mark deal closed."
+        }
+      ]
+    },
+    "modules": {
+      "eyebrow": "Platform modules",
+      "headline": "Everything a commercial operation needs.",
+      "sub": "Built as integrated modules — not a collection of disconnected tools.",
+      "items": [
+        {
+          "name": "Commercial Workspace",
+          "desc": "One room per transaction. Both parties, all documents, full history."
+        },
+        {
+          "name": "Document Management",
+          "desc": "Version control, diff tracking, approval states. No more v_FINAL_2."
+        },
+        {
+          "name": "Approval Flows",
+          "desc": "Route any document or decision for structured sign-off."
+        },
+        {
+          "name": "Inspection Management",
+          "desc": "Schedule, track and receive third-party inspection reports."
+        },
+        {
+          "name": "Shipment Tracking",
+          "desc": "B/L, AWB, ETA. All shipping milestones in the deal timeline."
+        },
+        {
+          "name": "Task Coordination",
+          "desc": "Assign tasks across your team. Deadlines. Accountability."
+        },
+        {
+          "name": "Communication Timeline",
+          "desc": "Structured deal thread. Not a chat. Auditable. Searchable."
+        },
+        {
+          "name": "Counterparty Management",
+          "desc": "Company profiles, contact records, deal history. All linked."
+        },
+        {
+          "name": "WhatsApp Integration",
+          "desc": "Capture WhatsApp conversations into the deal record automatically."
+        },
+        {
+          "name": "Email Integration",
+          "desc": "Pull deal-related emails into the workspace. Nothing missed."
+        },
+        {
+          "name": "AI Assistant",
+          "desc": "Reads the deal. Flags unusual clauses, timeline risks and missing documents."
+        },
+        {
+          "name": "ERP Integration",
+          "desc": "Sync deal data with your ERP. Eliminate double-entry. (Coming soon)"
+        }
+      ]
+    },
+    "trust": {
+      "eyebrow": "Built by operators, not consultants",
+      "headline": "We ran the deals before we built the software.",
+      "sub": "ORTAQ was founded by a team with hands-on experience in international sales, export, manufacturing and distribution across Europe, the Gulf and ASEAN. We built the tool that did not exist.",
+      "cred": "Founding team: LEGO Group · Petlas · Yiğit Akü"
+    },
+    "cta": {
+      "headline": "Take Control of Your Commercial Operations.",
+      "sub": "Request a demo. We will walk you through a live workspace in 30 minutes.",
+      "primary": "Request Demo",
+      "secondary": "Talk to the team →"
+    },
+    "footer": {
+      "tagline": "Commercial Operations Platform for B2B companies."
     }
   }
 }

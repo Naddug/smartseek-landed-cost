@@ -12,7 +12,6 @@ import { cn } from "@/lib/cn";
 
 const navItems = [
   { href: "/nasil-calisir", key: "howItWorks" as const },
-  { href: "/corridors", key: "corridors" as const },
   { href: "/ekip", key: "team" as const },
 ];
 
@@ -58,7 +57,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
                   light
                     ? "text-ortaq-cream/75 hover:text-ortaq-cream"
                     : "text-ortaq-ink-muted hover:text-ortaq-ink",
-                  pathname === href || (href === "/corridors" && pathname.startsWith("/corridors"))
+                  pathname === href
                     ? light
                       ? "text-ortaq-cream"
                       : "text-ortaq-ink"
@@ -73,7 +72,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
           <div className="flex items-center gap-2">
             <Link href="/demo" className="hidden sm:block">
               <Button variant={light ? "light" : "primary"} size="sm">
-                {t("nav.startDemo")}
+                Request Demo
               </Button>
             </Link>
             <button
@@ -114,7 +113,7 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
               <li className="pt-2">
                 <Link href="/demo" onClick={() => setOpen(false)}>
                   <Button variant="primary" fullWidth size="sm">
-                    {t("nav.startDemo")}
+                    Request Demo
                   </Button>
                 </Link>
               </li>

@@ -1,7 +1,7 @@
 "use client";
 
-import { TradeHomeView } from "@/components/views/TradeHomeView";
+import { CommercialOpsHomeView } from "@/components/views/CommercialOpsHomeView";
 
 export function HomePageView() {
-  return <TradeHomeView />;
+  return <CommercialOpsHomeView />;
 }
