@@ -32,10 +32,10 @@ export function OrtaqHomeView() {
 
             {/* Copy */}
             <div className="flex flex-col">
-              <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-ortaq-border bg-ortaq-bg px-3 py-1.5">
+              <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-ortaq-trust/30 bg-ortaq-trust/6 px-3 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
-                <span className="text-[0.6875rem] font-medium text-ortaq-ink-muted">
-                  Coordination layer between companies
+                <span className="text-[0.6875rem] font-semibold text-ortaq-trust">
+                  System of Record Between Companies
                 </span>
               </div>
 
@@ -140,29 +140,83 @@ export function OrtaqHomeView() {
         </Container>
       </section>
 
+      {/* ══ 2b. BRIDGE — symptom / category / outcome ═══════════════ */}
+      <section className="border-b border-ortaq-border bg-ortaq-ink">
+        <Container wide>
+          <div className="py-8">
+            <div className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+              {[
+                {
+                  label: "The Symptom",
+                  lines: ["Chasing updates.", "Missing context.", "Fragmented deals."],
+                  dim: true,
+                },
+                {
+                  label: "The Category",
+                  lines: ["System of Record", "Between Companies."],
+                  dim: false,
+                  large: true,
+                },
+                {
+                  label: "The Outcome",
+                  lines: ["Both sides always know", "what is happening", "and what comes next."],
+                  dim: true,
+                },
+              ].map((col) => (
+                <div
+                  key={col.label}
+                  className={cn("px-6 py-5 sm:py-3", col.large && "sm:py-5")}
+                >
+                  <p className="mb-2 text-[0.5625rem] font-semibold uppercase tracking-[0.1em] text-white/35">
+                    {col.label}
+                  </p>
+                  {col.lines.map((line, i) => (
+                    <p
+                      key={i}
+                      className={cn(
+                        "leading-snug",
+                        col.large
+                          ? "font-body text-[1.125rem] font-bold tracking-[-0.02em] text-ortaq-cream sm:text-[1.25rem]"
+                          : "text-[0.875rem] text-white/55",
+                      )}
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
       {/* ══ 3. THE GAP — category statement ════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
           <div className="py-14 sm:py-16">
             <div className="mx-auto max-w-3xl">
+              <p className={cn(typography.label, "mb-5 text-center text-ortaq-ink-soft")}>
+                Every enterprise runs on systems of record
+              </p>
+
               <div className="grid gap-4 sm:grid-cols-3">
                 {[
                   {
                     tool: "Salesforce",
-                    manages: "Manages your customer relationships.",
-                    context: "Internal to your company.",
+                    role: "System of Record",
+                    desc: "Customer relationships. One side of the deal.",
                     covered: true,
                   },
                   {
-                    tool: "Your ERP",
-                    manages: "Manages your internal operations.",
-                    context: "Internal to your company.",
+                    tool: "SAP / ERP",
+                    role: "System of Record",
+                    desc: "Internal operations. One side of the deal.",
                     covered: true,
                   },
                   {
-                    tool: "The space between companies",
-                    manages: "Nobody manages this.",
-                    context: "Where deals actually happen.",
+                    tool: "Between companies",
+                    role: "No system of record.",
+                    desc: "The work that happens between two organizations has never had one.",
                     covered: false,
                   },
                 ].map((item) => (
@@ -175,32 +229,42 @@ export function OrtaqHomeView() {
                         : "border-ortaq-trust/30 bg-ortaq-trust/5 ring-1 ring-ortaq-trust/20",
                     )}
                   >
-                    <p className={cn("text-[0.8125rem] font-bold", item.covered ? "text-ortaq-ink-soft" : "text-ortaq-trust")}>
+                    <p className={cn(
+                      "text-[0.6875rem] font-semibold uppercase tracking-[0.06em]",
+                      item.covered ? "text-ortaq-ink-soft" : "text-ortaq-trust",
+                    )}>
                       {item.tool}
                     </p>
-                    <p className={cn("mt-1.5 text-[0.875rem] font-medium leading-snug", item.covered ? "text-ortaq-ink-muted" : "text-ortaq-ink")}>
-                      {item.manages}
+                    <p className={cn(
+                      "mt-1.5 text-[0.9375rem] font-bold leading-tight",
+                      item.covered ? "text-ortaq-ink-muted" : "text-ortaq-ink",
+                    )}>
+                      {item.role}
                     </p>
-                    <p className={cn(typography.caption, "mt-1", item.covered ? "" : "font-medium text-ortaq-trust/80")}>
-                      {item.context}
+                    <p className={cn(typography.caption, "mt-1.5 leading-relaxed", !item.covered && "text-ortaq-ink-soft")}>
+                      {item.desc}
                     </p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 text-center">
+              <div className="mt-10 rounded-2xl border border-ortaq-ink/10 bg-ortaq-ink px-8 py-8 text-center">
+                <p className={cn(typography.label, "mb-3 text-white/40")}>
+                  The category
+                </p>
                 <p
                   className={cn(
-                    "font-body font-bold tracking-[-0.025em] text-ortaq-ink leading-[1.15]",
-                    "text-[1.5rem] sm:text-[1.875rem]",
+                    "font-body font-bold tracking-[-0.03em] text-ortaq-cream leading-[1.1]",
+                    "text-[1.625rem] sm:text-[2.125rem]",
                   )}
                 >
-                  ORTAQ manages the space<br className="hidden sm:block" /> between two companies.
+                  ORTAQ is the System of Record<br className="hidden sm:block" /> Between Companies.
                 </p>
-                <p className={cn(typography.body, "mx-auto mt-3 max-w-md")}>
-                  Not your internal CRM. Not your ERP. The work that happens between
-                  your organization and theirs — negotiations, agreements, approvals,
-                  inspections, execution.
+                <p className="mx-auto mt-4 max-w-md text-[0.9375rem] leading-[1.6] text-white/60">
+                  Not another workflow tool. Not a document archive. Not a CRM.
+                  The authoritative source of truth for the commercial work
+                  that happens between your organization and theirs —
+                  from first conversation to final payment.
                 </p>
               </div>
             </div>
