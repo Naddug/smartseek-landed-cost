@@ -5,39 +5,36 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
+import { StoryBar } from "@/components/layout/StoryBar";
 
 /**
  * KimlerIcinView — Who uses ORTAQ?
  *
- * Goal: self-identification in under 10 seconds.
- * A visitor reads the list and thinks: "Bu benim."
+ * Journey position: Homepage → [Kimler İçin] → Senaryolar → Neden ORTAQ → Demo
+ *
+ * Goal: self-identification. Visitor reads one card and thinks "Bu benim."
+ *
+ * Design: each profile is framed around the DAILY FRUSTRATION, not the feature.
+ *   Not: "You can track documents."
+ *   But: "Sabah hangi sözleşme versiyonunun geçerli olduğunu bulmak 20 dakika alıyor."
  *
  * Language rules:
- *   - Real Turkish business language. Not startup. Not consultant.
- *   - Write like someone who has run international trade operations
- *     is explaining the product to another business person.
+ *   - Real Turkish business language. Written like someone who has done international
+ *     trade is explaining the product to another business person.
  *   - Banned: platform, görünürlük, koordinasyon, ekosistem, paydaş,
- *             dijital dönüşüm, iş akışı, süreç yönetimi
+ *             dijital dönüşüm, iş akışı
  *   - Use: sözleşme, SGS, ödeme, sevkiyat, alıcı, satıcı, tedarikçi
- *
- * 7 profiles:
- *   1. İhracat yapan üreticiler
- *   2. İthalat yapan şirketler
- *   3. Satın alma ekipleri
- *   4. Dış ticaret ekipleri
- *   5. Traderlar / komisyon acenteleri
- *   6. Distribütör yöneten şirketler
- *   7. Birden fazla aktif işlemi aynı anda yöneten firmalar
  */
 
 interface Profile {
   icon: string;
   title: string;
   sub: string;
-  problem: string;
-  tools: string[];
-  withOrtaq: string[];
+  day: string;          // what their day looks like
+  chasing: string[];   // what info they constantly chase
+  easier: string[];    // what becomes easier with ORTAQ
   quote: string;
+  tools: string[];
 }
 
 export function KimlerIcinView() {
@@ -49,217 +46,237 @@ export function KimlerIcinView() {
       icon: "🏭",
       title: "İhracat yapan üreticiler",
       sub: "Tekstil, gıda, metal, kimya, mobilya — üretip dışarıya satan firmalar",
-      problem:
-        "Müşteriden teklif isteği geliyor. Sonrasında müzakere e-postayla, sözleşme PDF'le, SGS onayı WhatsApp'la, sevkiyat belgesi kuryeyle. Herkes ayrı bir yerden takip ediyor. Muhasebe ödemenin çıkıp çıkmadığını biliyor mu? Lojistik SGS'nin onaylandığını biliyor mu?",
-      tools: ["WhatsApp", "E-posta", "Excel", "PDF", "Telefon"],
-      withOrtaq: [
-        "Müşterinin hangi sözleşme versiyonunu gördüğünü biliyorsunuz.",
-        "SGS onayı geldiğinde herkes aynı anda görüyor.",
-        "BL kesildi mi, LC açıldı mı — tek ekrandan.",
-        "Lojistik ve muhasebe aynı işlem kaydına bakıyor.",
+      day: "Müşteriden sipariş geldi. Fiyat WhatsApp'ta pazarlık edildi. Sözleşme e-postayla gidip geldi, üç versiyonda. SGS için alıcı ayrı firma atadı. BL için başka birine ulaşılıyor. Her aşama farklı kanalda, farklı kişide.",
+      chasing: [
+        "Alıcının elindeki sözleşme versiyonu doğru mu?",
+        "SGS onayı geldi mi, kimde bekliyor?",
+        "BL'yi kim kesiyor, ne zaman hazır?",
+        "Ödeme bu haftaki bütçeye girecek mi?",
       ],
-      quote: "\"Müşteriye 'hangi versiyon sizde?' diye sormak zorunda kalmıyorsunuz.\"",
+      easier: [
+        "Müşteriye hangi versiyonun geçerli olduğunu sormuyorsunuz.",
+        "SGS onayı geldiğinde herkes aynı anda görüyor.",
+        "Yeni ekip üyesi kayda bakarak işlemi anlıyor.",
+      ],
+      quote: "\"Müşteriye 'bizde v12 var, sizde hangisi var?' diye sormak zorunda kalmıyorum.\"",
+      tools: ["WhatsApp", "E-posta", "Excel", "PDF", "Telefon"],
     },
     {
       icon: "📦",
       title: "İthalat yapan şirketler",
       sub: "Yurt dışından hammadde, ürün veya ekipman satın alan firmalar",
-      problem:
-        "Tedarikçiden teklif alındı, fiyat pazarlığı e-postayla gitti geldi, sözleşme imzalandı. Ama SGS raporu ne zaman gelecek? Ödeme zamanında yapıldı mı? Gemi ne zaman yola çıkıyor? Bu soruları cevaplamak için kaç kişiyi aramak gerekiyor?",
-      tools: ["WhatsApp", "E-posta", "Excel", "Telefon"],
-      withOrtaq: [
-        "Tedarikçinin hangi aşamada olduğunu anlık görüyorsunuz.",
-        "SGS raporu yüklenince anında bilginiz oluyor.",
+      day: "Tedarikçiyle fiyat anlaştınız. Sözleşme imzalandı. Şimdi bekleyiş başlıyor: SGS muayenesi ne zaman yapılacak? Gemi ne zaman kalkıyor? Ödeme zamanında çıktı mı? Bu sorulara cevap bulmak için herkesi tek tek aramak gerekiyor.",
+      chasing: [
+        "Tedarikçi SGS için randevu aldı mı?",
+        "Sevkiyat belgelerini sağladılar mı?",
+        "Gemi kalkış tarihi değişti mi?",
+        "Ödeme teyidi geldi mi?",
+      ],
+      easier: [
+        "Tedarikçinizi aramadan nerede olduğunu görüyorsunuz.",
         "Sevkiyat tarihi değişirse kayıtta görünüyor.",
-        "Ödemeyi yapacak finans ekibi de aynı kaydı görüyor.",
+        "Finans ekibi de aynı kaydı görüyor, size sormak zorunda kalmıyor.",
       ],
       quote: "\"Tedarikçimi aramadan son durumu biliyorum.\"",
+      tools: ["WhatsApp", "E-posta", "Excel", "Telefon"],
     },
     {
       icon: "📋",
       title: "Satın alma ekipleri",
-      sub: "Birden fazla tedarikçiyle aynı anda çalışan satın alma departmanları",
-      problem:
-        "Onlarca tedarikçi, onlarca aktif sipariş. Her biri farklı kanaldan yazıyor. Kimi WhatsApp'tan, kimi e-postadan, kimi iş arkadaşınızın telefonundan. Hangi siparişin hangi aşamada olduğunu takip edebilmek için neredeyse tam zamanlı bir asistan gerekiyor.",
-      tools: ["E-posta", "WhatsApp", "Excel", "ERP"],
-      withOrtaq: [
-        "Hangi tedarikçi ne bekliyor — tek listeden.",
-        "Fiyat revizyonu hangi versiyonda kaldı — kayıtta.",
-        "Sözleşme imzalandı mı, onay bekleniyor mu — görünüyor.",
-        "Yeni biri ekibe katılsa, kayda bakarak bilgi sahibi olabiliyor.",
+      sub: "Aynı anda birden fazla tedarikçiyle çalışan satın alma departmanları",
+      day: "Onlarca tedarikçi var. Kimi WhatsApp'tan yazıyor, kimi e-postayla, kimi iş arkadaşınızın telefonundan aradı. Hangi siparişin hangi aşamada olduğunu takip etmek için neredeyse tam zamanlı bir asistana ihtiyaç var. Sabah masanıza oturduğunuzda nereden başlayacağınızı bilmiyorsunuz.",
+      chasing: [
+        "Hangi tedarikçi ne için bekliyor?",
+        "Hangi sözleşme son revizyon bekleniyor?",
+        "Sipariş onayı gönderildi mi?",
+        "Fiyat revizyonu kabul edildi mi?",
       ],
-      quote: "\"Hangi sipariş nerede kalmış aramak yerine sabah bir ekrana bakıyorum.\"",
+      easier: [
+        "Hangi tedarikçi sizden bekliyor, hangisi kendi tarafında — tek bakışta.",
+        "Yeni siparişi kim işleyecek — kayıtta atanmış görünüyor.",
+        "Onay geçmişi takip edilebilir, kim ne zaman ne dedi.",
+      ],
+      quote: "\"Hangi sipariş nerede kalmış diye aramak yerine sabah bir ekrana bakıyorum.\"",
+      tools: ["E-posta", "WhatsApp", "Excel", "ERP"],
     },
     {
       icon: "🌍",
       title: "Dış ticaret ekipleri",
       sub: "Şirket içinde ihracat ve ithalatı koordine eden departmanlar",
-      problem:
-        "Aynı anda birden fazla ülkeyle iş yapılıyor. Müşteriler farklı zaman dilimlerinde. Yazışmalar farklı dillerde. İçeride satış, lojistik, finans ve hukuk ayrı ayrı iletişim kuruyor. Aynı işlemle ilgili iç yazışmalar ile dış yazışmalar birbirine karışıyor.",
-      tools: ["E-posta", "WhatsApp", "WeChat", "Excel", "PDF"],
-      withOrtaq: [
-        "Bir işleme ait tüm belgeler ve yazışmalar aynı yerde.",
-        "İç ekip ile müşteri arasındaki sorumluluklar ayrı görünüyor.",
-        "Dil ne olursa olsun, belge statüsü net.",
-        "Hangi ülkedeki müşteri ne aşamada — tek bakışta.",
+      day: "Almanya'dan alıcı yazıyor, Tayland'dan tedarikçi, içeriden finans soruyor. Hepsi aynı gün, hepsi farklı kanaldan. Bir işlem için dışarıda alıcıyla e-posta yazışması, içeride lojistikle WhatsApp yazışması, muhasemeyle telefon görüşmesi aynı anda yürüyor.",
+      chasing: [
+        "İçerideki ekip ile alıcı farklı mı biliyor?",
+        "Hangi yazışma hangisi için geçerli?",
+        "Dış sözleşme iç ekibe iletildi mi?",
+        "Sevkiyat güncellemesi alıcıya ulaştı mı?",
+      ],
+      easier: [
+        "Bir işleme ait tüm yazışmalar aynı yerde — iç ve dış ayrı.",
+        "Hangi ülkedeki alıcı ne aşamada — tek bakışta.",
+        "Dil ne olursa olsun belge statüsü net.",
       ],
       quote: "\"İç koordinasyon toplantısına gerek kalmıyor. Herkes aynı ekrana bakıyor.\"",
+      tools: ["E-posta", "WhatsApp", "WeChat", "Excel", "PDF"],
     },
     {
       icon: "🤝",
       title: "Traderlar ve aracılar",
       sub: "Alıcı ve satıcı arasında köprü kuran ticaret acenteleri ve komisyoncular",
-      problem:
-        "Bir taraftan tedarikçi yazıyor, öbür taraftan müşteri. İkisi de sizi arıyor çünkü tek bilgi kaynağı sizsiniz. SGS onayı geldi mi? Fiyat netleşti mi? Sözleşmeyi imzaladılar mı? Tüm bu soruları sürekli karşılıklı aktarmak yorucu ve hatalı olabiliyor.",
-      tools: ["WhatsApp", "E-posta", "Telefon", "Excel"],
-      withOrtaq: [
-        "Alıcı ve satıcı aynı işlem kaydını görebiliyor.",
-        "Siz her ikisine de ayrı ayrı aktarmak zorunda kalmıyorsunuz.",
-        "SGS, BL, sözleşme — her şey kayıtta, iki taraf için.",
-        "Bir anlaşmazlık çıktığında hangisi doğru belli — kayıtta.",
+      day: "Bir taraftan tedarikçi yazıyor. Öbür taraftan alıcı soruyor. İkisi de sizi arıyor çünkü tek bilgi kaynağı sizsiniz. SGS onayı geldi mi? Fiyat netleşti mi? Hangi sözleşme versiyonu geçerli? Tüm bu soruları sürekli iki tarafa aktarmak iş vaktinizin yarısını alıyor.",
+      chasing: [
+        "Alıcı son fiyatı onayladı mı?",
+        "Tedarikçi SGS randevusunu aldı mı?",
+        "İki taraf aynı sözleşme versiyonunu görüyor mu?",
+        "Ödeme hangi tarafa gitti, kim ne zaman alacak?",
+      ],
+      easier: [
+        "İki tarafa ayrı ayrı aktarmak zorunda kalmıyorsunuz.",
+        "SGS, BL, sözleşme — her şey kayıtta, herkes görüyor.",
+        "Anlaşmazlık olursa hangisi doğru kayıtta tartışmasız.",
       ],
       quote: "\"İki taraf arasında bilgi taşımakla zaman kaybetmiyorum artık.\"",
+      tools: ["WhatsApp", "E-posta", "Telefon", "Excel"],
     },
     {
       icon: "🏢",
       title: "Distribütör yöneten şirketler",
-      sub: "Farklı ülkelerde distribütörlerle çalışan üreticiler ve markalı ürün sahipleri",
-      problem:
-        "Her distribütörle fiyat, sözleşme, minimum sipariş şartları farklı. Yıllık kontratlar, kampanya anlaşmaları, özel koşullar. Kimin hangi versiyonu aldığı zaman içinde belirsizleşiyor. Birinde yapılan revizyon diğerine yansımadı mı yansıdı mı?",
-      tools: ["E-posta", "Excel", "PDF", "ERP"],
-      withOrtaq: [
+      sub: "Farklı ülkelerde distribütörlerle çalışan üreticiler ve marka sahipleri",
+      day: "Her distribütörün farklı sözleşmesi, farklı fiyat şartları, farklı minimum sipariş miktarı var. Zaman içinde kimin hangi versiyonu aldığı belirsizleşiyor. Bir distribütöre yapılan revizyon diğerine yansıtıldı mı? İmzalı sözleşmeyi bulmak için arşiv karıştırılıyor.",
+      chasing: [
+        "Hangi distribütörde hangi sözleşme versiyonu imzalı?",
+        "Fiyat revizyonu hepsine gönderildi mi?",
+        "Hangi distribütör ne aşamada?",
+        "Kimin onayı hâlâ eksik?",
+      ],
+      easier: [
         "Her distribütörün sözleşmesi ayrı işlem kaydında.",
-        "Hangi versiyon imzalı — hangisi eski, açık görünüyor.",
-        "Revizyon gönderdiniz mi? Onayladı mı? Kayıtta.",
+        "Revizyon gönderildi mi, onayladı mı — kayıtta.",
         "Hangi distribütörde hangi ürün hangi fiyatta — takip edilebilir.",
       ],
-      quote: "\"Hangi distribütöre hangi versiyonu gönderdim artık araştırmak zorunda değilim.\"",
-    },
-    {
-      icon: "⚡",
-      title: "Birden fazla işlemi aynı anda yönetenler",
-      sub: "Aynı anda 5, 10, 20 aktif işlem yürüten şirketler veya bireyler",
-      problem:
-        "Her sabah: hangi işlem nerede kalmış? SGS bekleniyor muydu, alıcı onayı mı? Ödeme bu hafta çıkacak mıydı? Gemi kalkış tarihi değişti mi? Bu soruları cevaplamak için ya excel açılıyor, ya WhatsApp karıştırılıyor, ya birinin aranması gerekiyor.",
-      tools: ["Excel", "WhatsApp", "E-posta", "Telefon", "PDF"],
-      withOrtaq: [
-        "Tüm aktif işlemlerin durumu tek ekranda.",
-        "Hangisi bekliyor, hangisi ilerliyor, hangisi takılmış — görünüyor.",
-        "Bir işlemi başka birine devredeceksiniz? Kayıt zaten orada.",
-        "Sabah 5 dakikada günü planlayabiliyorsunuz.",
-      ],
-      quote: "\"20 işlemi aynı anda takip etmek artık bir excel sorunu değil.\"",
+      quote: "\"Kime hangi versiyonu gönderdim diye araştırmak zorunda değilim artık.\"",
+      tools: ["E-posta", "Excel", "PDF", "ERP"],
     },
   ] : [
     {
       icon: "🏭",
       title: "Manufacturers who export",
       sub: "Textile, food, metal, chemicals, furniture — companies that produce and sell abroad",
-      problem:
-        "A customer sends an inquiry. Then negotiation is by email, contract by PDF, SGS approval by WhatsApp, shipping documents by courier. Everyone tracks from a different place. Does accounting know whether payment arrived? Does logistics know SGS was approved?",
-      tools: ["WhatsApp", "Email", "Excel", "PDF", "Phone"],
-      withOrtaq: [
-        "You know which contract version your customer is looking at.",
-        "When SGS approval arrives, everyone sees it at the same time.",
-        "BL issued? LC opened? — from one screen.",
-        "Logistics and accounting look at the same deal record.",
+      day: "An order arrived from a customer. Price was negotiated on WhatsApp. The contract went back and forth by email in three versions. The buyer assigned a separate company for SGS. Someone else handles the BL. Every stage is on a different channel, with a different person.",
+      chasing: [
+        "Is the contract version the buyer has correct?",
+        "Has SGS approval arrived, with whom is it pending?",
+        "Who is cutting the BL, when will it be ready?",
+        "Will payment land in this week's budget?",
       ],
-      quote: "\"You no longer need to ask the customer 'which version do you have?'\"",
+      easier: [
+        "You no longer ask the customer which version is current.",
+        "When SGS approval arrives, everyone sees it at the same time.",
+        "A new team member understands the deal by reading the record.",
+      ],
+      quote: "\"I no longer have to ask the customer 'we have v12, which one do you have?'\"",
+      tools: ["WhatsApp", "Email", "Excel", "PDF", "Phone"],
     },
     {
       icon: "📦",
       title: "Companies that import",
       sub: "Companies purchasing raw materials, products or equipment from abroad",
-      problem:
-        "Got an offer from a supplier, price negotiation went back and forth by email, contract was signed. But when will the SGS report arrive? Was payment made on time? When does the vessel depart? How many people do you need to call to answer these questions?",
-      tools: ["WhatsApp", "Email", "Excel", "Phone"],
-      withOrtaq: [
-        "You see in real time where your supplier is in the process.",
-        "When the SGS report is uploaded, you know instantly.",
+      day: "You agreed on a price with the supplier. Contract was signed. Now the waiting begins: when will the SGS inspection be done? When does the vessel depart? Did payment go out on time? Finding answers to these questions means calling everyone one by one.",
+      chasing: [
+        "Has the supplier booked the SGS appointment?",
+        "Have they provided the shipping documents?",
+        "Has the vessel departure date changed?",
+        "Has payment confirmation arrived?",
+      ],
+      easier: [
+        "You can see where your supplier is without calling them.",
         "If the shipment date changes, it appears in the record.",
-        "Your finance team that will make payment sees the same record.",
+        "Your finance team also sees the same record — they do not need to ask you.",
       ],
       quote: "\"I know the latest status without calling my supplier.\"",
+      tools: ["WhatsApp", "Email", "Excel", "Phone"],
     },
     {
       icon: "📋",
       title: "Procurement teams",
       sub: "Purchasing departments working with multiple suppliers simultaneously",
-      problem:
-        "Dozens of suppliers, dozens of active orders. Each communicating through a different channel. Some on WhatsApp, some by email, some through a colleague's phone. Tracking which order is at which stage requires practically a full-time assistant.",
-      tools: ["Email", "WhatsApp", "Excel", "ERP"],
-      withOrtaq: [
-        "Which supplier is waiting for what — from one list.",
-        "Which version did the price revision stop at — in the record.",
-        "Contract signed? Approval pending? — visible.",
-        "A new team member can get up to speed by looking at the record.",
+      day: "There are dozens of suppliers. Some write on WhatsApp, some by email, some called a colleague's phone. Tracking which order is at which stage requires nearly a full-time assistant. When you sit down at your desk in the morning, you do not know where to begin.",
+      chasing: [
+        "Which supplier is waiting for what?",
+        "Which contract is waiting for the latest revision?",
+        "Has the order confirmation been sent?",
+        "Has the price revision been accepted?",
       ],
-      quote: "\"Instead of searching for where each order is, I look at one screen every morning.\"",
+      easier: [
+        "Which supplier is waiting on you versus their own side — at a glance.",
+        "Who will handle the new order — assigned visibly in the record.",
+        "Approval history is traceable — who said what and when.",
+      ],
+      quote: "\"Instead of calling around to find where each order is, I look at one screen every morning.\"",
+      tools: ["Email", "WhatsApp", "Excel", "ERP"],
     },
     {
       icon: "🌍",
       title: "International trade teams",
       sub: "Departments inside companies coordinating imports and exports",
-      problem:
-        "Working with multiple countries at the same time. Customers in different time zones. Correspondence in different languages. Sales, logistics, finance and legal each communicating separately internally. Internal and external correspondence about the same deal gets mixed up.",
-      tools: ["Email", "WhatsApp", "WeChat", "Excel", "PDF"],
-      withOrtaq: [
-        "All documents and correspondence for a deal are in the same place.",
-        "Responsibilities between the internal team and customer are visibly separate.",
+      day: "A buyer writes from Germany, a supplier from Thailand, finance asks from inside the company. All on the same day, all through different channels. For one deal: email correspondence with the buyer outside, WhatsApp with logistics inside, a phone call with accounting — all happening at the same time.",
+      chasing: [
+        "Is the internal team and the buyer working from the same information?",
+        "Which correspondence applies to which deal?",
+        "Was the external contract communicated to the internal team?",
+        "Did the shipment update reach the buyer?",
+      ],
+      easier: [
+        "All correspondence for a deal in one place — internal and external separated.",
+        "Which country's buyer is at which stage — at a glance.",
         "Whatever the language, document status is clear.",
-        "Which country's customer is at which stage — at a glance.",
       ],
       quote: "\"No need for internal coordination meetings. Everyone looks at the same screen.\"",
+      tools: ["Email", "WhatsApp", "WeChat", "Excel", "PDF"],
     },
     {
       icon: "🤝",
       title: "Traders and intermediaries",
       sub: "Trade agents and brokers who bridge buyers and sellers",
-      problem:
-        "The supplier writes from one side, the customer from the other. Both call you because you are the only source of information. Has SGS been approved? Has the price been finalised? Have they signed the contract? Constantly relaying all these back and forth is exhausting and prone to errors.",
-      tools: ["WhatsApp", "Email", "Phone", "Excel"],
-      withOrtaq: [
-        "Buyer and seller can see the same deal record.",
-        "You no longer have to relay information to each separately.",
-        "SGS, BL, contract — everything on record, for both parties.",
-        "If a dispute arises, which is correct is clear — it is in the record.",
+      day: "The supplier writes from one side, the buyer asks from the other. Both call you because you are the only source of information. Has SGS approval arrived? Is the price finalised? Which contract version is current? Relaying all these back and forth takes up half your working day.",
+      chasing: [
+        "Has the buyer approved the latest price?",
+        "Has the supplier booked the SGS appointment?",
+        "Are both parties looking at the same contract version?",
+        "Which side received payment, who gets it and when?",
       ],
-      quote: "\"I no longer waste time carrying information between two parties.\"",
+      easier: [
+        "You no longer need to relay information to each side separately.",
+        "SGS, BL, contract — everything on record, everyone sees it.",
+        "If a dispute arises, which is correct is clear and undisputable in the record.",
+      ],
+      quote: "\"I no longer waste half my day carrying information between two parties.\"",
+      tools: ["WhatsApp", "Email", "Phone", "Excel"],
     },
     {
       icon: "🏢",
       title: "Companies managing distributors",
       sub: "Manufacturers and brand owners working with distributors in different countries",
-      problem:
-        "Different prices, contracts and minimum order conditions with each distributor. Annual contracts, campaign agreements, special terms. Over time it becomes unclear who received which version. Did a revision made for one get applied to another?",
-      tools: ["Email", "Excel", "PDF", "ERP"],
-      withOrtaq: [
+      day: "Each distributor has different contract terms, different pricing, different minimum order quantities. Over time it becomes unclear who received which version. Was the revision made for one distributor applied to the others? Finding the signed contract means searching the archive.",
+      chasing: [
+        "Which signed contract version does each distributor have?",
+        "Was the price revision sent to all of them?",
+        "Which distributor is at which stage?",
+        "Whose approval is still missing?",
+      ],
+      easier: [
         "Each distributor's contract is in a separate deal record.",
-        "Which version is signed — which is old, clearly visible.",
-        "Did you send a revision? Did they approve? In the record.",
+        "Was the revision sent? Did they approve? — in the record.",
         "Which distributor, which product, which price — trackable.",
       ],
       quote: "\"I no longer need to research which version I sent to which distributor.\"",
-    },
-    {
-      icon: "⚡",
-      title: "Managing multiple deals simultaneously",
-      sub: "Companies or individuals running 5, 10, 20 active deals at the same time",
-      problem:
-        "Every morning: where did each deal stop? Was SGS pending, or was it buyer approval? Was payment going out this week? Has the vessel departure date changed? Answering these questions means opening Excel, scrolling through WhatsApp, or calling someone.",
-      tools: ["Excel", "WhatsApp", "Email", "Phone", "PDF"],
-      withOrtaq: [
-        "Status of all active deals on one screen.",
-        "Which is waiting, which is moving, which is stuck — visible.",
-        "Handing a deal to someone else? The record is already there.",
-        "You can plan your day in 5 minutes each morning.",
-      ],
-      quote: "\"Managing 20 deals at once is no longer an Excel problem.\"",
+      tools: ["Email", "Excel", "PDF", "ERP"],
     },
   ];
 
   return (
     <PublicShell stickyCta={false}>
+      <StoryBar />
+
       <div className="bg-ortaq-surface">
 
         {/* Page header */}
@@ -271,81 +288,98 @@ export function KimlerIcinView() {
               </p>
               <h1 className="mt-3 max-w-xl text-[2rem] font-bold tracking-[-0.03em] text-ortaq-ink sm:text-[2.5rem] leading-[1.05]">
                 {isTR
-                  ? <>Sizi tanımlayan bir profil<br /><span className="text-ortaq-trust">aşağıda var mı?</span></>
-                  : <>Is there a profile below<br /><span className="text-ortaq-trust">that describes you?</span></>
+                  ? <>Sizin gününüz de<br /><span className="text-ortaq-trust">böyle geçiyor mu?</span></>
+                  : <>Does your day<br /><span className="text-ortaq-trust">look like this?</span></>
                 }
               </h1>
               <p className="mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
                 {isTR
-                  ? "ORTAQ belirli bir sektör için değil. Aktif ticari işlem yöneten herkes için. Hangi grupta olduğunuza bakın."
-                  : "ORTAQ is not for a specific industry. It is for anyone managing active commercial transactions. See which group applies to you."}
+                  ? "ORTAQ belirli bir sektör için değil. Aktif ticari işlem yöneten herkes için. Altı profilden hangisindesiniz?"
+                  : "ORTAQ is not for a specific sector. It is for anyone managing active commercial transactions. Which of the six profiles are you?"}
               </p>
+
+              {/* Quick-jump */}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {profiles.map((p, i) => (
+                  <a
+                    key={i}
+                    href={`#p${i}`}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-ortaq-border bg-ortaq-surface px-3 py-1.5 text-[0.5rem] font-semibold text-ortaq-ink-soft transition-colors hover:border-ortaq-trust/40 hover:text-ortaq-trust"
+                  >
+                    <span>{p.icon}</span>
+                    <span>{p.title}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </Container>
         </div>
 
-        {/* Profile grid */}
+        {/* Profiles */}
         <Container wide>
-          <div className="py-10 sm:py-14">
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {profiles.map((p, i) => (
-                <ProfileCard key={i} profile={p} isTR={isTR} />
-              ))}
-            </div>
+          <div className="divide-y divide-ortaq-border">
+            {profiles.map((p, i) => (
+              <ProfileBlock key={i} profile={p} index={i} isTR={isTR} />
+            ))}
           </div>
         </Container>
 
-        {/* Common denominator */}
+        {/* Bottom — four universal questions + CTA to next page */}
         <div className="border-t border-ortaq-border bg-ortaq-ink">
           <Container wide>
             <div className="py-12 sm:py-16">
+
               <p className="mb-6 text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/40">
-                {isTR ? "Hepsinin ortak sorunu" : "The common problem in all of them"}
+                {isTR ? "Bu profillerin hepsinde ortak olan dört soru" : "Four questions common to all these profiles"}
               </p>
 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {(isTR ? [
-                  { q: "Hangi belge güncel?",     a: "Doğru versiyonu bulmak için arama yapıyorsunuz." },
-                  { q: "Sıra kimde?",              a: "Alıcı mı bekliyor, siz mi? Belli değil." },
-                  { q: "Son durum ne?",            a: "Birine sormadan öğrenemiyorsunuz." },
-                  { q: "Ödeme ne zaman çıkacak?", a: "Finans başka, operasyon başka bir şey biliyor." },
+                  { q: "Hangi belge güncel?",       note: "Doğru versiyonu bulmak için arama yapıyorsunuz." },
+                  { q: "Sıra kimde?",               note: "Alıcı mı bekliyor, siz mi? Belli değil." },
+                  { q: "Son durum ne?",             note: "Birine sormadan öğrenemiyorsunuz." },
+                  { q: "Ödeme ne zaman çıkacak?",  note: "Finans başka, operasyon başka bir şey biliyor." },
                 ] : [
-                  { q: "Which document is current?", a: "You search to find the correct version." },
-                  { q: "Whose turn is it?",           a: "Is the buyer waiting, or are you? Not clear." },
-                  { q: "What is the latest status?",  a: "You cannot find out without asking someone." },
-                  { q: "When is payment going out?",  a: "Finance knows one thing, operations another." },
+                  { q: "Which document is current?", note: "You search to find the correct version." },
+                  { q: "Whose turn is it?",           note: "Buyer waiting or you? Not clear." },
+                  { q: "What is the latest status?",  note: "You cannot find out without asking someone." },
+                  { q: "When is payment going out?",  note: "Finance knows one thing, operations another." },
                 ]).map((item, i) => (
                   <div key={i} className="rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/5 p-4">
-                    <p className="text-[0.875rem] font-bold text-ortaq-cream">{item.q}</p>
-                    <p className="mt-1.5 text-[0.5375rem] leading-relaxed text-ortaq-cream/60">{item.a}</p>
+                    <p className="text-[0.9375rem] font-bold text-ortaq-cream leading-snug">{item.q}</p>
+                    <p className="mt-2 text-[0.5375rem] leading-relaxed text-ortaq-cream/55">{item.note}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 border-t border-ortaq-cream/10 pt-8 text-center">
-                <p className="text-[1.125rem] font-bold text-ortaq-cream">
-                  {isTR
-                    ? "Bu soruların cevabı ORTAQ kaydında hazır."
-                    : "The answers to these questions are ready in the ORTAQ record."}
-                </p>
-                <p className="mt-2 text-[0.875rem] text-ortaq-cream/60">
-                  {isTR
-                    ? "Araştırmadan. Aramadan. Kimseye sormadan."
-                    : "Without searching. Without calling. Without asking anyone."}
-                </p>
-                <div className="mt-6 flex flex-wrap justify-center gap-3">
-                  <Link
-                    href="/demo"
-                    className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-soft active:scale-[0.98]"
-                  >
-                    {isTR ? "Demo İsteyin" : "Request Demo"}
-                  </Link>
-                  <Link
-                    href="/senaryolar"
-                    className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-cream/20 px-5 text-[0.9375rem] font-medium text-ortaq-cream/80 transition-colors hover:border-ortaq-cream/40 hover:text-ortaq-cream"
-                  >
-                    {isTR ? "Kullanım Senaryoları →" : "Use Cases →"}
-                  </Link>
+              <div className="mt-8 border-t border-ortaq-cream/10 pt-8">
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-[1rem] font-bold text-ortaq-cream">
+                      {isTR
+                        ? "Bu soruların cevabı ORTAQ kaydında hazır."
+                        : "The answers to these questions are ready in the ORTAQ record."}
+                    </p>
+                    <p className="mt-1.5 text-[0.875rem] text-ortaq-cream/60">
+                      {isTR
+                        ? "Araştırmadan. Aramadan. Kimseye sormadan."
+                        : "Without searching. Without calling. Without asking anyone."}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <Link
+                      href="/senaryolar"
+                      className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-cream/20 px-5 text-[0.9375rem] font-medium text-ortaq-cream/80 transition-colors hover:border-ortaq-cream/40 hover:text-ortaq-cream"
+                    >
+                      {isTR ? "Senaryolara bakın →" : "See Use Cases →"}
+                    </Link>
+                    <Link
+                      href="/demo"
+                      className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-soft active:scale-[0.98]"
+                    >
+                      {isTR ? "Demo İsteyin" : "Request Demo"}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -357,70 +391,81 @@ export function KimlerIcinView() {
   );
 }
 
-/* ── Profile card ─────────────────────────────────────────────────────────── */
+/* ── Profile block ────────────────────────────────────────────────────────── */
 
-function ProfileCard({ profile, isTR }: { profile: Profile; isTR: boolean }) {
+function ProfileBlock({ profile, index, isTR }: { profile: Profile; index: number; isTR: boolean }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-ortaq-border bg-white">
+    <div id={`p${index}`} className="py-10 sm:py-14 scroll-mt-24">
+      <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
 
-      {/* Header */}
-      <div className="border-b border-ortaq-border bg-ortaq-surface px-5 py-4">
-        <div className="flex items-start gap-3">
-          <span className="text-2xl leading-none">{profile.icon}</span>
-          <div>
-            <p className="text-[0.9375rem] font-bold text-ortaq-ink">{profile.title}</p>
-            <p className="mt-0.5 text-[0.5rem] leading-relaxed text-ortaq-ink-soft">{profile.sub}</p>
+        {/* Left — who they are + daily life */}
+        <div>
+          <div className="mb-4 flex items-start gap-3">
+            <span className="text-3xl leading-none">{profile.icon}</span>
+            <div>
+              <h2 className="text-[1.25rem] font-bold text-ortaq-ink">{profile.title}</h2>
+              <p className="mt-0.5 text-[0.5625rem] text-ortaq-ink-soft">{profile.sub}</p>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="flex flex-1 flex-col divide-y divide-ortaq-border">
-
-        {/* The problem — in plain language */}
-        <div className="px-5 py-4">
-          <p className="mb-2 text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-red-500">
-            {isTR ? "Şu an yaşanan problem" : "Current problem"}
-          </p>
-          <p className="text-[0.5375rem] leading-relaxed text-ortaq-ink">{profile.problem}</p>
-        </div>
-
-        {/* Current tools */}
-        <div className="px-5 py-3.5">
-          <p className="mb-2 text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink-soft">
-            {isTR ? "Şu an ne kullanıyorlar?" : "What they currently use"}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {profile.tools.map((tool) => (
-              <span
-                key={tool}
-                className="rounded-md border border-ortaq-border bg-ortaq-surface px-2 py-0.5 text-[0.4375rem] font-semibold text-ortaq-ink-soft"
-              >
-                {tool}
-              </span>
-            ))}
+          {/* The day — plain description */}
+          <div className="rounded-xl border border-ortaq-border bg-white p-5">
+            <p className="mb-2 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink-soft">
+              {isTR ? "Günleri böyle geçiyor" : "Their day looks like this"}
+            </p>
+            <p className="text-[0.5625rem] leading-relaxed text-ortaq-ink">{profile.day}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {profile.tools.map((tool) => (
+                <span
+                  key={tool}
+                  className="rounded border border-ortaq-border bg-ortaq-surface px-2 py-0.5 text-[0.4375rem] font-semibold text-ortaq-ink-soft"
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* With ORTAQ */}
-        <div className="flex-1 px-5 py-4">
-          <p className="mb-2 text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust">
-            {isTR ? "ORTAQ ile ne kolaylaşır?" : "What becomes easier with ORTAQ"}
-          </p>
-          <ul className="space-y-1.5">
-            {profile.withOrtaq.map((item, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                <span className="text-[0.5rem] leading-relaxed text-ortaq-ink">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Right — what they chase + what gets easier */}
+        <div className="space-y-4">
 
-        {/* Quote */}
-        <div className="bg-ortaq-trust/[0.04] px-5 py-3.5">
-          <p className="text-[0.5rem] italic leading-relaxed text-ortaq-trust">{profile.quote}</p>
-        </div>
+          {/* What they constantly chase */}
+          <div className="rounded-xl border border-red-100 bg-red-50/60 p-5">
+            <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-red-600">
+              {isTR ? "Sürekli peşinde oldukları bilgi" : "Information they constantly chase"}
+            </p>
+            <ul className="space-y-2">
+              {profile.chasing.map((item, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
+                  <span className="text-[0.5375rem] leading-snug text-ortaq-ink">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
+          {/* What becomes easier */}
+          <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5">
+            <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-emerald-700">
+              {isTR ? "ORTAQ ile ne kolaylaşır?" : "What becomes easier with ORTAQ"}
+            </p>
+            <ul className="space-y-2">
+              {profile.easier.map((item, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                  <span className="text-[0.5375rem] leading-snug text-ortaq-ink">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quote */}
+          <div className="rounded-xl border border-ortaq-trust/15 bg-ortaq-trust/[0.04] px-5 py-3.5">
+            <p className="text-[0.5625rem] italic leading-relaxed text-ortaq-trust">{profile.quote}</p>
+          </div>
+
+        </div>
       </div>
     </div>
   );

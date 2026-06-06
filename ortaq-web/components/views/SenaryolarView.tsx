@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
+import { StoryBar } from "@/components/layout/StoryBar";
 
 /**
  * SenaryolarView — Real usage scenarios.
@@ -267,6 +268,90 @@ export function SenaryolarView() {
       },
     },
 
+    /* ── 8 ─────────────────────────────────────────────────── */
+    {
+      number: "08",
+      title: "BL taslağı eksik. Alıcı gümrük işlemini başlatamıyor.",
+      situation:
+        "Sevkiyat yapıldı. Alıcı gümrük belgelerini hazırlamak istiyor ama BL taslağı hâlâ gelmedi. Kim kesiyor? Ne zaman teslim edilecek? Armatör mi bekliyor, banka mı? Alıcı her gün soruyor.",
+      chaos: {
+        caption: "Şu an olanlar:",
+        messages: [
+          { from: "Alıcı",     to: "Siz",      via: "E-posta",  text: "BL taslağını gönderecek misiniz? Gümrük bekliyor." },
+          { from: "Siz",       to: "Lojistik", via: "WhatsApp", text: "BL taslağı ne zaman geliyor? Alıcı şikayet ediyor." },
+          { from: "Lojistik",  to: "Siz",      via: "WhatsApp", text: "Armatöre sorduk, bugün çıkar dediler. Neden gecikti bilmiyoruz." },
+          { from: "Alıcı",     to: "Siz",      via: "E-posta",  text: "Hâlâ gelmedi. Depo tutma ücreti başladı." },
+        ],
+        result: "Alıcı depo masrafı ödüyor. BL'nin neden geciktiği bilinmiyor. Sizi aracı konumuna düşürdü.",
+      },
+      ortaq: {
+        caption: "ORTAQ'ta durum:",
+        rows: [
+          { label: "BL Taslak",     value: "Armatörde · hazırlanıyor",          status: "warn"   },
+          { label: "Tahmini",       value: "Bugün 17:00 · armatör bildirdi",   status: "warn"   },
+          { label: "Alıcıya bilgi", value: "Tahmini tarih iletildi",           status: "ok"     },
+          { label: "Depo",          value: "1 gün · gecikme nedeni kayıtta",   status: "action" },
+        ],
+        note: "BL sürecinin nerede olduğu ve neden geciktiği kayıtta. Alıcıya sormadan önce cevabınız hazır.",
+      },
+    },
+
+    /* ── 9 ─────────────────────────────────────────────────── */
+    {
+      number: "09",
+      title: "Numune süreci uzadı. Sipariş onayı verilemiyor.",
+      situation:
+        "Alıcı numune istedi. Tedarikçi gönderdi mi? Alıcı aldı mı? Onayladı mı? Bu adımların her biri farklı kişide, farklı kanalda yürüyor. Sipariş onayı numune onayına bağlı ama süreç nerede durdu belli değil.",
+      chaos: {
+        caption: "Şu an olanlar:",
+        messages: [
+          { from: "Satış",     to: "Tedarikçi", via: "WhatsApp", text: "Numune gönderildi mi? Alıcı bekliyor." },
+          { from: "Tedarikçi", to: "Satış",     via: "WhatsApp", text: "Kargoya verdik, takip numarası ekte." },
+          { from: "Satış",     to: "Alıcı",     via: "E-posta",  text: "Numune yolda, takip numarası: XYZ987." },
+          { from: "Alıcı",     to: "Satış",     via: "E-posta",  text: "Numune geldi ama renk uyuşmuyor. Ne yapacağız?" },
+        ],
+        result: "Numune onaylanmadı. Siparişin devamı belirsiz. Tedarikçi yeni numune mi gönderecek bilinmiyor.",
+      },
+      ortaq: {
+        caption: "ORTAQ'ta durum:",
+        rows: [
+          { label: "Numune 1",    value: "Gönderildi · alıcı reddetti · renk",     status: "action" },
+          { label: "Numune 2",    value: "Tedarikçide hazırlanıyor",               status: "warn"   },
+          { label: "Red nedeni",  value: "Renk uyumsuzluğu · alıcı notu kayıtta", status: "warn"   },
+          { label: "Sipariş",     value: "Numune onayına bağlı · beklemede",      status: "action" },
+        ],
+        note: "Numune 1'in neden reddedildiği ve numune 2'nin nerede olduğu aynı kayıtta. Tedarikçiye tekrar açıklamak zorunda kalmıyorsunuz.",
+      },
+    },
+
+    /* ── 10 ────────────────────────────────────────────────── */
+    {
+      number: "10",
+      title: "Aynı anda 10 aktif işlem. Hangi birinden başlayacaksınız?",
+      situation:
+        "Sabah masanıza oturdunuz. 10 aktif işlem var. Bazıları SGS bekliyor. Bazılarında ödeme bu haftaya geliyor. Bir tanesi 3 gündür yanıtsız. Nereden başlayacağınızı bilmiyorsunuz çünkü hepsi farklı yerlerde yürüyor.",
+      chaos: {
+        caption: "Şu an olanlar:",
+        messages: [
+          { from: "GM",        to: "Satış",      via: "WhatsApp", text: "Bugün öncelikli işlem hangisi?" },
+          { from: "Satış",     to: "GM",          via: "WhatsApp", text: "Çelik işi acil. Bir de tekstil zor görünüyor." },
+          { from: "Finans",    to: "Siz",         via: "E-posta",  text: "Hangi işlemlerde ödeme bu ay bekleniyor?" },
+          { from: "Operasyon", to: "Siz",         via: "WhatsApp", text: "3 farklı işlemde SGS onayı bekliyoruz." },
+        ],
+        result: "Her sabah aynı toplantı, aynı sorular, aynı belirsizlik. Karar vermek için bilgi toplamak zaman alıyor.",
+      },
+      ortaq: {
+        caption: "ORTAQ'ta tablo:",
+        rows: [
+          { label: "Acil",        value: "2 işlem · 24 saattir yanıt yok",      status: "action" },
+          { label: "Bu hafta",    value: "3 işlemde ödeme bekleniyor",          status: "warn"   },
+          { label: "SGS bekliyor",value: "3 işlem · hepsinde alıcı tarafta",   status: "warn"   },
+          { label: "İlerliyor",   value: "2 işlem · takip yeterli",            status: "ok"     },
+        ],
+        note: "10 işlemin durumu, hangisinin acil olduğu ve sıranın kimde olduğu sabah 5 dakikada görünüyor.",
+      },
+    },
+
   ] : [
 
     /* ── 1 EN ─────────────────────────────────────────────── */
@@ -465,10 +550,96 @@ export function SenaryolarView() {
       },
     },
 
+    /* ── 8 EN ─────────────────────────────────────────────── */
+    {
+      number: "08",
+      title: "BL draft is missing. Buyer cannot start customs clearance.",
+      situation:
+        "Shipment was made. The buyer wants to prepare customs documents but the BL draft has still not arrived. Who is cutting it? When will it be delivered? Is it with the carrier or the bank? The buyer asks every day.",
+      chaos: {
+        caption: "What is happening now:",
+        messages: [
+          { from: "Buyer",    to: "You",       via: "Email",    text: "Are you going to send the BL draft? Customs is waiting." },
+          { from: "You",      to: "Logistics", via: "WhatsApp", text: "When is the BL draft coming? Buyer is complaining." },
+          { from: "Logistics",to: "You",       via: "WhatsApp", text: "We asked the carrier, they said today. Not sure why it is late." },
+          { from: "Buyer",    to: "You",       via: "Email",    text: "Still nothing. Demurrage charges have started." },
+        ],
+        result: "Buyer is paying demurrage. Nobody knows why the BL is late. You are stuck in the middle.",
+      },
+      ortaq: {
+        caption: "Status in ORTAQ:",
+        rows: [
+          { label: "BL Draft",      value: "With carrier · being prepared",      status: "warn"   },
+          { label: "Estimated",     value: "Today 17:00 · carrier informed",    status: "warn"   },
+          { label: "Buyer notified",value: "Estimated time communicated",       status: "ok"     },
+          { label: "Demurrage",     value: "1 day · reason noted in record",    status: "action" },
+        ],
+        note: "Where the BL process is and why it is delayed is in the record. You have the answer before the buyer asks.",
+      },
+    },
+
+    /* ── 9 EN ─────────────────────────────────────────────── */
+    {
+      number: "09",
+      title: "Sample process dragging. Cannot confirm the order.",
+      situation:
+        "The buyer requested a sample. Did the supplier send it? Did the buyer receive it? Did they approve it? Each of these steps is with a different person on a different channel. Order confirmation depends on sample approval but nobody knows where the process stopped.",
+      chaos: {
+        caption: "What is happening now:",
+        messages: [
+          { from: "Sales",    to: "Supplier", via: "WhatsApp", text: "Was the sample sent? Buyer is waiting." },
+          { from: "Supplier", to: "Sales",    via: "WhatsApp", text: "We gave it to the courier, tracking number attached." },
+          { from: "Sales",    to: "Buyer",    via: "Email",    text: "Sample is on the way, tracking: XYZ987." },
+          { from: "Buyer",    to: "Sales",    via: "Email",    text: "Sample arrived but the colour does not match. What do we do?" },
+        ],
+        result: "Sample not approved. Order continuation unclear. Not known if supplier will send a new sample.",
+      },
+      ortaq: {
+        caption: "Status in ORTAQ:",
+        rows: [
+          { label: "Sample 1",     value: "Sent · rejected by buyer · colour",    status: "action" },
+          { label: "Sample 2",     value: "Being prepared at supplier",           status: "warn"   },
+          { label: "Rejection",    value: "Colour mismatch · buyer note on record",status: "warn"  },
+          { label: "Order",        value: "Pending sample approval",              status: "action" },
+        ],
+        note: "Why sample 1 was rejected and where sample 2 is — in the same record. No need to explain everything to the supplier again.",
+      },
+    },
+
+    /* ── 10 EN ────────────────────────────────────────────── */
+    {
+      number: "10",
+      title: "Ten active deals at once. Where do you start?",
+      situation:
+        "You sat down at your desk in the morning. There are 10 active deals. Some are waiting for SGS. Some have payments expected this week. One has had no response for 3 days. You do not know where to start because everything is running in different places.",
+      chaos: {
+        caption: "What is happening now:",
+        messages: [
+          { from: "GM",        to: "Sales",      via: "WhatsApp", text: "Which deal is the priority today?" },
+          { from: "Sales",     to: "GM",          via: "WhatsApp", text: "Steel deal is urgent. Textile also looks difficult." },
+          { from: "Finance",   to: "You",         via: "Email",    text: "Which deals have payments expected this month?" },
+          { from: "Operations",to: "You",         via: "WhatsApp", text: "We have SGS approval pending on 3 different deals." },
+        ],
+        result: "Same meeting every morning, same questions, same uncertainty. Gathering information to make decisions takes time.",
+      },
+      ortaq: {
+        caption: "ORTAQ overview:",
+        rows: [
+          { label: "Urgent",       value: "2 deals · no response for 24 hours",  status: "action" },
+          { label: "This week",    value: "3 deals with payment expected",       status: "warn"   },
+          { label: "SGS pending",  value: "3 deals · all on buyer side",        status: "warn"   },
+          { label: "Moving",       value: "2 deals · monitoring sufficient",    status: "ok"     },
+        ],
+        note: "Status of all 10 deals, which are urgent and whose turn it is — visible in 5 minutes every morning.",
+      },
+    },
+
   ];
 
   return (
     <PublicShell stickyCta={false}>
+      <StoryBar />
+
       <div className="bg-ortaq-surface">
 
         {/* Page header */}
@@ -538,10 +709,10 @@ export function SenaryolarView() {
                   {isTR ? "Demo İsteyin" : "Request Demo"}
                 </Link>
                 <Link
-                  href="/kimler-icin"
+                  href="/neden-ortaq"
                   className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-cream/20 px-5 text-[0.9375rem] font-medium text-ortaq-cream/80 transition-colors hover:border-ortaq-cream/40 hover:text-ortaq-cream"
                 >
-                  {isTR ? "Kimler İçin →" : "Who Is It For →"}
+                  {isTR ? "Neden ORTAQ →" : "Why ORTAQ →"}
                 </Link>
               </div>
             </div>

@@ -27,7 +27,9 @@
     "platform": "Alan",
     "workflow": "Workflow",
     "requestDemo": "Demo İsteyin",
-    "whoFor": "Kimler İçin"
+    "whoFor": "Kimler İçin",
+    "scenarios": "Senaryolar",
+    "whyOrtaq": "Neden ORTAQ"
   },
   "media": {
     "credit": "Görsel: {{source}} · editoryal stok. Kampanya fotoğrafı değil.",

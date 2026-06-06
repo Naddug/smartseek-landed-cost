@@ -12,9 +12,11 @@ import { cn } from "@/lib/cn";
 import { setLocale, currentLocale, type Locale } from "@/lib/i18n/config";
 
 const navItems = [
-  { href: "/nasil-calisir", key: "howItWorks" as const },
-  { href: "/kimler-icin",   key: "whoFor"    as const },
-  { href: "/ekip",          key: "team"      as const },
+  { href: "/nasil-calisir", key: "howItWorks"  as const },
+  { href: "/kimler-icin",   key: "whoFor"      as const },
+  { href: "/senaryolar",    key: "scenarios"   as const },
+  { href: "/neden-ortaq",   key: "whyOrtaq"    as const },
+  { href: "/ekip",          key: "team"        as const },
 ];
 
 type SiteHeaderProps = {
