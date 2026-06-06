@@ -148,6 +148,7 @@ export function TrustPageView() {
                 { label: "Güvenlik",         id: ANCHORS.guvenlik },
                 { label: "Ticari güvenilirlik", id: ANCHORS.ticari },
                 { label: "Sık sorulan sorular", id: ANCHORS.sss    },
+                { label: "Fiyatlandırma",    id: "fiyatlandirma"  },
                 { label: "Dürüst sınırlar",  id: ANCHORS.sinirlar },
               ].map(a => (
                 <a
@@ -595,7 +596,58 @@ export function TrustPageView() {
         </Container>
       </section>
 
-      {/* ══ 7. HONEST LIMITS ════════════════════════════════════════════════ */}
+      {/* ══ 7. PRICING TRANSPARENCY ═════════════════════════════════════════ */}
+      <section id="fiyatlandirma" className="scroll-mt-20 border-b border-ortaq-border bg-white">
+        <Container wide>
+          <div className="py-12 sm:py-16">
+            <SectionTitle label="07" title="Fiyatlandırma nasıl çalışır?" />
+            <p className="mt-3 max-w-xl text-[0.875rem] leading-relaxed text-ortaq-ink-muted">
+              Sistemin içine girmeden fiyatı öğrenememek güven problemi yaratır. Bu sayfada net konuşuyoruz.
+            </p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                {
+                  icon: "📋",
+                  heading: "Sabit aylık ücret.",
+                  body: "İşlem sayısına, belge sayısına veya kullanıcı sayısına göre değişmeyen bir aylık ücret. Demo görüşmesinde şirketinizin büyüklüğüne göre fiyat paylaşılır.",
+                },
+                {
+                  icon: "🚫",
+                  heading: "Gizli ücret yok.",
+                  body: "Kullanıcı başına ücret yok. Her belge yükleme için ek ücret yok. Karşı tarafı (alıcı veya tedarikçi) eklemenin ek maliyeti yok.",
+                },
+                {
+                  icon: "📅",
+                  heading: "Başlangıç taahhüdü: 3 ay.",
+                  body: "Minimum taahhüt 3 aydır. Yıllık ödeme için indirim uygulanır. Kurulum ücreti alınmaz. İlk aya başlamadan önce fiyat netleşir.",
+                },
+              ].map(item => (
+                <div key={item.heading} className="rounded-xl border border-ortaq-border bg-[#faf9f7] p-5">
+                  <span className="text-2xl">{item.icon}</span>
+                  <p className="mt-3 text-[0.8125rem] font-bold text-ortaq-ink">{item.heading}</p>
+                  <p className="mt-2 text-[0.75rem] leading-relaxed text-ortaq-ink-muted">{item.body}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 flex items-start gap-4 rounded-xl border border-ortaq-trust/20 bg-ortaq-trust/[0.04] px-5 py-4">
+              <span className="mt-0.5 shrink-0 text-ortaq-trust text-lg">ℹ️</span>
+              <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink">
+                <strong className="text-ortaq-ink">Demo görüşmesinde fiyat konuşulur.</strong>{" "}
+                Şirketinizin aktif işlem sayısı ve ekip büyüklüğüne göre net rakam paylaşılır.
+                Görüşmeden önce fiyat aralığı hakkında bilgi almak istiyorsanız{" "}
+                <a href="mailto:destek@ortaq.biz" className="font-semibold text-ortaq-trust hover:underline">
+                  destek@ortaq.biz
+                </a>{" "}
+                adresine e-posta atın.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ══ 8. HONEST LIMITS ════════════════════════════════════════════════ */}
       <section id={ANCHORS.sinirlar} className="scroll-mt-20 border-b border-ortaq-border bg-[#faf9f7]">
         <Container wide>
           <div className="py-12 sm:py-16">

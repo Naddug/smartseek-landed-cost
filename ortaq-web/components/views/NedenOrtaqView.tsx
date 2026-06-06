@@ -432,7 +432,7 @@ export function NedenOrtaqView() {
                   </Link>
                   <Link
                     href="/demo"
-                    className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-soft active:scale-[0.98]"
+                    className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
                   >
                     {isTR ? "Demo İsteyin" : "Request Demo"}
                   </Link>

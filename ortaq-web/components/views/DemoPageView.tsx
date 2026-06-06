@@ -169,6 +169,20 @@ export function DemoPageView() {
                 </div>
               </div>
 
+              {/* Pricing note */}
+              <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-ortaq-border/60 bg-[#faf9f7] px-4 py-3.5">
+                <span className="mt-0.5 shrink-0 text-[0.875rem]">💰</span>
+                <div>
+                  <p className="text-[0.75rem] font-semibold text-ortaq-ink">Fiyat hakkında merak ediyorsanız</p>
+                  <p className="mt-0.5 text-[0.6875rem] leading-relaxed text-ortaq-ink-muted">
+                    Görüşmede konuşulur. Gizli ücret yok.{" "}
+                    <Link href="/fiyat" className="font-semibold text-ortaq-trust hover:underline">
+                      Fiyatlandırma sayfasına bakın →
+                    </Link>
+                  </p>
+                </div>
+              </div>
+
             </div>
 
             {/* ── RIGHT — form ──────────────────────────────────────── */}

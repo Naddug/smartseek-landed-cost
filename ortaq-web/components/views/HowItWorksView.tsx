@@ -146,15 +146,15 @@ export function HowItWorksView() {
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <Link
                   href="/demo"
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-ink px-7 text-[0.9375rem] font-semibold text-ortaq-cream shadow-sm transition-all hover:bg-ortaq-ink-muted"
+                  className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-semibold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
                 >
-                  {isTR ? "Demo İsteyin" : "Request Demo"}
+                  {isTR ? "Demo İsteyin →" : "Request Demo →"}
                 </Link>
                 <Link
-                  href="/"
+                  href="/senaryolar"
                   className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-border-strong px-5 text-[0.9375rem] font-medium text-ortaq-ink transition-colors hover:bg-ortaq-bg"
                 >
-                  {isTR ? "Ana Sayfaya Dön" : "Back to Home"} →
+                  {isTR ? "15 Senaryoya Bakın" : "See 15 Use Cases"} →
                 </Link>
               </div>
             </div>

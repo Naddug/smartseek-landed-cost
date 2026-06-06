@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { DemoPageView } from "@/components/views/DemoPageView";
 
 export const metadata: Metadata = {
-  title: "Demo Talep Et — ORTAQ",
+  title: "Demo İsteyin — ORTAQ | Aktif İşleminizi Birlikte İnceleyelim",
   description:
-    "ORTAQ İşlem Odası için demo talep edin. Ekibimiz 24 saat içinde size ulaşır.",
+    "30 dakikalık demo. Kendi aktif ticari işleminizi getirin. Karşı tarafı nasıl eklediğinizi, belge ve onay sürecini nasıl yönettiğinizi birlikte görün.",
 };
 
 export default function DemoPage() {

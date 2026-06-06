@@ -30,8 +30,8 @@ export function TeamPageView() {
           <p className={cn(typography.bodySm, "max-w-2xl text-ortaq-ink-muted")}>{t("teamPage.closing")}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/#basvuru"
-              className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md bg-ortaq-ink px-5 text-[0.875rem] font-semibold text-ortaq-cream transition-opacity hover:opacity-90"
+              href="/demo"
+              className="inline-flex min-h-11 items-center justify-center rounded-ortaq-md bg-ortaq-trust px-5 text-[0.875rem] font-semibold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
             >
               {t("teamPage.ctaProducer")}
             </Link>

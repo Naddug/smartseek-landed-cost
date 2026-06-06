@@ -329,7 +329,7 @@ export function KimlerIcinView() {
           <Container wide>
             <div className="py-12 sm:py-16">
 
-              <p className="mb-6 text-[0.5625rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/40">
+              <p className="mb-6 text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/40">
                 {isTR ? "Bu profillerin hepsinde ortak olan dört soru" : "Four questions common to all these profiles"}
               </p>
 
@@ -347,7 +347,7 @@ export function KimlerIcinView() {
                 ]).map((item, i) => (
                   <div key={i} className="rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/5 p-4">
                     <p className="text-[0.9375rem] font-bold text-ortaq-cream leading-snug">{item.q}</p>
-                    <p className="mt-2 text-[0.5375rem] leading-relaxed text-ortaq-cream/55">{item.note}</p>
+                    <p className="mt-2 text-[0.75rem] leading-relaxed text-ortaq-cream/55">{item.note}</p>
                   </div>
                 ))}
               </div>
@@ -375,7 +375,7 @@ export function KimlerIcinView() {
                     </Link>
                     <Link
                       href="/demo"
-                      className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-soft active:scale-[0.98]"
+                      className="inline-flex min-h-11 items-center justify-center rounded-lg bg-ortaq-trust px-7 text-[0.9375rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
                     >
                       {isTR ? "Demo İsteyin" : "Request Demo"}
                     </Link>
@@ -410,15 +410,15 @@ function ProfileBlock({ profile, index, isTR }: { profile: Profile; index: numbe
 
           {/* The day — plain description */}
           <div className="rounded-xl border border-ortaq-border bg-white p-5">
-            <p className="mb-2 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink-soft">
+            <p className="mb-2 text-[0.625rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink-soft">
               {isTR ? "Günleri böyle geçiyor" : "Their day looks like this"}
             </p>
-            <p className="text-[0.5625rem] leading-relaxed text-ortaq-ink">{profile.day}</p>
+            <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink">{profile.day}</p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {profile.tools.map((tool) => (
                 <span
                   key={tool}
-                  className="rounded border border-ortaq-border bg-ortaq-surface px-2 py-0.5 text-[0.4375rem] font-semibold text-ortaq-ink-soft"
+                  className="rounded border border-ortaq-border bg-ortaq-surface px-2 py-0.5 text-[0.625rem] font-semibold text-ortaq-ink-soft"
                 >
                   {tool}
                 </span>
@@ -432,14 +432,14 @@ function ProfileBlock({ profile, index, isTR }: { profile: Profile; index: numbe
 
           {/* What they constantly chase */}
           <div className="rounded-xl border border-red-100 bg-red-50/60 p-5">
-            <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-red-600">
+            <p className="mb-3 text-[0.625rem] font-bold uppercase tracking-[0.09em] text-red-600">
               {isTR ? "Sürekli peşinde oldukları bilgi" : "Information they constantly chase"}
             </p>
             <ul className="space-y-2">
               {profile.chasing.map((item, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
-                  <span className="text-[0.5375rem] leading-snug text-ortaq-ink">{item}</span>
+                  <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-red-400" />
+                  <span className="text-[0.8125rem] leading-snug text-ortaq-ink">{item}</span>
                 </li>
               ))}
             </ul>
@@ -447,14 +447,14 @@ function ProfileBlock({ profile, index, isTR }: { profile: Profile; index: numbe
 
           {/* What becomes easier */}
           <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5">
-            <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-emerald-700">
+            <p className="mb-3 text-[0.625rem] font-bold uppercase tracking-[0.09em] text-emerald-700">
               {isTR ? "ORTAQ ile ne kolaylaşır?" : "What becomes easier with ORTAQ"}
             </p>
             <ul className="space-y-2">
               {profile.easier.map((item, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                  <span className="text-[0.5375rem] leading-snug text-ortaq-ink">{item}</span>
+                  <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                  <span className="text-[0.8125rem] leading-snug text-ortaq-ink">{item}</span>
                 </li>
               ))}
             </ul>
@@ -462,7 +462,7 @@ function ProfileBlock({ profile, index, isTR }: { profile: Profile; index: numbe
 
           {/* Quote */}
           <div className="rounded-xl border border-ortaq-trust/15 bg-ortaq-trust/[0.04] px-5 py-3.5">
-            <p className="text-[0.5625rem] italic leading-relaxed text-ortaq-trust">{profile.quote}</p>
+            <p className="text-[0.875rem] italic leading-relaxed text-ortaq-trust">{profile.quote}</p>
           </div>
 
         </div>

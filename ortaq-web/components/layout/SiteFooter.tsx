@@ -86,11 +86,11 @@ export function SiteFooter() {
               <li><Link href="/nasil-calisir" className={linkClass}>{t("footer.links.process")}</Link></li>
               <li><Link href="/kimler-icin"   className={linkClass}>{t("footer.links.whoFor")}</Link></li>
               <li><Link href="/senaryolar"    className={linkClass}>{t("footer.links.useCases")}</Link></li>
-              <li><Link href="/sss"           className={linkClass}>{t("footer.links.faq")}</Link></li>
+              <li><Link href="/fiyat"         className={linkClass}>Fiyatlandırma</Link></li>
               <li>
                 <Link
                   href="/demo"
-                  className={cn(linkClass, "font-semibold text-ortaq-trust hover:text-ortaq-trust-soft")}
+                  className={cn(linkClass, "font-semibold text-ortaq-trust hover:text-ortaq-trust-deep")}
                 >
                   {t("nav.requestDemo")} →
                 </Link>
@@ -104,11 +104,15 @@ export function SiteFooter() {
               {t("footer.trustTitle")}
             </p>
             <ul className="space-y-1">
-              <li><Link href="/guven"      className={linkClass}>{t("footer.links.trust")}</Link></li>
-              <li><Link href="/sss"        className={linkClass}>{t("footer.links.faq")}</Link></li>
+              <li><Link href="/guven"       className={linkClass}>{t("footer.links.trust")}</Link></li>
+              <li><Link href="/sss"         className={linkClass}>{t("footer.links.faq")}</Link></li>
               <li><Link href="/neden-ortaq" className={linkClass}>{t("nav.whyOrtaq")}</Link></li>
-              <li><Link href="/ekip"       className={linkClass}>{t("footer.links.team")}</Link></li>
-              <li><Link href="/iletisim"   className={linkClass}>İletişim</Link></li>
+              <li><Link href="/ekip"        className={linkClass}>{t("footer.links.team")}</Link></li>
+              <li>
+                <a href="mailto:destek@ortaq.biz" className={linkClass}>
+                  destek@ortaq.biz
+                </a>
+              </li>
             </ul>
           </div>
 

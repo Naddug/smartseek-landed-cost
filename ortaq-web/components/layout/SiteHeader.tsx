@@ -17,7 +17,7 @@ const navItems = [
   { href: "/kimler-icin",   key: "whoFor"      as const },
   { href: "/senaryolar",    key: "scenarios"   as const },
   { href: "/neden-ortaq",   key: "whyOrtaq"    as const },
-  { href: "/ekip",          key: "team"        as const },
+  { href: "/fiyat",         key: "pricing"     as const },
 ];
 
 type SiteHeaderProps = {
