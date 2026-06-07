@@ -826,6 +826,218 @@ const SCENARIOS: Scenario[] = [
   },
 ];
 
+/* ─── Feature discovery layer — Sprint 3 ─────────────────────────────────
+   Each feature maps to a specific /urun module.
+   Descriptions are taken verbatim from those module tab descriptions.
+   SCENARIO_FEATURES assigns the minimum relevant features per scenario.     */
+
+interface FeatureItem {
+  name: B;
+  desc: B;
+  href: string;
+}
+
+/** Canonical feature catalogue — sourced from /urun tab content only. */
+const FT = {
+  versions: {
+    name: b("Versiyon kontrolü", "Version control"),
+    desc: b(
+      "Hangisi geçerli, kim gördü, alıcıyla ne paylaşıldı — versiyonlar kayıtta.",
+      "Which version is current, who saw it, what was shared — on record.",
+    ),
+    href: "/urun#belge-merkezi",
+  },
+  docOpen: {
+    name: b("Belge açılma takibi", "Document open tracking"),
+    desc: b(
+      "Kim hangi belgeyi ne zaman açtı — alıcı dahil, geri alınamaz kayıtta.",
+      "Who opened which document and when — including buyer, irrevocable record.",
+    ),
+    href: "/urun#onaylar",
+  },
+  approval: {
+    name: b("Onay akışı", "Approval flow"),
+    desc: b(
+      "Resmi onay döngüsü. Red ve revizyon zorunlu not gerektirir.",
+      "Formal approval cycle. Rejection requires a mandatory note.",
+    ),
+    href: "/urun#onaylar",
+  },
+  responsibility: {
+    name: b("Sorumluluk takibi", "Responsibility tracking"),
+    desc: b(
+      "'Sıra kimde' kolonu — kimin harekete geçmesi gerektiği her aşamada görünür.",
+      "'Whose turn' column — whose action is needed is visible at every stage.",
+    ),
+    href: "/urun#portfoy",
+  },
+  portfolio: {
+    name: b("Portföy görünümü", "Portfolio view"),
+    desc: b(
+      "Sabah 60 saniyede tüm işlemlerin durumu. Risk sırasına göre.",
+      "All deal statuses in 60 seconds every morning. Sorted by risk.",
+    ),
+    href: "/urun#portfoy",
+  },
+  counterparty: {
+    name: b("Karşı Taraf görünümü", "Counterparty view"),
+    desc: b(
+      "Alıcının tam olarak ne gördüğü. Dahili notlar gerçekten yok — bulanık değil, yok.",
+      "Exactly what the buyer sees. Internal notes truly don't exist — not blurred, not there.",
+    ),
+    href: "/urun#karsi-taraf",
+  },
+  audit: {
+    name: b("Denetim izi", "Audit trail"),
+    desc: b(
+      "Her olayın kalıcı kaydı. Kim ne zaman ne yaptı — geri alınamaz.",
+      "Permanent record of every event. Who did what, when — irrevocable.",
+    ),
+    href: "/urun#denetim-izi",
+  },
+  mobile: {
+    name: b("Mobil bildirimler", "Mobile alerts"),
+    desc: b(
+      "30 saniyede son durum. Onay mobilden tamamlanır.",
+      "30-second status check. Approvals completed from mobile.",
+    ),
+    href: "/urun#mobil",
+  },
+} satisfies Record<string, FeatureItem>;
+
+interface ScenarioFeatureData {
+  features: FeatureItem[];
+  cta: { label: B; href: string };
+}
+
+/**
+ * Minimum relevant features per scenario.
+ * Rule: only features that directly participated in resolving the scenario.
+ * Rule: differentiate across scenarios — avoid identical feature sets.
+ */
+const SCENARIO_FEATURES: Record<string, ScenarioFeatureData> = {
+  /* 01 — Buyer hasn't opened SGS. Vessel departing. */
+  "sgs-bekleniyor": {
+    features: [FT.docOpen, FT.responsibility],
+    cta: {
+      label: b("Belge açılma takibini üründe görün →", "See document open tracking in the product →"),
+      href: "/urun#onaylar",
+    },
+  },
+  /* 02 — Inspection appointment pending, shipment on hold. */
+  "muayene-bekleniyor": {
+    features: [FT.approval, FT.responsibility],
+    cta: {
+      label: b("Onay akışını üründe görün →", "See approval flow in the product →"),
+      href: "/urun#onaylar",
+    },
+  },
+  /* 03 — Finance can't see LC status without calling sales. */
+  "lc-gecikmesi": {
+    features: [FT.responsibility, FT.portfolio],
+    cta: {
+      label: b("Portföy görünümünü üründe görün →", "See portfolio view in the product →"),
+      href: "/urun#portfoy",
+    },
+  },
+  /* 04 — Version dispute. Proof of which SPA was sent. */
+  "yanlis-sozlesme-versiyonu": {
+    features: [FT.versions, FT.audit],
+    cta: {
+      label: b("Versiyon kontrolünü üründe görün →", "See version control in the product →"),
+      href: "/urun#belge-merkezi",
+    },
+  },
+  /* 05 — Payment terms understood differently. LC vs TT dispute. */
+  "odeme-belirsizligi": {
+    features: [FT.approval, FT.audit],
+    cta: {
+      label: b("Onay akışını üründe görün →", "See approval flow in the product →"),
+      href: "/urun#onaylar",
+    },
+  },
+  /* 06 — BL date changed, buyer sees only current version. */
+  "sevkiyat-tarihi-degisti": {
+    features: [FT.versions, FT.counterparty],
+    cta: {
+      label: b("Versiyon kontrolünü üründe görün →", "See version control in the product →"),
+      href: "/urun#belge-merkezi",
+    },
+  },
+  /* 07 — BL missing, demurrage running, delay reason unknown. */
+  "bl-eksik": {
+    features: [FT.audit, FT.responsibility],
+    cta: {
+      label: b("Denetim izini üründe görün →", "See audit trail in the product →"),
+      href: "/urun#denetim-izi",
+    },
+  },
+  /* 08 — Finance approval missing, document stuck for 4 days. */
+  "onay-eksik": {
+    features: [FT.approval, FT.docOpen],
+    cta: {
+      label: b("Onay akışını üründe görün →", "See approval flow in the product →"),
+      href: "/urun#onaylar",
+    },
+  },
+  /* 09 — 10 active deals. Which to prioritise? */
+  "coklu-islem": {
+    features: [FT.portfolio, FT.responsibility],
+    cta: {
+      label: b("Portföy görünümünü üründe görün →", "See portfolio view in the product →"),
+      href: "/urun#portfoy",
+    },
+  },
+  /* 10 — Own team has different prices, dates, terms. */
+  "ic-karisiklik": {
+    features: [FT.versions, FT.audit],
+    cta: {
+      label: b("Versiyon kontrolünü üründe görün →", "See version control in the product →"),
+      href: "/urun#belge-merkezi",
+    },
+  },
+  /* 11 — Supplier 15 days late. Buyer doesn't know. */
+  "tedarikci-gecikmesi": {
+    features: [FT.counterparty, FT.audit],
+    cta: {
+      label: b("Karşı Taraf görünümünü üründe görün →", "See counterparty view in the product →"),
+      href: "/urun#karsi-taraf",
+    },
+  },
+  /* 12 — Buyer read the offer, didn't reply for 5 days. */
+  "alici-yanit-vermiyor": {
+    features: [FT.docOpen, FT.responsibility],
+    cta: {
+      label: b("Belge açılma takibini üründe görün →", "See document open tracking in the product →"),
+      href: "/urun#onaylar",
+    },
+  },
+  /* 13 — Sample rejected. Rejection reason and revision tracked. */
+  "numune-onayi": {
+    features: [FT.approval, FT.audit],
+    cta: {
+      label: b("Onay akışını üründe görün →", "See approval flow in the product →"),
+      href: "/urun#onaylar",
+    },
+  },
+  /* 14 — FCO version dispute. $48K price difference. */
+  "fiyat-anlasmazligi": {
+    features: [FT.versions, FT.audit],
+    cta: {
+      label: b("Versiyon kontrolünü üründe görün →", "See version control in the product →"),
+      href: "/urun#belge-merkezi",
+    },
+  },
+  /* 15 — GM calls 4 people at 08:30. Still no complete picture. */
+  "yonetici-sabah-ozeti": {
+    features: [FT.portfolio, FT.responsibility, FT.mobile],
+    cta: {
+      label: b("Portföy görünümünü üründe görün →", "See portfolio view in the product →"),
+      href: "/urun#portfoy",
+    },
+  },
+};
+
 /* ─── Category filter config ─────────────────────────────────────────────── */
 
 const CATS = [
@@ -935,7 +1147,13 @@ export function SenaryolarView() {
         <Container wide>
           <div className="py-6 space-y-6">
             {filtered.map(s => (
-              <ScenarioCard key={s.id} s={s} L={L} isTR={isTR} />
+              <ScenarioCard
+                key={s.id}
+                s={s}
+                L={L}
+                isTR={isTR}
+                featureData={SCENARIO_FEATURES[s.id]}
+              />
             ))}
           </div>
         </Container>
@@ -983,7 +1201,14 @@ export function SenaryolarView() {
 
 /* ─── Scenario card ──────────────────────────────────────────────────────── */
 
-function ScenarioCard({ s, L, isTR }: { s: Scenario; L: Lang; isTR: boolean }) {
+function ScenarioCard({
+  s, L, isTR, featureData,
+}: {
+  s: Scenario;
+  L: Lang;
+  isTR: boolean;
+  featureData?: ScenarioFeatureData;
+}) {
   return (
     <div
       id={s.id}
@@ -1028,7 +1253,7 @@ function ScenarioCard({ s, L, isTR }: { s: Scenario; L: Lang; isTR: boolean }) {
       </div>
 
       {/* ── Chaos vs ORTAQ ─────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 gap-4 px-5 py-5 sm:grid-cols-2 sm:px-7 sm:pb-7">
+      <div className="grid grid-cols-1 gap-4 px-5 py-5 sm:grid-cols-2 sm:px-7 sm:pb-5">
 
         {/* LEFT — Current reality (chaos) */}
         <div className="overflow-hidden rounded-xl border border-red-100 bg-[#FDF9F8]">
@@ -1123,6 +1348,62 @@ function ScenarioCard({ s, L, isTR }: { s: Scenario; L: Lang; isTR: boolean }) {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* ── Feature discovery box — visually attached, dark band ───── */}
+      {featureData && (
+        <FeatureDiscoveryBox data={featureData} L={L} isTR={isTR} />
+      )}
+    </div>
+  );
+}
+
+/* ─── Feature discovery box ──────────────────────────────────────────────── */
+
+function FeatureDiscoveryBox({
+  data, L, isTR,
+}: {
+  data: ScenarioFeatureData;
+  L: Lang;
+  isTR: boolean;
+}) {
+  return (
+    <div className="border-t border-ortaq-cream/10 bg-ortaq-ink border-l-[3px] border-l-ortaq-trust">
+      <div className="px-5 py-4 sm:px-7">
+
+        {/* Header */}
+        <p className="mb-3 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust">
+          {isTR ? "ORTAQ burada ne yaptı?" : "What did ORTAQ do here?"}
+        </p>
+
+        {/* Feature list */}
+        <div className="space-y-2.5">
+          {data.features.map((feat, i) => (
+            <div key={i} className="flex items-start gap-2.5">
+              <span className="mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full bg-ortaq-trust" />
+              <div className="min-w-0">
+                <span className="text-[0.5625rem] font-bold text-ortaq-cream">
+                  {feat.name[L]}
+                </span>
+                <span className="mx-1.5 text-ortaq-cream/20">·</span>
+                <span className="text-[0.5rem] leading-snug text-ortaq-cream/50">
+                  {feat.desc[L]}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-4 border-t border-ortaq-cream/[0.07] pt-3">
+          <Link
+            href={data.cta.href}
+            className="text-[0.5625rem] font-semibold text-ortaq-trust/80 transition-colors hover:text-ortaq-trust"
+          >
+            {data.cta.label[L]}
+          </Link>
+        </div>
+
       </div>
     </div>
   );
