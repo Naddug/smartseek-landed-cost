@@ -11,6 +11,7 @@ import { IntelligenceComparison } from "@/components/visuals/IntelligenceCompari
 import { UniversalProblem }      from "@/components/visuals/UniversalProblem";
 import { OperationalMemory }     from "@/components/visuals/OperationalMemory";
 import { OrtaqPilot }            from "@/components/visuals/OrtaqPilot";
+import { OperationalReasoning } from "@/components/visuals/OperationalReasoning";
 import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
 import { StrategicGuidance }     from "@/components/visuals/StrategicGuidance";
 
@@ -129,6 +130,16 @@ export function OrtaqHomeView() {
           </div>
         </Container>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 4b — OPERATIONAL REASONING DEMONSTRATION
+          "ORTAQ nasıl düşünüyor?"
+          3 tabbed cards: Trade / Supply Chain / Project Delivery.
+          Each shows: What exists → Human sees → ORTAQ understands → Recommends.
+          Briefing-note style. Readable in under 15 seconds per card.
+          Goal: visitor thinks "This is reasoning, not summarising."
+          ═══════════════════════════════════════════════════════════════════ */}
+      <OperationalReasoning />
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 5 — PILOT
