@@ -15,6 +15,7 @@ interface Fragment {
 interface Rec {
   timing: string;
   action: string;
+  role: string;
 }
 
 interface Card {
@@ -55,8 +56,8 @@ const CARDS_TR: Card[] = [
       "Alıcı bu riski henüz bilmiyor",
     ],
     recommends: [
-      { timing: "Bugün", action: "SGS sağlayıcısıyla durumu netleştir" },
-      { timing: "Perşembe'ye kadar", action: "Alıcıyı gecikme ihtimali konusunda bilgilendir" },
+      { timing: "Bugün",           action: "SGS sağlayıcısıyla durumu netleştir",          role: "Operasyon" },
+      { timing: "Perşembe'ye kadar", action: "Alıcıyı gecikme ihtimali konusunda bilgilendir", role: "Satış" },
     ],
     riskLabel: "Yüksek",
     riskTier: "high",
@@ -87,8 +88,8 @@ const CARDS_TR: Card[] = [
       "Alternatif tedarikçi araştırması henüz başlatılmadı",
     ],
     recommends: [
-      { timing: "Bugün", action: "Alternatif tedarikçilere ulaş" },
-      { timing: "Bu hafta içinde", action: "Müşteriye olası gecikme hakkında bilgi ver" },
+      { timing: "Bugün",          action: "Alternatif tedarikçilere ulaş",                role: "Satınalma" },
+      { timing: "Bu hafta içinde", action: "Müşteriye olası gecikme hakkında bilgi ver",   role: "Satış" },
     ],
     riskLabel: "Kritik",
     riskTier: "critical",
@@ -119,8 +120,8 @@ const CARDS_TR: Card[] = [
       "Sözlü kapsam değişikliği anlaşmazlıkta hukuken bağlayıcı değil",
     ],
     recommends: [
-      { timing: "Bugün", action: "Müşteriden yazılı onay veya değişiklik belgesi iste" },
-      { timing: "Önce", action: "Geliştirme ekibini yazılı onay gelene kadar durdur" },
+      { timing: "Bugün", action: "Müşteriden yazılı onay veya değişiklik belgesi iste", role: "Proje" },
+      { timing: "Önce",  action: "Geliştirme ekibini yazılı onay gelene kadar durdur",  role: "Teknik" },
     ],
     riskLabel: "Orta–Yüksek",
     riskTier: "medium",
@@ -154,8 +155,8 @@ const CARDS_EN: Card[] = [
       "Buyer is not yet aware of this risk",
     ],
     recommends: [
-      { timing: "Today", action: "Clarify status with SGS provider" },
-      { timing: "By Thursday", action: "Inform buyer of possible delay" },
+      { timing: "Today",       action: "Clarify status with SGS provider",     role: "Operations" },
+      { timing: "By Thursday", action: "Inform buyer of possible delay",        role: "Sales" },
     ],
     riskLabel: "High",
     riskTier: "high",
@@ -186,8 +187,8 @@ const CARDS_EN: Card[] = [
       "Alternative supplier search has not been initiated",
     ],
     recommends: [
-      { timing: "Today", action: "Contact alternative suppliers" },
-      { timing: "This week", action: "Inform customer of possible delay" },
+      { timing: "Today",     action: "Contact alternative suppliers",       role: "Procurement" },
+      { timing: "This week", action: "Inform customer of possible delay",   role: "Sales" },
     ],
     riskLabel: "Critical",
     riskTier: "critical",
@@ -218,8 +219,8 @@ const CARDS_EN: Card[] = [
       "Verbal scope change is not enforceable in a dispute",
     ],
     recommends: [
-      { timing: "Today", action: "Request written approval or change order from client" },
-      { timing: "First", action: "Pause development team until written confirmation arrives" },
+      { timing: "Today",  action: "Request written approval or change order from client",    role: "Project" },
+      { timing: "First",  action: "Pause development team until written confirmation arrives", role: "Tech" },
     ],
     riskLabel: "Medium–High",
     riskTier: "medium",
@@ -301,88 +302,64 @@ export function OperationalReasoning() {
               <p className="mt-0.5 text-[0.9375rem] font-bold text-ortaq-ink">{card.situation}</p>
             </div>
 
-            {/* Four-zone layout */}
+            {/* Four-zone layout — no bureaucratic label column */}
             <div className="divide-y divide-ortaq-border">
 
-              {/* Zone 1: WHAT EXISTS */}
-              <div className="grid grid-cols-1 gap-0 sm:grid-cols-[7rem_1fr]">
-                <div className="flex items-start border-b border-ortaq-border bg-[#f5f4f2] px-5 py-4 sm:border-b-0 sm:border-r">
-                  <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink/40 pt-0.5">
-                    {isTR ? "Mevcut bilgi" : "What exists"}
-                  </p>
-                </div>
-                <div className="divide-y divide-ortaq-border/50 bg-[#faf9f7]">
-                  {card.fragments.map((f, i) => (
-                    <div key={i} className="flex items-start gap-3 px-5 py-3">
-                      <span className="mt-0.5 shrink-0 rounded bg-ortaq-border px-1.5 py-0.5 text-[0.4375rem] font-bold uppercase tracking-[0.06em] text-ortaq-ink/60">
-                        {f.channel}
-                      </span>
-                      <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted italic">{f.text}</p>
+              {/* Zone 1: Sources */}
+              <div className="divide-y divide-ortaq-border/50 bg-[#faf9f7]">
+                {card.fragments.map((f, i) => (
+                  <div key={i} className="flex items-start gap-3 px-5 py-3">
+                    <span className="mt-0.5 shrink-0 rounded bg-ortaq-border px-1.5 py-0.5 text-[0.4375rem] font-bold uppercase tracking-[0.06em] text-ortaq-ink/60">
+                      {f.channel}
+                    </span>
+                    <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted italic">{f.text}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Zone 2: Human sees */}
+              <div className="flex items-center gap-3 bg-amber-50/40 px-5 py-4">
+                <span className="shrink-0 text-[0.875rem] text-amber-400/60">&ldquo;</span>
+                <p className="text-[0.875rem] italic text-ortaq-ink/55">{card.humanSees}&rdquo;</p>
+              </div>
+
+              {/* Zone 3: ORTAQ understands */}
+              <div className="bg-ortaq-trust/[0.03] px-5 py-4">
+                <div className="space-y-2">
+                  {card.understands.map((line, i) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <span className="mt-[0.15rem] shrink-0 text-[0.5625rem] font-bold text-ortaq-trust">✓</span>
+                      <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink/80">{line}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Zone 2: WHAT A HUMAN SEES */}
-              <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr]">
-                <div className="flex items-center border-b border-ortaq-border bg-amber-50/60 px-5 py-4 sm:border-b-0 sm:border-r">
-                  <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-amber-700/70">
-                    {isTR ? "İnsan görür" : "Human sees"}
-                  </p>
-                </div>
-                <div className="flex items-center bg-amber-50/30 px-5 py-4">
-                  <p className="text-[0.875rem] italic text-ortaq-ink/60">&ldquo;{card.humanSees}&rdquo;</p>
-                </div>
-              </div>
-
-              {/* Zone 3: WHAT ORTAQ UNDERSTANDS */}
-              <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr]">
-                <div className="flex items-start border-b border-ortaq-border bg-ortaq-trust/[0.06] px-5 py-4 sm:border-b-0 sm:border-r">
-                  <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust/70 pt-0.5">
-                    {isTR ? "ORTAQ anlar" : "ORTAQ understands"}
-                  </p>
-                </div>
-                <div className="bg-ortaq-trust/[0.03] px-5 py-4">
-                  <div className="space-y-2">
-                    {card.understands.map((line, i) => (
-                      <div key={i} className="flex items-start gap-2.5">
-                        <span className="mt-[0.15rem] shrink-0 text-[0.5625rem] font-bold text-ortaq-trust">✓</span>
-                        <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink/80">{line}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Zone 4: WHAT ORTAQ RECOMMENDS */}
-              <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr]">
-                <div className="flex items-start border-b border-ortaq-border bg-ortaq-ink/[0.04] px-5 py-4 sm:border-b-0 sm:border-r">
-                  <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink/40 pt-0.5">
-                    {isTR ? "ORTAQ önerir" : "ORTAQ recommends"}
-                  </p>
-                </div>
-                <div className="bg-white px-5 py-4">
-                  <div className="space-y-2.5">
-                    {card.recommends.map((r, i) => (
-                      <div key={i} className="flex items-baseline gap-3">
-                        <span className="shrink-0 rounded-full border border-ortaq-border bg-[#faf9f7] px-2 py-0.5 text-[0.4375rem] font-bold text-ortaq-ink/50 whitespace-nowrap">
+              {/* Zone 4: Recommended actions with role ownership */}
+              <div className="bg-white px-5 py-4">
+                <div className="space-y-2.5">
+                  {card.recommends.map((r, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span className="shrink-0 text-[0.875rem] font-bold text-ortaq-trust">→</span>
+                      <p className="flex-1 text-[0.8125rem] font-medium text-ortaq-ink">{r.action}</p>
+                      <div className="flex shrink-0 items-center gap-1.5">
+                        <span className="rounded border border-ortaq-trust/20 bg-ortaq-trust/10 px-1.5 py-0.5 text-[0.375rem] font-bold text-ortaq-trust/70 whitespace-nowrap">
+                          {r.role}
+                        </span>
+                        <span className="text-[0.4375rem] font-medium text-amber-600 whitespace-nowrap">
                           {r.timing}
                         </span>
-                        <p className="text-[0.8125rem] font-medium text-ortaq-ink">{r.action}</p>
                       </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 flex items-center gap-2">
-                    <span className="text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink/30">
-                      {isTR ? "Risk" : "Risk level"}
-                    </span>
-                    <span className={cn(
-                      "rounded border px-2 py-0.5 text-[0.4375rem] font-bold",
-                      RISK_STYLE[card.riskTier],
-                    )}>
-                      {card.riskLabel}
-                    </span>
-                  </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 flex items-center gap-2">
+                  <span className={cn(
+                    "rounded border px-2 py-0.5 text-[0.4375rem] font-bold",
+                    RISK_STYLE[card.riskTier],
+                  )}>
+                    {isTR ? "Risk:" : "Risk:"} {card.riskLabel}
+                  </span>
                 </div>
               </div>
 

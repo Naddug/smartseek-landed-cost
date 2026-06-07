@@ -3,62 +3,54 @@
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 
-const ITEMS_TR = [
-  {
-    label: "Hafıza",
-    title: "Kimse \"en son bu konuda ne konuşmuştuk?\" diye sormak zorunda kalmaz.",
-    body: "Email'ler silinir. WhatsApp mesajları kaybolur. Çalışanlar ayrılır. Bağlam kaybolur. ORTAQ her konuşmayı, her kararı operasyona bağlı tutar.",
-  },
-  {
-    label: "Taahhüt",
-    title: "Kim ne söyledi asla kaybolmaz.",
-    body: "\"Cuma gönderilir.\" \"28'inde teslim.\" \"Revize fiyat kabul.\" Email'de de olsa, mesajda da, toplantıda da — fark etmez.",
-  },
-  {
-    label: "Değişim",
-    title: "Ne değişti görünür — siz fark etmeden önce.",
-    body: "Başlangıçta kararlaştırılan ile bugünkü durum arasındaki mesafe sürekli izlenir. Tarih kayması, fiyat revizyonu, sorumluluk değişimi.",
-  },
-  {
-    label: "Sıra",
-    title: "Sıranın kimde olduğu her an nettir.",
-    body: "Ekibiniz mi bekliyor, karşı taraf mı? Kaç gündür? Kim ne için bekliyor — karanlıkta kalmaz.",
-  },
+const SOURCES_TR = [
+  { icon: "📧", channel: "Email",           excerpt: "\"Revize teslimat tarihi: 15 Temmuz.\"",          meta: "22 Haz" },
+  { icon: "💬", channel: "WhatsApp",        excerpt: "\"Muayene ekibinden haber yok — risk mi?\"",     meta: "24 Haz" },
+  { icon: "📄", channel: "Sözleşme rev.3", excerpt: "Teslimat yükümlülüğü — 28 Haziran",               meta: "İmzalı" },
+  { icon: "📝", channel: "Toplantı notu",  excerpt: "\"Yamato tarihi teyit etmemizi bekliyor.\"",      meta: "21 Haz" },
 ];
 
-const ITEMS_EN = [
-  {
-    label: "Memory",
-    title: "Nobody has to ask \"where did we land on this?\"",
-    body: "Emails get deleted. WhatsApp messages disappear. People leave. Context disappears. ORTAQ holds every conversation and decision connected to the operation.",
-  },
-  {
-    label: "Commitment",
-    title: "Who promised what is never lost.",
-    body: "\"Ships Friday.\" \"Delivery on the 28th.\" \"Revised price accepted.\" In email, in a message, in a meeting — it doesn't matter.",
-  },
-  {
-    label: "Change",
-    title: "What shifted is visible — before you notice it.",
-    body: "The gap between what was initially agreed and current state is continuously tracked. Date drift, price revision, responsibility change.",
-  },
-  {
-    label: "Queue",
-    title: "Whose turn it is remains clear at every moment.",
-    body: "Is it your team waiting, or the counterparty? How many days? Who is waiting for what — never left in the dark.",
-  },
+const SOURCES_EN = [
+  { icon: "📧", channel: "Email",           excerpt: "\"Revised delivery date: July 15.\"",             meta: "Jun 22" },
+  { icon: "💬", channel: "WhatsApp",        excerpt: "\"No news from inspection team — risk?\"",        meta: "Jun 24" },
+  { icon: "📄", channel: "Contract rev.3", excerpt: "Delivery obligation — June 28",                   meta: "Signed" },
+  { icon: "📝", channel: "Meeting note",   excerpt: "\"Yamato is waiting for our date confirmation.\"", meta: "Jun 21" },
+];
+
+const MEMORY_TR = [
+  { label: "Ne oldu",       val: "Yamato teknik şartnameyi onayladı" },
+  { label: "Ne değişti",   val: "Teslim tarihi 28 Haz → 15 Tem önerildi" },
+  { label: "Kim bekliyor", val: "Yamato · 3 gündür yanıtsız" },
+];
+const MEMORY_EN = [
+  { label: "What happened", val: "Yamato approved the technical specifications" },
+  { label: "What changed",  val: "Delivery shifted Jun 28 → Jul 15 proposed" },
+  { label: "Who is waiting", val: "Yamato · 3 days without response" },
+];
+
+const ACTIONS_TR = [
+  { action: "Muayene tarihini netleştir",   role: "Operasyon", urgency: "bugün" },
+  { action: "Yamato'yu yazılı bilgilendir", role: "Satış",     urgency: "hafta içi" },
+];
+const ACTIONS_EN = [
+  { action: "Clarify inspection date",      role: "Operations", urgency: "today" },
+  { action: "Inform Yamato in writing",     role: "Sales",      urgency: "this week" },
 ];
 
 export function OperationalMemory() {
   const { i18n } = useTranslation();
   const isTR = (i18n.language ?? "tr").startsWith("tr");
-  const items = isTR ? ITEMS_TR : ITEMS_EN;
+
+  const sources = isTR ? SOURCES_TR : SOURCES_EN;
+  const memory  = isTR ? MEMORY_TR  : MEMORY_EN;
+  const actions = isTR ? ACTIONS_TR : ACTIONS_EN;
 
   return (
     <section className="border-b border-ortaq-border bg-[#faf9f7]">
       <Container wide>
         <div className="py-14 sm:py-18">
 
+          {/* Section header */}
           <div className="mb-10">
             <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
               {isTR ? "Operasyonel Hafıza" : "Operational Memory"}
@@ -76,30 +68,106 @@ export function OperationalMemory() {
                 </>
               )}
             </h2>
-            <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
-              {isTR
-                ? "Operasyonel bilgi doğası gereği dağınıktır. Email, mesaj, toplantı, belge — hiçbiri diğeriyle konuşmaz. ORTAQ hepsini okur ve her operasyon için ayrı bir hafıza oluşturur."
-                : "Operational information is inherently scattered. Email, message, meeting, document — none of them talk to each other. ORTAQ reads all of it and builds a separate memory for each operation."}
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {items.map((item) => (
-              <div
-                key={item.label}
-                className="flex flex-col gap-3 rounded-xl border border-ortaq-border bg-white px-5 py-5"
-              >
-                <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust">
-                  {item.label}
-                </p>
-                <p className="text-[0.9375rem] font-bold text-ortaq-ink leading-snug">
-                  {item.title}
-                </p>
-                <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted">
-                  {item.body}
+          {/* Source flow diagram */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_2rem_1.4fr]">
+
+            {/* LEFT — Source channels */}
+            <div className="space-y-2">
+              {sources.map((src, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 rounded-xl border border-ortaq-border bg-white px-4 py-3"
+                >
+                  <span className="mt-0.5 shrink-0 text-base">{src.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-[0.5rem] font-bold uppercase tracking-[0.06em] text-ortaq-ink/50">
+                        {src.channel}
+                      </span>
+                      <span className="text-[0.4375rem] text-ortaq-ink/25">{src.meta}</span>
+                    </div>
+                    <p className="text-[0.625rem] italic leading-snug text-ortaq-ink-muted truncate">
+                      {src.excerpt}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* MIDDLE — Arrow connector */}
+            <div className="hidden lg:flex flex-col items-center justify-center gap-1 text-ortaq-trust/40">
+              <div className="h-full w-px bg-ortaq-trust/20 relative flex items-center justify-center">
+                <span className="absolute text-[1rem] font-bold text-ortaq-trust/50">→</span>
+              </div>
+            </div>
+
+            {/* RIGHT — ORTAQ record */}
+            <div className="overflow-hidden rounded-xl border border-ortaq-trust/25 bg-white shadow-sm">
+
+              {/* Record header */}
+              <div className="border-b border-ortaq-trust/15 bg-ortaq-trust/[0.04] px-5 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
+                  <p className="text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust/70">
+                    {isTR ? "ORTAQ Operasyon Kaydı" : "ORTAQ Operation Record"}
+                  </p>
+                </div>
+                <p className="mt-0.5 text-[0.6875rem] font-semibold text-ortaq-ink">
+                  Yamato Machinery · €1.200.000
                 </p>
               </div>
-            ))}
+
+              {/* Memory zone */}
+              <div className="px-5 py-4">
+                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink/35">
+                  {isTR ? "Hafıza" : "Memory"}
+                </p>
+                <div className="space-y-2">
+                  {memory.map((m, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="mt-[0.15rem] shrink-0 text-[0.5rem] font-bold text-ortaq-trust">✓</span>
+                      <div>
+                        <p className="text-[0.4375rem] font-semibold uppercase tracking-[0.06em] text-ortaq-ink/40 leading-none mb-0.5">
+                          {m.label}
+                        </p>
+                        <p className="text-[0.75rem] leading-snug text-ortaq-ink/80">{m.val}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="mx-5 border-t border-ortaq-trust/10" />
+
+              {/* Action zone */}
+              <div className="bg-ortaq-trust/[0.03] px-5 py-4">
+                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-trust/60">
+                  {isTR ? "Önerilen aksiyonlar" : "Recommended actions"}
+                </p>
+                <div className="space-y-2.5">
+                  {actions.map((a, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span className="shrink-0 text-[0.875rem] font-bold text-ortaq-trust">→</span>
+                      <p className="flex-1 text-[0.8125rem] font-medium text-ortaq-ink">
+                        {a.action}
+                      </p>
+                      <div className="flex shrink-0 items-center gap-1.5">
+                        <span className="rounded border border-ortaq-trust/20 bg-ortaq-trust/10 px-1.5 py-0.5 text-[0.375rem] font-bold text-ortaq-trust/70">
+                          {a.role}
+                        </span>
+                        <span className="text-[0.4375rem] font-medium text-amber-600">
+                          {a.urgency}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
 
         </div>

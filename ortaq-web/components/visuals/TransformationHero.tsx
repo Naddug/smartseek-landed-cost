@@ -119,12 +119,12 @@ export function TransformationHero() {
 
   const recommended = isTR
     ? [
-        "Alıcıyla bugün iletişime geçin — 2 gündür yanıt yok",
-        "Revize teslimat tarihini karşı tarafa yazılı bildirin",
+        { text: "Alıcıyla bugün iletişime geçin — 2 gündür yanıt yok", role: "Satış",      urgency: "bugün" },
+        { text: "Revize teslimat tarihini karşı tarafa yazılı bildirin", role: "Operasyon", urgency: "hafta içi" },
       ]
     : [
-        "Contact buyer today — no response for 2 days",
-        "Notify counterparty of revised delivery date in writing",
+        { text: "Contact buyer today — no response for 2 days",           role: "Sales",      urgency: "today" },
+        { text: "Notify counterparty of revised delivery date in writing", role: "Operations", urgency: "this week" },
       ];
 
   const labels = isTR
@@ -237,18 +237,24 @@ export function TransformationHero() {
             </div>
           </div>
 
-          {/* Section C — RECOMMENDS */}
-          <div className="flex-1 bg-ortaq-trust/[0.03] px-3 py-2">
-            <p className="mb-1.5 text-[0.38rem] font-bold uppercase tracking-[0.09em] text-ortaq-trust">
+          {/* Section C — RECOMMENDS — action-forward, with role + urgency */}
+          <div className="flex-1 bg-ortaq-trust px-3 py-2">
+            <p className="mb-1.5 text-[0.38rem] font-bold uppercase tracking-[0.09em] text-white/70">
               {labels.recommended}
             </p>
             <div className="space-y-1.5">
               {recommended.map((item, i) => (
                 <div key={i} className="flex items-start gap-1.5">
-                  <span className="mt-px flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-ortaq-trust/15 text-[0.42rem] font-bold text-ortaq-trust">
-                    →
-                  </span>
-                  <p className="text-[0.46rem] leading-snug text-ortaq-ink font-medium">{item}</p>
+                  <span className="mt-px shrink-0 text-[0.5rem] font-bold text-white">→</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[0.46rem] leading-snug text-white font-medium">{item.text}</p>
+                    <div className="mt-0.5 flex items-center gap-1">
+                      <span className="rounded bg-white/20 px-1 py-px text-[0.33rem] font-bold text-white/70">
+                        {item.role}
+                      </span>
+                      <span className="text-[0.35rem] text-white/50">{item.urgency}</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

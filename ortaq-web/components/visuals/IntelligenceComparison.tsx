@@ -100,12 +100,12 @@ export function IntelligenceComparison() {
             icon: "⚠",
             text: "3 gün içinde aksiyon alınmazsa operasyon risk altına girer.",
           },
-          {
-            type: "action" as const,
-            icon: "→",
-            text: "Alıcı 2 gündür yanıt vermedi. Bugün takip gerekiyor.",
-          },
         ],
+        action: {
+          text: "Alıcıyla bugün iletişime geçin",
+          role: "Operasyon",
+          urgency: "bugün",
+        },
         conclusion: "Bu bir cümle değil. Bir sevkiyat riski.",
       }
     : {
@@ -137,19 +137,18 @@ export function IntelligenceComparison() {
             icon: "⚠",
             text: "If action isn't taken within 3 days, the entire operation is at risk.",
           },
-          {
-            type: "action" as const,
-            icon: "→",
-            text: "Buyer has not responded in 2 days. Follow-up required today.",
-          },
         ],
+        action: {
+          text: "Contact buyer today",
+          role: "Operations",
+          urgency: "today",
+        },
         conclusion: "This is not a sentence. This is a shipment risk.",
       };
 
   const chainStyles = {
     dependency: "border-l-gray-300 bg-gray-50/50 text-ortaq-ink",
     risk:       "border-l-amber-400 bg-amber-50/60 text-ortaq-ink font-medium",
-    action:     "border-l-ortaq-trust bg-ortaq-trust/[0.05] text-ortaq-trust font-semibold",
   } as const;
 
   return (
@@ -232,7 +231,7 @@ export function IntelligenceComparison() {
             </div>
           </div>
 
-          {/* Operational chain */}
+          {/* Operational chain — dependency + risk nodes */}
           <div className="space-y-1.5">
             {ortaqResponse.chain.map((step, i) => (
               <div
@@ -252,11 +251,22 @@ export function IntelligenceComparison() {
             ))}
           </div>
 
-          {/* Conclusion */}
-          <div className="mt-4 rounded-lg border border-ortaq-trust/30 bg-ortaq-trust/10 px-4 py-2.5">
-            <p className="text-[0.5625rem] font-bold text-ortaq-trust">
-              {ortaqResponse.conclusion}
-            </p>
+          {/* Action terminal — visually distinct from the chain */}
+          <div className="mt-3 overflow-hidden rounded-lg border-2 border-ortaq-trust bg-ortaq-trust">
+            <div className="flex items-center gap-3 px-3 py-2.5">
+              <span className="shrink-0 text-[0.875rem] font-bold text-white">→</span>
+              <p className="flex-1 text-[0.5rem] font-bold text-white leading-snug">
+                {ortaqResponse.action.text}
+              </p>
+              <div className="flex shrink-0 items-center gap-1.5">
+                <span className="rounded bg-white/20 px-1.5 py-0.5 text-[0.375rem] font-bold text-white/80">
+                  {ortaqResponse.action.role}
+                </span>
+                <span className="text-[0.4375rem] font-bold text-white/70">
+                  {ortaqResponse.action.urgency}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

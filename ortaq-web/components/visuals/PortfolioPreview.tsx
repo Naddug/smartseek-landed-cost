@@ -176,19 +176,15 @@ export function PortfolioPreview() {
             <div>
               <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
                 {isTR ? (
-                  <>Birden fazla işleminiz varsa,<br />
-                    <span className="text-ortaq-trust">sabah buradan başlarsınız.</span>
-                  </>
+                  <><span className="text-ortaq-trust">Sabah buradan başlarsınız.</span></>
                 ) : (
-                  <>If you have multiple active deals,<br />
-                    <span className="text-ortaq-trust">this is where you start every morning.</span>
-                  </>
+                  <><span className="text-ortaq-trust">This is where you start each morning.</span></>
                 )}
               </h2>
-              <p className="mt-2 max-w-lg text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
+              <p className="mt-2 max-w-lg text-[0.875rem] leading-relaxed text-ortaq-ink-muted">
                 {isTR
-                  ? "Riske göre sıralandı. Her satırda kimin beklediği yazıyor — sizin ekibiniz mi, karşı taraf mı."
-                  : "Sorted by risk. Every row shows whose side is waiting — your team or the counterparty."}
+                  ? "Riske göre sıralandı. Sıranın kimde olduğu her satırda görünür."
+                  : "Sorted by risk. Every row shows whose side is waiting."}
               </p>
             </div>
 

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 
@@ -14,7 +13,6 @@ import { OperationalReasoning } from "@/components/visuals/OperationalReasoning"
 import { WhyOrtaqDiffers }     from "@/components/visuals/WhyOrtaqDiffers";
 import { PilotBriefing }       from "@/components/visuals/PilotBriefing";
 import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
-import { StrategicGuidance }     from "@/components/visuals/StrategicGuidance";
 
 /**
  * OrtaqHomeView — SPRINT 5
@@ -170,26 +168,9 @@ export function OrtaqHomeView() {
           ═══════════════════════════════════════════════════════════════════ */}
       <PortfolioPreview />
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          STRATEGIC GUIDANCE (between briefing and use cases)
-          "Riski bulmak yetmez."
-          3 situation → risk → ORTAQ suggestion examples.
-          Honest disclaimer: guidance, not autonomous decision making.
-          Answers: "What should happen next?"
-          ═══════════════════════════════════════════════════════════════════ */}
-      <StrategicGuidance />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 7 — USE CASES
-          Trade = category example, not product definition.
-          Add procurement and project delivery.
-          ═══════════════════════════════════════════════════════════════════ */}
-      <UseCasesStrip isTR={isTR} />
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 8 — DEMO CTA
-          "Aktif bir işleminizi getirin."
-          Concrete, not abstract. Outcome-driven.
+          DEMO CTA
           ═══════════════════════════════════════════════════════════════════ */}
       <section className="border-t border-ortaq-border bg-ortaq-ink">
         <Container wide>
@@ -230,7 +211,13 @@ export function OrtaqHomeView() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <p className="mt-6 text-[0.75rem] text-ortaq-cream/35">
+              {isTR
+                ? "Uluslararası ticarette, tedarik zincirinde, proje tesliminde."
+                : "International trade, supply chain, project delivery."}
+            </p>
+
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/demo"
                 className="inline-flex min-h-12 items-center justify-center rounded-xl bg-ortaq-trust px-8 text-[1rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
@@ -253,102 +240,3 @@ export function OrtaqHomeView() {
   );
 }
 
-/* ── Use Cases Strip — Section 7 ──────────────────────────────────────────── */
-
-function UseCasesStrip({ isTR }: { isTR: boolean }) {
-  const cases = isTR ? [
-    {
-      tag: "İhracat · İthalat",
-      name: "Uluslararası Ticaret",
-      desc: "Sözleşme, muayene, sevkiyat ve ödeme — dağınık iletişimden operasyonel netliğe. ORTAQ'ın inşa edildiği zemin.",
-    },
-    {
-      tag: "Satınalma · Lojistik",
-      name: "Tedarik Zinciri",
-      desc: "Tedarikçi taahhütleri, teslimat takibi, sözleşme değişiklikleri. Kim bekliyor, ne değişti, risk ne?",
-    },
-    {
-      tag: "Proje · Hizmet",
-      name: "Proje Teslimi",
-      desc: "Müşteri beklentileri, değişiklik talepleri, teslimat sorumluluğu. Aynı operasyonel hafıza, farklı bağlam.",
-    },
-  ] : [
-    {
-      tag: "Export · Import",
-      name: "International Trade",
-      desc: "Contract, inspection, shipment and payment — from fragmented communications to operational clarity. Where ORTAQ was built.",
-    },
-    {
-      tag: "Procurement · Logistics",
-      name: "Supply Chain",
-      desc: "Supplier commitments, delivery tracking, contract changes. Who is waiting, what changed, what is at risk?",
-    },
-    {
-      tag: "Project · Service",
-      name: "Project Delivery",
-      desc: "Customer expectations, change requests, delivery responsibility. Same operational memory, different context.",
-    },
-  ];
-
-  return (
-    <section className={cn("border-b border-ortaq-border bg-[#faf9f7]")}>
-      <Container wide>
-        <div className="py-14 sm:py-18">
-
-          <div className="mb-8">
-            <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
-              {isTR ? "Kullanım Alanları" : "Use Cases"}
-            </p>
-            <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
-              {isTR ? (
-                <>
-                  Şirketler arası operasyon yürüten<br />
-                  <span className="text-ortaq-trust">her ekip için.</span>
-                </>
-              ) : (
-                <>
-                  For every team managing<br />
-                  <span className="text-ortaq-trust">operations between companies.</span>
-                </>
-              )}
-            </h2>
-            <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
-              {isTR
-                ? "Uluslararası ticaret, ORTAQ'ın inşa edildiği alandır. Ama aynı operasyonel hafıza problemi her B2B operasyonunda vardır."
-                : "International trade is where ORTAQ was built. But the same operational memory problem exists in every B2B operation."}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {cases.map((c) => (
-              <div key={c.name} className="rounded-xl border border-ortaq-border bg-white px-5 py-5">
-                <span className="mb-3 inline-block rounded-full border border-ortaq-border bg-[#faf9f7] px-3 py-1 text-[0.4375rem] font-semibold text-ortaq-ink/50">
-                  {c.tag}
-                </span>
-                <p className="mb-2 text-[0.9375rem] font-bold text-ortaq-ink leading-snug">{c.name}</p>
-                <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted">{c.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <Link
-              href="/senaryolar"
-              className="text-[0.8125rem] font-semibold text-ortaq-trust hover:underline"
-            >
-              {isTR ? "15 senaryo görün →" : "See 15 scenarios →"}
-            </Link>
-            <span className="text-ortaq-ink/20">·</span>
-            <Link
-              href="/urun"
-              className="text-[0.8125rem] font-medium text-ortaq-ink-muted hover:text-ortaq-ink hover:underline"
-            >
-              {isTR ? "ORTAQ nasıl düşünüyor →" : "How ORTAQ thinks →"}
-            </Link>
-          </div>
-
-        </div>
-      </Container>
-    </section>
-  );
-}

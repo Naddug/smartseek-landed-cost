@@ -96,7 +96,6 @@ export function WhyOrtaqDiffers() {
   const genericOutput = isTR ? GENERIC_OUTPUT_TR  : GENERIC_OUTPUT_EN;
   const genericLimits = isTR ? GENERIC_LIMITS_TR  : GENERIC_LIMITS_EN;
   const ortaqLines    = isTR ? ORTAQ_UNDERSTANDS_TR : ORTAQ_UNDERSTANDS_EN;
-  const capabilities  = isTR ? CAPABILITIES_TR   : CAPABILITIES_EN;
 
   return (
     <section className="border-b border-ortaq-border bg-[#faf9f7]">
@@ -208,54 +207,37 @@ export function WhyOrtaqDiffers() {
                 </div>
               </div>
 
-              {/* Why ORTAQ knows */}
-              <div className="px-5 py-4">
-                <p className="text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust/50 mb-2">
-                  {isTR ? "Bunu neden biliyor?" : "Why does it know this?"}
+              {/* Action row — ORTAQ side only */}
+              <div className="border-t border-ortaq-trust/15 bg-ortaq-trust/[0.07] px-5 py-3">
+                <p className="text-[0.4375rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust/60 mb-2">
+                  {isTR ? "Önerilen aksiyon" : "Recommended action"}
                 </p>
-                <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted">
-                  {isTR
-                    ? "12 Haziran taahhüdünü hatırlıyor — çünkü o email bu operasyona ait. Revizyon talebini taahhütle karşılaştırıyor. Sonuçları bağımlılık zincirine göre modelliyor."
-                    : "It remembers the June 12 commitment — because that email belongs to this operation. It compares the revision request against the commitment. It models consequences through the dependency chain."}
-                </p>
+                <div className="flex items-center gap-3">
+                  <span className="text-[0.75rem] font-bold text-ortaq-trust">→</span>
+                  <p className="text-[0.8125rem] font-medium text-ortaq-ink">
+                    {isTR
+                      ? "Yamato'yu bugün bilgilendirin"
+                      : "Inform Yamato today"}
+                  </p>
+                  <span className="ml-auto shrink-0 rounded border border-ortaq-trust/25 bg-ortaq-trust/10 px-2 py-0.5 text-[0.4375rem] font-bold text-ortaq-trust/70 whitespace-nowrap">
+                    {isTR ? "Satış" : "Sales"}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* ── Key distinction callout ────────────────────────────────── */}
-          <div className="mt-5 rounded-xl border border-ortaq-border bg-white px-6 py-4">
-            <p className="text-[0.875rem] leading-relaxed text-ortaq-ink/80">
-              <span className="font-bold text-ortaq-ink">
-                {isTR
-                  ? "Fark zeka değil — süreklilik. "
-                  : "The difference is not intelligence — it is continuity. "}
-              </span>
-              {isTR
-                ? "Genel AI her sohbete sıfırdan başlar. Dün ne söylendiğini bilmez. Kim ne taahhüt etti bilmez. Bir gecikmenin neyi tetikleyeceğini bilmez. ORTAQ operasyonu hatırladığı için bu bağlantıları siz sormadan kurar."
-                : "A generic AI starts from zero in every conversation. It doesn't know what was said yesterday. It doesn't know who committed to what. It doesn't know what a delay triggers. ORTAQ remembers the operation, so it builds these connections without being asked."}
+          {/* ── Key distinction callout — 3 lines ──────────────────────── */}
+          <div className="mt-5 rounded-xl border border-ortaq-border bg-white px-6 py-5">
+            <p className="text-[0.9375rem] leading-relaxed text-ortaq-ink/50">
+              {isTR ? "ChatGPT her sohbete sıfırdan başlar." : "ChatGPT starts from zero in every conversation."}
             </p>
-          </div>
-
-          {/* ── Capability cards microsection ─────────────────────────── */}
-          <div className="mt-10">
-            <h3 className="mb-5 text-[1rem] font-bold tracking-[-0.02em] text-ortaq-ink sm:text-[1.125rem]">
-              {isTR ? "ORTAQ bunu neden biliyor?" : "Why does ORTAQ already know this?"}
-            </h3>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {capabilities.map((cap) => (
-                <div
-                  key={cap.name}
-                  className="flex flex-col gap-2 rounded-xl border border-ortaq-border bg-white px-5 py-5"
-                >
-                  <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust">
-                    {cap.name}
-                  </p>
-                  <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted">
-                    {cap.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <p className="mt-1 text-[0.9375rem] font-medium leading-relaxed text-ortaq-ink/80">
+              {isTR ? "ORTAQ 12 Haziran'dan beri bu operasyonu takip ediyor." : "ORTAQ has been tracking this operation since June 12."}
+            </p>
+            <p className="mt-1 text-[0.9375rem] font-bold leading-relaxed text-ortaq-trust">
+              {isTR ? "Sabah için öneri hazır." : "The recommendation is ready for the morning."}
+            </p>
           </div>
 
         </div>

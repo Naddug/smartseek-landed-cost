@@ -214,6 +214,10 @@ export function PilotBriefing() {
 
   const [activeQ, setActiveQ] = useState<number>(0);
 
+  const qLabels = isTR
+    ? ["En büyük risk?", "Bu hafta ne değişti?", "Kim bekliyor?", "Bugün ne yapmalı?"]
+    : ["Biggest risk?", "What changed this week?", "Who is waiting?", "What to do today?"];
+
   return (
     <section id="ortaq-pilot" className="border-b border-ortaq-border bg-ortaq-ink">
       <Container wide>
@@ -256,8 +260,8 @@ export function PilotBriefing() {
             </div>
           </div>
 
-          {/* ── Briefing document ───────────────────────────────────────── */}
-          <div className="mb-8 overflow-hidden rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/[0.02]">
+          {/* ── Briefing document — document flow, no grid ──────────────── */}
+          <div className="mb-6 overflow-hidden rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/[0.02]">
             <div className="border-b border-ortaq-cream/[0.07] px-5 py-3">
               <p className="text-[0.4375rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/30">
                 {isTR ? "ORTAQ Sabah Brifing" : "ORTAQ Morning Briefing"}
@@ -268,29 +272,51 @@ export function PilotBriefing() {
                 <div
                   key={item.num}
                   className={cn(
-                    "grid grid-cols-[4rem_1fr] gap-4 px-5 py-4",
-                    item.alert && "bg-amber-500/[0.05] border-l-2 border-l-amber-400/50",
+                    "px-5 py-4",
+                    item.alert
+                      ? "bg-amber-500/[0.08] border-l-2 border-l-amber-400"
+                      : "",
                   )}
                 >
-                  {/* Number + label column */}
-                  <div className="pt-0.5">
-                    <p className="font-mono text-[0.4375rem] font-bold text-ortaq-cream/20">{item.num}</p>
-                    <p className={cn(
-                      "mt-1 text-[0.4375rem] font-bold uppercase tracking-[0.07em] leading-tight",
-                      item.alert ? "text-amber-400/80" : "text-ortaq-cream/35",
+                  <div className="flex items-baseline gap-2 mb-1.5">
+                    <span className="font-mono text-[0.4375rem] font-bold text-ortaq-cream/20">
+                      {item.num}
+                    </span>
+                    <span className={cn(
+                      "text-[0.4375rem] font-bold uppercase tracking-[0.07em]",
+                      item.alert ? "text-amber-400/90" : "text-ortaq-cream/35",
                     )}>
                       {item.label}
-                    </p>
+                    </span>
                   </div>
-                  {/* Text column */}
                   <p className={cn(
-                    "text-[0.875rem] leading-relaxed",
-                    item.alert ? "text-ortaq-cream/90" : "text-ortaq-cream/75",
+                    "text-[0.9375rem] leading-relaxed",
+                    item.alert ? "text-ortaq-cream/95 font-medium" : "text-ortaq-cream/75",
                   )}>
                     {item.text}
                   </p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* ── Action summary bar ──────────────────────────────────────── */}
+          <div className="mb-8 overflow-hidden rounded-xl border border-ortaq-trust/25 bg-ortaq-trust">
+            <div className="flex flex-col gap-1 px-5 py-3 sm:flex-row sm:items-center sm:gap-4">
+              <p className="shrink-0 text-[0.4375rem] font-bold uppercase tracking-[0.1em] text-white/60">
+                {isTR ? "Bugün için" : "Today"}
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                {(isTR
+                  ? ["Muayene tarihi", "Yamato bilgilendirme", "Revizyon imzası"]
+                  : ["Inspection date", "Yamato update", "Contract signature"]
+                ).map((action, i) => (
+                  <span key={i} className="flex items-center gap-1.5">
+                    {i > 0 && <span className="text-white/30">→</span>}
+                    <span className="text-[0.6875rem] font-semibold text-white">{action}</span>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -303,7 +329,7 @@ export function PilotBriefing() {
             <div className="h-px flex-1 bg-ortaq-cream/10" />
           </div>
 
-          {/* ── Question pills ──────────────────────────────────────────── */}
+          {/* ── Question pills — shorter labels ─────────────────────────── */}
           <div className="mb-5 flex flex-wrap gap-2">
             {qa.map((item, i) => (
               <button
@@ -316,7 +342,7 @@ export function PilotBriefing() {
                     : "border-ortaq-cream/20 bg-transparent text-ortaq-cream/50 hover:border-ortaq-cream/40 hover:text-ortaq-cream/80",
                 )}
               >
-                {item.q}
+                {qLabels[i]}
               </button>
             ))}
           </div>
@@ -341,19 +367,27 @@ export function PilotBriefing() {
                 ))}
               </div>
 
-              {/* Source citations */}
+              {/* Source citations — real document references */}
               <div className="mt-5 border-t border-ortaq-cream/[0.07] pt-4">
-                <p className="mb-2 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-cream/25">
-                  {isTR ? "Kaynak" : "Source"}
+                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-cream/25">
+                  {isTR ? "Kaynaklar" : "Sources"}
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="space-y-2">
                   {qa[activeQ].sources.map((src, i) => (
                     <div
                       key={i}
-                      className="flex items-center gap-2 rounded-lg border border-ortaq-cream/10 bg-ortaq-cream/[0.04] px-3 py-1.5"
+                      className="flex items-start gap-3 rounded-lg border border-ortaq-cream/[0.08] bg-ortaq-cream/[0.03] px-3 py-2.5"
                     >
-                      <span className="text-[0.4375rem] font-bold text-ortaq-cream/50">{src.label}</span>
-                      <span className="text-[0.4375rem] text-ortaq-cream/25">{src.note}</span>
+                      <span className="mt-0.5 shrink-0 text-[0.7rem]">
+                        {src.label.toLowerCase().includes("email") || src.label.toLowerCase().includes("e-mail") ? "📧"
+                          : src.label.toLowerCase().includes("whatsapp") ? "💬"
+                          : src.label.toLowerCase().includes("toplantı") || src.label.toLowerCase().includes("meeting") ? "📝"
+                          : "📄"}
+                      </span>
+                      <div>
+                        <p className="text-[0.5rem] font-bold text-ortaq-cream/55">{src.label}</p>
+                        <p className="mt-0.5 text-[0.4375rem] italic text-ortaq-cream/30">{src.note}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
