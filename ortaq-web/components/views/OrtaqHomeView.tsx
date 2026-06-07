@@ -10,9 +10,9 @@ import { TransformationHero }    from "@/components/visuals/TransformationHero";
 import { IntelligenceComparison } from "@/components/visuals/IntelligenceComparison";
 import { UniversalProblem }      from "@/components/visuals/UniversalProblem";
 import { OperationalMemory }     from "@/components/visuals/OperationalMemory";
-import { OrtaqPilot }            from "@/components/visuals/OrtaqPilot";
 import { OperationalReasoning } from "@/components/visuals/OperationalReasoning";
 import { WhyOrtaqDiffers }     from "@/components/visuals/WhyOrtaqDiffers";
+import { PilotBriefing }       from "@/components/visuals/PilotBriefing";
 import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
 import { StrategicGuidance }     from "@/components/visuals/StrategicGuidance";
 
@@ -153,13 +153,14 @@ export function OrtaqHomeView() {
       <WhyOrtaqDiffers />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 5 — PILOT
-          "ORTAQ'a sor."
-          4 static Q&A examples. Feels like the operational memory of the company.
-          Not a chatbot. Not a generic assistant.
-          Answers: all 6 core questions (what happened / what's at risk / etc.)
+          SECTION 5 — PILOT BRIEFING
+          "Sabah geldiğinizde ORTAQ sizi neyle karşılar?"
+          One specific operation (Yamato Machinery). Overnight briefing
+          in 5 structured items. Then 4 question pills with source-cited
+          answers. Not a chatbot — an operational briefing interface.
+          Goal: "ORTAQ is following my operation, not answering questions."
           ═══════════════════════════════════════════════════════════════════ */}
-      <OrtaqPilot variant="homepage" />
+      <PilotBriefing />
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 6 — OPERATIONAL BRIEFING
