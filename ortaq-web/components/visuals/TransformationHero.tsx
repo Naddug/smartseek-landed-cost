@@ -57,7 +57,7 @@ export function TransformationHero() {
           />
 
           {/* 4 floating app windows — readable in 2 seconds */}
-          <div className="relative overflow-hidden" style={{ aspectRatio: "4/3", minHeight: 248 }}>
+          <div className="relative overflow-hidden" style={{ height: 148 }}>
             <div className="absolute inset-0 bg-gradient-to-br from-red-100/20 via-transparent to-orange-100/10" />
 
             {/* WhatsApp — top left */}
@@ -129,7 +129,7 @@ export function TransformationHero() {
           </div>
 
           {/* 4 unanswered question chips */}
-          <div className="flex flex-wrap gap-1 px-4 pb-3 pt-2">
+          <div className="flex flex-wrap gap-1 px-4 pb-2 pt-1">
             {questions.slice(0, 4).map((q) => (
               <span key={q} className="rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[0.46rem] font-medium text-red-700">
                 {q}
@@ -138,7 +138,7 @@ export function TransformationHero() {
           </div>
 
           {/* Status footer */}
-          <div className="flex items-center justify-between border-t border-red-200/50 bg-red-900/5 px-4 py-3">
+          <div className="flex items-center justify-between border-t border-red-200/50 bg-red-900/5 px-4 py-2">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-red-500" />
               <span className="text-[0.75rem] font-bold tracking-[0.02em] text-red-700">
@@ -162,7 +162,7 @@ export function TransformationHero() {
           />
 
           {/* Progress bar */}
-          <div className="border-b border-ortaq-border px-4 py-2">
+          <div className="border-b border-ortaq-border px-4 py-1.5">
             <div className="flex items-center gap-2.5">
               <div className="flex-1 h-1.5 overflow-hidden rounded-full bg-gray-100">
                 <div className="h-full w-[78%] rounded-full bg-ortaq-trust" />
@@ -174,15 +174,18 @@ export function TransformationHero() {
             </div>
           </div>
 
-          {/* Answered rows */}
+          {/* Answered rows — 4 of 6 shown to fit compact height */}
           <div className="flex-1 divide-y divide-ortaq-border/50">
-            {answers.map((a, i) => (
+            {answers.slice(0, 4).map((a, i) => (
               <AnswerRow key={i} {...a} />
             ))}
+            <div className="px-3 py-1 text-[0.375rem] text-ortaq-ink-soft/50">
+              + 2 daha
+            </div>
           </div>
 
           {/* Status footer */}
-          <div className="flex items-center justify-between border-t border-emerald-200/50 bg-emerald-50/30 px-4 py-3">
+          <div className="flex items-center justify-between border-t border-emerald-200/50 bg-emerald-50/30 px-4 py-2">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
               <span className="text-[0.75rem] font-bold tracking-[0.02em] text-emerald-700">
@@ -217,7 +220,7 @@ function DealHeader({ side, label, dealName, counterparty, amount }: {
   const isChaos = side === "chaos";
   return (
     <div className={cn(
-      "border-b px-4 py-2.5",
+      "border-b px-4 py-2",
       isChaos ? "border-red-200/50 bg-[#f5e4df]" : "border-emerald-200/50 bg-emerald-50/40",
     )}>
       <div className="flex items-center justify-between gap-2">
@@ -306,7 +309,7 @@ function AnswerRow({ main, detail, tag, type }: {
 }) {
   const s = answerStyles[type];
   return (
-    <div className={cn("flex items-start gap-2 px-3 py-2", s.row)}>
+    <div className={cn("flex items-start gap-2 px-3 py-1.5", s.row)}>
       <span className={cn("mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[0.46rem] font-bold", s.icon)}>
         {s.symbol}
       </span>
