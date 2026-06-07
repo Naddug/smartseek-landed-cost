@@ -12,6 +12,7 @@ import { UniversalProblem }      from "@/components/visuals/UniversalProblem";
 import { OperationalMemory }     from "@/components/visuals/OperationalMemory";
 import { OrtaqPilot }            from "@/components/visuals/OrtaqPilot";
 import { OperationalReasoning } from "@/components/visuals/OperationalReasoning";
+import { WhyOrtaqDiffers }     from "@/components/visuals/WhyOrtaqDiffers";
 import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
 import { StrategicGuidance }     from "@/components/visuals/StrategicGuidance";
 
@@ -140,6 +141,16 @@ export function OrtaqHomeView() {
           Goal: visitor thinks "This is reasoning, not summarising."
           ═══════════════════════════════════════════════════════════════════ */}
       <OperationalReasoning />
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 4c — WHY ORTAQ DIFFERS
+          "Neden ORTAQ farklı?"
+          Answers: "Why can't I do this with ChatGPT + Outlook?"
+          Same inputs → Generic AI output vs ORTAQ understanding.
+          Key message: "The difference is not IQ. It is continuity."
+          4 capability cards: Memory / Commitment / Dependency / Risk.
+          ═══════════════════════════════════════════════════════════════════ */}
+      <WhyOrtaqDiffers />
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 5 — PILOT
