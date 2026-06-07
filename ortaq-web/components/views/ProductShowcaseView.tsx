@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
@@ -91,10 +91,26 @@ const TABS = [
   },
 ] as const;
 
+/** Recommended starting path — Sprint 2 */
+const QUICK_NAV = [
+  { id: "counterparty" as const, label: "Karşı Taraf görünümü" },
+  { id: "portfolio"    as const, label: "Portföy"               },
+  { id: "overview"    as const, label: "İşlem Özeti"            },
+] satisfies { id: typeof TABS[number]["id"]; label: string }[];
+
 export function ProductShowcaseView() {
   const [activeId, setActiveId] = useState<typeof TABS[number]["id"]>("overview");
   const active = TABS.find(t => t.id === activeId)!;
   const ActiveScreen = active.component;
+  const tabsRef = useRef<HTMLElement>(null);
+
+  function handleQuickNav(id: typeof TABS[number]["id"]) {
+    setActiveId(id);
+    // Scroll tabs into view after React re-renders
+    requestAnimationFrame(() => {
+      tabsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   return (
     <PublicShell stickyCta={false}>
@@ -130,8 +146,42 @@ export function ProductShowcaseView() {
         </Container>
       </section>
 
+      {/* ── GUIDANCE STRIP — Sprint 2: recommended starting path ────────────
+          Position: between sector pills and module tabs.
+          Goal: give first-time visitors a starting point and reduce
+          decision paralysis from 8 equal-weight tabs.                     */}
+      <div className="border-b border-ortaq-border bg-white">
+        <Container wide>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 py-2.5">
+            <span className="text-[0.5625rem] font-medium text-ortaq-ink-soft/70 shrink-0">
+              İlk kez mi bakıyorsunuz?
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              {QUICK_NAV.map((item, i) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleQuickNav(item.id)}
+                  className={cn(
+                    "flex items-center gap-1.5 rounded-full border px-3 py-1 text-[0.5625rem] font-semibold transition-colors",
+                    activeId === item.id
+                      ? "border-ortaq-trust/40 bg-ortaq-trust/8 text-ortaq-trust"
+                      : "border-ortaq-border bg-white text-ortaq-ink-soft hover:border-ortaq-trust/40 hover:text-ortaq-trust",
+                  )}
+                >
+                  <span className="font-mono text-[0.4375rem] text-ortaq-ink-soft/40">{i + 1}</span>
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <span className="ml-auto hidden text-[0.5rem] text-ortaq-ink-soft/40 sm:inline">
+              Tüm sekizini görmek için aşağıdaki sekme satırını kullanın
+            </span>
+          </div>
+        </Container>
+      </div>
+
       {/* ── TAB NAVIGATION ──────────────────────────────────────────────── */}
-      <section className="sticky top-[48px] z-30 border-b border-ortaq-border bg-white shadow-[0_1px_0_0_rgb(20_19_16/0.06)]">
+      <section ref={tabsRef} className="sticky top-[48px] z-30 border-b border-ortaq-border bg-white shadow-[0_1px_0_0_rgb(20_19_16/0.06)]">
         <Container wide>
           <div className="flex overflow-x-auto" style={{ scrollbarWidth: "none" }}>
             {TABS.map(tab => (
