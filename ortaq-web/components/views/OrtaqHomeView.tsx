@@ -5,37 +5,29 @@ import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 
-import { TransformationHero }    from "@/components/visuals/TransformationHero";
+import { TransformationHero }     from "@/components/visuals/TransformationHero";
 import { IntelligenceComparison } from "@/components/visuals/IntelligenceComparison";
-import { UniversalProblem }      from "@/components/visuals/UniversalProblem";
-import { OperationalMemory }     from "@/components/visuals/OperationalMemory";
-import { OperationalReasoning } from "@/components/visuals/OperationalReasoning";
-import { WhyOrtaqDiffers }     from "@/components/visuals/WhyOrtaqDiffers";
-import { PilotBriefing }       from "@/components/visuals/PilotBriefing";
-import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
+import { OperationalMemory }      from "@/components/visuals/OperationalMemory";
+import { OperationalReasoning }   from "@/components/visuals/OperationalReasoning";
+import { WhyOrtaqDiffers }        from "@/components/visuals/WhyOrtaqDiffers";
+import { PilotBriefing }          from "@/components/visuals/PilotBriefing";
+import { PortfolioPreview }       from "@/components/visuals/PortfolioPreview";
 
 /**
- * OrtaqHomeView — SPRINT 5
+ * OrtaqHomeView — SPRINT 14 NARRATIVE REORDER
  *
- * POSITIONING: "System that understands operations from fragmented communications."
- * NOT: "Shared workspace for import/export."
+ * CATEGORY-FIRST ORDER (attention → action before record/memory):
+ *   1. Hero                 — Recognition
+ *   2. Why ORTAQ Differs    — First proof: continuity vs generic AI
+ *   3. Pilot Briefing       — Primary category proof (proactive briefing)
+ *   4. Intelligence         — Consequence reasoning (single-input comparison)
+ *   5. Operational Reasoning — Multi-industry reasoning demonstration
+ *   6. Portfolio Preview    — Supporting proof: breadth across operations
+ *   7. Operational Memory   — Supporting proof: durability and continuity
+ *   8. Demo CTA
  *
- * NARRATIVE ORDER (8 sections):
- *   1. Hero        — Recognition: "Bilgi var. Anlayan yok."
- *   2. Problem     — Universal: 5 questions everyone asks every day
- *   3. Memory      — "ORTAQ unutmaz" — operational memory layer
- *   4. Intelligence — "Bir AI ne görür? ORTAQ ne görür?" — core differentiation
- *   5. Pilot       — "ORTAQ'a sor" — 4 Q&A static concept
- *   6. Briefing    — Portfolio / operational output view
- *   7. Guidance    — Strategic guidance layer (honest, not autonomous)
- *   8. Use Cases + Demo CTA
- *
- * COPY RULES: Every section answers one of:
- *   What happened? / What changed? / What is missing? /
- *   Who is waiting? / What is at risk? / What should happen next?
- *
- * BANNED from headlines: SGS · LC · BL · Buyer · Seller · Export · Import
- * (Trade examples stay inside detail content — credibility for ICP)
+ * REMOVED from homepage: UniversalProblem (demoted from category-defining position)
+ * NOT MERGED: Intelligence + Operational Reasoning (different formats, distinct proof)
  */
 
 export function OrtaqHomeView() {
@@ -46,10 +38,7 @@ export function OrtaqHomeView() {
     <PublicShell stickyCta={false}>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 1 — HERO: Recognition
-          "Bilgi var. Anlayan yok."
-          Visitor must understand the CORE PROBLEM within 5 seconds.
-          The visual shows READ → UNDERSTAND → RECOMMEND, not feature tabs.
+          SECTION 1 — HERO
           ═══════════════════════════════════════════════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
@@ -86,26 +75,20 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 2 — UNIVERSAL PROBLEM
-          Show the 5 questions before mentioning ORTAQ.
-          Visitor must recognize themselves.
-          Answers: "What happened?" / "What changed?" / "Who is waiting?"
+          SECTION 2 — WHY ORTAQ DIFFERS
+          First major proof section after hero.
           ═══════════════════════════════════════════════════════════════════ */}
-      <UniversalProblem />
+      <WhyOrtaqDiffers />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 3 — OPERATIONAL MEMORY
-          "ORTAQ unutmaz."
-          Context disappears — emails deleted, people leave, messages gone.
-          ORTAQ builds a persistent memory per operation.
+          SECTION 3 — PILOT BRIEFING
+          Primary category proof — proactive operational briefing.
           ═══════════════════════════════════════════════════════════════════ */}
-      <OperationalMemory />
+      <PilotBriefing />
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION 4 — INTELLIGENCE
-          "Bir AI ne görür? ORTAQ ne görür?"
-          Generic AI reads text. ORTAQ understands operations.
-          Core differentiator — now primary messaging, not supporting.
+          Single-input comparison: generic AI vs operational consequence chain.
           ═══════════════════════════════════════════════════════════════════ */}
       <section id="ortaq-anlama" className="border-b border-ortaq-border bg-ortaq-ink">
         <Container wide>
@@ -131,46 +114,26 @@ export function OrtaqHomeView() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 4b — OPERATIONAL REASONING DEMONSTRATION
-          "ORTAQ nasıl düşünüyor?"
-          3 tabbed cards: Trade / Supply Chain / Project Delivery.
-          Each shows: What exists → Human sees → ORTAQ understands → Recommends.
-          Briefing-note style. Readable in under 15 seconds per card.
-          Goal: visitor thinks "This is reasoning, not summarising."
+          SECTION 5 — OPERATIONAL REASONING
+          Multi-industry tabbed reasoning demonstration.
+          Kept separate from Intelligence (comparison vs multi-scenario demo).
           ═══════════════════════════════════════════════════════════════════ */}
       <OperationalReasoning />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 4c — WHY ORTAQ DIFFERS
-          "Neden ORTAQ farklı?"
-          Answers: "Why can't I do this with ChatGPT + Outlook?"
-          Same inputs → Generic AI output vs ORTAQ understanding.
-          Key message: "The difference is not IQ. It is continuity."
-          4 capability cards: Memory / Commitment / Dependency / Risk.
-          ═══════════════════════════════════════════════════════════════════ */}
-      <WhyOrtaqDiffers />
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 5 — PILOT BRIEFING
-          "Sabah geldiğinizde ORTAQ sizi neyle karşılar?"
-          One specific operation (Yamato Machinery). Overnight briefing
-          in 5 structured items. Then 4 question pills with source-cited
-          answers. Not a chatbot — an operational briefing interface.
-          Goal: "ORTAQ is following my operation, not answering questions."
-          ═══════════════════════════════════════════════════════════════════ */}
-      <PilotBriefing />
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          SECTION 6 — OPERATIONAL BRIEFING
-          Show the output — not a dashboard, not feature modules.
-          Portfolio view = what ORTAQ tells you when you open it in the morning.
-          Answers: "Who is waiting?" / "What is at risk?"
+          SECTION 6 — PORTFOLIO PREVIEW
+          Supporting proof: breadth across operations.
           ═══════════════════════════════════════════════════════════════════ */}
       <PortfolioPreview />
 
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 7 — OPERATIONAL MEMORY
+          Supporting proof: durability and continuity.
+          ═══════════════════════════════════════════════════════════════════ */}
+      <OperationalMemory />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          DEMO CTA
+          SECTION 8 — DEMO CTA
           ═══════════════════════════════════════════════════════════════════ */}
       <section className="border-t border-ortaq-border bg-ortaq-ink">
         <Container wide>
@@ -239,4 +202,3 @@ export function OrtaqHomeView() {
     </PublicShell>
   );
 }
-
