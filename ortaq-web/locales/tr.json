@@ -1968,12 +1968,12 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "Alıcı ve satıcı için",
-      "h1a": "Tüm işlem, tek kayıtta.",
-      "h1b": "İki taraf da aynı gerçeği görür.",
-      "sub": "Sözleşme, muayene, sevkiyat ve ödeme — şu an WhatsApp, e-posta, Excel ve PDF'lere dağılmış. ORTAQ hepsini alıcı ve satıcının aynı anda gördüğü tek bir işlem kaydında toplar.",
+      "eyebrow": "B2B operasyonlar için",
+      "h1a": "Bilgi var.",
+      "h1b": "Anlayan yok.",
+      "sub": "Her operasyon, gerçeği anlamak için gereken bilgiyi zaten içeriyor. Sorun, hiç kimsenin bu bilgiyi sürekli olarak sentezlememesi.",
       "cta": "Demo İsteyin",
-      "ctaSecondary": "Nasıl Çalışır"
+      "ctaSecondary": "ORTAQ'a sor"
     },
     "fragmentation": {
       "eyebrow": "Sorun",

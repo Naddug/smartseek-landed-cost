@@ -5,6 +5,9 @@ import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 
+import { OperationalAct }            from "@/components/visuals/OperationalAct";
+import { OperationalMemory }        from "@/components/visuals/OperationalMemory";
+import { OrtaqPilot }              from "@/components/visuals/OrtaqPilot";
 import { ScreenTransactionOverview } from "@/components/product-showcase/ScreenTransactionOverview";
 import { ScreenDocumentCenter }      from "@/components/product-showcase/ScreenDocumentCenter";
 import { ScreenCommunications }      from "@/components/product-showcase/ScreenCommunications";
@@ -124,13 +127,11 @@ export function ProductShowcaseView() {
                 Ürün
               </p>
               <h1 className="mt-2 text-[2rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.05] sm:text-[2.625rem]">
-                Gerçek işlem yönetimi.<br />
-                <span className="text-ortaq-trust">Sekiz ekranda.</span>
+                ORTAQ nasıl düşünüyor?<br />
+                <span className="text-ortaq-trust">Ham bilgiden operasyonel anlayışa.</span>
               </h1>
               <p className="mt-4 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
-                Her ekran gerçek bir sektörden gerçek bir işleme dayanır.
-                Mesajlar işleme bağlıdır. İşlem merkezdedir.
-                Hiç tasarımsal kontrol paneli yok.
+                Önce ham girdiyi görün. Sonra ORTAQ&apos;ın ne hatırladığını. Sonra ne anladığını. Sonra ne sorabileceğinizi. Modüller en sona — çünkü yetenekler sürecin sonucudur, kendisi değil.
               </p>
             </div>
 
@@ -146,7 +147,27 @@ export function ProductShowcaseView() {
         </Container>
       </section>
 
-      {/* ── GUIDANCE STRIP — Sprint 2: recommended starting path ────────────
+      {/* ── STEP 1→2→3: Input → Understanding → Briefing ─────────────────────
+          Act 1: Raw fragmented inputs (emails, messages, PDFs, notes)
+          Act 2: ORTAQ processing (extract, connect, detect, understand)
+          Act 3: Operational briefing output                               */}
+      <OperationalAct />
+
+      {/* ── STEP 2: MEMORY — What ORTAQ builds and keeps ────────────────────
+          Context that would otherwise disappear is held here.
+          Not a feature — it is the foundation that makes Pilot possible.  */}
+      <OperationalMemory />
+
+      {/* ── STEP 4: PILOT — Ask ORTAQ about your operation ──────────────────
+          Static concept. No live AI needed. Shows the Q&A interface.
+          Visitor should understand: "I can ask this thing about my work." */}
+      <OrtaqPilot variant="product" />
+
+      {/* ── STEP 5: CAPABILITIES — Module tabs ──────────────────────────────
+          Only here do modules appear. Tabs are supporting evidence.
+          Not the story. The story was above.                              */}
+
+      {/* ── GUIDANCE STRIP — recommended starting path ──────────────────────
           Position: between sector pills and module tabs.
           Goal: give first-time visitors a starting point and reduce
           decision paralysis from 8 equal-weight tabs.                     */}

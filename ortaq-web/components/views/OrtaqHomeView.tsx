@@ -7,39 +7,35 @@ import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 
 import { TransformationHero }    from "@/components/visuals/TransformationHero";
-import { RealExample }           from "@/components/visuals/RealExample";
-import { CounterpartyPreview }   from "@/components/visuals/CounterpartyPreview";
+import { IntelligenceComparison } from "@/components/visuals/IntelligenceComparison";
+import { UniversalProblem }      from "@/components/visuals/UniversalProblem";
+import { OperationalMemory }     from "@/components/visuals/OperationalMemory";
+import { OrtaqPilot }            from "@/components/visuals/OrtaqPilot";
 import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
-import { RiskBoard }             from "@/components/visuals/RiskBoard";
-import { RoleView }              from "@/components/visuals/RoleView";
+import { StrategicGuidance }     from "@/components/visuals/StrategicGuidance";
 
 /**
- * OrtaqHomeView — V9: Maximum clarity. Six sections. Nothing extra.
+ * OrtaqHomeView — SPRINT 5
  *
- * RULE: Visitor must understand in under 10 seconds.
- * RULE: No BestBuild, Acme, or fictional names. Use: alıcı, satıcı, Alman alıcı.
- * RULE: Not a dashboard. Not a CRM. Not a task manager.
- *       ORTAQ manages commercial transactions.
+ * POSITIONING: "System that understands operations from fragmented communications."
+ * NOT: "Shared workspace for import/export."
  *
- * Section 1 — Hero: "Sözleşme, SGS, sevkiyat ve ödeme. Tek yerde."
- *   Visual: TransformationHero — left chaos, right ORTAQ record.
+ * NARRATIVE ORDER (8 sections):
+ *   1. Hero        — Recognition: "Bilgi var. Anlayan yok."
+ *   2. Problem     — Universal: 5 questions everyone asks every day
+ *   3. Memory      — "ORTAQ unutmaz" — operational memory layer
+ *   4. Intelligence — "Bir AI ne görür? ORTAQ ne görür?" — core differentiation
+ *   5. Pilot       — "ORTAQ'a sor" — 4 Q&A static concept
+ *   6. Briefing    — Portfolio / operational output view
+ *   7. Guidance    — Strategic guidance layer (honest, not autonomous)
+ *   8. Use Cases + Demo CTA
  *
- * Section 2 — Real Example: Çelik Tedariki · €840.000
- *   Three questions. Three instant answers. No reading required.
+ * COPY RULES: Every section answers one of:
+ *   What happened? / What changed? / What is missing? /
+ *   Who is waiting? / What is at risk? / What should happen next?
  *
- * Section 3 — Transaction Lifecycle: Teklif → Sözleşme → Muayene → Sevkiyat → Ödeme
- *   The actual business process, not software features.
- *
- * Section 4 — Portfolio: Multiple active deals. Which need attention today?
- *
- * Section 5 — Who uses it: CEO, Satın Alma, Finans, Operasyon.
- *   What each person actually checks. Real questions.
- *
- * Section 6 — CTA: Simple. No startup language.
- *
- * Banned words: platform · workflow · ecosystem · visibility ·
- *               stakeholder · coordination · digital transformation ·
- *               company-to-company · commercial infrastructure
+ * BANNED from headlines: SGS · LC · BL · Buyer · Seller · Export · Import
+ * (Trade examples stay inside detail content — credibility for ICP)
  */
 
 export function OrtaqHomeView() {
@@ -49,9 +45,12 @@ export function OrtaqHomeView() {
   return (
     <PublicShell stickyCta={false}>
 
-      {/* ══ SECTION 1 — HERO ══════════════════════════════════════════════
-          Visitor must immediately understand: this is where my transaction lives.
-          The visual does the work. The headline names what ORTAQ holds.     */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 1 — HERO: Recognition
+          "Bilgi var. Anlayan yok."
+          Visitor must understand the CORE PROBLEM within 5 seconds.
+          The visual shows READ → UNDERSTAND → RECOMMEND, not feature tabs.
+          ═══════════════════════════════════════════════════════════════════ */}
       <section className="border-b border-ortaq-border bg-ortaq-surface">
         <Container wide>
           <div className="py-12 sm:py-16">
@@ -71,12 +70,12 @@ export function OrtaqHomeView() {
                 >
                   {t("home.hero.cta")} →
                 </Link>
-                <Link
-                  href="/urun"
+                <a
+                  href="#ortaq-pilot"
                   className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-border px-5 text-[0.9375rem] font-medium text-ortaq-ink-muted transition-colors hover:border-ortaq-border-strong hover:text-ortaq-ink"
                 >
-                  {isTR ? "Ürünü gör →" : "See the product →"}
-                </Link>
+                  {t("home.hero.ctaSecondary")} ↓
+                </a>
               </div>
             </div>
 
@@ -86,67 +85,89 @@ export function OrtaqHomeView() {
         </Container>
       </section>
 
-      {/* ══ TRUST STRIP — between hero and section 2 ═════════════════════
-          Three concrete signals. Not marketing. Not metrics.
-          These reduce trust friction before the visitor reads further.        */}
-      <TrustStrip isTR={isTR} />
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 2 — UNIVERSAL PROBLEM
+          Show the 5 questions before mentioning ORTAQ.
+          Visitor must recognize themselves.
+          Answers: "What happened?" / "What changed?" / "Who is waiting?"
+          ═══════════════════════════════════════════════════════════════════ */}
+      <UniversalProblem />
 
-      {/* ══ SPRINT 1: KARŞI TARAF PREVIEW ════════════════════════════════
-          Two-column split showing seller vs buyer view.
-          Data: exact entities from /urun Karşı Taraf module.                 */}
-      <CounterpartyPreview />
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 3 — OPERATIONAL MEMORY
+          "ORTAQ unutmaz."
+          Context disappears — emails deleted, people leave, messages gone.
+          ORTAQ builds a persistent memory per operation.
+          ═══════════════════════════════════════════════════════════════════ */}
+      <OperationalMemory />
 
-      {/* ══ SPRINT 1: PORTFOLIO PREVIEW ═══════════════════════════════════
-          3-column deal table sorted by risk. Replaces DealJourney timeline.
-          Data: exact deals from RiskBoard (5 of 6 shown).                    */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 4 — INTELLIGENCE
+          "Bir AI ne görür? ORTAQ ne görür?"
+          Generic AI reads text. ORTAQ understands operations.
+          Core differentiator — now primary messaging, not supporting.
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section id="ortaq-anlama" className="border-b border-ortaq-border bg-ortaq-ink">
+        <Container wide>
+          <div className="py-14 sm:py-18">
+            <div className="mb-8">
+              <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust/70">
+                {isTR ? "Operasyonel Zeka" : "Operational Intelligence"}
+              </p>
+              <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-cream leading-[1.15] sm:text-[1.875rem]">
+                {isTR
+                  ? <>Bir AI ne görür?<br /><span className="text-ortaq-trust">ORTAQ ne görür?</span></>
+                  : <>What does a generic AI see?<br /><span className="text-ortaq-trust">What does ORTAQ see?</span></>}
+              </h2>
+              <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-cream/60">
+                {isTR
+                  ? "Aynı cümle. İki farklı anlama kapasitesi. Fark, metni okumakla operasyonu anlamak arasında."
+                  : "Same sentence. Two different levels of understanding. The gap is between reading text and understanding operations."}
+              </p>
+            </div>
+            <IntelligenceComparison />
+          </div>
+        </Container>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 5 — PILOT
+          "ORTAQ'a sor."
+          4 static Q&A examples. Feels like the operational memory of the company.
+          Not a chatbot. Not a generic assistant.
+          Answers: all 6 core questions (what happened / what's at risk / etc.)
+          ═══════════════════════════════════════════════════════════════════ */}
+      <OrtaqPilot variant="homepage" />
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 6 — OPERATIONAL BRIEFING
+          Show the output — not a dashboard, not feature modules.
+          Portfolio view = what ORTAQ tells you when you open it in the morning.
+          Answers: "Who is waiting?" / "What is at risk?"
+          ═══════════════════════════════════════════════════════════════════ */}
       <PortfolioPreview />
 
-      {/* ══ SECTION 2 — REAL EXAMPLE ══════════════════════════════════════
-          One real transaction. Three real questions. Three real answers.
-          The visitor should think: "These are exactly the questions I ask."   */}
-      <S
-        title={isTR ? "Son durum ne? Sıra kimde? Ödeme çıktı mı?" : "What is the status? Whose turn is it? Has payment gone out?"}
-        sub={isTR
-          ? "Bu üç soruyu cevaplamak için kaç farklı yere bakıyorsunuz? ORTAQ'ta cevap tek bir kayıtta."
-          : "How many different places do you check to answer these three questions? In ORTAQ, one record holds the answer."}
-        tone="white"
-      >
-        <RealExample />
-      </S>
+      {/* ═══════════════════════════════════════════════════════════════════
+          STRATEGIC GUIDANCE (between briefing and use cases)
+          "Riski bulmak yetmez."
+          3 situation → risk → ORTAQ suggestion examples.
+          Honest disclaimer: guidance, not autonomous decision making.
+          Answers: "What should happen next?"
+          ═══════════════════════════════════════════════════════════════════ */}
+      <StrategicGuidance />
 
-      {/* ══ MID-PAGE CTA — after real example ════════════════════════════
-          Visitors who engaged with the real example are now qualified.
-          Give them a conversion point before they scroll further.            */}
-      <MidPageCta isTR={isTR} />
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 7 — USE CASES
+          Trade = category example, not product definition.
+          Add procurement and project delivery.
+          ═══════════════════════════════════════════════════════════════════ */}
+      <UseCasesStrip isTR={isTR} />
 
-      {/* ══ SECTION 4 — PORTFOLIO ═════════════════════════════════════════
-          A company manages many deals at once.
-          ORTAQ shows which deals need attention today.                       */}
-      <S
-        title={isTR ? "Hangi işlem ne durumda?" : "What is the status of each deal?"}
-        sub={isTR
-          ? "Birden fazla işlem yönetiyorsanız, bugün hangisine bakmanız gerekiyor?"
-          : "If you manage multiple deals, which one needs your attention today?"}
-        tone="white"
-      >
-        <RiskBoard />
-      </S>
-
-      {/* ══ SECTION 5 — TWO ROLE STORIES ════════════════════════════════
-          Two vivid morning scenes, not four identical role cards.
-          Show the questions they were asking before, and what they find now. */}
-      <S
-        title={isTR ? "Sabah ORTAQ'ı açınca ne görüyorlar?" : "What do they see when they open ORTAQ in the morning?"}
-        sub={isTR
-          ? "Satın alma kimin ne beklediğini sorar. Finans ödemenin çıkıp çıkmadığını sorar. İkisi de artık aramak zorunda kalmıyor."
-          : "Procurement asks whose side is waiting. Finance asks whether payment has gone out. Neither has to call anyone."}
-        tone="warm"
-      >
-        <RoleView />
-      </S>
-
-      {/* ══ SECTION 6 — CTA ═══════════════════════════════════════════════
-          Simple. Outcome-driven. No marketing language.                      */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION 8 — DEMO CTA
+          "Aktif bir işleminizi getirin."
+          Concrete, not abstract. Outcome-driven.
+          ═══════════════════════════════════════════════════════════════════ */}
       <section className="border-t border-ortaq-border bg-ortaq-ink">
         <Container wide>
           <div className="py-16 sm:py-20 text-center">
@@ -160,7 +181,6 @@ export function OrtaqHomeView() {
               {t("home.cta.sub")}
             </p>
 
-            {/* What a demo looks like — concrete, not abstract */}
             <div className="mx-auto mt-8 max-w-sm overflow-hidden rounded-2xl border border-ortaq-cream/10 bg-ortaq-cream/5 text-left">
               <div className="border-b border-ortaq-cream/10 px-5 py-3">
                 <p className="text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-cream/40">
@@ -169,13 +189,13 @@ export function OrtaqHomeView() {
               </div>
               <div className="divide-y divide-ortaq-cream/[0.07]">
                 {(isTR ? [
-                  "Aktif işlemlerinizden birini seçiyorsunuz.",
-                  "O işlemin belgelerini, onaylarını ve durumunu birlikte görüyoruz.",
-                  "ORTAQ'ın ne yapabileceğini gerçek bir işlem üzerinden anlıyorsunuz.",
+                  "Aktif bir operasyonunuzu seçiyorsunuz.",
+                  "ORTAQ o operasyonu nasıl okuduğunu, ne anladığını gösteriyoruz.",
+                  "Kendi operasyonunuzda ne görüleceğini 30 dakikada anlıyorsunuz.",
                 ] : [
-                  "You choose one of your active deals.",
-                  "We review that deal's documents, approvals and status together.",
-                  "You see what ORTAQ can do on a real transaction.",
+                  "You choose one of your active operations.",
+                  "We show how ORTAQ reads that operation and what it understands.",
+                  "You see what ORTAQ would surface in your own operation — in 30 minutes.",
                 ]).map((step, i) => (
                   <div key={i} className="flex items-start gap-3 px-5 py-3">
                     <span className="shrink-0 font-mono text-[0.4375rem] font-bold text-ortaq-cream/30">
@@ -210,119 +230,102 @@ export function OrtaqHomeView() {
   );
 }
 
-/* ── Section wrapper ─────────────────────────────────────────────────────── */
+/* ── Use Cases Strip — Section 7 ──────────────────────────────────────────── */
 
-function S({
-  title, sub, tone, children,
-}: {
-  title: string;
-  sub: string;
-  tone: "white" | "warm";
-  children: React.ReactNode;
-}) {
-  return (
-    <section className={cn(
-      "border-b border-ortaq-border",
-      tone === "warm" ? "bg-[#faf9f7]" : "bg-white",
-    )}>
-      <Container wide>
-        <div className="py-14 sm:py-18">
-          <div className="mb-8">
-            <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
-              {title}
-            </h2>
-            <p className="mt-2 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
-              {sub}
-            </p>
-          </div>
-          {children}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ── Trust strip — between hero and Section 2 ────────────────────────────── */
-
-function TrustStrip({ isTR }: { isTR: boolean }) {
-  const signals = isTR ? [
+function UseCasesStrip({ isTR }: { isTR: boolean }) {
+  const cases = isTR ? [
     {
-      icon: "📄",
-      label: "Alıcı ve satıcı aynı belgeyi görür.",
-      note: "Farklı versiyonlar yok. Tek kayıt.",
+      tag: "İhracat · İthalat",
+      name: "Uluslararası Ticaret",
+      desc: "Sözleşme, muayene, sevkiyat ve ödeme — dağınık iletişimden operasyonel netliğe. ORTAQ'ın inşa edildiği zemin.",
     },
     {
-      icon: "🔒",
-      label: "Dahili notlar gerçekten özel.",
-      note: "Karşı taraf görmez — bulanık değil, yok.",
+      tag: "Satınalma · Lojistik",
+      name: "Tedarik Zinciri",
+      desc: "Tedarikçi taahhütleri, teslimat takibi, sözleşme değişiklikleri. Kim bekliyor, ne değişti, risk ne?",
     },
     {
-      icon: "⏱",
-      label: "Kurulum yok.",
-      note: "Bugün başlayabilirsiniz. Ay değil, saat.",
+      tag: "Proje · Hizmet",
+      name: "Proje Teslimi",
+      desc: "Müşteri beklentileri, değişiklik talepleri, teslimat sorumluluğu. Aynı operasyonel hafıza, farklı bağlam.",
     },
   ] : [
     {
-      icon: "📄",
-      label: "Buyer and seller see the same document.",
-      note: "No different versions. One record.",
+      tag: "Export · Import",
+      name: "International Trade",
+      desc: "Contract, inspection, shipment and payment — from fragmented communications to operational clarity. Where ORTAQ was built.",
     },
     {
-      icon: "🔒",
-      label: "Internal notes are truly private.",
-      note: "Counterparty can't see them — not blurred, not there.",
+      tag: "Procurement · Logistics",
+      name: "Supply Chain",
+      desc: "Supplier commitments, delivery tracking, contract changes. Who is waiting, what changed, what is at risk?",
     },
     {
-      icon: "⏱",
-      label: "No setup required.",
-      note: "Start today. Hours, not months.",
+      tag: "Project · Service",
+      name: "Project Delivery",
+      desc: "Customer expectations, change requests, delivery responsibility. Same operational memory, different context.",
     },
   ];
 
   return (
-    <div className="border-b border-ortaq-border bg-white">
+    <section className={cn("border-b border-ortaq-border bg-[#faf9f7]")}>
       <Container wide>
-        <div className="grid grid-cols-1 divide-y divide-ortaq-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {signals.map(s => (
-            <div key={s.label} className="flex items-start gap-3 px-0 py-5 sm:px-6 sm:py-6 first:pl-0 last:pr-0">
-              <span className="shrink-0 text-xl leading-none">{s.icon}</span>
-              <div>
-                <p className="text-[0.8125rem] font-semibold text-ortaq-ink leading-snug">{s.label}</p>
-                <p className="mt-0.5 text-[0.6875rem] text-ortaq-ink-muted">{s.note}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </div>
-  );
-}
+        <div className="py-14 sm:py-18">
 
-/* ── Mid-page CTA — after Real Example ──────────────────────────────────── */
-
-function MidPageCta({ isTR }: { isTR: boolean }) {
-  return (
-    <div className="border-b border-ortaq-border bg-ortaq-trust/[0.04]">
-      <Container wide>
-        <div className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-9">
-          <div>
-            <p className="text-[0.75rem] font-bold text-ortaq-trust uppercase tracking-[0.06em]">
-              {isTR ? "Tanıdık geldi mi?" : "Did this sound familiar?"}
+          <div className="mb-8">
+            <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
+              {isTR ? "Kullanım Alanları" : "Use Cases"}
             </p>
-            <p className="mt-1 text-[1rem] font-bold text-ortaq-ink leading-snug sm:text-[1.125rem]">
+            <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
+              {isTR ? (
+                <>
+                  Şirketler arası operasyon yürüten<br />
+                  <span className="text-ortaq-trust">her ekip için.</span>
+                </>
+              ) : (
+                <>
+                  For every team managing<br />
+                  <span className="text-ortaq-trust">operations between companies.</span>
+                </>
+              )}
+            </h2>
+            <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
               {isTR
-                ? "Aktif bir işleminizi getirin. 30 dakikada görelim."
-                : "Bring one active deal. Let's look at it in 30 minutes."}
+                ? "Uluslararası ticaret, ORTAQ'ın inşa edildiği alandır. Ama aynı operasyonel hafıza problemi her B2B operasyonunda vardır."
+                : "International trade is where ORTAQ was built. But the same operational memory problem exists in every B2B operation."}
             </p>
           </div>
-          <Link
-            href="/demo"
-            className="inline-flex shrink-0 min-h-10 items-center justify-center rounded-lg bg-ortaq-trust px-6 text-[0.875rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
-          >
-            {isTR ? "Demo İsteyin →" : "Request Demo →"}
-          </Link>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {cases.map((c) => (
+              <div key={c.name} className="rounded-xl border border-ortaq-border bg-white px-5 py-5">
+                <span className="mb-3 inline-block rounded-full border border-ortaq-border bg-[#faf9f7] px-3 py-1 text-[0.4375rem] font-semibold text-ortaq-ink/50">
+                  {c.tag}
+                </span>
+                <p className="mb-2 text-[0.9375rem] font-bold text-ortaq-ink leading-snug">{c.name}</p>
+                <p className="text-[0.625rem] leading-relaxed text-ortaq-ink-muted">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link
+              href="/senaryolar"
+              className="text-[0.8125rem] font-semibold text-ortaq-trust hover:underline"
+            >
+              {isTR ? "15 senaryo görün →" : "See 15 scenarios →"}
+            </Link>
+            <span className="text-ortaq-ink/20">·</span>
+            <Link
+              href="/urun"
+              className="text-[0.8125rem] font-medium text-ortaq-ink-muted hover:text-ortaq-ink hover:underline"
+            >
+              {isTR ? "ORTAQ nasıl düşünüyor →" : "How ORTAQ thinks →"}
+            </Link>
+          </div>
+
         </div>
       </Container>
-    </div>
+    </section>
   );
 }
