@@ -160,14 +160,14 @@ export function DealJourney() {
             {isTR ? "Tek İşlem" : "Single Deal"}
           </p>
           <p className="mt-0.5 text-[0.9375rem] font-bold text-ortaq-ink">
-            {isTR ? "Çelik Tedariki · Alman alıcı" : "Steel Supply · German buyer"}
+            {isTR ? "Endüstri Makinesi · Yamato Corp · Osaka" : "Industrial Machine · Yamato Corp · Osaka"}
           </p>
         </div>
         <div className="text-right">
           <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink-soft">
             {isTR ? "İşlem Tutarı" : "Deal Value"}
           </p>
-          <p className="mt-0.5 text-[0.9375rem] font-bold text-ortaq-trust">€840.000</p>
+          <p className="mt-0.5 text-[0.9375rem] font-bold text-ortaq-trust">€1.200.000</p>
         </div>
       </div>
 
@@ -202,10 +202,10 @@ export function DealJourney() {
             {isTR ? "Şu An Bu Noktadasınız" : "Current Position"}
           </p>
           <p className="mt-0.5 text-[0.875rem] font-bold text-amber-900">
-            {isTR ? "Muayene Aşaması · SGS onayı bekleniyor · alıcı taraf sorumlu" : "Inspection Stage · SGS approval pending · buyer side responsible"}
+            {isTR ? "Muayene Aşaması · SGS raporu Yamato'dan onay bekliyor" : "Inspection Stage · SGS report awaiting Yamato approval"}
           </p>
           <p className="mt-0.5 text-[0.5rem] text-amber-600">
-            {isTR ? "BL kesilebilmesi için SGS onayı gerekiyor. Sevkiyat tarihi: 28 Haziran." : "SGS approval required before BL issuance. Shipment date: June 28."}
+            {isTR ? "Onay alınınca BL ve sevkiyat başlıyor. Planlanan yükleme: 10 Ağustos · Osaka." : "Once approved, BL and shipment begin. Planned loading: August 10 · Osaka."}
           </p>
         </div>
       </div>

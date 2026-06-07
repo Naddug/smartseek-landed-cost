@@ -44,7 +44,7 @@ export function TransformationHero() {
     <div className="overflow-hidden rounded-2xl border border-ortaq-border shadow-[0_12px_48px_rgb(20_19_16/0.13)]">
       <div className="grid grid-cols-1 sm:grid-cols-2">
 
-        {/* ══ LEFT — CHAOS ════════════════════════════════════════ */}
+        {/* ══ LEFT — CHAOS (4 windows max) ════════════════════════ */}
         <div className="flex flex-col border-b border-ortaq-border bg-[#FBF0ED] sm:border-b-0 sm:border-r">
 
           {/* Header — deal identity visible even in chaos */}
@@ -56,12 +56,12 @@ export function TransformationHero() {
             amount={amount}
           />
 
-          {/* Floating app windows */}
+          {/* 4 floating app windows — readable in 2 seconds */}
           <div className="relative overflow-hidden" style={{ aspectRatio: "4/3", minHeight: 248 }}>
             <div className="absolute inset-0 bg-gradient-to-br from-red-100/20 via-transparent to-orange-100/10" />
 
-            {/* WhatsApp */}
-            <FloatCard style={{ top: "3%", left: "1%", width: "44%", zIndex: 9 }} rotate="-2deg">
+            {/* WhatsApp — top left */}
+            <FloatCard style={{ top: "4%", left: "1%", width: "47%", zIndex: 9 }} rotate="-2deg">
               <AppBar app="WhatsApp" icon="💬" color="#075E54" dot="#25D366" />
               <div className="space-y-1 p-2">
                 <WaBubble text={t("transform.q1")} />
@@ -73,28 +73,8 @@ export function TransformationHero() {
               </div>
             </FloatCard>
 
-            {/* WeChat — Chinese supplier */}
-            <FloatCard style={{ top: "2%", right: "1%", width: "38%", zIndex: 8 }} rotate="2deg">
-              <AppBar app="WeChat" icon="💚" color="#07C160" dot="#07C160" />
-              <div className="space-y-1 p-2">
-                {/* WeChat-style bubble layout */}
-                <div className="flex items-start gap-1">
-                  <span className="mt-0.5 flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#07C160] text-[0.3rem] text-white font-bold">供</span>
-                  <div className="rounded-lg rounded-tl-none bg-white px-1.5 py-0.5 shadow-sm">
-                    <p className="text-[0.38rem] text-gray-700">Price OK. Waiting LC.</p>
-                  </div>
-                </div>
-                <div className="flex items-start justify-end gap-1">
-                  <div className="rounded-lg rounded-tr-none bg-[#95EC69] px-1.5 py-0.5">
-                    <p className="text-[0.38rem] text-gray-700">{t("transform.q3")}</p>
-                  </div>
-                </div>
-                <p className="text-right text-[0.34rem] text-gray-400">Son mesaj: 2 gün önce</p>
-              </div>
-            </FloatCard>
-
-            {/* Outlook email chain */}
-            <FloatCard style={{ top: "42%", left: "3%", width: "46%", zIndex: 10 }} rotate="-2.5deg">
+            {/* Outlook — top right */}
+            <FloatCard style={{ top: "2%", right: "1%", width: "44%", zIndex: 8 }} rotate="2deg">
               <AppBar app="Outlook" icon="📧" color="#0078D4" dot="#0078D4" />
               <div className="p-2 space-y-0.5">
                 <div className="rounded bg-blue-50 px-1.5 py-1">
@@ -114,22 +94,8 @@ export function TransformationHero() {
               </div>
             </FloatCard>
 
-            {/* Excel — price sheet */}
-            <FloatCard style={{ top: "37%", right: "2%", width: "42%", zIndex: 9 }} rotate="1.5deg">
-              <AppBar app="Excel" icon="📊" color="#217346" dot="#217346" />
-              <div className="p-2">
-                <p className="text-[0.38rem] font-semibold text-green-800 truncate">FIYAT_v4_REVIZE_SON.xlsx</p>
-                <div className="mt-1 grid grid-cols-3 divide-x divide-green-100 rounded border border-green-100 bg-green-50/50">
-                  <ExcelCell label="v2" val="1.180" dim />
-                  <ExcelCell label="v3" val="1.240" dim />
-                  <ExcelCell label="v4" val="1.260" active />
-                </div>
-                <p className="mt-0.5 text-[0.3rem] text-amber-600 font-semibold">Hangi versiyon geçerli?</p>
-              </div>
-            </FloatCard>
-
-            {/* SGS Report */}
-            <FloatCard style={{ bottom: "5%", left: "10%", width: "38%", zIndex: 8 }} rotate="-1.5deg">
+            {/* SGS Report — bottom left */}
+            <FloatCard style={{ bottom: "6%", left: "4%", width: "42%", zIndex: 10 }} rotate="-1.5deg">
               <AppBar app="SGS Raporu" icon="🔬" color="#E31837" dot="#E31837" />
               <div className="p-2">
                 <div className="flex items-center gap-1">
@@ -141,33 +107,30 @@ export function TransformationHero() {
                     </span>
                   </div>
                 </div>
-                <p className="mt-0.5 text-[0.33rem] font-semibold text-red-600">{t("transform.q3")}</p>
+                <p className="mt-0.5 text-[0.33rem] font-semibold text-red-600">
+                  Muayene raporu onaylanmadı
+                </p>
               </div>
             </FloatCard>
 
-            {/* BL Draft */}
-            <FloatCard style={{ bottom: "4%", right: "2%", width: "40%", zIndex: 7 }} rotate="2.5deg">
-              <AppBar app="BL Draft" icon="🚢" color="#1e3a5f" dot="#4a90d9" />
+            {/* Excel — bottom right */}
+            <FloatCard style={{ bottom: "4%", right: "2%", width: "44%", zIndex: 9 }} rotate="1.5deg">
+              <AppBar app="Excel" icon="📊" color="#217346" dot="#217346" />
               <div className="p-2">
-                <p className="text-[0.38rem] font-bold text-[#1e3a5f] leading-tight">BL_TASLAK_v3.pdf</p>
-                <div className="mt-1 space-y-0.5">
-                  <div className="flex items-center gap-1">
-                    <span className="h-1 w-1 rounded-full bg-red-400" />
-                    <p className="text-[0.33rem] text-red-500">SGS onayı eksik</p>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="h-1 w-1 rounded-full bg-red-400" />
-                    <p className="text-[0.33rem] text-red-500">LC numarası bekleniyor</p>
-                  </div>
+                <p className="text-[0.38rem] font-semibold text-green-800 truncate">FIYAT_v4_REVIZE_SON.xlsx</p>
+                <div className="mt-1 grid grid-cols-3 divide-x divide-green-100 rounded border border-green-100 bg-green-50/50">
+                  <ExcelCell label="v2" val="1.180" dim />
+                  <ExcelCell label="v3" val="1.240" dim />
+                  <ExcelCell label="v4" val="1.260" active />
                 </div>
-                <p className="mt-0.5 text-[0.3rem] text-gray-400">{t("transform.q5")}</p>
+                <p className="mt-0.5 text-[0.3rem] text-amber-600 font-semibold">Hangi versiyon geçerli?</p>
               </div>
             </FloatCard>
           </div>
 
-          {/* Unanswered questions as chips */}
+          {/* 4 unanswered question chips */}
           <div className="flex flex-wrap gap-1 px-4 pb-3 pt-2">
-            {questions.map((q) => (
+            {questions.slice(0, 4).map((q) => (
               <span key={q} className="rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-[0.46rem] font-medium text-red-700">
                 {q}
               </span>

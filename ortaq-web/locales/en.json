@@ -2537,9 +2537,9 @@
   "home": {
     "hero": {
       "eyebrow": "For buyers and sellers",
-      "h1a": "Contract, SGS, shipment and payment.",
-      "h1b": "All in one place.",
-      "sub": "Your commercial transactions scattered across WhatsApp, WeChat, email and PDFs — gathered in one record. Every document. Every approval. Every responsibility.",
+      "h1a": "One deal, one record.",
+      "h1b": "Both parties see the same truth.",
+      "sub": "Contract, inspection, shipment and payment — currently scattered across WhatsApp, email, Excel and PDFs. ORTAQ gathers them all into one deal record that buyer and seller see at the same time.",
       "cta": "Request Demo",
       "ctaSecondary": "How It Works"
     },
@@ -2833,11 +2833,11 @@
     "ortaqLabel": "ORTAQ record",
     "chaosStatus": "STATUS UNKNOWN",
     "ortaqStatus": "ALL ON RECORD",
-    "q1": "Has SGS arrived?",
+    "q1": "What is the latest status?",
     "q2": "Which contract is current?",
-    "q3": "When is payment going out?",
+    "q3": "Has payment gone out?",
     "q4": "Whose turn is it?",
-    "q5": "Has BL been issued?",
+    "q5": "Has the delivery date changed?",
     "a1": "SPA v12",
     "a1tag": "Current version",
     "a2": "SGS · TÜV Thailand",

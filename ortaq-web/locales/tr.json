@@ -1969,9 +1969,9 @@
   "home": {
     "hero": {
       "eyebrow": "Alıcı ve satıcı için",
-      "h1a": "Sözleşme, SGS, sevkiyat ve ödeme.",
-      "h1b": "Tek yerde.",
-      "sub": "WhatsApp, WeChat, e-posta ve PDF'ler arasında dağılan ticari işlemleriniz artık tek kayıtta toplanıyor. Her belge. Her onay. Her sorumluluk.",
+      "h1a": "Tüm işlem, tek kayıtta.",
+      "h1b": "İki taraf da aynı gerçeği görür.",
+      "sub": "Sözleşme, muayene, sevkiyat ve ödeme — şu an WhatsApp, e-posta, Excel ve PDF'lere dağılmış. ORTAQ hepsini alıcı ve satıcının aynı anda gördüğü tek bir işlem kaydında toplar.",
       "cta": "Demo İsteyin",
       "ctaSecondary": "Nasıl Çalışır"
     },
@@ -3666,11 +3666,11 @@
     "ortaqLabel": "ORTAQ kaydı",
     "chaosStatus": "DURUM BELİRSİZ",
     "ortaqStatus": "HER ŞEY KAYITTA",
-    "q1": "SGS geldi mi?",
+    "q1": "Son durum ne?",
     "q2": "Hangi sözleşme geçerli?",
-    "q3": "Ödeme ne zaman çıkacak?",
+    "q3": "Ödeme çıktı mı?",
     "q4": "Sıra kimde?",
-    "q5": "BL kesildi mi?",
+    "q5": "Teslim tarihi değişti mi?",
     "a1": "SPA v12",
     "a1tag": "Geçerli versiyon",
     "a2": "SGS · TÜV Thailand",

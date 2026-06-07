@@ -94,10 +94,10 @@ export function OrtaqHomeView() {
           One real transaction. Three real questions. Three real answers.
           The visitor should think: "These are exactly the questions I ask."   */}
       <S
-        title={isTR ? "Şu an bir işleminiz var. Cevaplar hazır mı?" : "You have an active deal right now. Are the answers ready?"}
+        title={isTR ? "Son durum ne? Sıra kimde? Ödeme çıktı mı?" : "What is the status? Whose turn is it? Has payment gone out?"}
         sub={isTR
-          ? "Bu üç soruyu cevaplamak için kaç farklı yere bakıyorsunuz?"
-          : "How many different places do you check to answer these three questions?"}
+          ? "Bu üç soruyu cevaplamak için kaç farklı yere bakıyorsunuz? ORTAQ'ta cevap tek bir kayıtta."
+          : "How many different places do you check to answer these three questions? In ORTAQ, one record holds the answer."}
         tone="white"
       >
         <RealExample />
@@ -134,14 +134,14 @@ export function OrtaqHomeView() {
         <RiskBoard />
       </S>
 
-      {/* ══ SECTION 5 — WHO USES IT ═══════════════════════════════════════
-          CEO, Satın Alma, Finans, Operasyon.
-          What does each person actually check?                               */}
+      {/* ══ SECTION 5 — TWO ROLE STORIES ════════════════════════════════
+          Two vivid morning scenes, not four identical role cards.
+          Show the questions they were asking before, and what they find now. */}
       <S
-        title={isTR ? "Kim ne bakıyor?" : "Who checks what?"}
+        title={isTR ? "Sabah ORTAQ'ı açınca ne görüyorlar?" : "What do they see when they open ORTAQ in the morning?"}
         sub={isTR
-          ? "Her sabah dört farklı kişi, dört farklı soru soruyor. ORTAQ'ta dördü de yanıtlı."
-          : "Every morning four different people ask four different questions. In ORTAQ, all four are answered."}
+          ? "Satın alma kimin ne beklediğini sorar. Finans ödemenin çıkıp çıkmadığını sorar. İkisi de artık aramak zorunda kalmıyor."
+          : "Procurement asks whose side is waiting. Finance asks whether payment has gone out. Neither has to call anyone."}
         tone="warm"
       >
         <RoleView />

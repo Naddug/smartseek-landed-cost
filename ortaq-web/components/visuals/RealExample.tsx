@@ -32,64 +32,64 @@ export function RealExample() {
   const isTR = (i18n.language ?? "tr").startsWith("tr");
 
   const deal = isTR
-    ? { name: "Çelik Tedariki", amount: "€840.000", buyer: "Alman alıcı", seller: "Türk üretici" }
-    : { name: "Steel Supply",   amount: "€840,000", buyer: "German buyer", seller: "Turkish producer" };
+    ? { name: "Tekstil Sevkiyatı", amount: "€340.000", buyer: "Alman alıcı", seller: "Türk üretici" }
+    : { name: "Textile Shipment",  amount: "€340,000", buyer: "German buyer", seller: "Turkish producer" };
 
   const qas: QA[] = isTR ? [
     {
-      q: "SGS geldi mi?",
-      qSub: "Muayene raporu onaylandı mı?",
-      status: "waiting",
-      statusLabel: "Bekleniyor",
-      answer: "TÜV Thailand · alıcı tarafta",
-      answerSub: "Muayene talebi gönderildi. Alıcı onayı bekleniyor. Tahmini tarih: Pazartesi.",
-      who: "Alıcı sorumlu",
+      q: "Son durum ne?",
+      qSub: "İşlem hangi aşamada, sırada ne var?",
+      status: "done",
+      statusLabel: "Muayene tamamlandı",
+      answer: "Sözleşme imzalı · Muayene onaylı · Sevkiyat 15 Tem.",
+      answerSub: "Packing list hazır. BL taslağı taşıyıcıya gönderildi. Gemi kalkış onayı bekleniyor.",
+      who: "Taşıyıcı taraf",
     },
     {
       q: "Ödeme çıktı mı?",
-      qSub: "Akreditif açıldı mı?",
+      qSub: "Akreditif onaylandı mı, ödeme ne zaman?",
       status: "active",
-      statusLabel: "Hazırlanıyor",
-      answer: "HSBC Dubai · LC açılıyor",
-      answerSub: "SGS onayı alındıktan sonra LC açılacak. Banka 2 iş günü belirtiyor.",
+      statusLabel: "LC işlemde",
+      answer: "Frankfurt Handelsbank · LC İşlemde",
+      answerSub: "Muayene onayı alındıktan sonra LC açıldı. Belge eşleştirmesi tamamlanınca ödeme çıkacak.",
       who: "Banka sürecinde",
     },
     {
       q: "Sıra kimde?",
       qSub: "Şu an kim ne yapmalı?",
       status: "waiting",
-      statusLabel: "Aksiyon gerekli",
-      answer: "Alıcı taraf · SGS onayı",
-      answerSub: "Sevkiyat için SGS raporu onaylanmayı bekliyor. Gemi 28 Haziran'da kalkıyor.",
-      who: "Alıcı sorumlu",
+      statusLabel: "Bizim tarafımızda",
+      answer: "BL onayı · kargo taşıyıcısı",
+      answerSub: "BL taslağı taşıyıcıdan onay bekliyor. Alıcı bu aşamada bizi bekliyor.",
+      who: "Taşıyıcı bekleniyor",
     },
   ] : [
     {
-      q: "Has SGS arrived?",
-      qSub: "Has the inspection report been approved?",
-      status: "waiting",
-      statusLabel: "Pending",
-      answer: "TÜV Thailand · at buyer side",
-      answerSub: "Inspection request sent. Awaiting buyer approval. Estimated: Monday.",
-      who: "Buyer responsible",
+      q: "What is the latest status?",
+      qSub: "Which stage, what comes next?",
+      status: "done",
+      statusLabel: "Inspection complete",
+      answer: "Contract signed · Inspection approved · Shipment Jul 15",
+      answerSub: "Packing list ready. BL draft sent to carrier. Awaiting vessel departure confirmation.",
+      who: "Carrier side",
     },
     {
       q: "Has payment gone out?",
       qSub: "Has the letter of credit been opened?",
       status: "active",
-      statusLabel: "In Progress",
-      answer: "HSBC Dubai · LC being opened",
-      answerSub: "LC will be opened after SGS approval. Bank indicates 2 business days.",
+      statusLabel: "LC in process",
+      answer: "Frankfurt Handelsbank · LC Open",
+      answerSub: "LC opened after inspection approval. Payment releases once document matching completes.",
       who: "In bank process",
     },
     {
       q: "Whose turn is it?",
       qSub: "Who needs to act right now?",
       status: "waiting",
-      statusLabel: "Action Required",
-      answer: "Buyer side · SGS approval",
-      answerSub: "SGS report awaiting approval before shipment. Vessel departs June 28.",
-      who: "Buyer responsible",
+      statusLabel: "Our side",
+      answer: "BL approval · cargo carrier",
+      answerSub: "BL draft awaiting carrier approval. Buyer is waiting for our confirmation at this stage.",
+      who: "Carrier pending",
     },
   ];
 
@@ -158,8 +158,8 @@ export function RealExample() {
       <div className="border-t border-ortaq-border bg-ortaq-trust/[0.04] px-5 py-3">
         <p className="text-[0.5375rem] text-ortaq-ink-soft">
           {isTR
-            ? "Bu sorular WhatsApp, e-posta ve telefon arasında değil — ORTAQ kaydında yanıtlanıyor."
-            : "These questions are not answered across WhatsApp, email and phone — they are answered in the ORTAQ record."}
+            ? "Bu üç soruyu cevaplamak için kimseyi aramadınız, e-posta karıştırmadınız. Cevap kayıtta hazırdı."
+            : "You did not call anyone or search through emails to answer these three questions. The answers were already in the record."}
         </p>
       </div>
 
