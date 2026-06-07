@@ -6,11 +6,12 @@ import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 import { PublicShell } from "@/components/layout/PublicShell";
 
-import { TransformationHero } from "@/components/visuals/TransformationHero";
-import { RealExample }        from "@/components/visuals/RealExample";
-import { DealJourney }        from "@/components/visuals/DealJourney";
-import { RiskBoard }          from "@/components/visuals/RiskBoard";
-import { RoleView }           from "@/components/visuals/RoleView";
+import { TransformationHero }    from "@/components/visuals/TransformationHero";
+import { RealExample }           from "@/components/visuals/RealExample";
+import { CounterpartyPreview }   from "@/components/visuals/CounterpartyPreview";
+import { PortfolioPreview }      from "@/components/visuals/PortfolioPreview";
+import { RiskBoard }             from "@/components/visuals/RiskBoard";
+import { RoleView }              from "@/components/visuals/RoleView";
 
 /**
  * OrtaqHomeView — V9: Maximum clarity. Six sections. Nothing extra.
@@ -71,10 +72,10 @@ export function OrtaqHomeView() {
                   {t("home.hero.cta")} →
                 </Link>
                 <Link
-                  href="/nasil-calisir"
+                  href="/urun"
                   className="inline-flex min-h-11 items-center justify-center rounded-lg border border-ortaq-border px-5 text-[0.9375rem] font-medium text-ortaq-ink-muted transition-colors hover:border-ortaq-border-strong hover:text-ortaq-ink"
                 >
-                  {t("home.hero.ctaSecondary")}
+                  {isTR ? "Ürünü gör →" : "See the product →"}
                 </Link>
               </div>
             </div>
@@ -89,6 +90,16 @@ export function OrtaqHomeView() {
           Three concrete signals. Not marketing. Not metrics.
           These reduce trust friction before the visitor reads further.        */}
       <TrustStrip isTR={isTR} />
+
+      {/* ══ SPRINT 1: KARŞI TARAF PREVIEW ════════════════════════════════
+          Two-column split showing seller vs buyer view.
+          Data: exact entities from /urun Karşı Taraf module.                 */}
+      <CounterpartyPreview />
+
+      {/* ══ SPRINT 1: PORTFOLIO PREVIEW ═══════════════════════════════════
+          3-column deal table sorted by risk. Replaces DealJourney timeline.
+          Data: exact deals from RiskBoard (5 of 6 shown).                    */}
+      <PortfolioPreview />
 
       {/* ══ SECTION 2 — REAL EXAMPLE ══════════════════════════════════════
           One real transaction. Three real questions. Three real answers.
@@ -107,19 +118,6 @@ export function OrtaqHomeView() {
           Visitors who engaged with the real example are now qualified.
           Give them a conversion point before they scroll further.            */}
       <MidPageCta isTR={isTR} />
-
-      {/* ══ SECTION 3 — TRANSACTION LIFECYCLE ════════════════════════════
-          The actual business process. Not software features.
-          Every exporter knows these stages.                                  */}
-      <S
-        title={isTR ? "Tekliften ödemeye — her adım kayıtta." : "From offer to payment — every step on record."}
-        sub={isTR
-          ? "Teklif, sözleşme, muayene, sevkiyat, ödeme. Her aşamada hangi belge var, kimin elinde, ne durumda."
-          : "Offer, contract, inspection, shipment, payment. Which document at each stage, with whom, at what status."}
-        tone="warm"
-      >
-        <DealJourney />
-      </S>
 
       {/* ══ SECTION 4 — PORTFOLIO ═════════════════════════════════════════
           A company manages many deals at once.

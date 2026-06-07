@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { Container } from "@/components/ui/Section";
 import { cn } from "@/lib/cn";
+import { DealJourney } from "@/components/visuals/DealJourney";
 
 /**
  * HowItWorksView — V8: Two-company story. No paragraphs.
@@ -127,6 +128,30 @@ export function HowItWorksView() {
             <Step4Visual isTR={isTR} />
           </Step>
 
+        </div>
+
+        {/* ══ DEAL JOURNEY — relocated from homepage ════════════════════════
+            Tekliften ödemeye, her adım kayıtta.
+            Moved here from the homepage (Sprint 1) to preserve the content
+            without cluttering the homepage above the fold.                  */}
+        <div className="border-b border-ortaq-border bg-[#faf9f7]">
+          <Container wide>
+            <div className="py-12 sm:py-16">
+              <div className="mb-8">
+                <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
+                  {isTR
+                    ? "Tekliften ödemeye — her adım kayıtta."
+                    : "From offer to payment — every step on record."}
+                </h2>
+                <p className="mt-2 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
+                  {isTR
+                    ? "Teklif, sözleşme, muayene, sevkiyat, ödeme. Her aşamada hangi belge var, kimin elinde, ne durumda."
+                    : "Offer, contract, inspection, shipment, payment. Which document at each stage, with whom, at what status."}
+                </p>
+              </div>
+              <DealJourney />
+            </div>
+          </Container>
         </div>
 
         {/* CTA */}
