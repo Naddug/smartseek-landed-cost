@@ -96,21 +96,21 @@ const QA_TR: QA[] = [
   {
     q: "En büyük risk ne?",
     answer: [
-      "Muayene raporu 22 Haziran itibarıyla gelmedi. Muayene belgesi olmadan yükleme başlayamaz.",
-      "Mevcut takvimde gemi 28 Haziran'da kalkıyor. Rapor bu tarihten önce ulaşmazsa gemi kaçabilir.",
-      "Gemi kaçarsa teslim en erken 15 Temmuz'a kayar. Yamato'ya verilmiş söz bu tarihi bağlıyor.",
+      "Muayene raporu hâlâ gelmedi. Bu hafta içinde gelmezse, planlanan yükleme tarihi gerçekçi olmaktan çıkar.",
+      "Gemi 28 Haziran'da kalkıyor. Rapor bu tarihten önce gelmezse gemi kaçar — teslim en erken 15 Temmuz'a kayar.",
+      "Yamato bu durumdan haberdar değil. Onlarla konuşmadan önce muayene tarihini netleştirin.",
     ],
     sources: [
-      { label: "Email · 19 Haz", note: "Muayene sağlayıcısı, rapor gecikmesini bildirdi" },
+      { label: "Email · 19 Haz", note: "Muayene sağlayıcısı rapor gecikmesini bildirdi" },
       { label: "Sözleşme · Madde 7", note: "Teslim yükümlülüğü ve gecikme cezası" },
     ],
   },
   {
     q: "Son 7 günde ne değişti?",
     answer: [
-      "20 Haziran: Yamato teknik şartnameyi onayladı — yazılı teyit alındı.",
-      "22 Haziran: Teslim tarihi revizyon önerisi geldi; 28 Haz yerine 15 Tem.",
-      "24 Haziran: Muayene sağlayıcısı randevu talebine yanıt vermedi.",
+      "20 Haziran: Yamato teknik şartnameyi onayladı. Beklenen bir adımdı, gerçekleşti.",
+      "22 Haziran: Teslim tarihi revizyonu geldi. 28 Haziran yerine 15 Temmuz öneriliyor. Karşılıklı onay henüz yok.",
+      "24 Haziran: Muayene sağlayıcısı randevu talebine yanıt vermedi. Üç günlük sessizlik — bu sessizlik risk.",
     ],
     sources: [
       { label: "Email · 20 Haz", note: "Teknik onay, Yamato Satın Alma" },
@@ -121,25 +121,28 @@ const QA_TR: QA[] = [
   {
     q: "Kim bekliyor?",
     answer: [
-      "Yamato Machinery: Teslim tarihi teyidi — 3 gündür yanıt bekliyor.",
-      "Muayene ekibi: Fabrika erişim koordinasyonu — randevu talebi henüz iletilmedi.",
-      "Finans ekibi: Revize teslim tarihine göre ödeme takvimi güncellemesi.",
+      "Yamato teslim tarihini bilmek istiyor. Üç gündür bekliyorlar. Bir email yeterli — ama önce tarihi bilmek lazım.",
+      "Muayene ekibi fabrika erişim koordinasyonu bekliyor. Onlar bekledikçe muayene tarihi uzuyor.",
+      "Finans ekibi ödeme takvimine ne yazacağını bilemiyor. Belirsiz teslim tarihi, belirsiz ödeme demek.",
     ],
     sources: [
-      { label: "Email · 22 Haz", note: "Yamato tarafının son yazışması" },
+      { label: "Email · 22 Haz", note: "Yamato'nun son yazışması" },
       { label: "İç not · 23 Haz", note: "Finans ekibinin talebi" },
     ],
   },
   {
-    q: "Şimdi ne yapmalıyım?",
+    q: "Bugün neye odaklanmalıyız?",
     answer: [
-      "Muayene sağlayıcısını ara — kesin tarih iste. Bugün netleşmezse alternatif muayene firmasına geç.",
-      "Yamato'ya yazılı güncelleme gönder: teslim tarihi teyidi en geç 27 Haziran.",
-      "Sözleşme Madde 7'yi kontrol et — teslim gecikmesinde ceza maddesi ne gerektiriyor?",
+      "Bugün netlik bekleyen üç konu var.",
+      "Birincisi: Tedarikçi revize teslimat tarihini hâlâ teyit etmedi. Bu teyit gelmeden Yamato'yla konuşmak erken.",
+      "İkincisi: Yamato orijinal takvimin geçerli olduğunu sanıyor. Bu beklenti düzeltilmeli — ama önce tarihi bilmek lazım.",
+      "Üçüncüsü: Sözleşme revizyonu imzayı bekliyor. Bu gecikirse ödeme takvimi de gecikir.",
+      "Bu sırayla ilerleyin: muayene tarihi → Yamato bilgilendirmesi → sözleşme imzası.",
     ],
     sources: [
-      { label: "Sözleşme rev.3", note: "Madde 7 — gecikme cezası" },
-      { label: "Email · 22 Haz", note: "Yamato'nun beklentisi" },
+      { label: "2 email", note: "Yamato yazışmaları ve revizyon talebi" },
+      { label: "Toplantı notu · 21 Haz", note: "Sözleşme revizyon kararı" },
+      { label: "Sözleşme rev.3", note: "İmza bekleyen revizyon maddesi" },
     ],
   },
 ];
@@ -148,21 +151,21 @@ const QA_EN: QA[] = [
   {
     q: "What is the biggest risk?",
     answer: [
-      "Inspection report has not arrived as of June 22. Loading cannot begin without the inspection certificate.",
-      "Current schedule has the vessel departing June 28. If the report does not arrive before this date, the vessel may be missed.",
-      "If the vessel is missed, delivery shifts to July 15 at the earliest — the commitment made to Yamato.",
+      "The inspection report is still missing. If it does not arrive this week, the planned shipment date becomes unrealistic.",
+      "The vessel departs June 28. If the report does not arrive before then, the vessel is missed — delivery shifts to July 15 at the earliest.",
+      "Yamato is not yet aware of this situation. Clarify the inspection date before you contact them.",
     ],
     sources: [
-      { label: "Email · Jun 19", note: "Inspection provider notified of report delay" },
+      { label: "Email · Jun 19", note: "Inspection provider reported the delay" },
       { label: "Contract · Clause 7", note: "Delivery obligation and penalty clause" },
     ],
   },
   {
     q: "What changed in the last 7 days?",
     answer: [
-      "June 20: Yamato approved the technical specifications — written confirmation received.",
-      "June 22: Delivery date revision proposed; July 15 instead of June 28.",
-      "June 24: Inspection provider did not respond to appointment request.",
+      "June 20: Yamato approved the technical specifications. An expected step — it happened.",
+      "June 22: Delivery date revision arrived. July 15 instead of June 28. Mutual confirmation still pending.",
+      "June 24: Inspection provider did not respond to the appointment request. Three days of silence — that silence is risk.",
     ],
     sources: [
       { label: "Email · Jun 20", note: "Technical approval, Yamato Procurement" },
@@ -173,9 +176,9 @@ const QA_EN: QA[] = [
   {
     q: "Who is waiting?",
     answer: [
-      "Yamato Machinery: Delivery date confirmation — no response for 3 days.",
-      "Inspection team: Factory access coordination — appointment request not yet sent.",
-      "Finance team: Payment schedule update based on revised delivery date.",
+      "Yamato wants to know the delivery date. They have been waiting three days. One email is enough — but you need to know the date first.",
+      "The inspection team is waiting for factory access coordination. The longer they wait, the tighter the inspection window gets.",
+      "The finance team cannot update the payment schedule without a confirmed delivery date. Uncertain delivery means uncertain payment.",
     ],
     sources: [
       { label: "Email · Jun 22", note: "Yamato's last correspondence" },
@@ -183,15 +186,18 @@ const QA_EN: QA[] = [
     ],
   },
   {
-    q: "What should I do now?",
+    q: "What should we focus on today?",
     answer: [
-      "Call inspection provider — request a firm date. If unresolved today, switch to alternative inspection firm.",
-      "Send written update to Yamato: delivery date confirmation by June 27 at the latest.",
-      "Check contract Clause 7 — what does the penalty clause require for delivery delays?",
+      "Today, three things need clarity.",
+      "First: The supplier has not confirmed the revised delivery date. Contacting Yamato before this is confirmed would be premature.",
+      "Second: Yamato still believes the original timeline is in effect. This needs to be corrected — but not before the delivery date is settled.",
+      "Third: The contract revision is waiting to be signed. If it slips, the payment timeline slips with it.",
+      "Work through them in this order: inspection date → Yamato update → contract signature.",
     ],
     sources: [
-      { label: "Contract rev.3", note: "Clause 7 — delay penalty" },
-      { label: "Email · Jun 22", note: "Yamato's expectation" },
+      { label: "2 emails", note: "Yamato correspondence and revision request" },
+      { label: "Meeting note · Jun 21", note: "Contract revision decision" },
+      { label: "Contract rev.3", note: "Pending revision clause" },
     ],
   },
 ];

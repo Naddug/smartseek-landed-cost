@@ -5,47 +5,47 @@ import { Container } from "@/components/ui/Section";
 
 const ITEMS_TR = [
   {
-    label: "Ne oldu",
-    title: "Hafıza kaybetmez.",
-    body: "Email'ler silinir. WhatsApp mesajları kaybolur. Çalışanlar ayrılır. ORTAQ tüm operasyonel geçmişi — hangi kanaldan geldiğinden bağımsız — tutar.",
+    label: "Hafıza",
+    title: "Kimse \"en son bu konuda ne konuşmuştuk?\" diye sormak zorunda kalmaz.",
+    body: "Email'ler silinir. WhatsApp mesajları kaybolur. Çalışanlar ayrılır. Bağlam kaybolur. ORTAQ her konuşmayı, her kararı operasyona bağlı tutar.",
   },
   {
-    label: "Ne kararlaştırıldı",
-    title: "Her taahhüt kayıt altında.",
-    body: "\"Cuma gönderim onaylandı.\" \"25 Haziran teslim.\" \"Revize fiyat kabul edildi.\" Email'de, mesajda veya toplantıda söylendi — ORTAQ hepsini taahhüt olarak kaydeder.",
+    label: "Taahhüt",
+    title: "Kim ne söyledi asla kaybolmaz.",
+    body: "\"Cuma gönderilir.\" \"28'inde teslim.\" \"Revize fiyat kabul.\" Email'de de olsa, mesajda da, toplantıda da — fark etmez.",
   },
   {
-    label: "Ne değişti",
-    title: "Orijinalden sapma görünür.",
-    body: "Başlangıçta kararlaştırılan ile bugünkü durum arasındaki fark sürekli izlenir. Tarih kaydı, fiyat revizyonu, sorumluluk değişikliği — ORTAQ bilir.",
+    label: "Değişim",
+    title: "Ne değişti görünür — siz fark etmeden önce.",
+    body: "Başlangıçta kararlaştırılan ile bugünkü durum arasındaki mesafe sürekli izlenir. Tarih kayması, fiyat revizyonu, sorumluluk değişimi.",
   },
   {
-    label: "Kim bekliyor",
-    title: "Sorumluluk takip edilir.",
-    body: "Sıra ekibinizde mi, karşı tarafta mı? Kaç gündür bekleniyor? Her an kimin ne beklediği ve ne zamandır beklediği kayıt altındadır.",
+    label: "Sıra",
+    title: "Sıranın kimde olduğu her an nettir.",
+    body: "Ekibiniz mi bekliyor, karşı taraf mı? Kaç gündür? Kim ne için bekliyor — karanlıkta kalmaz.",
   },
 ];
 
 const ITEMS_EN = [
   {
-    label: "What happened",
-    title: "Memory doesn't forget.",
-    body: "Emails get deleted. WhatsApp messages disappear. People leave. ORTAQ maintains the complete operational history, regardless of which channel it came from.",
+    label: "Memory",
+    title: "Nobody has to ask \"where did we land on this?\"",
+    body: "Emails get deleted. WhatsApp messages disappear. People leave. Context disappears. ORTAQ holds every conversation and decision connected to the operation.",
   },
   {
-    label: "What was agreed",
-    title: "Every commitment on record.",
-    body: "\"Approval confirmed Friday.\" \"Delivery June 25.\" \"Revised price accepted.\" Said in email, message, or a meeting — ORTAQ records it as a commitment.",
+    label: "Commitment",
+    title: "Who promised what is never lost.",
+    body: "\"Ships Friday.\" \"Delivery on the 28th.\" \"Revised price accepted.\" In email, in a message, in a meeting — it doesn't matter.",
   },
   {
-    label: "What changed",
-    title: "Drift from the original is visible.",
-    body: "The gap between what was initially agreed and current state is continuously tracked. Date change, price revision, responsibility shift — ORTAQ knows.",
+    label: "Change",
+    title: "What shifted is visible — before you notice it.",
+    body: "The gap between what was initially agreed and current state is continuously tracked. Date drift, price revision, responsibility change.",
   },
   {
-    label: "Who is waiting",
-    title: "Responsibility is tracked.",
-    body: "Is the queue with your team or the counterparty? How many days? At every moment, who is waiting for what and since when — on record.",
+    label: "Queue",
+    title: "Whose turn it is remains clear at every moment.",
+    body: "Is it your team waiting, or the counterparty? How many days? Who is waiting for what — never left in the dark.",
   },
 ];
 
@@ -66,13 +66,13 @@ export function OperationalMemory() {
             <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
               {isTR ? (
                 <>
-                  ORTAQ unutmaz.<br />
+                  ORTAQ operasyonu hatırlar.<br />
                   <span className="text-ortaq-trust">Ekibinizin hatırlaması gerekmez.</span>
                 </>
               ) : (
                 <>
-                  ORTAQ doesn&apos;t forget.<br />
-                  <span className="text-ortaq-trust">Your team doesn&apos;t have to remember.</span>
+                  ORTAQ remembers the operation.<br />
+                  <span className="text-ortaq-trust">Your team doesn&apos;t have to.</span>
                 </>
               )}
             </h2>

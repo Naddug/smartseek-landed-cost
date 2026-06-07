@@ -51,38 +51,38 @@ const ORTAQ_UNDERSTANDS_EN = [
 
 const CAPABILITIES_TR = [
   {
-    name: "Operasyonel Hafıza",
-    desc: "Önceki konuşmaları, taahhütleri ve kararları operasyona bağlı tutar. Unutmaz.",
+    name: "Hafıza",
+    desc: "Kimse \"bu konuda ne kararlaştırmıştık?\" diye sormak zorunda kalmaz. ORTAQ operasyonun tüm geçmişini bilir.",
   },
   {
-    name: "Taahhüt Motoru",
-    desc: "Kim neyi ne zaman söyledi — email'de de olsa, WhatsApp'ta da olsa — bilir.",
+    name: "Söz",
+    desc: "Kim ne söyledi asla kaybolmaz. Email'de, mesajda, toplantıda — ORTAQ taahhütleri takip eder.",
   },
   {
-    name: "Bağımlılık Grafiği",
-    desc: "Bir gecikmenin neyi etkileyeceğini zincir halinde görür. Siz sormadan.",
+    name: "Bağımlılık",
+    desc: "Bir gecikme neyi tetikler — bütün zinciri. Önce görmek, sonra tepki vermekten iyidir.",
   },
   {
-    name: "Risk Motoru",
-    desc: "Riskleri problem olmadan önce gösterir. Uyarı sizin aramanızı beklemez.",
+    name: "Risk",
+    desc: "Sorun olmadan önce uyarı gelir. Siz sormadan.",
   },
 ];
 const CAPABILITIES_EN = [
   {
-    name: "Operational Memory",
-    desc: "Holds past conversations, commitments, and decisions connected to the operation. Doesn't forget.",
+    name: "Memory",
+    desc: "Nobody has to ask \"what did we decide on this?\" ORTAQ knows the full history of the operation.",
   },
   {
-    name: "Commitment Engine",
-    desc: "Knows who said what and when — whether in email, WhatsApp, or a meeting.",
+    name: "Commitment",
+    desc: "Who said what is never lost. Email, message, or meeting — ORTAQ tracks promises.",
   },
   {
-    name: "Dependency Graph",
-    desc: "Sees what a delay will affect in a chain — before you ask.",
+    name: "Dependency",
+    desc: "One delay triggers what — across the whole chain. Seeing it first beats reacting to it.",
   },
   {
-    name: "Risk Engine",
-    desc: "Surfaces risks before they become problems. The warning doesn't wait for your question.",
+    name: "Risk",
+    desc: "Problems appear before they become crises. The warning doesn't wait for your question.",
   },
 ];
 
@@ -111,13 +111,13 @@ export function WhyOrtaqDiffers() {
             <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
               {isTR ? (
                 <>
-                  Neden ORTAQ farklı?<br />
-                  <span className="text-ortaq-trust">Aynı bilgiyi birçok sistem okuyabilir.</span>
+                  ChatGPT de okuyabilir.<br />
+                  <span className="text-ortaq-trust">Ama operasyonu hatırlamaz.</span>
                 </>
               ) : (
                 <>
-                  Why is ORTAQ different?<br />
-                  <span className="text-ortaq-trust">Many systems can read the same information.</span>
+                  ChatGPT can read it too.<br />
+                  <span className="text-ortaq-trust">But it doesn&apos;t remember the operation.</span>
                 </>
               )}
             </h2>
@@ -224,22 +224,22 @@ export function WhyOrtaqDiffers() {
 
           {/* ── Key distinction callout ────────────────────────────────── */}
           <div className="mt-5 rounded-xl border border-ortaq-border bg-white px-6 py-4">
-            <p className="text-[0.75rem] leading-relaxed text-ortaq-ink/70">
+            <p className="text-[0.875rem] leading-relaxed text-ortaq-ink/80">
               <span className="font-bold text-ortaq-ink">
                 {isTR
-                  ? "Fark zeka değil, hafıza ve süreklilik. "
-                  : "The difference is not intelligence — it is memory and continuity. "}
+                  ? "Fark zeka değil — süreklilik. "
+                  : "The difference is not intelligence — it is continuity. "}
               </span>
               {isTR
-                ? "Genel AI, siz sormadan geçmişi hatırlamaz, taahhütleri takip etmez, risk zincirini kurmaz. ORTAQ'ın operasyonel hafızası olduğu için bu bağlantıları kendiliğinden kurar."
-                : "A generic AI doesn't remember the past without being asked, doesn't track commitments, doesn't build a risk chain. Because ORTAQ has operational memory, it builds these connections on its own."}
+                ? "Genel AI her sohbete sıfırdan başlar. Dün ne söylendiğini bilmez. Kim ne taahhüt etti bilmez. Bir gecikmenin neyi tetikleyeceğini bilmez. ORTAQ operasyonu hatırladığı için bu bağlantıları siz sormadan kurar."
+                : "A generic AI starts from zero in every conversation. It doesn't know what was said yesterday. It doesn't know who committed to what. It doesn't know what a delay triggers. ORTAQ remembers the operation, so it builds these connections without being asked."}
             </p>
           </div>
 
           {/* ── Capability cards microsection ─────────────────────────── */}
           <div className="mt-10">
             <h3 className="mb-5 text-[1rem] font-bold tracking-[-0.02em] text-ortaq-ink sm:text-[1.125rem]">
-              {isTR ? "ORTAQ neden bunu biliyor?" : "Why does ORTAQ know this?"}
+              {isTR ? "ORTAQ bunu neden biliyor?" : "Why does ORTAQ already know this?"}
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {capabilities.map((cap) => (

@@ -4,19 +4,19 @@ import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
 
 const QUESTIONS_TR = [
-  { q: "Ne oldu?",             note: "Son baktığından bu yana operasyonda ne değişti?" },
-  { q: "Ne değişti?",          note: "Kararlaştırılan ile şu anki durum arasında ne fark var?" },
-  { q: "Kim bekliyor?",        note: "Ekip mi, karşı taraf mı, banka mı — hangi taraf sıraya girdi?" },
-  { q: "Risk ne?",             note: "Bugün aksiyon alınmazsa bu operasyona ne olur?" },
-  { q: "Şimdi ne yapmalıyız?", note: "Sıradaki doğru adım nedir ve kimin sorumluluğunda?" },
+  { q: "Ne oldu?",             note: "Üç kişi aynı cevabı arıyor. Kimse birbirini aramadan aramadı." },
+  { q: "Ne değişti?",          note: "Müşteri orijinal takvimi bekliyor. Değişiklik bir WhatsApp'ta kaldı." },
+  { q: "Kim bekliyor?",        note: "Müşteri bekliyor. Kimse fark etmedi." },
+  { q: "Risk ne?",             note: "Sevkiyat gecikti. Nedeni bir email'in içinde saklı." },
+  { q: "Şimdi ne yapmalıyız?", note: "Karar telefonda verildi. Kimse yazmadı." },
 ];
 
 const QUESTIONS_EN = [
-  { q: "What happened?",        note: "What changed in the operation since you last checked?" },
-  { q: "What changed?",         note: "What is different between what was agreed and current state?" },
-  { q: "Who is waiting?",       note: "Your team, the counterparty, or the bank — whose queue is it?" },
-  { q: "What is at risk?",      note: "What happens to this operation if no action is taken today?" },
-  { q: "What should we do?",    note: "What is the next right action, and who owns it?" },
+  { q: "What happened?",        note: "Three people are searching for the same answer. Nobody checked with each other first." },
+  { q: "What changed?",         note: "The customer is still expecting the original timeline. The change is buried in a WhatsApp message." },
+  { q: "Who is waiting?",       note: "The customer is waiting. Nobody realized it." },
+  { q: "What is at risk?",      note: "The shipment is delayed. The reason is hidden in an email." },
+  { q: "What should we do?",    note: "The decision was made on a call. Nobody wrote it down." },
 ];
 
 export function UniversalProblem() {
@@ -35,13 +35,13 @@ export function UniversalProblem() {
             </p>
             <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-cream leading-[1.15] sm:text-[1.875rem]">
               {isTR
-                ? "Her gün aynı sorular yeniden soruluyor."
-                : "The same questions are asked again every day."}
+                ? "Her gün, her operasyonda, her takımda."
+                : "Every day, every operation, every team."}
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-[0.9375rem] leading-relaxed text-ortaq-cream/55">
               {isTR
-                ? "Bu sorulara cevap bulmak için her seferinde yeniden başlamak zorunda kalıyorsunuz. Email'leri tarıyorsunuz, birisini arıyorsunuz, bir yerlerde yazan bir şeyi hatırlamaya çalışıyorsunuz."
-                : "You have to start from scratch every time to answer these questions. You search through emails, call someone, try to remember something written somewhere."}
+                ? "Bu anlar küçük görünür. Ama bir araya geldiklerinde işin büyük kısmını yiyorlar: aramalar, aramalar, ve yeniden aramalar."
+                : "These moments seem small. Together they consume most of the working day: searching, asking, and searching again."}
             </p>
           </div>
 
@@ -64,8 +64,8 @@ export function UniversalProblem() {
           <div className="mt-8 text-center">
             <p className="text-[0.875rem] text-ortaq-cream/45">
               {isTR
-                ? "Bu soruların cevapları zaten mevcut — dağınık ama mevcut. Kimse onları bir araya getirmiyor."
-                : "The answers to these questions already exist — scattered but present. Nobody is pulling them together."}
+                ? "Cevaplar zaten var. Bir email'de, bir mesajda, bir belgede. Kimse onları bir araya getirmiyor."
+                : "The answers already exist. In an email, a message, a document. Nobody is pulling them together."}
             </p>
           </div>
 
