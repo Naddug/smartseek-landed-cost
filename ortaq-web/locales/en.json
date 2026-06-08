@@ -19,7 +19,7 @@
     "team": "Team",
     "requestDemo": "Get a quote",
     "whatWeDo": "What we do",
-    "getQuote": "Get a quote",
+    "getQuote": "Send a brief",
     "faq": "FAQ",
     "whoFor": "Who Is It For",
     "scenarios": "Use Cases",
@@ -3029,47 +3029,147 @@
     }
   },
   "home": {
-    "operator": {
+    "whitelabel": {
       "hero": {
-        "headline": "Launch your own product line. Without running a factory or a supply chain.",
-        "subheadline": "ORTAQ sources it, makes it, and delivers it through trusted factories, as one partner accountable from first sample to your warehouse. You own the brand and the customers. We handle everything behind them.",
-        "ctaPrimary": "Get a quote",
-        "ctaSecondary": "See how it works"
+        "eyebrow": "White-label operator",
+        "headline": "Sell products under your own label.",
+        "subheadline": "ORTAQ sources, manufactures, and delivers in Turkey. Your brand and packaging — our sourcing, production, and export paperwork.",
+        "cta": "Send a brief",
+        "ctaSecondary": "See open program →",
+        "imageAlt": "Cat litter granule texture",
+        "imageCaption": "Example: cat litter granules, packed in your brand packaging."
       },
-      "restatement": "We find the factory, define the product, manage production, and deliver it. One partner, one point of accountability.",
-      "process": {
-        "headline": "One partner, the whole process.",
-        "subheadline": "Tangible work, handled for you, with you approving the decisions that matter.",
+      "model": {
+        "title": "How white label works",
+        "lead": "White label means a manufacturer's product is packed under your brand and delivered to you. ORTAQ runs the full process.",
         "steps": [
           {
-            "title": "Factory sourcing",
-            "body": "We find and vet the right producer for your product and market."
+            "title": "Brief",
+            "body": "Tell us what product, which market, and what packaging you want."
           },
           {
-            "title": "Product specification",
-            "body": "We define the product, the formulation, and the packaging to fit your market."
+            "title": "Sample",
+            "body": "Review and approve formula and packaging. No production without approval."
           },
           {
-            "title": "Sample coordination",
-            "body": "You approve real product and real packaging before anything goes to production."
+            "title": "Production",
+            "body": "Batch production to your approved specification."
           },
           {
-            "title": "Production oversight",
-            "body": "We manage the run and inspect every batch against a locked reference."
-          },
-          {
-            "title": "Export operations",
-            "body": "We handle documentation, compliance, and freight."
-          },
-          {
-            "title": "Delivery coordination",
-            "body": "We deliver to your warehouse, ready to sell."
+            "title": "Delivery",
+            "body": "Export documents completed; goods shipped to your warehouse."
           }
         ]
       },
-      "trust": {
-        "headline": "We do the work, and we own the result.",
-        "body": "When something has to be right, you call one number, not a factory in another country. Real factory relationships, real samples, real production management, and real export and delivery experience stand behind every order, and every batch is inspected before it ships. Your brand stays yours."
+      "live": {
+        "badge": "First open program",
+        "imageAlt": "Private-label cat litter granules",
+        "ctaBrief": "Send cat litter brief",
+        "ctaDetail": "Program details",
+        "note": "ORTAQ is not a cat litter company. Cat litter is the first category open under our white-label model."
+      },
+      "layers": {
+        "title": "Category layers",
+        "lead": "The same white-label process applies across product groups. Only cat litter is open now; other categories follow.",
+        "liveLabel": "Open now",
+        "roadmapLabel": "Next programs",
+        "roadmapNote": "You can submit a brief for upcoming categories today."
+      },
+      "proof": {
+        "title": "Who runs this",
+        "lead": "ORTAQ is run by an operator team with international sourcing and export experience.",
+        "credentials": ["LEGO Group", "Petlas", "Yiğit Akü"],
+        "line": "International sales and field operations at LEGO, Petlas, and Yiğit Akü.",
+        "imageAlt": "ORTAQ operations team"
+      },
+      "close": {
+        "headline": "Send a brief",
+        "subheadline": "Tell us what you want to sell and where. We respond on fit.",
+        "cta": "Brief form"
+      }
+    },
+    "operator": {
+      "hero": {
+        "eyebrow": "Active program",
+        "headline": "Launch your product line.",
+        "subheadline": "Without running a factory. We run production — you own the brand.",
+        "ctaPrimary": "Send a brief",
+        "ctaSecondary": "See live program",
+        "chipLive": "Cat litter · OPEN",
+        "chipNext": "Cosmetics · NEXT",
+        "labels": {
+          "packaging": "Packaging",
+          "shelf": "Granules",
+          "export": "Warehouse"
+        },
+        "altPackaging": "Private-label packaging and packing",
+        "altShelf": "Retail shelf and product placement",
+        "altExport": "Export-ready warehouse and dispatch"
+      },
+      "outcomes": {
+        "items": [
+          { "tag": "Brand", "caption": "Your packaging" },
+          { "tag": "Approval", "caption": "Your sample" },
+          { "tag": "Stock", "caption": "Your warehouse" }
+        ]
+      },
+      "partner": {
+        "headline": "One partner. One owner.",
+        "withoutLabel": "Without ORTAQ",
+        "withoutItems": [
+          "Factory search",
+          "Sample coordination",
+          "Production tracking",
+          "Export paperwork"
+        ],
+        "withLabel": "With ORTAQ",
+        "withSteps": ["Brief", "Production", "Delivery"],
+        "withPromise": "When something goes wrong, one number."
+      },
+      "journey": {
+        "eyebrow": "Operational journey",
+        "headline": "From sample to your warehouse.",
+        "cta": "Send a brief",
+        "steps": [
+          { "label": "Brief" },
+          { "label": "Source" },
+          { "label": "Sample" },
+          { "label": "Production" },
+          { "label": "Export" },
+          { "label": "Delivery" }
+        ]
+      },
+      "liveNow": {
+        "badge": "Open now",
+        "urgency": "Limited capacity · Early brief gets priority",
+        "opportunityHeadline": "Launch your {{name}} brand.",
+        "imageAlt": "{{name}} — private-label program",
+        "stats": [
+          { "value": "TR", "label": "Production" },
+          { "value": "MOQ", "label": "Minimum" },
+          { "value": "RFQ", "label": "Brief" }
+        ],
+        "chips": ["Made in Turkey", "Sample required", "Pre-shipment inspection"],
+        "ctaExplore": "Explore program",
+        "ctaBrief": "Send a brief",
+        "fomo": "Limited parallel program capacity · Early brief gets priority review",
+        "altGranules": "Cat litter granule texture",
+        "altShelf": "Product on pet store shelf",
+        "altLineup": "Private-label cat litter packaging lineup"
+      },
+      "proof": {
+        "eyebrow": "Proof",
+        "headline": "Real operations. Real accountability.",
+        "tiles": {
+          "operations": "Field operations",
+          "quality": "Locked reference",
+          "production": "Batch tracking",
+          "export": "Export ready"
+        },
+        "founderLabel": "Operator background",
+        "founderAlt": "ORTAQ operator team — field experience",
+        "credentials": ["LEGO Group", "Petlas", "Yiğit Akü"],
+        "founderLine": "International sourcing · export · field sales leadership"
       },
       "faq": {
         "headline": "Frequently asked questions",
@@ -3101,9 +3201,16 @@
         ]
       },
       "closingCta": {
-        "headline": "Bring us a product. We will run the rest.",
-        "subheadline": "Tell us what you want to launch and where you sell. We will tell you, straight, whether it works and what it costs.",
-        "cta": "Get a quote"
+        "headline": "Launch your brand.",
+        "imageAlt": "Private-label product — packaging and delivery",
+        "steps": [
+          "Send your brief",
+          "Get a fit response",
+          "Start with a sample"
+        ],
+        "cta": "Send a brief",
+        "reassurance": "Your brand · Milestone payments",
+        "subheadline": "Tell us what you want to launch and where you sell."
       }
     },
     "hero": {

@@ -1,6 +1,6 @@
 /**
- * ORTAQ favicon marks — transaction monitoring platform tab identity.
- * Production: "operations" (deal-list rows + status dot).
+ * ORTAQ favicon marks — private-label operator tab identity.
+ * Production: monoline O (operations direction).
  */
 
 import { brand } from "@/lib/brand/identity";
@@ -90,10 +90,8 @@ export function faviconMarkSvg(
 
   const bodies: Record<FaviconDirection, string> = {
     operations:
-      `<circle cx="8" cy="11" r="2.25" fill="${p.accent}"/>` +
-      `<line x1="11.5" y1="11" x2="24" y2="11" stroke="${p.primary}" stroke-width="2.25" stroke-linecap="round"/>` +
-      `<line x1="10" y1="16" x2="22" y2="16" stroke="${p.secondary}" stroke-width="2" stroke-linecap="round" opacity="0.72"/>` +
-      `<line x1="10" y1="21" x2="20" y2="21" stroke="${p.secondary}" stroke-width="2" stroke-linecap="round" opacity="0.48"/>`,
+      `<circle cx="16" cy="16" r="9.5" stroke="${p.primary}" stroke-width="2" fill="none"/>` +
+      `<line x1="9" y1="16" x2="23" y2="16" stroke="${p.accent}" stroke-width="2" stroke-linecap="round"/>`,
 
     monitoring:
       `<rect x="9" y="8" width="14" height="16" rx="1.5" stroke="${p.primary}" stroke-width="1.75" fill="none"/>` +

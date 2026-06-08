@@ -28,7 +28,7 @@
     "workflow": "Workflow",
     "requestDemo": "Teklif alın",
     "whatWeDo": "Ne Yapıyoruz",
-    "getQuote": "Teklif alın",
+    "getQuote": "Brief gönder",
     "whoFor": "Kimler İçin",
     "scenarios": "Senaryolar",
     "whyOrtaq": "Neden ORTAQ",
@@ -2457,47 +2457,147 @@
     "back": "Ana sayfaya dön"
   },
   "home": {
-    "operator": {
+    "whitelabel": {
       "hero": {
-        "headline": "Kendi ürün hattınızı başlatın. Fabrika veya tedarik zinciri işletmeden.",
-        "subheadline": "ORTAQ, güvenilir fabrikalar aracılığıyla ürününüzü kaynaklar, üretir ve teslim eder — ilk numuneden deponuza kadar tek sorumlu ortak. Marka ve müşteriler sizin. Gerisini biz üstleniriz.",
-        "ctaPrimary": "Teklif alın",
-        "ctaSecondary": "Nasıl çalışır"
+        "eyebrow": "White label operatörü",
+        "headline": "Kendi etiketinizle ürün satın.",
+        "subheadline": "ORTAQ ürünü Türkiye'de kaynaklar, üretir ve size teslim eder. Marka ve ambalaj sizin; fabrika arama, numune takibi ve ihracat evrakı bizde.",
+        "cta": "Brief gönder",
+        "ctaSecondary": "Açık programa bakın →",
+        "imageAlt": "Kedi kumu granül dokusu",
+        "imageCaption": "Örnek görsel: kedi kumu granülü. Sizin markanız ve ambalajınızla paketlenir."
       },
-      "restatement": "Fabrikayı buluruz, ürünü tanımlarız, üretimi yönetiriz ve teslim ederiz. Tek ortak, tek sorumluluk noktası.",
-      "process": {
-        "headline": "Tek ortak, tüm süreç",
-        "subheadline": "Somut işler sizin adınıza yürütülür; önemli kararları siz onaylarsınız.",
+      "model": {
+        "title": "White label nasıl çalışır?",
+        "lead": "White label, üreticinin ürününün sizin markanızla ambalajlanıp size teslim edilmesidir. ORTAQ bu sürecin tamamını yürütür.",
         "steps": [
           {
-            "title": "Fabrika kaynağı",
-            "body": "Ürününüz ve pazarınız için doğru üreticiyi bulur ve değerlendiririz."
+            "title": "Brief",
+            "body": "Hangi ürünü, hangi pazarda ve hangi ambalajla istediğinizi yazın."
           },
           {
-            "title": "Ürün spesifikasyonu",
-            "body": "Ürünü, formülü ve ambalajı pazarınıza uygun şekilde tanımlarız."
+            "title": "Numune",
+            "body": "Formül ve ambalajı görüp onaylayın. Onay olmadan üretime geçilmez."
           },
           {
-            "title": "Numune koordinasyonu",
-            "body": "Üretime geçmeden önce gerçek ürünü ve ambalajı onaylarsınız."
+            "title": "Üretim",
+            "body": "Onayladığınız spesifikasyona göre parti üretilir."
           },
           {
-            "title": "Üretim takibi",
-            "body": "Üretimi yönetir, her partiyi kilit referansa göre kontrol ettiririz."
-          },
-          {
-            "title": "İhracat operasyonları",
-            "body": "Evrak, uyumluluk ve navlun işlemlerini üstleniriz."
-          },
-          {
-            "title": "Teslimat koordinasyonu",
-            "body": "Ürünü deponuza, satışa hazır şekilde teslim ederiz."
+            "title": "Teslimat",
+            "body": "İhracat evrakları tamamlanır; ürün deponuza sevk edilir."
           }
         ]
       },
-      "trust": {
-        "headline": "İşi biz yapıyoruz, sonucu biz sahipleniyoruz.",
-        "body": "Bir şeyin doğru olması gerektiğinde, başka ülkedeki bir fabrikayı değil, bizi ararsınız. Her siparişin arkasında gerçek fabrika ilişkileri, gerçek numuneler, gerçek üretim yönetimi ve gerçek ihracat deneyimi vardır; her parti sevkiyattan önce kontrol edilir. Markanız sizin kalır."
+      "live": {
+        "badge": "İlk açık program",
+        "imageAlt": "Özel marka kedi kumu granülü",
+        "ctaBrief": "Kedi kumu için brief gönder",
+        "ctaDetail": "Program detayı",
+        "note": "ORTAQ bir kedi kumu şirketi değildir. Kedi kumu, white label modelimizin şu an açık olan ilk kategorisidir."
+      },
+      "layers": {
+        "title": "Kategori katmanları",
+        "lead": "Aynı white label süreci farklı ürün gruplarına uygulanır. Şu an yalnızca kedi kumu açıktır; diğer kategoriler sırayla devreye girer.",
+        "liveLabel": "Şu an açık",
+        "roadmapLabel": "Sıradaki programlar",
+        "roadmapNote": "Sıradaki kategoriler için şimdiden brief bırakabilirsiniz."
+      },
+      "proof": {
+        "title": "Kim yürütüyor?",
+        "lead": "ORTAQ, uluslararası kaynak ve ihracat geçmişi olan bir operatör ekibi tarafından yürütülür.",
+        "credentials": ["LEGO Group", "Petlas", "Yiğit Akü"],
+        "line": "LEGO, Petlas ve Yiğit Akü'de uluslararası satış ve saha operasyonları.",
+        "imageAlt": "ORTAQ operasyon ekibi"
+      },
+      "close": {
+        "headline": "Brief gönderin",
+        "subheadline": "Ne satmak istediğinizi ve nereye sattığınızı yazın. Uygunluk için geri dönüş yaparız.",
+        "cta": "Brief formu"
+      }
+    },
+    "operator": {
+      "hero": {
+        "eyebrow": "Aktif program",
+        "headline": "Kendi ürün hattınız.",
+        "subheadline": "Fabrika işletmeden. Üretim bizde değil — marka sizde.",
+        "ctaPrimary": "Brief gönder",
+        "ctaSecondary": "Canlı programı gör",
+        "chipLive": "Kedi kumu · AÇIK",
+        "chipNext": "Kozmetik · SIRADA",
+        "labels": {
+          "packaging": "Ambalaj",
+          "shelf": "Granül",
+          "export": "Depo"
+        },
+        "altPackaging": "Özel marka ambalaj ve paketleme",
+        "altShelf": "Perakende raf ve ürün sunumu",
+        "altExport": "İhracata hazır depo ve sevkiyat"
+      },
+      "outcomes": {
+        "items": [
+          { "tag": "Marka", "caption": "Sizin ambalaj" },
+          { "tag": "Onay", "caption": "Sizin numune" },
+          { "tag": "Stok", "caption": "Sizin depo" }
+        ]
+      },
+      "partner": {
+        "headline": "Tek ortak. Tek sorumluluk.",
+        "withoutLabel": "ORTAQ olmadan",
+        "withoutItems": [
+          "Fabrika arama",
+          "Numune koordinasyonu",
+          "Üretim takibi",
+          "İhracat evrakları"
+        ],
+        "withLabel": "ORTAQ ile",
+        "withSteps": ["Brief", "Üretim", "Teslim"],
+        "withPromise": "Bir şey ters gittiğinde tek numara."
+      },
+      "journey": {
+        "eyebrow": "Operasyonel yolculuk",
+        "headline": "Numuneden deponuza.",
+        "cta": "Brief gönder",
+        "steps": [
+          { "label": "Brief" },
+          { "label": "Kaynak" },
+          { "label": "Numune" },
+          { "label": "Üretim" },
+          { "label": "İhracat" },
+          { "label": "Teslim" }
+        ]
+      },
+      "liveNow": {
+        "badge": "Şimdi açık",
+        "urgency": "Sınırlı kapasite · Erken brief öncelikli",
+        "opportunityHeadline": "{{name}} markanızı başlatın.",
+        "imageAlt": "{{name}} — özel marka programı",
+        "stats": [
+          { "value": "TR", "label": "Üretim" },
+          { "value": "MOQ", "label": "Minimum" },
+          { "value": "RFQ", "label": "Brief" }
+        ],
+        "chips": ["Türkiye üretim", "Numune zorunlu", "Sevkiyat öncesi kontrol"],
+        "ctaExplore": "Programı incele",
+        "ctaBrief": "Brief gönder",
+        "fomo": "Eşzamanlı program kapasitesi sınırlı · Erken brief öncelikli değerlendirme",
+        "altGranules": "Kedi kumu granül dokusu",
+        "altShelf": "Pet shop rafında ürün",
+        "altLineup": "Özel marka kedi kumu ambalaj dizilimi"
+      },
+      "proof": {
+        "eyebrow": "Kanıt",
+        "headline": "Gerçek operasyon. Gerçek sorumluluk.",
+        "tiles": {
+          "operations": "Gerçek saha",
+          "quality": "Kilit referans",
+          "production": "Parti takibi",
+          "export": "İhracat hazır"
+        },
+        "founderLabel": "Operatör geçmişi",
+        "founderAlt": "ORTAQ operatör ekibi — saha deneyimi",
+        "credentials": ["LEGO Group", "Petlas", "Yiğit Akü"],
+        "founderLine": "Uluslararası kaynak · ihracat · saha satış liderliği"
       },
       "faq": {
         "headline": "Sık sorulan sorular",
@@ -2529,9 +2629,16 @@
         ]
       },
       "closingCta": {
-        "headline": "Ürününüzü getirin. Gerisini biz yürütelim.",
-        "subheadline": "Ne başlatmak istediğinizi ve nerede sattığınızı söyleyin. İşin tutup tutmayacağını ve maliyetini net söyleriz.",
-        "cta": "Teklif alın"
+        "headline": "Markanızı başlatın.",
+        "imageAlt": "Özel marka ürün — ambalaj ve teslimat",
+        "steps": [
+          "Brief gönderin",
+          "Uygunluk yanıtı alın",
+          "Numune ile başlayın"
+        ],
+        "cta": "Brief gönder",
+        "reassurance": "Marka sizin · Kilometre taşı ödeme",
+        "subheadline": "Ne başlatmak istediğinizi ve nerede sattığınızı söyleyin."
       }
     },
     "hero": {
