@@ -52,7 +52,7 @@ export const FAVICON_DIRECTION_META: Record<
 > = {
   operations: {
     label: "Operations tracking",
-    labelTR: "İşlem izleme",
+    labelTR: "Kaynaklama operatörü",
     scores: { s16: 9, s32: 10, dark: 10, light: 9, tab: 9 },
   },
   monitoring: {

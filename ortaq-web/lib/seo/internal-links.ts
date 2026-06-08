@@ -1,3 +1,7 @@
+import {
+  getCategoryPath,
+  getPrimaryLiveCategory,
+} from "@/lib/categories/registry";
 import type { RouteKey } from "./routes";
 
 export type RelatedLink = {
@@ -6,98 +10,110 @@ export type RelatedLink = {
   description: string;
 };
 
-/** Contextual internal links — launch product only (no legacy crowdfunding routes). */
+const PRIMARY_CATEGORY_HREF =
+  getPrimaryLiveCategory() !== undefined
+    ? getCategoryPath(getPrimaryLiveCategory()!.slug)
+    : "/ne-yapiyoruz";
+
+/** Contextual internal links — operator-site public pages. */
 const RELATED_MAP: Record<RouteKey, RelatedLink[]> = {
-  kesfet: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Keşiften tanıştırmaya" },
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Profil doğrulama katmanı" },
-    { href: "/guven", title: "Güven", description: "Rol ayrımı ve sınırlar" },
-    { href: "/alan", title: "Alanınız", description: "İzleme listesi ve ilgi bildirimleri" },
-  ],
   home: [
-    { href: "/kesfet", title: "Keşfet", description: "Tüm üretici profilleri" },
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Keşiften tanıştırmaya" },
-    { href: "/guven", title: "Güven", description: "Rol ayrımı, doğrulama ve şeffaflık" },
-    { href: "/ekip", title: "Ekip", description: "Kurucu operatörler" },
-    { href: "/sss", title: "Sık sorulan sorular", description: "Belgeler, tanıştırma, görüşme odası" },
+    { href: "/how-sampling-works", title: "Numune süreci", description: "Onay öncesi numune akışı" },
+    { href: "/payment-protection", title: "Ödeme koruması", description: "Kilometre taşı ödemeleri" },
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Fabrikadan teslimata süreç" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'inizi gönderin" },
   ],
-  investors: [
-    { href: "/ekip", title: "Ekip", description: "Kurucu-pazar uyumu" },
-    { href: "/guven", title: "Güven", description: "Doğrulama ve düzenleyici sınırlar" },
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Ne doğrulanır?" },
-    { href: "/kesfet", title: "Şirketler", description: "Canlı piyasa kapsamı" },
+  teklif: [
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç adımları" },
+    { href: PRIMARY_CATEGORY_HREF, title: "Aktif kategori", description: "Canlı program" },
+    { href: "/guven", title: "Güven", description: "Rol ve sınırlar" },
+    { href: "/sss", title: "SSS", description: "Fiyat ve süreç soruları" },
+  ],
+  neYapiyoruz: [
+    { href: "/launch-timeline", title: "Lansman zaman çizelgesi", description: "Brief'ten teslimata" },
+    { href: "/quality-control", title: "Kalite kontrol", description: "Referans ve denetim" },
+    { href: PRIMARY_CATEGORY_HREF, title: "Aktif kategori", description: "Canlı program" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
   ],
   nasilCalisir: [
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
-    { href: "/guven", title: "Güven", description: "ORTAQ para tutmaz, tavsiye vermez" },
-    { href: "/riskler", title: "Riskler", description: "Sonuç garantisi yoktur" },
-    { href: "/sss", title: "SSS", description: "Karşılıklı tanıştırma ve görüşme odası" },
-    { href: "/demo/sermaye", title: "Keşif önizlemesi", description: "Sermaye partneri akışı" },
+    { href: "/ne-yapiyoruz", title: "Ne yapıyoruz", description: "Hizmet kapsamı" },
+    { href: PRIMARY_CATEGORY_HREF, title: "Aktif kategori", description: "Örnek program" },
+    { href: "/guven", title: "Güven", description: "Rol ve sınırlar" },
+    { href: "/teklif", title: "Teklif alın", description: "İlk adım" },
   ],
-  degerlendirme: [
-    { href: "/nasil-calisir", title: "Süreç", description: "Belgelerden tanıştırmaya" },
-    { href: "/guven", title: "Güven", description: "Doğrulama ve rol ayrımı" },
-    { href: "/riskler", title: "Riskler", description: "Sınırlar ve sorumluluklar" },
-    { href: "/sss", title: "SSS", description: "Belge ve keşif soruları" },
-  ],
-  ekip: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Belgelerden tanıştırmaya süreç" },
-    { href: "/guven", title: "Güven", description: "Rol ayrımı ve doğrulama" },
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
-    { href: "/sss", title: "SSS", description: "Platform soruları" },
-  ],
-  guven: [
-    { href: "/ekip", title: "Ekip", description: "Kurucu operatörler" },
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
-    { href: "/sss", title: "SSS", description: "Platform rolü ve süreç" },
-    { href: "/riskler", title: "Riskler", description: "Ne garanti edilmez?" },
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Tam süreç özeti" },
-  ],
-  riskler: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç özeti" },
-    { href: "/guven", title: "Güven", description: "ORTAQ'ın rolü ve sınırları" },
-    { href: "/sss", title: "SSS", description: "Sık sorulan sorular" },
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt değerlendirmesi" },
+  nedenOrtaq: [
+    { href: "/why-not-direct-factory", title: "Neden doğrudan fabrika değil?", description: "Koordinasyon riskleri" },
+    { href: "/payment-protection", title: "Ödeme koruması", description: "Kilometre taşı ödemeleri" },
+    { href: "/guven", title: "Güven", description: "Taahhütler ve sınırlar" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
   ],
   sss: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Belgelerden görüşme odasına" },
-    { href: "/demo/sermaye", title: "Keşif önizlemesi", description: "Sermaye partneri akışı" },
-    { href: "/riskler", title: "Riskler", description: "Sonuç ve fonlama garantisi yok" },
-    { href: "/guven", title: "Güven", description: "Doğrulama ve şeffaflık" },
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt değerlendirmesi" },
-  ],
-  sozluk: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç" },
-    { href: "/sss", title: "SSS", description: "Platform soruları" },
-    { href: "/riskler", title: "Riskler", description: "Sınırlar" },
-  ],
-  basla: [
-    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Detaylı süreç" },
-    { href: "/riskler", title: "Riskler", description: "Tüm riskler" },
-  ],
-  sirketler: [
-    { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt değerlendirmesi" },
     { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç özeti" },
-    { href: "/guven", title: "Güven", description: "Doğrulama katmanı" },
-    { href: "/sss", title: "SSS", description: "Platform soruları" },
+    { href: "/guven", title: "Güven", description: "Rol ve sınırlar" },
+    { href: "/neden-ortaq", title: "Neden ORTAQ", description: "Neden tek ortak" },
+    { href: "/teklif", title: "Teklif alın", description: "İlk adım" },
   ],
-  sirketOrnek: [
+  guven: [
+    { href: "/how-sampling-works", title: "Numune süreci", description: "Onay öncesi numune akışı" },
+    { href: "/quality-control", title: "Kalite kontrol", description: "Referans ve sevkiyat öncesi kontrol" },
+    { href: "/payment-protection", title: "Ödeme koruması", description: "Kilometre taşı ödemeleri" },
+    { href: "/why-not-direct-factory", title: "Neden doğrudan fabrika değil?", description: "Koordinasyon riskleri" },
+  ],
+  howSamplingWorks: [
+    { href: "/quality-control", title: "Kalite kontrol", description: "Onaylanan referans ve denetim" },
+    { href: "/launch-timeline", title: "Lansman zaman çizelgesi", description: "Brief'ten teslimata" },
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Genel süreç" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
+  ],
+  qualityControl: [
+    { href: "/how-sampling-works", title: "Numune süreci", description: "Üretim öncesi onay" },
+    { href: "/payment-protection", title: "Ödeme koruması", description: "Denetim kilometre taşları" },
+    { href: "/guven", title: "Güven", description: "Rol ve sınırlar" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
+  ],
+  paymentProtection: [
+    { href: "/quality-control", title: "Kalite kontrol", description: "Ödeme öncesi denetim" },
+    { href: "/why-not-direct-factory", title: "Neden doğrudan fabrika değil?", description: "Anlaşmazlık riskleri" },
+    { href: "/guven", title: "Güven", description: "Taahhütler ve sınırlar" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
+  ],
+  whyNotDirectFactory: [
+    { href: "/payment-protection", title: "Ödeme koruması", description: "Koruma mekanizmaları" },
+    { href: "/neden-ortaq", title: "Neden ORTAQ", description: "Tek sorumlu ortak" },
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Koordinasyon süreci" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
+  ],
+  launchTimeline: [
+    { href: "/how-sampling-works", title: "Numune süreci", description: "Numune ve onay aşaması" },
+    { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç detayı" },
+    { href: "/ne-yapiyoruz", title: "Ne yapıyoruz", description: "Hizmet kapsamı" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
+  ],
+  ekip: [
+    { href: "/neden-ortaq", title: "Neden ORTAQ", description: "Operatör yaklaşımı" },
+    { href: "/guven", title: "Güven", description: "Rol ve sınırlar" },
     { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç" },
-    { href: "/riskler", title: "Riskler", description: "Genel riskler" },
+    { href: "/teklif", title: "Teklif alın", description: "Program brief'i" },
   ],
-  gizlilik: [{ href: "/kullanim", title: "Kullanım koşulları", description: "Platform rolü" }],
+  gizlilik: [{ href: "/kullanim", title: "Kullanım koşulları", description: "Hizmet koşulları" }],
   kullanim: [{ href: "/gizlilik", title: "Gizlilik", description: "KVKK" }],
+  kesfet: [],
+  investors: [],
+  degerlendirme: [],
+  riskler: [],
+  sozluk: [],
+  basla: [],
+  sirketler: [],
+  sirketOrnek: [],
 };
 
 export function getRelatedLinks(route: RouteKey): RelatedLink[] {
   return RELATED_MAP[route] ?? [];
 }
 
-/** Contextual links for company dossier pages (legacy; noindex). */
 export const DOSSIER_RELATED_LINKS: RelatedLink[] = [
-  { href: "/degerlendirme", title: "Belge incelemesi", description: "Kanıt nasıl değerlendirilir?" },
-  { href: "/guven", title: "Güven", description: "Doğrulama ve rol ayrımı" },
+  { href: "/teklif", title: "Teklif alın", description: "Program brief'inizi gönderin" },
+  { href: "/guven", title: "Güven", description: "Rol ve sınırlar" },
   { href: "/nasil-calisir", title: "Nasıl çalışır?", description: "Süreç özeti" },
-  { href: "/riskler", title: "Riskler", description: "Sınırlar" },
-  { href: "/sss", title: "SSS", description: "Platform soruları" },
+  { href: "/sss", title: "SSS", description: "Sık sorulan sorular" },
 ];

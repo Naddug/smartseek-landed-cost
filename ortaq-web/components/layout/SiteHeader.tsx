@@ -12,12 +12,10 @@ import { cn } from "@/lib/cn";
 import { setLocale, currentLocale, type Locale } from "@/lib/i18n/config";
 
 const navItems = [
-  { href: "/nasil-calisir", key: "howItWorks"  as const },
-  { href: "/urun",          key: "product"     as const },
-  { href: "/kimler-icin",   key: "whoFor"      as const },
-  { href: "/senaryolar",    key: "scenarios"   as const },
-  { href: "/neden-ortaq",   key: "whyOrtaq"    as const },
-  { href: "/fiyat",         key: "pricing"     as const },
+  { href: "/nasil-calisir", key: "howItWorks" as const },
+  { href: "/ne-yapiyoruz", key: "whatWeDo" as const },
+  { href: "/neden-ortaq", key: "whyOrtaq" as const },
+  { href: "/sss", key: "faq" as const },
 ];
 
 type SiteHeaderProps = {
@@ -99,9 +97,9 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
               {lang === "tr" ? "EN" : "TR"}
             </button>
 
-            <Link href="/demo" className="hidden sm:block">
+            <Link href="/teklif" className="hidden sm:block">
               <Button variant={light ? "light" : "primary"} size="sm">
-                {t("nav.requestDemo")}
+                {t("nav.getQuote")}
               </Button>
             </Link>
             <button
@@ -140,9 +138,9 @@ export function SiteHeader({ overlay = false }: SiteHeaderProps) {
                 </li>
               ))}
               <li className="pt-2">
-                <Link href="/demo" onClick={() => setOpen(false)}>
+                <Link href="/teklif" onClick={() => setOpen(false)}>
                   <Button variant="primary" fullWidth size="sm">
-                    {t("nav.requestDemo")}
+                    {t("nav.getQuote")}
                   </Button>
                 </Link>
               </li>

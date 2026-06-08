@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "All commercial work. One place.",
-    "navTagline": "Commercial transactions. One record."
+    "tagline": "Launch your own product line.",
+    "navTagline": "Sourcing · production · delivery"
   },
   "nav": {
     "howItWorks": "How It Works",
@@ -17,7 +17,10 @@
     "ariaMain": "Main navigation",
     "ariaMobile": "Mobile navigation",
     "team": "Team",
-    "requestDemo": "Request evaluation",
+    "requestDemo": "Get a quote",
+    "whatWeDo": "What we do",
+    "getQuote": "Get a quote",
+    "faq": "FAQ",
     "whoFor": "Who Is It For",
     "scenarios": "Use Cases",
     "whyOrtaq": "Why ORTAQ",
@@ -1345,47 +1348,27 @@
     }
   },
   "footer": {
-    "tagline": "Gather all documents, approvals and responsibilities of your commercial transactions in one record.",
-    "protectionLabel": "Trust and compliance",
-    "regulatory": "ORTAQ holds no money, sells no investments and conducts no securities activity. It only provides validation, readiness and qualified introductions.",
-    "notAdvice": "ORTAQ gives no investment advice. The content here is for information.",
-    "trustPills": {
-      "1": "Independent validation layer",
-      "2": "Holds and transfers no money",
-      "3": "Gives no investment advice",
-      "4": "Execution via an authorized, regulated institution"
-    },
-    "faqTeaser": {
-      "label": "Have questions?",
-      "title": "We answered the most common ones.",
-      "link": "See FAQ"
+    "tagline": "Sourcing, production and delivery — one accountable partner. Your brand stays yours.",
+    "teaser": {
+      "label": "Your product program",
+      "title": "Tell us what you want to launch; we will clarify fit and cost."
     },
     "trustTitle": "Company",
-    "learnTitle": "Product",
+    "learnTitle": "Service",
     "legalTitle": "Legal",
     "supportTitle": "Contact",
-    "supportText": "Reach us with your questions.",
-    "dispute": "Complaints are accepted in writing and reviewed alongside licensed workspace procedures.",
-    "entity": "ORTAQ.BIZ",
-    "entityNote": "",
+    "entityLine": "Sourcing · production · delivery",
     "links": {
       "trust": "Trust",
-      "risk": "Risks",
-      "process": "How It Works",
-      "faq": "FAQ",
-      "glossary": "Glossary",
-      "memberArea": "Your space",
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "evaluation": "Evaluation",
-      "companies": "Investment opportunities",
-      "start": "Start reading",
       "team": "Team",
-      "useCases": "Use Cases",
-      "whoFor": "Who Is It For"
+      "process": "How It Works",
+      "whatWeDo": "What we do",
+      "faq": "FAQ",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
     },
     "subtitle": "Serious investment layer: we do not state what we cannot prove. From dossier review to structural evaluation, from the trust framework to participation , legal protection and operational transparency at every step.",
-    "contactEmail": "hello@ortaq.biz",
+    "contactEmail": "destek@ortaq.biz",
     "contactLocation": "Istanbul, Turkey"
   },
   "journey": {
@@ -1585,6 +1568,517 @@
       "p3": "Full terms published before workspace partnership."
     },
     "back": "Back to home"
+  },
+  "whatWeDo": {
+    "headline": "What we do",
+    "subheadline": "Sourcing, production management, and delivery — as one partner. Active category and roadmap below."
+  },
+  "whyOrtaqPage": {
+    "label": "Why ORTAQ",
+    "headline": "Launch your own product line without running a factory.",
+    "subheadline": "ORTAQ is a sourcing and production operator. You own the brand; we find factories, manage production, and deliver.",
+    "problem": {
+      "title": "What is the problem?",
+      "body": "You want to sell under your own brand, but factory search, samples, production and export run separately. Nobody is accountable end to end.",
+      "points": [
+        "Finding and trusting the right factory takes months",
+        "Sample and specification coordination stays fragmented",
+        "Production oversight and quality control land on you",
+        "Export paperwork and delivery run through separate parties"
+      ]
+    },
+    "approach": {
+      "title": "How ORTAQ works",
+      "body": "We run the full process as one accountable partner. You approve the decisions that matter.",
+      "items": [
+        {
+          "title": "Real operations",
+          "body": "Team with LEGO Group, Petlas and Yiğit Akü backgrounds. Real factory relationships and real production management."
+        },
+        {
+          "title": "One accountable partner",
+          "body": "When something goes wrong, one number to call. Not the factory — us."
+        },
+        {
+          "title": "Proven process",
+          "body": "Cat litter is the first active category — the same process extends to new products over time."
+        }
+      ]
+    },
+    "does": {
+      "title": "What ORTAQ does — and does not",
+      "items": [
+        "Factory sourcing and vetting",
+        "Product specification and sample coordination",
+        "Production oversight and batch inspection",
+        "Export documentation and warehouse delivery"
+      ]
+    },
+    "doesNot": {
+      "items": [
+        {
+          "heading": "Not a marketplace.",
+          "body": "We do not match buyers and sellers. We run your product program on your behalf."
+        },
+        {
+          "heading": "Not an investment vehicle.",
+          "body": "We hold no money and guarantee no funding or returns."
+        },
+        {
+          "heading": "Not a software demo.",
+          "body": "No screen tours — real product, real production, real delivery."
+        }
+      ]
+    },
+    "summary": {
+      "title": "In short",
+      "cards": [
+        {
+          "q": "Why is it credible?",
+          "a": "Because our team has done this work for years. Factory relationships, sample processes and export operations are real."
+        },
+        {
+          "q": "Why now?",
+          "a": "Private-label demand is growing; finding the right factory and process is still the hardest part."
+        },
+        {
+          "q": "Why ORTAQ?",
+          "a": "Because we run sourcing, production and delivery as one accountable partner."
+        }
+      ]
+    },
+    "cta": {
+      "headline": "Bring us your product.",
+      "subheadline": "Tell us what you want to launch; we will clarify fit and cost.",
+      "button": "Get a quote"
+    }
+  },
+  "faqPage": {
+    "label": "FAQ",
+    "headline": "Real questions. Direct answers.",
+    "subheadline": "The most common questions about sourcing, production and delivery.",
+    "count": "{{count}} questions · 4 categories",
+    "cta": {
+      "headline": "Can't find your answer here?",
+      "subheadline": "Fill in the quote form or email destek@ortaq.biz.",
+      "trustLink": "Trust page",
+      "quoteLink": "Get a quote"
+    }
+  },
+  "howItWorksPage": {
+    "label": "How It Works",
+    "headline": "One partner, the whole process.",
+    "subheadline": "We run every step from factory sourcing to warehouse delivery. You approve the decisions that matter.",
+    "highlightsTitle": "How we work",
+    "highlights": [
+      {
+        "title": "One accountable partner",
+        "body": "Factory, samples, production, export and delivery — not scattered across parties."
+      },
+      {
+        "title": "You approve",
+        "body": "Specification, samples and production decisions come to you before anything moves forward."
+      },
+      {
+        "title": "Batch inspection",
+        "body": "Every batch is inspected before shipment. Production runs against a locked reference."
+      }
+    ],
+    "cta": {
+      "headline": "Bring us your product.",
+      "subheadline": "Tell us what you want to launch; we will clarify fit and cost.",
+      "categoryLink": "{{name}} program",
+      "quoteLink": "Get a quote"
+    }
+  },
+  "trustPage": {
+    "label": "Trust",
+    "headline": "We stay accountable for the result.",
+    "subheadline": "Your brand stays yours. We run sourcing, production and delivery. We hold no money, sell no investments, guarantee no returns.",
+    "commitments": {
+      "title": "Our commitments",
+      "items": [
+        {
+          "title": "Real operations",
+          "body": "Team with LEGO Group, Petlas and Yiğit Akü backgrounds. Real factory relationships and real production management."
+        },
+        {
+          "title": "Your brand",
+          "body": "Name, product and customers are yours. ORTAQ runs sourcing and production behind the scenes."
+        },
+        {
+          "title": "Data and privacy",
+          "body": "Information you share is used for your quote request and program planning. Processed under applicable privacy law."
+        },
+        {
+          "title": "Honest fit",
+          "body": "If market or volume does not work, we say so. We do not create false expectations."
+        }
+      ]
+    },
+    "limits": {
+      "title": "Limits",
+      "subheadline": "Not every program fits every market.",
+      "items": [
+        {
+          "title": "Market scope",
+          "body": "We work in markets we can deliver to competitively. We tell you honestly if yours does not work."
+        },
+        {
+          "title": "Production minimums",
+          "body": "Factory minimums and logistics costs make some programs unviable."
+        },
+        {
+          "title": "Not an investment vehicle",
+          "body": "ORTAQ offers no funding, securities or return guarantees."
+        },
+        {
+          "title": "Not a marketplace",
+          "body": "We do not match buyers and sellers; we run your product program on your behalf."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Common trust questions",
+      "more": "For more, see the",
+      "moreLink": "FAQ page",
+      "items": [
+        {
+          "q": "Does ORTAQ hold money?",
+          "a": "No. ORTAQ gives no investment advice and guarantees no funding or returns."
+        },
+        {
+          "q": "Who owns the brand?",
+          "a": "You do. Name, product and customers are yours."
+        },
+        {
+          "q": "How is my information used?",
+          "a": "For your quote request and program planning. Details are in the privacy policy."
+        },
+        {
+          "q": "Why trust ORTAQ?",
+          "a": "Real factory relationships, sample processes and production management stand behind every order."
+        }
+      ]
+    },
+    "cta": {
+      "headline": "Questions? Write to us.",
+      "subheadline": "Fill in the quote form; we respond within 48 hours with fit and a cost range.",
+      "button": "Get a quote"
+    }
+  },
+  "trustLayer": {
+    "hubLabel": "Process transparency",
+    "hubHeadline": "Real buyer questions",
+    "hubSubheadline": "Sampling, quality, payment, factory choice and timing — we explain the process openly.",
+    "relatedTitle": "Related topics",
+    "readMore": "Read",
+    "links": {
+      "howSamplingWorks": {
+        "title": "How sampling works",
+        "description": "How you approve real product and packaging before production."
+      },
+      "qualityControl": {
+        "title": "Quality control",
+        "description": "Locked reference, batch checks and pre-shipment inspection."
+      },
+      "paymentProtection": {
+        "title": "Payment protection",
+        "description": "Milestone payments and inspection checkpoints."
+      },
+      "whyNotDirectFactory": {
+        "title": "Why not direct factory?",
+        "description": "Factory search, MOQ, communication and logistics risks."
+      },
+      "launchTimeline": {
+        "title": "Launch timeline",
+        "description": "Steps from brief to warehouse delivery."
+      }
+    },
+    "pages": {
+      "howSamplingWorks": {
+        "headline": "How does sampling work?",
+        "subheadline": "You approve real product and packaging before anything goes to production. We coordinate the sample path.",
+        "sections": [
+          {
+            "title": "What you receive",
+            "body": "A physical sample produced to your market formula and packaging. Label draft and technical summary come with it.",
+            "points": [
+              "Product sample — taste, scent, texture or performance tested by you",
+              "Packaging sample — print, volume and label placement",
+              "Specification summary — the reference document you approve"
+            ]
+          },
+          {
+            "title": "How approval works",
+            "body": "You review the sample and give written approval or request revision. Production is not planned without approval.",
+            "points": [
+              "Approval or revision request recorded in writing",
+              "New sample coordination if revision is needed",
+              "Locked reference set after approval"
+            ]
+          },
+          {
+            "title": "If the sample is not right",
+            "body": "Production does not start. Formula, packaging or producer change is evaluated. If no viable path exists, the program stops — we do not push forward."
+          }
+        ],
+        "cta": {
+          "headline": "Let's clarify your sample path.",
+          "subheadline": "Share your product and market; we will explain sampling for your program."
+        }
+      },
+      "qualityControl": {
+        "headline": "How is quality controlled?",
+        "subheadline": "Every batch is checked against your approved locked reference. We explain the process openly; we do not claim miracle guarantees.",
+        "sections": [
+          {
+            "title": "Locked reference",
+            "body": "Your approved sample and specification become the production reference. Batch production is managed against it.",
+            "points": [
+              "Formula and packaging changes do not happen without approval",
+              "Reference change requires written sign-off",
+              "Production instructions tie back to the reference"
+            ]
+          },
+          {
+            "title": "Pre-shipment inspection",
+            "body": "Each batch is checked before shipment. If non-conformance is found, shipment is delayed and you are informed.",
+            "points": [
+              "Visual and specification check",
+              "Packaging and label alignment",
+              "Batch records filed"
+            ]
+          },
+          {
+            "title": "What we do not guarantee",
+            "body": "Retail shelf performance, consumer complaint rates or market acceptance are not guaranteed. Control focuses on production and shipment process."
+          }
+        ],
+        "cta": {
+          "headline": "Let's discuss quality process.",
+          "subheadline": "We clarify which control points matter for your product in the quote conversation."
+        }
+      },
+      "paymentProtection": {
+        "headline": "How is payment protected?",
+        "subheadline": "You do not pay the full amount upfront. Payment ties to milestones and inspection checkpoints.",
+        "sections": [
+          {
+            "title": "Milestone payments",
+            "body": "The program is split into stages. What is paid at each stage and under what condition is written in the quote.",
+            "points": [
+              "Production stage after sample approval",
+              "Pre-shipment inspection gate",
+              "Close on delivery confirmation"
+            ]
+          },
+          {
+            "title": "Inspection checkpoints",
+            "body": "At defined stages, production or shipment does not advance without your approval or an inspection outcome.",
+            "points": [
+              "Sample approval as production gate",
+              "Batch check as shipment gate",
+              "Document completeness as export gate"
+            ]
+          },
+          {
+            "title": "Documentation flow",
+            "body": "Invoice, packing list, origin and compliance documents are filed through the program. Shipment is not planned with missing paperwork."
+          },
+          {
+            "title": "Optional letter of credit (LC)",
+            "body": "If your program and bank allow, LC structure can be supported. ORTAQ is not a bank; we run coordination and documentation."
+          }
+        ],
+        "cta": {
+          "headline": "Let's clarify payment structure.",
+          "subheadline": "We share the milestone plan in writing at quote stage."
+        }
+      },
+      "whyNotDirectFactory": {
+        "headline": "Why ORTAQ instead of direct factory?",
+        "subheadline": "Working direct with a factory is possible. Risk usually accumulates in search, communication and coordination.",
+        "sections": [
+          {
+            "title": "Factory search",
+            "body": "Finding the right producer takes language barriers, sector networks and field verification. A wrong match costs months.",
+            "points": [
+              "Capacity and export history verification",
+              "Fit for your product category",
+              "Reference and field visit"
+            ]
+          },
+          {
+            "title": "MOQ negotiation",
+            "body": "Factory minimums may not match your first market volume. Negotiation and alternative producer evaluation need coordination."
+          },
+          {
+            "title": "Communication gaps",
+            "body": "Time zones, language and technical terminology cause specification misunderstanding. Without one accountable partner, problems grow."
+          },
+          {
+            "title": "Specification drift",
+            "body": "Formula, packaging or label can shift quietly during production. Without a written locked reference and approval chain, you notice late."
+          },
+          {
+            "title": "Quality disputes",
+            "body": "When something goes wrong you need records and checkpoints, not blame. Remote resolution becomes hard."
+          },
+          {
+            "title": "Logistics coordination",
+            "body": "Export paperwork, compliance, freight and delivery run through separate parties. One missing link leaves product at customs, not in your warehouse."
+          }
+        ],
+        "cta": {
+          "headline": "Direct or operator — let's evaluate together.",
+          "subheadline": "We will say honestly which model carries less risk for your program."
+        }
+      },
+      "launchTimeline": {
+        "headline": "Launch timeline",
+        "subheadline": "Steps from brief to warehouse delivery. Timing varies by product, volume and market — we do not promise fixed week counts.",
+        "stepsTitle": "Program steps",
+        "sections": [],
+        "steps": [
+          {
+            "title": "Brief",
+            "body": "You share product, target market, volume expectation and brand requirements. Fit and rough cost range are assessed."
+          },
+          {
+            "title": "Sourcing",
+            "body": "Suitable producer is found and evaluated. Specification draft is prepared for your market."
+          },
+          {
+            "title": "Sampling",
+            "body": "Physical sample and packaging are submitted for your approval. Production does not start without it."
+          },
+          {
+            "title": "Production",
+            "body": "Production is managed against locked reference. Batch control points apply."
+          },
+          {
+            "title": "Shipment",
+            "body": "Export documentation, compliance and freight coordination are handled."
+          },
+          {
+            "title": "Delivery",
+            "body": "Product is delivered to your warehouse, ready to sell."
+          }
+        ],
+        "cta": {
+          "headline": "Let's discuss your program timing.",
+          "subheadline": "Share product and market; we will map a realistic path."
+        }
+      }
+    }
+  },
+  "categories": {
+    "pageLabel": "Active category",
+    "cta": "Get a quote",
+    "activeBand": {
+      "headline": "The model is already running.",
+      "body": "Available today: {{name}} — {{summary}}",
+      "link": "See the {{name}} program"
+    },
+    "roadmap": {
+      "headline": "The same process, more products over time.",
+      "body": "Our way of working is not tied to one category. As we grow, the same sourcing, production and delivery process extends to new categories.",
+      "liveLabel": "Available now",
+      "roadmapLabel": "On the roadmap",
+      "hiddenLabel": "Hidden"
+    },
+    "entries": {
+      "cat-litter": {
+        "name": "Cat litter",
+        "headline": "Private-label cat litter",
+        "summary": "Private-label cat litter made in Turkey, delivered ready to sell",
+        "subheadline": "Made in Turkey, delivered to your warehouse. ORTAQ runs the full process; your brand stays yours.",
+        "points": [
+          "Factory match and specification",
+          "Sample approval, then production",
+          "Export documentation and delivery coordination",
+          "Every batch inspected before shipment"
+        ]
+      },
+      "cosmetics": {
+        "name": "Cosmetics",
+        "headline": "Private-label cosmetics",
+        "summary": "Private-label cosmetics program — on the roadmap",
+        "subheadline": "Formula, packaging and compliance are defined for your market. Production and delivery run through one partner.",
+        "points": [
+          "Producer match and formula specification",
+          "Sample and label approval",
+          "Batch production oversight",
+          "Export and warehouse delivery"
+        ]
+      },
+      "supplements": {
+        "name": "Supplements",
+        "headline": "Private-label supplements",
+        "summary": "Private-label supplements program — on the roadmap",
+        "subheadline": "Formula, packaging and label requirements are managed for your market.",
+        "points": [
+          "Producer sourcing and formula definition",
+          "Sample approval",
+          "Production and quality control",
+          "Export paperwork and delivery"
+        ]
+      },
+      "food-beverage": {
+        "name": "Food and beverage",
+        "headline": "Private-label food and beverage",
+        "summary": "Private-label food and beverage program — on the roadmap",
+        "subheadline": "Product definition, packaging and compliance run for your target market.",
+        "points": [
+          "Producer matching",
+          "Recipe and packaging specification",
+          "Sample approval and production",
+          "Cold chain or dry logistics coordination"
+        ]
+      },
+      "personal-care": {
+        "name": "Personal care",
+        "headline": "Private-label personal care",
+        "summary": "Test category — hidden in registry",
+        "subheadline": "Local dummy category for architecture verification.",
+        "points": [
+          "Registry-based render test",
+          "Hidden status excluded from public UI",
+          "Locale key matches slug"
+        ]
+      }
+    }
+  },
+  "quote": {
+    "label": "Quote",
+    "headline": "Submit your program brief.",
+    "subheadline": "Tell us what you want to launch and where you sell. We will tell you straight whether it works and what it costs.",
+    "expectations": [
+      "First response within 48 hours",
+      "Feasibility and rough cost range",
+      "Sample path clarified"
+    ],
+    "emailAlt": "You can also email us directly.",
+    "privacy": "Your details are used only for your quote request.",
+    "privacyLink": "Privacy",
+    "form": {
+      "name": "Full name",
+      "company": "Company",
+      "email": "Email",
+      "market": "Target market",
+      "marketPlaceholder": "e.g. Germany, UK, Gulf",
+      "product": "Product you want to launch",
+      "productPlaceholder": "e.g. private-label cat litter, 10L bag",
+      "volume": "Estimated volume",
+      "volumePlaceholder": "e.g. first container, 20 tonnes/month",
+      "message": "Additional notes",
+      "submit": "Request a quote",
+      "submitting": "Sending…",
+      "successTitle": "Request received.",
+      "successBody": "We will respond within 48 hours. For urgent enquiries, email destek@ortaq.biz.",
+      "error": "Could not send. Please try again or email destek@ortaq.biz."
+    }
   },
   "notFound": {
     "title": "Page not found",
@@ -2535,26 +3029,103 @@
     }
   },
   "home": {
+    "operator": {
+      "hero": {
+        "headline": "Launch your own product line. Without running a factory or a supply chain.",
+        "subheadline": "ORTAQ sources it, makes it, and delivers it through trusted factories, as one partner accountable from first sample to your warehouse. You own the brand and the customers. We handle everything behind them.",
+        "ctaPrimary": "Get a quote",
+        "ctaSecondary": "See how it works"
+      },
+      "restatement": "We find the factory, define the product, manage production, and deliver it. One partner, one point of accountability.",
+      "process": {
+        "headline": "One partner, the whole process.",
+        "subheadline": "Tangible work, handled for you, with you approving the decisions that matter.",
+        "steps": [
+          {
+            "title": "Factory sourcing",
+            "body": "We find and vet the right producer for your product and market."
+          },
+          {
+            "title": "Product specification",
+            "body": "We define the product, the formulation, and the packaging to fit your market."
+          },
+          {
+            "title": "Sample coordination",
+            "body": "You approve real product and real packaging before anything goes to production."
+          },
+          {
+            "title": "Production oversight",
+            "body": "We manage the run and inspect every batch against a locked reference."
+          },
+          {
+            "title": "Export operations",
+            "body": "We handle documentation, compliance, and freight."
+          },
+          {
+            "title": "Delivery coordination",
+            "body": "We deliver to your warehouse, ready to sell."
+          }
+        ]
+      },
+      "trust": {
+        "headline": "We do the work, and we own the result.",
+        "body": "When something has to be right, you call one number, not a factory in another country. Real factory relationships, real samples, real production management, and real export and delivery experience stand behind every order, and every batch is inspected before it ships. Your brand stays yours."
+      },
+      "faq": {
+        "headline": "Frequently asked questions",
+        "items": [
+          {
+            "q": "Who is this for?",
+            "a": "Distributors, importers, wholesalers, retailers, and brand owners who want their own product line and can meet production minimums."
+          },
+          {
+            "q": "What do you actually do?",
+            "a": "We source the product, manage production, handle export and delivery, and stay accountable for the result. You own the brand."
+          },
+          {
+            "q": "What can you make today?",
+            "a": "Live categories are listed in the registry. We add categories over time."
+          },
+          {
+            "q": "Who owns the brand?",
+            "a": "You do. The name, the product, and the customers are yours."
+          },
+          {
+            "q": "How do payments work?",
+            "a": "Milestone-based. You never pay the full amount upfront."
+          },
+          {
+            "q": "Which markets do you serve?",
+            "a": "Markets we can deliver to competitively. We tell you honestly if yours does not work."
+          }
+        ]
+      },
+      "closingCta": {
+        "headline": "Bring us a product. We will run the rest.",
+        "subheadline": "Tell us what you want to launch and where you sell. We will tell you, straight, whether it works and what it costs.",
+        "cta": "Get a quote"
+      }
+    },
     "hero": {
-      "eyebrow": "Transaction monitoring platform",
-      "h1a": "Deal status, approvals,",
-      "h1b": "and critical dates in one record.",
-      "sub": "Email, WhatsApp, and documents unified in the deal file. Pending approvals, delays, and responsible party on record. Data comes only from sources you connect.",
-      "cta": "Request evaluation",
-      "ctaSecondary": "Deal file example",
-      "ctaNote": "Preview before the evaluation — further down this page"
+      "eyebrow": "Sourcing operator",
+      "h1a": "Launch your own product line.",
+      "h1b": "Without running a factory.",
+      "sub": "ORTAQ sources, makes and delivers. Your brand stays yours; we run the rest.",
+      "cta": "Get a quote",
+      "ctaSecondary": "How it works",
+      "ctaNote": ""
     },
     "demo": {
-      "heroNote": "30 minutes · one active deal · 2-minute form",
-      "prepTitle": "Evaluation session",
+      "heroNote": "Response within 48 hours",
+      "prepTitle": "Quote conversation",
       "whatLabel": "What happens",
-      "what": "We review status, risks, and pending approvals on your chosen deal — on the platform, together.",
-      "durationLabel": "Duration",
-      "duration": "30 minutes. Appointment confirmed within 24 hours.",
+      "what": "We clarify fit and a cost range for your product, market and volume.",
+      "durationLabel": "Timing",
+      "duration": "First response within 48 hours.",
       "bringLabel": "Bring",
-      "bring": "One active deal and one document (contract, LC, BL, or proforma).",
-      "learnLabel": "You will see",
-      "learn": "How status, risk list, pending approvals, and assigned work appear for your deal."
+      "bring": "The product you want to launch, target market and estimated volume.",
+      "learnLabel": "You will learn",
+      "learn": "Fit, rough cost range and sample path."
     },
     "fragmentation": {
       "eyebrow": "The problem",

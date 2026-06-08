@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
@@ -153,53 +152,16 @@ export function PortfolioPreview() {
   const isTR = (i18n.language ?? "tr").startsWith("tr");
   const deals = isTR ? DEALS_TR : DEALS_EN;
 
-  // Summary stats from existing data
-  const stats = isTR
-    ? [
-        { label: "Acil",     count: "2", color: "text-red-600"     },
-        { label: "Aktif",    count: "3", color: "text-ortaq-ink"   },
-        { label: "Bu Hafta", count: "2", color: "text-amber-600"   },
-      ]
-    : [
-        { label: "Urgent",       count: "2", color: "text-red-600"   },
-        { label: "Active",       count: "3", color: "text-ortaq-ink" },
-        { label: "This Week",    count: "2", color: "text-amber-600" },
-      ];
-
   return (
     <section className="border-b border-ortaq-border bg-white">
       <Container wide>
         <div className="py-14 sm:py-18">
 
           {/* Heading + stats side by side */}
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="mb-2 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
-                {isTR ? "Platform — işlem listesi" : "Platform — deal list"}
-              </p>
-              <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
-                {isTR ? "Aktif işlem portföyü" : "Active deal portfolio"}
-              </h2>
-              <p className="mt-2 max-w-lg text-[0.875rem] leading-relaxed text-ortaq-ink-muted">
-                {isTR
-                  ? "Bekleyen onay, gecikme ve kritik tarih — yetkiniz olan işlemler. Karşı taraf ayrı görünümde."
-                  : "Pending approval, delay, and critical date — deals within your permission. Counterparty has a separate view."}
-              </p>
-            </div>
-
-            {/* Summary stats */}
-            <div className="flex shrink-0 items-center gap-5 rounded-xl border border-ortaq-border/60 bg-ortaq-surface/50 px-5 py-3 opacity-50 sm:self-start">
-              {stats.map((s) => (
-                <div key={s.label} className="flex flex-col items-center">
-                  <span className={cn("text-[1.125rem] font-bold leading-none tabular-nums", s.color)}>
-                    {s.count}
-                  </span>
-                  <span className="mt-0.5 text-[0.4375rem] font-semibold uppercase tracking-[0.06em] text-ortaq-ink-soft">
-                    {s.label}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div className="mb-6">
+            <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink sm:text-[1.75rem]">
+              {isTR ? "Tüm işlemler" : "All operations"}
+            </h2>
           </div>
 
           {/* Table */}
@@ -288,18 +250,9 @@ export function PortfolioPreview() {
 
           </div>
 
-          {/* Below table */}
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-[0.6875rem] text-ortaq-ink-soft">
-              {isTR ? "+ 1 işlem daha" : "+ 1 more deal"}
-            </p>
-            <Link
-              href="/demo"
-              className="text-[0.75rem] font-semibold text-ortaq-trust transition-colors hover:text-ortaq-trust-deep hover:underline"
-            >
-              {isTR ? "Değerlendirme talep edin" : "Request evaluation"}
-            </Link>
-          </div>
+          <p className="mt-3 text-[0.6875rem] text-ortaq-ink-soft">
+            {isTR ? "+ 1 işlem daha" : "+ 1 more deal"}
+          </p>
 
         </div>
       </Container>

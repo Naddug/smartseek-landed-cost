@@ -6,20 +6,7 @@ import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/cn";
 
-/**
- * MobileStickyCta — Phase 10 rebuild.
- *
- * Previous version pointed to old marketplace product (Keşif / Takip listesi).
- * This version is the primary mobile conversion point for ORTAQ transaction mgmt.
- *
- * Design:
- *   - Fixed bottom bar on mobile only (md:hidden)
- *   - Appears after 200px scroll (not in hero's face)
- *   - Not shown on /demo page itself (visitor is already converting)
- *   - Full-width "Demo İsteyin →" CTA
- *   - Secondary "30 dakika · kendi işleminizle" reassurance line
- *   - Dismissible with X button (dismissed state persists in session)
- */
+/** Mobile quote CTA — fixed bottom bar on small screens. */
 
 export function MobileStickyCta() {
   const { t, i18n } = useTranslation();
@@ -36,9 +23,8 @@ export function MobileStickyCta() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Don't show on demo page (visitor already converting)
-  // Don't show on /guven (trust research mode)
-  const hiddenPaths = ["/demo", "/guven"];
+  // Don't show on quote or trust pages
+  const hiddenPaths = ["/teklif", "/guven"];
   if (hiddenPaths.some(p => pathname.startsWith(p))) return null;
   if (dismissed) return null;
   if (!visible) return null;
@@ -57,19 +43,18 @@ export function MobileStickyCta() {
         {/* Text */}
         <div className="min-w-0 flex-1">
           <p className="text-[0.75rem] font-bold text-ortaq-ink leading-snug">
-            {t("home.hero.cta")}
+            {t("home.operator.closingCta.headline")}
           </p>
           <p className="text-[0.5625rem] text-ortaq-ink-muted">
-            {t("home.demo.heroNote")}
+            {t("home.operator.closingCta.subheadline")}
           </p>
         </div>
 
-        {/* CTA */}
         <Link
-          href="/demo"
+          href="/teklif"
           className="inline-flex shrink-0 min-h-10 items-center justify-center rounded-lg bg-ortaq-trust px-4 text-[0.8125rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
         >
-          {t("nav.requestDemo")}
+          {t("nav.getQuote")}
         </Link>
 
         {/* Dismiss */}

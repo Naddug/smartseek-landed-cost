@@ -10,8 +10,12 @@ export async function POST(req: Request) {
       name?: string;
       company?: string;
       email?: string;
-      corridor?: string;  // kept for backwards compat; maps to "problem" in new form
+      source?: string;
+      corridor?: string;
       problem?: string;
+      market?: string;
+      product?: string;
+      volume?: string;
       message?: string;
     };
 
@@ -23,11 +27,37 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "invalid_email" }, { status: 400 });
     }
 
+    const isQuote = body.source === "quote_form";
+
+    if (isQuote && (!body.market || !body.product)) {
+      return NextResponse.json({ error: "missing_fields" }, { status: 400 });
+    }
+
     const apiKey = process.env.RESEND_API_KEY;
     const to = process.env.LEAD_NOTIFY_EMAIL ?? "destek@ortaq.biz";
-    const from = process.env.RESEND_FROM_EMAIL ?? "ORTAQ Demo <demo@ortaq.biz>";
+    const from = process.env.RESEND_FROM_EMAIL ?? "ORTAQ <destek@ortaq.biz>";
 
     const problem = body.problem || body.corridor;
+    const subjectPrefix = isQuote ? "ORTAQ Teklif" : "ORTAQ Demo";
+    const textLines = isQuote
+      ? [
+          `Kaynak: Teklif formu`,
+          `Ad Soyad: ${body.name}`,
+          `Şirket: ${body.company}`,
+          `E-posta: ${body.email}`,
+          `Pazar: ${body.market}`,
+          `Ürün / program: ${body.product}`,
+          `Hacim: ${body.volume || "Belirtilmedi"}`,
+          `Not: ${body.message || "—"}`,
+        ]
+      : [
+          `Kaynak: Demo formu`,
+          `Ad Soyad: ${body.name}`,
+          `Şirket: ${body.company}`,
+          `E-posta: ${body.email}`,
+          `Sorun / Neden?: ${problem || "Belirtilmedi"}`,
+          `Not: ${body.message || "—"}`,
+        ];
 
     if (apiKey) {
       await fetch("https://api.resend.com/emails", {
@@ -40,14 +70,8 @@ export async function POST(req: Request) {
           from,
           to: [to],
           reply_to: body.email,
-          subject: `[ORTAQ Demo] ${body.name} · ${body.company}`,
-          text: [
-            `Ad Soyad: ${body.name}`,
-            `Şirket: ${body.company}`,
-            `E-posta: ${body.email}`,
-            `Sorun / Neden?: ${problem || "Belirtilmedi"}`,
-            `Not: ${body.message || "—"}`,
-          ].join("\n"),
+          subject: `[${subjectPrefix}] ${body.name} · ${body.company}`,
+          text: textLines.join("\n"),
         }),
       });
     }

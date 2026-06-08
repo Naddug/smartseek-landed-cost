@@ -19,7 +19,8 @@
     "start": "next start --port 3001",
     "lint": "next lint",
     "check": "tsc --noEmit",
-    "generate:favicons": "node scripts/generate-favicon-assets.mjs"
+    "generate:favicons": "node scripts/generate-favicon-assets.mjs",
+    "verify:categories": "node scripts/verify-category-registry.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

@@ -24,7 +24,7 @@ export default function ProcessPage() {
             { name: "Nasıl çalışır", path: "/nasil-calisir" },
           ]),
           howToSchema(
-            "Belge incelemesinden görüşme odasına",
+            "Fabrika kaynağından deponuza teslimat",
             route.description,
             [...PROCESS_HOWTO_STEPS],
           ),

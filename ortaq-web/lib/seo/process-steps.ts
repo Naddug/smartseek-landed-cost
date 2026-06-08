@@ -1,9 +1,9 @@
-/** HowTo schema steps — mirrors live /nasil-calisir process (evidence → introduction → room). */
+/** HowTo schema steps — mirrors operator /nasil-calisir process. */
 export const PROCESS_HOWTO_STEPS = [
-  { name: "Belgeler yüklenir", text: "Üretici belgelerini yükler." },
-  { name: "Belgeler incelenir", text: "Kanıt dosyalanır ve incelenir." },
-  { name: "Profil oluşturulur", text: "Dosyalanan kanıt ve eksikler profilde görünür." },
-  { name: "Keşfedilebilir hale gelir", text: "Zorunlu belgeler tamamlandığında profil keşifte görünür." },
-  { name: "Karşılıklı tanıştırma olur", text: "Sermaye partneri talep yazar; üretici kabul ederse tanıştırma açılır." },
-  { name: "Görüşme odası açılır", text: "Karşılıklı kabul sonrası yapılandırılmış görüşme ortamı açılır." },
+  { name: "Fabrika kaynağı", text: "Ürününüz ve pazarınız için doğru üreticiyi bulur ve değerlendiririz." },
+  { name: "Ürün spesifikasyonu", text: "Ürünü, formülü ve ambalajı pazarınıza uygun şekilde tanımlarız." },
+  { name: "Numune koordinasyonu", text: "Üretime geçmeden önce gerçek ürünü ve ambalajı onaylarsınız." },
+  { name: "Üretim takibi", text: "Üretimi yönetir, her partiyi kilit referansa göre kontrol ettiririz." },
+  { name: "İhracat operasyonları", text: "Evrak, uyumluluk ve navlun işlemlerini üstleniriz." },
+  { name: "Teslimat koordinasyonu", text: "Ürünü deponuza, satışa hazır şekilde teslim ederiz." },
 ] as const;

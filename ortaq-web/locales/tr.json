@@ -1,8 +1,8 @@
 {
   "brand": {
     "name": "ORTAQ",
-    "tagline": "Tüm ticari iletişim. Tek bir yer.",
-    "navTagline": "Ticari işlemler. Tek kayıt."
+    "tagline": "Kendi ürün hattınızı başlatın.",
+    "navTagline": "Kaynaklama · üretim · teslimat"
   },
   "nav": {
     "howItWorks": "Nasıl Çalışır",
@@ -26,7 +26,9 @@
     "startDemo": "Anlaşma Odası Oluştur",
     "platform": "Alan",
     "workflow": "Workflow",
-    "requestDemo": "Değerlendirme talep edin",
+    "requestDemo": "Teklif alın",
+    "whatWeDo": "Ne Yapıyoruz",
+    "getQuote": "Teklif alın",
     "whoFor": "Kimler İçin",
     "scenarios": "Senaryolar",
     "whyOrtaq": "Neden ORTAQ",
@@ -1327,48 +1329,25 @@
     }
   },
   "footer": {
-    "tagline": "Ticari işlemlerinizin tüm belgelerini, onaylarını ve sorumluluklarını tek bir kayıtta toplayın.",
-    "protectionLabel": "Güven ve uyum",
-    "regulatory": "ORTAQ para tutmaz, yatırım satmaz ve menkul kıymet işlemi yürütmez. Belge inceleme, keşif ve tanıştırma hizmeti verir.",
-    "notAdvice": "ORTAQ yatırım tavsiyesi vermez, fonlama veya getiri garanti etmez. Buradaki içerik bilgilendirme amaçlıdır.",
-    "trustPills": {
-      "1": "Bağımsız doğrulama katmanı",
-      "2": "Para tutmaz, transfer etmez",
-      "3": "Yatırım tavsiyesi vermez",
-      "4": "Skor veya fonlama garantisi yok"
-    },
-    "faqTeaser": {
-      "label": "Merak mı ediyorsunuz?",
-      "title": "Sık sorulan soruları yanıtladık.",
-      "link": "SSS'ye Bakın"
+    "tagline": "Kaynaklama, üretim ve teslimat — tek sorumlu ortak. Marka sizin.",
+    "teaser": {
+      "label": "Ürün programınız",
+      "title": "Ne başlatmak istediğinizi söyleyin; uygunluk ve maliyeti netleştirelim."
     },
     "trustTitle": "Şirket",
-    "learnTitle": "Ürün",
+    "learnTitle": "Hizmet",
     "legalTitle": "Yasal",
     "supportTitle": "İletişim",
-    "supportText": "Sorularınız için bize ulaşın.",
-    "dispute": "Şikâyetler destek@ortaq.biz üzerinden yazıyla alınır.",
-    "entity": "ORTAQ.BIZ",
-    "entityNote": "",
+    "entityLine": "Kaynaklama · üretim · teslimat",
     "links": {
       "trust": "Güven",
       "team": "Ekip",
-      "investors": "Yatırımcılar",
-      "risk": "Riskler",
       "process": "Nasıl Çalışır",
-      "discover": "Keşif önizlemesi",
+      "whatWeDo": "Ne Yapıyoruz",
       "faq": "SSS",
-      "glossary": "Sözlük",
-      "memberArea": "Alanınız",
       "privacy": "Gizlilik",
-      "terms": "Kullanım Koşulları",
-      "evaluation": "Belge incelemesi",
-      "companies": "Yatırım dosyaları",
-      "start": "Başlangıç okuması",
-      "useCases": "Kullanım Senaryoları",
-      "whoFor": "Kimler İçin"
+      "terms": "Kullanım Koşulları"
     },
-    "subtitle": "Kanıt düzenleme, keşif ve karşılıklı tanıştırma katmanı. Kanıtlayamadığımızı yazmıyoruz.",
     "contactEmail": "destek@ortaq.biz",
     "contactLocation": "İstanbul, Türkiye"
   },
@@ -1377,8 +1356,8 @@
     "intro": "Önemli kararlar burada duyurulur."
   },
   "mobileCta": {
-    "label": "Şirketlere bak",
-    "sublabel": "Güncellemeler · takip listesi"
+    "label": "Teklif alın",
+    "sublabel": "48 saat içinde geri dönüş"
   },
   "market": {
     "terminal": {
@@ -1962,31 +1941,619 @@
     },
     "back": "Ana sayfaya dön"
   },
+  "whatWeDo": {
+    "headline": "Ne yapıyoruz",
+    "subheadline": "Kaynaklama, üretim yönetimi ve teslimat — tek ortakta. Aktif kategori ve yol haritası aşağıda."
+  },
+  "whyOrtaqPage": {
+    "label": "Neden ORTAQ",
+    "headline": "Fabrika işletmeden kendi ürün hattınızı başlatın.",
+    "subheadline": "ORTAQ, kaynaklama ve üretim operatörüdür. Marka sizin; fabrika bulma, üretim yönetimi ve teslimat bizde.",
+    "problem": {
+      "title": "Sorun ne?",
+      "body": "Kendi markanızla satmak istiyorsunuz ama fabrika, numune, üretim ve ihracat ayrı ayrı yürüyor. Kimse tek noktadan sorumlu değil.",
+      "points": [
+        "Doğru fabrikayı bulmak ve güvenmek aylar sürer",
+        "Numune ve spesifikasyon koordinasyonu dağınık kalır",
+        "Üretim takibi ve kalite kontrolü sizin omzunuza biner",
+        "İhracat evrakları ve teslimat ayrı taraflarda yürür"
+      ]
+    },
+    "approach": {
+      "title": "ORTAQ nasıl çalışır?",
+      "body": "Tek sorumlu ortak olarak tüm süreci yürütürüz. Önemli kararları siz onaylarsınız.",
+      "items": [
+        {
+          "title": "Gerçek operasyon",
+          "body": "LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip. Gerçek fabrika ilişkileri ve gerçek üretim yönetimi."
+        },
+        {
+          "title": "Tek hesap veren",
+          "body": "Bir şey ters gittiğinde tek numara. Fabrikayı değil, bizi ararsınız."
+        },
+        {
+          "title": "Kanıtlanmış süreç",
+          "body": "Kedi kumu ilk aktif kategori — aynı süreç zamanla yeni ürünlere uzanır."
+        }
+      ]
+    },
+    "does": {
+      "title": "ORTAQ ne yapar — ne yapmaz",
+      "items": [
+        "Fabrika kaynağı ve değerlendirme",
+        "Ürün spesifikasyonu ve numune koordinasyonu",
+        "Üretim takibi ve parti kontrolü",
+        "İhracat evrakları ve deponuza teslimat"
+      ]
+    },
+    "doesNot": {
+      "items": [
+        {
+          "heading": "Pazar yeri değil.",
+          "body": "Alıcı-satıcı eşleştirmesi yapmaz. Sizin adınıza ürün programı yürütür."
+        },
+        {
+          "heading": "Yatırım aracı değil.",
+          "body": "Para tutmaz, fonlama veya getiri garanti etmez."
+        },
+        {
+          "heading": "Yazılım demosu değil.",
+          "body": "Ekran göstermez; gerçek ürün, gerçek üretim, gerçek teslimat."
+        }
+      ]
+    },
+    "summary": {
+      "title": "Kısa özet",
+      "cards": [
+        {
+          "q": "Neden güvenilir?",
+          "a": "Çünkü ekibimiz bu işi yıllarca yaptı. Fabrika ilişkileri, numune süreçleri ve ihracat operasyonları gerçek."
+        },
+        {
+          "q": "Neden şimdi?",
+          "a": "Özel marka talebi büyüyor; doğru fabrika ve doğru süreç bulmak hâlâ en zor kısım."
+        },
+        {
+          "q": "Neden ORTAQ?",
+          "a": "Çünkü tek sorumlu ortak olarak kaynaklama, üretim ve teslimatı bir arada yürütüyoruz."
+        }
+      ]
+    },
+    "cta": {
+      "headline": "Ürününüzü getirin.",
+      "subheadline": "Ne başlatmak istediğinizi söyleyin; uygunluk ve maliyeti netleştirelim.",
+      "button": "Teklif alın"
+    }
+  },
+  "faqPage": {
+    "label": "Sık Sorulan Sorular",
+    "headline": "Gerçek sorular. Doğrudan yanıtlar.",
+    "subheadline": "Kaynaklama, üretim ve teslimat hakkında en çok sorulanlar.",
+    "count": "{{count}} soru · 4 kategori",
+    "cta": {
+      "headline": "Burada yanıt bulamadıysanız",
+      "subheadline": "Teklif formunu doldurun veya destek@ortaq.biz adresine yazın.",
+      "trustLink": "Güven sayfası",
+      "quoteLink": "Teklif alın"
+    }
+  },
+  "howItWorksPage": {
+    "label": "Nasıl Çalışır",
+    "headline": "Tek ortak, tüm süreç.",
+    "subheadline": "Fabrika kaynağından deponuza teslimata kadar her adımı yürütürüz. Önemli kararları siz onaylarsınız.",
+    "highlightsTitle": "Nasıl çalıştığımız",
+    "highlights": [
+      {
+        "title": "Tek sorumlu ortak",
+        "body": "Fabrika, numune, üretim, ihracat ve teslimat ayrı taraflarda değil — tek hesap veren noktada."
+      },
+      {
+        "title": "Onay sizde",
+        "body": "Spesifikasyon, numune ve üretim kararları size sunulur; onaylamadan üretime geçilmez."
+      },
+      {
+        "title": "Parti kontrolü",
+        "body": "Her parti sevkiyattan önce kontrol edilir. Üretim kilit referansa göre yönetilir."
+      }
+    ],
+    "cta": {
+      "headline": "Ürününüzü getirin.",
+      "subheadline": "Ne başlatmak istediğinizi söyleyin; uygunluk ve maliyeti netleştirelim.",
+      "categoryLink": "{{name}} programı",
+      "quoteLink": "Teklif alın"
+    }
+  },
+  "trustPage": {
+    "label": "Güven",
+    "headline": "Sonuçtan sorumlu kalıyoruz.",
+    "subheadline": "Markanız sizin. Kaynaklama, üretim ve teslimat bizde. Para tutmuyoruz, yatırım satmıyoruz, getiri garanti etmiyoruz.",
+    "commitments": {
+      "title": "Taahhütlerimiz",
+      "items": [
+        {
+          "title": "Gerçek operasyon",
+          "body": "LEGO Group, Petlas ve Yiğit Akü geçmişine sahip ekip. Gerçek fabrika ilişkileri ve gerçek üretim yönetimi."
+        },
+        {
+          "title": "Marka sizin",
+          "body": "İsim, ürün ve müşteriler size ait. ORTAQ arka planda kaynaklama ve üretimi yürütür."
+        },
+        {
+          "title": "Veri ve gizlilik",
+          "body": "Paylaştığınız bilgiler teklif talebiniz ve program planlaması için kullanılır. KVKK kapsamında işlenir."
+        },
+        {
+          "title": "Dürüst uygunluk",
+          "body": "Pazar veya hacim uygun değilse açıkça söyleriz. Yanlış beklenti yaratmayız."
+        }
+      ]
+    },
+    "limits": {
+      "title": "Sınırlar",
+      "subheadline": "Her program her pazar için uygun değildir.",
+      "items": [
+        {
+          "title": "Pazar kapsamı",
+          "body": "Rekabetçi teslimat yapabildiğimiz pazarlarla çalışırız. Uygun değilse söyleriz."
+        },
+        {
+          "title": "Üretim minimumları",
+          "body": "Fabrika minimumları ve lojistik maliyetleri bazı programları mümkün kılmaz."
+        },
+        {
+          "title": "Yatırım aracı değil",
+          "body": "ORTAQ fonlama, menkul kıymet veya getiri garantisi sunmaz."
+        },
+        {
+          "title": "Pazar yeri değil",
+          "body": "Alıcı-satıcı eşleştirmesi yapmaz; sizin adınıza ürün programı yürütür."
+        }
+      ]
+    },
+    "faq": {
+      "title": "Sık sorulan güven soruları",
+      "more": "Daha fazlası için",
+      "moreLink": "SSS sayfasına bakın",
+      "items": [
+        {
+          "q": "ORTAQ para tutar mı?",
+          "a": "Hayır. ORTAQ yatırım tavsiyesi vermez, fonlama veya getiri garanti etmez."
+        },
+        {
+          "q": "Marka kime ait?",
+          "a": "Size. İsim, ürün ve müşteriler sizin."
+        },
+        {
+          "q": "Paylaştığım bilgiler nasıl kullanılır?",
+          "a": "Teklif talebiniz ve program planlaması için. Detaylar gizlilik politikasında."
+        },
+        {
+          "q": "Neden ORTAQ'a güvenebilirim?",
+          "a": "Her siparişin arkasında gerçek fabrika ilişkileri, numune süreçleri ve üretim yönetimi vardır."
+        }
+      ]
+    },
+    "cta": {
+      "headline": "Sorularınız varsa yazın.",
+      "subheadline": "Teklif formunu doldurun; 48 saat içinde uygunluk ve maliyet aralığı paylaşırız.",
+      "button": "Teklif alın"
+    }
+  },
+  "trustLayer": {
+    "hubLabel": "Süreç şeffaflığı",
+    "hubHeadline": "Gerçek alıcı soruları",
+    "hubSubheadline": "Numune, kalite, ödeme, fabrika seçimi ve zamanlama — süreci açık yazıyoruz.",
+    "relatedTitle": "İlgili konular",
+    "readMore": "Oku",
+    "links": {
+      "howSamplingWorks": {
+        "title": "Numune süreci",
+        "description": "Üretime geçmeden önce gerçek ürünü ve ambalajı nasıl onaylarsınız."
+      },
+      "qualityControl": {
+        "title": "Kalite kontrolü",
+        "description": "Kilit referans, parti kontrolü ve sevkiyat öncesi inceleme."
+      },
+      "paymentProtection": {
+        "title": "Ödeme koruması",
+        "description": "Kilometre taşı ödemeleri ve inceleme kontrol noktaları."
+      },
+      "whyNotDirectFactory": {
+        "title": "Neden doğrudan fabrika değil?",
+        "description": "Fabrika arama, MOQ, iletişim ve lojistik riskleri."
+      },
+      "launchTimeline": {
+        "title": "Lansman zaman çizelgesi",
+        "description": "Brief'ten deponuza teslimata kadar adımlar."
+      }
+    },
+    "pages": {
+      "howSamplingWorks": {
+        "headline": "Numune süreci nasıl işler?",
+        "subheadline": "Üretime geçmeden önce gerçek ürünü ve ambalajı onaylarsınız. Numune koordinasyonunu biz yürütürüz.",
+        "sections": [
+          {
+            "title": "Ne alırsınız?",
+            "body": "Pazarınıza uygun formül ve ambalajla üretilmiş fiziksel numune. Etiket taslağı ve teknik özet birlikte gelir.",
+            "points": [
+              "Ürün numunesi — tadım, koku, doku veya performans testi sizde",
+              "Ambalaj numunesi — baskı, hacim ve etiket yerleşimi",
+              "Spesifikasyon özeti — onayladığınız referans doküman"
+            ]
+          },
+          {
+            "title": "Onay nasıl işler?",
+            "body": "Numuneyi inceleyip yazılı onay verirsiniz veya revizyon istersiniz. Onay olmadan üretim planlanmaz.",
+            "points": [
+              "Onay veya revizyon talebi yazılı kayıt altında",
+              "Revizyon varsa yeni numune koordinasyonu",
+              "Kilit referans onay sonrası kilitlenir"
+            ]
+          },
+          {
+            "title": "Numune uygun değilse?",
+            "body": "Üretime geçilmez. Formül, ambalaj veya üretici değişikliği değerlendirilir. Uygun yol bulunamazsa program durdurulur — zorla devam etmeyiz."
+          }
+        ],
+        "cta": {
+          "headline": "Numune yolunu netleştirelim.",
+          "subheadline": "Ürününüzü ve pazarınızı paylaşın; numune sürecini programınıza göre açıklayalım."
+        }
+      },
+      "qualityControl": {
+        "headline": "Kalite kontrolü nasıl yapılır?",
+        "subheadline": "Her parti, onayladığınız kilit referansa göre kontrol edilir. Süreci şeffaf yazıyoruz; mucize garanti vermiyoruz.",
+        "sections": [
+          {
+            "title": "Kilit referans",
+            "body": "Onayladığınız numune ve spesifikasyon üretim referansı olur. Parti üretimi bu referansa göre yönetilir.",
+            "points": [
+              "Formül ve ambalaj değişikliği onaysız yapılmaz",
+              "Referans değişimi yazılı onay gerektirir",
+              "Üretim talimatları referansa bağlanır"
+            ]
+          },
+          {
+            "title": "Sevkiyat öncesi inceleme",
+            "body": "Parti sevkiyattan önce kontrol edilir. Uyumsuzluk tespit edilirse sevkiyat ertelenir ve siz bilgilendirilirsiniz.",
+            "points": [
+              "Görsel ve spesifikasyon kontrolü",
+              "Ambalaj ve etiket uyumu",
+              "Parti kayıtları dosyalanır"
+            ]
+          },
+          {
+            "title": "Ne garanti etmiyoruz",
+            "body": "Perakende raf performansı, tüketici şikâyeti oranı veya pazar kabulü garanti edilmez. Kontrol, üretim ve sevkiyat sürecine odaklanır."
+          }
+        ],
+        "cta": {
+          "headline": "Kalite sürecini konuşalım.",
+          "subheadline": "Ürününüz için hangi kontrol noktalarının anlamlı olduğunu teklif görüşmesinde netleştiririz."
+        }
+      },
+      "paymentProtection": {
+        "headline": "Ödeme nasıl korunur?",
+        "subheadline": "Tam tutarı peşin ödemezsiniz. Ödeme, kilometre taşlarına ve inceleme kontrol noktalarına bağlanır.",
+        "sections": [
+          {
+            "title": "Kilometre taşı ödemeleri",
+            "body": "Program aşamalara bölünür. Her aşama için ne ödeneceği ve hangi koşulda ödeneceği teklifte yazılır.",
+            "points": [
+              "Numune onayı sonrası üretim aşaması",
+              "Sevkiyat öncesi inceleme geçişi",
+              "Teslimat onayı ile kapanış"
+            ]
+          },
+          {
+            "title": "İnceleme kontrol noktaları",
+            "body": "Belirli aşamalarda üretim veya sevkiyat, sizin onayınız veya bağımsız kontrol sonucu olmadan ilerlemez.",
+            "points": [
+              "Numune onayı üretim kapısı",
+              "Parti kontrolü sevkiyat kapısı",
+              "Evrak tamamlığı ihracat kapısı"
+            ]
+          },
+          {
+            "title": "Belge akışı",
+            "body": "Fatura, paketleme listesi, menşe ve uygunluk belgeleri program boyunca dosyalanır. Evrak eksikse sevkiyat planlanmaz."
+          },
+          {
+            "title": "İsteğe bağlı akreditif (LC)",
+            "body": "Programınız ve bankanız uygunsa akreditif yapısı desteklenebilir. ORTAQ banka değildir; koordinasyon ve evrak tarafını yürütürüz."
+          }
+        ],
+        "cta": {
+          "headline": "Ödeme yapısını netleştirelim.",
+          "subheadline": "Programınız için kilometre taşı planını teklif aşamasında yazılı paylaşırız."
+        }
+      },
+      "whyNotDirectFactory": {
+        "headline": "Neden doğrudan fabrika yerine ORTAQ?",
+        "subheadline": "Doğrudan fabrika çalışmak mümkün. Riskler genelde arama, iletişim ve koordinasyon katmanında birikir.",
+        "sections": [
+          {
+            "title": "Fabrika arama",
+            "body": "Doğru üreticiyi bulmak dil bariyeri, sektör ağı ve saha doğrulama gerektirir. Yanlış eşleşme aylar kaybettirir.",
+            "points": [
+              "Kapasite ve ihracat geçmişi doğrulaması",
+              "Ürün kategorisine uygunluk",
+              "Referans ve saha ziyareti"
+            ]
+          },
+          {
+            "title": "MOQ pazarlığı",
+            "body": "Fabrika minimumları pazarınızın ilk hacmiyle uyuşmayabilir. Pazarlık ve alternatif üretici değerlendirmesi koordinasyon ister."
+          },
+          {
+            "title": "İletişim boşlukları",
+            "body": "Zaman dilimi, dil ve teknik terminoloji farkları spesifikasyon yanlış anlaşılmasına yol açar. Tek hesap veren nokta eksikliği sorunu büyütür."
+          },
+          {
+            "title": "Spesifikasyon kayması",
+            "body": "Formül, ambalaj veya etiket üretim sırasında sessizce değişebilir. Yazılı kilit referans ve onay zinciri olmadan fark geç fark edilir."
+          },
+          {
+            "title": "Kalite anlaşmazlıkları",
+            "body": "Sorun çıktığında taraf suçlamak yerine kayıt ve kontrol noktası gerekir. Uzaktan çözüm zorlaşır."
+          },
+          {
+            "title": "Lojistik koordinasyonu",
+            "body": "İhracat evrakı, uyumluluk, navlun ve teslimat ayrı taraflarda yürür. Bir halka eksikse ürün depoda değil gümrükte kalır."
+          }
+        ],
+        "cta": {
+          "headline": "Doğrudan mı, operatör mü — birlikte değerlendirelim.",
+          "subheadline": "Programınız için hangi modelin daha az risk taşıdığını dürüstçe söyleriz."
+        }
+      },
+      "launchTimeline": {
+        "headline": "Lansman zaman çizelgesi",
+        "subheadline": "Brief'ten deponuza teslimata kadar adımlar. Süre ürün, hacim ve pazara göre değişir — sabit hafta vaadi vermiyoruz.",
+        "stepsTitle": "Program adımları",
+        "sections": [],
+        "steps": [
+          {
+            "title": "Brief",
+            "body": "Ürün, hedef pazar, hacim beklentisi ve marka gereksinimlerini paylaşırsınız. Uygunluk ve kabaca maliyet aralığı değerlendirilir."
+          },
+          {
+            "title": "Kaynaklama",
+            "body": "Uygun üretici aranır ve değerlendirilir. Spesifikasyon taslağı pazarınıza göre hazırlanır."
+          },
+          {
+            "title": "Numune",
+            "body": "Fiziksel numune ve ambalaj onayınıza sunulur. Onay olmadan üretime geçilmez."
+          },
+          {
+            "title": "Üretim",
+            "body": "Kilit referansa göre üretim yönetilir. Parti kontrol noktaları uygulanır."
+          },
+          {
+            "title": "Sevkiyat",
+            "body": "İhracat evrakı, uyumluluk ve navlun koordinasyonu yürütülür."
+          },
+          {
+            "title": "Teslimat",
+            "body": "Ürün deponuza, satışa hazır şekilde teslim edilir."
+          }
+        ],
+        "cta": {
+          "headline": "Programınızın zamanlamasını konuşalım.",
+          "subheadline": "Ürün ve pazarınızı paylaşın; gerçekçi bir yol haritası çizelim."
+        }
+      }
+    }
+  },
+  "categories": {
+    "pageLabel": "Aktif kategori",
+    "cta": "Teklif alın",
+    "activeBand": {
+      "headline": "Model zaten çalışıyor.",
+      "body": "Bugün aktif: {{name}} — {{summary}}",
+      "link": "{{name}} programını inceleyin"
+    },
+    "roadmap": {
+      "headline": "Aynı süreç, zamanla daha fazla ürün",
+      "body": "Çalışma şeklimiz tek bir kategoriye özgü değil. Büyüdükçe aynı kaynaklama, üretim ve teslimat süreci yeni kategorilere uzanır.",
+      "liveLabel": "Bugün aktif",
+      "roadmapLabel": "Yol haritasında",
+      "hiddenLabel": "Gizli"
+    },
+    "entries": {
+      "cat-litter": {
+        "name": "Kedi kumu",
+        "headline": "Özel marka kedi kumu",
+        "summary": "Türkiye'de üretilen, özel marka kedi kumu — satışa hazır teslim",
+        "subheadline": "Türkiye'de üretilir, deponuza teslim edilir. ORTAQ sürecin tamamını yürütür; marka sizin kalır.",
+        "points": [
+          "Fabrika eşleştirme ve spesifikasyon",
+          "Numune onayı, ardından üretim",
+          "İhracat evrakları ve teslimat koordinasyonu",
+          "Her parti sevkiyat öncesi kontrol"
+        ]
+      },
+      "cosmetics": {
+        "name": "Kozmetik",
+        "headline": "Özel marka kozmetik",
+        "summary": "Özel marka kozmetik programı — yol haritasında",
+        "subheadline": "Formül, ambalaj ve uyumluluk pazarınıza göre tanımlanır. Üretim ve teslimat tek ortakta.",
+        "points": [
+          "Üretici eşleştirme ve formül spesifikasyonu",
+          "Numune ve etiket onayı",
+          "Parti bazlı üretim takibi",
+          "İhracat ve deponuza teslimat"
+        ]
+      },
+      "supplements": {
+        "name": "Takviye",
+        "headline": "Özel marka takviye",
+        "summary": "Özel marka takviye programı — yol haritasında",
+        "subheadline": "Formül, ambalaj ve etiket gereksinimleri pazarınıza uygun şekilde yönetilir.",
+        "points": [
+          "Üretici kaynağı ve formül tanımı",
+          "Numune onayı",
+          "Üretim ve kalite kontrolü",
+          "İhracat evrakları ve teslimat"
+        ]
+      },
+      "food-beverage": {
+        "name": "Gıda ve içecek",
+        "headline": "Özel marka gıda ve içecek",
+        "summary": "Özel marka gıda ve içecek programı — yol haritasında",
+        "subheadline": "Ürün tanımı, ambalaj ve uyumluluk süreci pazarınıza göre yürütülür.",
+        "points": [
+          "Üretici eşleştirme",
+          "Reçete ve ambalaj spesifikasyonu",
+          "Numune onayı ve üretim",
+          "Soğuk zincir veya kuru lojistik koordinasyonu"
+        ]
+      },
+      "personal-care": {
+        "name": "Kişisel bakım",
+        "headline": "Özel marka kişisel bakım",
+        "summary": "Test kategorisi — kayıtta gizli",
+        "subheadline": "Mimari doğrulama için yerel dummy kategori.",
+        "points": [
+          "Kayıt tabanlı render testi",
+          "Gizli durumda public UI'da görünmez",
+          "Locale anahtarı slug ile eşleşir"
+        ]
+      }
+    }
+  },
+  "quote": {
+    "label": "Teklif",
+    "headline": "Program brief'inizi gönderin.",
+    "subheadline": "Ne başlatmak istediğinizi ve nerede sattığınızı paylaşın. Uygunluk ve maliyeti net söyleriz.",
+    "expectations": [
+      "48 saat içinde ilk geri dönüş",
+      "Uygunluk ve kabaca maliyet aralığı",
+      "Numune yolu netleşir"
+    ],
+    "emailAlt": "Form yerine e-posta da gönderebilirsiniz.",
+    "privacy": "Bilgileriniz yalnızca teklif talebiniz için kullanılır.",
+    "privacyLink": "Gizlilik",
+    "form": {
+      "name": "Ad soyad",
+      "company": "Şirket",
+      "email": "E-posta",
+      "market": "Hedef pazar",
+      "marketPlaceholder": "ör. Almanya, İngiltere, Körfez",
+      "product": "Başlatmak istediğiniz ürün",
+      "productPlaceholder": "ör. özel marka kedi kumu, 10L torba",
+      "volume": "Tahmini hacim",
+      "volumePlaceholder": "ör. ilk konteyner, aylık 20 ton",
+      "message": "Ek not",
+      "submit": "Teklif talep edin",
+      "submitting": "Gönderiliyor…",
+      "successTitle": "Talebiniz alındı.",
+      "successBody": "48 saat içinde dönüş yapacağız. Acil ise destek@ortaq.biz adresine yazabilirsiniz.",
+      "error": "Gönderilemedi. Lütfen tekrar deneyin veya destek@ortaq.biz adresine yazın."
+    }
+  },
   "notFound": {
     "title": "Bu sayfa yok",
     "back": "Ana sayfaya dön"
   },
   "home": {
+    "operator": {
+      "hero": {
+        "headline": "Kendi ürün hattınızı başlatın. Fabrika veya tedarik zinciri işletmeden.",
+        "subheadline": "ORTAQ, güvenilir fabrikalar aracılığıyla ürününüzü kaynaklar, üretir ve teslim eder — ilk numuneden deponuza kadar tek sorumlu ortak. Marka ve müşteriler sizin. Gerisini biz üstleniriz.",
+        "ctaPrimary": "Teklif alın",
+        "ctaSecondary": "Nasıl çalışır"
+      },
+      "restatement": "Fabrikayı buluruz, ürünü tanımlarız, üretimi yönetiriz ve teslim ederiz. Tek ortak, tek sorumluluk noktası.",
+      "process": {
+        "headline": "Tek ortak, tüm süreç",
+        "subheadline": "Somut işler sizin adınıza yürütülür; önemli kararları siz onaylarsınız.",
+        "steps": [
+          {
+            "title": "Fabrika kaynağı",
+            "body": "Ürününüz ve pazarınız için doğru üreticiyi bulur ve değerlendiririz."
+          },
+          {
+            "title": "Ürün spesifikasyonu",
+            "body": "Ürünü, formülü ve ambalajı pazarınıza uygun şekilde tanımlarız."
+          },
+          {
+            "title": "Numune koordinasyonu",
+            "body": "Üretime geçmeden önce gerçek ürünü ve ambalajı onaylarsınız."
+          },
+          {
+            "title": "Üretim takibi",
+            "body": "Üretimi yönetir, her partiyi kilit referansa göre kontrol ettiririz."
+          },
+          {
+            "title": "İhracat operasyonları",
+            "body": "Evrak, uyumluluk ve navlun işlemlerini üstleniriz."
+          },
+          {
+            "title": "Teslimat koordinasyonu",
+            "body": "Ürünü deponuza, satışa hazır şekilde teslim ederiz."
+          }
+        ]
+      },
+      "trust": {
+        "headline": "İşi biz yapıyoruz, sonucu biz sahipleniyoruz.",
+        "body": "Bir şeyin doğru olması gerektiğinde, başka ülkedeki bir fabrikayı değil, bizi ararsınız. Her siparişin arkasında gerçek fabrika ilişkileri, gerçek numuneler, gerçek üretim yönetimi ve gerçek ihracat deneyimi vardır; her parti sevkiyattan önce kontrol edilir. Markanız sizin kalır."
+      },
+      "faq": {
+        "headline": "Sık sorulan sorular",
+        "items": [
+          {
+            "q": "Bu hizmet kimler için?",
+            "a": "Kendi ürün hattını isteyen distribütörler, ithalatçılar, toptancılar, perakendeciler ve marka sahipleri — üretim minimumlarını karşılayabilenler."
+          },
+          {
+            "q": "ORTAQ tam olarak ne yapar?",
+            "a": "Ürünü kaynaklarız, üretimi yönetiriz, ihracat ve teslimatı üstleniriz; sonuçtan sorumlu kalırız. Marka sizin."
+          },
+          {
+            "q": "Bugün hangi ürünleri yapabilirsiniz?",
+            "a": "Aktif kategoriler kayıtta listelenir. Zamanla yeni kategoriler ekliyoruz."
+          },
+          {
+            "q": "Marka kime ait?",
+            "a": "Size. İsim, ürün ve müşteriler sizin."
+          },
+          {
+            "q": "Ödemeler nasıl işler?",
+            "a": "Kilometre taşı bazlı. Tam tutarı peşin ödemezsiniz."
+          },
+          {
+            "q": "Hangi pazarlara hizmet veriyorsunuz?",
+            "a": "Rekabetçi teslimat yapabildiğimiz pazarlar. Uygun değilse açıkça söyleriz."
+          }
+        ]
+      },
+      "closingCta": {
+        "headline": "Ürününüzü getirin. Gerisini biz yürütelim.",
+        "subheadline": "Ne başlatmak istediğinizi ve nerede sattığınızı söyleyin. İşin tutup tutmayacağını ve maliyetini net söyleriz.",
+        "cta": "Teklif alın"
+      }
+    },
     "hero": {
-      "eyebrow": "İşlem izleme platformu",
-      "h1a": "Aktif işlemlerin durumu,",
-      "h1b": "onayları ve kritik tarihleri tek kayıtta.",
-      "sub": "Email, WhatsApp ve belgeler işlem dosyasında birleşir. Bekleyen onaylar, gecikmeler ve sorumlu taraf kayıtlıdır. Veri yalnızca bağladığınız kaynaklardan gelir.",
-      "cta": "Değerlendirme talep edin",
-      "ctaSecondary": "İşlem dosyası örneği",
-      "ctaNote": "Demo öncesi örnek görünüm — sayfada aşağıda"
+      "eyebrow": "Kaynaklama operatörü",
+      "h1a": "Kendi ürün hattınızı başlatın.",
+      "h1b": "Fabrika işletmeden.",
+      "sub": "ORTAQ kaynaklar, üretir ve teslim eder. Marka sizin; gerisini biz yürütürüz.",
+      "cta": "Teklif alın",
+      "ctaSecondary": "Nasıl çalışır",
+      "ctaNote": ""
     },
     "demo": {
-      "heroNote": "30 dakika · aktif bir işlem · form 2 dakika",
-      "prepTitle": "Değerlendirme görüşmesi",
+      "heroNote": "48 saat içinde geri dönüş",
+      "prepTitle": "Teklif görüşmesi",
       "whatLabel": "Ne olur",
-      "what": "Seçtiğiniz işlemde durum, risk ve bekleyen onayları platformda birlikte inceleriz.",
+      "what": "Ürününüz, pazarınız ve hacminiz için uygunluk ve maliyet aralığını netleştiririz.",
       "durationLabel": "Süre",
-      "duration": "30 dakika. Randevu 24 saat içinde belirlenir.",
+      "duration": "İlk yanıt 48 saat içinde.",
       "bringLabel": "Getirin",
-      "bring": "Aktif bir işlem ve bir belge (sözleşme, LC, BL veya proforma).",
+      "bring": "Başlatmak istediğiniz ürün, hedef pazar ve tahmini hacim.",
       "learnLabel": "Öğreneceksiniz",
-      "learn": "İşleminizde durum kaydı, risk listesi, bekleyen onaylar ve atanmış işler."
+      "learn": "Uygunluk, kabaca maliyet aralığı ve numune yolu."
     },
     "fragmentation": {
       "eyebrow": "Sorun",
@@ -2048,12 +2615,12 @@
       "callout": "ORTAQ, ticari taahhütlerin görünür, takip edilebilir ve eyleme dönüştürülebilir hale geldiği yerdir."
     },
     "cta": {
-      "h2a": "Aktif bir işlem üzerinde",
-      "h2b": "platform değerlendirmesi.",
-      "sub": "Kendi işleminizle 30 dakikalık değerlendirme. Yalnızca onayladığınız veriler kullanılır.",
-      "primary": "Değerlendirme talep edin",
-      "secondaryPreview": "Önce örneği inceleyin",
-      "formNote": "Form 2 dakika · 24 saat içinde randevu"
+      "h2a": "Ürününüzü getirin.",
+      "h2b": "Gerisini biz yürütelim.",
+      "sub": "Ne başlatmak istediğinizi ve nerede sattığınızı söyleyin. Uygunluk ve maliyeti net söyleriz.",
+      "primary": "Teklif alın",
+      "secondaryPreview": "Nasıl çalışır",
+      "formNote": "48 saat içinde geri dönüş"
     }
   },
   "homeLanding": {

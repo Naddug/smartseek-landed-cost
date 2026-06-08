@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
+import { getLiveCategories } from "@/lib/categories/registry";
 import { env } from "@/lib/env";
-import { getAllCampaignSlugs } from "@/lib/campaigns";
 import { getSitemapRoutes, site } from "@/lib/metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -15,12 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route.priority,
   }));
 
-  const profiles = getAllCampaignSlugs().map((slug) => ({
-    url: `${site.url}/sirket/${slug}`,
+  const categoryRoutes = getLiveCategories().map((category) => ({
+    url: `${site.url}/c/${category.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: 0.7,
+    priority: 0.88,
   }));
 
-  return [...staticRoutes, ...profiles];
+  return [...staticRoutes, ...categoryRoutes];
 }

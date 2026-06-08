@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "ORTAQ",
     short_name: "ORTAQ",
-    description: "İşlem izleme platformu.",
+    description: "Kaynaklama, üretim ve teslimat — tek sorumlu ortak.",
     start_url: "/",
     display: "browser",
     background_color: brand.cream.primary,
