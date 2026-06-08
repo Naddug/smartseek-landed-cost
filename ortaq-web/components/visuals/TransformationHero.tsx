@@ -128,27 +128,23 @@ export function TransformationHero() {
       ];
 
   const labels = isTR
-    ? { left: "DAĞINIK BİLGİ", right: "ORTAQ ÇIKARIMI", found: "ORTAQ BULDU", understood: "ORTAQ ANLADI", recommended: "ORTAQ ÖNERİSİ" }
-    : { left: "FRAGMENTED INPUTS", right: "ORTAQ OUTPUT", found: "ORTAQ FOUND", understood: "ORTAQ UNDERSTANDS", recommended: "ORTAQ RECOMMENDS" };
+    ? { left: "MEVCUT KANALLAR", right: "İŞLEM DOSYASI", found: "GÜNCEL DURUM", understood: "GECİKME RİSKİ", recommended: "SONRAKİ ADIM" }
+    : { left: "EXISTING CHANNELS", right: "DEAL FILE", found: "CURRENT STATUS", understood: "DELAY RISK", recommended: "NEXT STEP" };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-ortaq-border shadow-[0_12px_48px_rgb(20_19_16/0.13)]">
       <div className="grid grid-cols-1 sm:grid-cols-2">
 
         {/* ══ LEFT — FRAGMENTED INPUTS ═══════════════════════════════════ */}
-        <div className="flex flex-col border-b border-ortaq-border bg-[#FBF0ED] sm:border-b-0 sm:border-r">
+        <div className="flex flex-col border-b border-ortaq-border bg-[#FBF0ED] opacity-90 sm:border-b-0 sm:border-r">
 
           {/* Panel header */}
-          <div className="flex items-center justify-between border-b border-red-200/50 bg-[#f5e4df] px-4 py-2">
+          <div className="flex items-center justify-between border-b border-red-200/40 bg-[#f5e4df]/80 px-4 py-2">
             <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
-              <span className="text-[0.475rem] font-bold uppercase tracking-[0.07em] text-red-700">
+              <span className="text-[0.475rem] font-bold uppercase tracking-[0.07em] text-red-700/80">
                 {labels.left}
               </span>
             </div>
-            <span className="text-[0.4rem] text-red-500/70">
-              {isTR ? "4 kaynak · 1 soru · 0 cevap" : "4 sources · 1 question · 0 answers"}
-            </span>
           </div>
 
           {/* Input fragments */}
@@ -166,9 +162,9 @@ export function TransformationHero() {
                     <span className="text-[0.42rem] font-bold text-red-900/70 leading-none truncate">
                       {inp.sender}
                     </span>
-                    <span className="shrink-0 text-[0.35rem] text-red-400/80">{inp.meta}</span>
+                    <span className="shrink-0 text-[0.35rem] text-red-400/50">{inp.meta}</span>
                   </div>
-                  <p className="text-[0.42rem] leading-snug text-red-900/60 line-clamp-2">
+                  <p className="text-[0.42rem] leading-snug text-red-900/50 line-clamp-2">
                     {inp.text}
                   </p>
                 </div>
@@ -176,14 +172,12 @@ export function TransformationHero() {
             ))}
           </div>
 
-          {/* Question footer */}
-          <div className="flex items-center justify-between border-t border-red-200/50 bg-red-900/5 px-4 py-2">
-            <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-red-500" />
-              <span className="text-[0.6875rem] font-bold text-red-700">
-                {isTR ? "Şu an gerçekten ne oluyor?" : "What is actually happening right now?"}
-              </span>
-            </div>
+          <div className="border-t border-red-200/50 bg-red-900/5 px-4 py-2">
+            <p className="text-[0.5rem] leading-relaxed text-red-800/55">
+              {isTR
+                ? "Kaynak: Outlook, WhatsApp, belge, toplantı notu — ekibinizin mevcut kanalları"
+                : "Source: Outlook, WhatsApp, documents, meeting notes — your team's existing channels"}
+            </p>
           </div>
         </div>
 
@@ -198,61 +192,27 @@ export function TransformationHero() {
                 {labels.right}
               </span>
             </div>
-            <span className="text-[0.4rem] text-emerald-600/70">
+            <span className="text-[0.4rem] text-emerald-600/40">
               {isTR ? "Kartal Çelik · Hamburg Steel · €840.000" : "Kartal Steel · Hamburg Steel · €840,000"}
             </span>
           </div>
 
-          {/* Section A — FOUND */}
-          <div className="border-b border-ortaq-border/60 px-3 py-2">
-            <p className="mb-1.5 text-[0.38rem] font-bold uppercase tracking-[0.09em] text-emerald-600">
-              {labels.found}
-            </p>
-            <div className="space-y-1.5">
-              {found.map((item, i) => (
-                <div key={i} className="flex items-start gap-1.5">
-                  <span className="mt-px flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[0.38rem] font-bold text-emerald-700">
-                    ✓
-                  </span>
-                  <p className="text-[0.46rem] leading-snug text-ortaq-ink">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Section B — UNDERSTANDS */}
-          <div className="border-b border-ortaq-border/60 bg-amber-50/30 px-3 py-2">
-            <p className="mb-1.5 text-[0.38rem] font-bold uppercase tracking-[0.09em] text-amber-600">
-              {labels.understood}
-            </p>
-            <div className="space-y-1.5">
-              {understood.map((item, i) => (
-                <div key={i} className="flex items-start gap-1.5">
-                  <span className="mt-px flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-amber-100 text-[0.38rem] font-bold text-amber-700">
-                    ⚠
-                  </span>
-                  <p className="text-[0.46rem] leading-snug text-ortaq-ink font-medium">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Section C — RECOMMENDS — action-forward, with role + urgency */}
-          <div className="flex-1 bg-ortaq-trust px-3 py-2">
-            <p className="mb-1.5 text-[0.38rem] font-bold uppercase tracking-[0.09em] text-white/70">
+          {/* Section C — NEXT STEP (scan first) */}
+          <div className="border-b-2 border-ortaq-trust-deep bg-ortaq-trust px-4 py-3 shadow-[inset_0_1px_0_rgb(255_255_255/0.1)]">
+            <p className="mb-2 text-[0.42rem] font-bold uppercase tracking-[0.1em] text-white/80">
               {labels.recommended}
             </p>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {recommended.map((item, i) => (
-                <div key={i} className="flex items-start gap-1.5">
-                  <span className="mt-px shrink-0 text-[0.5rem] font-bold text-white">→</span>
+                <div key={i} className="flex items-start gap-2">
+                  <span className="mt-0.5 shrink-0 text-[0.625rem] font-bold text-white">→</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[0.46rem] leading-snug text-white font-medium">{item.text}</p>
-                    <div className="mt-0.5 flex items-center gap-1">
-                      <span className="rounded bg-white/20 px-1 py-px text-[0.33rem] font-bold text-white/70">
+                    <p className="text-[0.52rem] leading-snug text-white font-semibold sm:text-[0.56rem]">{item.text}</p>
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="rounded bg-white/25 px-1.5 py-0.5 text-[0.36rem] font-bold text-white">
                         {item.role}
                       </span>
-                      <span className="text-[0.35rem] text-white/50">{item.urgency}</span>
+                      <span className="text-[0.38rem] font-semibold text-white/80">{item.urgency}</span>
                     </div>
                   </div>
                 </div>
@@ -260,17 +220,34 @@ export function TransformationHero() {
             </div>
           </div>
 
-          {/* Status footer */}
-          <div className="flex items-center justify-between border-t border-emerald-200/50 bg-emerald-50/30 px-4 py-2">
-            <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-              <span className="text-[0.6875rem] font-bold text-emerald-700">
-                {isTR ? "Operasyon anlaşıldı" : "Operation understood"}
-              </span>
+          {/* Section B — DELAY RISK */}
+          <div className="border-b border-amber-300/60 bg-amber-50 px-4 py-2.5">
+            <p className="mb-2 text-[0.42rem] font-bold uppercase tracking-[0.1em] text-amber-700">
+              {labels.understood}
+            </p>
+            <div className="space-y-1.5">
+              {understood.map((item, i) => (
+                <div key={i} className="flex items-start gap-2 border-l-2 border-amber-400 pl-2">
+                  <span className="mt-px shrink-0 text-[0.5rem] font-bold text-amber-600">⚠</span>
+                  <p className="text-[0.5rem] leading-snug text-ortaq-ink font-semibold sm:text-[0.52rem]">{item}</p>
+                </div>
+              ))}
             </div>
-            <span className="text-[0.38rem] text-ortaq-ink-soft">
-              {isTR ? "4 kaynak · 3 çıkarım · 2 öneri" : "4 sources · 3 findings · 2 actions"}
-            </span>
+          </div>
+
+          {/* Section A — CURRENT STATUS (supporting) */}
+          <div className="flex-1 bg-ortaq-surface/50 px-4 py-2 opacity-80">
+            <p className="mb-1.5 text-[0.36rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink-soft">
+              {labels.found}
+            </p>
+            <div className="space-y-1">
+              {found.map((item, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="mt-px text-[0.38rem] text-ortaq-ink-soft">·</span>
+                  <p className="text-[0.44rem] leading-snug text-ortaq-ink-muted">{item}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

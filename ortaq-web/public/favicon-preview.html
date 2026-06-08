@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>ORTAQ Favicon Lab — Sprint 22</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 32px; background: #f4f2ef; color: #141310; }
+    h1 { font-size: 1.25rem; margin: 0 0 8px; }
+    p { color: #5a5650; font-size: 0.875rem; max-width: 52rem; line-height: 1.5; }
+    .rec { margin: 20px 0; padding: 14px 16px; background: #e4ede9; border: 1px solid #1e4d3d; border-radius: 8px; font-size: 0.875rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.8125rem; }
+    th, td { border: 1px solid #ddd9d3; padding: 12px; text-align: left; vertical-align: middle; }
+    th { background: #edeae6; font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .tab-row { display: flex; align-items: center; gap: 10px; }
+    .tab-bg-light { background: #e8e6e3; padding: 6px 10px; border-radius: 6px 6px 0 0; border: 1px solid #ccc; border-bottom: none; min-width: 140px; }
+    .tab-bg-dark { background: #2d2d2d; padding: 6px 10px; border-radius: 6px 6px 0 0; border: 1px solid #444; border-bottom: none; min-width: 140px; color: #ccc; font-size: 11px; }
+    .score { font-weight: 700; color: #1e4d3d; }
+    .winner { background: #f0f7f4; }
+    img { image-rendering: pixelated; image-rendering: crisp-edges; }
+  </style>
+</head>
+<body>
+  <h1>ORTAQ Favicon Lab — Sprint 22</h1>
+  <p>Five directions for transaction monitoring tab identity. Scores: 16×16 legibility, 32×32 legibility, dark tab bar, light tab bar, overall tab recognition (1–10).</p>
+  <div class="rec"><strong>Selected:</strong> Direction 1 — Operations tracking (deal list rows + gold status dot). Matches portfolio UI and homepage category.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Direction</th>
+        <th>16×16 dark</th>
+        <th>16×16 light</th>
+        <th>32×32</th>
+        <th>Tab simulation</th>
+        <th>Scores</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="winner">
+        <td><strong>1. Operations tracking</strong><br><span style="color:#888">İşlem izleme</span></td>
+        <td><img src="/favicon-directions/operations-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/operations-light.svg" width="16" height="16" alt="" onerror="this.src='/favicon-directions/operations-dark.svg'" /></td>
+        <td><img src="/favicon-directions/operations-dark.svg" width="32" height="32" alt="" /></td>
+        <td>
+          <div class="tab-row"><div class="tab-bg-light"><img src="/favicon-directions/operations-dark.svg" width="16" height="16" style="vertical-align:middle;margin-right:6px" />ORTAQ</div></div>
+          <div class="tab-row" style="margin-top:6px"><div class="tab-bg-dark"><img src="/favicon-directions/operations-dark.svg" width="16" height="16" style="vertical-align:middle;margin-right:6px" />ORTAQ</div></div>
+        </td>
+        <td>16: <span class="score">9</span> · 32: <span class="score">10</span><br>Dark: <span class="score">10</span> · Light: <span class="score">9</span><br>Tab: <span class="score">9</span></td>
+      </tr>
+      <tr>
+        <td><strong>2. Transaction monitoring</strong></td>
+        <td><img src="/favicon-directions/monitoring-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/monitoring-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/monitoring-dark.svg" width="32" height="32" alt="" /></td>
+        <td><div class="tab-row"><div class="tab-bg-light"><img src="/favicon-directions/monitoring-dark.svg" width="16" height="16" style="vertical-align:middle;margin-right:6px" />ORTAQ</div></div></td>
+        <td>16: <span class="score">7</span> · 32: <span class="score">9</span><br>Dark: <span class="score">9</span> · Light: <span class="score">8</span><br>Tab: <span class="score">7</span></td>
+      </tr>
+      <tr>
+        <td><strong>3. Status visibility</strong></td>
+        <td><img src="/favicon-directions/visibility-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/visibility-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/visibility-dark.svg" width="32" height="32" alt="" /></td>
+        <td><div class="tab-row"><div class="tab-bg-light"><img src="/favicon-directions/visibility-dark.svg" width="16" height="16" style="vertical-align:middle;margin-right:6px" />ORTAQ</div></div></td>
+        <td>16: <span class="score">8</span> · 32: <span class="score">9</span><br>Dark: <span class="score">9</span> · Light: <span class="score">8</span><br>Tab: <span class="score">8</span></td>
+      </tr>
+      <tr>
+        <td><strong>4. ORTAQ wordmark O</strong></td>
+        <td><img src="/favicon-directions/wordmark-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/wordmark-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/wordmark-dark.svg" width="32" height="32" alt="" /></td>
+        <td><div class="tab-row"><div class="tab-bg-light"><img src="/favicon-directions/wordmark-dark.svg" width="16" height="16" style="vertical-align:middle;margin-right:6px" />ORTAQ</div></div></td>
+        <td>16: <span class="score">6</span> · 32: <span class="score">8</span><br>Dark: <span class="score">9</span> · Light: <span class="score">7</span><br>Tab: <span class="score">6</span> — confuses with old investment mark</td>
+      </tr>
+      <tr>
+        <td><strong>5. Enterprise minimal</strong></td>
+        <td><img src="/favicon-directions/enterprise-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/enterprise-dark.svg" width="16" height="16" alt="" /></td>
+        <td><img src="/favicon-directions/enterprise-dark.svg" width="32" height="32" alt="" /></td>
+        <td><div class="tab-row"><div class="tab-bg-light"><img src="/favicon-directions/enterprise-dark.svg" width="16" height="16" style="vertical-align:middle;margin-right:6px" />ORTAQ</div></div></td>
+        <td>16: <span class="score">8</span> · 32: <span class="score">7</span><br>Dark: <span class="score">9</span> · Light: <span class="score">8</span><br>Tab: <span class="score">7</span> — bold but less distinctive</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:40px;font-size:1rem">Production assets</h2>
+  <p>Adaptive SVG + raster fallbacks:</p>
+  <ul style="font-size:0.875rem;line-height:1.8">
+    <li><a href="/favicon.svg">favicon.svg</a> (prefers-color-scheme adaptive)</li>
+    <li><a href="/favicon.ico">favicon.ico</a></li>
+    <li><a href="/apple-touch-icon.png">apple-touch-icon.png</a></li>
+    <li><a href="/icons/icon-16.png">icon-16.png</a> · <a href="/icons/icon-32.png">icon-32.png</a> · <a href="/icons/icon-192.png">icon-192.png</a> · <a href="/icons/icon-512.png">icon-512.png</a></li>
+  </ul>
+  <p style="margin-top:24px"><img src="/favicon-production.svg" width="64" height="64" alt="Production favicon 64px" /> <img src="/favicon.svg" width="64" height="64" alt="Adaptive favicon" style="margin-left:12px" /></p>
+</body>
+</html>

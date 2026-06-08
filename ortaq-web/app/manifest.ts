@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "ORTAQ",
     short_name: "ORTAQ",
-    description: "Türk sanayi yatırımı için disiplinli keşif katmanı.",
+    description: "İşlem izleme platformu.",
     start_url: "/",
     display: "browser",
     background_color: brand.cream.primary,
@@ -14,8 +14,10 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait-primary",
     icons: [
       { src: "/favicon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
-      { src: "/brand/ortaq-mark-light.svg", sizes: "512x512", type: "image/svg+xml", purpose: "maskable" },
-      { src: "/apple-icon", sizes: "180x180", type: "image/png", purpose: "any" },
+      { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/apple-touch-icon.png", sizes: "180x180", type: "image/png", purpose: "any" },
     ],
   };
 }

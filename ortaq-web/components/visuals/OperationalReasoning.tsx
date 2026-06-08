@@ -32,32 +32,32 @@ interface Card {
 const CARDS_TR: Card[] = [
   {
     category: "Uluslararası Ticaret",
-    situation: "Muayene durumu belirsiz",
+    situation: "Eur1 dolaşım belgesi eksik",
     fragments: [
       {
         channel: "Email",
-        text: "\"SGS ekibi cuma günkü muayene için hazır olmayabilir — üretim tarafından henüz yanıt gelmiyor.\"",
+        text: "\"Eur1 henüz düzenlenmedi — gümrük çıkışı için zorunlu.\"",
       },
       {
         channel: "WhatsApp",
-        text: "\"Muayene ekibinden haber var mı? Gemi 26'sında kalkıyor...\"",
+        text: "\"Kamyon depoda bekliyor, belge olmadan çıkamayız.\"",
       },
       {
         channel: "Belge",
-        text: "Akreditif (LC) — ödeme koşulu: muayene belgesi ibrazı zorunlu",
+        text: "Fatura INV-4421 — planlanan sevkiyat: 26 Haziran",
       },
     ],
-    humanSees: "SGS raporu gecikmiş gibi görünüyor.",
+    humanSees: "Eur1 belgesi gecikmiş olabilir.",
     understands: [
-      "Muayene henüz tamamlanmadı — resmi onay yok",
-      "Muayene belgesi olmadan yükleme başlayamaz",
-      "Yükleme gecikirse planlanan gemi kaçabilir",
-      "Gemi kaçarsa LC ödeme takvimi etkilenir",
-      "Alıcı bu riski henüz bilmiyor",
+      "Eur1 düzenlenmeden gümrük çıkışı yapılamaz",
+      "Kamyon bekleme süresi demuraj maliyetini artırır",
+      "26 Haziran sevkiyat tarihi risk altında",
+      "Alıcı gecikme ihtimalinden haberdar değil",
+      "Gümrük müşaviri henüz dosyayı tamamlamadı",
     ],
     recommends: [
-      { timing: "Bugün",           action: "SGS sağlayıcısıyla durumu netleştir",          role: "Operasyon" },
-      { timing: "Perşembe'ye kadar", action: "Alıcıyı gecikme ihtimali konusunda bilgilendir", role: "Satış" },
+      { timing: "Bugün",           action: "Gümrük müşavirinden Eur1 durumunu al",          role: "Operasyon" },
+      { timing: "Perşembe'ye kadar", action: "Alıcıyı olası gecikme hakkında bilgilendir", role: "Satış" },
     ],
     riskLabel: "Yüksek",
     riskTier: "high",
@@ -82,7 +82,7 @@ const CARDS_TR: Card[] = [
     humanSees: "Tedarikçi teslimatı erteledi.",
     understands: [
       "SOP-2847'deki teslim taahhüdü ihlal edildi",
-      "Bu gecikme 2 üretim hattının başlangıcını etkiliyor",
+      "Bu gecikme 2 üretim hattının başlangıcını geciktiriyor",
       "Müşteriye verilen söz 22 Haziran — tampon süre kalmadı",
       "Sözleşmede gecikme cezası maddesi var",
       "Alternatif tedarikçi araştırması henüz başlatılmadı",
@@ -131,32 +131,32 @@ const CARDS_TR: Card[] = [
 const CARDS_EN: Card[] = [
   {
     category: "International Trade",
-    situation: "Inspection status unclear",
+    situation: "Eur1 certificate missing",
     fragments: [
       {
         channel: "Email",
-        text: "\"SGS team may not be ready for Friday's inspection — still no response from production.\"",
+        text: "\"Eur1 not yet issued — required for customs clearance.\"",
       },
       {
         channel: "WhatsApp",
-        text: "\"Any news from the inspection team? The vessel departs on the 26th...\"",
+        text: "\"Truck waiting at depot, can't leave without the document.\"",
       },
       {
         channel: "Document",
-        text: "Letter of Credit (LC) — payment condition: inspection certificate required",
+        text: "Invoice INV-4421 — planned shipment: June 26",
       },
     ],
-    humanSees: "SGS report appears to be delayed.",
+    humanSees: "Eur1 certificate may be delayed.",
     understands: [
-      "Inspection not completed — no official clearance",
-      "Loading cannot begin without the inspection certificate",
-      "If loading is delayed, the planned vessel may depart without cargo",
-      "If the vessel is missed, the LC payment timeline is affected",
-      "Buyer is not yet aware of this risk",
+      "Customs clearance cannot proceed without Eur1",
+      "Truck waiting time increases demurrage costs",
+      "June 26 shipment date is at risk",
+      "Buyer is not yet aware of possible delay",
+      "Customs broker has not completed the file",
     ],
     recommends: [
-      { timing: "Today",       action: "Clarify status with SGS provider",     role: "Operations" },
-      { timing: "By Thursday", action: "Inform buyer of possible delay",        role: "Sales" },
+      { timing: "Today",       action: "Get Eur1 status from customs broker",  role: "Operations" },
+      { timing: "By Thursday", action: "Inform buyer of possible delay",       role: "Sales" },
     ],
     riskLabel: "High",
     riskTier: "high",
@@ -253,25 +253,17 @@ export function OperationalReasoning() {
           {/* ── Section header ─────────────────────────────────────────── */}
           <div className="mb-10">
             <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
-              {isTR ? "Nasıl düşünüyor?" : "How does it think?"}
+              {isTR ? "Platform — işlem detayı" : "Platform — deal detail"}
             </p>
             <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
-              {isTR ? (
-                <>
-                  ORTAQ nasıl düşünüyor?<br />
-                  <span className="text-ortaq-trust">Aynı bilgiyi herkes görebilir.</span>
-                </>
-              ) : (
-                <>
-                  How does ORTAQ think?<br />
-                  <span className="text-ortaq-trust">Anyone can see the same information.</span>
-                </>
-              )}
+              {isTR
+                ? "Gecikmenin bloke ettiği adımlar kayıtlıdır."
+                : "Steps blocked by delay are on record."}
             </h2>
             <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
               {isTR
-                ? "Önemli olan ne anladığınızdır. Aynı email, mesaj ve belge — insan gözü ile ORTAQ'ın operasyonel zekası arasındaki fark."
-                : "What matters is what you understand from it. Same email, message, and document — the difference between a human eye and ORTAQ's operational intelligence."}
+                ? "Kaynak yazışma, bağımlılık analizi ve atanmış iş — aynı işlem dosyasında."
+                : "Source correspondence, dependency analysis, and assigned work — in the same deal file."}
             </p>
           </div>
 
@@ -306,7 +298,7 @@ export function OperationalReasoning() {
             <div className="divide-y divide-ortaq-border">
 
               {/* Zone 1: Sources */}
-              <div className="divide-y divide-ortaq-border/50 bg-[#faf9f7]">
+              <div className="divide-y divide-ortaq-border/50 bg-[#faf9f7] opacity-60">
                 {card.fragments.map((f, i) => (
                   <div key={i} className="flex items-start gap-3 px-5 py-3">
                     <span className="mt-0.5 shrink-0 rounded bg-ortaq-border px-1.5 py-0.5 text-[0.4375rem] font-bold uppercase tracking-[0.06em] text-ortaq-ink/60">
@@ -317,10 +309,12 @@ export function OperationalReasoning() {
                 ))}
               </div>
 
-              {/* Zone 2: Human sees */}
-              <div className="flex items-center gap-3 bg-amber-50/40 px-5 py-4">
-                <span className="shrink-0 text-[0.875rem] text-amber-400/60">&ldquo;</span>
-                <p className="text-[0.875rem] italic text-ortaq-ink/55">{card.humanSees}&rdquo;</p>
+              {/* Zone 2: Manual read */}
+              <div className="flex items-center gap-3 bg-amber-50/25 px-5 py-3 opacity-70">
+                <span className="shrink-0 text-[0.4375rem] font-bold uppercase tracking-[0.06em] text-ortaq-ink/35">
+                  {isTR ? "Manuel özet" : "Manual summary"}
+                </span>
+                <p className="text-[0.8125rem] text-ortaq-ink/50">{card.humanSees}</p>
               </div>
 
               {/* Zone 3: ORTAQ understands */}
@@ -329,19 +323,22 @@ export function OperationalReasoning() {
                   {card.understands.map((line, i) => (
                     <div key={i} className="flex items-start gap-2.5">
                       <span className="mt-[0.15rem] shrink-0 text-[0.5625rem] font-bold text-ortaq-trust">✓</span>
-                      <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink/80">{line}</p>
+                      <p className={cn(
+                        "text-[0.8125rem] leading-relaxed",
+                        i >= card.understands.length - 2 ? "font-semibold text-ortaq-ink" : "text-ortaq-ink/75",
+                      )}>{line}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Zone 4: Recommended actions with role ownership */}
-              <div className="bg-white px-5 py-4">
-                <div className="space-y-2.5">
+              <div className="border-t-2 border-ortaq-trust bg-ortaq-trust/[0.06] px-5 py-4">
+                <div className="space-y-3">
                   {card.recommends.map((r, i) => (
                     <div key={i} className="flex items-center gap-3">
-                      <span className="shrink-0 text-[0.875rem] font-bold text-ortaq-trust">→</span>
-                      <p className="flex-1 text-[0.8125rem] font-medium text-ortaq-ink">{r.action}</p>
+                      <span className="shrink-0 text-[1rem] font-bold text-ortaq-trust">→</span>
+                      <p className="flex-1 text-[0.875rem] font-semibold text-ortaq-ink">{r.action}</p>
                       <div className="flex shrink-0 items-center gap-1.5">
                         <span className="rounded border border-ortaq-trust/20 bg-ortaq-trust/10 px-1.5 py-0.5 text-[0.375rem] font-bold text-ortaq-trust/70 whitespace-nowrap">
                           {r.role}
@@ -355,7 +352,7 @@ export function OperationalReasoning() {
                 </div>
                 <div className="mt-4 flex items-center gap-2">
                   <span className={cn(
-                    "rounded border px-2 py-0.5 text-[0.4375rem] font-bold",
+                    "rounded border px-3 py-1 text-[0.5rem] font-bold",
                     RISK_STYLE[card.riskTier],
                   )}>
                     {isTR ? "Risk:" : "Risk:"} {card.riskLabel}
@@ -365,13 +362,6 @@ export function OperationalReasoning() {
 
             </div>
           </div>
-
-          {/* ── Bottom note ────────────────────────────────────────────── */}
-          <p className="mt-6 text-[0.5625rem] leading-relaxed text-ortaq-ink/30 max-w-lg">
-            {isTR
-              ? "Bu çıktı, ORTAQ'ın aynı operasyondaki email, mesaj ve belgelerden çıkardığı bağımlılık zinciridir. Özetleme değil — operasyonel sonuç anlayışı."
-              : "This output is the dependency chain ORTAQ extracts from emails, messages and documents across the same operation. Not summarisation — operational consequence understanding."}
-          </p>
 
         </div>
       </Container>

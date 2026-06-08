@@ -26,7 +26,7 @@
     "startDemo": "Anlaşma Odası Oluştur",
     "platform": "Alan",
     "workflow": "Workflow",
-    "requestDemo": "Demo İsteyin",
+    "requestDemo": "Değerlendirme talep edin",
     "whoFor": "Kimler İçin",
     "scenarios": "Senaryolar",
     "whyOrtaq": "Neden ORTAQ",
@@ -1968,12 +1968,25 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "B2B operasyonlar için",
-      "h1a": "Bilgi var.",
-      "h1b": "Anlayan yok.",
-      "sub": "Her operasyon, gerçeği anlamak için gereken bilgiyi zaten içeriyor. Sorun, hiç kimsenin bu bilgiyi sürekli olarak sentezlememesi.",
-      "cta": "Demo İsteyin",
-      "ctaSecondary": "ORTAQ'a sor"
+      "eyebrow": "İşlem izleme platformu",
+      "h1a": "Aktif işlemlerin durumu,",
+      "h1b": "onayları ve kritik tarihleri tek kayıtta.",
+      "sub": "Email, WhatsApp ve belgeler işlem dosyasında birleşir. Bekleyen onaylar, gecikmeler ve sorumlu taraf kayıtlıdır. Veri yalnızca bağladığınız kaynaklardan gelir.",
+      "cta": "Değerlendirme talep edin",
+      "ctaSecondary": "İşlem dosyası örneği",
+      "ctaNote": "Demo öncesi örnek görünüm — sayfada aşağıda"
+    },
+    "demo": {
+      "heroNote": "30 dakika · aktif bir işlem · form 2 dakika",
+      "prepTitle": "Değerlendirme görüşmesi",
+      "whatLabel": "Ne olur",
+      "what": "Seçtiğiniz işlemde durum, risk ve bekleyen onayları platformda birlikte inceleriz.",
+      "durationLabel": "Süre",
+      "duration": "30 dakika. Randevu 24 saat içinde belirlenir.",
+      "bringLabel": "Getirin",
+      "bring": "Aktif bir işlem ve bir belge (sözleşme, LC, BL veya proforma).",
+      "learnLabel": "Öğreneceksiniz",
+      "learn": "İşleminizde durum kaydı, risk listesi, bekleyen onaylar ve atanmış işler."
     },
     "fragmentation": {
       "eyebrow": "Sorun",
@@ -2035,11 +2048,12 @@
       "callout": "ORTAQ, ticari taahhütlerin görünür, takip edilebilir ve eyleme dönüştürülebilir hale geldiği yerdir."
     },
     "cta": {
-      "h2a": "Aktif işlemlerinizden birini",
-      "h2b": "birlikte inceleyelim.",
-      "sub": "Demo isteyin. Gerçek bir işleminizi getirin. 30 dakika.",
-      "primary": "Demo İsteyin",
-      "secondary": "Nasıl Çalışır"
+      "h2a": "Aktif bir işlem üzerinde",
+      "h2b": "platform değerlendirmesi.",
+      "sub": "Kendi işleminizle 30 dakikalık değerlendirme. Yalnızca onayladığınız veriler kullanılır.",
+      "primary": "Değerlendirme talep edin",
+      "secondaryPreview": "Önce örneği inceleyin",
+      "formNote": "Form 2 dakika · 24 saat içinde randevu"
     }
   },
   "homeLanding": {

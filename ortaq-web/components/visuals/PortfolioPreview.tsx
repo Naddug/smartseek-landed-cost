@@ -47,18 +47,18 @@ const DEALS_TR: Deal[] = [
   {
     name: "Metal Konsantre",
     counterparty: "Siam Metals · Bangkok",
-    statusNote: "Muayene randevusu bekleniyor",
+    statusNote: "Laboratuvar sonucu bekleniyor",
     amount: "€510K",
     siraType: "alici-waiting",
     tarih: "2G",
   },
   {
-    name: "Endüstri Makinesi",
-    counterparty: "Yamato Corp · Osaka",
-    statusNote: "İmza bekleniyor — hukuk",
-    amount: "€1.2M",
-    siraType: "alici-waiting",
-    tarih: "2G",
+    name: "Çelik Boru",
+    counterparty: "Nordic Steel · Helsinki",
+    statusNote: "Ödeme onayı bekleniyor",
+    amount: "€480K",
+    siraType: "banka",
+    tarih: "3G",
   },
   {
     name: "Ham Kahve",
@@ -90,18 +90,18 @@ const DEALS_EN: Deal[] = [
   {
     name: "Metal Concentrate",
     counterparty: "Siam Metals · Bangkok",
-    statusNote: "Inspection appointment pending",
+    statusNote: "Lab result pending",
     amount: "€510K",
     siraType: "alici-waiting",
     tarih: "2D",
   },
   {
-    name: "Industrial Machine",
-    counterparty: "Yamato Corp · Osaka",
-    statusNote: "Awaiting signature — legal",
-    amount: "€1.2M",
-    siraType: "alici-waiting",
-    tarih: "2D",
+    name: "Steel Pipe",
+    counterparty: "Nordic Steel · Helsinki",
+    statusNote: "Payment approval pending",
+    amount: "€480K",
+    siraType: "banka",
+    tarih: "3D",
   },
   {
     name: "Raw Coffee",
@@ -174,28 +174,27 @@ export function PortfolioPreview() {
           {/* Heading + stats side by side */}
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
+              <p className="mb-2 text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
+                {isTR ? "Platform — işlem listesi" : "Platform — deal list"}
+              </p>
               <h2 className="text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
-                {isTR ? (
-                  <><span className="text-ortaq-trust">Sabah buradan başlarsınız.</span></>
-                ) : (
-                  <><span className="text-ortaq-trust">This is where you start each morning.</span></>
-                )}
+                {isTR ? "Aktif işlem portföyü" : "Active deal portfolio"}
               </h2>
               <p className="mt-2 max-w-lg text-[0.875rem] leading-relaxed text-ortaq-ink-muted">
                 {isTR
-                  ? "Riske göre sıralandı. Sıranın kimde olduğu her satırda görünür."
-                  : "Sorted by risk. Every row shows whose side is waiting."}
+                  ? "Bekleyen onay, gecikme ve kritik tarih — yetkiniz olan işlemler. Karşı taraf ayrı görünümde."
+                  : "Pending approval, delay, and critical date — deals within your permission. Counterparty has a separate view."}
               </p>
             </div>
 
             {/* Summary stats */}
-            <div className="flex shrink-0 items-center gap-5 rounded-xl border border-ortaq-border bg-ortaq-surface px-5 py-3 sm:self-start">
+            <div className="flex shrink-0 items-center gap-5 rounded-xl border border-ortaq-border/60 bg-ortaq-surface/50 px-5 py-3 opacity-50 sm:self-start">
               {stats.map((s) => (
                 <div key={s.label} className="flex flex-col items-center">
-                  <span className={cn("text-[1.375rem] font-bold leading-none tabular-nums", s.color)}>
+                  <span className={cn("text-[1.125rem] font-bold leading-none tabular-nums", s.color)}>
                     {s.count}
                   </span>
-                  <span className="mt-0.5 text-[0.5rem] font-semibold uppercase tracking-[0.06em] text-ortaq-ink-soft">
+                  <span className="mt-0.5 text-[0.4375rem] font-semibold uppercase tracking-[0.06em] text-ortaq-ink-soft">
                     {s.label}
                   </span>
                 </div>
@@ -207,14 +206,14 @@ export function PortfolioPreview() {
           <div className="overflow-hidden rounded-xl border border-ortaq-border bg-white shadow-sm">
 
             {/* Column headers */}
-            <div className="grid grid-cols-[2fr_1fr_1fr] border-b border-ortaq-border bg-ortaq-surface px-4 py-2">
+            <div className="grid grid-cols-[2fr_1fr_1fr] border-b-2 border-ortaq-trust/20 bg-ortaq-surface px-4 py-2.5">
               <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink-soft">
                 {isTR ? "İşlem" : "Deal"}
               </p>
-              <p className="text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust">
+              <p className="text-[0.5625rem] font-bold uppercase tracking-[0.08em] text-ortaq-trust">
                 {isTR ? "Sıra Kimde ↓" : "Whose Turn ↓"}
               </p>
-              <p className="text-right text-[0.5rem] font-bold uppercase tracking-[0.08em] text-ortaq-ink-soft">
+              <p className="text-right text-[0.5625rem] font-bold uppercase tracking-[0.08em] text-amber-700">
                 {isTR ? "Kritik Tarih" : "Critical Date"}
               </p>
             </div>
@@ -229,7 +228,7 @@ export function PortfolioPreview() {
                     key={deal.name}
                     className={cn(
                       "grid grid-cols-[2fr_1fr_1fr] items-center gap-3 px-4 py-3",
-                      isBlocked ? "bg-red-50/40" : "bg-white",
+                      isBlocked ? "border-l-4 border-l-red-500 bg-red-50/60" : "bg-white",
                     )}
                   >
                     {/* Deal info */}
@@ -238,16 +237,16 @@ export function PortfolioPreview() {
                         <p className="text-[0.75rem] font-bold text-ortaq-ink leading-snug truncate">
                           {deal.name}
                         </p>
-                        <span className="shrink-0 text-[0.5625rem] font-medium text-ortaq-ink-soft">
+                        <span className="shrink-0 text-[0.5rem] font-medium text-ortaq-ink-soft/60">
                           {deal.amount}
                         </span>
                       </div>
-                      <p className="mt-0.5 text-[0.5625rem] text-ortaq-ink-soft truncate">
+                      <p className="mt-0.5 text-[0.5rem] text-ortaq-ink-soft/50 truncate">
                         {deal.counterparty}
                       </p>
                       <p className={cn(
-                        "mt-0.5 text-[0.5rem] font-medium truncate",
-                        isBlocked ? "text-red-600" : "text-ortaq-ink-soft",
+                        "mt-1 text-[0.5625rem] font-semibold truncate",
+                        isBlocked ? "text-red-600" : "text-ortaq-ink/70",
                       )}>
                         {deal.statusNote}
                       </p>
@@ -257,7 +256,7 @@ export function PortfolioPreview() {
                     <div>
                       {badge.className ? (
                         <span className={cn(
-                          "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[0.5rem] font-bold",
+                          "inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[0.5625rem] font-bold",
                           badge.className,
                         )}>
                           {badge.dotAnimate && (
@@ -273,10 +272,11 @@ export function PortfolioPreview() {
                     {/* Kritik tarih */}
                     <div className="text-right">
                       <span className={cn(
-                        "text-[0.6875rem] font-bold tabular-nums",
+                        "text-[0.8125rem] font-bold tabular-nums",
                         isBlocked           ? "text-red-600" :
                         deal.siraType === "banka" ? "text-amber-600" :
-                        "text-ortaq-ink-soft",
+                        deal.tarih.includes("G gecikmeli") || deal.tarih.includes("overdue") ? "text-red-500" :
+                        "text-ortaq-ink/70",
                       )}>
                         {deal.tarih}
                       </span>
@@ -294,10 +294,10 @@ export function PortfolioPreview() {
               {isTR ? "+ 1 işlem daha" : "+ 1 more deal"}
             </p>
             <Link
-              href="/urun"
+              href="/demo"
               className="text-[0.75rem] font-semibold text-ortaq-trust transition-colors hover:text-ortaq-trust-deep hover:underline"
             >
-              {isTR ? "Tüm işlem ekranlarını görün →" : "See all deal screens →"}
+              {isTR ? "Değerlendirme talep edin" : "Request evaluation"}
             </Link>
           </div>
 

@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { OgBrandMark } from "@/lib/brand/OgBrandMark";
+import { OgFaviconMark } from "@/lib/brand/OgFaviconMark";
 import { brand } from "@/lib/brand/identity";
 
 export const alt = "ORTAQ";
@@ -20,7 +20,7 @@ export default function AppleIcon() {
           borderRadius: 40,
         }}
       >
-        <OgBrandMark size={120} theme="dark" />
+        <OgFaviconMark size={120} theme="dark" />
       </div>
     ),
     { ...size },

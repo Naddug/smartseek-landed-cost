@@ -29,43 +29,39 @@ export function IntelligenceComparison() {
   const email = isTR
     ? {
         label: "Gelen email",
-        from: "Hamburg Steel <procurement@hamburgsteel.de>",
-        subject: "Re: Kartal Çelik — Muayene Durumu",
-        body: "\"SGS report pending. Vessel departs June 28.\"",
+        from: "Al Noor Trading <procurement@alnoor.ae>",
+        subject: "Re: Ayçiçek Yağı — LC Belgeleri",
+        body: "\"LC tadilatı hâlâ bekliyor. Yükleme penceresi 30 Haziran'da kapanıyor.\"",
       }
     : {
         label: "Incoming email",
-        from: "Hamburg Steel <procurement@hamburgsteel.de>",
-        subject: "Re: Kartal Steel — Inspection Status",
-        body: "\"SGS report pending. Vessel departs June 28.\"",
+        from: "Al Noor Trading <procurement@alnoor.ae>",
+        subject: "Re: Sunflower Oil — LC Documents",
+        body: "\"LC amendment still pending. Loading window closes June 30.\"",
       };
 
-  /* ── Generic AI response ──────────────────────────────────────────── */
-  const genericAI = isTR
+  /* ── Email summary only ───────────────────────────────────────────── */
+  const emailSummary = isTR
     ? {
-        label: "Genel Yapay Zekâ",
-        badge: "GPT / Copilot / Gemini",
-        response: "SGS raporu bekleniyor. Gemi 28 Haziran'da kalkıyor.",
-        note: "Metni özetler. Operasyonu anlamaz.",
+        label: "Email özeti",
+        badge: "Manuel okuma",
+        response: "LC tadilatı bekleniyor. Yükleme penceresi 30 Haziran'da kapanıyor.",
+        note: "Cümleyi tekrarlar. Bağımlı adımlar ve atanmış iş listelenmez.",
         items: [
-          { text: "Yazılanı Türkçeye çevirdi", type: "neutral" as const },
-          { text: "Metni özetledi", type: "neutral" as const },
-          { text: "Bu bilginin ne anlama geldiğini bilmiyor", type: "missing" as const },
-          { text: "Hangi riski taşıdığını bilmiyor", type: "missing" as const },
-          { text: "Ne yapılması gerektiğini bilmiyor", type: "missing" as const },
+          { text: "LC–banka bağımlılığı gösterilmedi", type: "missing" as const },
+          { text: "Gecikme riski işaretlenmedi", type: "missing" as const },
+          { text: "Sonraki iş atanmadı", type: "missing" as const },
         ],
       }
     : {
-        label: "Generic AI",
-        badge: "GPT / Copilot / Gemini",
-        response: "SGS report pending. Vessel departs June 28.",
-        note: "Summarizes the text. Doesn't understand the operation.",
+        label: "Email summary",
+        badge: "Manual read",
+        response: "LC amendment pending. Loading window closes June 30.",
+        note: "Restates the sentence. Does not list dependent steps or assigned work.",
         items: [
-          { text: "Translated or paraphrased the text", type: "neutral" as const },
-          { text: "Produced a summary", type: "neutral" as const },
-          { text: "Doesn't know what this means operationally", type: "missing" as const },
-          { text: "Doesn't know what risk this creates", type: "missing" as const },
-          { text: "Doesn't know what action is required", type: "missing" as const },
+          { text: "LC–bank dependency not shown", type: "missing" as const },
+          { text: "Delay risk not flagged", type: "missing" as const },
+          { text: "Next action not assigned", type: "missing" as const },
         ],
       };
 
@@ -73,92 +69,95 @@ export function IntelligenceComparison() {
   const ortaqResponse = isTR
     ? {
         label: "ORTAQ",
-        badge: "Operasyonel anlama",
+        badge: "Bağımlılık zinciri",
         chain: [
           {
             type: "dependency" as const,
             icon: "🔗",
-            text: "SGS onaylanmadan sevkiyat başlayamaz.",
+            text: "LC tadilatı tamamlanmadan banka yükleme onayı vermez.",
           },
           {
             type: "dependency" as const,
             icon: "🔗",
-            text: "Sevkiyat başlamazsa Konşimento (BL) düzenlenemez.",
+            text: "Banka onayı olmadan konşimento (BL) düzenlenemez.",
           },
           {
             type: "dependency" as const,
             icon: "🔗",
-            text: "BL düzenlenmezse LC ödemesi tetiklenemez.",
+            text: "BL olmadan yükleme başlayamaz.",
           },
           {
             type: "risk" as const,
             icon: "⚠",
-            text: "28 Haziran'a 6 gün kaldı. SGS için 2–3 gün gerekiyor.",
+            text: "30 Haziran'a 4 gün kaldı. LC süreci 2–3 gün gerekiyor.",
           },
           {
             type: "risk" as const,
             icon: "⚠",
-            text: "3 gün içinde aksiyon alınmazsa operasyon risk altına girer.",
+            text: "2 gün içinde aksiyon alınmazsa yükleme penceresi kaçar.",
           },
         ],
         action: {
-          text: "Alıcıyla bugün iletişime geçin",
-          role: "Operasyon",
+          text: "Bankayla bugün iletişime geçin",
+          role: "Finans",
           urgency: "bugün",
         },
-        conclusion: "Bu bir cümle değil. Bir sevkiyat riski.",
       }
     : {
         label: "ORTAQ",
-        badge: "Operational understanding",
+        badge: "Dependency chain",
         chain: [
           {
             type: "dependency" as const,
             icon: "🔗",
-            text: "Shipment cannot begin without SGS approval.",
+            text: "Bank won't approve loading until LC amendment is complete.",
           },
           {
             type: "dependency" as const,
             icon: "🔗",
-            text: "Without shipment, Bill of Lading (BL) cannot be issued.",
+            text: "Without bank approval, Bill of Lading (BL) cannot be issued.",
           },
           {
             type: "dependency" as const,
             icon: "🔗",
-            text: "Without BL, LC payment cannot be triggered.",
+            text: "Without BL, loading cannot begin.",
           },
           {
             type: "risk" as const,
             icon: "⚠",
-            text: "6 days until June 28. SGS process requires 2–3 days.",
+            text: "4 days until June 30. LC process requires 2–3 days.",
           },
           {
             type: "risk" as const,
             icon: "⚠",
-            text: "If action isn't taken within 3 days, the entire operation is at risk.",
+            text: "If action isn't taken within 2 days, the loading window is missed.",
           },
         ],
         action: {
-          text: "Contact buyer today",
-          role: "Operations",
+          text: "Contact bank today",
+          role: "Finance",
           urgency: "today",
         },
-        conclusion: "This is not a sentence. This is a shipment risk.",
       };
 
   const chainStyles = {
-    dependency: "border-l-gray-300 bg-gray-50/50 text-ortaq-ink",
-    risk:       "border-l-amber-400 bg-amber-50/60 text-ortaq-ink font-medium",
+    dependency: "border-l-gray-200 bg-gray-50/30 text-ortaq-ink/60",
+    risk:       "border-l-4 border-l-amber-500 bg-amber-50 text-ortaq-ink font-semibold",
   } as const;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-ortaq-border bg-ortaq-ink shadow-[0_8px_32px_rgb(20_19_16/0.2)]">
 
       {/* ── Source email — shared context ──────────────────────────── */}
-      <div className="border-b border-ortaq-cream/10 px-5 py-4 sm:px-7">
-        <p className="mb-2 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/40">
-          {email.label}
-        </p>
+      <div className="border-b border-ortaq-cream/10 px-5 py-3 sm:px-7 opacity-70">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <p className="text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/30">
+            {email.label}
+          </p>
+          <span className="rounded border border-ortaq-cream/15 bg-ortaq-cream/5 px-1.5 py-0.5 text-[0.35rem] font-semibold text-ortaq-cream/40">
+            {isTR ? "Bağlı email hesabı" : "Connected email account"}
+          </span>
+        </div>
         <div className="overflow-hidden rounded-lg border border-ortaq-cream/10 bg-white/5">
           <div className="border-b border-ortaq-cream/10 px-4 py-2">
             <p className="text-[0.46rem] text-ortaq-cream/50">{email.from}</p>
@@ -175,40 +174,30 @@ export function IntelligenceComparison() {
       {/* ── Two-column comparison ───────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2">
 
-        {/* LEFT — Generic AI */}
-        <div className="border-b border-ortaq-cream/10 p-5 sm:border-b-0 sm:border-r sm:p-7">
+        {/* LEFT — Email summary */}
+        <div className="border-b border-ortaq-cream/10 p-5 opacity-45 sm:border-b-0 sm:border-r sm:p-7">
           <div className="mb-3 flex items-start justify-between gap-2">
             <div>
-              <p className="text-[0.5625rem] font-bold text-ortaq-cream/60">{genericAI.label}</p>
+              <p className="text-[0.5625rem] font-bold text-ortaq-cream/60">{emailSummary.label}</p>
               <span className="mt-0.5 inline-block rounded bg-ortaq-cream/10 px-1.5 py-0.5 text-[0.375rem] font-semibold text-ortaq-cream/40">
-                {genericAI.badge}
+                {emailSummary.badge}
               </span>
             </div>
           </div>
 
-          {/* Generic AI output — just the summary */}
           <div className="mb-4 rounded-lg border border-ortaq-cream/10 bg-white/5 px-4 py-3">
             <p className="text-[0.5625rem] italic text-ortaq-cream/60">
-              &ldquo;{genericAI.response}&rdquo;
+              &ldquo;{emailSummary.response}&rdquo;
             </p>
           </div>
 
-          {/* What generic AI did / didn't do */}
           <div className="space-y-1.5">
-            {genericAI.items.map((item, i) => (
+            {emailSummary.items.map((item, i) => (
               <div key={i} className="flex items-start gap-2">
-                <span className={cn(
-                  "mt-px flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full text-[0.38rem] font-bold",
-                  item.type === "neutral"
-                    ? "bg-ortaq-cream/10 text-ortaq-cream/50"
-                    : "bg-red-900/30 text-red-400",
-                )}>
-                  {item.type === "neutral" ? "✓" : "✗"}
+                <span className="mt-px flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-red-900/30 text-[0.38rem] font-bold text-red-400">
+                  ✗
                 </span>
-                <p className={cn(
-                  "text-[0.46rem] leading-snug",
-                  item.type === "neutral" ? "text-ortaq-cream/50" : "text-red-400/80",
-                )}>
+                <p className="text-[0.46rem] leading-snug text-red-400/80">
                   {item.text}
                 </p>
               </div>
@@ -216,7 +205,7 @@ export function IntelligenceComparison() {
           </div>
 
           <p className="mt-4 text-[0.46rem] italic text-ortaq-cream/30">
-            {genericAI.note}
+            {emailSummary.note}
           </p>
         </div>
 
@@ -244,7 +233,10 @@ export function IntelligenceComparison() {
                 <span className="shrink-0 text-[0.6rem] leading-none mt-0.5">
                   {step.icon}
                 </span>
-                <p className="text-[0.46rem] leading-snug">
+                <p className={cn(
+                  "leading-snug",
+                  step.type === "risk" ? "text-[0.52rem] sm:text-[0.54rem]" : "text-[0.44rem]",
+                )}>
                   {step.text}
                 </p>
               </div>
@@ -252,17 +244,17 @@ export function IntelligenceComparison() {
           </div>
 
           {/* Action terminal — visually distinct from the chain */}
-          <div className="mt-3 overflow-hidden rounded-lg border-2 border-ortaq-trust bg-ortaq-trust">
-            <div className="flex items-center gap-3 px-3 py-2.5">
-              <span className="shrink-0 text-[0.875rem] font-bold text-white">→</span>
-              <p className="flex-1 text-[0.5rem] font-bold text-white leading-snug">
+          <div className="mt-4 overflow-hidden rounded-lg border-2 border-ortaq-trust-deep bg-ortaq-trust shadow-[0_4px_16px_rgb(0_0_0/0.2)]">
+            <div className="flex items-center gap-3 px-4 py-3.5">
+              <span className="shrink-0 text-[1rem] font-bold text-white">→</span>
+              <p className="flex-1 text-[0.5625rem] font-bold text-white leading-snug sm:text-[0.625rem]">
                 {ortaqResponse.action.text}
               </p>
               <div className="flex shrink-0 items-center gap-1.5">
-                <span className="rounded bg-white/20 px-1.5 py-0.5 text-[0.375rem] font-bold text-white/80">
+                <span className="rounded bg-white/25 px-2 py-0.5 text-[0.4rem] font-bold text-white">
                   {ortaqResponse.action.role}
                 </span>
-                <span className="text-[0.4375rem] font-bold text-white/70">
+                <span className="text-[0.46rem] font-bold text-white">
                   {ortaqResponse.action.urgency}
                 </span>
               </div>

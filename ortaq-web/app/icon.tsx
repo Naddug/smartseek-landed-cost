@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { OgBrandMark } from "@/lib/brand/OgBrandMark";
+import { OgFaviconMark } from "@/lib/brand/OgFaviconMark";
 import { brand } from "@/lib/brand/identity";
 
 export const alt = "ORTAQ";
@@ -19,7 +19,7 @@ export default function Icon() {
           background: brand.green.deep,
         }}
       >
-        <OgBrandMark size={32} theme="dark" />
+        <OgFaviconMark size={32} theme="dark" />
       </div>
     ),
     { ...size },

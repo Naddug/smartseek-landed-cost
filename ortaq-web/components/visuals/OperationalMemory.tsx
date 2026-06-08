@@ -1,40 +1,41 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/cn";
 import { Container } from "@/components/ui/Section";
 
 const SOURCES_TR = [
-  { icon: "📧", channel: "Email",           excerpt: "\"Revize teslimat tarihi: 15 Temmuz.\"",          meta: "22 Haz" },
-  { icon: "💬", channel: "WhatsApp",        excerpt: "\"Muayene ekibinden haber yok — risk mi?\"",     meta: "24 Haz" },
-  { icon: "📄", channel: "Sözleşme rev.3", excerpt: "Teslimat yükümlülüğü — 28 Haziran",               meta: "İmzalı" },
-  { icon: "📝", channel: "Toplantı notu",  excerpt: "\"Yamato tarihi teyit etmemizi bekliyor.\"",      meta: "21 Haz" },
+  { icon: "📧", channel: "Email",          excerpt: "\"Numune kargo takip no: TR-88421 — Jakarta'ya yola çıktı.\"", meta: "18 Haz" },
+  { icon: "💬", channel: "WhatsApp",       excerpt: "\"Cupping sonucu ne zaman? Alıcı bekliyor.\"",                  meta: "20 Haz" },
+  { icon: "📄", channel: "Kontrat CO-1188", excerpt: "Avans ödeme koşulu: numune onayı",                            meta: "İmzalı" },
+  { icon: "📝", channel: "Toplantı notu",  excerpt: "\"Green Origin cupping randevusu 22 Haziran.\"",               meta: "19 Haz" },
 ];
 
 const SOURCES_EN = [
-  { icon: "📧", channel: "Email",           excerpt: "\"Revised delivery date: July 15.\"",             meta: "Jun 22" },
-  { icon: "💬", channel: "WhatsApp",        excerpt: "\"No news from inspection team — risk?\"",        meta: "Jun 24" },
-  { icon: "📄", channel: "Contract rev.3", excerpt: "Delivery obligation — June 28",                   meta: "Signed" },
-  { icon: "📝", channel: "Meeting note",   excerpt: "\"Yamato is waiting for our date confirmation.\"", meta: "Jun 21" },
+  { icon: "📧", channel: "Email",          excerpt: "\"Sample shipment tracking: TR-88421 — en route to Jakarta.\"", meta: "Jun 18" },
+  { icon: "💬", channel: "WhatsApp",       excerpt: "\"When is the cupping result? Buyer is waiting.\"",              meta: "Jun 20" },
+  { icon: "📄", channel: "Contract CO-1188", excerpt: "Advance payment condition: sample approval",                 meta: "Signed" },
+  { icon: "📝", channel: "Meeting note",   excerpt: "\"Green Origin cupping scheduled June 22.\"",                   meta: "Jun 19" },
 ];
 
 const MEMORY_TR = [
-  { label: "Ne oldu",       val: "Yamato teknik şartnameyi onayladı" },
-  { label: "Ne değişti",   val: "Teslim tarihi 28 Haz → 15 Tem önerildi" },
-  { label: "Kim bekliyor", val: "Yamato · 3 gündür yanıtsız" },
+  { label: "Ne oldu",      val: "Numune Jakarta'ya gönderildi" },
+  { label: "Ne değişti",   val: "Cupping randevusu 22 Haziran'a alındı" },
+  { label: "Kim bekliyor", val: "Green Origin · cupping sonucu" },
 ];
 const MEMORY_EN = [
-  { label: "What happened", val: "Yamato approved the technical specifications" },
-  { label: "What changed",  val: "Delivery shifted Jun 28 → Jul 15 proposed" },
-  { label: "Who is waiting", val: "Yamato · 3 days without response" },
+  { label: "What happened",  val: "Sample shipped to Jakarta" },
+  { label: "What changed",   val: "Cupping appointment set for June 22" },
+  { label: "Who is waiting", val: "Green Origin · cupping result" },
 ];
 
 const ACTIONS_TR = [
-  { action: "Muayene tarihini netleştir",   role: "Operasyon", urgency: "bugün" },
-  { action: "Yamato'yu yazılı bilgilendir", role: "Satış",     urgency: "hafta içi" },
+  { action: "Cupping tarihini teyit et",              role: "Operasyon", urgency: "bugün" },
+  { action: "Alıcıya numune ulaştı bildirimi gönder", role: "Satış",     urgency: "hafta içi" },
 ];
 const ACTIONS_EN = [
-  { action: "Clarify inspection date",      role: "Operations", urgency: "today" },
-  { action: "Inform Yamato in writing",     role: "Sales",      urgency: "this week" },
+  { action: "Confirm cupping date",                   role: "Operations", urgency: "today" },
+  { action: "Notify buyer that sample has arrived",   role: "Sales",      urgency: "this week" },
 ];
 
 export function OperationalMemory() {
@@ -53,32 +54,29 @@ export function OperationalMemory() {
           {/* Section header */}
           <div className="mb-10">
             <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-ink/40">
-              {isTR ? "Operasyonel Hafıza" : "Operational Memory"}
+              {isTR ? "Platform — işlem dosyası" : "Platform — deal file"}
             </p>
             <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-ink leading-[1.15] sm:text-[1.875rem]">
-              {isTR ? (
-                <>
-                  ORTAQ operasyonu hatırlar.<br />
-                  <span className="text-ortaq-trust">Ekibinizin hatırlaması gerekmez.</span>
-                </>
-              ) : (
-                <>
-                  ORTAQ remembers the operation.<br />
-                  <span className="text-ortaq-trust">Your team doesn&apos;t have to.</span>
-                </>
-              )}
+              {isTR
+                ? "İşlem dosyası: yazışma ve karar geçmişi"
+                : "Deal file: correspondence and decision history"}
             </h2>
+            <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
+              {isTR
+                ? "Email, WhatsApp ve belgeler tek dosyada. Her kayıt kanal ve tarihle saklanır. İç notlar karşı tarafa paylaşılmaz."
+                : "Email, WhatsApp, and documents in one file. Every record stored with channel and date. Internal notes not shared with counterparty."}
+            </p>
           </div>
 
           {/* Source flow diagram */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_2rem_1.4fr]">
 
             {/* LEFT — Source channels */}
-            <div className="space-y-2">
+            <div className="space-y-2 opacity-65">
               {sources.map((src, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-3 rounded-xl border border-ortaq-border bg-white px-4 py-3"
+                  className="flex items-start gap-3 rounded-xl border border-ortaq-border/70 bg-white px-4 py-2.5"
                 >
                   <span className="mt-0.5 shrink-0 text-base">{src.icon}</span>
                   <div className="flex-1 min-w-0">
@@ -111,56 +109,58 @@ export function OperationalMemory() {
                 <div className="flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-ortaq-trust" />
                   <p className="text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust/70">
-                    {isTR ? "ORTAQ Operasyon Kaydı" : "ORTAQ Operation Record"}
+                    {isTR ? "İşlem dosyası" : "Deal file"}
                   </p>
                 </div>
                 <p className="mt-0.5 text-[0.6875rem] font-semibold text-ortaq-ink">
-                  Yamato Machinery · €1.200.000
+                  Ham Kahve · Green Origin · €185.000
                 </p>
               </div>
 
-              {/* Memory zone */}
-              <div className="px-5 py-4">
-                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink/35">
-                  {isTR ? "Hafıza" : "Memory"}
+              {/* Action zone (scan first) */}
+              <div className="border-b-2 border-ortaq-trust bg-ortaq-trust/[0.08] px-5 py-4">
+                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-trust">
+                  {isTR ? "Önerilen aksiyonlar" : "Recommended actions"}
                 </p>
-                <div className="space-y-2">
-                  {memory.map((m, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <span className="mt-[0.15rem] shrink-0 text-[0.5rem] font-bold text-ortaq-trust">✓</span>
-                      <div>
-                        <p className="text-[0.4375rem] font-semibold uppercase tracking-[0.06em] text-ortaq-ink/40 leading-none mb-0.5">
-                          {m.label}
-                        </p>
-                        <p className="text-[0.75rem] leading-snug text-ortaq-ink/80">{m.val}</p>
+                <div className="space-y-3">
+                  {actions.map((a, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span className="shrink-0 text-[1rem] font-bold text-ortaq-trust">→</span>
+                      <p className="flex-1 text-[0.875rem] font-semibold text-ortaq-ink">
+                        {a.action}
+                      </p>
+                      <div className="flex shrink-0 items-center gap-1.5">
+                        <span className="rounded border border-ortaq-trust/30 bg-ortaq-trust/15 px-2 py-0.5 text-[0.4rem] font-bold text-ortaq-trust">
+                          {a.role}
+                        </span>
+                        <span className="text-[0.46rem] font-bold text-amber-600">
+                          {a.urgency}
+                        </span>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="mx-5 border-t border-ortaq-trust/10" />
-
-              {/* Action zone */}
-              <div className="bg-ortaq-trust/[0.03] px-5 py-4">
-                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-trust/60">
-                  {isTR ? "Önerilen aksiyonlar" : "Recommended actions"}
+              {/* History zone */}
+              <div className="px-5 py-4 opacity-80">
+                <p className="mb-3 text-[0.4rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink/30">
+                  {isTR ? "Geçmiş" : "History"}
                 </p>
-                <div className="space-y-2.5">
-                  {actions.map((a, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <span className="shrink-0 text-[0.875rem] font-bold text-ortaq-trust">→</span>
-                      <p className="flex-1 text-[0.8125rem] font-medium text-ortaq-ink">
-                        {a.action}
-                      </p>
-                      <div className="flex shrink-0 items-center gap-1.5">
-                        <span className="rounded border border-ortaq-trust/20 bg-ortaq-trust/10 px-1.5 py-0.5 text-[0.375rem] font-bold text-ortaq-trust/70">
-                          {a.role}
-                        </span>
-                        <span className="text-[0.4375rem] font-medium text-amber-600">
-                          {a.urgency}
-                        </span>
+                <div className="space-y-2">
+                  {memory.map((m, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="mt-[0.15rem] shrink-0 text-[0.5rem] font-bold text-ortaq-trust/70">✓</span>
+                      <div>
+                        <p className="text-[0.4rem] font-semibold uppercase tracking-[0.06em] text-ortaq-ink/35 leading-none mb-0.5">
+                          {m.label}
+                        </p>
+                        <p className={cn(
+                          "text-[0.75rem] leading-snug",
+                          m.label.includes("bekliyor") || m.label.includes("waiting")
+                            ? "font-semibold text-ortaq-ink"
+                            : "text-ortaq-ink/70",
+                        )}>{m.val}</p>
                       </div>
                     </div>
                   ))}

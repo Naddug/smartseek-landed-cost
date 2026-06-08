@@ -17,7 +17,7 @@
     "ariaMain": "Main navigation",
     "ariaMobile": "Mobile navigation",
     "team": "Team",
-    "requestDemo": "Request Demo",
+    "requestDemo": "Request evaluation",
     "whoFor": "Who Is It For",
     "scenarios": "Use Cases",
     "whyOrtaq": "Why ORTAQ",
@@ -2536,12 +2536,25 @@
   },
   "home": {
     "hero": {
-      "eyebrow": "For buyers and sellers",
-      "h1a": "The information exists.",
-      "h1b": "The understanding doesn't.",
-      "sub": "Every operation already contains the information needed to understand reality. The problem is that nobody continuously synthesizes it.",
-      "cta": "Request Demo",
-      "ctaSecondary": "Ask ORTAQ"
+      "eyebrow": "Transaction monitoring platform",
+      "h1a": "Deal status, approvals,",
+      "h1b": "and critical dates in one record.",
+      "sub": "Email, WhatsApp, and documents unified in the deal file. Pending approvals, delays, and responsible party on record. Data comes only from sources you connect.",
+      "cta": "Request evaluation",
+      "ctaSecondary": "Deal file example",
+      "ctaNote": "Preview before the evaluation — further down this page"
+    },
+    "demo": {
+      "heroNote": "30 minutes · one active deal · 2-minute form",
+      "prepTitle": "Evaluation session",
+      "whatLabel": "What happens",
+      "what": "We review status, risks, and pending approvals on your chosen deal — on the platform, together.",
+      "durationLabel": "Duration",
+      "duration": "30 minutes. Appointment confirmed within 24 hours.",
+      "bringLabel": "Bring",
+      "bring": "One active deal and one document (contract, LC, BL, or proforma).",
+      "learnLabel": "You will see",
+      "learn": "How status, risk list, pending approvals, and assigned work appear for your deal."
     },
     "fragmentation": {
       "eyebrow": "The problem",
@@ -2603,11 +2616,12 @@
       "callout": "ORTAQ is where commercial commitments become visible, trackable and actionable."
     },
     "cta": {
-      "h2a": "Let us walk through one of",
-      "h2b": "your active deals together.",
-      "sub": "Request a demo. Bring a real deal. 30 minutes.",
-      "primary": "Request Demo",
-      "secondary": "How It Works"
+      "h2a": "Platform evaluation",
+      "h2b": "on one active deal.",
+      "sub": "30-minute evaluation with your own deal. Only data you approve is used.",
+      "primary": "Request evaluation",
+      "secondaryPreview": "Review the example first",
+      "formNote": "2-minute form · appointment within 24 hours"
     },
     "home": {
       "cta": {

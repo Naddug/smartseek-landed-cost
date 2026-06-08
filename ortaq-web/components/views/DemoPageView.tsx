@@ -92,30 +92,50 @@ export function DemoPageView() {
 
               {/* Headline */}
               <h1 className="mt-3 text-[2rem] font-bold tracking-[-0.035em] text-ortaq-ink leading-[1.05] sm:text-[2.625rem]">
-                Aktif bir işleminizi<br />
-                <span className="text-ortaq-trust">birlikte inceleyelim.</span>
+                Platform değerlendirmesi<br />
+                <span className="text-ortaq-trust">aktif işleminiz üzerinde.</span>
               </h1>
 
               {/* Sub */}
               <p className="mt-4 text-[0.9375rem] leading-relaxed text-ortaq-ink-muted">
-                Genel bir tanıtım değil. Sizin gerçek işleminizi — belgelerini,
-                onaylarını, durumunu — 30 dakikada birlikte bakıyoruz.
+                Genel tanıtım değil. Seçtiğiniz işlemde durum, risk ve bekleyen onayları
+                30 dakikada platformda birlikte inceleriz.
               </p>
+
+              {/* What you will learn */}
+              <div className="mt-8 rounded-xl border border-ortaq-border bg-white p-5">
+                <p className="mb-4 text-[0.5625rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink-soft">
+                  Ne öğreneceksiniz
+                </p>
+                <div className="space-y-2.5">
+                  {[
+                    "İşleminizde durum kaydı nasıl görünür",
+                    "Hangi adımlar gecikiyor ve risk listesi",
+                    "Kim onay bekliyor ve sıra kimde",
+                    "Bugünkü atanmış işler ve sorumlu taraf",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-2.5">
+                      <span className="mt-[1px] shrink-0 text-[0.5625rem] font-bold text-ortaq-trust">✓</span>
+                      <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* What to bring */}
               <div className="mt-8 rounded-xl border border-ortaq-border bg-white p-5">
                 <p className="mb-4 text-[0.5625rem] font-bold uppercase tracking-[0.09em] text-ortaq-ink-soft">
-                  Getirmeniz gereken tek şey
+                  Getirmeniz gerekenler
                 </p>
                 <div className="space-y-3">
                   {[
-                    { icon: "📄", text: "Aktif bir ticari işlem — çelik, tekstil, makine, gıda veya başka bir sektör." },
-                    { icon: "📁", text: "O işlemin belgeleri: sözleşme, proforma fatura, SGS veya BL taslağı." },
-                    { icon: "💬", text: "Alıcıyla son yazışma. Nerede takıldığını ya da neyin belirsiz kaldığını bilmek." },
-                  ].map(item => (
-                    <div key={item.icon} className="flex items-start gap-3">
-                      <span className="shrink-0 text-lg leading-none">{item.icon}</span>
-                      <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink">{item.text}</p>
+                    "Aktif bir ticari işlem (sektör fark etmez)",
+                    "Bir belge: sözleşme, LC, BL taslağı veya proforma fatura",
+                    "İşlemin nerede takıldığına dair kısa not (isteğe bağlı)",
+                  ].map((text) => (
+                    <div key={text} className="flex items-start gap-2.5">
+                      <span className="mt-[1px] shrink-0 text-[0.5625rem] font-bold text-ortaq-trust">·</span>
+                      <p className="text-[0.8125rem] leading-relaxed text-ortaq-ink">{text}</p>
                     </div>
                   ))}
                 </div>
@@ -199,10 +219,10 @@ export function DemoPageView() {
                         Bu hafta
                       </p>
                       <h2 className="mt-1 text-[1.25rem] font-bold text-ortaq-ink tracking-[-0.025em]">
-                        Demo İsteyin
+                        Değerlendirme talep edin
                       </h2>
                       <p className="mt-0.5 text-[0.75rem] text-ortaq-ink-muted">
-                        3 alan · 2 dakika · 24 saat içinde yanıt
+                        3 zorunlu alan · 2 dakika · 24 saat içinde randevu
                       </p>
                     </div>
 
@@ -300,7 +320,7 @@ export function DemoPageView() {
                             Gönderiliyor…
                           </>
                         ) : (
-                          "Demo İsteyin →"
+                          "Değerlendirme talep edin"
                         )}
                       </button>
 
@@ -323,9 +343,9 @@ export function DemoPageView() {
               {/* Inline trust signals below form */}
               <div className="mt-4 grid grid-cols-3 gap-3">
                 {[
-                  { label: "Kurulum yok", note: "Canlı, tarayıcıda" },
-                  { label: "Kendi işleminiz", note: "Generic demo değil" },
-                  { label: "30 dakika", note: "Hepsi bu kadar" },
+                  { label: "30 dakika", note: "Aktif işlem üzerinde" },
+                  { label: "Kendi veriniz", note: "Örnek veri yok" },
+                  { label: "Form 2 dk", note: "24 saatte randevu" },
                 ].map(item => (
                   <div key={item.label} className="rounded-xl border border-ortaq-border bg-white px-3 py-3 text-center">
                     <p className="text-[0.625rem] font-bold text-ortaq-ink">{item.label}</p>

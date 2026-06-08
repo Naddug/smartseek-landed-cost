@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { useTranslation } from "react-i18next";
 import { Container } from "@/components/ui/Section";
@@ -40,7 +41,7 @@ const BRIEFING_TR: BriefingItem[] = [
   {
     num: "02",
     label: "Dikkat Gerektiren Konu",
-    text: "Muayene raporu henüz ulaşmadı. Muayene tamamlanmadan yükleme başlayamaz; bu durum mevcut sevkiyat planını etkileyebilir.",
+    text: "Muayene raporu henüz ulaşmadı. Muayene tamamlanmadan yükleme başlayamaz; sevkiyat planı gecikebilir.",
     alert: true,
   },
   {
@@ -110,7 +111,7 @@ const QA_TR: QA[] = [
     answer: [
       "20 Haziran: Yamato teknik şartnameyi onayladı. Beklenen bir adımdı, gerçekleşti.",
       "22 Haziran: Teslim tarihi revizyonu geldi. 28 Haziran yerine 15 Temmuz öneriliyor. Karşılıklı onay henüz yok.",
-      "24 Haziran: Muayene sağlayıcısı randevu talebine yanıt vermedi. Üç günlük sessizlik — bu sessizlik risk.",
+      "24 Haziran: Muayene sağlayıcısı randevu talebine yanıt vermedi. Üç gündür cevap bekleniyor — gecikme riski.",
     ],
     sources: [
       { label: "Email · 20 Haz", note: "Teknik onay, Yamato Satın Alma" },
@@ -165,7 +166,7 @@ const QA_EN: QA[] = [
     answer: [
       "June 20: Yamato approved the technical specifications. An expected step — it happened.",
       "June 22: Delivery date revision arrived. July 15 instead of June 28. Mutual confirmation still pending.",
-      "June 24: Inspection provider did not respond to the appointment request. Three days of silence — that silence is risk.",
+      "June 24: Inspection provider did not respond to the appointment request. No response for three days — delay risk.",
     ],
     sources: [
       { label: "Email · Jun 20", note: "Technical approval, Yamato Procurement" },
@@ -215,8 +216,8 @@ export function PilotBriefing() {
   const [activeQ, setActiveQ] = useState<number>(0);
 
   const qLabels = isTR
-    ? ["En büyük risk?", "Bu hafta ne değişti?", "Kim bekliyor?", "Bugün ne yapmalı?"]
-    : ["Biggest risk?", "What changed this week?", "Who is waiting?", "What to do today?"];
+    ? ["Risk", "Bu hafta", "Bekleyen taraf", "Bugünkü iş"]
+    : ["Risk", "This week", "Waiting party", "Today's work"];
 
   return (
     <section id="ortaq-pilot" className="border-b border-ortaq-border bg-ortaq-ink">
@@ -226,17 +227,17 @@ export function PilotBriefing() {
           {/* ── Section header ──────────────────────────────────────────── */}
           <div className="mb-10">
             <p className="text-[0.625rem] font-bold uppercase tracking-[0.1em] text-ortaq-trust/70">
-              ORTAQ Pilot
+              {isTR ? "Platform — işlem detayı" : "Platform — deal detail"}
             </p>
             <h2 className="mt-2 text-[1.5rem] font-bold tracking-[-0.03em] text-ortaq-cream leading-[1.15] sm:text-[1.875rem]">
               {isTR
-                ? "Sabah geldiğinizde\nORTAQ sizi neyle karşılar?"
-                : "What does ORTAQ\nbriefyou with each morning?"}
+                ? "İşlem dosyası: durum, onay bekleyenler ve atanmış işler"
+                : "Deal file: status, pending approvals, and assigned actions"}
             </h2>
             <p className="mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-ortaq-cream/55">
               {isTR
-                ? "İlk soruyu sormadan önce bilmeniz gerekenler. ORTAQ, operasyonu gece boyunca takip eder ve sabah hazır olarak sunar."
-                : "What you need to know before asking the first question. ORTAQ tracks the operation overnight and has it ready each morning."}
+                ? "Durum, risk, bekleyen taraf ve bugünkü işler — kaynak belge ve tarihle. Erişim işlem yetkisine göre sınırlıdır."
+                : "Status, risk, waiting party, and today's work — with source document and date. Access limited by deal permission."}
             </p>
           </div>
 
@@ -253,9 +254,29 @@ export function PilotBriefing() {
                 <span className="rounded-full border border-ortaq-trust/40 bg-ortaq-trust/10 px-3 py-1 text-[0.4375rem] font-bold uppercase tracking-[0.07em] text-ortaq-trust">
                   {op.phase}
                 </span>
-                <span className="text-[0.4375rem] text-ortaq-cream/25">
+                <span className="hidden text-[0.4375rem] text-ortaq-cream/25 sm:inline">
                   {isTR ? "Güncelleme:" : "Updated:"} {op.updated}
                 </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Action summary bar (scan first) ───────────────────────── */}
+          <div className="mb-6 overflow-hidden rounded-xl border-2 border-ortaq-trust/40 bg-ortaq-trust shadow-[0_4px_20px_rgb(0_0_0/0.15)]">
+            <div className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-center sm:gap-5">
+              <p className="shrink-0 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-white/75">
+                {isTR ? "Öncelikli işler" : "Priority actions"}
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5">
+                {(isTR
+                  ? ["Muayene tarihi", "Yamato bilgilendirme", "Revizyon imzası"]
+                  : ["Inspection date", "Yamato update", "Contract signature"]
+                ).map((action, i) => (
+                  <span key={i} className="flex items-center gap-2">
+                    {i > 0 && <span className="text-white/40">→</span>}
+                    <span className="text-[0.8125rem] font-bold text-white sm:text-[0.875rem]">{action}</span>
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -264,7 +285,7 @@ export function PilotBriefing() {
           <div className="mb-6 overflow-hidden rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/[0.02]">
             <div className="border-b border-ortaq-cream/[0.07] px-5 py-3">
               <p className="text-[0.4375rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/30">
-                {isTR ? "ORTAQ Sabah Brifing" : "ORTAQ Morning Briefing"}
+                {isTR ? "İşlem özeti" : "Deal summary"}
               </p>
             </div>
             <div className="divide-y divide-ortaq-cream/[0.06]">
@@ -274,24 +295,31 @@ export function PilotBriefing() {
                   className={cn(
                     "px-5 py-4",
                     item.alert
-                      ? "bg-amber-500/[0.08] border-l-2 border-l-amber-400"
-                      : "",
+                      ? "bg-amber-500/[0.12] border-l-4 border-l-amber-400"
+                      : item.num === "05"
+                        ? "bg-ortaq-trust/[0.12] border-l-4 border-l-ortaq-trust"
+                        : "",
                   )}
                 >
                   <div className="flex items-baseline gap-2 mb-1.5">
-                    <span className="font-mono text-[0.4375rem] font-bold text-ortaq-cream/20">
+                    <span className={cn(
+                      "font-mono text-[0.4375rem] font-bold",
+                      item.num === "05" ? "text-ortaq-trust/50" : "text-ortaq-cream/20",
+                    )}>
                       {item.num}
                     </span>
                     <span className={cn(
                       "text-[0.4375rem] font-bold uppercase tracking-[0.07em]",
-                      item.alert ? "text-amber-400/90" : "text-ortaq-cream/35",
+                      item.alert ? "text-amber-300" : item.num === "05" ? "text-ortaq-trust" : "text-ortaq-cream/30",
                     )}>
                       {item.label}
                     </span>
                   </div>
                   <p className={cn(
-                    "text-[0.9375rem] leading-relaxed",
-                    item.alert ? "text-ortaq-cream/95 font-medium" : "text-ortaq-cream/75",
+                    "leading-relaxed",
+                    item.alert ? "text-[0.9375rem] text-ortaq-cream font-semibold" :
+                    item.num === "05" ? "text-[0.9375rem] text-ortaq-cream font-semibold" :
+                    "text-[0.875rem] text-ortaq-cream/60",
                   )}>
                     {item.text}
                   </p>
@@ -300,37 +328,17 @@ export function PilotBriefing() {
             </div>
           </div>
 
-          {/* ── Action summary bar ──────────────────────────────────────── */}
-          <div className="mb-8 overflow-hidden rounded-xl border border-ortaq-trust/25 bg-ortaq-trust">
-            <div className="flex flex-col gap-1 px-5 py-3 sm:flex-row sm:items-center sm:gap-4">
-              <p className="shrink-0 text-[0.4375rem] font-bold uppercase tracking-[0.1em] text-white/60">
-                {isTR ? "Bugün için" : "Today"}
-              </p>
-              <div className="flex flex-wrap items-center gap-2">
-                {(isTR
-                  ? ["Muayene tarihi", "Yamato bilgilendirme", "Revizyon imzası"]
-                  : ["Inspection date", "Yamato update", "Contract signature"]
-                ).map((action, i) => (
-                  <span key={i} className="flex items-center gap-1.5">
-                    {i > 0 && <span className="text-white/30">→</span>}
-                    <span className="text-[0.6875rem] font-semibold text-white">{action}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* ── Divider ─────────────────────────────────────────────────── */}
-          <div className="mb-6 flex items-center gap-4">
+          <div className="mb-6 flex items-center gap-4 opacity-50">
             <div className="h-px flex-1 bg-ortaq-cream/10" />
             <p className="shrink-0 text-[0.5rem] font-bold uppercase tracking-[0.1em] text-ortaq-cream/30">
-              {isTR ? "ORTAQ'a sor" : "Ask ORTAQ"}
+              {isTR ? "İşlem dosyasında ara" : "Search this deal file"}
             </p>
             <div className="h-px flex-1 bg-ortaq-cream/10" />
           </div>
 
           {/* ── Question pills — shorter labels ─────────────────────────── */}
-          <div className="mb-5 flex flex-wrap gap-2">
+          <div className="mb-5 flex flex-wrap gap-2 opacity-80">
             {qa.map((item, i) => (
               <button
                 key={i}
@@ -348,7 +356,7 @@ export function PilotBriefing() {
           </div>
 
           {/* ── Answer area ─────────────────────────────────────────────── */}
-          <div className="overflow-hidden rounded-xl border border-ortaq-trust/20 bg-ortaq-trust/[0.04]">
+          <div className="overflow-hidden rounded-xl border border-ortaq-cream/10 bg-ortaq-cream/[0.02] opacity-75">
             {/* Answer header */}
             <div className="flex items-center gap-2 border-b border-ortaq-trust/15 px-5 py-3">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-ortaq-trust/60" />
@@ -368,8 +376,8 @@ export function PilotBriefing() {
               </div>
 
               {/* Source citations — real document references */}
-              <div className="mt-5 border-t border-ortaq-cream/[0.07] pt-4">
-                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-cream/25">
+              <div className="mt-5 border-t border-ortaq-cream/[0.07] pt-4 opacity-60">
+                <p className="mb-3 text-[0.4375rem] font-bold uppercase tracking-[0.09em] text-ortaq-cream/20">
                   {isTR ? "Kaynaklar" : "Sources"}
                 </p>
                 <div className="space-y-2">
@@ -395,11 +403,14 @@ export function PilotBriefing() {
             </div>
           </div>
 
-          {/* ── Trust note ──────────────────────────────────────────────── */}
-          <p className="mt-6 max-w-lg text-[0.5625rem] leading-relaxed text-ortaq-cream/25">
+          <p className="mt-8 text-center text-[0.75rem] text-ortaq-cream/40">
             {isTR
-              ? "Bu brifing, ORTAQ'ın Yamato Machinery operasyonuna ait tüm email, WhatsApp ve belgelerden gece boyunca ürettiği çıktıdır. Siz sormadan hazır."
-              : "This briefing is what ORTAQ produces overnight from all emails, WhatsApp messages, and documents belonging to the Yamato Machinery operation. Ready before you ask."}
+              ? "Kendi işleminizde görmek için: aktif bir işlem ve bir belge yeterli."
+              : "To see this for your deal: one active deal and one document is enough."}
+            {" "}
+            <Link href="/demo" className="font-semibold text-ortaq-trust hover:underline">
+              {isTR ? "Değerlendirme talep edin" : "Request evaluation"}
+            </Link>
           </p>
 
         </div>

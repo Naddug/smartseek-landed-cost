@@ -22,7 +22,7 @@ import { cn } from "@/lib/cn";
  */
 
 export function MobileStickyCta() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isTR = (i18n.language ?? "tr").startsWith("tr");
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
@@ -57,12 +57,10 @@ export function MobileStickyCta() {
         {/* Text */}
         <div className="min-w-0 flex-1">
           <p className="text-[0.75rem] font-bold text-ortaq-ink leading-snug">
-            {isTR ? "Demo İsteyin" : "Request a Demo"}
+            {t("home.hero.cta")}
           </p>
           <p className="text-[0.5625rem] text-ortaq-ink-muted">
-            {isTR
-              ? "30 dakika · kendi işleminizle"
-              : "30 minutes · with your own deal"}
+            {t("home.demo.heroNote")}
           </p>
         </div>
 
@@ -71,7 +69,7 @@ export function MobileStickyCta() {
           href="/demo"
           className="inline-flex shrink-0 min-h-10 items-center justify-center rounded-lg bg-ortaq-trust px-4 text-[0.8125rem] font-bold text-white shadow-sm transition-all hover:bg-ortaq-trust-deep active:scale-[0.98]"
         >
-          {isTR ? "Demo →" : "Demo →"}
+          {t("nav.requestDemo")}
         </Link>
 
         {/* Dismiss */}
