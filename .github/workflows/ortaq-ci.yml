@@ -4,12 +4,14 @@ on:
   push:
     branches: [main, develop, staging/predeploy-final]
     paths:
+      - "ortaq-v2/**"
       - "ortaq-web/**"
       - "ortaq-api/**"
       - "ortaq-shared/**"
       - ".github/workflows/ortaq-ci.yml"
   pull_request:
     paths:
+      - "ortaq-v2/**"
       - "ortaq-web/**"
       - "ortaq-api/**"
       - "ortaq-shared/**"
@@ -19,29 +21,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ortaq-web:
-    name: ortaq-web
+  ortaq-v2:
+    name: ortaq-v2
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ortaq-web
+        working-directory: ortaq-v2
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: ortaq-web/package-lock.json
+          cache-dependency-path: ortaq-v2/package-lock.json
       - run: npm install --no-audit --no-fund
-      - run: npm run validate:prod
-        if: github.ref == 'refs/heads/main'
-      - run: npm run validate:staging
-        if: github.ref == 'refs/heads/staging/predeploy-final'
       - run: npm run build
-        if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/staging/predeploy-final'
         env:
-          NEXT_PUBLIC_APP_ENV: staging
-          NEXT_PUBLIC_SITE_URL: https://staging.ortaq.biz
+          NEXTAUTH_URL: https://ortaq.biz
+          NEXTAUTH_SECRET: ci-build-placeholder-secret
+
+  ortaq-web:
+    name: ortaq-web (archived)
+    if: false
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ortaq-web
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "ortaq-web archived — production is ortaq-v2"
 
   ortaq-api:
     name: ortaq-api

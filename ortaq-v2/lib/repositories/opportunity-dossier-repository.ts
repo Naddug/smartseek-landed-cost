@@ -12,7 +12,24 @@ export interface OpportunityDossierRepository {
   update(id: string, data: Partial<OpportunityDossier>): Promise<OpportunityDossier | null>;
 }
 
-async function readAll(): Promise<OpportunityDossier[]> {
+const useMemoryStore = Boolean(process.env.VERCEL);
+
+const globalStore = globalThis as unknown as {
+  __ortaqDossiers?: OpportunityDossier[];
+};
+
+function memoryReadAll(): OpportunityDossier[] {
+  if (!globalStore.__ortaqDossiers) {
+    globalStore.__ortaqDossiers = [];
+  }
+  return globalStore.__ortaqDossiers;
+}
+
+function memoryWriteAll(drafts: OpportunityDossier[]): void {
+  globalStore.__ortaqDossiers = drafts;
+}
+
+async function fileReadAll(): Promise<OpportunityDossier[]> {
   try {
     const raw = await fs.readFile(STORE_FILE, "utf-8");
     return JSON.parse(raw) as OpportunityDossier[];
@@ -21,12 +38,28 @@ async function readAll(): Promise<OpportunityDossier[]> {
   }
 }
 
-async function writeAll(drafts: OpportunityDossier[]): Promise<void> {
+async function fileWriteAll(drafts: OpportunityDossier[]): Promise<void> {
   await fs.mkdir(STORE_DIR, { recursive: true });
   await fs.writeFile(STORE_FILE, JSON.stringify(drafts, null, 2), "utf-8");
 }
 
-/** File-based store — swap with PrismaOpportunityDossierRepository later */
+async function readAll(): Promise<OpportunityDossier[]> {
+  if (useMemoryStore) return memoryReadAll();
+  return fileReadAll();
+}
+
+async function writeAll(drafts: OpportunityDossier[]): Promise<void> {
+  if (useMemoryStore) {
+    memoryWriteAll(drafts);
+    return;
+  }
+  await fileWriteAll(drafts);
+}
+
+/**
+ * File-based store locally; in-memory on Vercel until Postgres is wired.
+ * TODO: Replace with PrismaOpportunityDossierRepository.
+ */
 export const opportunityDossierRepository: OpportunityDossierRepository = {
   async findAll(ownerId?: string) {
     const all = await readAll();
