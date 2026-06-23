@@ -4,7 +4,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/firsatlar", label: "Fırsatları Keşfet" },
+  { href: "/firsatlar", label: "Fırsatlar" },
   { href: "/nasil-calisir", label: "Nasıl Çalışır" },
   { href: "/guven-kalite", label: "Güven & Kalite" },
 ];
@@ -50,7 +50,7 @@ export function Navbar({ className }: NavbarProps) {
               </Button>
             </Link>
             <Link href="/kayit/yol-secimi">
-              <Button size="sm">Fırsat Oluştur</Button>
+              <Button size="sm">Fırsat Dosyası Oluştur</Button>
             </Link>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { FilterBar } from "@/components/shared/FilterBar";
-import { OpportunityCard } from "@/components/opportunity/OpportunityCard";
+import { DossierCard } from "@/components/opportunity/DossierCard";
 import { mockOpportunities } from "@/data/mock-opportunities";
 
 export default function FirsatlarPage() {
@@ -12,7 +12,7 @@ export default function FirsatlarPage() {
         <SectionHeader
           eyebrow="Keşfet"
           title="Fırsat Dosyaları"
-          description="Gerçek varlığı olan, eksik kalmış iş fırsatları. Her dosya kategori, konum, engel ve aranan ortak türüyle yapılandırılır."
+          description="Yapılandırılmış, incelenmiş iş fırsatları. Her dosyada varlık, eksik parça ve aranan ortak türü netleştirilmiştir."
         />
         <FilterBar
           className="mb-8"
@@ -31,10 +31,10 @@ export default function FirsatlarPage() {
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
           {mockOpportunities.map((opportunity) => (
-            <OpportunityCard
+            <DossierCard
               key={opportunity.id}
               opportunity={opportunity}
-              variant="public"
+              href="/firsatlar"
             />
           ))}
         </div>

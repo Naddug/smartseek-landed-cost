@@ -91,6 +91,14 @@ export interface OpportunityDraft {
   primaryBlockerLabel: string;
   /** Display label for sought partner type */
   neededPartnerLabel: string;
+  /** Short label for existing assets — shown on dossier cards */
+  assetsLabel?: string;
+  /** Human-readable stage for dossier display */
+  stageLabel?: string;
+  /** Optional dossier reference id for display */
+  fileRef?: string;
+  /** One-line commercial hook — shown on cards; falls back to summary */
+  hook?: string;
 }
 
 /** Temporary partner profile draft — will align with Prisma model later */

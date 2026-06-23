@@ -31,4 +31,33 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Editorial type hierarchy */
+  .type-display {
+    @apply font-heading text-[2.125rem] font-semibold leading-[1.08] tracking-[-0.03em] text-ortaq-navy md:text-[2.75rem] lg:text-[3.125rem];
+  }
+
+  .type-section {
+    @apply font-heading text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.025em] text-ortaq-navy md:text-[2.125rem];
+  }
+
+  .type-section-light {
+    @apply font-heading text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.025em] text-white md:text-[2.125rem];
+  }
+
+  .type-eyebrow {
+    @apply font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-ortaq-text-muted;
+  }
+
+  .type-eyebrow-light {
+    @apply font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-white/45;
+  }
+
+  .type-card-title {
+    @apply font-heading text-base font-semibold leading-snug tracking-[-0.02em] text-ortaq-navy md:text-[1.05rem];
+  }
+
+  .type-meta {
+    @apply font-mono text-[10px] uppercase tracking-[0.12em] text-ortaq-text-muted;
+  }
 }
