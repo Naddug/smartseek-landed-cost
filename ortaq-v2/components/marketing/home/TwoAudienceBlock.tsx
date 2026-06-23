@@ -29,12 +29,18 @@ export function TwoAudienceBlock() {
                 ilerleme operatör, teknik veya büyüme ortağı eksikliğinde durdu.
                 Dosyada varlık ve eksik parça net yazılır.
               </p>
-              <Link href="/panel/dosya-olustur" className="mt-6 inline-block">
+              <Link href="/kayit/yol-secimi" className="mt-6 inline-block">
                 <Button className="bg-blue-600 hover:bg-blue-700">
                   Fırsat Dosyası Oluştur
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
+              <p className="mt-3 text-xs text-stone-500">
+                Premium dosya desteği ile daha hızlı yayın —{" "}
+                <Link href="/guven-kalite" className="font-medium text-blue-600 hover:underline">
+                  detaylar
+                </Link>
+              </p>
             </div>
           </div>
 
@@ -60,6 +66,12 @@ export function TwoAudienceBlock() {
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
+              <p className="mt-3 text-xs text-white/45">
+                Doğrulanmış ortak katmanı ile öncelikli başvuru —{" "}
+                <Link href="/guven-kalite#premium" className="font-medium text-white/70 hover:text-white">
+                  detaylar
+                </Link>
+              </p>
             </div>
           </div>
         </div>

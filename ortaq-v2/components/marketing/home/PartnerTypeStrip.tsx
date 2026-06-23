@@ -9,7 +9,7 @@ export function PartnerTypeStrip() {
       <AppContainer>
         <p className="type-eyebrow mb-4">Ortak türleri</p>
         <p className="mb-6 max-w-2xl text-sm text-stone-600">
-          Her dosyada aranan ortak türü net tanımlıdır. Ekosistemdeki başlıca
+          Her dosyada aranan ortak türü net tanımlıdır. Arşivdeki başlıca
           eşleşme alanları:
         </p>
         <div className="flex flex-wrap gap-2">

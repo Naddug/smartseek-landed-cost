@@ -108,6 +108,50 @@ export const ORTAQ_COPY = {
     partnerNeedRejected:
       "Belirsiz ortak talepleri inceleme sürecinde elenir.",
   },
+  monetization: {
+    sectionEyebrow: "Ticari model",
+    sectionTitle: "ORTAQ erken aşamada da gelir üretmeye hazır",
+    sectionDescription:
+      "Ödeme altyapısı tamamlanmadan bile ürün yapısı net: dosya hazırlığı, doğrulanmış ortak erişimi ve hızlı inceleme katmanları platformda görünür ve talep edilebilir.",
+    ownerPremiumTitle: "Premium dosya desteği",
+    ownerPremiumDescription:
+      "Yapılandırılmış yazım, inceleme öncesi düzenleme ve yayına hazırlık desteği — dosyanızı daha hızlı ve daha net yayınlayın.",
+    partnerPremiumTitle: "Doğrulanmış ortak",
+    partnerPremiumDescription:
+      "Profil doğrulaması, öncelikli başvuru ve gelişmiş dosya erişimi — ciddi ortaklar için ayrıcalıklı katman.",
+    fastReviewTitle: "Hızlı inceleme & öne çıkarma",
+    fastReviewDescription:
+      "Standart kuyruk dışında hızlandırılmış inceleme ve arşivde öne çıkarma — görünürlük ve zaman kazandırır.",
+    tiers: [
+      {
+        id: "owner" as const,
+        eyebrow: "Fırsat sahibi",
+        title: "Premium dosya desteği",
+        description:
+          "Yapılandırılmış yazım, inceleme öncesi düzenleme ve yayına hazırlık desteği. Dosyanızı daha hızlı ve daha net yayınlayın.",
+        cta: "Dosya oluştur",
+        href: "/panel/dosya-olustur",
+      },
+      {
+        id: "partner" as const,
+        eyebrow: "Ortak tarafı",
+        title: "Doğrulanmış ortak",
+        description:
+          "Profil doğrulaması, öncelikli başvuru ve gelişmiş dosya erişimi. Ciddi ortaklar için ayrıcalıklı katman.",
+        cta: "Profili güçlendir",
+        href: "/panel/profilim",
+      },
+      {
+        id: "visibility" as const,
+        eyebrow: "Görünürlük",
+        title: "Hızlı inceleme & öne çıkarma",
+        description:
+          "Standart kuyruk dışında hızlandırılmış inceleme ve arşivde öne çıkarma. Zaman ve dikkat kazandırır.",
+        cta: "Standartları incele",
+        href: "/guven-kalite",
+      },
+    ],
+  },
 } as const;
 
 export type OrtaqCopy = typeof ORTAQ_COPY;

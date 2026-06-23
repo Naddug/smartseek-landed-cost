@@ -34,7 +34,8 @@ export function HeroSection() {
             </h1>
             <p className="mt-5 text-[1rem] leading-relaxed text-stone-600 md:text-[1.0625rem]">
               Varlığı olan ama ilerleyemeyen fırsatlar dosyaya dönüşür — eksik
-              parça netleşir, aranan ortak türü tanımlanır, eşleşme başlar.
+              parça netleşir, aranan ortak türü tanımlanır, doğru profillerle
+              eşleşme başlar.
             </p>
             <HeroCTAs />
             <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 border-t border-stone-200 pt-6">

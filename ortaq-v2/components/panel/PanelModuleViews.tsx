@@ -62,7 +62,7 @@ export function MesajlarView({ role, hasMatches }: MesajlarViewProps) {
       title="Henüz aktif bir görüşmeniz yok."
       description="Eşleşme onaylandığında fırsat sahibi ve ortak arasındaki görüşmeler burada listelenir. Önce eşleşme oluşturun veya mevcut eşleşmeleri inceleyin."
       primaryAction={
-        <Link href={hasMatches ? "/panel/eslesmeler" : role === "partner" ? "/panel/kesfet" : "/panel/firsatlarim"}>
+        <Link href={hasMatches ? "/panel/eslesmelerim" : role === "partner" ? "/panel/kesfet" : "/panel/firsatlarim"}>
           <Button variant="outline">
             {hasMatches ? "Eşleşmelerime Git" : role === "partner" ? ORTAQ_COPY.ctas.browseDossiers : "Fırsatlarım"}
           </Button>

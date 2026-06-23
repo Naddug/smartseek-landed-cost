@@ -15,6 +15,9 @@ const DETAIL_EXTENSIONS: Record<
 > = {
   "e-ticaret-operasyonu": {
     ownerId: "demo@ortaq.biz",
+    readinessScore: 88,
+    partnerOffer:
+      "Operasyon liderliği rolü veya %15–25 kâr payı; 24 ay vesting. Teknik entegrasyon tamamlandığında büyüme kanalları ortakla paylaşılır.",
     longDescription:
       "Marka ve tedarik altyapısı kurulu; ilk satışlar yapıldı ancak operasyon ve teknik ekip eksikliği nedeniyle büyüme durdu. Platform canlı, stok ve tedarikçi ilişkileri mevcut.",
     whyNow:
@@ -30,6 +33,9 @@ const DETAIL_EXTENSIONS: Record<
   },
   "kafe-lokasyonu": {
     ownerId: "owner-002",
+    readinessScore: 82,
+    partnerOffer:
+      "İşletme ortaklığı veya %25–35 gelir payı; konsept geliştirme sürecinde eşit karar hakkı.",
     longDescription:
       "Ana cadde üzerinde 120 m² kiralık alan; ruhsat ve altyapı hazır. Marka, menü ve işletme modeli tanımlanmadı.",
     whyNow:
@@ -45,6 +51,9 @@ const DETAIL_EXTENSIONS: Record<
   },
   "tekstil-atolyesi": {
     ownerId: "demo@ortaq.biz",
+    readinessScore: 91,
+    partnerOffer:
+      "Büyüme ortağı olarak satış kanalı kurulumu karşılığı %20 gelir payı veya B2B satış liderliği rolü.",
     longDescription:
       "25 kişilik ekip ve makine parkı ile düzenli üretim yapılıyor; mevcut müşteri tabanı var ancak yeni sipariş akışı oluşmadı.",
     whyNow:
@@ -61,6 +70,9 @@ const DETAIL_EXTENSIONS: Record<
   },
   "saglik-yazilimi": {
     ownerId: "owner-004",
+    readinessScore: 79,
+    partnerOffer:
+      "Sektör satış ortaklığı; dağıtım kanalı kurulumu karşılığı %10–18 gelir payı veya equity dilimi.",
     longDescription:
       "Sağlık sektöründe çalışan prototip; pilot kullanıcılar mevcut. Ticari model, dağıtım ve sektör ortağı eksik.",
     whyNow:
@@ -76,6 +88,9 @@ const DETAIL_EXTENSIONS: Record<
   },
   "lojistik-depo": {
     ownerId: "owner-005",
+    readinessScore: 74,
+    partnerOffer:
+      "Operasyon ortaklığı; müşteri portföyü getiren ortağa %15–20 gelir payı.",
     longDescription:
       "İstanbul yakınında kontratlı depo alanı; ekipman ve temel ekip var. Operasyon ve müşteri portföyü yok.",
     idealContribution:
@@ -84,6 +99,9 @@ const DETAIL_EXTENSIONS: Record<
   },
   "gida-uretim": {
     ownerId: "owner-006",
+    readinessScore: 76,
+    partnerOffer:
+      "Marka ve kanal satış ortaklığı; perakende listeleme başarısına bağlı %20–30 gelir payı.",
     longDescription:
       "Ruhsatlı gıda üretim hattı çalışır durumda; marka ve perakende/distribution anlaşması yok.",
     idealContribution: "Marka, kanal satış, perakende listeleme.",
@@ -91,6 +109,7 @@ const DETAIL_EXTENSIONS: Record<
   },
   "mobil-uygulama": {
     ownerId: "owner-007",
+    readinessScore: 58,
     status: "under_review",
     longDescription:
       "10K+ aktif kullanıcı; gelir modeli test edilmedi. Teknik borç ve büyüme yapısı eksik.",
@@ -99,6 +118,9 @@ const DETAIL_EXTENSIONS: Record<
   },
   "butik-otel": {
     ownerId: "owner-008",
+    readinessScore: 85,
+    partnerOffer:
+      "İşletme ortaklığı veya %30 gelir payı; marka ve rezervasyon kanalları ortakla kurulur.",
     longDescription:
       "Tadilatı tamamlanmış 18 odalı tesis; konsept ve işletme bekliyor.",
     idealContribution: "Marka, rezervasyon kanalları, günlük operasyon.",

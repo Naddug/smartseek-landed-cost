@@ -212,9 +212,18 @@ export function hasActiveArchiveFilters(filters: ArchiveFilterState): boolean {
 }
 
 export function getArchiveStats(dossiers: MarketingDossier[]) {
+  const published = dossiers.filter((d) => d.status === "published");
+  const categories = new Set(published.map((d) => resolveArchiveCategory(d)));
+  const partnerTypes = new Set(
+    published.map((d) => resolvePartnerFilter(d))
+  );
+
   return {
-    activeCount: dossiers.filter((d) => d.status === "published").length,
+    total: published.length,
+    activeCount: published.length,
     newThisWeek: dossiers.filter((d) => d.isNewThisWeek).length,
+    categories: Array.from(categories),
+    partnerTypes: Array.from(partnerTypes),
   };
 }
 

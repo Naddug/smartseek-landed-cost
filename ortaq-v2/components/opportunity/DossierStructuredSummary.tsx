@@ -1,4 +1,7 @@
+import Link from "next/link";
 import type { PublicDossierDetail } from "@/types/dossier-detail";
+import { ReadinessRing } from "@/components/shared/ReadinessRing";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 function CoreRow({
   label,
@@ -84,6 +87,33 @@ export function DossierStructuredSummary({
         <SupportingBlock title="Ortaktan beklenen katkı">
           <p>{dossier.idealContribution}</p>
         </SupportingBlock>
+      )}
+
+      {dossier.partnerOffer && (
+        <SupportingBlock title="Ortağa sunulan yapı / karşılık">
+          <p>{dossier.partnerOffer}</p>
+        </SupportingBlock>
+      )}
+
+      {typeof dossier.readinessScore === "number" && (
+        <section className="rounded-lg border border-stone-200 bg-white p-5 md:p-6">
+          <div className="flex flex-wrap items-center gap-4">
+            <ReadinessRing score={dossier.readinessScore} size={52} />
+            <div>
+              <h2 className="font-mono text-[10px] font-medium uppercase tracking-widest text-stone-400">
+                Hazırlık skoru
+              </h2>
+              <p className="mt-1 text-sm leading-relaxed text-stone-700">
+                Skor, dosyanın ne kadar net ve eşleşmeye hazır olduğunu gösterir —
+                otomatik onay değildir. Detaylı açıklama{" "}
+                <Link href="/guven-kalite" className="font-medium text-blue-600 hover:underline">
+                  {ORTAQ_COPY.labels.verification}
+                </Link>{" "}
+                sayfasında.
+              </p>
+            </div>
+          </div>
+        </section>
       )}
     </div>
   );

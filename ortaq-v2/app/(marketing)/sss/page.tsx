@@ -25,6 +25,10 @@ const faqs = [
     q: "Hangi bilgiler herkese açık?",
     a: "Dosya sahibi gizlilik seviyesini belirler. Bazı detaylar yalnızca eşleşme sonrası açılır. Tam standart metni Güven & Kalite sayfasında bulabilirsiniz.",
   },
+  {
+    q: "Premium dosya desteği veya doğrulanmış ortak nedir?",
+    a: "Fırsat sahipleri yapılandırılmış yazım ve hızlandırılmış inceleme desteği alabilir. Ortaklar profil doğrulaması ile öncelikli başvuru ve gelişmiş erişim katmanına geçebilir. Detaylar Güven & Kalite sayfasındaki premium katmanlarda.",
+  },
 ];
 
 export default function SssPage() {

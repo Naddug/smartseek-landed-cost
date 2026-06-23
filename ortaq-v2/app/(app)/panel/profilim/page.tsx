@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { ShieldCheck } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { getPanelOverview } from "@/lib/panel/get-panel-overview";
 import { Button } from "@/components/ui/button";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 export default async function ProfilimPage() {
   const session = await getServerSession(authOptions);
@@ -15,6 +17,7 @@ export default async function ProfilimPage() {
 
   const { profileCompletion } = overview;
   const displayName = session?.user?.name ?? session?.user?.email ?? "Kullanıcı";
+  const isPartner = overview.role === "partner" || overview.role === "hybrid";
 
   return (
     <div>
@@ -23,7 +26,7 @@ export default async function ProfilimPage() {
           Profilim
         </h1>
         <p className="mt-1 text-sm text-stone-600">
-          Hesap bilgileriniz ve ortak profiliniz.
+          Hesap bilgileriniz, ortak profiliniz ve doğrulama durumu.
         </p>
       </header>
 
@@ -66,6 +69,30 @@ export default async function ProfilimPage() {
             </Button>
           </Link>
         </div>
+
+        {isPartner && (
+          <div className="rounded-xl border border-blue-100 bg-blue-50/40 p-5">
+            <div className="flex items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                <ShieldCheck className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-stone-950">
+                  {ORTAQ_COPY.monetization.partnerPremiumTitle}
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-stone-600">
+                  {ORTAQ_COPY.monetization.partnerPremiumDescription}
+                </p>
+                <Link
+                  href="/guven-kalite#premium"
+                  className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline"
+                >
+                  Doğrulanmış ortak katmanı →
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

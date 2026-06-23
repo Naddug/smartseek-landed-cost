@@ -9,7 +9,7 @@ export default async function EslesmelerimPage() {
   const overview = await getPanelOverview(session);
 
   if (!overview) {
-    redirect("/giris?next=/panel/eslesmeler");
+    redirect("/giris?next=/panel/eslesmelerim");
   }
 
   return (

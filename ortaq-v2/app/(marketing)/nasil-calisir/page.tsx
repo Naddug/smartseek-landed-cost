@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { Section } from "@/components/shared/Section";
 import { FlowSteps } from "@/components/marketing/FlowSteps";
 import { VisibilityExplainer } from "@/components/marketing/VisibilityExplainer";
+import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import {
   ClipboardList,
   AlertCircle,
@@ -102,6 +104,18 @@ export default function NasilCalisirPage() {
             yalnızca uygun eşleşme oluştuğunda paylaşılır.
           </p>
           <VisibilityExplainer className="mt-8" />
+        </AppContainer>
+      </Section>
+
+      <Section>
+        <AppContainer>
+          <PageHeader
+            eyebrow="Ticari model"
+            title={ORTAQ_COPY.monetization.sectionTitle}
+            description={ORTAQ_COPY.monetization.sectionDescription}
+            className="border-none pb-6"
+          />
+          <MonetizationTiers />
         </AppContainer>
       </Section>
     </>

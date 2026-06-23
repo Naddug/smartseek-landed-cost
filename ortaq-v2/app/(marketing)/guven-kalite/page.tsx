@@ -4,6 +4,7 @@ import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ReadinessScoreExplainer } from "@/components/marketing/ReadinessScoreExplainer";
 import { VisibilityExplainer } from "@/components/marketing/VisibilityExplainer";
+import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
 import { ShieldCheck, XCircle, Eye } from "lucide-react";
 
 const rejectedExamples = [
@@ -87,6 +88,16 @@ export default function GuvenKalitePage() {
             ORTAQ gerektiğinde kullanıcıyı anonim tutabilir.
           </p>
           <VisibilityExplainer />
+        </AppContainer>
+      </Section>
+
+      <Section id="premium">
+        <AppContainer>
+          <SectionHeader
+            title="Premium katmanlar"
+            description="ORTAQ, dosya hazırlığından doğrulanmış ortak erişimine kadar net ticari katmanlar sunar. Ödeme entegrasyonu tamamlanana kadar talepler manuel yönetilir."
+          />
+          <MonetizationTiers showCtas />
         </AppContainer>
       </Section>
     </>

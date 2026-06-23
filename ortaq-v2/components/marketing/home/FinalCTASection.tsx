@@ -45,6 +45,9 @@ export function FinalCTASection() {
           <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.14em] text-white/35">
             {ORTAQ_COPY.trust.trustFooter}
           </p>
+          <p className="mt-3 text-xs text-white/40">
+            Premium dosya desteği · Doğrulanmış ortak · Hızlı inceleme
+          </p>
         </div>
       </AppContainer>
     </section>

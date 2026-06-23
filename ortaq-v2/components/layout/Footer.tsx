@@ -3,6 +3,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 const footerLinks = [
+  { href: "/firsatlar", label: "Fırsatlar" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/nasil-calisir", label: "Nasıl Çalışır" },
   { href: "/guven-kalite", label: "Güven & Kalite" },

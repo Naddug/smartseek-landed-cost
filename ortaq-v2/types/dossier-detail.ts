@@ -35,6 +35,9 @@ export type PublicDossierDetail = {
   desiredPartner: string;
   idealContribution?: string;
   whyNow?: string;
+  /** Equity, revenue share, operating role, or partnership structure offered to partner */
+  partnerOffer?: string;
+  readinessScore?: number;
   status: DossierDetailStatus;
   isFeatured: boolean;
   isCurated: boolean;

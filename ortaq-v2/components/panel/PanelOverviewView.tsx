@@ -83,7 +83,7 @@ function DashboardContent({ overview }: PanelOverviewViewProps) {
 
         {pendingMatches.length > 0 && (
           <section>
-            <PanelSectionHeader title="Bekleyen Eşleşmeler" href="/panel/eslesmeler" />
+            <PanelSectionHeader title="Bekleyen Eşleşmeler" href="/panel/eslesmelerim" />
             <div className="space-y-3">
               {pendingMatches.map((match) => (
                 <PanelMatchCard key={match.id} match={match} />
