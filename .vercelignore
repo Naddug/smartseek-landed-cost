@@ -1,0 +1,21 @@
+# Monorepo — only ortaq-v2 is deployed to ortaq.biz
+ortaq-web
+ortaq-api
+ortaq
+supabase
+docs
+
+# Dependencies & build output (any package)
+**/node_modules
+**/.next
+**/out
+**/.lighthouse
+**/*.tsbuildinfo
+
+# Local / secrets
+**/.env*.local
+.env
+
+# Screenshots & dev artifacts
+**/*-screenshots
+**/scripts/capture-*.mjs
