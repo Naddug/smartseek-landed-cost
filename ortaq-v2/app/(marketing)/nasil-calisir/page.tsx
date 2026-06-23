@@ -19,46 +19,46 @@ import {
 const ownerSteps = [
   {
     icon: ClipboardList,
-    title: "Fırsatını tanımla",
-    description: "Ne var, nerede takıldın, hangi varlıklar mevcut — net bir çerçeve çiz.",
+    title: "Varlığı ve takılmayı yaz",
+    description: "Ne elinizde var, nerede durdu — dosyanın ilk iki satırı.",
   },
   {
     icon: AlertCircle,
-    title: "Nerede takıldığını ve ne aradığını seç",
-    description: "Engel ve aranan ortak türünü belirle; dosya yapılandırılsın.",
+    title: "Aranan ortak türünü seç",
+    description: "Eksik parça ve aranan ortak netleşince dosya yapılandırılır.",
   },
   {
     icon: FileCheck,
-    title: "Dosyan incelemeye girsin",
-    description: "ORTAQ inceleme ekibi dosyayı gözden geçirir; eksikler varsa geri bildirim gelir.",
+    title: "ORTAQ incelemesine gönder",
+    description: "ORTAQ incelemesi tutarlılığı kontrol eder; eksik varsa revizyon istenir.",
   },
   {
     icon: Handshake,
-    title: "Uygun ortaklarla tanış",
-    description: "Eşleşmeler oluşunca platform içinde kontrollü iletişim başlar.",
+    title: "Eşleşme ve görüşme",
+    description: "Uygun profiller görünür; görüşme ORTAQ paneli üzerinden ilerler.",
   },
 ];
 
 const partnerSteps = [
   {
     icon: UserCircle,
-    title: "Ne katabileceğini anlat",
-    description: "Sermaye, teknik, operasyon veya sektör deneyimini profiline işle.",
+    title: "Katkını profiline işle",
+    description: "Sermaye, teknik, operasyon veya sektör deneyimini net yaz.",
   },
   {
     icon: Target,
-    title: "Uygun dosyalara başvur",
-    description: "Kategori, aşama ve ortak ihtiyacına göre dosyaları filtreleyip başvuru oluştur.",
+    title: "Dosyalara başvur",
+    description: "Kategori, aşama ve aranan ortak türüne göre filtreleyip başvur.",
   },
   {
     icon: Link2,
-    title: "Uyumlu dosyalarla eşleş",
-    description: "ORTAQ, profiline ve tercihlerine uygun fırsat dosyalarını öne çıkarır.",
+    title: "Eşleşme oluşsun",
+    description: "ORTAQ, profilinize uygun dosyaları öne çıkarır.",
   },
   {
     icon: Shield,
-    title: "Güvenli şekilde bağlantı kur",
-    description: "İletişim platform üzerinden; hassas bilgiler kademeli açılır.",
+    title: "Kademeli bilgi paylaşımı",
+    description: "Hassas detaylar eşleşme sonrası açılır; gizlilik dosya sahibinde.",
   },
 ];
 
@@ -70,7 +70,7 @@ export default function NasilCalisirPage() {
           <PageHeader
             eyebrow="Süreç"
             title="Nasıl Çalışır"
-            description="ORTAQ'ta iki ayrı yol var: fırsat dosyası oluşturanlar ve ortak olarak katılanlar. Her iki taraf da yapılandırılmış bir profille ilerler."
+            description="İki yol: fırsat dosyası oluşturan ve ortak olarak katılan. Her iki taraf yapılandırılmış profille ilerler."
           />
         </AppContainer>
       </Section>

@@ -33,7 +33,7 @@ function TrustItem({
       </span>
       <div>
         <p className="text-sm font-medium text-stone-800">{label}</p>
-        <p className="text-xs text-stone-500">
+        <p className="text-xs text-ortaq-text-muted">
           {verified
             ? "Doğrulandı"
             : pending
@@ -93,7 +93,7 @@ export function DossierTrustPanel({ dossier, className }: DossierTrustPanelProps
         </h2>
       </div>
 
-      <p className="mt-3 text-xs leading-relaxed text-stone-500">
+      <p className="mt-3 text-xs leading-relaxed text-ortaq-text-secondary">
         {ORTAQ_COPY.dossier.reviewPanelDescription}
       </p>
 

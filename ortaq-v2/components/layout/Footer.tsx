@@ -18,7 +18,7 @@ export function Footer() {
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="font-heading text-lg font-bold text-ortaq-navy">ORTAQ</p>
-            <p className="mt-2 max-w-xs text-sm leading-relaxed text-ortaq-text-muted">
+            <p className="mt-2 max-w-xs text-sm leading-relaxed text-ortaq-text-secondary">
               {ORTAQ_COPY.trust.platformTagline}
             </p>
           </div>
@@ -27,7 +27,7 @@ export function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-ortaq-text-muted transition-colors hover:text-ortaq-navy"
+                className="text-sm font-medium text-ortaq-text-secondary transition-colors hover:text-ortaq-navy"
               >
                 {link.label}
               </Link>

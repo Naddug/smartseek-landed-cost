@@ -27,12 +27,43 @@
   }
 }
 
+@layer components {
+  /* Premium surface primitives */
+  .surface-dark {
+    @apply bg-ortaq-dark-bg text-ortaq-dark-text;
+  }
+
+  .surface-dark-elevated {
+    @apply bg-ortaq-dark-elevated text-ortaq-dark-text;
+  }
+
+  .card-editorial {
+    @apply rounded-xl border border-ortaq-line bg-ortaq-surface shadow-ortaq-card;
+  }
+
+  .card-editorial-hover {
+    @apply card-editorial transition-all duration-200 hover:-translate-y-0.5 hover:border-ortaq-line-strong hover:shadow-ortaq-md;
+  }
+
+  .section-editorial {
+    @apply border-b border-ortaq-line bg-ortaq-bg;
+  }
+
+  .section-editorial-alt {
+    @apply border-b border-ortaq-line bg-ortaq-surface;
+  }
+
+  .btn-on-dark-outline {
+    @apply border-ortaq-dark-border bg-transparent text-ortaq-dark-text hover:border-white/30 hover:bg-white/10;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 
-  /* Editorial type hierarchy */
+  /* Editorial type hierarchy — light surfaces */
   .type-display {
     @apply font-heading text-[2.125rem] font-semibold leading-[1.08] tracking-[-0.03em] text-ortaq-navy md:text-[2.75rem] lg:text-[3.125rem];
   }
@@ -42,15 +73,31 @@
   }
 
   .type-section-light {
-    @apply font-heading text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.025em] text-white md:text-[2.125rem];
+    @apply font-heading text-[1.75rem] font-semibold leading-[1.12] tracking-[-0.025em] text-ortaq-dark-text md:text-[2.125rem];
   }
 
   .type-eyebrow {
-    @apply font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-ortaq-text-muted;
+    @apply font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-ortaq-text-muted;
   }
 
   .type-eyebrow-light {
-    @apply font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-white/45;
+    @apply font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-ortaq-dark-text-muted;
+  }
+
+  .type-body-secondary {
+    @apply text-base leading-relaxed text-ortaq-text-secondary;
+  }
+
+  .type-body-on-dark {
+    @apply text-base leading-relaxed text-ortaq-dark-text-secondary;
+  }
+
+  .type-meta-on-dark {
+    @apply font-mono text-[10px] uppercase tracking-[0.12em] text-ortaq-dark-text-muted;
+  }
+
+  .type-meta-on-dark-value {
+    @apply text-sm font-medium text-ortaq-dark-text;
   }
 
   .type-card-title {

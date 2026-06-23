@@ -12,18 +12,17 @@ export default function HakkimizdaPage() {
         <PageShell
           eyebrow="ORTAQ"
           title="Hakkımızda"
-          description="ORTAQ, varlığı olan ama ilerleyemeyen fırsatları yapılandırılmış dosyalara dönüştüren ve doğru ortak türüyle eşleştiren bir platformdur."
+          description="Varlığı olan, takılı kalan fırsatlar için yapılandırılmış dosya arşivi. Seçici yayın, net eşleşme."
         >
-          <div className="prose prose-stone mt-8 max-w-none space-y-6 text-sm leading-relaxed text-stone-600">
+          <div className="mt-8 max-w-none space-y-6 text-sm leading-relaxed text-ortaq-text-secondary">
             <p>
-              Duvar ilanı panosu değiliz. Her fırsat dosyasında varlık, eksik parça
-              ve aranan ortak türü ayrı ayrı tanımlanır. Yayına alınmadan önce
-              dosyalar ORTAQ yayın standardına göre incelenir.
+              ORTAQ duvar ilanı değil. Her dosyada varlık, eksik parça ve aranan ortak
+              türü ayrı satırlarda yazar. Yayına alınmadan önce ORTAQ incelemesinden geçer.
             </p>
             <p>
               Fırsat sahipleri mevcut varlıklarını netleştirir; ortaklar sıfırdan
-              başlamadan yapılandırılmış bir fırsata katkı sunabilir. Eşleşme ve
-              görüşme süreci platform içinde kontrollü ilerler.
+              değil, yapılandırılmış bir dosyaya katkı sunar. Görüşme ORTAQ paneli
+              üzerinden, kademeli gizlilikle ilerler.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Link href="/kayit/yol-secimi">

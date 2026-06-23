@@ -13,7 +13,7 @@ export function ActiveDossierRail() {
   const meta = getArchiveMeta();
 
   return (
-    <section className="border-b border-stone-200 bg-white py-16 md:py-20">
+    <section className="section-editorial-alt py-16 md:py-20">
       <AppContainer>
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -21,26 +21,26 @@ export function ActiveDossierRail() {
             <h2 className="type-section mt-2">
               {ORTAQ_COPY.sections.activeDossiers}
             </h2>
-            <p className="mt-2 max-w-lg text-sm text-stone-600">
-              Varlık, eksik parça ve aranan ortak — her satır bir kayıt.
+            <p className="mt-2 max-w-lg text-sm text-ortaq-text-secondary">
+              {ORTAQ_COPY.archive.intro}
             </p>
-            <p className="mt-2 font-mono text-[11px] uppercase tracking-wide text-stone-500">
-              {meta.activeCount} Aktif Dosya · {meta.newThisWeek} Yeni Bu Hafta
+            <p className="type-meta mt-2 text-ortaq-text-muted">
+              {meta.activeCount} yayındaki dosya · {meta.newThisWeek} yeni bu hafta
             </p>
           </div>
           <Link
             href="/firsatlar"
-            className="inline-flex items-center gap-2 text-sm font-medium text-stone-800 hover:text-blue-600"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-ortaq-navy hover:text-blue-600"
           >
-            Tümünü Gör
+            {ORTAQ_COPY.ctas.viewAll}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </AppContainer>
 
       <div className="relative">
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-white to-transparent md:w-16" />
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-white to-transparent md:w-16" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-ortaq-surface to-transparent md:w-16" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-ortaq-surface to-transparent md:w-16" />
 
         <div className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-2 md:px-[max(1rem,calc((100vw-72rem)/2+1rem))] md:snap-x md:snap-mandatory">
           {activeRailDossiers.map((dossier) => (
@@ -53,7 +53,7 @@ export function ActiveDossierRail() {
                 opportunity={marketingDossierToOpportunity(dossier)}
                 theme="light"
                 size="sm"
-                className="h-full transition-shadow hover:shadow-md"
+                className="card-editorial-hover h-full"
               />
             </Link>
           ))}

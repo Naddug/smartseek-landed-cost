@@ -10,10 +10,10 @@ export function ActivityTicker() {
 
   return (
     <section
-      className="overflow-hidden border-b border-stone-800 bg-stone-950 py-2.5"
+      className="surface-dark overflow-hidden border-b border-ortaq-dark-border py-2.5"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      aria-label="Platform aktivitesi"
+      aria-label="ORTAQ arşiv aktivitesi"
     >
       <div
         className={cn(
@@ -24,7 +24,7 @@ export function ActivityTicker() {
         {items.map((item, i) => (
           <span
             key={`${item.id}-${i}`}
-            className="font-mono text-[11px] uppercase tracking-wide text-white/55"
+            className="font-mono text-[11px] font-medium uppercase tracking-wide text-ortaq-dark-text-muted"
           >
             {item.text}
           </span>

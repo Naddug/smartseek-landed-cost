@@ -39,7 +39,7 @@ export function FeaturedSpotlight({
 
   return (
     <section
-      className="relative overflow-hidden bg-stone-950 py-20 md:py-28"
+      className="relative overflow-hidden surface-dark py-20 md:py-28"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -92,17 +92,15 @@ export function FeaturedSpotlight({
           />
 
           {active && (
-            <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+            <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-ortaq-dark-border pt-8">
               {[
                 { k: "Ref", v: active.refCode },
                 { k: "Aşama", v: active.stage },
                 { k: "Konum", v: active.location },
               ].map((item) => (
                 <div key={item.k}>
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-white/35">
-                    {item.k}
-                  </dt>
-                  <dd className="mt-1 text-sm font-medium text-white/85">{item.v}</dd>
+                  <dt className="type-meta-on-dark">{item.k}</dt>
+                  <dd className="type-meta-on-dark-value mt-1">{item.v}</dd>
                 </div>
               ))}
             </dl>

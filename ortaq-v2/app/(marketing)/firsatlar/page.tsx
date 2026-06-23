@@ -26,10 +26,10 @@ export default function FirsatlarPage() {
         <header className="mb-8 border-b border-stone-200 pb-8 md:mb-10">
           <p className="type-eyebrow mb-2">{ORTAQ_COPY.labels.dossierArchive}</p>
           <h1 className="type-section">Fırsat Dosyaları</h1>
-          <p className="mt-3 max-w-2xl text-base text-stone-600">
+          <p className="mt-3 max-w-2xl text-base text-ortaq-text-secondary">
             {ORTAQ_COPY.archive.intro}
           </p>
-          <p className="mt-3 font-mono text-[11px] uppercase tracking-wide text-stone-500">
+          <p className="type-meta mt-3 text-ortaq-text-muted">
             {stats.total} yayında dosya · {stats.categories.length} kategori ·{" "}
             {stats.partnerTypes.length} ortak türü
           </p>

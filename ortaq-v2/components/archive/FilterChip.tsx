@@ -15,8 +15,8 @@ export function FilterChip({ label, active, onClick, className }: FilterChipProp
       className={cn(
         "shrink-0 rounded-md border px-2.5 py-1.5 text-xs font-medium transition-colors",
         active
-          ? "border-stone-900 bg-stone-900 text-white"
-          : "border-stone-200 bg-white text-stone-700 hover:border-stone-400 hover:bg-stone-50",
+          ? "border-ortaq-navy bg-ortaq-navy text-white shadow-ortaq-sm"
+          : "border-ortaq-line bg-ortaq-surface text-ortaq-text-secondary hover:border-ortaq-line-strong hover:bg-ortaq-surface-alt",
         className
       )}
     >

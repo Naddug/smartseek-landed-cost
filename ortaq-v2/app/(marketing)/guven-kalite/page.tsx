@@ -5,6 +5,7 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ReadinessScoreExplainer } from "@/components/marketing/ReadinessScoreExplainer";
 import { VisibilityExplainer } from "@/components/marketing/VisibilityExplainer";
 import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { ShieldCheck, XCircle, Eye } from "lucide-react";
 
 const rejectedExamples = [
@@ -22,7 +23,7 @@ export default function GuvenKalitePage() {
           <PageHeader
             eyebrow="Güven"
             title="Güven & Kalite"
-            description="ORTAQ duvar ilanı panosu değil. Her iki taraf da burada ciddi ve yapılandırılmış bir ortamda buluşur."
+            description="ORTAQ duvar ilanı değil. Varlığı net dosyalar, ciddi profiller — seçici bir arşiv."
           />
         </AppContainer>
       </Section>
@@ -36,12 +37,10 @@ export default function GuvenKalitePage() {
             <h2 className="font-heading text-xl font-semibold text-ortaq-navy">
               Neden inceleme var?
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ortaq-text-muted md:text-base">
-              Platforma giren her fırsat dosyası, yayına alınmadan önce incelenir.
-              Amaç kaliteyi korumak: belirsiz başvuruları elemek, gerçek varlığı
-              olan fırsatları öne çıkarmak ve her iki tarafa da güven vermek.
-              Moderasyon baskı aracı değil; dosyanın netleşmesine yardımcı olan
-              bir filtre.
+            <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary md:text-base">
+              Her dosya yayına alınmadan önce ORTAQ incelemesinden geçer. Amaç seçiciliği
+              korumak: belirsiz başvuruları elemek, varlığı net olanları arşive almak.
+              İnceleme baskı aracı değil; dosyanın netleşmesine hizmet eden filtre.
             </p>
           </div>
         </AppContainer>
@@ -94,8 +93,8 @@ export default function GuvenKalitePage() {
       <Section id="premium">
         <AppContainer>
           <SectionHeader
-            title="Premium katmanlar"
-            description="ORTAQ, dosya hazırlığından doğrulanmış ortak erişimine kadar net ticari katmanlar sunar. Ödeme entegrasyonu tamamlanana kadar talepler manuel yönetilir."
+            title="ORTAQ Premium katmanları"
+            description={ORTAQ_COPY.monetization.sectionDescription}
           />
           <MonetizationTiers showCtas />
         </AppContainer>

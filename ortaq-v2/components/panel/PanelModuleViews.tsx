@@ -23,7 +23,7 @@ export function EslesmelerimView({ matches, role }: EslesmelerimViewProps) {
         description={
           isPartner
             ? ORTAQ_COPY.panel.matchesEmptyPartner
-            : "Dosyalarınız yayına girdikten sonra uygun ortak eşleşmeleri burada görünür. Profilinizi güncel tutmak eşleşme kalitesini artırır."
+            : "Dosyalarınız yayına girdikten sonra uygun eşleşmeler burada görünür. Profilinizi güncel tutun."
         }
         primaryAction={
           <Link href={isPartner ? "/panel/kesfet" : "/panel/firsatlarim"}>
@@ -60,7 +60,7 @@ export function MesajlarView({ role, hasMatches }: MesajlarViewProps) {
     <PanelEmptyState
       icon={<User className="h-6 w-6" />}
       title="Henüz aktif bir görüşmeniz yok."
-      description="Eşleşme onaylandığında fırsat sahibi ve ortak arasındaki görüşmeler burada listelenir. Önce eşleşme oluşturun veya mevcut eşleşmeleri inceleyin."
+      description="Eşleşme onaylandığında görüşmeler ORTAQ panelinde listelenir. Önce eşleşme oluşturun."
       primaryAction={
         <Link href={hasMatches ? "/panel/eslesmelerim" : role === "partner" ? "/panel/kesfet" : "/panel/firsatlarim"}>
           <Button variant="outline">

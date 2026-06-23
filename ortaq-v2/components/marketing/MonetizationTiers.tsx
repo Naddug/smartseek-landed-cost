@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Crown, FileCheck, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -24,12 +26,7 @@ export function MonetizationTiers({
   const isDark = variant === "dark";
 
   return (
-    <div
-      className={cn(
-        "grid gap-4 md:grid-cols-3",
-        className
-      )}
-    >
+    <div className={cn("grid gap-4 md:grid-cols-3", className)}>
       {ORTAQ_COPY.monetization.tiers.map((tier) => {
         const Icon = tierIcons[tier.id];
         return (
@@ -38,30 +35,23 @@ export function MonetizationTiers({
             className={cn(
               "flex flex-col rounded-xl border p-5",
               isDark
-                ? "border-white/10 bg-white/[0.04]"
-                : "border-stone-200 bg-white"
+                ? "border-ortaq-dark-border bg-ortaq-dark-elevated"
+                : "card-editorial shadow-ortaq-sm"
             )}
           >
             <div
               className={cn(
                 "mb-4 flex h-9 w-9 items-center justify-center rounded-lg",
-                isDark ? "bg-blue-600/20 text-blue-300" : "bg-blue-50 text-blue-600"
+                isDark ? "bg-blue-600/25 text-blue-300" : "bg-blue-50 text-blue-600"
               )}
             >
               <Icon className="h-4 w-4" />
             </div>
-            <p
-              className={cn(
-                "font-mono text-[10px] uppercase tracking-[0.12em]",
-                isDark ? "text-white/40" : "text-stone-500"
-              )}
-            >
-              {tier.eyebrow}
-            </p>
+            <p className={isDark ? "type-eyebrow-light" : "type-eyebrow"}>{tier.eyebrow}</p>
             <h3
               className={cn(
                 "mt-1 font-heading text-base font-semibold",
-                isDark ? "text-white" : "text-stone-950"
+                isDark ? "text-ortaq-dark-text" : "text-ortaq-navy"
               )}
             >
               {tier.title}
@@ -69,7 +59,7 @@ export function MonetizationTiers({
             <p
               className={cn(
                 "mt-2 flex-1 text-sm leading-relaxed",
-                isDark ? "text-white/55" : "text-stone-600"
+                isDark ? "text-ortaq-dark-text-secondary" : "text-ortaq-text-secondary"
               )}
             >
               {tier.description}
@@ -77,12 +67,11 @@ export function MonetizationTiers({
             {showCtas && tier.href && (
               <Link href={tier.href} className="mt-4">
                 <Button
-                  variant={isDark ? "outline" : "outline"}
+                  variant="outline"
                   size="sm"
                   className={cn(
                     "w-full text-xs",
-                    isDark &&
-                      "border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white"
+                    isDark && "btn-on-dark-outline"
                   )}
                 >
                   {tier.cta}

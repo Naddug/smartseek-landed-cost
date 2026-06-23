@@ -26,7 +26,7 @@ export function SpotlightProgressBar({
             type="button"
             aria-label={`Spotlight ${i + 1}`}
             onClick={() => onSelect(i)}
-            className="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/15"
+            className="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/20"
           >
             {i === activeIndex && (
               <span
@@ -58,7 +58,7 @@ export function SpotlightProgressBar({
             onClick={() => onSelect(i)}
             className={cn(
               "h-2 w-2 rounded-full transition-colors",
-              i === activeIndex ? "bg-white" : "bg-white/30 hover:bg-white/50"
+              i === activeIndex ? "bg-white" : "bg-white/45 hover:bg-white/65"
             )}
           />
         ))}

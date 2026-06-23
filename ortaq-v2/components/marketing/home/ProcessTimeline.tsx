@@ -19,14 +19,14 @@ const steps = [
     num: "03",
     title: "Eşleşme ve görüşme",
     description:
-      "Uygun ortak profilleri görünür; kontrollü görüşme platform içinde başlar.",
+      "Uygun profiller görünür; görüşme ORTAQ paneli üzerinden ilerler.",
     align: "left" as const,
   },
 ];
 
 export function ProcessTimeline() {
   return (
-    <section className="border-b border-stone-200 bg-stone-50 py-20 md:py-24">
+    <section className="section-editorial py-20 md:py-24">
       <AppContainer>
         <div className="mb-14 max-w-xl">
           <p className="type-eyebrow">Dosya akışı</p>
@@ -54,13 +54,13 @@ export function ProcessTimeline() {
                       isRight ? "md:order-2 md:pl-8" : "md:pr-8 md:text-right"
                     }`}
                   >
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-stone-500">
+                    <span className="type-meta text-ortaq-text-muted">
                       Adım {step.num}
                     </span>
-                    <h3 className="mt-2 font-heading text-xl font-semibold text-stone-950">
+                    <h3 className="mt-2 font-heading text-xl font-semibold text-ortaq-navy">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-stone-600">
+                    <p className="mt-2 text-sm leading-relaxed text-ortaq-text-secondary">
                       {step.description}
                     </p>
                   </div>

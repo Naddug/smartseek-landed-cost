@@ -48,7 +48,7 @@ export function MarketingNav({ className }: MarketingNavProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-950"
+                className="text-sm font-medium text-ortaq-text-secondary transition-colors hover:text-ortaq-navy"
               >
                 {link.label}
               </Link>
@@ -57,7 +57,7 @@ export function MarketingNav({ className }: MarketingNavProps) {
 
           <Link
             href="/firsatlar"
-            className="text-sm font-medium text-stone-600 transition-colors hover:text-stone-950 md:hidden"
+            className="text-sm font-medium text-ortaq-text-secondary transition-colors hover:text-ortaq-navy md:hidden"
           >
             Fırsatlar
           </Link>

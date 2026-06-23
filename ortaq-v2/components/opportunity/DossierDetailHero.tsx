@@ -50,11 +50,11 @@ export function DossierDetailHero({
       </div>
 
       <h1 className="type-section max-w-3xl text-stone-950">{dossier.title}</h1>
-      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
+      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ortaq-text-secondary">
         {dossier.summary}
       </p>
 
-      <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-stone-500">
+      <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-ortaq-text-muted">
         <span className="inline-flex items-center gap-1.5">
           <MapPin className="h-4 w-4 shrink-0" />
           {dossier.location}
@@ -70,7 +70,7 @@ export function DossierDetailBackLink() {
   return (
     <Link
       href="/firsatlar"
-      className="mb-6 inline-flex text-sm font-medium text-stone-600 hover:text-stone-900"
+      className="mb-6 inline-flex text-sm font-medium text-ortaq-text-secondary hover:text-ortaq-navy"
     >
       ← Fırsat arşivine dön
     </Link>

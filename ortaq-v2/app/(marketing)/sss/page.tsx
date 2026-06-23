@@ -7,27 +7,27 @@ import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 const faqs = [
   {
     q: "ORTAQ bir yatırım platformu mu?",
-    a: "Hayır. ORTAQ, varlığı olan fırsatları doğru ortak türüyle eşleştiren bir fırsat dosyası platformudur. Fon talebi veya crowdfunding formatındaki başvurular yayınlanmaz.",
+    a: "Hayır. ORTAQ, varlığı olan fırsatları aranan ortak türüyle eşleştiren bir dosya arşividir. Fon talebi veya crowdfunding formatı yayınlanmaz.",
   },
   {
     q: "Fırsat dosyası nedir?",
-    a: "Varlık, eksik parça ve aranan ortak türünün ayrı ayrı tanımlandığı yapılandırılmış bir kayıttır. Her dosya inceleme sonrası yayına alınır veya geri bildirimle döner.",
+    a: "Varlık, eksik parça ve aranan ortak — üç satır ayrı yazılır. ORTAQ incelemesi sonrası yayına alınır veya revizyon istenir.",
   },
   {
     q: "Dosyam ne zaman yayına girer?",
-    a: "Taslak dosyanızı tamamlayıp incelemeye gönderdikten sonra ORTAQ ekibi tutarlılık ve eşleşme uygunluğunu kontrol eder. Uygun bulunan dosyalar yayına alınır.",
+    a: "Taslak tamamlanıp incelemeye gönderildikten sonra ORTAQ tutarlılık ve eşleşme uygunluğunu kontrol eder. Uygun dosyalar arşive girer.",
   },
   {
     q: "Ortak olarak nasıl başvururum?",
-    a: "Yayında olan dosyaları inceleyin, profilinizi tamamlayın ve uygun gördüğünüz fırsatlara başvuru oluşturun. Başvurular dosya sahibine iletilir.",
+    a: "Yayındaki dosyaları inceleyin, profilinizi tamamlayın, uygun dosyalara başvurun. Başvuru dosya sahibine iletilir.",
   },
   {
     q: "Hangi bilgiler herkese açık?",
-    a: "Dosya sahibi gizlilik seviyesini belirler. Bazı detaylar yalnızca eşleşme sonrası açılır. Tam standart metni Güven & Kalite sayfasında bulabilirsiniz.",
+    a: "Gizlilik seviyesini dosya sahibi belirler. Bazı detaylar yalnızca eşleşme sonrası açılır. Tam metin Güven & Kalite sayfasında.",
   },
   {
-    q: "Premium dosya desteği veya doğrulanmış ortak nedir?",
-    a: "Fırsat sahipleri yapılandırılmış yazım ve hızlandırılmış inceleme desteği alabilir. Ortaklar profil doğrulaması ile öncelikli başvuru ve gelişmiş erişim katmanına geçebilir. Detaylar Güven & Kalite sayfasındaki premium katmanlarda.",
+    q: "ORTAQ Premium veya doğrulanmış ortak nedir?",
+    a: "Fırsat sahipleri yapılandırılmış yazım ve hızlandırılmış ORTAQ incelemesi alabilir. Ortaklar ORTAQ doğrulaması ile öncelikli başvuru katmanına geçer. Detaylar Güven & Kalite sayfasında.",
   },
 ];
 
@@ -38,30 +38,29 @@ export default function SssPage() {
         <PageShell
           eyebrow="SSS"
           title="Sık Sorulan Sorular"
-          description="Fırsat dosyası, inceleme süreci ve eşleşme hakkında sık sorulan sorular."
+          description="Dosya, ORTAQ incelemesi ve eşleşme süreci."
         >
-          <dl className="mt-8 divide-y divide-stone-200">
+          <dl className="mt-8 divide-y divide-ortaq-line">
             {faqs.map((item) => (
               <div key={item.q} className="py-6">
-                <dt className="font-heading text-base font-semibold text-stone-950">
+                <dt className="font-heading text-base font-semibold text-ortaq-navy">
                   {item.q}
                 </dt>
-                <dd className="mt-2 text-sm leading-relaxed text-stone-600">
+                <dd className="mt-2 text-sm leading-relaxed text-ortaq-text-secondary">
                   {item.a}
                 </dd>
               </div>
             ))}
           </dl>
-          <p className="mt-8 text-sm text-stone-600">
-            Daha fazla bilgi için{" "}
+          <p className="mt-8 text-sm text-ortaq-text-secondary">
+            Daha fazla bilgi:{" "}
             <Link href="/guven-kalite" className="font-medium text-blue-600 hover:underline">
               {ORTAQ_COPY.sections.standards}
             </Link>{" "}
-            ve{" "}
+            ·{" "}
             <Link href="/nasil-calisir" className="font-medium text-blue-600 hover:underline">
               Nasıl Çalışır
-            </Link>{" "}
-            sayfalarına bakın.
+            </Link>
           </p>
         </PageShell>
       </AppContainer>

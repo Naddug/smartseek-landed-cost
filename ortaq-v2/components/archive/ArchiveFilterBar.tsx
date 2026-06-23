@@ -26,7 +26,7 @@ function FilterRow({
 }) {
   return (
     <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
-      <span className="shrink-0 pt-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-stone-500 sm:w-24">
+      <span className="shrink-0 pt-1.5 type-meta sm:w-24">
         {label}
       </span>
       <div className="scrollbar-hide flex gap-1.5 overflow-x-auto pb-0.5">{children}</div>
@@ -40,13 +40,13 @@ export function ArchiveFilterBar({
   onFilterChange,
 }: ArchiveFilterBarProps) {
   return (
-    <div className="sticky top-14 z-40 -mx-4 border-b border-stone-200 bg-white/95 px-4 py-4 backdrop-blur-sm md:-mx-0 md:px-0">
+    <div className="sticky top-14 z-40 -mx-4 border-b border-ortaq-line bg-ortaq-surface/95 px-4 py-4 backdrop-blur-sm md:-mx-0 md:px-0">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-mono text-[11px] uppercase tracking-wide text-stone-600">
+        <p className="type-meta text-ortaq-text-secondary">
           {stats.activeCount} Aktif Dosya · {stats.newThisWeek} Yeni Bu Hafta
         </p>
         <div className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-xs text-stone-600">
+          <label className="flex items-center gap-2 text-xs text-ortaq-text-secondary">
             <span className="hidden sm:inline">Sırala</span>
             <select
               value={filters.sort}
