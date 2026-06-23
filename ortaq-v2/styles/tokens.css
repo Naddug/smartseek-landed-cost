@@ -1,0 +1,37 @@
+:root {
+  /* ORTAQ brand palette */
+  --ortaq-navy: #14213D;
+  --ortaq-action: #2D5BFF;
+  --ortaq-accent: #6E8BFF;
+  --ortaq-bg: #F7F8FB;
+  --ortaq-surface: #FFFFFF;
+  --ortaq-surface-alt: #EEF1F6;
+  --ortaq-line: #E6E9F0;
+  --ortaq-text-main: #111827;
+  --ortaq-text-muted: #5B6472;
+  --ortaq-success: #1E9E6A;
+  --ortaq-warning: #C98A2B;
+  --ortaq-danger: #C74A4A;
+
+  /* shadcn-compatible mappings */
+  --background: var(--ortaq-bg);
+  --foreground: var(--ortaq-text-main);
+  --card: var(--ortaq-surface);
+  --card-foreground: var(--ortaq-text-main);
+  --popover: var(--ortaq-surface);
+  --popover-foreground: var(--ortaq-text-main);
+  --primary: var(--ortaq-action);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--ortaq-surface-alt);
+  --secondary-foreground: var(--ortaq-navy);
+  --muted: var(--ortaq-surface-alt);
+  --muted-foreground: var(--ortaq-text-muted);
+  --accent: var(--ortaq-surface-alt);
+  --accent-foreground: var(--ortaq-navy);
+  --destructive: var(--ortaq-danger);
+  --destructive-foreground: #FFFFFF;
+  --border: var(--ortaq-line);
+  --input: var(--ortaq-line);
+  --ring: var(--ortaq-accent);
+  --radius: 0.625rem;
+}
