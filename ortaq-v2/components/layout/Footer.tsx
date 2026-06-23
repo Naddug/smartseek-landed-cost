@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 const footerLinks = [
   { href: "/hakkimizda", label: "Hakkımızda" },
@@ -17,7 +18,7 @@ export function Footer() {
           <div>
             <p className="font-heading text-lg font-bold text-ortaq-navy">ORTAQ</p>
             <p className="mt-2 max-w-xs text-sm leading-relaxed text-ortaq-text-muted">
-              Gerçek fırsatları doğru ortaklarla buluşturan küratörlü platform.
+              {ORTAQ_COPY.trust.platformTagline}
             </p>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-2">

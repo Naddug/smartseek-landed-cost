@@ -60,4 +60,51 @@
   .type-meta {
     @apply font-mono text-[10px] uppercase tracking-[0.12em] text-ortaq-text-muted;
   }
+
+  .animate-ticker {
+    animation: ticker 40s linear infinite;
+  }
+
+  .animate-ticker-paused {
+    animation-play-state: paused;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes spotlight-progress {
+    0% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  .animate-spotlight-progress {
+    transform-origin: left;
+    animation: spotlight-progress var(--spotlight-duration, 6s) linear forwards;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-ticker,
+    .animate-spotlight-progress {
+      animation: none !important;
+    }
+  }
 }

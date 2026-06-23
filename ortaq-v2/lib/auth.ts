@@ -1,4 +1,5 @@
 import type { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import type { UserRole } from "@/types";
 
 declare module "next-auth" {
@@ -22,13 +23,45 @@ declare module "next-auth/jwt" {
   }
 }
 
-/**
- * NextAuth configuration skeleton.
- * TODO: Wire Prisma adapter and real providers when auth sprint begins.
- */
+const demoUsers: Record<
+  string,
+  { password: string; name: string; role: UserRole }
+> = {
+  "demo@ortaq.biz": {
+    password: "demo",
+    name: "Ayşe Yılmaz",
+    role: "opportunity_owner",
+  },
+  "ortak@ortaq.biz": {
+    password: "demo",
+    name: "Mehmet Kaya",
+    role: "partner",
+  },
+};
+
 export const authOptions: NextAuthOptions = {
   providers: [
-    // TODO: Add CredentialsProvider or OAuth providers
+    CredentialsProvider({
+      id: "credentials",
+      name: "E-posta",
+      credentials: {
+        email: { label: "E-posta", type: "email" },
+        password: { label: "Şifre", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const account = demoUsers[credentials.email.toLowerCase()];
+        if (!account || account.password !== credentials.password) return null;
+
+        return {
+          id: credentials.email,
+          email: credentials.email.toLowerCase(),
+          name: account.name,
+          role: account.role,
+        };
+      },
+    }),
   ],
   session: {
     strategy: "jwt",

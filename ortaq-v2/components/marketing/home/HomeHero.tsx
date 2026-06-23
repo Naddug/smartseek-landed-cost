@@ -3,6 +3,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { Button } from "@/components/ui/button";
 import { DossierFilePanel } from "@/components/opportunity/DossierFilePanel";
 import { mockOpportunities } from "@/data/mock-opportunities";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 const heroPreviewOpportunity = mockOpportunities[0];
 
@@ -23,7 +24,7 @@ export function HomeHero() {
       <AppContainer className="relative py-16 md:py-24 lg:py-28">
         <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 xl:gap-16">
           <div className="max-w-xl">
-            <p className="type-eyebrow mb-5">Küratörlü ortak eşleştirme</p>
+            <p className="type-eyebrow mb-5">{ORTAQ_COPY.trust.heroEyebrow}</p>
             <h1 className="type-display max-w-[15ch] text-balance">
               Takılı kalan fırsatlar, doğru ortakla yeniden açılır.
             </h1>

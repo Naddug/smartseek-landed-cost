@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { DossierFilePanel } from "@/components/opportunity/DossierFilePanel";
 import { featuredOpportunity } from "@/data/mock-opportunities";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 export function FeaturedDossiers() {
   return (
@@ -21,9 +22,9 @@ export function FeaturedDossiers() {
 
       <AppContainer className="relative">
         <div className="mb-10 max-w-xl lg:mb-12">
-          <p className="type-eyebrow-light">Platform vitrini</p>
+          <p className="type-eyebrow-light">{ORTAQ_COPY.sections.featuredEyebrow}</p>
           <h2 className="type-section-light mt-3">
-            Öne çıkan fırsat dosyası
+            {ORTAQ_COPY.sections.featuredDossierSpotlight}
           </h2>
         </div>
 

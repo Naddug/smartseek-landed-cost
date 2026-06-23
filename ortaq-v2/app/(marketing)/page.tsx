@@ -1,21 +1,25 @@
-import { HomeHero } from "@/components/marketing/home/HomeHero";
-import { FeaturedDossiers } from "@/components/marketing/home/FeaturedDossiers";
-import { DossierGrid } from "@/components/marketing/home/DossierGrid";
-import { DualAudience } from "@/components/marketing/home/DualAudience";
-import { HomeProcess } from "@/components/marketing/home/HomeProcess";
-import { ModerationBlock } from "@/components/marketing/home/ModerationBlock";
-import { HomeFinalCta } from "@/components/marketing/home/HomeFinalCta";
+import { HeroSection } from "@/components/marketing/home/HeroSection";
+import { FeaturedSpotlight } from "@/components/marketing/home/FeaturedSpotlight";
+import { ActiveDossierRail } from "@/components/marketing/home/ActiveDossierRail";
+import { PartnerTypeStrip } from "@/components/marketing/home/PartnerTypeStrip";
+import { TwoAudienceBlock } from "@/components/marketing/home/TwoAudienceBlock";
+import { ProcessTimeline } from "@/components/marketing/home/ProcessTimeline";
+import { StandardsBlock } from "@/components/marketing/home/StandardsBlock";
+import { ActivityTicker } from "@/components/marketing/home/ActivityTicker";
+import { FinalCTASection } from "@/components/marketing/home/FinalCTASection";
 
 export default function HomePage() {
   return (
     <>
-      <HomeHero />
-      <FeaturedDossiers />
-      <DossierGrid />
-      <DualAudience />
-      <HomeProcess />
-      <ModerationBlock />
-      <HomeFinalCta />
+      <HeroSection />
+      <FeaturedSpotlight />
+      <ActiveDossierRail />
+      <PartnerTypeStrip />
+      <TwoAudienceBlock />
+      <ProcessTimeline />
+      <StandardsBlock />
+      <ActivityTicker />
+      <FinalCTASection />
     </>
   );
 }

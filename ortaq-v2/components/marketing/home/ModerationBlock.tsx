@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Button } from "@/components/ui/button";
 import { Check, Minus, Shield } from "lucide-react";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 const publishCriteria = [
   {
@@ -24,7 +25,7 @@ const publishCriteria = [
   },
   {
     id: "review",
-    label: "Editoryal inceleme",
+    label: ORTAQ_COPY.standards.reviewCriterion,
     detail: "Yayın öncesi dosya tutarlılığı ve eşleşme uygunluğu kontrol edilir.",
     status: "Her dosya",
   },
@@ -45,7 +46,7 @@ export function ModerationBlock() {
           <div className="mb-8 flex items-start gap-3 border-b border-ortaq-navy/15 pb-6">
             <Shield className="mt-0.5 h-5 w-5 shrink-0 text-ortaq-navy" strokeWidth={1.5} />
             <div>
-              <p className="type-eyebrow">Yayın standardı · ORTAQ-STD-01</p>
+              <p className="type-eyebrow">{ORTAQ_COPY.sections.standards} · ORTAQ-STD-01</p>
               <h2 className="type-section mt-2 text-balance">
                 Her dosya yayına girmez.
               </h2>
@@ -55,7 +56,7 @@ export function ModerationBlock() {
           <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
             <div className="rounded-lg border border-ortaq-line bg-white">
               <div className="border-b border-ortaq-line px-5 py-3">
-                <p className="type-meta text-ortaq-navy">Yayın kriterleri</p>
+                <p className="type-meta text-ortaq-navy">{ORTAQ_COPY.labels.publishCriteria}</p>
               </div>
               <ul className="divide-y divide-ortaq-line">
                 {publishCriteria.map((item) => (

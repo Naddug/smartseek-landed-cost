@@ -3,14 +3,32 @@ import {
   DossierDetailView,
   DossierDetailSidebar,
 } from "@/components/opportunity/DossierDetailView";
+import { DossierManagementPage } from "@/components/panel/DossierManagementPage";
 import { getOpportunityDossier, dossierToOnboardingState } from "@/lib/actions/opportunity-dossier";
 import { getScoreImprovementChecklist } from "@/lib/readiness-score";
+import {
+  getOwnerInboundForPanel,
+  resolveOwnerDossier,
+} from "@/lib/dossier/resolve-owner-dossier";
 
 interface PageProps {
   params: { id: string };
 }
 
 export default async function FirsatDetayPage({ params }: PageProps) {
+  const publicDossier = resolveOwnerDossier(params.id);
+
+  if (publicDossier) {
+    const inbound = getOwnerInboundForPanel(params.id, publicDossier);
+    return (
+      <DossierManagementPage
+        dossier={publicDossier}
+        inbound={inbound}
+        panelDossierId={params.id}
+      />
+    );
+  }
+
   const dossier = await getOpportunityDossier(params.id);
 
   if (!dossier) {

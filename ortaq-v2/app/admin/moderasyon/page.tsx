@@ -1,5 +1,6 @@
 import { AppContainer } from "@/components/shared/AppContainer";
 import { PageShell } from "@/components/marketing/PageShell";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 export default function AdminModerasyonPage() {
   return (
@@ -18,10 +19,13 @@ export default function AdminModerasyonPage() {
         <PageShell
           eyebrow="Admin"
           title="Moderasyon"
-          description="Fırsat dosyası inceleme ve onay akışı burada yönetilecek."
-          emptyTitle="Moderasyon paneli henüz aktif değil"
-          emptyDescription="Admin yetkilendirme ve moderasyon mantığı bir sonraki sprintte eklenecek."
-        />
+          description="Fırsat dosyası inceleme ve onay akışı burada yönetilir."
+        >
+          <EmptyState
+            title="İnceleme kuyruğu boş"
+            description="Yayın bekleyen dosyalar onaylandığında veya reddedildiğinde bu ekranda listelenir."
+          />
+        </PageShell>
       </AppContainer>
     </div>
   );

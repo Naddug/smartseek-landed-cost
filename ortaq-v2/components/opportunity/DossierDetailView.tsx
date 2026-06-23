@@ -209,18 +209,17 @@ export function DossierDetailSidebar({
             Dosyayı Düzenle
           </Link>
           <Link
-            href={`/firsatlar`}
+            href="/firsatlar"
             className="inline-flex h-9 items-center justify-center rounded-lg border border-ortaq-line bg-ortaq-surface px-4 text-sm font-medium text-ortaq-navy hover:bg-ortaq-surface-alt"
           >
-            Önizlemeyi Gör
+            Herkese Açık Önizleme
           </Link>
-          <button
-            type="button"
-            disabled
-            className="inline-flex h-9 items-center justify-center rounded-lg border border-dashed border-ortaq-line px-4 text-sm text-ortaq-text-muted"
+          <Link
+            href="/onboarding/ortak"
+            className="inline-flex h-9 items-center justify-center rounded-lg border border-ortaq-line bg-ortaq-surface px-4 text-sm font-medium text-ortaq-navy hover:bg-ortaq-surface-alt"
           >
-            Ortak Profilimi de Oluştur
-          </button>
+            Ortak Profilini Tamamla
+          </Link>
         </div>
       </div>
 

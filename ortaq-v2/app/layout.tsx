@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { AppSessionProvider } from "@/components/providers/AppSessionProvider";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,8 +22,7 @@ export const metadata: Metadata = {
     default: "ORTAQ",
     template: "%s · ORTAQ",
   },
-  description:
-    "Gerçek fırsatları doğru ortaklarla buluşturan küratörlü platform.",
+  description: ORTAQ_COPY.trust.platformTagline,
 };
 
 export default function RootLayout({
@@ -31,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr" className={cn(inter.variable, spaceGrotesk.variable)}>
-      <body>{children}</body>
+      <body>
+        <AppSessionProvider>{children}</AppSessionProvider>
+      </body>
     </html>
   );
 }

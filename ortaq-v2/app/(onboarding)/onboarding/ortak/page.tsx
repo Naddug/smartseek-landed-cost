@@ -35,7 +35,7 @@ export default function OrtakOnboardingPage() {
         step={1}
         totalSteps={steps.length}
         title="Ne tür katkı sunabilirsiniz?"
-        description="Katkı türlerini seçin. Detaylı sorular bir sonraki sprintte eklenecek."
+        description="Sermaye, operasyon, teknik, büyüme veya sektör deneyiminizi profilinize işleyin. Katkı türünüz eşleşme önerilerinde kullanılır."
       />
       <MultiChoiceGrid
         options={[
@@ -55,9 +55,10 @@ export default function OrtakOnboardingPage() {
         <Link href="/kayit/yol-secimi">
           <Button variant="outline">Geri</Button>
         </Link>
-        <Button disabled>Devam</Button>
+        <Link href="/panel/profilim">
+          <Button>Profili Tamamla</Button>
+        </Link>
       </div>
-      {/* TODO: Implement ortak onboarding steps and persistence */}
     </WizardLayout>
   );
 }

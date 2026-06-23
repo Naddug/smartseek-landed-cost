@@ -33,7 +33,7 @@ export default function GuvenKalitePage() {
               <ShieldCheck className="h-5 w-5 text-ortaq-action" />
             </div>
             <h2 className="font-heading text-xl font-semibold text-ortaq-navy">
-              Neden moderasyon var?
+              Neden inceleme var?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-ortaq-text-muted md:text-base">
               Platforma giren her fırsat dosyası, yayına alınmadan önce incelenir.

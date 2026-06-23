@@ -28,7 +28,7 @@ const ownerSteps = [
   {
     icon: FileCheck,
     title: "Dosyan incelemeye girsin",
-    description: "Moderasyon ekibi dosyayı gözden geçirir; eksikler varsa geri bildirim gelir.",
+    description: "ORTAQ inceleme ekibi dosyayı gözden geçirir; eksikler varsa geri bildirim gelir.",
   },
   {
     icon: Handshake,
@@ -45,8 +45,8 @@ const partnerSteps = [
   },
   {
     icon: Target,
-    title: "İlgilendiğin fırsatları seç",
-    description: "Kategori, aşama ve katkı türüne göre uygun dosyaları filtrele.",
+    title: "Uygun dosyalara başvur",
+    description: "Kategori, aşama ve ortak ihtiyacına göre dosyaları filtreleyip başvuru oluştur.",
   },
   {
     icon: Link2,
