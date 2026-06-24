@@ -1,4 +1,9 @@
 export const ORTAQ_COPY = {
+  positioning: {
+    metaDescription:
+      "Zemini hazır, eksik halkası net fırsatlar için kürasyonlu ortaklık pazaryeri. Yapılandırılmış dosyalar, inceleme ve doğru ortak eşleşmesi.",
+    categoryLabel: "Kürasyonlu ortaklık pazaryeri",
+  },
   sections: {
     featuredDossiers: "Öne Çıkan Dosyalar",
     featuredDossierSpotlight: "Öne Çıkan Dosya",
@@ -12,11 +17,11 @@ export const ORTAQ_COPY = {
     recentActivity: "Son Aktivite",
     todo: "Yapılacaklar",
     dossierFlow: "Süreç",
-    browseDossiers: "Fırsatları İncele",
+    browseDossiers: "Yayındaki Fırsatlar",
   },
   ctas: {
     createDossier: "Fırsat Dosyası Oluştur",
-    browseDossiers: "Fırsatları İncele",
+    browseDossiers: "Yayındaki Fırsatlar",
     viewDossier: "Dosyayı İncele",
     viewAll: "Tümünü Gör",
     goToPanel: "ORTAQ Paneline Git",
@@ -54,27 +59,28 @@ export const ORTAQ_COPY = {
     sort: "Sırala",
   },
   hero: {
-    eyebrow: "İş var. Ortak eksik.",
-    headlineLines: [
-      "Lokasyonu var, konsepti yok.",
+    eyebrow: "Kürasyonlu ortaklık pazaryeri",
+    headline: "Zemini olan işler, eksik olan ortağı.",
+    patternExamples: [
+      "Lokasyonu var, işletme yok.",
       "Üretimi var, satış kanalı yok.",
-      "Müşterisi var, işletecek yok.",
+      "Müşterisi var, operasyon tarafı yok.",
     ],
     subhead:
-      "ORTAQ, zemini hazır ama eksik halkası yüzünden ilerleyemeyen işler için kuruldu. Her fırsatta neyin hazır olduğu, neden tıkandığı ve nasıl bir ortak arandığı daha en baştan görünür.",
-    livePillSuffix: "fırsat yayında · ORTAQ incelemeli",
-    trustReview: "Her başvuru ORTAQ incelemesinden geçer",
-    trustPrivacy: "Hassas bilgiler kademeli açılır",
-    trustVerified: "Ciddi profiller öne çıkar",
+      "ORTAQ; lokasyon, ürün, kapasite, altyapı veya müşteri tabanı hazır olup tek kritik parça eksik kalan fırsatları yapılandırılmış dosyalarla gösterir. Ne hazır, ne eksik, kimi arıyorsunuz — incelemeden geçmiş profillerle eşleşir.",
+    livePillSuffix: "incelemeli fırsat dosyası yayında",
+    trustReview: "Fikir aşaması ve genel ilan kabul edilmez",
+    trustPrivacy: "Her dosyada varlık · eksik · aranan ortak görünür",
+    trustVerified: "İnceleme sonrası yayın · kademeli gizlilik",
   },
   trust: {
-    heroEyebrow: "İş var. Ortak eksik.",
+    heroEyebrow: "Kürasyonlu ortaklık pazaryeri",
     reviewedPublish: "ORTAQ incelemesi sonrası yayın",
     privacyProtected: "Kademeli gizlilik",
     verifiedProfiles: "ORTAQ doğrulaması",
-    trustFooter: "ORTAQ standardı · Kademeli gizlilik · Ciddi eşleşme",
+    trustFooter: "Yapılandırılmış dosya · İnceleme · Ciddi eşleşme",
     platformTagline:
-      "Zemini hazır, eksik halkası net — doğru ortağı arayan gerçek fırsatlar.",
+      "Zemini hazır, eksik halkası net fırsatlar için kürasyonlu ortaklık pazaryeri.",
     proofPublishedLabel: "Yayındaki dosya",
     proofReviewLabel: "İncelemeden geçen başvuru",
     proofApplicantsLabel: "Dosya başvuru kaydı",
@@ -82,12 +88,13 @@ export const ORTAQ_COPY = {
     proofNewThisWeekLabel: "Bu hafta eklenen fırsat",
   },
   archive: {
+    pageTitle: "Yayındaki Fırsatlar",
     intro:
-      "Yayındaki her fırsatta neyin hazır olduğu, neden tıkandığı ve hangi ortağın arandığı görünür. Kategori ve ortak türüne göre filtreleyin.",
+      "Gerçek zemin, net eksik parça, tanımlı ortak ihtiyacı — ortaklık eşleşmesi için yapılandırılmış fırsat dosyaları. İş satış ilanı, emlak duvarı veya yatırım panosu değil.",
     featuredRailDescription:
-      "Gerçek zemin, net eksik parça, tanımlı ortak ihtiyacı — şu an öne çıkan fırsat.",
+      "Zemin hazır, eksik parça net, aranan ortak tanımlı — şu an öne çıkan fırsat dosyası.",
     activeRailIntro:
-      "Ne hazır, ne eksik, kim aranıyor — karşılaştırıp inceleyin.",
+      "Ne hazır, ne eksik, hangi ortak türü aranıyor — karşılaştırıp inceleyin.",
     sortFeaturedFirst: "Öne Çıkanlar Önce",
     emptyTitle: "Bu filtrelerle eşleşen fırsat yok",
     emptyDescription:
@@ -101,7 +108,7 @@ export const ORTAQ_COPY = {
       "Henüz başvurunuz yok. Size uygun fırsatlara başvurun; ne sunabileceğinizi net yazın, dosya sahibi profilinizi görür.",
     matchesEmptyOwner:
       "Dosyalarınız yayına girdikten sonra gelen başvurular burada görünür. Profilinizi güncel tutun.",
-    browseLink: "Fırsatları incele →",
+    browseLink: "Yayındaki fırsatlar →",
     ownerEmptyDescription:
       "Elinizde iş, lokasyon, kapasite ya da müşteri zemini varsa bunu ciddi bir fırsat dosyasına dönüştürün. ORTAQ incelemesi sonrası uygun dosyalar yayına alınır.",
     dossierEmptyDescription:
@@ -153,20 +160,44 @@ export const ORTAQ_COPY = {
   process: {
     sectionEyebrow: "Süreç",
     sectionTitle: "Nasıl çalışır?",
-    step1Title: "Fırsatı açın",
+    sectionLead:
+      "Dosya açma, inceleme ve eşleşme — tek bir kürasyonlu pazar yeri akışı.",
+    step1Title: "Fırsat dosyasını açın",
     step1Description:
-      "Neyin hazır olduğunu, işin neden tıkandığını ve nasıl bir ortak aradığınızı yazarsınız. Amaç bir ilan çıkmak değil; fırsatı dışarıdan bakıldığında da anlaşılır hale getirmektir.",
+      "Ne hazır, neden tıkandı, hangi ortak türü aranıyor — yapılandırılmış biçimde yazılır. Amaç ilan vermek değil; fırsatı dışarıdan anlaşılır kılmaktır.",
     step2Title: "ORTAQ inceler",
     reviewStepDescription:
-      "Her başvuru yayına girmez. Dosya; netlik, ciddiyet ve gerçek zemin açısından incelenir. Eksik kalan noktalar varsa geri bildirimle toparlanır.",
-    step3Title: "Doğru tarafla buluşur",
+      "Zemin, netlik ve ortak ihtiyacı kontrol edilir. Fikir seviyesi, iş ilanı veya yatırım duvarı formatındaki başvurular yayınlanmaz.",
+    step3Title: "Doğru ortak buluşur",
     step3Description:
-      "Uygun ortak adayları dosyayı görür, ne sunabileceklerini başvurularında açıkça yazar ve görüşme süreci buradan ilerler.",
+      "Uygun ortak adayları dosyayı görür, katkılarını başvuruda yazar; ciddi eşleşmeler ORTAQ panelinde ilerler.",
+    partnerSteps: [
+      {
+        title: "Katkınızı profile yazın",
+        description:
+          "Operasyon, satış, büyüme, teknik veya sektör gücünüzü netleştirin. Belirsiz profiller zayıf başvuruya gider.",
+      },
+      {
+        title: "Uygun fırsatlara başvurun",
+        description:
+          "Dosyada ne hazır, ne eksik, ne beklendiği görünür. Size uygun fırsatlara katkınızı açık yazarak başvurun.",
+      },
+      {
+        title: "Eşleşme oluşsun",
+        description:
+          "Dosya sahibi başvurunuzu görür. Uygun bulursa eşleşme ORTAQ panelinde başlar.",
+      },
+      {
+        title: "Bilgiler kademeli açılır",
+        description:
+          "Hassas detaylar eşleşme sonrası paylaşılır. Gizlilik seviyesini dosya sahibi belirler.",
+      },
+    ],
   },
   standards: {
-    sectionTitle: "Her dosya yayınlanmaz.",
+    sectionTitle: "Her dosya yayınlanmaz — bilinçli olarak.",
     sectionIntro:
-      "ORTAQ'ta önemli olan yalnızca fırsatın ilginç görünmesi değil; gerçekten bir zemine dayanmasıdır. Bu yüzden her başvuru yayınlanmaz. Ne olduğu belirsiz, yalnızca fikir seviyesinde kalan ya da karşı taraf için güven vermeyen başvurular arşive girmez.",
+      "ORTAQ bir duvar ilanı, iş satış platformu veya fon başvuru panosu değildir. Yayına yalnızca gerçek zemini olan, eksik parçası net ve aranan ortağı tanımlı fırsatlar alınır.",
     reviewCriterion: "ORTAQ İncelemesi",
     reviewCriterionDetail:
       "Yayın öncesi dosyanın tutarlılığı, zemin netliği ve eşleşme uygunluğu kontrol edilir.",
@@ -204,40 +235,43 @@ export const ORTAQ_COPY = {
       },
     ],
     rejectedPatterns: [
-      "Sadece fikir — gerçek zemin yok",
-      "Aranan ortak türü tanımsız",
-      "İş ilanı veya emlak listelemesi",
-      "Yatırım / fon talebi formatı",
+      "Sadece fikir — lokasyon, ürün veya kapasite yok",
+      "Aranan ortak türü belirsiz",
+      "İş ilanı, emlak veya franchise duvarı",
+      "Yatırımcı / fon talebi formatı",
     ],
   },
   monetization: {
     sectionEyebrow: "ORTAQ desteği",
-    sectionTitle: "Doğru fırsat, doğru kişiye daha güçlü görünürse daha hızlı yol alır.",
+    sectionTitle: "Eşleşme kalitesini güçlendiren katmanlar.",
     sectionDescription:
-      "ORTAQ'ta herkes aynı nedenle yer almaz. Kimi elindeki fırsatı daha güçlü sunmak ister; kimi başvurusunun daha ciddi görünmesini, kimi de doğru anda doğru dosyaların karşısına çıkmayı. ORTAQ'ın ücretli destekleri bunun için var: fırsatı ya da profili daha iyi anlatmak, daha güvenilir görünmek ve daha nitelikli eşleşmelere daha hızlı yaklaşmak için.",
-    ownerPremiumTitle: "ORTAQ Premium — fırsatı daha güçlü sunmak için",
+      "Dosya açmak, yayınlamak ve başvurmak ücretsizdir. Ücretli destek sıralama satın almak, görünürlük pazarlığı veya listeleme ücreti değildir — daha net dosya anlatımı, daha güçlü ortak profili veya zamanında değerlendirme isteyenler içindir.",
+    freeTierNote: "Fırsat açmak, yayınlamak ve başvurmak ücretsizdir.",
+    paidTierNote:
+      "Aşağıdaki katmanlar eşleşme kalitesini ve hızını destekler — listeleme ücreti değildir.",
+    ownerPremiumTitle: "ORTAQ Premium — dosyayı daha net anlatmak için",
     ownerPremiumDescription:
-      "Bazı fırsatlar kendi halinde de anlaşılır. Bazılarında ise değerli olan şey, dışarıdan bakıldığında yeterince net görünmez. ORTAQ Premium; fırsatınızı daha iyi anlatmak, eksik kalan noktaları toparlamak, doğru ortak için daha ikna edici hale getirmek ve dosyanızı daha güçlü bir yayın standardıyla sunmak isteyen fırsat sahipleri içindir.",
-    partnerPremiumTitle: "Daha güçlü profil, daha güçlü başvuru",
+      "Bazı fırsatlar kendi halinde de anlaşılır. Bazılarında değerli olan şey dışarıdan yeterince net görünmez. Premium; dosya anlatımını güçlendirmek, eksik halkayı netleştirmek ve doğru ortağa daha ikna edici sunmak içindir — sıralama satın almak için değil.",
+    partnerPremiumTitle: "Daha güçlü profil, daha ciddi başvuru",
     partnerPremiumDescription:
-      "ORTAQ'ta her başvuru aynı ağırlıkta görünmez. Ne yaptığınız, ne sunabileceğiniz ve ne kadar güven verdiğiniz ilk temasın tonunu belirler. Güçlendirilmiş ortak profili; sizi yalnızca görünür kılmaz, daha ciddi bir aday olarak konumlandırır.",
-    fastReviewTitle: "Doğru anda öne çıkmak isteyenler için",
+      "Başvuruda ne sunduğunuz ve ne kadar güven verdiğiniz ilk temasın tonunu belirler. Güçlendirilmiş profil; daha görünür olmak için değil, fırsat sahibi karşısında daha ciddi bir aday olarak konumlanmak içindir.",
+    fastReviewTitle: "Zaman kritik olduğunda",
     fastReviewDescription:
-      "Bazı dosyalarda ya da bazı başvurularda zamanlama fark yaratır. Daha hızlı değerlendirme, daha erken geri bildirim ya da doğru anda daha görünür olmak isteyenler için ORTAQ ek destek seçenekleri sunar.",
+      "Bazı dosya veya başvurularda erken geri bildirim fark yaratır. Hızlandırılmış değerlendirme; öne çıkma hakkı satmak değil, momentum kaybetmemek içindir.",
     tiers: [
       {
         id: "owner" as const,
         eyebrow: "Fırsat sahibi",
-        title: "ORTAQ Premium — fırsatı daha güçlü sunmak için",
+        title: "ORTAQ Premium — dosyayı daha net anlatmak için",
         description:
-          "Bazı fırsatlar kendi halinde de anlaşılır. Bazılarında ise değerli olan şey, dışarıdan bakıldığında yeterince net görünmez. ORTAQ Premium; fırsatınızı daha iyi anlatmak, eksik kalan noktaları toparlamak, doğru ortak için daha ikna edici hale getirmek ve dosyanızı daha güçlü bir yayın standardıyla sunmak isteyen fırsat sahipleri içindir.",
+          "Değerli fırsatın dışarıdan yeterince net görünmediği durumlarda dosya anlatımını güçlendirmek, eksik halkayı netleştirmek ve doğru ortağa daha ikna edici sunmak — sıralama satın almak için değil.",
         outcomes: [
           "Daha güçlü fırsat anlatımı",
           "Eksik noktaların birlikte toparlanması",
           "Daha ciddi ilk izlenim",
           "Yayına daha güçlü hazırlık",
         ],
-        microline: "Bir dosya yazma hizmeti değil; güçlü fırsatın doğru tarafa net görünmesi için.",
+        microline: "Listeleme ücreti değil; mevcut fırsatın doğru tarafa net görünmesi için.",
         cta: "Premium fırsat desteğini incele",
         href: "/guven-kalite?paket=owner#premium-detail",
         emphasis: "primary" as const,
@@ -245,9 +279,9 @@ export const ORTAQ_COPY = {
       {
         id: "partner" as const,
         eyebrow: "Ortak tarafı",
-        title: "Daha güçlü profil, daha güçlü başvuru",
+        title: "Daha güçlü profil, daha ciddi başvuru",
         description:
-          "ORTAQ'ta her başvuru aynı ağırlıkta görünmez. Ne yaptığınız, ne sunabileceğiniz ve ne kadar güven verdiğiniz ilk temasın tonunu belirler. Güçlendirilmiş ortak profili; sizi yalnızca görünür kılmaz, daha ciddi bir aday olarak konumlandırır. Özellikle birden fazla fırsatı takip eden, düzenli başvuru yapan ve daha net bir ilk izlenim bırakmak isteyen ortaklar için tasarlanmıştır.",
+          "Ne sunduğunuz ve ne kadar güven verdiğiniz başvurunun ağırlığını belirler. Güçlendirilmiş profil; görünürlük pazarlığı değil, fırsat sahibi karşısında daha net konumlanmak içindir.",
         outcomes: [
           "Daha ciddi başvuru sinyali",
           "Daha güçlü profil güveni",
@@ -262,9 +296,9 @@ export const ORTAQ_COPY = {
       {
         id: "visibility" as const,
         eyebrow: "Hız ve görünürlük",
-        title: "Doğru anda öne çıkmak isteyenler için",
+        title: "Zaman kritik olduğunda",
         description:
-          "Bazı dosyalarda ya da bazı başvurularda zamanlama fark yaratır. Daha hızlı değerlendirme, daha erken geri bildirim ya da doğru anda daha görünür olmak isteyenler için ORTAQ ek destek seçenekleri sunar. Amaç sırayı satın almak değil; zamanın kritik olduğu durumlarda fırsatın ya da başvurunun momentum kaybetmesini önlemektir.",
+          "Erken geri bildirim veya zamanında değerlendirme gereken dosya ve başvurular için. Amaç sırayı satın almak değil; momentum kaybetmemektir.",
         outcomes: [
           "Daha hızlı değerlendirme",
           "Daha erken geri bildirim",
@@ -342,25 +376,27 @@ export const ORTAQ_COPY = {
   },
   twoAudience: {
     ownerLabel: "Fırsat sahibi",
-    partnerLabel: "Ortak tarafı",
-    ownerTitle: "Elimde bir iş var. Tek başıma ilerleyemiyorum.",
+    partnerLabel: "Ortak adayı",
+    ownerBadge: "Zemin elinizde",
+    partnerBadge: "Eksik parça sizsiniz",
+    ownerTitle: "Zemin var — eksik olan ortak türü.",
     ownerBody:
-      "Lokasyon, ürün, müşteri ya da üretim kapasitesi elinizde olabilir. Ama işletme gücü, satış tarafı, teknik ekip ya da doğru ortak eksikse iş olduğu yerde kalır. ORTAQ, bu durumu başvuru metni olmaktan çıkarıp ciddi bir fırsat dosyasına dönüştürür.",
-    partnerTitle: "Sıfırdan değil. Hazır bir işin eksik tarafı olmak istiyorum.",
+      "Lokasyon, ürün, müşteri tabanı veya üretim kapasitesi hazır; işletme, satış, teknik veya büyüme tarafı eksik. ORTAQ, bu fırsatı ilan metninden çıkarıp incelenebilir bir dosyaya dönüştürür.",
+    partnerTitle: "Sıfırdan kurmak değil — hazır işin eksik tarafı.",
     partnerBody:
-      "Buradaki fırsatlar fikir aşamasında değildir. Bir tarafında lokasyon, kapasite, müşteri, ürün ya da altyapı vardır. Eksik olan taraf ise işletme, satış, büyüme, teknik katkı ya da sermayedir. Ne hazır, ne eksik, sizden ne beklendiği baştan görünür.",
+      "Fırsatlar fikir aşamasında değil. Bir tarafta gerçek varlık vardır; diğer tarafta aranan katkı net yazılır. Operasyon, satış, büyüme, teknik veya uygun sermaye tarafı olanlar, ne beklendiğini baştan görerek başvurur.",
   },
   finalCta: {
-    headline: "İki taraf hazırsa, geriye doğru eşleşme kalır.",
+    headline: "Gerçek zemin bir tarafa, doğru ortak diğer tarafa.",
     subhead:
-      "Bir tarafta ilerleyemeyen ama zemini olan bir iş; diğer tarafta o işi ayağa kaldırabilecek doğru ortak. ORTAQ, bu iki tarafın birbirini daha net görmesi için var.",
-    footerLine: "ORTAQ Premium · Güçlü profil · Hızlandırılmış değerlendirme",
+      "ORTAQ bu iki tarafın birbirini yapılandırılmış dosya netliği ve inceleme disipliniyle görmesi için var.",
+    footerLine: "İnceleme · kademeli gizlilik · yapılandırılmış eşleşme",
   },
   bulusmalar: {
     eyebrow: "ORTAQ Buluşmaları",
     sectionTitle: "Dijital eşleşmenin ötesinde, seçilmiş yüz yüze buluşmalar.",
     sectionIntro:
-      "ORTAQ yalnızca bir ilan panosu değil. Doğrulanmış fırsat sahipleri ve ortaklar, seçili programlarda bir araya gelerek güveni hızlandırır ve ciddi eşleşmeleri somutlaştırır.",
+      "ORTAQ yalnızca dijital eşleşme değil. İncelenmiş dosya ve profiller, davetiye ile açılan küçük buluşmalarda yüz yüze tanışır — networking etkinliği değil, dosya odaklı ortaklık görüşmesidir.",
     pageDescription:
       "Davetiye ile açılan, küçük ölçekli ORTAQ buluşmaları — dijital dosyaların ötesinde güven ve ortaklık kurmak için.",
     pilotNote:
@@ -410,10 +446,10 @@ export const ORTAQ_COPY = {
   pages: {
     guvenKalite: {
       description:
-        "ORTAQ duvar ilanı değil. Zemini net fırsatlar, ciddi profiller — seçici bir ortam.",
+        "ORTAQ bir listeleme panosu değil — gerçek zemini olan fırsatları inceleyerek yayınlayan, yapılandırılmış dosyalar ve profil güveni üzerinden eşleştiren kürasyonlu pazar yeri.",
       whyReviewTitle: "Neden inceleme var?",
       whyReviewBody:
-        "Her dosya yayına alınmadan önce ORTAQ incelemesinden geçer. Amaç daha çok dosya açmak değil, gerçekten zemine dayanan fırsatları yayına almak. Bazı fırsatlar ortak arar; bazıları ise önce netleşmeye ihtiyaç duyar.",
+        "Yayına alınan her dosyada gerçek zemin, net eksik parça ve tanımlı ortak ihtiyacı aranır. Amaç daha çok ilan açmak değil; fikir gürültüsünü ayıklayıp eşleşmeye hazır fırsatları göstermektir.",
       rejectedTitle: "Hangi fırsatlar yayınlanmaz?",
       readinessTitle: "Hazırlık skoru nasıl çalışır?",
       readinessDescription:
@@ -426,17 +462,17 @@ export const ORTAQ_COPY = {
     },
     hakkimizda: {
       description:
-        "Zemini hazır ama eksik halkası yüzünden ilerleyemeyen işler için.",
+        "Zemini hazır, eksik halkası net fırsatlar için kürasyonlu ortaklık pazaryeri.",
       paragraph1:
-        "ORTAQ duvar ilanı değil. Her fırsatta neyin hazır olduğu, neden tıkandığı ve hangi ortağın arandığı açıkça yazar. Yayına alınmadan önce ORTAQ incelemesinden geçer.",
+        "ORTAQ; lokasyon, ürün, kapasite, altyapı veya müşteri tabanı olan ama tek kritik parça eksik kalan işler için kuruldu. Her dosyada ne hazır, ne eksik, kimi arıyorsunuz açık yazar — fikir panosu, iş satış ilanı veya yatırım duvarı değil.",
       paragraph2:
-        "Fırsat sahipleri elindeki zemini netleştirir; ortaklar sıfırdan kurmak yerine hazır işin eksik tarafına katkı sunar. Görüşme ORTAQ panelinde, kademeli gizlilikle ilerler.",
+        "Fırsat sahipleri zemini dosyaya döker; ortak adayları sıfırdan kurmak yerine hazır işin eksik tarafına katkı sunar. Eşleşme ORTAQ panelinde, kademeli gizlilikle ilerler.",
     },
     nasilCalisir: {
       description:
-        "İki yol var: fırsat açan ve ortak olarak katılan. Her iki taraf da net profille ilerler.",
-      ownerSectionTitle: "Fırsat sahipleri için",
-      partnerSectionTitle: "Ortaklar için",
+        "İki taraf: zemini olan fırsat sahibi ve eksik parçayı tamamlayacak ortak adayı. Dosya, inceleme ve eşleşme aynı kürasyonlu pazar yeri akışında ilerler.",
+      ownerSectionTitle: "Fırsat sahipleri",
+      partnerSectionTitle: "Ortak adayları",
       privacyTitle: "ORTAQ'ta herkes her şeyi görmez.",
       privacyBody:
         "Gizlilik seviyesini dosya sahibi belirler. Bazı bilgiler yalnızca uygun eşleşme oluştuğunda paylaşılır.",
@@ -446,12 +482,12 @@ export const ORTAQ_COPY = {
     },
     dosyaOlustur: {
       description:
-        "Neyin hazır olduğunu, neden tıkandığınızı ve hangi ortağı aradığınızı yazın.",
+        "Zemininiz hazır, eksik parça net — fırsat dosyasına dökün. ORTAQ incelemesi sonrası uygun dosyalar yayına alınır.",
       wizardTitle: "Fırsat dosyasını başlat",
       wizardBody:
-        "Zemin, aşama, eksik parça ve ortak ihtiyacını adım adım dosyaya işlersiniz. Tamamlanan dosya ORTAQ incelemesine girer.",
+        "Varlık, aşama, eksik parça ve ortak ihtiyacını adım adım dosyaya işlersiniz. Tamamlanan dosya ORTAQ incelemesine girer.",
       premiumAside:
-        "Fırsatınızı daha güçlü anlatmak, eksik noktaları toparlamak ve yayına daha ciddi hazırlanmak isteyenler için ORTAQ Premium.",
+        "Dosya anlatımını güçlendirmek ve yayına daha net hazırlanmak isteyenler için ORTAQ Premium — listeleme ücreti değil.",
     },
     kesfet: {
       description:

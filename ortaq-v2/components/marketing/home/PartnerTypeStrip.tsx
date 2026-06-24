@@ -10,7 +10,7 @@ export function PartnerTypeStrip() {
   return (
     <section className="section-editorial-alt py-10 md:py-12">
       <AppContainer>
-        <p className="type-eyebrow mb-4">Aranan ortak türleri</p>
+        <p className="type-eyebrow mb-4">{ORTAQ_COPY.positioning.categoryLabel}</p>
         <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ortaq-text-secondary">
           {ORTAQ_COPY.archive.intro}
         </p>

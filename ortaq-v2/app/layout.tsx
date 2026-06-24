@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "ORTAQ",
     template: "%s · ORTAQ",
   },
-  description: ORTAQ_COPY.trust.platformTagline,
+  description: ORTAQ_COPY.positioning.metaDescription,
 };
 
 export default function RootLayout({

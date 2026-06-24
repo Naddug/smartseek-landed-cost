@@ -20,10 +20,10 @@ export function MonetizationSection() {
         <div className="mb-8 flex flex-col gap-3 rounded-xl border border-ortaq-line bg-ortaq-surface px-5 py-4 shadow-ortaq-sm sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-center gap-2.5 text-sm font-medium text-ortaq-navy">
             <Check className="h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.75} />
-            Fırsat açmak, dosya yayınlamak ve başvurmak ücretsizdir.
+            {ORTAQ_COPY.monetization.freeTierNote}
           </p>
           <p className="text-sm text-ortaq-text-muted">
-            Aşağıdaki katmanlar yalnızca doğru eşleşmeye daha hızlı ulaşmak için.
+            {ORTAQ_COPY.monetization.paidTierNote}
           </p>
         </div>
 

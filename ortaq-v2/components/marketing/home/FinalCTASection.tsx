@@ -27,10 +27,10 @@ export function FinalCTASection() {
           <div className="mx-auto mb-10 flex max-w-xl items-stretch gap-3">
             <div className="flex-1 rounded-xl border border-ortaq-dark-border bg-ortaq-dark-elevated px-4 py-3 text-left">
               <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-ortaq-dark-text-muted">
-                Bir tarafta
+                Fırsat sahibi
               </p>
               <p className="mt-1 text-sm font-semibold text-ortaq-dark-text">
-                Zemini olan iş
+                Gerçek zemin
               </p>
             </div>
             <div className="flex flex-col items-center justify-center">
@@ -40,10 +40,10 @@ export function FinalCTASection() {
             </div>
             <div className="flex-1 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-3 text-left">
               <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-blue-300/90">
-                Diğer tarafta
+                Ortak adayı
               </p>
               <p className="mt-1 text-sm font-semibold text-white">
-                Doğru ortak
+                Eksik parça
               </p>
             </div>
           </div>

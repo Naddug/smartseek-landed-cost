@@ -8,10 +8,10 @@ import { marketingDossiers } from "@/data/marketing/home-dossiers";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 export const metadata: Metadata = {
-  title: "Fırsat Dosyaları | ORTAQ",
+  title: "Yayındaki Fırsatlar | ORTAQ",
   description: ORTAQ_COPY.archive.intro,
   openGraph: {
-    title: "Fırsat Dosyaları | ORTAQ",
+    title: "Yayındaki Fırsatlar | ORTAQ",
     description: ORTAQ_COPY.archive.intro,
   },
 };

@@ -29,6 +29,9 @@ export function ProcessTimeline() {
         <div className="mb-14 max-w-xl">
           <p className="type-eyebrow">{ORTAQ_COPY.process.sectionEyebrow}</p>
           <h2 className="type-section mt-3">{ORTAQ_COPY.process.sectionTitle}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary md:text-base">
+            {ORTAQ_COPY.process.sectionLead}
+          </p>
         </div>
 
         <div className="relative mx-auto max-w-3xl">

@@ -33,32 +33,13 @@ const ownerSteps = [
   },
 ];
 
-const partnerSteps = [
-  {
-    icon: UserCircle,
-    title: "Katkınızı profile yazın",
-    description:
-      "Sermaye, teknik, operasyon ya da sektör deneyiminizi netleştirin. Belirsiz profiller zayıf başvuruya gider.",
-  },
-  {
-    icon: Target,
-    title: "Fırsatlara başvurun",
-    description:
-      "Kategori, aşama ve aranan ortak türüne göre filtreleyin. Zemini size uygun fırsatlara başvurun; ne sunabileceğinizi açık yazın.",
-  },
-  {
-    icon: Link2,
-    title: "Eşleşme oluşsun",
-    description:
-      "Dosya sahibi başvurunuzu görür. Uygun bulursa eşleşme ORTAQ panelinde başlar.",
-  },
-  {
-    icon: Shield,
-    title: "Bilgiler kademeli açılır",
-    description:
-      "Hassas detaylar eşleşme sonrası paylaşılır. Gizlilik seviyesini dosya sahibi belirler.",
-  },
-];
+const partnerStepIcons = [UserCircle, Target, Link2, Shield] as const;
+
+const partnerSteps = ORTAQ_COPY.process.partnerSteps.map((step, index) => ({
+  icon: partnerStepIcons[index] ?? UserCircle,
+  title: step.title,
+  description: step.description,
+}));
 
 export default function NasilCalisirPage() {
   const copy = ORTAQ_COPY.pages.nasilCalisir;

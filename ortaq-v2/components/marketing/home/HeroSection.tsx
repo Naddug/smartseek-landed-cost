@@ -48,13 +48,20 @@ export function HeroSection() {
               {ORTAQ_COPY.hero.eyebrow}
             </p>
 
-            <h1 className="space-y-1 font-heading text-[1.625rem] font-semibold leading-[1.2] tracking-[-0.03em] text-ortaq-navy md:text-[2rem] lg:text-[2.125rem]">
-              {ORTAQ_COPY.hero.headlineLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+            <h1 className="font-heading text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] text-ortaq-navy md:text-[2.125rem] lg:text-[2.375rem]">
+              {ORTAQ_COPY.hero.headline}
             </h1>
+
+            <ul className="mt-5 space-y-1.5 border-l-2 border-ortaq-line pl-4">
+              {ORTAQ_COPY.hero.patternExamples.map((line) => (
+                <li
+                  key={line}
+                  className="text-sm font-medium leading-snug text-ortaq-text-secondary md:text-[0.9375rem]"
+                >
+                  {line}
+                </li>
+              ))}
+            </ul>
 
             <p className="type-body-secondary mt-6 max-w-md leading-relaxed md:text-[1.0625rem]">
               {ORTAQ_COPY.hero.subhead}

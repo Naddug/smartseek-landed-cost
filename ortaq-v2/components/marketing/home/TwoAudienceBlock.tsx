@@ -18,7 +18,7 @@ export function TwoAudienceBlock() {
                 <p className="type-eyebrow">{ORTAQ_COPY.twoAudience.ownerLabel}</p>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
                   <Check className="h-3 w-3" strokeWidth={3} />
-                  Zemin sizde
+                  {ORTAQ_COPY.twoAudience.ownerBadge}
                 </span>
               </div>
               <h2 className="mt-2.5 font-heading text-xl font-semibold tracking-[-0.02em] text-ortaq-navy md:text-2xl">
@@ -45,7 +45,7 @@ export function TwoAudienceBlock() {
                 <p className="type-eyebrow-light">{ORTAQ_COPY.twoAudience.partnerLabel}</p>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/15 px-2.5 py-1 text-[11px] font-semibold text-blue-200 ring-1 ring-blue-400/30">
                   <Minus className="h-3 w-3" strokeWidth={3} />
-                  Eksik taraf sizsiniz
+                  {ORTAQ_COPY.twoAudience.partnerBadge}
                 </span>
               </div>
               <h2 className="mt-2.5 font-heading text-xl font-semibold tracking-[-0.02em] text-ortaq-dark-text md:text-2xl">

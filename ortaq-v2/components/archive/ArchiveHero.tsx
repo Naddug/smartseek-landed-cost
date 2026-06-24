@@ -25,7 +25,7 @@ export function ArchiveHero() {
         <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="max-w-2xl">
             <p className="type-eyebrow-light">{ORTAQ_COPY.labels.dossierArchive}</p>
-            <h1 className="type-section-light mt-3">Fırsat Dosyaları</h1>
+            <h1 className="type-section-light mt-3">{ORTAQ_COPY.archive.pageTitle}</h1>
             <p className="type-body-on-dark mt-4 text-base">
               {ORTAQ_COPY.archive.intro}
             </p>
