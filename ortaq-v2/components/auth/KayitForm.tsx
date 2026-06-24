@@ -79,7 +79,7 @@ export function KayitForm({ enabled }: KayitFormProps) {
   return (
     <div className="space-y-6">
       {!enabled.google && !enabled.linkedin && !enabled.emailMagicLink && (
-        <p className="rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-xs leading-relaxed text-stone-600">
+        <p className="rounded-lg border border-ortaq-line bg-ortaq-surface-alt px-3 py-2 text-xs leading-relaxed text-ortaq-text-secondary">
           Sosyal giriş bu ortamda yapılandırılmamış. E-posta ve şifre ile kayıt
           olabilirsiniz.
         </p>
@@ -94,7 +94,7 @@ export function KayitForm({ enabled }: KayitFormProps) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-stone-800">
+          <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-ortaq-navy">
             Ad Soyad
           </label>
           <input
@@ -103,12 +103,12 @@ export function KayitForm({ enabled }: KayitFormProps) {
             autoComplete="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm text-stone-900 outline-none ring-blue-600 focus:ring-2"
+            className="w-full rounded-lg border border-ortaq-line px-3 py-2 text-sm text-ortaq-navy outline-none ring-ortaq-action focus:ring-2"
             placeholder="Adınız Soyadınız"
           />
         </div>
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-stone-800">
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ortaq-navy">
             E-posta
           </label>
           <input
@@ -118,11 +118,11 @@ export function KayitForm({ enabled }: KayitFormProps) {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm text-stone-900 outline-none ring-blue-600 focus:ring-2"
+            className="w-full rounded-lg border border-ortaq-line px-3 py-2 text-sm text-ortaq-navy outline-none ring-ortaq-action focus:ring-2"
           />
         </div>
         <div>
-          <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-stone-800">
+          <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ortaq-navy">
             Şifre
           </label>
           <input
@@ -133,9 +133,9 @@ export function KayitForm({ enabled }: KayitFormProps) {
             minLength={8}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm text-stone-900 outline-none ring-blue-600 focus:ring-2"
+            className="w-full rounded-lg border border-ortaq-line px-3 py-2 text-sm text-ortaq-navy outline-none ring-ortaq-action focus:ring-2"
           />
-          <p className="mt-1 text-xs text-stone-500">En az 8 karakter.</p>
+          <p className="mt-1 text-xs text-ortaq-text-muted">En az 8 karakter.</p>
         </div>
         {error && (
           <p className="text-sm text-red-600" role="alert">

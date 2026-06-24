@@ -72,7 +72,7 @@ export function GirisForm({ enabled }: GirisFormProps) {
       )}
 
       {!enabled.google && !enabled.linkedin && !enabled.emailMagicLink && (
-        <p className="rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-xs leading-relaxed text-stone-600">
+        <p className="rounded-lg border border-ortaq-line bg-ortaq-surface-alt px-3 py-2 text-xs leading-relaxed text-ortaq-text-secondary">
           Sosyal giriş bu ortamda yapılandırılmamış. E-posta ve şifre ile giriş
           yapabilirsiniz.
         </p>
@@ -83,9 +83,9 @@ export function GirisForm({ enabled }: GirisFormProps) {
       {!enabled.google && !enabled.linkedin && !enabled.emailMagicLink ? null : (
         <div className="relative py-1">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-stone-200" />
+            <span className="w-full border-t border-ortaq-line" />
           </div>
-          <p className="relative mx-auto w-fit bg-white px-3 text-xs text-stone-500">
+          <p className="relative mx-auto w-fit bg-white px-3 text-xs text-ortaq-text-muted">
             veya e-posta / şifre
           </p>
         </div>
@@ -93,7 +93,7 @@ export function GirisForm({ enabled }: GirisFormProps) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-stone-800">
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ortaq-navy">
             E-posta
           </label>
           <input
@@ -103,12 +103,12 @@ export function GirisForm({ enabled }: GirisFormProps) {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm text-stone-900 outline-none ring-blue-600 focus:ring-2"
+            className="w-full rounded-lg border border-ortaq-line px-3 py-2 text-sm text-ortaq-navy outline-none ring-ortaq-action focus:ring-2"
             placeholder="ornek@firma.com"
           />
         </div>
         <div>
-          <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-stone-800">
+          <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ortaq-navy">
             Şifre
           </label>
           <input
@@ -118,7 +118,7 @@ export function GirisForm({ enabled }: GirisFormProps) {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-lg border border-stone-200 px-3 py-2 text-sm text-stone-900 outline-none ring-blue-600 focus:ring-2"
+            className="w-full rounded-lg border border-ortaq-line px-3 py-2 text-sm text-ortaq-navy outline-none ring-ortaq-action focus:ring-2"
           />
         </div>
         {error && (

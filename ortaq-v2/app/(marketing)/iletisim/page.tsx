@@ -14,25 +14,25 @@ export default function IletisimPage() {
           description="Dosya, inceleme veya platform kullanımı hakkında sorularınız için bize yazın."
         >
           <div className="mt-8 space-y-6">
-            <div className="rounded-xl border border-stone-200 bg-white p-6">
+            <div className="rounded-xl border border-ortaq-line bg-white p-6">
               <div className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-stone-500" />
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-ortaq-text-muted" />
                 <div>
-                  <p className="text-sm font-medium text-stone-950">E-posta</p>
+                  <p className="text-sm font-medium text-ortaq-navy">E-posta</p>
                   <a
                     href="mailto:destek@ortaq.biz"
                     className="mt-1 text-sm text-blue-600 hover:underline"
                   >
                     destek@ortaq.biz
                   </a>
-                  <p className="mt-2 text-sm text-stone-600">
+                  <p className="mt-2 text-sm text-ortaq-text-secondary">
                     İş günlerinde 24 saat içinde yanıt vermeyi hedefliyoruz.
                   </p>
                 </div>
               </div>
             </div>
 
-            <p className="text-sm text-stone-600">
+            <p className="text-sm text-ortaq-text-secondary">
               Hesabınız varsa panel üzerinden dosya ve eşleşme durumunuzu
               takip edebilirsiniz.{" "}
               <Link href="/panel" className="font-medium text-blue-600 hover:underline">

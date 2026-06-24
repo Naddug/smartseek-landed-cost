@@ -68,14 +68,14 @@ export default async function DosyaOlusturPage() {
         description={ORTAQ_COPY.pages.dosyaOlustur.description}
       />
       <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_340px]">
-        <div className="rounded-xl border border-stone-200 bg-white p-6">
-          <h2 className="font-heading text-lg font-semibold text-stone-950">
+        <div className="rounded-xl border border-ortaq-line bg-white p-6">
+          <h2 className="font-heading text-lg font-semibold text-ortaq-navy">
             {ORTAQ_COPY.pages.dosyaOlustur.wizardTitle}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-stone-600">
+          <p className="mt-2 text-sm leading-relaxed text-ortaq-text-secondary">
             {ORTAQ_COPY.pages.dosyaOlustur.wizardBody}
           </p>
-          <p className="mt-3 text-xs text-stone-500">
+          <p className="mt-3 text-xs text-ortaq-text-muted">
             Sihirbaz adımlarında girdiğiniz bilgiler taslak dosyanız olarak kaydedilir; istediğiniz zaman devam edebilirsiniz.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -94,10 +94,10 @@ export default async function DosyaOlusturPage() {
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-blue-700/70">
             {ORTAQ_COPY.monetization.sectionEyebrow}
           </p>
-          <h2 className="mt-2 font-heading text-base font-semibold text-stone-950">
+          <h2 className="mt-2 font-heading text-base font-semibold text-ortaq-navy">
             {ORTAQ_COPY.monetization.ownerPremiumTitle}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-stone-600">
+          <p className="mt-2 text-sm leading-relaxed text-ortaq-text-secondary">
             {ORTAQ_COPY.pages.dosyaOlustur.premiumAside}
           </p>
           <Link
@@ -110,10 +110,10 @@ export default async function DosyaOlusturPage() {
       </div>
 
       <div className="mt-10">
-        <h2 className="mb-2 font-heading text-lg font-semibold text-stone-950">
+        <h2 className="mb-2 font-heading text-lg font-semibold text-ortaq-navy">
           {ORTAQ_COPY.monetization.sectionEyebrow}
         </h2>
-        <p className="mb-4 max-w-2xl text-sm text-stone-600">
+        <p className="mb-4 max-w-2xl text-sm text-ortaq-text-secondary">
           {ORTAQ_COPY.monetization.sectionDescription}
         </p>
         <MonetizationTiers showCtas={false} />

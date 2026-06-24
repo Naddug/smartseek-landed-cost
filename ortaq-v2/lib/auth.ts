@@ -3,16 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 import LinkedInProvider from "next-auth/providers/linkedin";
-import { cookies } from "next/headers";
 import type { UserRole } from "@/types";
 import { hasDatabase } from "@/lib/auth/db";
-import { defaultRoleForSignup, parseUserRole } from "@/lib/auth/roles";
 import { verifyCredentials } from "@/lib/auth/register";
 import { getAuthSecret } from "@/lib/auth/secret";
-import {
-  findOrCreateOAuthUser,
-  hydrateAuthSession,
-} from "@/lib/auth/user-repository";
+import { hydrateAuthSession } from "@/lib/auth/user-repository";
+import { authCallbacks, SIGNUP_ROLE_COOKIE } from "@/lib/auth/callbacks";
 
 declare module "next-auth" {
   interface Session {
@@ -44,7 +40,7 @@ declare module "next-auth/jwt" {
   }
 }
 
-export const SIGNUP_ROLE_COOKIE = "ortaq_signup_role";
+export { SIGNUP_ROLE_COOKIE };
 
 const demoUsers: Record<
   string,
@@ -64,14 +60,6 @@ const demoUsers: Record<
 
 function demoAuthEnabled(): boolean {
   return process.env.ORTAQ_ENABLE_DEMO_AUTH === "true";
-}
-
-function readSignupRoleCookie(): UserRole | null {
-  return parseUserRole(cookies().get(SIGNUP_ROLE_COOKIE)?.value);
-}
-
-function clearSignupRoleCookie() {
-  cookies().delete(SIGNUP_ROLE_COOKIE);
 }
 
 function buildProviders(): NextAuthOptions["providers"] {
@@ -156,26 +144,6 @@ function buildProviders(): NextAuthOptions["providers"] {
   return providers;
 }
 
-async function resolveOAuthUser(
-  input: {
-    email: string;
-    name?: string | null;
-    image?: string | null;
-    provider: string;
-    providerAccountId: string;
-  },
-  signupRole: UserRole | null
-) {
-  return findOrCreateOAuthUser({
-    email: input.email,
-    name: input.name,
-    image: input.image,
-    provider: input.provider,
-    providerAccountId: input.providerAccountId,
-    role: signupRole,
-  });
-}
-
 export const authOptions: NextAuthOptions = {
   providers: buildProviders(),
   session: {
@@ -188,99 +156,7 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: "/giris?magic=sent",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (!user.email || account?.provider === "credentials") return true;
-
-      try {
-        const signupRole = readSignupRoleCookie();
-        await resolveOAuthUser(
-          {
-            email: user.email,
-            name: user.name,
-            image: user.image,
-            provider: account?.provider ?? "oauth",
-            providerAccountId:
-              account?.providerAccountId ??
-              (profile as { sub?: string } | undefined)?.sub ??
-              user.email,
-          },
-          signupRole
-        );
-
-        if (signupRole) clearSignupRoleCookie();
-      } catch (error) {
-        console.error("[auth] OAuth sign-in failed:", error);
-        return false;
-      }
-
-      return true;
-    },
-    async jwt({ token, user, account, trigger }) {
-      if (user?.email && account && account.provider !== "credentials") {
-        try {
-          const signupRole = readSignupRoleCookie();
-          const stored = await resolveOAuthUser(
-            {
-              email: user.email,
-              name: user.name,
-              image: user.image,
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
-            },
-            signupRole
-          );
-          const session = await hydrateAuthSession(stored.id);
-
-          token.sub = stored.id;
-          token.role = session.role;
-          token.onboardingCompleted = session.onboardingCompleted;
-          token.sideSelected = session.sideSelected;
-          token.profileCompletionLevel = session.profileCompletionLevel;
-
-          if (signupRole) clearSignupRoleCookie();
-          return token;
-        } catch (error) {
-          console.error("[auth] OAuth JWT hydrate failed:", error);
-        }
-      }
-
-      if (user) {
-        token.sub = user.id;
-        token.role = user.role ?? defaultRoleForSignup(undefined);
-        token.onboardingCompleted = user.onboardingCompleted ?? false;
-        token.sideSelected = user.sideSelected ?? false;
-        token.profileCompletionLevel = user.profileCompletionLevel ?? "incomplete";
-      }
-
-      if (token.sub && (trigger === "update" || !user)) {
-        try {
-          const session = await hydrateAuthSession(token.sub);
-          token.role = session.role;
-          token.onboardingCompleted = session.onboardingCompleted;
-          token.sideSelected = session.sideSelected;
-          token.profileCompletionLevel = session.profileCompletionLevel;
-        } catch (error) {
-          console.error("[auth] Session hydrate failed:", error);
-        }
-      }
-
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub ?? "";
-        session.user.role = token.role ?? "partner";
-        session.user.onboardingCompleted = token.onboardingCompleted ?? false;
-        session.user.sideSelected = token.sideSelected ?? false;
-        session.user.profileCompletionLevel = token.profileCompletionLevel ?? "incomplete";
-      }
-      return session;
-    },
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
-    },
+    ...authCallbacks,
   },
   secret: getAuthSecret(),
 };

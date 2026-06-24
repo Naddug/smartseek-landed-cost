@@ -7,6 +7,10 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
+    "smoke:auth": "node --experimental-strip-types --experimental-loader ./scripts/_alias-loader.mjs scripts/smoke-auth.ts",
+    "smoke:auth:api": "node --experimental-strip-types --experimental-loader ./scripts/_alias-loader.mjs scripts/smoke-auth-api.ts",
+    "smoke:auth:session": "node --experimental-strip-types --experimental-loader ./scripts/_alias-loader.mjs scripts/smoke-auth-session.ts",
+    "smoke": "npm run smoke:auth && npm run smoke:auth:api && npm run smoke:auth:session",
     "postinstall": "prisma generate"
   },
   "dependencies": {
