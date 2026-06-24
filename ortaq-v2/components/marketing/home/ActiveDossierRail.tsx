@@ -19,9 +19,9 @@ export function ActiveDossierRail() {
     .slice(0, 6);
 
   return (
-    <section className="section-editorial-alt py-16 md:py-20">
+    <section className="section-editorial-alt py-14 md:py-16">
       <AppContainer>
-        <div className="mb-10 flex flex-col gap-4 border-b border-ortaq-line pb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-8 flex flex-col gap-4 border-b border-ortaq-line pb-6 sm:flex-row sm:items-end sm:justify-between lg:mb-10 lg:pb-8">
           <div className="max-w-xl">
             <p className="type-eyebrow">{ORTAQ_COPY.labels.dossierArchive}</p>
             <h2 className="type-section mt-2">{ORTAQ_COPY.sections.activeDossiers}</h2>

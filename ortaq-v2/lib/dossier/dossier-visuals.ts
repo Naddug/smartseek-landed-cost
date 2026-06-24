@@ -26,7 +26,7 @@ export const DEFAULT_DOSSIER_IMAGE_URL = IMG(DEFAULT_DOSSIER_IMAGE_ID);
 
 /**
  * Slug → visual theme registry.
- * Prefer Turkey-tagged or Turkey-plausible Unsplash sources where available.
+ * Each primary image is chosen for sector semantics (operations context, not generic stock).
  * Run `node scripts/verify-dossier-images.mjs` before shipping image changes.
  */
 const SLUG_THEMES: Record<string, DossierVisualTheme> = {
@@ -47,10 +47,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#d97706",
     accent: "#F59E0B",
     accentMuted: "rgba(245,158,11,0.16)",
-    imageId: "photo-1734944808830-c4a8b391b95a",
-    imageUrl: IMG("photo-1734944808830-c4a8b391b95a"),
-    imagePosition: "center 48%",
-    atmosphere: "Tunalı · cadde cephesi",
+    imageId: "photo-1517248135467-4c7edcad34c4",
+    imageUrl: IMG("photo-1517248135467-4c7edcad34c4"),
+    imagePosition: "center 40%",
+    atmosphere: "Tunalı · işletmeye hazır kafe",
   },
   "tekstil-atolyesi": {
     gradientFrom: "#14532d",
@@ -58,10 +58,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#059669",
     accent: "#10B981",
     accentMuted: "rgba(16,185,129,0.16)",
-    imageId: "photo-1748944080838-2602cab8086a",
-    imageUrl: IMG("photo-1748944080838-2602cab8086a"),
-    imagePosition: "center 42%",
-    atmosphere: "Demirtaş OSB · atölye hattı",
+    imageId: "photo-1742281693044-972b1a1760a4",
+    imageUrl: IMG("photo-1742281693044-972b1a1760a4"),
+    imagePosition: "center 45%",
+    atmosphere: "Demirtaş OSB · üretim hattı",
   },
   "saglik-yazilimi": {
     gradientFrom: "#0c4a6e",
@@ -69,10 +69,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0284c7",
     accent: "#38BDF8",
     accentMuted: "rgba(56,189,248,0.16)",
-    imageId: "photo-1616486338812-3dadae4b4ace",
-    imageUrl: IMG("photo-1616486338812-3dadae4b4ace"),
-    imagePosition: "center 45%",
-    atmosphere: "İzmir · klinik & yazılım",
+    imageId: "photo-1579684385127-1ef15d508118",
+    imageUrl: IMG("photo-1579684385127-1ef15d508118"),
+    imagePosition: "center 38%",
+    atmosphere: "İzmir · klinik & dijital sağlık",
   },
   "lojistik-depo": {
     gradientFrom: "#1e293b",
@@ -80,10 +80,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#64748b",
     accent: "#94A3B8",
     accentMuted: "rgba(148,163,184,0.14)",
-    imageId: "photo-1759888107096-916fbd3eaf25",
-    imageUrl: IMG("photo-1759888107096-916fbd3eaf25"),
+    imageId: "photo-1553413077-190dd305871c",
+    imageUrl: IMG("photo-1553413077-190dd305871c"),
     imagePosition: "center 42%",
-    atmosphere: "Hadımköy · liman & lojistik",
+    atmosphere: "Hadımköy · depo & sevkiyat",
   },
   "gida-uretim": {
     gradientFrom: "#451a03",
@@ -94,7 +94,7 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     imageId: "photo-1556911220-bff31c812dba",
     imageUrl: IMG("photo-1556911220-bff31c812dba"),
     imagePosition: "center 48%",
-    atmosphere: "Organize sanayi · üretim mutfağı",
+    atmosphere: "Organize sanayi · lisanslı üretim mutfağı",
   },
   "mobil-uygulama": {
     gradientFrom: "#1e1b4b",
@@ -102,10 +102,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#4f46e5",
     accent: "#818CF8",
     accentMuted: "rgba(129,140,248,0.16)",
-    imageId: "photo-1756551741799-3fd2225e16aa",
-    imageUrl: IMG("photo-1756551741799-3fd2225e16aa"),
+    imageId: "photo-1556761175-b413da4baf72",
+    imageUrl: IMG("photo-1556761175-b413da4baf72"),
     imagePosition: "center 40%",
-    atmosphere: "Kadıköy · ürün & mobil ekip",
+    atmosphere: "Kadıköy · ürün ekibi & büyüme",
   },
   "butik-otel": {
     gradientFrom: "#0c4a6e",
@@ -113,32 +113,32 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0ea5e9",
     accent: "#7DD3FC",
     accentMuted: "rgba(125,211,252,0.14)",
-    imageId: "photo-1650051313661-71790a107987",
-    imageUrl: IMG("photo-1650051313661-71790a107987"),
+    imageId: "photo-1551882547-ff40c63fe5fa",
+    imageUrl: IMG("photo-1551882547-ff40c63fe5fa"),
     imagePosition: "center 45%",
-    atmosphere: "Kaleiçi · butik otel iç mekân",
+    atmosphere: "Kaleiçi · işletmeye hazır konaklama",
   },
 };
 
 /** Per-slug secondary fallbacks when primary fails */
 const SLUG_SECONDARY_IMAGES: Record<string, string> = {
   "e-ticaret-operasyonu": IMG("photo-1607082348824-0a96f2a4b9da"),
-  "kafe-lokasyonu": IMG("photo-1560799262-3727e67f0c62"),
-  "tekstil-atolyesi": IMG("photo-1742281693044-972b1a1760a4"),
-  "saglik-yazilimi": IMG("photo-1579684385127-1ef15d508118"),
-  "lojistik-depo": IMG("photo-1553413077-190dd305871c"),
+  "kafe-lokasyonu": IMG("photo-1734944808830-c4a8b391b95a"),
+  "tekstil-atolyesi": IMG("photo-1748944080838-2602cab8086a"),
+  "saglik-yazilimi": IMG("photo-1576091160550-2173dba999ef"),
+  "lojistik-depo": IMG("photo-1759888107096-916fbd3eaf25"),
   "gida-uretim": IMG("photo-1556909114-f6e7ad7d3136"),
-  "mobil-uygulama": IMG("photo-1556761175-b413da4baf72"),
-  "butik-otel": IMG("photo-1654162280520-8867181837e8"),
+  "mobil-uygulama": IMG("photo-1460925895917-afdab827c52f"),
+  "butik-otel": IMG("photo-1650051313661-71790a107987"),
 };
 
-/** Category-level fallbacks — Turkey-plausible where possible */
+/** Category-level fallbacks — sector-plausible environments */
 const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
   ecommerce: IMG("photo-1586528116311-ad8dd3c8310d"),
-  hospitality: IMG("photo-1560799262-3727e67f0c62"),
+  hospitality: IMG("photo-1517248135467-4c7edcad34c4"),
   manufacturing: IMG("photo-1742281693044-972b1a1760a4"),
   healthcare: IMG("photo-1551836022-deb4988cc6c0"),
-  services: IMG("photo-1759888107096-916fbd3eaf25"),
+  services: IMG("photo-1553413077-190dd305871c"),
   other: DEFAULT_DOSSIER_IMAGE_URL,
 };
 

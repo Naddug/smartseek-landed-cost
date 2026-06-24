@@ -39,7 +39,7 @@ export function FeaturedSpotlight({
 
   return (
     <section
-      className="surface-dark relative overflow-hidden py-16 md:py-24"
+      className="surface-dark relative overflow-hidden py-14 md:py-20"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -54,7 +54,7 @@ export function FeaturedSpotlight({
       />
 
       <AppContainer className="relative">
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
           <p className="type-eyebrow-light">{ORTAQ_COPY.sections.featuredEyebrow}</p>
 
           <div className="flex flex-wrap gap-2">

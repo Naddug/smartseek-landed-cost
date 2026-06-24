@@ -8,13 +8,16 @@ export function PartnerTypeStrip() {
   const partnerTypeChips = getPartnerTypeChips();
 
   return (
-    <section className="section-editorial-alt py-10 md:py-12">
+    <section className="section-editorial-alt border-b border-ortaq-line py-12 md:py-14">
       <AppContainer>
-        <p className="type-eyebrow mb-4">{ORTAQ_COPY.positioning.categoryLabel}</p>
-        <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ortaq-text-secondary">
-          {ORTAQ_COPY.archive.intro}
-        </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,18rem)_1fr] lg:items-end lg:gap-10">
+          <div>
+            <p className="type-eyebrow">{ORTAQ_COPY.positioning.categoryLabel}</p>
+            <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary">
+              {ORTAQ_COPY.archive.intro}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
           {partnerTypeChips.map((chip) => (
             <Link
               key={chip.id}
@@ -30,6 +33,7 @@ export function PartnerTypeStrip() {
               </span>
             </Link>
           ))}
+          </div>
         </div>
       </AppContainer>
     </section>

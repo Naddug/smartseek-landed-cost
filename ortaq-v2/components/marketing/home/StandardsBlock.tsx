@@ -5,17 +5,19 @@ import { Button } from "@/components/ui/button";
 
 export function StandardsBlock() {
   return (
-    <section className="section-editorial py-20 md:py-24">
+    <section className="section-editorial py-16 md:py-20">
       <AppContainer>
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-8 border-b border-ortaq-line-strong pb-6">
-            <p className="type-eyebrow">{ORTAQ_COPY.sections.standards}</p>
-            <h2 className="type-section mt-2 text-balance">
-              {ORTAQ_COPY.standards.sectionTitle}
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary md:text-base">
-              {ORTAQ_COPY.standards.sectionIntro}
-            </p>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:items-start lg:gap-14 xl:gap-16">
+          <div>
+            <div className="border-b border-ortaq-line-strong pb-6">
+              <p className="type-eyebrow">{ORTAQ_COPY.sections.standards}</p>
+              <h2 className="type-section mt-2 text-balance">
+                {ORTAQ_COPY.standards.sectionTitle}
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary md:text-base">
+                {ORTAQ_COPY.standards.sectionIntro}
+              </p>
+            </div>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { AuthProviderButtons } from "@/components/auth/AuthProviderButtons";
 import type { AuthProviderFlags } from "@/lib/auth/providers";
@@ -23,7 +23,6 @@ async function fetchSessionSnapshot() {
 }
 
 export function GirisForm({ enabled }: GirisFormProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const nextParam = searchParams.get("next");
   const magicSent = searchParams.get("magic") === "sent";

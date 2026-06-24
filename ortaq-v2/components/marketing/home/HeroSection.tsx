@@ -34,9 +34,9 @@ export function HeroSection() {
         }}
       />
 
-      <AppContainer className="relative py-14 md:py-20 lg:py-24">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
-          <div className="max-w-xl">
+      <AppContainer className="relative py-12 md:py-16 lg:py-20">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-14">
+          <div className="lg:pr-4 xl:max-w-[34rem]">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-ortaq-line bg-white px-3 py-1 shadow-ortaq-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ortaq-text-secondary">
@@ -88,7 +88,7 @@ export function HeroSection() {
             <TrustProofStripCTA />
           </div>
 
-          <div className="relative lg:pl-2">
+          <div className="w-full lg:max-w-[36rem] lg:justify-self-end xl:max-w-[38rem]">
             {featured && (
               <>
                 <Link
