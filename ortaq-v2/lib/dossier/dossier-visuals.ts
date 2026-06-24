@@ -10,15 +10,25 @@ export type DossierVisualTheme = {
   imageUrl: string;
   imagePosition?: string;
   atmosphere: string;
+  /** Unsplash photo id — used by verify-dossier-images.mjs */
+  imageId: string;
 };
 
 /** Verified Unsplash CDN URL builder — every ID is curl-checked before inclusion */
-const IMG = (id: string) =>
+export const buildDossierImageUrl = (id: string) =>
   `https://images.unsplash.com/${id}?w=1400&q=88&auto=format&fit=crop`;
 
-/** Istanbul business skyline — neutral platform default */
-export const DEFAULT_DOSSIER_IMAGE_URL = IMG("photo-1524231757912-21f4fe3a7200");
+const IMG = buildDossierImageUrl;
 
+/** Istanbul urban skyline — neutral platform default */
+export const DEFAULT_DOSSIER_IMAGE_ID = "photo-1508009603885-50cf7c579365";
+export const DEFAULT_DOSSIER_IMAGE_URL = IMG(DEFAULT_DOSSIER_IMAGE_ID);
+
+/**
+ * Slug → visual theme registry.
+ * Prefer Turkey-tagged or Turkey-plausible Unsplash sources where available.
+ * Run `node scripts/verify-dossier-images.mjs` before shipping image changes.
+ */
 const SLUG_THEMES: Record<string, DossierVisualTheme> = {
   "e-ticaret-operasyonu": {
     gradientFrom: "#0f172a",
@@ -26,7 +36,8 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#2563eb",
     accent: "#3B82F6",
     accentMuted: "rgba(59,130,246,0.18)",
-    imageUrl: IMG("photo-1607082348824-0a96f2a4b9da"),
+    imageId: "photo-1586528116311-ad8dd3c8310d",
+    imageUrl: IMG("photo-1586528116311-ad8dd3c8310d"),
     imagePosition: "center 42%",
     atmosphere: "Maslak · paketleme & sevkiyat",
   },
@@ -36,9 +47,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#d97706",
     accent: "#F59E0B",
     accentMuted: "rgba(245,158,11,0.16)",
-    imageUrl: IMG("photo-1560799262-3727e67f0c62"),
-    imagePosition: "center 55%",
-    atmosphere: "Cadde cephesi · işletme lokasyonu",
+    imageId: "photo-1734944808830-c4a8b391b95a",
+    imageUrl: IMG("photo-1734944808830-c4a8b391b95a"),
+    imagePosition: "center 48%",
+    atmosphere: "Tunalı · cadde cephesi",
   },
   "tekstil-atolyesi": {
     gradientFrom: "#14532d",
@@ -46,9 +58,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#059669",
     accent: "#10B981",
     accentMuted: "rgba(16,185,129,0.16)",
-    imageUrl: IMG("photo-1742281693044-972b1a1760a4"),
-    imagePosition: "center 48%",
-    atmosphere: "Demirtaş OSB · tekstil hattı",
+    imageId: "photo-1748944080838-2602cab8086a",
+    imageUrl: IMG("photo-1748944080838-2602cab8086a"),
+    imagePosition: "center 42%",
+    atmosphere: "Demirtaş OSB · atölye hattı",
   },
   "saglik-yazilimi": {
     gradientFrom: "#0c4a6e",
@@ -56,9 +69,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0284c7",
     accent: "#38BDF8",
     accentMuted: "rgba(56,189,248,0.16)",
-    imageUrl: IMG("photo-1579684385127-1ef15d508118"),
-    imagePosition: "center 40%",
-    atmosphere: "Klinik ortamı · sağlık teknolojisi",
+    imageId: "photo-1616486338812-3dadae4b4ace",
+    imageUrl: IMG("photo-1616486338812-3dadae4b4ace"),
+    imagePosition: "center 45%",
+    atmosphere: "İzmir · klinik & yazılım",
   },
   "lojistik-depo": {
     gradientFrom: "#1e293b",
@@ -66,9 +80,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#64748b",
     accent: "#94A3B8",
     accentMuted: "rgba(148,163,184,0.14)",
+    imageId: "photo-1759888107096-916fbd3eaf25",
     imageUrl: IMG("photo-1759888107096-916fbd3eaf25"),
-    imagePosition: "center 45%",
-    atmosphere: "Hadımköy · lojistik & liman",
+    imagePosition: "center 42%",
+    atmosphere: "Hadımköy · liman & lojistik",
   },
   "gida-uretim": {
     gradientFrom: "#451a03",
@@ -76,8 +91,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#ea580c",
     accent: "#FB923C",
     accentMuted: "rgba(251,146,60,0.14)",
-    imageUrl: IMG("photo-1555396273-367ea4eb4db5"),
-    imagePosition: "center 50%",
+    imageId: "photo-1556911220-bff31c812dba",
+    imageUrl: IMG("photo-1556911220-bff31c812dba"),
+    imagePosition: "center 48%",
     atmosphere: "Organize sanayi · üretim mutfağı",
   },
   "mobil-uygulama": {
@@ -86,9 +102,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#4f46e5",
     accent: "#818CF8",
     accentMuted: "rgba(129,140,248,0.16)",
-    imageUrl: IMG("photo-1522202176988-66273c2fd55f"),
-    imagePosition: "center 35%",
-    atmosphere: "Ürün ekibi · mobil geliştirme",
+    imageId: "photo-1756551741799-3fd2225e16aa",
+    imageUrl: IMG("photo-1756551741799-3fd2225e16aa"),
+    imagePosition: "center 40%",
+    atmosphere: "Kadıköy · ürün & mobil ekip",
   },
   "butik-otel": {
     gradientFrom: "#0c4a6e",
@@ -96,18 +113,31 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0ea5e9",
     accent: "#7DD3FC",
     accentMuted: "rgba(125,211,252,0.14)",
-    imageUrl: IMG("photo-1654162280520-8867181837e8"),
-    imagePosition: "center 42%",
-    atmosphere: "Kaleiçi · butik konaklama",
+    imageId: "photo-1650051313661-71790a107987",
+    imageUrl: IMG("photo-1650051313661-71790a107987"),
+    imagePosition: "center 45%",
+    atmosphere: "Kaleiçi · butik otel iç mekân",
   },
 };
 
-/** Secondary verified images — used only when primary load fails */
+/** Per-slug secondary fallbacks when primary fails */
+const SLUG_SECONDARY_IMAGES: Record<string, string> = {
+  "e-ticaret-operasyonu": IMG("photo-1607082348824-0a96f2a4b9da"),
+  "kafe-lokasyonu": IMG("photo-1560799262-3727e67f0c62"),
+  "tekstil-atolyesi": IMG("photo-1742281693044-972b1a1760a4"),
+  "saglik-yazilimi": IMG("photo-1579684385127-1ef15d508118"),
+  "lojistik-depo": IMG("photo-1553413077-190dd305871c"),
+  "gida-uretim": IMG("photo-1556909114-f6e7ad7d3136"),
+  "mobil-uygulama": IMG("photo-1556761175-b413da4baf72"),
+  "butik-otel": IMG("photo-1654162280520-8867181837e8"),
+};
+
+/** Category-level fallbacks — Turkey-plausible where possible */
 const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
-  ecommerce: IMG("photo-1607082348824-0a96f2a4b9da"),
+  ecommerce: IMG("photo-1586528116311-ad8dd3c8310d"),
   hospitality: IMG("photo-1560799262-3727e67f0c62"),
   manufacturing: IMG("photo-1742281693044-972b1a1760a4"),
-  healthcare: IMG("photo-1579684385127-1ef15d508118"),
+  healthcare: IMG("photo-1551836022-deb4988cc6c0"),
   services: IMG("photo-1759888107096-916fbd3eaf25"),
   other: DEFAULT_DOSSIER_IMAGE_URL,
 };
@@ -126,8 +156,9 @@ const DEFAULT_THEME: DossierVisualTheme = {
   gradientTo: "#2563eb",
   accent: "#3B82F6",
   accentMuted: "rgba(59,130,246,0.16)",
+  imageId: DEFAULT_DOSSIER_IMAGE_ID,
   imageUrl: DEFAULT_DOSSIER_IMAGE_URL,
-  imagePosition: "center 40%",
+  imagePosition: "center 42%",
   atmosphere: "Türkiye · iş fırsatı",
 };
 
@@ -149,26 +180,45 @@ export function getDossierCategoryFallbackImage(categoryKey: string): string {
   return CATEGORY_FALLBACK_IMAGES[categoryKey] ?? DEFAULT_DOSSIER_IMAGE_URL;
 }
 
-/** Ordered fallback chain: slug primary → category image → platform default */
+/** Ordered fallback chain: primary → slug secondary → category → platform default */
 export function getDossierImageFallbackChain(
   slug: string,
   categoryKey: string
 ): string[] {
   const primary = getDossierVisual({ slug, categoryKey }).imageUrl;
+  const slugSecondary = SLUG_SECONDARY_IMAGES[slug];
   const categoryFallback = getDossierCategoryFallbackImage(categoryKey);
 
   const chain: string[] = [primary];
-  if (categoryFallback !== primary) chain.push(categoryFallback);
+  if (slugSecondary && slugSecondary !== primary) chain.push(slugSecondary);
+  if (categoryFallback !== chain[chain.length - 1]) chain.push(categoryFallback);
   if (DEFAULT_DOSSIER_IMAGE_URL !== chain[chain.length - 1]) {
     chain.push(DEFAULT_DOSSIER_IMAGE_URL);
   }
   return chain;
 }
 
-/** All slug → image mappings for audits and verification scripts */
+/** Registry for audits and verify-dossier-images.mjs */
 export const DOSSIER_VISUAL_AUDIT = Object.fromEntries(
   Object.entries(SLUG_THEMES).map(([slug, theme]) => [
     slug,
-    { imageUrl: theme.imageUrl, atmosphere: theme.atmosphere },
+    {
+      imageId: theme.imageId,
+      imageUrl: theme.imageUrl,
+      atmosphere: theme.atmosphere,
+    },
   ])
 );
+
+export const ALL_DOSSIER_IMAGE_IDS = Array.from(
+  new Set([
+    ...Object.values(SLUG_THEMES).map((theme) => theme.imageId),
+    ...Object.values(SLUG_SECONDARY_IMAGES).map((url) =>
+      url.match(/photo-[a-f0-9-]+/)?.[0] ?? url
+    ),
+    ...Object.values(CATEGORY_FALLBACK_IMAGES).map((url) =>
+      url.match(/photo-[a-f0-9-]+/)?.[0] ?? url
+    ),
+    DEFAULT_DOSSIER_IMAGE_ID,
+  ])
+).filter(Boolean);
