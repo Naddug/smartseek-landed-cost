@@ -3,8 +3,13 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { getPanelOverview } from "@/lib/panel/get-panel-overview";
 import { EslesmelerimView } from "@/components/panel/PanelModuleViews";
+import { AppliedSuccessBanner } from "@/components/panel/AppliedSuccessBanner";
 
-export default async function EslesmelerimPage() {
+interface PageProps {
+  searchParams: { applied?: string };
+}
+
+export default async function EslesmelerimPage({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions);
   const overview = await getPanelOverview(session);
 
@@ -19,9 +24,16 @@ export default async function EslesmelerimPage() {
           Eşleşmelerim
         </h1>
         <p className="mt-1 text-sm text-stone-600">
-          Dosyalarınıza gelen ortak eşleşmelerini ve durumlarını yönetin.
+          {overview.role === "partner"
+            ? "İlgilendiğiniz fırsat dosyaları ve eşleşme durumları."
+            : "Dosyalarınıza gelen ortak eşleşmelerini ve durumlarını yönetin."}
         </p>
       </header>
+
+      {searchParams.applied && overview.role === "partner" && (
+        <AppliedSuccessBanner dossierSlug={searchParams.applied} />
+      )}
+
       <EslesmelerimView matches={overview.matches} role={overview.role} />
     </div>
   );

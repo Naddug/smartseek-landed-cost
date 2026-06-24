@@ -3,8 +3,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { PartnerOnboardingWizard } from "@/components/onboarding/partner/PartnerOnboardingWizard";
 import { getStoredUserProfile } from "@/lib/profile/repository";
+import { sanitizeNextPath } from "@/lib/auth/routes";
 
-export default async function OrtakOnboardingPage() {
+interface PageProps {
+  searchParams: { next?: string };
+}
+
+export default async function OrtakOnboardingPage({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     redirect("/giris?next=/onboarding/ortak");
@@ -19,6 +24,7 @@ export default async function OrtakOnboardingPage() {
     <PartnerOnboardingWizard
       initialDraft={profile.partner}
       initialStep={Number.isFinite(initialStep) && initialStep >= 1 ? initialStep : 1}
+      returnPath={searchParams.next ? sanitizeNextPath(searchParams.next) : undefined}
     />
   );
 }

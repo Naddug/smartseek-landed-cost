@@ -216,11 +216,6 @@ export function getInboundInterest(dossierId: string): InboundInterest[] {
   return INBOUND_BY_DOSSIER[dossierId] ?? [];
 }
 
-/** Mock: partner users who already applied */
-export const APPLIED_INTEREST_MOCK: Record<string, string[]> = {
-  "ortak@ortaq.biz": ["md-001"],
-};
-
 export function getAllPublicSlugs(): string[] {
   return marketingDossiers
     .filter((d) => d.status === "published" || d.status === "under_review")

@@ -28,7 +28,11 @@ export function PanelMatchCard({ match }: PanelMatchCardProps) {
           </p>
         </div>
         <Link
-          href={`/panel/eslesmeler?match=${match.id}`}
+          href={
+            match.dossierSlug
+              ? `/firsatlar/${match.dossierSlug}`
+              : `/panel/eslesmelerim?match=${match.id}`
+          }
           className="shrink-0 text-sm font-medium text-blue-600 hover:text-blue-700"
         >
           Görüntüle

@@ -21,6 +21,7 @@ import { ChipSelect } from "@/components/shared/ChipSelect";
 import { Button } from "@/components/ui/button";
 import { usePartnerOnboardingDraft } from "@/hooks/usePartnerOnboardingDraft";
 import { savePartnerOnboardingState } from "@/lib/actions/profile-onboarding";
+import { sanitizeNextPath } from "@/lib/auth/routes";
 import {
   CAPITAL_RANGE_OPTIONS,
   ENGAGEMENT_MODE_OPTIONS,
@@ -83,11 +84,13 @@ function labelEngagement(value: string): string {
 interface PartnerOnboardingWizardProps {
   initialDraft?: PartnerOnboardingState;
   initialStep?: number;
+  returnPath?: string;
 }
 
 export function PartnerOnboardingWizard({
   initialDraft,
   initialStep = 1,
+  returnPath,
 }: PartnerOnboardingWizardProps) {
   const router = useRouter();
   const { update: refreshSession } = useSession();
@@ -113,7 +116,10 @@ export function PartnerOnboardingWizard({
         await refreshSession();
         if (complete) {
           resetDraft();
-          router.push("/panel/profilim");
+          const destination = returnPath
+            ? sanitizeNextPath(returnPath)
+            : "/panel/profilim";
+          router.push(destination);
           router.refresh();
         }
       } catch {

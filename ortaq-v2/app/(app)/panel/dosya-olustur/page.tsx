@@ -1,10 +1,65 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Button } from "@/components/ui/button";
 import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
+import { PanelEmptyState } from "@/components/panel/PanelEmptyState";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
+import { getCreateDossierGate } from "@/lib/actions/marketplace";
+import { onboardingHrefWithNext } from "@/lib/marketplace/action-gate";
+import { FilePlus2 } from "lucide-react";
 
-export default function DosyaOlusturPage() {
+export default async function DosyaOlusturPage() {
+  const gate = await getCreateDossierGate();
+
+  if (gate.requiresAuth && gate.authHref) {
+    redirect(gate.authHref);
+  }
+
+  if (gate.requiresProfile && gate.onboardingHref) {
+    redirect(gate.onboardingHref);
+  }
+
+  if (gate.wrongRole) {
+    return (
+      <>
+        <PageHeader
+          eyebrow="Yeni dosya"
+          title="Fırsat Dosyası Oluştur"
+          description={ORTAQ_COPY.pages.dosyaOlustur.description}
+        />
+        <PanelEmptyState
+          icon={<FilePlus2 className="h-6 w-6" />}
+          title="Bu akış fırsat sahipleri içindir"
+          description={
+            gate.message ??
+            "Ortak hesabıyla fırsat dosyası oluşturamazsınız. Keşfet bölümünden ilginizi çeken fırsatlara başvurabilirsiniz."
+          }
+          primaryAction={
+            <Link href={gate.continueHref ?? "/panel/kesfet"}>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                {ORTAQ_COPY.ctas.browseDossiers}
+              </Button>
+            </Link>
+          }
+          secondaryAction={
+            <Link
+              href="/kayit/yol-secimi?next=%2Fpanel%2Fdosya-olustur"
+              className="text-sm font-medium text-blue-600 hover:underline"
+            >
+              Fırsat sahibi olarak devam et →
+            </Link>
+          }
+        />
+      </>
+    );
+  }
+
+  const wizardHref = onboardingHrefWithNext(
+    "/onboarding/firsat-sahibi",
+    "/panel/dosya-olustur"
+  );
+
   return (
     <>
       <PageHeader
@@ -20,14 +75,17 @@ export default function DosyaOlusturPage() {
           <p className="mt-2 text-sm leading-relaxed text-stone-600">
             {ORTAQ_COPY.pages.dosyaOlustur.wizardBody}
           </p>
+          <p className="mt-3 text-xs text-stone-500">
+            Sihirbaz adımlarında girdiğiniz bilgiler taslak dosyanız olarak kaydedilir; istediğiniz zaman devam edebilirsiniz.
+          </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/onboarding/firsat-sahibi">
+            <Link href={wizardHref}>
               <Button className="bg-blue-600 hover:bg-blue-700">
                 Sihirbazı Başlat
               </Button>
             </Link>
-            <Link href="/kayit/yol-secimi">
-              <Button variant="outline">Yol seçimi</Button>
+            <Link href="/panel/firsatlarim">
+              <Button variant="outline">Mevcut dosyalarım</Button>
             </Link>
           </div>
         </div>

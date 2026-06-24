@@ -117,13 +117,31 @@ async function writeToPrisma(profile: StoredUserProfile): Promise<void> {
 const DEMO_PROFILES: Record<string, Partial<StoredUserProfile>> = {
   "demo@ortaq.biz": {
     role: "opportunity_owner",
-    completionLevel: "complete",
+    completionLevel: "partial",
     onboardingCompleted: true,
+    ownerProgress: {
+      lastStep: 4,
+      category: "ecommerce",
+      stage: "operating_but_blocked",
+      locationCity: "istanbul",
+      selectedAssets: ["brand", "operations"],
+      selectedBlockers: ["partner"],
+      partnerPriorities: ["technical_partner"],
+    },
   },
   "ortak@ortaq.biz": {
     role: "partner",
     completionLevel: "complete",
     onboardingCompleted: true,
+    partner: {
+      contributionTypes: ["operations"],
+      preferredCategories: ["ecommerce"],
+      preferredCities: ["istanbul"],
+      engagementMode: "active_operator",
+      capitalRange: "",
+      experienceAreas: [],
+      bio: "",
+    },
   },
 };
 
@@ -131,18 +149,18 @@ export async function getStoredUserProfile(
   userId: string,
   role: UserRole = "partner"
 ): Promise<StoredUserProfile> {
-  const demoSeed = DEMO_PROFILES[userId];
-  if (demoSeed) {
-    const base = emptyStoredProfile(userId, demoSeed.role ?? role);
-    return { ...base, ...demoSeed, updatedAt: new Date().toISOString() };
-  }
-
   const fromDb = await readFromPrisma(userId);
   if (fromDb) return fromDb;
 
   const all = await readAll();
   const existing = all.find((p) => p.userId === userId);
   if (existing) return existing;
+
+  const demoSeed = DEMO_PROFILES[userId];
+  if (demoSeed) {
+    const base = emptyStoredProfile(userId, demoSeed.role ?? role);
+    return { ...base, ...demoSeed, updatedAt: new Date().toISOString() };
+  }
 
   return emptyStoredProfile(userId, role);
 }

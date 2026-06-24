@@ -47,6 +47,7 @@ export type PanelDossier = {
 export type PanelMatch = {
   id: string;
   dossierId: string;
+  dossierSlug?: string;
   dossierTitle: string;
   createdAt: string;
   counterpartName?: string;

@@ -15,7 +15,10 @@ import {
 } from "@/data/dossier/public-dossier-details";
 import { buildDossierViewerContext } from "@/lib/dossier/viewer-context";
 import { authOptions } from "@/lib/auth";
-import { getProfileApplyGate } from "@/lib/actions/profile-onboarding";
+import {
+  getProfileApplyGate,
+  getUserInterestState,
+} from "@/lib/actions/marketplace";
 
 interface PageProps {
   params: { slug: string };
@@ -50,11 +53,15 @@ export default async function FirsatDetayPublicPage({
   }
 
   const session = await getServerSession(authOptions);
-  const applyGate = await getProfileApplyGate();
+  const applyGate = await getProfileApplyGate(params.slug);
+  const interestState = await getUserInterestState(session?.user?.id, dossier.id);
   const viewer = buildDossierViewerContext(session, dossier, {
-    canApply: applyGate.canApply,
-    message: applyGate.message,
-    onboardingHref: applyGate.onboardingHref,
+    applyGate: {
+      canApply: applyGate.canApply,
+      message: applyGate.message,
+      onboardingHref: applyGate.onboardingHref,
+    },
+    interestState,
   });
   const related = getRelatedDossiers(dossier);
 

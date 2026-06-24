@@ -129,29 +129,3 @@ export async function markOwnerOnboardingComplete() {
 
   return { ok: true as const, completionLevel: next.completionLevel };
 }
-
-export async function getProfileApplyGate() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return { canApply: false, requiresAuth: true, message: "" };
-  }
-
-  if (session.user.role === "opportunity_owner") {
-    return { canApply: true, requiresAuth: false, message: "" };
-  }
-
-  const profile = await getStoredUserProfile(session.user.id, session.user.role);
-  const level = computePartnerCompletionLevel(profile.partner);
-
-  if (level === "incomplete") {
-    return {
-      canApply: false,
-      requiresAuth: false,
-      message:
-        "Başvuru yapabilmek için ortak profilinizde en az katkı türü ve sektör tercihlerini tamamlayın.",
-      onboardingHref: "/onboarding/ortak",
-    };
-  }
-
-  return { canApply: true, requiresAuth: false, message: "" };
-}

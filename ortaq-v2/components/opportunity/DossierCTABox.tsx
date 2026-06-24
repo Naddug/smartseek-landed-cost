@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, Settings, ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { CheckCircle2, Settings, ArrowRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   isDossierClosed,
   isDossierOpenForInterest,
 } from "@/lib/dossier/viewer-context";
 import { partnerApplyLoginHref } from "@/lib/auth/routes";
+import { submitDossierInterest } from "@/lib/actions/marketplace";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import type {
   DossierViewerContext,
@@ -32,15 +33,24 @@ export function DossierCTABox({
 }: DossierCTABoxProps) {
   const router = useRouter();
   const ctaRef = useRef<HTMLDivElement>(null);
-  const [localApplied, setLocalApplied] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
   const closed = isDossierClosed(dossier);
   const open = isDossierOpenForInterest(dossier);
   const interestState = viewer.interestState ?? "none";
-  const hasApplied = interestState === "applied" || localApplied;
+  const hasApplied = interestState === "applied" || interestState === "in_review";
 
   function handleApply() {
-    setLocalApplied(true);
-    router.push(`/panel/eslesmelerim?applied=${dossier.id}`);
+    setSubmitError(null);
+    startTransition(async () => {
+      const result = await submitDossierInterest(dossier.slug);
+      if (!result.ok) {
+        setSubmitError(result.error);
+        return;
+      }
+      router.push(`/panel/eslesmelerim?applied=${dossier.slug}`);
+      router.refresh();
+    });
   }
 
   function handleLoginInterest() {
@@ -163,6 +173,9 @@ export function DossierCTABox({
             {viewer.profileGateMessage ??
               "Başvuru yapabilmek için ortak profilinizde temel bilgileri doldurun."}
           </p>
+          <p className="mt-2 text-xs text-ortaq-text-muted">
+            Tamamladıktan sonra bu sayfaya dönebilir ve başvurunuzu gönderebilirsiniz.
+          </p>
           <Link
             href={viewer.profileOnboardingHref ?? "/onboarding/ortak"}
             className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700"
@@ -186,13 +199,26 @@ export function DossierCTABox({
           <p className="text-sm text-ortaq-text-secondary">
             {ORTAQ_COPY.dossier.applyAuthenticatedHint}
           </p>
+          {submitError && (
+            <p className="mt-3 text-sm text-red-600">{submitError}</p>
+          )}
           <button
             type="button"
             onClick={handleApply}
-            className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-blue-600 text-sm font-semibold text-white shadow-ortaq-sm hover:bg-blue-700"
+            disabled={isPending}
+            className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-blue-600 text-sm font-semibold text-white shadow-ortaq-sm hover:bg-blue-700 disabled:opacity-70"
           >
-            {ORTAQ_COPY.ctas.apply}
-            <ArrowRight className="h-4 w-4" />
+            {isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Gönderiliyor…
+              </>
+            ) : (
+              <>
+                {ORTAQ_COPY.ctas.apply}
+                <ArrowRight className="h-4 w-4" />
+              </>
+            )}
           </button>
         </div>
       </div>

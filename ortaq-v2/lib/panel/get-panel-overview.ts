@@ -5,6 +5,7 @@ import type { UserRole } from "@/types";
 import {
   listOpportunityDossiers,
 } from "@/lib/actions/opportunity-dossier";
+import { listUserInterests } from "@/lib/actions/marketplace";
 import { computeProfileCompletion } from "@/lib/profile/completion";
 import { getStoredUserProfile } from "@/lib/profile/repository";
 import {
@@ -44,11 +45,27 @@ export async function getPanelOverview(
   });
 
   if (role === "partner") {
+    const interests = await listUserInterests(session.user.id);
+    const interestMatches = interests.map((interest) => ({
+      id: interest.id,
+      dossierId: interest.dossierId,
+      dossierSlug: interest.dossierSlug,
+      dossierTitle: interest.dossierTitle,
+      createdAt: interest.createdAt,
+      status: "pending" as const,
+    }));
+
+    const matches =
+      interestMatches.length > 0
+        ? interestMatches
+        : demo.matches;
+
     return {
       ...demo,
       role,
+      matches,
       profileCompletion,
-      stats: computeStatsFromPayload(demo),
+      stats: computeStatsFromPayload({ ...demo, matches }),
     };
   }
 

@@ -37,3 +37,6 @@ yarn-error.log*
 next-env.d.ts
 
 /lib/generated/prisma
+
+# runtime file stores (local dev persistence)
+/data/store/*.json

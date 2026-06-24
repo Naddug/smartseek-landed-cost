@@ -6,8 +6,6 @@ import type {
   PublicDossierDetail,
 } from "@/types/dossier-detail";
 import type { UserRoleMode } from "@/types/nav";
-import { APPLIED_INTEREST_MOCK } from "@/data/dossier/public-dossier-details";
-
 function mapRole(role: UserRole): UserRoleMode {
   switch (role) {
     case "opportunity_owner":
@@ -21,16 +19,6 @@ function mapRole(role: UserRole): UserRoleMode {
   }
 }
 
-function resolveInterestState(
-  email: string | undefined,
-  dossierId: string
-): MatchInterestState {
-  if (!email) return "none";
-  const applied = APPLIED_INTEREST_MOCK[email.toLowerCase()] ?? [];
-  if (applied.includes(dossierId)) return "applied";
-  return "none";
-}
-
 type ApplyGate = {
   canApply: boolean;
   message?: string;
@@ -40,7 +28,10 @@ type ApplyGate = {
 export function buildDossierViewerContext(
   session: Session | null,
   dossier: PublicDossierDetail,
-  applyGate?: ApplyGate
+  options?: {
+    applyGate?: ApplyGate;
+    interestState?: MatchInterestState;
+  }
 ): DossierViewerContext {
   if (!session?.user?.email) {
     return { isAuthenticated: false, interestState: "none" };
@@ -53,9 +44,9 @@ export function buildDossierViewerContext(
 
   const interestState = isOwner
     ? undefined
-    : resolveInterestState(email, dossier.id);
+    : (options?.interestState ?? "none");
 
-  const gate = applyGate ?? { canApply: true };
+  const gate = options?.applyGate ?? { canApply: true };
 
   return {
     isAuthenticated: true,
