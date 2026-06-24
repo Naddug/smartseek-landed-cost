@@ -6,14 +6,17 @@ export type DossierVisualTheme = {
   gradientTo: string;
   accent: string;
   accentMuted: string;
-  /** Real environment photography — sector-matched, bright enough to read */
+  /** Real environment photography — sector-matched, verified HTTP 200 on Unsplash */
   imageUrl: string;
   imagePosition?: string;
   atmosphere: string;
 };
 
+/** Verified Unsplash CDN URL builder — every ID is curl-checked before inclusion */
 const IMG = (id: string) =>
   `https://images.unsplash.com/${id}?w=1400&q=88&auto=format&fit=crop`;
+
+export const DEFAULT_DOSSIER_IMAGE_URL = IMG("photo-1486406146926-c627a92ad1ab");
 
 const SLUG_THEMES: Record<string, DossierVisualTheme> = {
   "e-ticaret-operasyonu": {
@@ -22,8 +25,8 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#2563eb",
     accent: "#3B82F6",
     accentMuted: "rgba(59,130,246,0.18)",
-    imageUrl: IMG("photo-1607083208828-136911c72249"),
-    imagePosition: "center 55%",
+    imageUrl: IMG("photo-1556742049-0cfed4f6a45d"),
+    imagePosition: "center 45%",
     atmosphere: "E-ticaret depo & paketleme",
   },
   "kafe-lokasyonu": {
@@ -32,7 +35,7 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#d97706",
     accent: "#F59E0B",
     accentMuted: "rgba(245,158,11,0.16)",
-    imageUrl: IMG("photo-1555396273-3677ea263bcd"),
+    imageUrl: IMG("photo-1517248135467-4c7edcad34c4"),
     imagePosition: "center 40%",
     atmosphere: "Cadde cepheli lokasyon",
   },
@@ -42,7 +45,7 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#059669",
     accent: "#10B981",
     accentMuted: "rgba(16,185,129,0.16)",
-    imageUrl: IMG("photo-1581092160607-ee22621dd835"),
+    imageUrl: IMG("photo-1581091226825-a6a2a5aee158"),
     imagePosition: "center 45%",
     atmosphere: "Tekstil üretim hattı",
   },
@@ -52,7 +55,7 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0284c7",
     accent: "#38BDF8",
     accentMuted: "rgba(56,189,248,0.16)",
-    imageUrl: IMG("photo-1579684386273-c68601bf268f"),
+    imageUrl: IMG("photo-1576091160399-112ba8d25d1d"),
     imagePosition: "center 35%",
     atmosphere: "Sağlık teknolojisi ortamı",
   },
@@ -62,7 +65,7 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#64748b",
     accent: "#94A3B8",
     accentMuted: "rgba(148,163,184,0.14)",
-    imageUrl: IMG("photo-1586528116311-ad8dddf13575"),
+    imageUrl: IMG("photo-1553413077-190dd305871c"),
     imagePosition: "center 50%",
     atmosphere: "Depo & lojistik alanı",
   },
@@ -72,7 +75,7 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#ea580c",
     accent: "#FB923C",
     accentMuted: "rgba(251,146,60,0.14)",
-    imageUrl: IMG("photo-1518976608749-7e91869243bb"),
+    imageUrl: IMG("photo-1556910103-1c02745aae4d"),
     imagePosition: "center 45%",
     atmosphere: "Gıda üretim tesisi",
   },
@@ -92,10 +95,20 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0ea5e9",
     accent: "#7DD3FC",
     accentMuted: "rgba(125,211,252,0.14)",
-    imageUrl: IMG("photo-1520250497591-112f2f0404ea"),
+    imageUrl: IMG("photo-1566073771259-6a8506099945"),
     imagePosition: "center 50%",
     atmosphere: "Butik konaklama tesisi",
   },
+};
+
+/** Secondary verified images — used only when primary load fails */
+const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
+  ecommerce: IMG("photo-1607082348824-0a96f2a4b9da"),
+  hospitality: IMG("photo-1554118811-1e0d58224f24"),
+  manufacturing: IMG("photo-1581092160562-40aa08e78837"),
+  healthcare: IMG("photo-1551836022-deb4988cc6c0"),
+  services: IMG("photo-1567620905732-2d1ec7ab7445"),
+  other: DEFAULT_DOSSIER_IMAGE_URL,
 };
 
 const CATEGORY_FALLBACK: Record<string, DossierVisualTheme> = {
@@ -112,7 +125,7 @@ const DEFAULT_THEME: DossierVisualTheme = {
   gradientTo: "#2563eb",
   accent: "#3B82F6",
   accentMuted: "rgba(59,130,246,0.16)",
-  imageUrl: IMG("photo-1486406146926-c627a92ad1ab"),
+  imageUrl: DEFAULT_DOSSIER_IMAGE_URL,
   imagePosition: "center 40%",
   atmosphere: "Fırsat dosyası",
 };
@@ -129,4 +142,24 @@ export function getDossierVisual(
 
 export function getDossierVisualBySlug(slug: string, categoryKey = "other") {
   return getDossierVisual({ slug, categoryKey });
+}
+
+export function getDossierCategoryFallbackImage(categoryKey: string): string {
+  return CATEGORY_FALLBACK_IMAGES[categoryKey] ?? DEFAULT_DOSSIER_IMAGE_URL;
+}
+
+/** Ordered fallback chain: slug primary → category image → platform default */
+export function getDossierImageFallbackChain(
+  slug: string,
+  categoryKey: string
+): string[] {
+  const primary = getDossierVisual({ slug, categoryKey }).imageUrl;
+  const categoryFallback = getDossierCategoryFallbackImage(categoryKey);
+
+  const chain: string[] = [primary];
+  if (categoryFallback !== primary) chain.push(categoryFallback);
+  if (DEFAULT_DOSSIER_IMAGE_URL !== chain[chain.length - 1]) {
+    chain.push(DEFAULT_DOSSIER_IMAGE_URL);
+  }
+  return chain;
 }

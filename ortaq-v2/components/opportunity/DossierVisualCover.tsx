@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useCallback, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
+  getDossierImageFallbackChain,
   getDossierVisual,
   type DossierVisualTheme,
 } from "@/lib/dossier/dossier-visuals";
@@ -46,17 +50,40 @@ export function DossierVisualCover({
   overlay = "light",
 }: DossierVisualCoverProps) {
   const theme = themeProp ?? getDossierVisual({ slug, categoryKey });
+  const fallbackChain = useMemo(
+    () => getDossierImageFallbackChain(slug, categoryKey),
+    [slug, categoryKey]
+  );
+  const [chainIndex, setChainIndex] = useState(0);
+  const [useGradientFallback, setUseGradientFallback] = useState(false);
   const showFrame = frame ?? showMeta;
 
+  const currentSrc = fallbackChain[chainIndex] ?? fallbackChain[0];
+
+  const handleImageError = useCallback(() => {
+    setChainIndex((index) => {
+      const next = index + 1;
+      if (next >= fallbackChain.length) {
+        setUseGradientFallback(true);
+        return index;
+      }
+      return next;
+    });
+  }, [fallbackChain.length]);
+
   const gradeOpacity =
-    overlay === "minimal" ? "opacity-[0.06]" : overlay === "light" ? "opacity-[0.12]" : "opacity-[0.18]";
+    overlay === "minimal"
+      ? "opacity-[0.05]"
+      : overlay === "light"
+        ? "opacity-[0.08]"
+        : "opacity-[0.14]";
 
   const scrimClass =
     overlay === "minimal"
-      ? "bg-[linear-gradient(to_top,rgba(15,23,42,0.72)_0%,rgba(15,23,42,0.08)_38%,transparent_62%)]"
+      ? "bg-[linear-gradient(to_top,rgba(15,23,42,0.65)_0%,rgba(15,23,42,0.06)_38%,transparent_62%)]"
       : overlay === "light"
-        ? "bg-[linear-gradient(to_top,rgba(15,23,42,0.78)_0%,rgba(15,23,42,0.06)_42%,transparent_68%)]"
-        : "bg-[linear-gradient(to_top,rgba(15,23,42,0.88)_0%,rgba(15,23,42,0.2)_50%,transparent_75%)]";
+        ? "bg-[linear-gradient(to_top,rgba(15,23,42,0.72)_0%,rgba(15,23,42,0.04)_42%,transparent_68%)]"
+        : "bg-[linear-gradient(to_top,rgba(15,23,42,0.82)_0%,rgba(15,23,42,0.14)_50%,transparent_75%)]";
 
   return (
     <div
@@ -66,21 +93,33 @@ export function DossierVisualCover({
         className
       )}
     >
-      <Image
-        src={theme.imageUrl}
-        alt=""
-        fill
-        priority={priority}
-        sizes={
-          size === "hero" || size === "banner"
-            ? "(max-width: 768px) 100vw, 1200px"
-            : size === "lg"
-              ? "(max-width: 768px) 100vw, 640px"
-              : "(max-width: 768px) 50vw, 400px"
-        }
-        className="object-cover brightness-[1.02] contrast-[1.04] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-        style={{ objectPosition: theme.imagePosition ?? "center" }}
-      />
+      {useGradientFallback ? (
+        <div
+          className="absolute inset-0"
+          aria-hidden
+          style={{
+            background: `linear-gradient(145deg, ${theme.gradientFrom} 0%, ${theme.gradientVia} 45%, ${theme.gradientTo} 100%)`,
+          }}
+        />
+      ) : (
+        <Image
+          key={currentSrc}
+          src={currentSrc}
+          alt=""
+          fill
+          priority={priority}
+          sizes={
+            size === "hero" || size === "banner"
+              ? "(max-width: 768px) 100vw, 1200px"
+              : size === "lg"
+                ? "(max-width: 768px) 100vw, 640px"
+                : "(max-width: 768px) 50vw, 400px"
+          }
+          className="object-cover brightness-[1.03] contrast-[1.05] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          style={{ objectPosition: theme.imagePosition ?? "center" }}
+          onError={handleImageError}
+        />
+      )}
 
       {/* Subtle brand grade — keeps photos recognizable */}
       <div
