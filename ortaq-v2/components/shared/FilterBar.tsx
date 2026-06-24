@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ChipSelect, type ChipOption } from "./ChipSelect";
 
@@ -14,6 +15,8 @@ export function FilterBar({
   filters = [],
   className,
 }: FilterBarProps) {
+  const [filterValues, setFilterValues] = useState<Record<string, string[]>>({});
+
   return (
     <div
       className={cn(
@@ -38,7 +41,14 @@ export function FilterBar({
               <p className="mb-2 text-xs font-medium text-ortaq-text-muted">
                 {filter.label}
               </p>
-              <ChipSelect options={filter.options} />
+              <ChipSelect
+                multiple
+                options={filter.options}
+                value={filterValues[filter.id] ?? []}
+                onChange={(values) =>
+                  setFilterValues((prev) => ({ ...prev, [filter.id]: values }))
+                }
+              />
             </div>
           ))}
         </div>

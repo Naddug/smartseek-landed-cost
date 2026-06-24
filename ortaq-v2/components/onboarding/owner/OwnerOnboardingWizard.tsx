@@ -16,6 +16,7 @@ import { PartnerPriorityPicker } from "./PartnerPriorityPicker";
 import { EvidenceUploader } from "./EvidenceUploader";
 import { useOwnerOnboardingDraft } from "@/hooks/useOwnerOnboardingDraft";
 import { saveOpportunityDossier } from "@/lib/actions/opportunity-dossier";
+import { saveOwnerOnboardingProgress } from "@/lib/actions/profile-onboarding";
 import { calculateReadinessScore } from "@/lib/readiness-score";
 import {
   CATEGORY_OPTIONS,
@@ -152,6 +153,24 @@ export function OwnerOnboardingWizard({
         setError("Kayıt sırasında bir sorun oluştu. Lütfen tekrar deneyin.");
       }
     });
+  };
+
+  const persistOwnerProgress = (nextStep: number) => {
+    void saveOwnerOnboardingProgress({
+      lastStep: nextStep,
+      category: draft.category,
+      stage: draft.stage,
+      locationCity: draft.locationCity,
+      selectedAssets: draft.selectedAssets,
+      selectedBlockers: draft.selectedBlockers,
+      partnerPriorities: draft.partnerPriorities,
+    });
+  };
+
+  const goToNextStep = () => {
+    const nextStep = step + 1;
+    persistOwnerProgress(nextStep);
+    setStep(nextStep);
   };
 
   const renderStep = () => {
@@ -515,7 +534,7 @@ export function OwnerOnboardingWizard({
           {step < 12 && (
             <Button
               disabled={!canProceed(step, draft)}
-              onClick={() => setStep((s) => s + 1)}
+              onClick={goToNextStep}
             >
               Devam
             </Button>

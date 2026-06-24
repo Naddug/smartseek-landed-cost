@@ -129,16 +129,19 @@ export const MOCK_OWNER_ACTIVITY: PanelActivityEvent[] = [
 const PROFILE_OWNER: ProfileCompletion = {
   percent: 65,
   missingFields: ["Sektör deneyimi", "Katılım süresi", "Getiri modeli tercihi"],
+  level: "partial",
 };
 
 const PROFILE_PARTNER: ProfileCompletion = {
   percent: 45,
   missingFields: ["Ortak türü", "Tercih edilen kategoriler", "Biyografi"],
+  level: "partial",
 };
 
 const PROFILE_HYBRID: ProfileCompletion = {
   percent: 72,
   missingFields: ["Getiri modeli tercihi"],
+  level: "partial",
 };
 
 export type PanelDemoScenario = "owner_rich" | "owner_zero" | "partner_zero" | "hybrid";

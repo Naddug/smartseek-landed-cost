@@ -1,64 +1,24 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { PartnerOnboardingWizard } from "@/components/onboarding/partner/PartnerOnboardingWizard";
+import { getStoredUserProfile } from "@/lib/profile/repository";
 
-import Link from "next/link";
-import { WizardLayout } from "@/components/shared/WizardLayout";
-import { WizardStepHeader } from "@/components/shared/WizardStepHeader";
-import { ProgressHeader } from "@/components/shared/ProgressHeader";
-import { SummarySidebar } from "@/components/shared/SummarySidebar";
-import { MultiChoiceGrid } from "@/components/shared/MultiChoiceGrid";
-import { Button } from "@/components/ui/button";
-import { Coins, Cog, Code, TrendingUp, Factory, GraduationCap } from "lucide-react";
+export default async function OrtakOnboardingPage() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    redirect("/giris?next=/onboarding/ortak");
+  }
 
-const steps = [
-  { id: "profile", label: "Profil" },
-  { id: "contribution", label: "Katkı" },
-  { id: "preferences", label: "Tercihler" },
-  { id: "review", label: "Önizleme" },
-];
+  const profile = await getStoredUserProfile(session.user.id, session.user.role);
+  const initialStep = profile.onboardingStep
+    ? Math.min(Number(profile.onboardingStep) || 1, 4)
+    : 1;
 
-export default function OrtakOnboardingPage() {
   return (
-    <WizardLayout
-      header={
-        <ProgressHeader title="Ortak Onboarding" steps={steps} currentStep={0} />
-      }
-      sidebar={
-        <SummarySidebar
-          items={[
-            { label: "Rol", value: "Ortak" },
-            { label: "Durum", value: "Taslak" },
-          ]}
-        />
-      }
-    >
-      <WizardStepHeader
-        step={1}
-        totalSteps={steps.length}
-        title="Ne tür katkı sunabilirsiniz?"
-        description="Sermaye, operasyon, teknik, büyüme veya sektör deneyiminizi profilinize işleyin. Katkı türünüz eşleşme önerilerinde kullanılır."
-      />
-      <MultiChoiceGrid
-        options={[
-          { value: "capital", title: "Sermaye", icon: <Coins className="h-5 w-5" /> },
-          { value: "operations", title: "Operasyon", icon: <Cog className="h-5 w-5" /> },
-          { value: "technical", title: "Teknik", icon: <Code className="h-5 w-5" /> },
-          { value: "growth", title: "Büyüme", icon: <TrendingUp className="h-5 w-5" /> },
-          { value: "production", title: "Üretim", icon: <Factory className="h-5 w-5" /> },
-          {
-            value: "industry",
-            title: "Sektörel uzmanlık",
-            icon: <GraduationCap className="h-5 w-5" />,
-          },
-        ]}
-      />
-      <div className="mt-8 flex justify-between">
-        <Link href="/kayit/yol-secimi">
-          <Button variant="outline">Geri</Button>
-        </Link>
-        <Link href="/panel/profilim">
-          <Button>Profili Tamamla</Button>
-        </Link>
-      </div>
-    </WizardLayout>
+    <PartnerOnboardingWizard
+      initialDraft={profile.partner}
+      initialStep={Number.isFinite(initialStep) && initialStep >= 1 ? initialStep : 1}
+    />
   );
 }

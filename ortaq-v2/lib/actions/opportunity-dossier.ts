@@ -2,6 +2,9 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { markOwnerOnboardingComplete } from "@/lib/actions/profile-onboarding";
 import { opportunityDossierRepository } from "@/lib/repositories/opportunity-dossier-repository";
 import { calculateReadinessScore } from "@/lib/readiness-score";
 import { slugify } from "@/lib/slug";
@@ -12,6 +15,12 @@ import type {
 } from "@/types/opportunity-dossier";
 
 const PLACEHOLDER_OWNER_ID = "placeholder-owner";
+
+async function resolveOwnerId(explicit?: string): Promise<string> {
+  if (explicit) return explicit;
+  const session = await getServerSession(authOptions);
+  return session?.user?.id ?? PLACEHOLDER_OWNER_ID;
+}
 
 function toDossier(
   state: OwnerOnboardingState,
@@ -52,18 +61,23 @@ function toDossier(
 
 export async function saveOpportunityDossier(
   state: OwnerOnboardingState,
-  options?: { existingId?: string; partial?: boolean }
+  options?: { existingId?: string; partial?: boolean; ownerId?: string }
 ): Promise<{ id: string; slug: string }> {
+  const ownerId = await resolveOwnerId(options?.ownerId);
   const existing = options?.existingId
     ? await opportunityDossierRepository.findById(options.existingId)
     : null;
 
-  const dossier = toDossier(state, existing ?? undefined);
+  const dossier = toDossier(state, { ...(existing ?? undefined), ownerId });
 
   if (existing) {
     await opportunityDossierRepository.update(existing.id, dossier);
   } else {
     await opportunityDossierRepository.create(dossier);
+  }
+
+  if (!options?.partial) {
+    await markOwnerOnboardingComplete();
   }
 
   revalidatePath("/panel/firsatlarim");
@@ -81,7 +95,17 @@ export async function getOpportunityDossier(
 export async function listOpportunityDossiers(
   ownerId?: string
 ): Promise<OpportunityDossier[]> {
-  return opportunityDossierRepository.findAll(ownerId ?? PLACEHOLDER_OWNER_ID);
+  const resolvedOwner = ownerId ?? (await resolveOwnerId());
+  const owned = await opportunityDossierRepository.findAll(resolvedOwner);
+  if (owned.length > 0) return owned;
+  if (resolvedOwner !== PLACEHOLDER_OWNER_ID) return [];
+  return opportunityDossierRepository.findAll(PLACEHOLDER_OWNER_ID);
+}
+
+export async function listOpportunityDossiersForOwner(
+  ownerId: string
+): Promise<OpportunityDossier[]> {
+  return opportunityDossierRepository.findAll(ownerId);
 }
 
 export async function dossierToOnboardingState(

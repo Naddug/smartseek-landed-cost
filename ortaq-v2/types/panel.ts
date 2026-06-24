@@ -61,9 +61,12 @@ export type PanelActivityEvent = {
   type: "match" | "message" | "moderation" | "dossier";
 };
 
+import type { ProfileCompletionLevel } from "@/types/profile-onboarding";
+
 export type ProfileCompletion = {
   percent: number;
   missingFields: string[];
+  level: ProfileCompletionLevel;
 };
 
 export type PanelOverviewPayload = {

@@ -2,7 +2,11 @@ import type { Session } from "next-auth";
 import type { PanelOverviewPayload } from "@/types/panel";
 import type { UserRoleMode } from "@/types/nav";
 import type { UserRole } from "@/types";
-import { listOpportunityDossiers } from "@/lib/actions/opportunity-dossier";
+import {
+  listOpportunityDossiers,
+} from "@/lib/actions/opportunity-dossier";
+import { computeProfileCompletion } from "@/lib/profile/completion";
+import { getStoredUserProfile } from "@/lib/profile/repository";
 import {
   buildDemoOverview,
   computeStatsFromPayload,
@@ -26,28 +30,35 @@ function mapUserRole(role: UserRole): UserRoleMode {
 export async function getPanelOverview(
   session: Session | null
 ): Promise<PanelOverviewPayload | null> {
-  if (!session?.user?.email) return null;
+  if (!session?.user?.email || !session.user.id) return null;
 
   const role = mapUserRole(session.user.role);
   const email = session.user.email;
   const scenario = resolveDemoScenario(email, role);
   const demo = buildDemoOverview(scenario, role);
 
+  const storedProfile = await getStoredUserProfile(session.user.id, session.user.role);
+  const storedDossiers = await listOpportunityDossiers(session.user.id);
+  const profileCompletion = computeProfileCompletion(storedProfile, {
+    hasSavedDossier: storedDossiers.length > 0,
+  });
+
   if (role === "partner") {
     return {
       ...demo,
       role,
+      profileCompletion,
       stats: computeStatsFromPayload(demo),
     };
   }
 
-  const stored = await listOpportunityDossiers();
-  const mapped = stored.map(mapOpportunityToPanelDossier);
+  const mapped = storedDossiers.map(mapOpportunityToPanelDossier);
 
   if (mapped.length === 0 && scenario === "owner_rich") {
     return {
       ...demo,
       role,
+      profileCompletion,
       stats: computeStatsFromPayload(demo),
     };
   }
@@ -59,6 +70,7 @@ export async function getPanelOverview(
       dossiers: [],
       matches: [],
       recentActivity: [],
+      profileCompletion,
       stats: {
         activeDossiers: 0,
         pendingMatches: 0,
@@ -74,7 +86,7 @@ export async function getPanelOverview(
       mapped.some((d) => d.id === m.dossierId || d.title === m.dossierTitle)
     ),
     recentActivity: demo.recentActivity.slice(0, 3),
-    profileCompletion: demo.profileCompletion,
+    profileCompletion,
     stats: {
       activeDossiers: 0,
       pendingMatches: 0,

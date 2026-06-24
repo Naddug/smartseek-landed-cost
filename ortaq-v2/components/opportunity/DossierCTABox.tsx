@@ -152,6 +152,28 @@ export function DossierCTABox({
     );
   }
 
+  if (open && viewer.isAuthenticated && !viewer.isOwner && viewer.canApply === false) {
+    return (
+      <div ref={ctaRef} className={cn(boxBase, "border-amber-200 bg-amber-50/40")}>
+        <div className="p-5">
+          <p className="text-sm font-semibold text-ortaq-navy">
+            Profilinizi tamamlayın
+          </p>
+          <p className="mt-2 text-sm text-ortaq-text-secondary">
+            {viewer.profileGateMessage ??
+              "Başvuru yapabilmek için ortak profilinizde temel bilgileri doldurun."}
+          </p>
+          <Link
+            href={viewer.profileOnboardingHref ?? "/onboarding/ortak"}
+            className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700"
+          >
+            Profili tamamla
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (open && viewer.isAuthenticated && !viewer.isOwner) {
     return (
       <div ref={ctaRef} className={cn(boxBase, "border-blue-200 bg-white")}>

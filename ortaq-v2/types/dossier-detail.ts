@@ -53,6 +53,9 @@ export type DossierViewerContext = {
   role?: UserRoleMode;
   isOwner?: boolean;
   interestState?: MatchInterestState;
+  canApply?: boolean;
+  profileGateMessage?: string;
+  profileOnboardingHref?: string;
 };
 
 export type InboundInterest = {

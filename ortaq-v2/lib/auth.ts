@@ -15,6 +15,7 @@ import {
 import { defaultRoleForSignup, parseUserRole } from "@/lib/auth/roles";
 import { verifyCredentials } from "@/lib/auth/register";
 import { getAuthSecret } from "@/lib/auth/secret";
+import { getStoredUserProfile } from "@/lib/profile/repository";
 import { prisma } from "@/lib/prisma";
 
 declare module "next-auth" {
@@ -26,6 +27,7 @@ declare module "next-auth" {
       role: UserRole;
       onboardingCompleted: boolean;
       sideSelected: boolean;
+      profileCompletionLevel: import("@/types/profile-onboarding").ProfileCompletionLevel;
     };
   }
 
@@ -33,6 +35,7 @@ declare module "next-auth" {
     role: UserRole;
     onboardingCompleted?: boolean;
     sideSelected?: boolean;
+    profileCompletionLevel?: import("@/types/profile-onboarding").ProfileCompletionLevel;
   }
 }
 
@@ -41,6 +44,7 @@ declare module "next-auth/jwt" {
     role: UserRole;
     onboardingCompleted: boolean;
     sideSelected: boolean;
+    profileCompletionLevel: import("@/types/profile-onboarding").ProfileCompletionLevel;
   }
 }
 
@@ -89,10 +93,12 @@ function buildProviders(): NextAuthOptions["providers"] {
             const user = await verifyCredentials(email, credentials.password);
             if (user) {
               const profile = await getUserProfile(user.id);
+              const stored = await getStoredUserProfile(user.id, user.role);
               return {
                 ...user,
-                onboardingCompleted: profile?.onboardingCompleted ?? false,
+                onboardingCompleted: stored.onboardingCompleted,
                 sideSelected: Boolean(profile?.sideSelectedAt),
+                profileCompletionLevel: stored.completionLevel,
               };
             }
           } catch (error) {
@@ -110,6 +116,7 @@ function buildProviders(): NextAuthOptions["providers"] {
           role: demo.role,
           onboardingCompleted: true,
           sideSelected: true,
+          profileCompletionLevel: "complete" as const,
         };
       },
     }),
@@ -151,18 +158,42 @@ async function hydrateTokenFromDatabase(userId: string, token: {
   role?: UserRole;
   onboardingCompleted?: boolean;
   sideSelected?: boolean;
+  profileCompletionLevel?: import("@/types/profile-onboarding").ProfileCompletionLevel;
 }) {
-  if (!hasDatabase()) return token;
+  if (!hasDatabase()) {
+    try {
+      const stored = await getStoredUserProfile(userId, token.role ?? "partner");
+      token.onboardingCompleted = stored.onboardingCompleted;
+      token.sideSelected = true;
+      token.profileCompletionLevel = stored.completionLevel;
+    } catch {
+      /* ignore */
+    }
+    return token;
+  }
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { role: true },
-  });
-  const profile = await getUserProfile(userId);
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true },
+    });
+    const profile = await getUserProfile(userId);
+    const stored = await getStoredUserProfile(userId, user?.role ?? token.role ?? "partner");
 
-  if (user) token.role = user.role;
-  token.onboardingCompleted = profile?.onboardingCompleted ?? false;
-  token.sideSelected = Boolean(profile?.sideSelectedAt);
+    if (user) token.role = user.role;
+    token.onboardingCompleted = stored.onboardingCompleted;
+    token.sideSelected = Boolean(profile?.sideSelectedAt ?? stored.userId);
+    token.profileCompletionLevel = stored.completionLevel;
+  } catch (error) {
+    console.error("[auth] Session hydrate failed:", error);
+    try {
+      const stored = await getStoredUserProfile(userId, token.role ?? "partner");
+      token.onboardingCompleted = stored.onboardingCompleted;
+      token.profileCompletionLevel = stored.completionLevel;
+    } catch {
+      /* ignore */
+    }
+  }
   return token;
 }
 
@@ -206,6 +237,7 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role ?? defaultRoleForSignup(undefined);
         token.onboardingCompleted = user.onboardingCompleted ?? false;
         token.sideSelected = user.sideSelected ?? true;
+        token.profileCompletionLevel = user.profileCompletionLevel ?? "incomplete";
       }
 
       if (hasDatabase() && token.sub && (trigger === "update" || !user)) {
@@ -224,6 +256,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role ?? "partner";
         session.user.onboardingCompleted = token.onboardingCompleted ?? false;
         session.user.sideSelected = token.sideSelected ?? true;
+        session.user.profileCompletionLevel = token.profileCompletionLevel ?? "incomplete";
       }
       return session;
     },

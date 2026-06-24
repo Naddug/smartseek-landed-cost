@@ -31,9 +31,16 @@ function resolveInterestState(
   return "none";
 }
 
+type ApplyGate = {
+  canApply: boolean;
+  message?: string;
+  onboardingHref?: string;
+};
+
 export function buildDossierViewerContext(
   session: Session | null,
-  dossier: PublicDossierDetail
+  dossier: PublicDossierDetail,
+  applyGate?: ApplyGate
 ): DossierViewerContext {
   if (!session?.user?.email) {
     return { isAuthenticated: false, interestState: "none" };
@@ -48,11 +55,16 @@ export function buildDossierViewerContext(
     ? undefined
     : resolveInterestState(email, dossier.id);
 
+  const gate = applyGate ?? { canApply: true };
+
   return {
     isAuthenticated: true,
     role,
     isOwner,
     interestState,
+    canApply: isOwner ? true : gate.canApply,
+    profileGateMessage: gate.message,
+    profileOnboardingHref: gate.onboardingHref,
   };
 }
 

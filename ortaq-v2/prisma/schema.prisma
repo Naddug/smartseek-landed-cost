@@ -37,6 +37,8 @@ model UserProfile {
   userId              String    @unique
   onboardingCompleted Boolean   @default(false)
   onboardingStep      String?
+  completionLevel     String    @default("incomplete")
+  profileData         Json      @default("{}")
   intendedRole        UserRole?
   sideSelectedAt      DateTime?
   createdAt           DateTime  @default(now())
