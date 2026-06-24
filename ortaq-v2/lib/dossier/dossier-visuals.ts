@@ -91,10 +91,10 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#ea580c",
     accent: "#FB923C",
     accentMuted: "rgba(251,146,60,0.14)",
-    imageId: "photo-1556911220-bff31c812dba",
-    imageUrl: IMG("photo-1556911220-bff31c812dba"),
-    imagePosition: "center 48%",
-    atmosphere: "Organize sanayi · lisanslı üretim mutfağı",
+    imageId: "photo-1556909114-f6e7ad7d3136",
+    imageUrl: IMG("photo-1556909114-f6e7ad7d3136"),
+    imagePosition: "center 46%",
+    atmosphere: "Gıda · lisanslı üretim hattı",
   },
   "mobil-uygulama": {
     gradientFrom: "#1e1b4b",
@@ -127,7 +127,7 @@ const SLUG_SECONDARY_IMAGES: Record<string, string> = {
   "tekstil-atolyesi": IMG("photo-1748944080838-2602cab8086a"),
   "saglik-yazilimi": IMG("photo-1579684385127-1ef15d508118"),
   "lojistik-depo": IMG("photo-1553413077-190dd305871c"),
-  "gida-uretim": IMG("photo-1556909114-f6e7ad7d3136"),
+  "gida-uretim": IMG("photo-1556911220-bff31c812dba"),
   "mobil-uygulama": IMG("photo-1495474472287-4d71bcdd2085"),
   "butik-otel": IMG("photo-1605649487212-47bdab064df7"),
 };

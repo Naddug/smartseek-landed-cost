@@ -14,7 +14,7 @@ export function TwoAudienceBlock() {
   const createDossierHref = createDossierEntryHref(isAuthenticated);
 
   return (
-    <section className="section-editorial-alt py-16 md:py-20">
+    <section className="section-editorial-alt py-12 md:py-16">
       <AppContainer>
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
           <div className="card-editorial relative flex h-full flex-col overflow-hidden">

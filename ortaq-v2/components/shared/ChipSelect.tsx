@@ -52,10 +52,11 @@ export function ChipSelect({
             className={cn(
               "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
               selected
-                ? "border-ortaq-action bg-ortaq-action/10 text-ortaq-action"
+                ? "border-ortaq-action bg-ortaq-action/10 text-ortaq-action ring-1 ring-ortaq-action/30"
                 : "border-ortaq-line bg-ortaq-surface text-ortaq-text-muted hover:border-ortaq-accent hover:text-ortaq-navy",
               disabled && "cursor-not-allowed opacity-40"
             )}
+            aria-pressed={selected}
           >
             {option.label}
           </button>

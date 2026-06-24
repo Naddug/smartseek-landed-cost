@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
@@ -30,6 +32,13 @@ export function ProcessTimeline() {
             <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary md:text-base">
               {ORTAQ_COPY.process.sectionLead}
             </p>
+            <Link
+              href="/nasil-calisir"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700"
+            >
+              Tüm süreci incele
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
 
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">

@@ -12,7 +12,10 @@ export function PartnerTypeStrip() {
       <AppContainer>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,18rem)_1fr] lg:items-end lg:gap-10">
           <div>
-            <p className="type-eyebrow">{ORTAQ_COPY.positioning.categoryLabel}</p>
+            <p className="type-eyebrow">{ORTAQ_COPY.productClarity.eyebrow}</p>
+            <h2 className="mt-2 font-heading text-lg font-semibold text-ortaq-navy">
+              Aranan ortak türüne göre inceleyin
+            </h2>
             <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary">
               {ORTAQ_COPY.archive.intro}
             </p>

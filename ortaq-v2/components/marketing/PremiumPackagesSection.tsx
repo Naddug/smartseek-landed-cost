@@ -49,27 +49,32 @@ export function PremiumPackagesSection({
     [isPremiumPage, pathname, scrollToDetail]
   );
 
+  const syncFromLocation = useCallback(() => {
+    const parsed = parsePremiumPackageFromLocation(
+      window.location.search,
+      window.location.hash
+    );
+
+    if (parsed) {
+      setActivePackage(parsed);
+      scrollToDetail();
+      return;
+    }
+
+    setActivePackage(null);
+  }, [scrollToDetail]);
+
   useEffect(() => {
     if (!isPremiumPage) return;
 
-    const syncFromLocation = () => {
-      const parsed = parsePremiumPackageFromLocation(
-        window.location.search,
-        window.location.hash
-      );
-      if (parsed) {
-        setActivePackage(parsed);
-        scrollToDetail();
-        return;
-      }
-
-      setActivePackage("owner");
-    };
-
     syncFromLocation();
     window.addEventListener("hashchange", syncFromLocation);
-    return () => window.removeEventListener("hashchange", syncFromLocation);
-  }, [isPremiumPage, scrollToDetail]);
+    window.addEventListener("popstate", syncFromLocation);
+    return () => {
+      window.removeEventListener("hashchange", syncFromLocation);
+      window.removeEventListener("popstate", syncFromLocation);
+    };
+  }, [isPremiumPage, syncFromLocation]);
 
   const handleTierSelect = useCallback(
     (tierId: string) => {
@@ -78,6 +83,13 @@ export function PremiumPackagesSection({
     },
     [openPackage]
   );
+
+  const handleClose = useCallback(() => {
+    setActivePackage(null);
+    if (isPremiumPage) {
+      window.history.replaceState(null, "", `${pathname}#premium`);
+    }
+  }, [isPremiumPage, pathname]);
 
   return (
     <div>
@@ -91,21 +103,20 @@ export function PremiumPackagesSection({
       <div
         id={PREMIUM_DETAIL_ANCHOR}
         ref={detailRef}
-        className="scroll-mt-24"
+        className="scroll-mt-28"
         aria-live="polite"
       >
         {activePackage ? (
-          <div className="mt-8 transition-all duration-300">
+          <div key={activePackage} className="mt-8">
             <PremiumPackageDetailPanel
               packageId={activePackage}
-              onClose={() => {
-                setActivePackage("owner");
-                if (isPremiumPage) {
-                  window.history.replaceState(null, "", premiumPackageHref("owner", pathname));
-                }
-              }}
+              onClose={handleClose}
             />
           </div>
+        ) : isPremiumPage ? (
+          <p className="mt-6 text-center text-sm text-ortaq-text-muted">
+            Paket detayını görmek için yukarıdaki bir seçeneğe tıklayın.
+          </p>
         ) : null}
       </div>
     </div>

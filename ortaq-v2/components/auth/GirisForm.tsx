@@ -71,6 +71,13 @@ export function GirisForm({ enabled }: GirisFormProps) {
         </p>
       )}
 
+      {!enabled.google && !enabled.linkedin && !enabled.emailMagicLink && (
+        <p className="rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-xs leading-relaxed text-stone-600">
+          Sosyal giriş bu ortamda yapılandırılmamış. E-posta ve şifre ile giriş
+          yapabilirsiniz.
+        </p>
+      )}
+
       <AuthProviderButtons next={oauthNext} mode="login" enabled={enabled} />
 
       {!enabled.google && !enabled.linkedin && !enabled.emailMagicLink ? null : (

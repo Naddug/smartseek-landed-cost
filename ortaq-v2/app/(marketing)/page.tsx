@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/marketing/home/HeroSection";
+import { ProductClarityBlock } from "@/components/marketing/home/ProductClarityBlock";
 import { MarketplaceActivity } from "@/components/marketing/home/MarketplaceActivity";
 import { TrustProofStrip } from "@/components/marketing/home/TrustProofStrip";
 import { FeaturedSpotlight } from "@/components/marketing/home/FeaturedSpotlight";
@@ -14,6 +15,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <ProductClarityBlock />
       <MarketplaceActivity />
       <TrustProofStrip />
       <FeaturedSpotlight />

@@ -7,6 +7,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { DossierVisualCover } from "@/components/opportunity/DossierVisualCover";
 import { SpotlightProgressBar } from "@/components/marketing/home/SpotlightProgressBar";
 import type { MarketingDossier } from "@/types/marketing-dossier";
+import { getDossierVisual } from "@/lib/dossier/dossier-visuals";
 import { featuredSpotlightDossiers } from "@/data/marketing/home-dossiers";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { cn } from "@/lib/utils";
@@ -86,7 +87,7 @@ export function FeaturedSpotlight({
                 slug={active.slug}
                 categoryKey={active.categoryKey}
                 refCode={active.refCode}
-                atmosphere={active.category}
+                atmosphere={getDossierVisual(active).atmosphere}
                 size="hero"
                 overlay="editorial"
                 className="absolute inset-0 !aspect-auto h-full min-h-[280px] transition-transform duration-500 group-hover:scale-[1.02] lg:min-h-[420px]"

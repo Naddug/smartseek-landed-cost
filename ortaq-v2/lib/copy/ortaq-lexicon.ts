@@ -1,8 +1,8 @@
 export const ORTAQ_COPY = {
   positioning: {
     metaDescription:
-      "Zemini hazır, eksik halkası net fırsatlar için kürasyonlu ortaklık pazaryeri. Yapılandırılmış dosyalar, inceleme ve doğru ortak eşleşmesi.",
-    categoryLabel: "Kürasyonlu ortaklık pazaryeri",
+      "Zemini hazır, eksik halkası net fırsatlar için kürasyonlu ortaklık eşleştirme platformu. Yapılandırılmış dosyalar, inceleme ve doğru ortak eşleşmesi.",
+    categoryLabel: "Kürasyonlu ortaklık eşleştirme platformu",
   },
   sections: {
     featuredDossiers: "Öne Çıkan Dosyalar",
@@ -59,22 +59,64 @@ export const ORTAQ_COPY = {
     sort: "Sırala",
   },
   hero: {
-    eyebrow: "Kürasyonlu ortaklık pazaryeri",
-    headline: "Zemini olan işler, eksik olan ortağı.",
+    eyebrow: "Kürasyonlu ortaklık eşleştirme platformu",
+    headline: "Hazır zemin var — eksik olan doğru ortak.",
     patternExamples: [
       "Lokasyonu var, işletme yok.",
       "Üretimi var, satış kanalı yok.",
       "Müşterisi var, operasyon tarafı yok.",
     ],
     subhead:
-      "ORTAQ; lokasyon, ürün, kapasite, altyapı veya müşteri tabanı hazır olup tek kritik parça eksik kalan fırsatları yapılandırılmış dosyalarla gösterir. Ne hazır, ne eksik, kimi arıyorsunuz — incelemeden geçmiş profillerle eşleşir.",
+      "ORTAQ, belirsiz “ortak arıyorum” cümlesini yapılandırılmış fırsat dosyasına dönüştürür. Bir tarafta gerçek varlık; diğer tarafta aranan katkı net yazar — ilan panosu, iş ilanı veya yatırım duvarı değil.",
     livePillSuffix: "incelemeli fırsat dosyası yayında",
     trustReview: "Fikir aşaması ve genel ilan kabul edilmez",
     trustPrivacy: "Her dosyada varlık · eksik · aranan ortak görünür",
     trustVerified: "İnceleme sonrası yayın · kademeli gizlilik",
   },
+  productClarity: {
+    eyebrow: "ORTAQ nedir?",
+    title: "Belirsiz ortaklık sorusunu dosyaya dönüştüren platform",
+    lead:
+      "ORTAQ sosyal ağ, serbest ilan panosu veya yatırımcı pitch duvarı değildir. Gerçek zemin + net eksik parça + tanımlı ortak ihtiyacı olan fırsatları inceleyerek yayınlar; karşı tarafın profil ve başvurusu üzerinden eşleştirir.",
+    notLabel: "ORTAQ ne değildir?",
+    notItems: [
+      "Genel ilan panosu",
+      "İş / emlak satış sitesi",
+      "Yatırımcı duvarı",
+      "Sosyal ağ",
+    ],
+    dossierLabel: "Fırsat dosyası nedir?",
+    dossierDefinition:
+      "Her dosyada üç alan zorunludur: Varlık (ne hazır), Eksik (neden tıkandı), Aranan ortak (hangi katkı bekleniyor). Bu yapı, fikir seviyesindeki talepleri eler; ciddi tarafların birbirini hızlı anlamasını sağlar.",
+    pillars: [
+      {
+        kicker: "01 · Ürün",
+        title: "Ne sunuyoruz",
+        body:
+          "Yapılandırılmış fırsat dosyası, ORTAQ incelemesi ve profil tabanlı eşleşme. Amaç daha çok ilan açmak değil; doğru iki tarafın birbirini görmesi.",
+      },
+      {
+        kicker: "02 · Kimler için",
+        title: "İki taraf, tek format",
+        body:
+          "Fırsat sahibi: lokasyon, ürün, kapasite veya müşteri zemini hazır. Ortak adayı: sıfırdan kurmak yerine hazır işin eksik tarafına katkı sunacak.",
+      },
+      {
+        kicker: "03 · Ortak tarafı",
+        title: "Ne kazanırsınız",
+        body:
+          "Fikir aşaması değil; ne hazır, ne eksik, ne beklendiği baştan görünür. Profilinizle başvurursunuz — dosya sahibi katkınızı net okur.",
+      },
+      {
+        kicker: "04 · Fark",
+        title: "Neden classifieds değil",
+        body:
+          "İş ilanı, emlak duvarı veya fon başvurusu formatındaki içerikler yayınlanmaz. Her dosya incelemeden geçer; gizlilik kademeli, eşleşme panelde ilerler.",
+      },
+    ],
+  },
   trust: {
-    heroEyebrow: "Kürasyonlu ortaklık pazaryeri",
+    heroEyebrow: "Kürasyonlu ortaklık eşleştirme platformu",
     reviewedPublish: "ORTAQ incelemesi sonrası yayın",
     privacyProtected: "Kademeli gizlilik",
     verifiedProfiles: "ORTAQ doğrulaması",

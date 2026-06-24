@@ -54,8 +54,26 @@ export function MonetizationTiers({
         return (
           <div
             key={tier.id}
+            role={isInteractive ? "button" : undefined}
+            tabIndex={isInteractive ? 0 : undefined}
+            onClick={
+              isInteractive
+                ? () => onTierSelect?.(tier.id)
+                : undefined
+            }
+            onKeyDown={
+              isInteractive
+                ? (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      onTierSelect?.(tier.id);
+                    }
+                  }
+                : undefined
+            }
             className={cn(
               "flex flex-col rounded-2xl border p-6 transition-all duration-300",
+              isInteractive && "cursor-pointer hover:shadow-ortaq-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300",
               isHomepage && isPrimary && "lg:col-span-5 lg:p-8",
               isHomepage && tier.emphasis === "secondary" && "lg:col-span-4",
               isHomepage && tier.emphasis === "tertiary" && "lg:col-span-3",
@@ -162,7 +180,10 @@ export function MonetizationTiers({
                       isPrimary && "bg-blue-600 hover:bg-blue-700",
                       isActive && !isPrimary && "border-blue-300 bg-blue-50 text-blue-700"
                     )}
-                    onClick={() => onTierSelect?.(tier.id)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onTierSelect?.(tier.id);
+                    }}
                     aria-expanded={isActive}
                     aria-controls="premium-detail"
                   >

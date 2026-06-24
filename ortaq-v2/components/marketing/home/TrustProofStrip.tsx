@@ -49,6 +49,9 @@ export function TrustProofStrip() {
             </div>
           ))}
         </div>
+        <p className="border-t border-white/10 py-3 text-center text-xs font-medium text-ortaq-dark-text-secondary">
+          {ORTAQ_COPY.trust.platformTagline}
+        </p>
         <p className="border-t border-white/10 py-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ortaq-dark-text-muted">
           {ORTAQ_COPY.trust.trustFooter}
         </p>
