@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { Section } from "@/components/shared/Section";
 import { FlowSteps } from "@/components/marketing/FlowSteps";
 import { VisibilityExplainer } from "@/components/marketing/VisibilityExplainer";
-import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
+import { PremiumPackagesSection } from "@/components/marketing/PremiumPackagesSection";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import {
   ClipboardList,
@@ -114,7 +114,7 @@ export default function NasilCalisirPage() {
             description={ORTAQ_COPY.monetization.sectionDescription}
             className="border-none pb-6"
           />
-          <MonetizationTiers showCtas layout="homepage" />
+          <PremiumPackagesSection showCtas layout="homepage" />
         </AppContainer>
       </Section>
     </>

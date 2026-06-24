@@ -101,7 +101,7 @@ export default async function DosyaOlusturPage() {
             {ORTAQ_COPY.pages.dosyaOlustur.premiumAside}
           </p>
           <Link
-            href="/guven-kalite#premium"
+            href="/guven-kalite?paket=owner#premium-detail"
             className="mt-4 inline-block text-sm font-medium text-blue-600 hover:underline"
           >
             Premium fırsat desteğini incele →

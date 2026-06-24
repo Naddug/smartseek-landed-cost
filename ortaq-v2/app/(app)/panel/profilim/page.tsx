@@ -84,7 +84,7 @@ export default async function ProfilimPage() {
                   {ORTAQ_COPY.monetization.partnerPremiumDescription}
                 </p>
                 <Link
-                  href="/guven-kalite#premium"
+                  href="/guven-kalite?paket=partner#premium-detail"
                   className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline"
                 >
                   Profilimi güçlendir →

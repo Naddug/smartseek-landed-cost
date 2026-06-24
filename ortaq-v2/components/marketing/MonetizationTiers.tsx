@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Sparkles, ShieldCheck, TrendingUp, Zap, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
+import type { PremiumPackageId } from "@/lib/marketing/premium-packages";
 
 const tierIcons = {
   owner: Sparkles,
@@ -17,6 +19,8 @@ interface MonetizationTiersProps {
   showCtas?: boolean;
   className?: string;
   layout?: "grid" | "homepage";
+  activeTierId?: PremiumPackageId | null;
+  onTierSelect?: (tierId: PremiumPackageId) => void;
 }
 
 export function MonetizationTiers({
@@ -24,9 +28,13 @@ export function MonetizationTiers({
   showCtas = true,
   className,
   layout = "grid",
+  activeTierId = null,
+  onTierSelect,
 }: MonetizationTiersProps) {
+  const pathname = usePathname();
   const isDark = variant === "dark";
   const isHomepage = layout === "homepage";
+  const isInteractive = Boolean(onTierSelect);
 
   return (
     <div
@@ -40,15 +48,19 @@ export function MonetizationTiers({
       {ORTAQ_COPY.monetization.tiers.map((tier) => {
         const Icon = tierIcons[tier.id];
         const isPrimary = tier.emphasis === "primary";
+        const isActive = activeTierId === tier.id;
+        const tierHref = resolveTierHref(tier.href, pathname);
 
         return (
           <div
             key={tier.id}
             className={cn(
-              "flex flex-col rounded-2xl border p-6 transition-shadow",
+              "flex flex-col rounded-2xl border p-6 transition-all duration-300",
               isHomepage && isPrimary && "lg:col-span-5 lg:p-8",
               isHomepage && tier.emphasis === "secondary" && "lg:col-span-4",
               isHomepage && tier.emphasis === "tertiary" && "lg:col-span-3",
+              isActive &&
+                "border-blue-400 shadow-ortaq-lg ring-2 ring-blue-200/80",
               isPrimary
                 ? isDark
                   ? "border-blue-500/30 bg-gradient-to-br from-blue-950/40 to-ortaq-dark-elevated shadow-ortaq-dark"
@@ -100,7 +112,8 @@ export function MonetizationTiers({
               {tier.description}
             </p>
 
-            <ul className="mt-5 space-y-2.5 border-t border-dashed pt-4"
+            <ul
+              className="mt-5 space-y-2.5 border-t border-dashed pt-4"
               style={{ borderColor: isDark ? "rgba(255,255,255,0.12)" : "var(--ortaq-line)" }}
             >
               {tier.outcomes.map((outcome) => (
@@ -138,22 +151,50 @@ export function MonetizationTiers({
             </p>
 
             {showCtas && tier.href && (
-              <Link href={tier.href} className="mt-5">
-                <Button
-                  variant={isPrimary ? "default" : isDark ? "outlineOnDark" : "outline"}
-                  size="sm"
-                  className={cn(
-                    "w-full text-xs",
-                    isPrimary && "bg-blue-600 hover:bg-blue-700"
-                  )}
-                >
-                  {tier.cta}
-                </Button>
-              </Link>
+              <div className="mt-5">
+                {isInteractive ? (
+                  <Button
+                    type="button"
+                    variant={isPrimary ? "default" : isDark ? "outlineOnDark" : "outline"}
+                    size="sm"
+                    className={cn(
+                      "w-full text-xs",
+                      isPrimary && "bg-blue-600 hover:bg-blue-700",
+                      isActive && !isPrimary && "border-blue-300 bg-blue-50 text-blue-700"
+                    )}
+                    onClick={() => onTierSelect?.(tier.id)}
+                    aria-expanded={isActive}
+                    aria-controls="premium-detail"
+                  >
+                    {isActive ? "Detaylar açık" : tier.cta}
+                  </Button>
+                ) : (
+                  <Link href={tierHref} className="block">
+                    <Button
+                      variant={isPrimary ? "default" : isDark ? "outlineOnDark" : "outline"}
+                      size="sm"
+                      className={cn(
+                        "w-full text-xs",
+                        isPrimary && "bg-blue-600 hover:bg-blue-700"
+                      )}
+                    >
+                      {tier.cta}
+                    </Button>
+                  </Link>
+                )}
+              </div>
             )}
           </div>
         );
       })}
     </div>
   );
+}
+
+function resolveTierHref(href: string | undefined, pathname: string | null) {
+  if (!href) return "#";
+  if (!pathname || pathname === "/guven-kalite" || pathname === "/nasil-calisir") {
+    return href;
+  }
+  return href;
 }

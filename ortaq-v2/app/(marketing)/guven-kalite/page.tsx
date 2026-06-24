@@ -4,7 +4,7 @@ import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ReadinessScoreExplainer } from "@/components/marketing/ReadinessScoreExplainer";
 import { VisibilityExplainer } from "@/components/marketing/VisibilityExplainer";
-import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
+import { PremiumPackagesSection } from "@/components/marketing/PremiumPackagesSection";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { ShieldCheck, XCircle, Eye } from "lucide-react";
 
@@ -94,7 +94,7 @@ export default function GuvenKalitePage() {
             title={copy.premiumTitle}
             description={ORTAQ_COPY.monetization.sectionDescription}
           />
-          <MonetizationTiers showCtas layout="homepage" />
+          <PremiumPackagesSection showCtas layout="homepage" />
         </AppContainer>
       </Section>
     </>

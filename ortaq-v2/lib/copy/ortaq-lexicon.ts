@@ -238,7 +238,7 @@ export const ORTAQ_COPY = {
         ],
         microline: "Bir dosya yazma hizmeti değil; güçlü fırsatın doğru tarafa net görünmesi için.",
         cta: "Premium fırsat desteğini incele",
-        href: "/guven-kalite#premium",
+        href: "/guven-kalite?paket=owner#premium-detail",
         emphasis: "primary" as const,
       },
       {
@@ -255,7 +255,7 @@ export const ORTAQ_COPY = {
         ],
         microline: "Daha görünür olmak için değil, daha ciddi görünmek için.",
         cta: "Profilimi güçlendir",
-        href: "/panel/profilim",
+        href: "/guven-kalite?paket=partner#premium-detail",
         emphasis: "secondary" as const,
       },
       {
@@ -272,10 +272,72 @@ export const ORTAQ_COPY = {
         ],
         microline: "Özellikle zamanlamanın kritik olduğu dosyalar ve başvurular için.",
         cta: "Hızlandırılmış seçenekleri gör",
-        href: "/guven-kalite#premium",
+        href: "/guven-kalite?paket=visibility#premium-detail",
         emphasis: "tertiary" as const,
       },
     ],
+    packageDetails: {
+      owner: {
+        headline: "ORTAQ Premium — fırsat dosyanızı yayına hazırlama desteği",
+        summary:
+          "Fırsat sahibi olarak dosyanızı daha net, daha ikna edici ve doğru ortağa daha hızlı ulaşacak şekilde birlikte toparlarız.",
+        includes: [
+          "Dosya anlatımı ve eksik halka netleştirme",
+          "Yayın öncesi hazırlık skoru ve geri bildirim",
+          "Doğru ortak türüne göre sunum düzeni",
+          "ORTAQ editoryal standartlarına uyum kontrolü",
+        ],
+        steps: [
+          "Fırsat dosyanızı oluşturun veya mevcut taslağınızı paylaşın.",
+          "ORTAQ ekibi dosyayı inceler; netleştirme önerilerini iletir.",
+          "Birlikte revize edilen dosya güçlendirilmiş yayın standardıyla sunulur.",
+        ],
+        note: "Premium destek, dosya yazım hizmeti değil; mevcut fırsatın doğru tarafa net görünmesi içindir.",
+        guestPrimaryCta: "Fırsat sahibi olarak başla",
+        authPrimaryCta: "Dosya oluşturmaya git",
+        secondaryCta: "ORTAQ ekibiyle görüş",
+      },
+      partner: {
+        headline: "Güçlendirilmiş ortak profili",
+        summary:
+          "Başvurularınızın daha ciddi, daha seçilebilir ve fırsat sahipleri karşısında daha net konumlanmasını sağlar.",
+        includes: [
+          "Profil güven sinyalleri ve katkı netliği",
+          "Başvuru öncesi profil tamamlama rehberi",
+          "Sektör ve rol uyumu vurgusu",
+          "Eşleşme görünürlüğünde profil ağırlığı",
+        ],
+        steps: [
+          "Ortak profilinizi tamamlayın veya mevcut profilinizi güçlendirin.",
+          "ORTAQ profil kalitesi geri bildirimi ile eksik alanları kapatın.",
+          "Güçlendirilmiş profille fırsatlara daha net başvurun.",
+        ],
+        note: "Amaç daha görünür olmak değil; daha ciddi bir aday olarak konumlanmaktır.",
+        guestPrimaryCta: "Giriş yap ve devam et",
+        authPrimaryCta: "Profilime git",
+        secondaryCta: "Profil rehberini incele",
+      },
+      visibility: {
+        headline: "Hızlandırılmış değerlendirme ve görünürlük",
+        summary:
+          "Zaman baskısı olan dosya veya başvurularda daha erken geri bildirim ve doğru anda öne çıkma imkânı.",
+        includes: [
+          "Öncelikli inceleme talebi",
+          "Daha erken geri bildirim hedefi",
+          "Kritik dönemlerde görünürlük desteği",
+          "ORTAQ moderasyon hattına doğrudan erişim",
+        ],
+        steps: [
+          "Hangi dosya veya başvuru için hızlandırma istediğinizi belirtin.",
+          "ORTAQ ekibi uygunluğu değerlendirir ve süreci netleştirir.",
+          "Onay sonrası öncelikli değerlendirme hattına alınırsınız.",
+        ],
+        note: "Amaç sırayı satın almak değil; momentum kaybetmemek için zamanında destek almaktır.",
+        guestPrimaryCta: "Talep oluşturmak için giriş yap",
+        authPrimaryCta: "Öncelik talebi gönder",
+        secondaryCta: "Destek ekibine yaz",
+      },
+    },
   },
   twoAudience: {
     ownerLabel: "Fırsat sahibi",
