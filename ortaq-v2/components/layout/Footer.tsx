@@ -8,6 +8,7 @@ const footerLinks = [
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/nasil-calisir", label: "Nasıl Çalışır" },
   { href: "/guven-kalite", label: "Güven & Kalite" },
+  { href: "/bulusmalar", label: "ORTAQ Buluşmaları" },
   { href: "/sss", label: "SSS" },
   { href: "/iletisim", label: "İletişim" },
 ];

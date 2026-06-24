@@ -4,6 +4,7 @@ import { Section } from "@/components/shared/Section";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { ReadinessScoreExplainer } from "@/components/marketing/ReadinessScoreExplainer";
 import { VisibilityExplainer } from "@/components/marketing/VisibilityExplainer";
+import { OrtaqBulusmalariSection } from "@/components/marketing/OrtaqBulusmalariSection";
 import { PremiumPackagesSection } from "@/components/marketing/PremiumPackagesSection";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { ShieldCheck, XCircle, Eye } from "lucide-react";
@@ -85,6 +86,16 @@ export default function GuvenKalitePage() {
             {copy.privacyIntro}
           </p>
           <VisibilityExplainer />
+        </AppContainer>
+      </Section>
+
+      <Section id="bulusmalar" variant="alt">
+        <AppContainer>
+          <p className="type-eyebrow">{ORTAQ_COPY.bulusmalar.eyebrow}</p>
+          <h2 className="type-section mt-2">{copy.bulusmalarTitle}</h2>
+          <div className="mt-8">
+            <OrtaqBulusmalariSection variant="compact" />
+          </div>
         </AppContainer>
       </Section>
 

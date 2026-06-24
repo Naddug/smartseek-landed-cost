@@ -355,6 +355,57 @@ export const ORTAQ_COPY = {
       "Bir tarafta ilerleyemeyen ama zemini olan bir iş; diğer tarafta o işi ayağa kaldırabilecek doğru ortak. ORTAQ, bu iki tarafın birbirini daha net görmesi için var.",
     footerLine: "ORTAQ Premium · Güçlü profil · Hızlandırılmış değerlendirme",
   },
+  bulusmalar: {
+    eyebrow: "ORTAQ Buluşmaları",
+    sectionTitle: "Dijital eşleşmenin ötesinde, seçilmiş yüz yüze buluşmalar.",
+    sectionIntro:
+      "ORTAQ yalnızca bir ilan panosu değil. Doğrulanmış fırsat sahipleri ve ortaklar, seçili programlarda bir araya gelerek güveni hızlandırır ve ciddi eşleşmeleri somutlaştırır.",
+    pageDescription:
+      "Davetiye ile açılan, küçük ölçekli ORTAQ buluşmaları — dijital dosyaların ötesinde güven ve ortaklık kurmak için.",
+    pilotNote:
+      "Program İstanbul ve Ankara’da pilot aşamasında; katılım yalnızca ORTAQ incelemesinden geçmiş profil ve dosyalar için davetiye ile açılır.",
+    principle:
+      "Buluşmalar networking etkinliği değil; dosya ve profil üzerinden gelen ciddi tarafların yüz yüze tanışmasıdır.",
+    formats: [
+      {
+        title: "Kurucu & operatör kahvaltısı",
+        description:
+          "12–18 kişilik, sektör filtreli sabah buluşması. Her katılımcının hangi fırsat veya katkı ile geldiği önceden bellidir.",
+      },
+      {
+        title: "Sektör masası",
+        description:
+          "Tek sektör odağında, fırsat sahibi ve ortak adaylarının aynı masada olduğu yönlendirilmiş roundtable.",
+      },
+      {
+        title: "Eşleşme günü",
+        description:
+          "ORTAQ moderasyonu eşliğinde, önceden eşleştirilmiş dosya–ortak görüşmeleri. Gündem dosya odaklıdır.",
+      },
+      {
+        title: "Yıllık ORTAQ buluşması",
+        description:
+          "Platformdaki aktif fırsat sahipleri ve ortaklar için yılda bir kez düzenlenen, kapanış odaklı topluluk buluşması.",
+      },
+    ],
+    steps: [
+      {
+        title: "Profil veya dosya doğrulanır",
+        body: "Yalnızca ORTAQ incelemesinden geçmiş, yayındaki dosyası veya tamamlanmış ortak profili olanlar değerlendirilir.",
+      },
+      {
+        title: "Davetiye gönderilir",
+        body: "Etkinlik formatı, sektör uyumu ve gündem katılımcılara önceden iletilir — genel networking daveti değildir.",
+      },
+      {
+        title: "Dosya odaklı buluşma",
+        body: "Yüz yüze tanışma, platformdaki eşleşme sürecini destekler; ORTAQ panelindeki görüşmeler buradan devam eder.",
+      },
+    ],
+    ctaPrimary: "Fırsatları incele",
+    ctaSecondary: "Davet programı hakkında sor",
+    compactLink: "ORTAQ Buluşmaları hakkında",
+  },
   pages: {
     guvenKalite: {
       description:
@@ -369,6 +420,7 @@ export const ORTAQ_COPY = {
       privacyTitle: "Gizlilik nasıl korunur?",
       privacyIntro:
         "Dosya sahibi hangi bilgilerin ne zaman görüneceğini belirler. Bazı belgeler yalnızca eşleşme sonrası açılır; ORTAQ gerektiğinde kullanıcıyı anonim tutabilir.",
+      bulusmalarTitle: "ORTAQ Buluşmaları",
       premiumTitle: "ORTAQ desteği",
     },
     hakkimizda: {
