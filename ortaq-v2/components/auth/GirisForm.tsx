@@ -38,8 +38,7 @@ export function GirisForm({ enabled }: GirisFormProps) {
       sessionToPostAuthContext(session),
       nextParam
     );
-    router.push(destination);
-    router.refresh();
+    window.location.assign(destination);
   }
 
   async function handleSubmit(event: React.FormEvent) {
@@ -125,10 +124,6 @@ export function GirisForm({ enabled }: GirisFormProps) {
           {loading ? "Giriş yapılıyor…" : "Giriş Yap"}
         </Button>
       </form>
-
-      <p className="text-center text-xs text-stone-500">
-        Demo: demo@ortaq.biz / demo · ortak@ortaq.biz / demo
-      </p>
     </div>
   );
 }

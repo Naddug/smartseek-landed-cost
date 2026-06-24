@@ -71,10 +71,9 @@ export function KayitForm({ enabled }: KayitFormProps) {
     }
 
     const session = await fetchSessionSnapshot();
-    router.push(
+    window.location.assign(
       resolvePostAuthDestination(sessionToPostAuthContext(session), next)
     );
-    router.refresh();
   }
 
   return (

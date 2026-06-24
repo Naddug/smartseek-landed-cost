@@ -3,7 +3,7 @@ import path from "path";
 import type { StoredUserProfile } from "@/types/profile-onboarding";
 import { emptyStoredProfile } from "@/types/profile-onboarding";
 import type { UserRole } from "@/types";
-import { hasDatabase } from "@/lib/auth/db";
+import { shouldUseDatabaseAuth } from "@/lib/auth/db";
 import { prisma } from "@/lib/prisma";
 
 const STORE_DIR = path.join(process.cwd(), "data/store");
@@ -54,7 +54,7 @@ async function writeAll(profiles: StoredUserProfile[]): Promise<void> {
 }
 
 async function readFromPrisma(userId: string): Promise<StoredUserProfile | null> {
-  if (!hasDatabase()) return null;
+  if (!(await shouldUseDatabaseAuth())) return null;
 
   try {
     const row = await prisma.userProfile.findUnique({
@@ -84,7 +84,7 @@ async function readFromPrisma(userId: string): Promise<StoredUserProfile | null>
 }
 
 async function writeToPrisma(profile: StoredUserProfile): Promise<void> {
-  if (!hasDatabase()) return;
+  if (!(await shouldUseDatabaseAuth())) return;
 
   try {
     await prisma.userProfile.upsert({

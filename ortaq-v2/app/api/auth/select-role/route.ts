@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { applySignupRoleToUser } from "@/lib/auth/profile";
-import { postAuthRedirect, sanitizeNextPath } from "@/lib/auth/routes";
+import { sanitizeNextPath } from "@/lib/auth/routes";
 import { parseUserRole } from "@/lib/auth/roles";
+import { hydrateAuthSession } from "@/lib/auth/user-repository";
+import { resolvePostAuthDestination } from "@/lib/auth/session-policy";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -22,13 +24,19 @@ export async function POST(request: Request) {
   try {
     await applySignupRoleToUser(session.user.id, role);
 
-    const redirect = postAuthRedirect(
-      role,
+    const hydrated = await hydrateAuthSession(session.user.id);
+    const redirect = resolvePostAuthDestination(
+      {
+        role: hydrated.role,
+        onboardingCompleted: hydrated.onboardingCompleted,
+        sideSelected: true,
+      },
       body.next ? sanitizeNextPath(body.next) : null
     );
 
     return NextResponse.json({ ok: true, role, redirect });
-  } catch {
+  } catch (error) {
+    console.error("[auth] select-role failed:", error);
     return NextResponse.json(
       { error: "Rol kaydedilemedi. Lütfen tekrar deneyin." },
       { status: 500 }

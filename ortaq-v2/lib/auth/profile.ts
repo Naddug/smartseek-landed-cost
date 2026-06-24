@@ -1,5 +1,6 @@
 import type { UserRole } from "@/types";
-import { hasDatabase } from "@/lib/auth/db";
+import { shouldUseDatabaseAuth } from "@/lib/auth/db";
+import { updateUserRole } from "@/lib/auth/user-repository";
 import { prisma } from "@/lib/prisma";
 
 export type UserProfileRecord = {
@@ -13,7 +14,7 @@ export async function ensureUserProfile(
   userId: string,
   options?: { role?: UserRole; markSideSelected?: boolean }
 ): Promise<UserProfileRecord | null> {
-  if (!hasDatabase()) return null;
+  if (!(await shouldUseDatabaseAuth())) return null;
 
   const role = options?.role;
   const now = options?.markSideSelected ? new Date() : undefined;
@@ -43,7 +44,7 @@ export async function ensureUserProfile(
 export async function getUserProfile(
   userId: string
 ): Promise<UserProfileRecord | null> {
-  if (!hasDatabase()) return null;
+  if (!(await shouldUseDatabaseAuth())) return null;
 
   return prisma.userProfile.findUnique({
     where: { userId },
@@ -60,12 +61,5 @@ export async function applySignupRoleToUser(
   userId: string,
   role: UserRole
 ): Promise<void> {
-  if (!hasDatabase()) return;
-
-  await prisma.user.update({
-    where: { id: userId },
-    data: { role },
-  });
-
-  await ensureUserProfile(userId, { role, markSideSelected: true });
+  await updateUserRole(userId, role);
 }

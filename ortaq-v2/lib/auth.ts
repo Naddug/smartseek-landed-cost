@@ -1,5 +1,4 @@
 import type { NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
@@ -7,16 +6,13 @@ import LinkedInProvider from "next-auth/providers/linkedin";
 import { cookies } from "next/headers";
 import type { UserRole } from "@/types";
 import { hasDatabase } from "@/lib/auth/db";
-import {
-  applySignupRoleToUser,
-  ensureUserProfile,
-  getUserProfile,
-} from "@/lib/auth/profile";
 import { defaultRoleForSignup, parseUserRole } from "@/lib/auth/roles";
 import { verifyCredentials } from "@/lib/auth/register";
 import { getAuthSecret } from "@/lib/auth/secret";
-import { getStoredUserProfile } from "@/lib/profile/repository";
-import { prisma } from "@/lib/prisma";
+import {
+  findOrCreateOAuthUser,
+  hydrateAuthSession,
+} from "@/lib/auth/user-repository";
 
 declare module "next-auth" {
   interface Session {
@@ -66,6 +62,10 @@ const demoUsers: Record<
   },
 };
 
+function demoAuthEnabled(): boolean {
+  return process.env.ORTAQ_ENABLE_DEMO_AUTH === "true";
+}
+
 function readSignupRoleCookie(): UserRole | null {
   return parseUserRole(cookies().get(SIGNUP_ROLE_COOKIE)?.value);
 }
@@ -88,23 +88,21 @@ function buildProviders(): NextAuthOptions["providers"] {
 
         const email = credentials.email.toLowerCase();
 
-        if (hasDatabase()) {
-          try {
-            const user = await verifyCredentials(email, credentials.password);
-            if (user) {
-              const profile = await getUserProfile(user.id);
-              const stored = await getStoredUserProfile(user.id, user.role);
-              return {
-                ...user,
-                onboardingCompleted: stored.onboardingCompleted,
-                sideSelected: Boolean(profile?.sideSelectedAt),
-                profileCompletionLevel: stored.completionLevel,
-              };
-            }
-          } catch (error) {
-            console.error("[auth] Database credentials check failed:", error);
-          }
+        const user = await verifyCredentials(email, credentials.password);
+        if (user) {
+          const session = await hydrateAuthSession(user.id);
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            onboardingCompleted: session.onboardingCompleted,
+            sideSelected: session.sideSelected,
+            profileCompletionLevel: session.profileCompletionLevel,
+          };
         }
+
+        if (!demoAuthEnabled()) return null;
 
         const demo = demoUsers[email];
         if (!demo || demo.password !== credentials.password) return null;
@@ -142,7 +140,11 @@ function buildProviders(): NextAuthOptions["providers"] {
     );
   }
 
-  if (hasDatabase() && process.env.EMAIL_SERVER && process.env.EMAIL_FROM) {
+  if (
+    hasDatabase() &&
+    process.env.EMAIL_SERVER &&
+    process.env.EMAIL_FROM
+  ) {
     providers.push(
       EmailProvider({
         server: process.env.EMAIL_SERVER,
@@ -154,51 +156,27 @@ function buildProviders(): NextAuthOptions["providers"] {
   return providers;
 }
 
-async function hydrateTokenFromDatabase(userId: string, token: {
-  role?: UserRole;
-  onboardingCompleted?: boolean;
-  sideSelected?: boolean;
-  profileCompletionLevel?: import("@/types/profile-onboarding").ProfileCompletionLevel;
-}) {
-  if (!hasDatabase()) {
-    try {
-      const stored = await getStoredUserProfile(userId, token.role ?? "partner");
-      token.onboardingCompleted = stored.onboardingCompleted;
-      token.sideSelected = true;
-      token.profileCompletionLevel = stored.completionLevel;
-    } catch {
-      /* ignore */
-    }
-    return token;
-  }
-
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { role: true },
-    });
-    const profile = await getUserProfile(userId);
-    const stored = await getStoredUserProfile(userId, user?.role ?? token.role ?? "partner");
-
-    if (user) token.role = user.role;
-    token.onboardingCompleted = stored.onboardingCompleted;
-    token.sideSelected = Boolean(profile?.sideSelectedAt ?? stored.userId);
-    token.profileCompletionLevel = stored.completionLevel;
-  } catch (error) {
-    console.error("[auth] Session hydrate failed:", error);
-    try {
-      const stored = await getStoredUserProfile(userId, token.role ?? "partner");
-      token.onboardingCompleted = stored.onboardingCompleted;
-      token.profileCompletionLevel = stored.completionLevel;
-    } catch {
-      /* ignore */
-    }
-  }
-  return token;
+async function resolveOAuthUser(
+  input: {
+    email: string;
+    name?: string | null;
+    image?: string | null;
+    provider: string;
+    providerAccountId: string;
+  },
+  signupRole: UserRole | null
+) {
+  return findOrCreateOAuthUser({
+    email: input.email,
+    name: input.name,
+    image: input.image,
+    provider: input.provider,
+    providerAccountId: input.providerAccountId,
+    role: signupRole,
+  });
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: hasDatabase() ? PrismaAdapter(prisma) : undefined,
   providers: buildProviders(),
   session: {
     strategy: "jwt",
@@ -210,39 +188,77 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: "/giris?magic=sent",
   },
   callbacks: {
-    async signIn({ user, account }) {
-      if (!hasDatabase() || !user.id) return true;
+    async signIn({ user, account, profile }) {
+      if (!user.email || account?.provider === "credentials") return true;
 
       try {
         const signupRole = readSignupRoleCookie();
+        await resolveOAuthUser(
+          {
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            provider: account?.provider ?? "oauth",
+            providerAccountId:
+              account?.providerAccountId ??
+              (profile as { sub?: string } | undefined)?.sub ??
+              user.email,
+          },
+          signupRole
+        );
 
-        if (signupRole && account?.provider !== "credentials") {
-          await applySignupRoleToUser(user.id, signupRole);
-          clearSignupRoleCookie();
-        } else {
-          await ensureUserProfile(user.id, {
-            role: signupRole ?? undefined,
-            markSideSelected: Boolean(signupRole),
-          });
-        }
+        if (signupRole) clearSignupRoleCookie();
       } catch (error) {
-        console.error("[auth] Profile bootstrap failed:", error);
+        console.error("[auth] OAuth sign-in failed:", error);
+        return false;
       }
 
       return true;
     },
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user, account, trigger }) {
+      if (user?.email && account && account.provider !== "credentials") {
+        try {
+          const signupRole = readSignupRoleCookie();
+          const stored = await resolveOAuthUser(
+            {
+              email: user.email,
+              name: user.name,
+              image: user.image,
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+            },
+            signupRole
+          );
+          const session = await hydrateAuthSession(stored.id);
+
+          token.sub = stored.id;
+          token.role = session.role;
+          token.onboardingCompleted = session.onboardingCompleted;
+          token.sideSelected = session.sideSelected;
+          token.profileCompletionLevel = session.profileCompletionLevel;
+
+          if (signupRole) clearSignupRoleCookie();
+          return token;
+        } catch (error) {
+          console.error("[auth] OAuth JWT hydrate failed:", error);
+        }
+      }
+
       if (user) {
         token.sub = user.id;
         token.role = user.role ?? defaultRoleForSignup(undefined);
         token.onboardingCompleted = user.onboardingCompleted ?? false;
-        token.sideSelected = user.sideSelected ?? true;
+        token.sideSelected = user.sideSelected ?? false;
         token.profileCompletionLevel = user.profileCompletionLevel ?? "incomplete";
       }
 
-      if (hasDatabase() && token.sub && (trigger === "update" || !user)) {
+      if (token.sub && (trigger === "update" || !user)) {
         try {
-          await hydrateTokenFromDatabase(token.sub, token);
+          const session = await hydrateAuthSession(token.sub);
+          token.role = session.role;
+          token.onboardingCompleted = session.onboardingCompleted;
+          token.sideSelected = session.sideSelected;
+          token.profileCompletionLevel = session.profileCompletionLevel;
         } catch (error) {
           console.error("[auth] Session hydrate failed:", error);
         }
@@ -255,7 +271,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub ?? "";
         session.user.role = token.role ?? "partner";
         session.user.onboardingCompleted = token.onboardingCompleted ?? false;
-        session.user.sideSelected = token.sideSelected ?? true;
+        session.user.sideSelected = token.sideSelected ?? false;
         session.user.profileCompletionLevel = token.profileCompletionLevel ?? "incomplete";
       }
       return session;
@@ -270,7 +286,7 @@ export const authOptions: NextAuthOptions = {
 };
 
 export { registerUser } from "@/lib/auth/register";
-export { postAuthRedirect, sanitizeNextPath } from "@/lib/auth/routes";
+export { authContinueHref, postAuthRedirect, sanitizeNextPath } from "@/lib/auth/routes";
 export {
   resolvePostAuthDestination,
   sessionToPostAuthContext,

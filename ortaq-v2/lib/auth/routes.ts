@@ -26,6 +26,11 @@ export function registerHref(role?: string, next?: string): string {
   return query ? `/kayit?${query}` : "/kayit";
 }
 
+export function authContinueHref(next?: string | null): string {
+  if (!next) return "/auth/devam";
+  return `/auth/devam?next=${encodeURIComponent(sanitizeNextPath(next))}`;
+}
+
 export function createDossierEntryHref(isAuthenticated: boolean): string {
   if (isAuthenticated) return "/panel/dosya-olustur";
   return registerPathChoiceHref("/panel/dosya-olustur");

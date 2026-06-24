@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { postAuthRedirect, sanitizeNextPath } from "@/lib/auth/routes";
+import { authContinueHref, postAuthRedirect } from "@/lib/auth/routes";
 import type { UserRole } from "@/types";
 
 type AuthProviderButtonsProps = {
@@ -37,10 +37,7 @@ export function AuthProviderButtons({
   const [magicSent, setMagicSent] = useState(false);
   const [magicError, setMagicError] = useState("");
 
-  const callbackUrl = sanitizeNextPath(
-    next ??
-      (role ? postAuthRedirect(role) : mode === "register" ? "/kayit/yol-secimi" : "/panel")
-  );
+  const callbackUrl = authContinueHref(next ?? (role ? postAuthRedirect(role) : undefined));
 
   async function handleOAuth(provider: "google" | "linkedin") {
     setLoadingProvider(provider);

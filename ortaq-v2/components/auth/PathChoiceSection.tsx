@@ -44,9 +44,11 @@ export function PathChoiceSection({ next }: PathChoiceSectionProps) {
     }
 
     await update();
+    const sessionResponse = await fetch("/api/auth/session");
+    const freshSession = sessionResponse.ok ? await sessionResponse.json() : session;
     router.push(
       data.redirect ??
-        resolvePostAuthDestination(sessionToPostAuthContext(session), sanitizedNext)
+        resolvePostAuthDestination(sessionToPostAuthContext(freshSession), sanitizedNext)
     );
     router.refresh();
   }
