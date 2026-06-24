@@ -16,7 +16,8 @@ export type DossierVisualTheme = {
 const IMG = (id: string) =>
   `https://images.unsplash.com/${id}?w=1400&q=88&auto=format&fit=crop`;
 
-export const DEFAULT_DOSSIER_IMAGE_URL = IMG("photo-1486406146926-c627a92ad1ab");
+/** Istanbul business skyline — neutral platform default */
+export const DEFAULT_DOSSIER_IMAGE_URL = IMG("photo-1524231757912-21f4fe3a7200");
 
 const SLUG_THEMES: Record<string, DossierVisualTheme> = {
   "e-ticaret-operasyonu": {
@@ -25,9 +26,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#2563eb",
     accent: "#3B82F6",
     accentMuted: "rgba(59,130,246,0.18)",
-    imageUrl: IMG("photo-1556742049-0cfed4f6a45d"),
-    imagePosition: "center 45%",
-    atmosphere: "E-ticaret depo & paketleme",
+    imageUrl: IMG("photo-1607082348824-0a96f2a4b9da"),
+    imagePosition: "center 42%",
+    atmosphere: "Maslak · paketleme & sevkiyat",
   },
   "kafe-lokasyonu": {
     gradientFrom: "#1c1917",
@@ -35,9 +36,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#d97706",
     accent: "#F59E0B",
     accentMuted: "rgba(245,158,11,0.16)",
-    imageUrl: IMG("photo-1517248135467-4c7edcad34c4"),
-    imagePosition: "center 40%",
-    atmosphere: "Cadde cepheli lokasyon",
+    imageUrl: IMG("photo-1560799262-3727e67f0c62"),
+    imagePosition: "center 55%",
+    atmosphere: "Cadde cephesi · işletme lokasyonu",
   },
   "tekstil-atolyesi": {
     gradientFrom: "#14532d",
@@ -45,9 +46,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#059669",
     accent: "#10B981",
     accentMuted: "rgba(16,185,129,0.16)",
-    imageUrl: IMG("photo-1581091226825-a6a2a5aee158"),
-    imagePosition: "center 45%",
-    atmosphere: "Tekstil üretim hattı",
+    imageUrl: IMG("photo-1742281693044-972b1a1760a4"),
+    imagePosition: "center 48%",
+    atmosphere: "Demirtaş OSB · tekstil hattı",
   },
   "saglik-yazilimi": {
     gradientFrom: "#0c4a6e",
@@ -55,9 +56,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0284c7",
     accent: "#38BDF8",
     accentMuted: "rgba(56,189,248,0.16)",
-    imageUrl: IMG("photo-1576091160399-112ba8d25d1d"),
-    imagePosition: "center 35%",
-    atmosphere: "Sağlık teknolojisi ortamı",
+    imageUrl: IMG("photo-1579684385127-1ef15d508118"),
+    imagePosition: "center 40%",
+    atmosphere: "Klinik ortamı · sağlık teknolojisi",
   },
   "lojistik-depo": {
     gradientFrom: "#1e293b",
@@ -65,9 +66,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#64748b",
     accent: "#94A3B8",
     accentMuted: "rgba(148,163,184,0.14)",
-    imageUrl: IMG("photo-1553413077-190dd305871c"),
-    imagePosition: "center 50%",
-    atmosphere: "Depo & lojistik alanı",
+    imageUrl: IMG("photo-1759888107096-916fbd3eaf25"),
+    imagePosition: "center 45%",
+    atmosphere: "Hadımköy · lojistik & liman",
   },
   "gida-uretim": {
     gradientFrom: "#451a03",
@@ -75,9 +76,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#ea580c",
     accent: "#FB923C",
     accentMuted: "rgba(251,146,60,0.14)",
-    imageUrl: IMG("photo-1556910103-1c02745aae4d"),
-    imagePosition: "center 45%",
-    atmosphere: "Gıda üretim tesisi",
+    imageUrl: IMG("photo-1555396273-367ea4eb4db5"),
+    imagePosition: "center 50%",
+    atmosphere: "Organize sanayi · üretim mutfağı",
   },
   "mobil-uygulama": {
     gradientFrom: "#1e1b4b",
@@ -85,9 +86,9 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#4f46e5",
     accent: "#818CF8",
     accentMuted: "rgba(129,140,248,0.16)",
-    imageUrl: IMG("photo-1460925895917-afdab827c52f"),
-    imagePosition: "center 30%",
-    atmosphere: "Ürün & büyüme metrikleri",
+    imageUrl: IMG("photo-1522202176988-66273c2fd55f"),
+    imagePosition: "center 35%",
+    atmosphere: "Ürün ekibi · mobil geliştirme",
   },
   "butik-otel": {
     gradientFrom: "#0c4a6e",
@@ -95,19 +96,19 @@ const SLUG_THEMES: Record<string, DossierVisualTheme> = {
     gradientTo: "#0ea5e9",
     accent: "#7DD3FC",
     accentMuted: "rgba(125,211,252,0.14)",
-    imageUrl: IMG("photo-1566073771259-6a8506099945"),
-    imagePosition: "center 50%",
-    atmosphere: "Butik konaklama tesisi",
+    imageUrl: IMG("photo-1654162280520-8867181837e8"),
+    imagePosition: "center 42%",
+    atmosphere: "Kaleiçi · butik konaklama",
   },
 };
 
 /** Secondary verified images — used only when primary load fails */
 const CATEGORY_FALLBACK_IMAGES: Record<string, string> = {
   ecommerce: IMG("photo-1607082348824-0a96f2a4b9da"),
-  hospitality: IMG("photo-1554118811-1e0d58224f24"),
-  manufacturing: IMG("photo-1581092160562-40aa08e78837"),
-  healthcare: IMG("photo-1551836022-deb4988cc6c0"),
-  services: IMG("photo-1567620905732-2d1ec7ab7445"),
+  hospitality: IMG("photo-1560799262-3727e67f0c62"),
+  manufacturing: IMG("photo-1742281693044-972b1a1760a4"),
+  healthcare: IMG("photo-1579684385127-1ef15d508118"),
+  services: IMG("photo-1759888107096-916fbd3eaf25"),
   other: DEFAULT_DOSSIER_IMAGE_URL,
 };
 
@@ -127,7 +128,7 @@ const DEFAULT_THEME: DossierVisualTheme = {
   accentMuted: "rgba(59,130,246,0.16)",
   imageUrl: DEFAULT_DOSSIER_IMAGE_URL,
   imagePosition: "center 40%",
-  atmosphere: "Fırsat dosyası",
+  atmosphere: "Türkiye · iş fırsatı",
 };
 
 export function getDossierVisual(
@@ -163,3 +164,11 @@ export function getDossierImageFallbackChain(
   }
   return chain;
 }
+
+/** All slug → image mappings for audits and verification scripts */
+export const DOSSIER_VISUAL_AUDIT = Object.fromEntries(
+  Object.entries(SLUG_THEMES).map(([slug, theme]) => [
+    slug,
+    { imageUrl: theme.imageUrl, atmosphere: theme.atmosphere },
+  ])
+);

@@ -194,6 +194,7 @@ export const marketingDossiers: MarketingDossier[] = [
     category: "Mobil Ürün",
     categoryKey: "ecommerce",
     location: "İstanbul",
+    neighborhood: "Kadıköy",
     stage: "Başlandı, takıldı",
     partnerTypeNeeded: "technical_partner",
     assetWhatExists: "Uygulama · Kullanıcı tabanı",
