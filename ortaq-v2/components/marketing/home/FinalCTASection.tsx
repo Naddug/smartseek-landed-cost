@@ -3,8 +3,10 @@ import { Plus } from "lucide-react";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
+import { registerPathChoiceHref } from "@/lib/auth/routes";
 
 export function FinalCTASection() {
+  const createDossierHref = registerPathChoiceHref("/panel/dosya-olustur");
   return (
     <section className="surface-dark relative overflow-hidden py-20 md:py-28">
       <div
@@ -53,7 +55,7 @@ export function FinalCTASection() {
             {ORTAQ_COPY.finalCta.subhead}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href="/kayit/yol-secimi">
+            <Link href={createDossierHref}>
               <Button size="lg" className="h-11 bg-blue-600 px-6 hover:bg-blue-700">
                 {ORTAQ_COPY.ctas.createDossier}
               </Button>

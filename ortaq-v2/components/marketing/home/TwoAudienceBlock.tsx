@@ -3,8 +3,10 @@ import { ArrowRight, Check, Minus } from "lucide-react";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
+import { registerPathChoiceHref } from "@/lib/auth/routes";
 
 export function TwoAudienceBlock() {
+  const createDossierHref = registerPathChoiceHref("/panel/dosya-olustur");
   return (
     <section className="section-editorial-alt py-20 md:py-24">
       <AppContainer>
@@ -27,7 +29,7 @@ export function TwoAudienceBlock() {
               <p className="text-sm leading-relaxed text-ortaq-text-secondary">
                 {ORTAQ_COPY.twoAudience.ownerBody}
               </p>
-              <Link href="/kayit/yol-secimi" className="mt-6 inline-block">
+              <Link href={createDossierHref} className="mt-6 inline-block">
                 <Button className="bg-blue-600 hover:bg-blue-700">
                   {ORTAQ_COPY.ctas.createDossier}
                   <ArrowRight className="ml-1 h-4 w-4" />

@@ -25,13 +25,16 @@ npx vercel deploy --prod --yes
 
 ## Environment variables (Production)
 
-| Variable | Example |
-|----------|---------|
-| `NEXTAUTH_URL` | `https://ortaq.biz` |
-| `NEXTAUTH_SECRET` | (generate with `openssl rand -base64 32`) |
-| `DATABASE_URL` | Postgres URL when DB is connected |
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXTAUTH_URL` | Yes | `https://ortaq.biz` |
+| `NEXTAUTH_SECRET` | Yes | Session signing (`openssl rand -base64 32`) |
+| `DATABASE_URL` | For registration/OAuth | Postgres — enables real accounts + profile bootstrap |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Optional | Google sign-in |
+| `LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET` | Optional | LinkedIn sign-in |
+| `EMAIL_SERVER` / `EMAIL_FROM` | Optional | Magic link email (requires `DATABASE_URL`) |
 
-> Draft dossiers use in-memory storage on Vercel until `DATABASE_URL` + Prisma migrate are configured.
+> Without `DATABASE_URL`, demo credentials still work (`demo@ortaq.biz` / `demo`). Registration and OAuth persistence require Postgres + `prisma migrate deploy`.
 
 ## Previous site
 

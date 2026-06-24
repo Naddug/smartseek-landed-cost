@@ -8,6 +8,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { UserMenu, signOutUser } from "@/components/shared/UserMenu";
 import { OrtaqLogo } from "@/components/brand/OrtaqLogo";
 import { cn } from "@/lib/utils";
+import { createDossierEntryHref } from "@/lib/auth/routes";
 import { getNavUserFromSession } from "@/lib/panel/nav-user";
 
 const navLinks = [
@@ -24,6 +25,7 @@ export function MarketingNav({ className }: MarketingNavProps) {
   const { data: session, status } = useSession();
   const navUser = getNavUserFromSession(session ?? null);
   const isAuthenticated = status === "authenticated" && navUser;
+  const createDossierHref = createDossierEntryHref(Boolean(isAuthenticated));
 
   const initials = navUser?.firstName?.slice(0, 2).toUpperCase() ?? "OR";
   const displayName = navUser?.firstName ?? navUser?.email ?? "Kullanıcı";
@@ -93,7 +95,7 @@ export function MarketingNav({ className }: MarketingNavProps) {
                     Giriş Yap
                   </Button>
                 </Link>
-                <Link href="/kayit/yol-secimi">
+                <Link href={createDossierHref}>
                   <Button size="sm" className="bg-ortaq-action hover:bg-ortaq-action-strong">
                     Fırsat Dosyası Oluştur
                   </Button>

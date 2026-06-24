@@ -19,6 +19,7 @@ model User {
   email         String    @unique
   name          String?
   role          UserRole  @default(partner)
+  passwordHash  String?
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now())
@@ -26,8 +27,24 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  profile  UserProfile?
 
   @@map("users")
+}
+
+model UserProfile {
+  id                  String    @id @default(cuid())
+  userId              String    @unique
+  onboardingCompleted Boolean   @default(false)
+  onboardingStep      String?
+  intendedRole        UserRole?
+  sideSelectedAt      DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
 }
 
 model Account {

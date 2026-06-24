@@ -18,6 +18,7 @@ import { authOptions } from "@/lib/auth";
 
 interface PageProps {
   params: { slug: string };
+  searchParams: { intent?: string };
 }
 
 export async function generateMetadata({
@@ -33,7 +34,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function FirsatDetayPublicPage({ params }: PageProps) {
+export default async function FirsatDetayPublicPage({
+  params,
+  searchParams,
+}: PageProps) {
   const dossier = getPublicDossierBySlug(params.slug);
 
   if (!dossier) {
@@ -61,7 +65,11 @@ export default async function FirsatDetayPublicPage({ params }: PageProps) {
           </div>
 
           <aside className="space-y-4 lg:sticky lg:top-20">
-            <DossierCTABox dossier={dossier} viewer={viewer} />
+            <DossierCTABox
+              dossier={dossier}
+              viewer={viewer}
+              applyIntent={searchParams.intent === "apply"}
+            />
             <DossierTrustPanel dossier={dossier} />
           </aside>
         </div>

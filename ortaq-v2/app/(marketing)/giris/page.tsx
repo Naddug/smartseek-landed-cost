@@ -3,8 +3,17 @@ import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Section } from "@/components/shared/Section";
 import { GirisForm } from "@/components/auth/GirisForm";
+import { getAuthProviderFlags } from "@/lib/auth/providers";
+import { registerPathChoiceHref } from "@/lib/auth/routes";
 
-export default function GirisPage() {
+type GirisPageProps = {
+  searchParams: { next?: string; magic?: string };
+};
+
+export default function GirisPage({ searchParams }: GirisPageProps) {
+  const providers = getAuthProviderFlags();
+  const kayitHref = registerPathChoiceHref(searchParams.next);
+
   return (
     <Section>
       <AppContainer size="narrow">
@@ -17,12 +26,12 @@ export default function GirisPage() {
           </p>
           <div className="mt-6">
             <Suspense fallback={null}>
-              <GirisForm />
+              <GirisForm enabled={providers} />
             </Suspense>
           </div>
           <p className="mt-6 text-center text-sm text-ortaq-text-secondary">
             Hesabınız yok mu?{" "}
-            <Link href="/kayit/yol-secimi" className="font-medium text-blue-600 hover:underline">
+            <Link href={kayitHref} className="font-medium text-blue-600 hover:underline">
               Kayıt olun
             </Link>
           </p>

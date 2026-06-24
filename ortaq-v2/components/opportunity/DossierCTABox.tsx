@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, Settings, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   isDossierClosed,
   isDossierOpenForInterest,
 } from "@/lib/dossier/viewer-context";
+import { partnerApplyLoginHref } from "@/lib/auth/routes";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import type {
   DossierViewerContext,
@@ -21,17 +22,21 @@ const boxBase =
 interface DossierCTABoxProps {
   dossier: PublicDossierDetail;
   viewer: DossierViewerContext;
+  applyIntent?: boolean;
 }
 
-export function DossierCTABox({ dossier, viewer }: DossierCTABoxProps) {
+export function DossierCTABox({
+  dossier,
+  viewer,
+  applyIntent = false,
+}: DossierCTABoxProps) {
   const router = useRouter();
+  const ctaRef = useRef<HTMLDivElement>(null);
   const [localApplied, setLocalApplied] = useState(false);
   const closed = isDossierClosed(dossier);
   const open = isDossierOpenForInterest(dossier);
   const interestState = viewer.interestState ?? "none";
   const hasApplied = interestState === "applied" || localApplied;
-
-  const returnUrl = `/firsatlar/${dossier.slug}`;
 
   function handleApply() {
     setLocalApplied(true);
@@ -39,8 +44,13 @@ export function DossierCTABox({ dossier, viewer }: DossierCTABoxProps) {
   }
 
   function handleLoginInterest() {
-    router.push(`/giris?next=${encodeURIComponent(returnUrl)}`);
+    router.push(partnerApplyLoginHref(dossier.slug));
   }
+
+  useEffect(() => {
+    if (!applyIntent || !viewer.isAuthenticated || hasApplied || closed) return;
+    ctaRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [applyIntent, viewer.isAuthenticated, hasApplied, closed]);
 
   if (viewer.isOwner) {
     return (
@@ -116,7 +126,7 @@ export function DossierCTABox({ dossier, viewer }: DossierCTABoxProps) {
 
   if (!viewer.isAuthenticated) {
     return (
-      <div className={cn(boxBase, "border-blue-200 bg-white")}>
+      <div ref={ctaRef} className={cn(boxBase, "border-blue-200 bg-white")}>
         <div className="border-b border-blue-100 bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
           <p className="font-heading text-base font-semibold text-white">
             {ORTAQ_COPY.ctas.apply}
@@ -144,7 +154,7 @@ export function DossierCTABox({ dossier, viewer }: DossierCTABoxProps) {
 
   if (open && viewer.isAuthenticated && !viewer.isOwner) {
     return (
-      <div className={cn(boxBase, "border-blue-200 bg-white")}>
+      <div ref={ctaRef} className={cn(boxBase, "border-blue-200 bg-white")}>
         <div className="border-b border-blue-100 bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
           <p className="font-heading text-base font-semibold text-white">
             {ORTAQ_COPY.dossier.applyAuthenticatedTitle}
