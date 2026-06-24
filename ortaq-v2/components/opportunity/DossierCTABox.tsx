@@ -9,7 +9,7 @@ import {
   isDossierClosed,
   isDossierOpenForInterest,
 } from "@/lib/dossier/viewer-context";
-import { partnerApplyLoginHref } from "@/lib/auth/routes";
+import { partnerApplyLoginHref, registerHref } from "@/lib/auth/routes";
 import { submitDossierInterest } from "@/lib/actions/marketplace";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import type {
@@ -24,21 +24,28 @@ interface DossierCTABoxProps {
   dossier: PublicDossierDetail;
   viewer: DossierViewerContext;
   applyIntent?: boolean;
+  className?: string;
 }
 
 export function DossierCTABox({
   dossier,
   viewer,
   applyIntent = false,
+  className,
 }: DossierCTABoxProps) {
   const router = useRouter();
   const ctaRef = useRef<HTMLDivElement>(null);
+  const autoApplyStarted = useRef(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const closed = isDossierClosed(dossier);
   const open = isDossierOpenForInterest(dossier);
   const interestState = viewer.interestState ?? "none";
   const hasApplied = interestState === "applied" || interestState === "in_review";
+  const partnerSignupHref = registerHref(
+    "partner",
+    `/firsatlar/${dossier.slug}?intent=apply`
+  );
 
   function handleApply() {
     setSubmitError(null);
@@ -58,12 +65,49 @@ export function DossierCTABox({
   }
 
   useEffect(() => {
-    if (!applyIntent || !viewer.isAuthenticated || hasApplied || closed) return;
+    if (closed || hasApplied) return;
+
+    if (
+      applyIntent &&
+      viewer.isAuthenticated &&
+      viewer.canApply &&
+      !autoApplyStarted.current
+    ) {
+      autoApplyStarted.current = true;
+      setSubmitError(null);
+      startTransition(async () => {
+        const result = await submitDossierInterest(dossier.slug);
+        if (!result.ok) {
+          setSubmitError(result.error);
+          return;
+        }
+        router.push(`/panel/eslesmelerim?applied=${dossier.slug}`);
+        router.refresh();
+      });
+      return;
+    }
+
+    if (!applyIntent) return;
+
     ctaRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [applyIntent, viewer.isAuthenticated, hasApplied, closed]);
+  }, [
+    applyIntent,
+    viewer.isAuthenticated,
+    viewer.canApply,
+    hasApplied,
+    closed,
+    dossier.slug,
+    router,
+  ]);
+
+  const wrap = (node: React.ReactNode) => (
+    <div ref={ctaRef} className={className}>
+      {node}
+    </div>
+  );
 
   if (viewer.isOwner) {
-    return (
+    return wrap(
       <div className={cn(boxBase, "border-ortaq-line bg-ortaq-surface")}>
         <div className="border-b border-ortaq-line bg-ortaq-surface-alt px-5 py-3">
           <p className="type-meta text-ortaq-navy">{ORTAQ_COPY.dossier.ownerPanelTitle}</p>
@@ -88,7 +132,7 @@ export function DossierCTABox({
   }
 
   if (closed) {
-    return (
+    return wrap(
       <div className={cn(boxBase, "border-ortaq-line bg-ortaq-surface-alt")}>
         <div className="p-5">
           <p className="text-sm font-semibold text-ortaq-navy">
@@ -109,7 +153,7 @@ export function DossierCTABox({
   }
 
   if (hasApplied) {
-    return (
+    return wrap(
       <div className={cn(boxBase, "border-emerald-200 bg-emerald-50")}>
         <div className="p-5">
           <div className="flex items-start gap-3">
@@ -135,15 +179,13 @@ export function DossierCTABox({
   }
 
   if (!viewer.isAuthenticated) {
-    return (
-      <div ref={ctaRef} className={cn(boxBase, "border-blue-200 bg-white")}>
+    return wrap(
+      <div className={cn(boxBase, "border-blue-200 bg-white")}>
         <div className="border-b border-blue-100 bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
           <p className="font-heading text-base font-semibold text-white">
             {ORTAQ_COPY.ctas.apply}
           </p>
-          <p className="mt-1 text-xs text-blue-100">
-            {dossier.desiredPartner}
-          </p>
+          <p className="mt-1 text-xs text-blue-100">{dossier.desiredPartner}</p>
         </div>
         <div className="p-5">
           <p className="text-sm text-ortaq-text-secondary">
@@ -157,14 +199,45 @@ export function DossierCTABox({
             {ORTAQ_COPY.dossier.applyLoginCta}
             <ArrowRight className="h-4 w-4" />
           </button>
+          <p className="mt-3 text-center text-xs text-ortaq-text-muted">
+            Hesabınız yok mu?{" "}
+            <Link
+              href={partnerSignupHref}
+              className="font-semibold text-blue-600 hover:underline"
+            >
+              Ortak olarak kayıt olun
+            </Link>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (open && viewer.isAuthenticated && viewer.wrongRole) {
+    return wrap(
+      <div className={cn(boxBase, "border-ortaq-line bg-ortaq-surface")}>
+        <div className="p-5">
+          <p className="text-sm font-semibold text-ortaq-navy">
+            Başvuru ortaklar içindir
+          </p>
+          <p className="mt-2 text-sm text-ortaq-text-secondary">
+            {viewer.profileGateMessage ??
+              "Fırsat sahibi olarak başvuru gönderemezsiniz. Kendi dosyanızı panelden yönetebilir veya ortak olarak keşfetmeye devam edebilirsiniz."}
+          </p>
+          <Link
+            href={viewer.continueHref ?? "/panel/kesfet"}
+            className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg border border-ortaq-line bg-white text-sm font-semibold text-ortaq-navy hover:bg-ortaq-surface-alt"
+          >
+            {ORTAQ_COPY.ctas.browseDossiers}
+          </Link>
         </div>
       </div>
     );
   }
 
   if (open && viewer.isAuthenticated && !viewer.isOwner && viewer.canApply === false) {
-    return (
-      <div ref={ctaRef} className={cn(boxBase, "border-amber-200 bg-amber-50/40")}>
+    return wrap(
+      <div className={cn(boxBase, "border-amber-200 bg-amber-50/40")}>
         <div className="p-5">
           <p className="text-sm font-semibold text-ortaq-navy">
             Profilinizi tamamlayın
@@ -188,8 +261,8 @@ export function DossierCTABox({
   }
 
   if (open && viewer.isAuthenticated && !viewer.isOwner) {
-    return (
-      <div ref={ctaRef} className={cn(boxBase, "border-blue-200 bg-white")}>
+    return wrap(
+      <div className={cn(boxBase, "border-blue-200 bg-white")}>
         <div className="border-b border-blue-100 bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4">
           <p className="font-heading text-base font-semibold text-white">
             {ORTAQ_COPY.dossier.applyAuthenticatedTitle}
@@ -225,7 +298,7 @@ export function DossierCTABox({
     );
   }
 
-  return (
+  return wrap(
     <div className={cn(boxBase, "border-ortaq-line bg-ortaq-surface-alt")}>
       <div className="p-5">
         <p className="text-sm text-ortaq-text-secondary">

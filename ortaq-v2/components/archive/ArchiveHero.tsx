@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { DossierVisualCover } from "@/components/opportunity/DossierVisualCover";
 import { marketingDossiers } from "@/data/marketing/home-dossiers";
@@ -48,9 +49,10 @@ export function ArchiveHero() {
           {/* Visual preview strip */}
           <div className="hidden w-full max-w-md grid-cols-2 gap-2 lg:grid">
             {previewSlugs.map((d) => (
-              <div
+              <Link
                 key={d.id}
-                className="overflow-hidden rounded-lg border border-white/10 shadow-ortaq-dark"
+                href={`/firsatlar/${d.slug}`}
+                className="overflow-hidden rounded-lg border border-white/10 shadow-ortaq-dark transition-transform hover:-translate-y-0.5"
               >
                 <DossierVisualCover
                   slug={d.slug}
@@ -59,7 +61,7 @@ export function ArchiveHero() {
                   showMeta={false}
                   overlay="minimal"
                 />
-              </div>
+              </Link>
             ))}
           </div>
         </div>

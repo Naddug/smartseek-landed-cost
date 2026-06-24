@@ -52,7 +52,12 @@ export async function getPanelOverview(
       dossierSlug: interest.dossierSlug,
       dossierTitle: interest.dossierTitle,
       createdAt: interest.createdAt,
-      status: "pending" as const,
+      status:
+        interest.status === "matched"
+          ? ("active" as const)
+          : interest.status === "declined"
+            ? ("closed" as const)
+            : ("pending" as const),
     }));
 
     const matches =

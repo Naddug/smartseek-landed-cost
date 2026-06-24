@@ -71,9 +71,13 @@ export function resolveApplyInterestGate(
 
   if (session.role === "opportunity_owner") {
     return {
-      allowed: true,
+      allowed: false,
       requiresAuth: false,
       requiresProfile: false,
+      wrongRole: true,
+      message:
+        "Başvuru ortaklar içindir. Kendi fırsat dosyanızı panelden yönetebilir veya ortak olarak keşfetmeye devam edebilirsiniz.",
+      continueHref: "/panel/kesfet",
     };
   }
 
@@ -198,7 +202,9 @@ export function toApplyGateView(result: ActionGateResult) {
   return {
     canApply: result.allowed,
     requiresAuth: result.requiresAuth,
+    wrongRole: result.wrongRole,
     message: result.message ?? "",
     onboardingHref: result.onboardingHref,
+    continueHref: result.continueHref,
   };
 }

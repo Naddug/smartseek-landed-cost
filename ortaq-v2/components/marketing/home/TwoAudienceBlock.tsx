@@ -1,12 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Check, Minus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
-import { registerPathChoiceHref } from "@/lib/auth/routes";
+import { createDossierEntryHref } from "@/lib/auth/routes";
 
 export function TwoAudienceBlock() {
-  const createDossierHref = registerPathChoiceHref("/panel/dosya-olustur");
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+  const createDossierHref = createDossierEntryHref(isAuthenticated);
+
   return (
     <section className="section-editorial-alt py-16 md:py-20">
       <AppContainer>
@@ -25,11 +31,14 @@ export function TwoAudienceBlock() {
                 {ORTAQ_COPY.twoAudience.ownerTitle}
               </h2>
             </div>
-            <div className="px-6 py-6 md:px-8 md:py-7">
+            <div className="flex flex-1 flex-col px-6 py-6 md:px-8 md:py-7">
               <p className="text-sm leading-relaxed text-ortaq-text-secondary">
                 {ORTAQ_COPY.twoAudience.ownerBody}
               </p>
-              <Link href={createDossierHref} className="mt-6 inline-block">
+              <Link
+                href={isAuthenticated ? "/panel/dosya-olustur" : createDossierHref}
+                className="mt-6 inline-block"
+              >
                 <Button className="bg-blue-600 hover:bg-blue-700">
                   {ORTAQ_COPY.ctas.createDossier}
                   <ArrowRight className="ml-1 h-4 w-4" />
@@ -52,16 +61,23 @@ export function TwoAudienceBlock() {
                 {ORTAQ_COPY.twoAudience.partnerTitle}
               </h2>
             </div>
-            <div className="relative px-6 py-6 md:px-8 md:py-7">
+            <div className="relative flex flex-1 flex-col px-6 py-6 md:px-8 md:py-7">
               <p className="text-sm leading-relaxed text-ortaq-dark-text-secondary">
                 {ORTAQ_COPY.twoAudience.partnerBody}
               </p>
-              <Link href="/firsatlar" className="mt-6 inline-block">
-                <Button variant="outlineOnDark">
-                  {ORTAQ_COPY.ctas.browseDossiers}
-                  <ArrowRight className="ml-1 h-4 w-4" />
-                </Button>
-              </Link>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/firsatlar">
+                  <Button variant="outlineOnDark">
+                    {ORTAQ_COPY.ctas.browseDossiers}
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/guven-kalite?paket=partner#premium-detail">
+                  <Button variant="ghost" className="text-ortaq-dark-text-secondary hover:text-white">
+                    ORTAQ desteği
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

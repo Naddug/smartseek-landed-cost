@@ -60,6 +60,8 @@ export default async function FirsatDetayPublicPage({
       canApply: applyGate.canApply,
       message: applyGate.message,
       onboardingHref: applyGate.onboardingHref,
+      wrongRole: applyGate.wrongRole,
+      continueHref: applyGate.continueHref,
     },
     interestState,
   });
@@ -74,10 +76,13 @@ export default async function FirsatDetayPublicPage({
           <div className="min-w-0 space-y-8">
             <DossierDetailHero dossier={dossier} />
             <DossierStructuredSummary dossier={dossier} />
+            <div className="lg:hidden">
+              <DossierTrustPanel dossier={dossier} />
+            </div>
             <RelatedDossiers dossiers={related} />
           </div>
 
-          <aside className="space-y-4 lg:sticky lg:top-20">
+          <aside className="hidden space-y-4 lg:sticky lg:top-20 lg:block">
             <DossierCTABox
               dossier={dossier}
               viewer={viewer}
@@ -86,6 +91,16 @@ export default async function FirsatDetayPublicPage({
             <DossierTrustPanel dossier={dossier} />
           </aside>
         </div>
+
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ortaq-line bg-white/95 p-3 shadow-ortaq-lg backdrop-blur lg:hidden">
+          <DossierCTABox
+            dossier={dossier}
+            viewer={viewer}
+            applyIntent={searchParams.intent === "apply"}
+            className="[&>*]:shadow-none"
+          />
+        </div>
+        <div className="h-24 lg:hidden" aria-hidden />
       </AppContainer>
     </Section>
   );

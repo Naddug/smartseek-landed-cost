@@ -1,12 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
-import { registerPathChoiceHref } from "@/lib/auth/routes";
+import { createDossierEntryHref } from "@/lib/auth/routes";
 
 export function FinalCTASection() {
-  const createDossierHref = registerPathChoiceHref("/panel/dosya-olustur");
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
+  const createDossierHref = createDossierEntryHref(isAuthenticated);
+
   return (
     <section className="surface-dark relative overflow-hidden py-20 md:py-28">
       <div
@@ -23,7 +29,6 @@ export function FinalCTASection() {
 
       <AppContainer className="relative">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Two sides converge — the whole product in one line. */}
           <div className="mx-auto mb-10 flex max-w-xl items-stretch gap-3">
             <div className="flex-1 rounded-xl border border-ortaq-dark-border bg-ortaq-dark-elevated px-4 py-3 text-left">
               <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-ortaq-dark-text-muted">
@@ -55,11 +60,26 @@ export function FinalCTASection() {
             {ORTAQ_COPY.finalCta.subhead}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href={createDossierHref}>
-              <Button size="lg" className="h-11 bg-blue-600 px-6 hover:bg-blue-700">
-                {ORTAQ_COPY.ctas.createDossier}
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href="/panel">
+                  <Button size="lg" className="h-11 bg-blue-600 px-6 hover:bg-blue-700">
+                    {ORTAQ_COPY.ctas.goToPanel}
+                  </Button>
+                </Link>
+                <Link href="/panel/dosya-olustur">
+                  <Button size="lg" variant="outlineOnDark" className="h-11 px-6">
+                    {ORTAQ_COPY.ctas.createDossier}
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Link href={createDossierHref}>
+                <Button size="lg" className="h-11 bg-blue-600 px-6 hover:bg-blue-700">
+                  {ORTAQ_COPY.ctas.createDossier}
+                </Button>
+              </Link>
+            )}
             <Link href="/firsatlar">
               <Button size="lg" variant="outlineOnDark" className="h-11 px-6">
                 {ORTAQ_COPY.ctas.browseDossiers}

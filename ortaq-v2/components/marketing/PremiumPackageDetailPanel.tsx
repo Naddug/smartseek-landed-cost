@@ -118,7 +118,7 @@ function resolvePrimaryHref(packageId: PremiumPackageId, isAuthenticated: boolea
         : registerPathChoiceHref("/panel/dosya-olustur");
     case "partner":
       return isAuthenticated
-        ? "/panel/profilim"
+        ? "/onboarding/ortak"
         : loginHref(premiumPackageHref("partner"));
     case "visibility":
       return isAuthenticated
@@ -134,7 +134,9 @@ function resolveSecondaryHref(packageId: PremiumPackageId, isAuthenticated: bool
     case "owner":
       return "mailto:destek@ortaq.biz?subject=ORTAQ%20Premium%20-%20F%C4%B1rsat%20Dosyas%C4%B1";
     case "partner":
-      return isAuthenticated ? "/onboarding/ortak" : registerPathChoiceHref("/onboarding/ortak");
+      return isAuthenticated
+        ? "mailto:destek@ortaq.biz?subject=ORTAQ%20Premium%20-%20Ortak%20Profil%20%C4%B0ncelemesi"
+        : registerPathChoiceHref("/onboarding/ortak");
     case "visibility":
       return "mailto:destek@ortaq.biz?subject=ORTAQ%20H%C4%B1zland%C4%B1r%C4%B1lm%C4%B1%C5%9F%20De%C4%9Ferlendirme";
     default:

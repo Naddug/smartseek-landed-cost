@@ -56,6 +56,8 @@ export type DossierViewerContext = {
   canApply?: boolean;
   profileGateMessage?: string;
   profileOnboardingHref?: string;
+  wrongRole?: boolean;
+  continueHref?: string;
 };
 
 export type InboundInterest = {

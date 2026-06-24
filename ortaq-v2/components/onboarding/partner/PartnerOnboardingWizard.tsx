@@ -21,7 +21,7 @@ import { ChipSelect } from "@/components/shared/ChipSelect";
 import { Button } from "@/components/ui/button";
 import { usePartnerOnboardingDraft } from "@/hooks/usePartnerOnboardingDraft";
 import { savePartnerOnboardingState } from "@/lib/actions/profile-onboarding";
-import { sanitizeNextPath } from "@/lib/auth/routes";
+import { sanitizeNextPath, registerPathChoiceHref } from "@/lib/auth/routes";
 import {
   CAPITAL_RANGE_OPTIONS,
   ENGAGEMENT_MODE_OPTIONS,
@@ -131,7 +131,7 @@ export function PartnerOnboardingWizard({
   const handleNext = () => {
     setError(null);
     const nextStep = step + 1;
-    persistStep(step);
+    persistStep(nextStep);
     setStep(nextStep);
   };
 
@@ -318,7 +318,13 @@ export function PartnerOnboardingWizard({
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-ortaq-line pt-6">
         <div>
           {step === 1 ? (
-            <Link href="/kayit/yol-secimi">
+            <Link
+              href={
+                returnPath
+                  ? registerPathChoiceHref(returnPath)
+                  : "/kayit/yol-secimi"
+              }
+            >
               <Button variant="outline" disabled={isPending}>
                 Geri
               </Button>

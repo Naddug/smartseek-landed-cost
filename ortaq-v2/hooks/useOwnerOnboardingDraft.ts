@@ -16,6 +16,7 @@ export function useOwnerOnboardingDraft(initial?: OwnerOnboardingState) {
 
   useEffect(() => {
     if (initial) {
+      setDraft(initial);
       setHydrated(true);
       return;
     }

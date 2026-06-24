@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     q: "Ortak olarak nasıl başvururum?",
-    a: "Yayındaki fırsatları inceleyin, profilinizi tamamlayın, size uygun dosyalara başvurun. Ne sunabileceğinizi net yazın; başvurunuz dosya sahibine iletilir.",
+    a: "Yayındaki fırsatları inceleyin, ortak profilinizi tamamlayın ve size uygun dosyalara başvurun. Başvurunuzda profilinizdeki katkı bilgileri dosya sahibine iletilir.",
   },
   {
     q: "Hangi bilgiler herkese açık?",
@@ -54,7 +54,10 @@ export default function SssPage() {
           </dl>
           <p className="mt-8 text-sm text-ortaq-text-secondary">
             Daha fazla bilgi:{" "}
-            <Link href="/guven-kalite" className="font-medium text-blue-600 hover:underline">
+            <Link
+              href="/guven-kalite?paket=owner#premium-detail"
+              className="font-medium text-blue-600 hover:underline"
+            >
               {ORTAQ_COPY.sections.standards}
             </Link>{" "}
             ·{" "}

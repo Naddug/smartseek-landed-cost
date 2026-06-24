@@ -25,6 +25,7 @@ export const PARTNER_FILTER_OPTIONS = [
   { value: "technical", label: "Teknik Ortak" },
   { value: "growth", label: "Büyüme Ortağı" },
   { value: "sector", label: "Sektör Ortağı" },
+  { value: "production", label: "Üretim Ortağı" },
 ] as const;
 
 export const STAGE_FILTER_OPTIONS = [

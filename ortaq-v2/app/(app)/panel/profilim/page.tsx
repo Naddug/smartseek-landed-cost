@@ -94,10 +94,14 @@ export default async function ProfilimPage() {
                   {ORTAQ_COPY.monetization.partnerPremiumDescription}
                 </p>
                 <Link
-                  href="/guven-kalite?paket=partner#premium-detail"
+                  href={
+                    showCompleteCta
+                      ? onboardingHref
+                      : "mailto:destek@ortaq.biz?subject=ORTAQ%20Premium%20-%20Ortak%20Profil%20%C4%B0ncelemesi"
+                  }
                   className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline"
                 >
-                  Profilimi güçlendir →
+                  {showCompleteCta ? "Profili tamamla →" : "Premium inceleme talep et →"}
                 </Link>
               </div>
             </div>

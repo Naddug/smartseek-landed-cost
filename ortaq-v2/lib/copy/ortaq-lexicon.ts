@@ -140,9 +140,9 @@ export const ORTAQ_COPY = {
     dossierReview: "Dosya incelemesi",
     applyPrompt: "Bu fırsata başvurmak istiyor musunuz?",
     applyLoginHint:
-      "Başvuru için giriş yapın. Dosya sahibi profilinizi ve ne sunabileceğinizi net biçimde görür.",
+      "Ortak olarak giriş yapın. Başvurunuzda profilinizdeki katkı bilgileri dosya sahibine iletilir.",
     applyAuthenticatedHint:
-      "Ne sunabileceğinizi kısa ve net yazın. Dosya sahibi neyin hazır, neyin eksik ve kimi aradığını zaten görmüştür.",
+      "Tek tıkla başvurun. Profilinizdeki katkı türü, sektör tercihi ve rol bilgileriniz dosya sahibine iletilir.",
     applyAuthenticatedTitle: "Ortak profilinizle başvurun",
     applyLoginCta: "Giriş yap ve başvur",
     applicationSent: "Başvurunuz iletildi",
@@ -248,7 +248,7 @@ export const ORTAQ_COPY = {
       "Dosya açmak, yayınlamak ve başvurmak ücretsizdir. Ücretli destek sıralama satın almak, görünürlük pazarlığı veya listeleme ücreti değildir — daha net dosya anlatımı, daha güçlü ortak profili veya zamanında değerlendirme isteyenler içindir.",
     freeTierNote: "Fırsat açmak, yayınlamak ve başvurmak ücretsizdir.",
     paidTierNote:
-      "Aşağıdaki katmanlar eşleşme kalitesini ve hızını destekler — listeleme ücreti değildir.",
+      "Katmanlar iletişimle fiyatlandırılır; listeleme veya sıralama satın alma değildir.",
     ownerPremiumTitle: "ORTAQ Premium — dosyayı daha net anlatmak için",
     ownerPremiumDescription:
       "Bazı fırsatlar kendi halinde de anlaşılır. Bazılarında değerli olan şey dışarıdan yeterince net görünmez. Premium; dosya anlatımını güçlendirmek, eksik halkayı netleştirmek ve doğru ortağa daha ikna edici sunmak içindir — sıralama satın almak için değil.",
@@ -285,8 +285,8 @@ export const ORTAQ_COPY = {
         outcomes: [
           "Daha ciddi başvuru sinyali",
           "Daha güçlü profil güveni",
-          "Daha görünür ve seçilebilir profil",
-          "Fırsat sahipleri karşısında daha net konumlanma",
+          "Daha net katkı ve rol anlatımı",
+          "Fırsat sahipleri karşısında daha seçilebilir profil",
         ],
         microline: "Daha görünür olmak için değil, daha ciddi görünmek için.",
         cta: "Profilimi güçlendir",
@@ -302,8 +302,8 @@ export const ORTAQ_COPY = {
         outcomes: [
           "Daha hızlı değerlendirme",
           "Daha erken geri bildirim",
-          "Öne çıkan görünürlük imkanları",
-          "Zaman baskısı olan fırsatlar için daha az bekleme",
+          "Zaman kritik dosyalar için öncelikli inceleme",
+          "Momentum kaybetmemek için net süreç",
         ],
         microline: "Özellikle zamanlamanın kritik olduğu dosyalar ve başvurular için.",
         cta: "Hızlandırılmış seçenekleri gör",
@@ -348,9 +348,9 @@ export const ORTAQ_COPY = {
           "Güçlendirilmiş profille fırsatlara daha net başvurun.",
         ],
         note: "Amaç daha görünür olmak değil; daha ciddi bir aday olarak konumlanmaktır.",
-        guestPrimaryCta: "Giriş yap ve devam et",
-        authPrimaryCta: "Profilime git",
-        secondaryCta: "Profil rehberini incele",
+        guestPrimaryCta: "Giriş yap — ortak profili oluştur",
+        authPrimaryCta: "Profili tamamla",
+        secondaryCta: "Premium inceleme talep et",
       },
       visibility: {
         headline: "Hızlandırılmış değerlendirme ve görünürlük",
@@ -369,7 +369,7 @@ export const ORTAQ_COPY = {
         ],
         note: "Amaç sırayı satın almak değil; momentum kaybetmemek için zamanında destek almaktır.",
         guestPrimaryCta: "Talep oluşturmak için giriş yap",
-        authPrimaryCta: "Öncelik talebi gönder",
+        authPrimaryCta: "E-posta ile talep gönder",
         secondaryCta: "Destek ekibine yaz",
       },
     },

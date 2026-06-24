@@ -14,14 +14,23 @@ export function AppliedSuccessBanner({ dossierSlug }: AppliedSuccessBannerProps)
           İlginiz kaydedildi
         </p>
         <p className="mt-1 text-sm text-emerald-800">
-          Başvurunuz alındı. Dosya sahibi incelediğinde burada güncellenir.
+          Başvurunuz alındı. Dosya sahibi incelediğinde durum burada güncellenir —
+          genelde 3–5 iş günü içinde ilk geri bildirim.
         </p>
-        <Link
-          href={`/firsatlar/${dossierSlug}`}
-          className="mt-2 inline-block text-sm font-medium text-emerald-900 underline-offset-2 hover:underline"
-        >
-          Fırsat dosyasına dön →
-        </Link>
+        <div className="mt-3 flex flex-wrap gap-3 text-sm font-medium">
+          <Link
+            href="/firsatlar"
+            className="text-emerald-900 underline-offset-2 hover:underline"
+          >
+            Başka fırsatlara göz at →
+          </Link>
+          <Link
+            href={`/firsatlar/${dossierSlug}`}
+            className="text-emerald-800/80 underline-offset-2 hover:underline"
+          >
+            Dosyayı görüntüle
+          </Link>
+        </div>
       </div>
     </div>
   );

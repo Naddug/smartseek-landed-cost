@@ -125,7 +125,7 @@ export const marketingDossiers: MarketingDossier[] = [
       { label: "Pilot", value: "2 klinik" },
       { label: "Ekip", value: "4 kişi" },
     ],
-    verifications: ["Demo doğrulandı", "Ekip özgeçmişi görüldü"],
+    verifications: ["Prototip incelendi", "Ekip özgeçmişi görüldü"],
     applicants: 6,
     views: 197,
     status: "published",

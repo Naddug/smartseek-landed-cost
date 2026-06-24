@@ -23,6 +23,8 @@ type ApplyGate = {
   canApply: boolean;
   message?: string;
   onboardingHref?: string;
+  wrongRole?: boolean;
+  continueHref?: string;
 };
 
 export function buildDossierViewerContext(
@@ -53,9 +55,11 @@ export function buildDossierViewerContext(
     role,
     isOwner,
     interestState,
-    canApply: isOwner ? true : gate.canApply,
+    canApply: isOwner ? false : gate.canApply,
     profileGateMessage: gate.message,
     profileOnboardingHref: gate.onboardingHref,
+    wrongRole: gate.wrongRole,
+    continueHref: gate.continueHref,
   };
 }
 
