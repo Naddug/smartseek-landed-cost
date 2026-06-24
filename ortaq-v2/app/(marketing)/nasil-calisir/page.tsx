@@ -7,7 +7,6 @@ import { MonetizationTiers } from "@/components/marketing/MonetizationTiers";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import {
   ClipboardList,
-  AlertCircle,
   FileCheck,
   Handshake,
   UserCircle,
@@ -19,58 +18,59 @@ import {
 const ownerSteps = [
   {
     icon: ClipboardList,
-    title: "Varlığı ve takılmayı yaz",
-    description: "Ne elinizde var, nerede durdu — dosyanın ilk iki satırı.",
-  },
-  {
-    icon: AlertCircle,
-    title: "Aranan ortak türünü seç",
-    description: "Eksik parça ve aranan ortak netleşince dosya yapılandırılır.",
+    title: ORTAQ_COPY.process.step1Title,
+    description: ORTAQ_COPY.process.step1Description,
   },
   {
     icon: FileCheck,
-    title: "ORTAQ incelemesine gönder",
-    description: "ORTAQ incelemesi tutarlılığı kontrol eder; eksik varsa revizyon istenir.",
+    title: ORTAQ_COPY.process.step2Title,
+    description: ORTAQ_COPY.process.reviewStepDescription,
   },
   {
     icon: Handshake,
-    title: "Eşleşme ve görüşme",
-    description: "Uygun profiller görünür; görüşme ORTAQ paneli üzerinden ilerler.",
+    title: ORTAQ_COPY.process.step3Title,
+    description: ORTAQ_COPY.process.step3Description,
   },
 ];
 
 const partnerSteps = [
   {
     icon: UserCircle,
-    title: "Katkını profiline işle",
-    description: "Sermaye, teknik, operasyon veya sektör deneyimini net yaz.",
+    title: "Katkınızı profile yazın",
+    description:
+      "Sermaye, teknik, operasyon ya da sektör deneyiminizi netleştirin. Belirsiz profiller zayıf başvuruya gider.",
   },
   {
     icon: Target,
-    title: "Dosyalara başvur",
-    description: "Kategori, aşama ve aranan ortak türüne göre filtreleyip başvur.",
+    title: "Fırsatlara başvurun",
+    description:
+      "Kategori, aşama ve aranan ortak türüne göre filtreleyin. Zemini size uygun fırsatlara başvurun; ne sunabileceğinizi açık yazın.",
   },
   {
     icon: Link2,
     title: "Eşleşme oluşsun",
-    description: "ORTAQ, profilinize uygun dosyaları öne çıkarır.",
+    description:
+      "Dosya sahibi başvurunuzu görür. Uygun bulursa eşleşme ORTAQ panelinde başlar.",
   },
   {
     icon: Shield,
-    title: "Kademeli bilgi paylaşımı",
-    description: "Hassas detaylar eşleşme sonrası açılır; gizlilik dosya sahibinde.",
+    title: "Bilgiler kademeli açılır",
+    description:
+      "Hassas detaylar eşleşme sonrası paylaşılır. Gizlilik seviyesini dosya sahibi belirler.",
   },
 ];
 
 export default function NasilCalisirPage() {
+  const copy = ORTAQ_COPY.pages.nasilCalisir;
+
   return (
     <>
       <Section variant="surface">
         <AppContainer size="narrow">
           <PageHeader
             eyebrow="Süreç"
-            title="Nasıl Çalışır"
-            description="İki yol: fırsat dosyası oluşturan ve ortak olarak katılan. Her iki taraf yapılandırılmış profille ilerler."
+            title={ORTAQ_COPY.process.sectionTitle}
+            description={copy.description}
           />
         </AppContainer>
       </Section>
@@ -80,13 +80,13 @@ export default function NasilCalisirPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
               <h2 className="mb-6 font-heading text-xl font-semibold text-ortaq-navy">
-                Fırsat sahipleri için
+                {copy.ownerSectionTitle}
               </h2>
               <FlowSteps steps={ownerSteps} numbered layout="stack" />
             </div>
             <div>
               <h2 className="mb-6 font-heading text-xl font-semibold text-ortaq-navy">
-                Ortaklar için
+                {copy.partnerSectionTitle}
               </h2>
               <FlowSteps steps={partnerSteps} numbered layout="stack" />
             </div>
@@ -97,25 +97,24 @@ export default function NasilCalisirPage() {
       <Section variant="alt">
         <AppContainer size="narrow">
           <h2 className="font-heading text-2xl font-semibold text-ortaq-navy">
-            ORTAQ&apos;ta herkes her şeyi görmez.
+            {copy.privacyTitle}
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-ortaq-text-muted">
-            Gizlilik seviyesi dosya sahibi tarafından belirlenir. Bazı bilgiler
-            yalnızca uygun eşleşme oluştuğunda paylaşılır.
+            {copy.privacyBody}
           </p>
           <VisibilityExplainer className="mt-8" />
         </AppContainer>
       </Section>
 
-      <Section>
+      <Section id="premium">
         <AppContainer>
           <PageHeader
-            eyebrow="Ticari model"
+            eyebrow={ORTAQ_COPY.monetization.sectionEyebrow}
             title={ORTAQ_COPY.monetization.sectionTitle}
             description={ORTAQ_COPY.monetization.sectionDescription}
             className="border-none pb-6"
           />
-          <MonetizationTiers />
+          <MonetizationTiers showCtas layout="homepage" />
         </AppContainer>
       </Section>
     </>

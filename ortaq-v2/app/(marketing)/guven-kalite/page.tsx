@@ -9,13 +9,15 @@ import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { ShieldCheck, XCircle, Eye } from "lucide-react";
 
 const rejectedExamples = [
-  "Sadece fikir var ama somut varlık yok",
-  "Ortak aradığı belirsiz veya tanımsız",
-  "Hiçbir kanıt veya yapı sunulmuyor",
-  "Aslında iş ilanı, gayrimenkul ilanı veya franchise başvurusu",
+  "Sadece fikir var; iş, lokasyon ya da kapasite zemini yok",
+  "Aranan ortak türü belirsiz veya tanımsız",
+  "Sunulan yapı veya kanıt yetersiz",
+  "Aslında iş ilanı, emlak ilanı veya franchise başvurusu",
 ];
 
 export default function GuvenKalitePage() {
+  const copy = ORTAQ_COPY.pages.guvenKalite;
+
   return (
     <>
       <Section variant="surface">
@@ -23,7 +25,7 @@ export default function GuvenKalitePage() {
           <PageHeader
             eyebrow="Güven"
             title="Güven & Kalite"
-            description="ORTAQ duvar ilanı değil. Varlığı net dosyalar, ciddi profiller — seçici bir arşiv."
+            description={copy.description}
           />
         </AppContainer>
       </Section>
@@ -35,12 +37,10 @@ export default function GuvenKalitePage() {
               <ShieldCheck className="h-5 w-5 text-ortaq-action" />
             </div>
             <h2 className="font-heading text-xl font-semibold text-ortaq-navy">
-              Neden inceleme var?
+              {copy.whyReviewTitle}
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary md:text-base">
-              Her dosya yayına alınmadan önce ORTAQ incelemesinden geçer. Amaç seçiciliği
-              korumak: belirsiz başvuruları elemek, varlığı net olanları arşive almak.
-              İnceleme baskı aracı değil; dosyanın netleşmesine hizmet eden filtre.
+              {copy.whyReviewBody}
             </p>
           </div>
         </AppContainer>
@@ -48,7 +48,7 @@ export default function GuvenKalitePage() {
 
       <Section variant="alt">
         <AppContainer size="narrow">
-          <SectionHeader title="Hangi fırsatlar yayınlanmaz?" />
+          <SectionHeader title={copy.rejectedTitle} />
           <ul className="space-y-3">
             {rejectedExamples.map((item) => (
               <li
@@ -68,8 +68,8 @@ export default function GuvenKalitePage() {
       <Section>
         <AppContainer>
           <SectionHeader
-            title="Hazırlık skoru nasıl çalışır?"
-            description="Skor, dosyanın ne kadar net ve eşleşmeye hazır olduğunu gösteren bir göstergedir — otomatik onay değildir."
+            title={copy.readinessTitle}
+            description={copy.readinessDescription}
           />
           <ReadinessScoreExplainer />
         </AppContainer>
@@ -80,11 +80,9 @@ export default function GuvenKalitePage() {
           <div className="mb-8 flex h-10 w-10 items-center justify-center rounded-lg bg-ortaq-action/10">
             <Eye className="h-5 w-5 text-ortaq-action" />
           </div>
-          <SectionHeader title="Gizlilik nasıl korunur?" />
+          <SectionHeader title={copy.privacyTitle} />
           <p className="-mt-4 mb-8 max-w-2xl text-sm leading-relaxed text-ortaq-text-muted md:text-base">
-            Fırsat dosyası sahibi, hangi bilgilerin ne zaman görüneceğini
-            kontrol eder. Bazı belgeler yalnızca eşleşme sonrası açılır;
-            ORTAQ gerektiğinde kullanıcıyı anonim tutabilir.
+            {copy.privacyIntro}
           </p>
           <VisibilityExplainer />
         </AppContainer>
@@ -93,10 +91,10 @@ export default function GuvenKalitePage() {
       <Section id="premium">
         <AppContainer>
           <SectionHeader
-            title="ORTAQ Premium katmanları"
+            title={copy.premiumTitle}
             description={ORTAQ_COPY.monetization.sectionDescription}
           />
-          <MonetizationTiers showCtas />
+          <MonetizationTiers showCtas layout="homepage" />
         </AppContainer>
       </Section>
     </>

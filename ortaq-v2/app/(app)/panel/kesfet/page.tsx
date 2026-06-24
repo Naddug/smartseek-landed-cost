@@ -14,7 +14,7 @@ export default function KesfetPage() {
       <PageHeader
         eyebrow={ORTAQ_COPY.sections.activeDossiers}
         title={ORTAQ_COPY.ctas.browseDossiers}
-        description="Yayında olan fırsat dosyalarını inceleyin. Uygun dosyalara başvuru oluşturabilirsiniz."
+        description={ORTAQ_COPY.pages.kesfet.description}
       />
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {published.map((dossier) => (

@@ -7,27 +7,27 @@ import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 const faqs = [
   {
     q: "ORTAQ bir yatırım platformu mu?",
-    a: "Hayır. ORTAQ, varlığı olan fırsatları aranan ortak türüyle eşleştiren bir dosya arşividir. Fon talebi veya crowdfunding formatı yayınlanmaz.",
+    a: "Hayır. ORTAQ, zemini hazır fırsatları aranan ortak türüyle buluşturan bir ortamdır. Fon talebi veya crowdfunding formatı yayınlanmaz.",
   },
   {
     q: "Fırsat dosyası nedir?",
-    a: "Varlık, eksik parça ve aranan ortak — üç satır ayrı yazılır. ORTAQ incelemesi sonrası yayına alınır veya revizyon istenir.",
+    a: "Neyin hazır olduğu, neden tıkandığı ve hangi ortağın arandığı — açıkça yazılır. Dosya ORTAQ incelemesinden geçer; uygunsa yayına alınır.",
   },
   {
     q: "Dosyam ne zaman yayına girer?",
-    a: "Taslak tamamlanıp incelemeye gönderildikten sonra ORTAQ tutarlılık ve eşleşme uygunluğunu kontrol eder. Uygun dosyalar arşive girer.",
+    a: "Taslak tamamlanıp incelemeye gönderildikten sonra ORTAQ dosyanın zemini, netliği ve eşleşme uygunluğunu kontrol eder. Uygun dosyalar yayına girer; eksik varsa geri bildirimle toparlanır.",
   },
   {
     q: "Ortak olarak nasıl başvururum?",
-    a: "Yayındaki dosyaları inceleyin, profilinizi tamamlayın, uygun dosyalara başvurun. Başvuru dosya sahibine iletilir.",
+    a: "Yayındaki fırsatları inceleyin, profilinizi tamamlayın, size uygun dosyalara başvurun. Ne sunabileceğinizi net yazın; başvurunuz dosya sahibine iletilir.",
   },
   {
     q: "Hangi bilgiler herkese açık?",
-    a: "Gizlilik seviyesini dosya sahibi belirler. Bazı detaylar yalnızca eşleşme sonrası açılır. Tam metin Güven & Kalite sayfasında.",
+    a: "Gizlilik seviyesini dosya sahibi belirler. Bazı detaylar yalnızca eşleşme sonrası açılır. Tam açıklama Güven & Kalite sayfasında.",
   },
   {
-    q: "ORTAQ Premium veya doğrulanmış ortak nedir?",
-    a: "Fırsat sahipleri yapılandırılmış yazım ve hızlandırılmış ORTAQ incelemesi alabilir. Ortaklar ORTAQ doğrulaması ile öncelikli başvuru katmanına geçer. Detaylar Güven & Kalite sayfasında.",
+    q: "ORTAQ Premium nedir?",
+    a: "Fırsat sahipleri fırsatlarını daha güçlü sunmak, eksik noktaları toparlamak ve yayına daha ciddi hazırlanmak için destek alabilir. Ortaklar profillerini güçlendirerek daha ciddi başvuru sinyali verebilir. Zamanlamanın kritik olduğu durumlarda hızlandırılmış değerlendirme seçenekleri de vardır. Detaylar Güven & Kalite sayfasında.",
   },
 ];
 
@@ -38,7 +38,7 @@ export default function SssPage() {
         <PageShell
           eyebrow="SSS"
           title="Sık Sorulan Sorular"
-          description="Dosya, ORTAQ incelemesi ve eşleşme süreci."
+          description={ORTAQ_COPY.pages.sss.description}
         >
           <dl className="mt-8 divide-y divide-ortaq-line">
             {faqs.map((item) => (

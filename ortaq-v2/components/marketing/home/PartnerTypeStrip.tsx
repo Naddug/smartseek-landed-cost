@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { partnerTypeChips } from "@/data/marketing/home-dossiers";
+import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { cn } from "@/lib/utils";
 
 export function PartnerTypeStrip() {
@@ -8,8 +9,8 @@ export function PartnerTypeStrip() {
     <section className="section-editorial-alt py-10 md:py-12">
       <AppContainer>
         <p className="type-eyebrow mb-4">Aranan ortak türleri</p>
-        <p className="mb-6 max-w-2xl text-sm text-ortaq-text-secondary">
-          Her dosyada aranan ortak türü ayrı satırda yazar. Arşivde türe göre filtreleyin.
+        <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ortaq-text-secondary">
+          {ORTAQ_COPY.archive.intro}
         </p>
         <div className="flex flex-wrap gap-2">
           {partnerTypeChips.map((chip) => (

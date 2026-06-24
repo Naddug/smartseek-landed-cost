@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { UserMenu, signOutUser } from "@/components/shared/UserMenu";
+import { OrtaqLogo } from "@/components/brand/OrtaqLogo";
 import { cn } from "@/lib/utils";
 import { getNavUserFromSession } from "@/lib/panel/nav-user";
 
@@ -30,17 +31,14 @@ export function MarketingNav({ className }: MarketingNavProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 h-14 border-b border-stone-100 bg-white/90 backdrop-blur-sm",
+        "sticky top-0 z-50 h-16 border-b border-ortaq-line bg-white/85 backdrop-blur-md",
         className
       )}
     >
       <AppContainer className="h-full">
         <div className="flex h-full items-center justify-between gap-4">
-          <Link
-            href="/"
-            className="font-heading text-lg font-bold tracking-tight text-stone-950"
-          >
-            ORTAQ
+          <Link href="/" aria-label="ORTAQ ana sayfa" className="shrink-0">
+            <OrtaqLogo />
           </Link>
 
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
@@ -68,7 +66,7 @@ export function MarketingNav({ className }: MarketingNavProps) {
                 <Link href="/panel">
                   <Button
                     size="sm"
-                    className="hidden bg-blue-600 hover:bg-blue-700 sm:inline-flex"
+                    className="hidden bg-ortaq-action hover:bg-ortaq-action-strong sm:inline-flex"
                   >
                     Panele Git
                     <ArrowRight className="ml-1 h-3.5 w-3.5" />
@@ -91,12 +89,12 @@ export function MarketingNav({ className }: MarketingNavProps) {
             ) : (
               <>
                 <Link href="/giris">
-                  <Button variant="ghost" size="sm" className="text-stone-700">
+                  <Button variant="ghost" size="sm" className="text-ortaq-text-secondary">
                     Giriş Yap
                   </Button>
                 </Link>
                 <Link href="/kayit/yol-secimi">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                  <Button size="sm" className="bg-ortaq-action hover:bg-ortaq-action-strong">
                     Fırsat Dosyası Oluştur
                   </Button>
                 </Link>

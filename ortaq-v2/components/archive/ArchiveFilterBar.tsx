@@ -40,7 +40,7 @@ export function ArchiveFilterBar({
   onFilterChange,
 }: ArchiveFilterBarProps) {
   return (
-    <div className="sticky top-14 z-40 -mx-4 border-b border-ortaq-line bg-ortaq-surface/95 px-4 py-4 backdrop-blur-sm md:-mx-0 md:px-0">
+    <div className="sticky top-14 z-40 -mx-4 border-b border-ortaq-line bg-ortaq-surface/98 px-4 py-5 backdrop-blur-md md:-mx-0 md:px-0">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="type-meta text-ortaq-text-secondary">
           {stats.activeCount} Aktif Dosya · {stats.newThisWeek} Yeni Bu Hafta

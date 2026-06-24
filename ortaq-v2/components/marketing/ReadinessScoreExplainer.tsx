@@ -34,7 +34,7 @@ export function ReadinessScoreExplainer() {
         ))}
         <p className="pt-2 text-sm leading-relaxed text-ortaq-text-muted">
           Skor, dosyanın eksiklerini göstermek için kullanılır — yüksek skor
-          otomatik onay anlamına gelmez. Moderasyon her dosyayı ayrıca inceler.
+          otomatik onay anlamına gelmez. Her dosya ORTAQ incelemesinden ayrıca geçer.
         </p>
       </div>
     </div>

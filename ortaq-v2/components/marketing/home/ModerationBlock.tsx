@@ -4,40 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Check, Minus, Shield } from "lucide-react";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
-const publishCriteria = [
-  {
-    id: "structure",
-    label: "Yapılandırılmış dosya",
-    detail: "Varlık, eksik parça ve aranan ortak türü ayrı ayrı tanımlı.",
-    status: "Zorunlu",
-  },
-  {
-    id: "asset",
-    label: "Somut varlık",
-    detail: "Lokasyon, ekip, ürün, altyapı veya müşteri tabanından en az biri mevcut.",
-    status: "Zorunlu",
-  },
-  {
-    id: "partner",
-    label: "Net ortak ihtiyacı",
-    detail: "Aranan ortak türü belirsiz veya genel ifadelerle geçiştirilmiş dosyalar elenir.",
-    status: "Zorunlu",
-  },
-  {
-    id: "review",
-    label: ORTAQ_COPY.standards.reviewCriterion,
-    detail: "Yayın öncesi dosya tutarlılığı ve eşleşme uygunluğu kontrol edilir.",
-    status: "Her dosya",
-  },
-];
-
-const rejectedPatterns = [
-  "Sadece fikir — sıfır varlık",
-  "Ortak ihtiyacı tanımsız",
-  "İş ilanı veya emlak listelemesi",
-  "Yatırım / fon talebi formatı",
-];
-
 export function ModerationBlock() {
   return (
     <section className="border-y border-ortaq-line bg-[#F3F5F9] py-20 md:py-24">
@@ -46,10 +12,13 @@ export function ModerationBlock() {
           <div className="mb-8 flex items-start gap-3 border-b border-ortaq-navy/15 pb-6">
             <Shield className="mt-0.5 h-5 w-5 shrink-0 text-ortaq-navy" strokeWidth={1.5} />
             <div>
-              <p className="type-eyebrow">{ORTAQ_COPY.sections.standards} · ORTAQ-STD-01</p>
+              <p className="type-eyebrow">{ORTAQ_COPY.sections.standards}</p>
               <h2 className="type-section mt-2 text-balance">
-                Her dosya yayına girmez.
+                {ORTAQ_COPY.standards.sectionTitle}
               </h2>
+              <p className="mt-3 text-sm leading-relaxed text-ortaq-text-secondary">
+                {ORTAQ_COPY.standards.sectionIntro}
+              </p>
             </div>
           </div>
 
@@ -59,14 +28,14 @@ export function ModerationBlock() {
                 <p className="type-meta text-ortaq-navy">{ORTAQ_COPY.labels.publishCriteria}</p>
               </div>
               <ul className="divide-y divide-ortaq-line">
-                {publishCriteria.map((item) => (
-                  <li key={item.id} className="flex gap-4 px-5 py-4">
+                {ORTAQ_COPY.standards.publishCriteriaItems.map((item) => (
+                  <li key={item.label} className="flex gap-4 px-5 py-4">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-ortaq-success" strokeWidth={2} />
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <p className="text-sm font-medium text-ortaq-navy">{item.label}</p>
                         <span className="font-mono text-[10px] uppercase tracking-wider text-ortaq-text-muted">
-                          {item.status}
+                          {item.tag}
                         </span>
                       </div>
                       <p className="mt-1 text-sm leading-relaxed text-ortaq-text-muted">
@@ -80,10 +49,10 @@ export function ModerationBlock() {
 
             <div className="rounded-lg border border-ortaq-danger/20 bg-white">
               <div className="border-b border-ortaq-danger/15 bg-ortaq-danger/[0.04] px-5 py-3">
-                <p className="type-meta text-ortaq-danger">Yayınlanmaz</p>
+                <p className="type-meta text-ortaq-danger">{ORTAQ_COPY.labels.rejectedCriteria}</p>
               </div>
               <ul className="divide-y divide-ortaq-line/80 px-5 py-2">
-                {rejectedPatterns.map((item) => (
+                {ORTAQ_COPY.standards.rejectedPatterns.map((item) => (
                   <li
                     key={item}
                     className="flex items-start gap-2.5 py-3 text-sm text-ortaq-text-muted"

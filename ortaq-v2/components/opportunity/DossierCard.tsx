@@ -3,9 +3,8 @@ import { cn } from "@/lib/utils";
 import type { OpportunityDraft } from "@/types";
 import type { MarketingDossier } from "@/types/marketing-dossier";
 import type { DossierTier } from "@/types/archive";
-import { getDossierTier } from "@/lib/archive/archive-filters";
 import { DossierFilePanel } from "./DossierFilePanel";
-import { ArchiveDossierPanel } from "@/components/archive/ArchiveDossierPanel";
+import { DossierMarketCard } from "./DossierMarketCard";
 
 interface DossierCardProps {
   opportunity?: OpportunityDraft;
@@ -14,6 +13,7 @@ interface DossierCardProps {
   className?: string;
   variant?: "dossier" | "panel";
   emphasis?: DossierTier;
+  layout?: "card" | "compact";
 }
 
 export function DossierCard({
@@ -23,9 +23,22 @@ export function DossierCard({
   className,
   variant = "dossier",
   emphasis,
+  layout = "card",
 }: DossierCardProps) {
-  const content =
-    dossier ? (
+  if (dossier) {
+    return (
+      <DossierMarketCard
+        dossier={dossier}
+        href={href}
+        className={className}
+        emphasis={emphasis}
+        layout={layout}
+      />
+    );
+  }
+
+  const content = opportunity ? (
+    variant === "dossier" ? (
       <div
         className={cn(
           "group transition-transform duration-200 hover:-translate-y-0.5",
@@ -33,42 +46,23 @@ export function DossierCard({
           className
         )}
       >
-        <ArchiveDossierPanel
-          dossier={dossier}
-          emphasis={emphasis ?? getDossierTier(dossier)}
-          className="group-hover:shadow-md"
+        <DossierFilePanel
+          opportunity={opportunity}
+          theme="light"
+          size="sm"
+          showFooter
+          className="card-editorial-hover"
         />
       </div>
-    ) : opportunity ? (
-      variant === "dossier" ? (
-        <div
-          className={cn(
-            "group transition-transform duration-200 hover:-translate-y-0.5",
-            href && "cursor-pointer",
-            className
-          )}
-        >
-          <DossierFilePanel
-            opportunity={opportunity}
-            theme="light"
-            size="sm"
-            showFooter
-            className="group-hover:border-ortaq-navy/25 group-hover:shadow-md"
-          />
-        </div>
-      ) : (
-        <article className={cn("rounded-lg border border-ortaq-line bg-ortaq-surface p-5", className)}>
-          <DossierFilePanel opportunity={opportunity} theme="light" size="sm" />
-        </article>
-      )
-    ) : null;
+    ) : (
+      <article className={cn("card-editorial p-5", className)}>
+        <DossierFilePanel opportunity={opportunity} theme="light" size="sm" />
+      </article>
+    )
+  ) : null;
 
   if (!content) return null;
-
-  if (href) {
-    return <Link href={href}>{content}</Link>;
-  }
-
+  if (href) return <Link href={href}>{content}</Link>;
   return content;
 }
 

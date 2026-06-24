@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
+import { OrtaqLogo } from "@/components/brand/OrtaqLogo";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 const footerLinks = [
@@ -17,8 +18,8 @@ export function Footer() {
       <AppContainer className="py-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="font-heading text-lg font-bold text-ortaq-navy">ORTAQ</p>
-            <p className="mt-2 max-w-xs text-sm leading-relaxed text-ortaq-text-secondary">
+            <OrtaqLogo />
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-ortaq-text-secondary">
               {ORTAQ_COPY.trust.platformTagline}
             </p>
           </div>

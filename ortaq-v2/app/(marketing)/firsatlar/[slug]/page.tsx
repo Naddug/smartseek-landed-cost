@@ -53,14 +53,14 @@ export default async function FirsatDetayPublicPage({ params }: PageProps) {
       <AppContainer>
         <DossierDetailBackLink />
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_300px] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:items-start">
           <div className="min-w-0 space-y-8">
             <DossierDetailHero dossier={dossier} />
             <DossierStructuredSummary dossier={dossier} />
             <RelatedDossiers dossiers={related} />
           </div>
 
-          <aside className="space-y-4 lg:sticky lg:top-24">
+          <aside className="space-y-4 lg:sticky lg:top-20">
             <DossierCTABox dossier={dossier} viewer={viewer} />
             <DossierTrustPanel dossier={dossier} />
           </aside>

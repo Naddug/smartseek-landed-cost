@@ -19,11 +19,15 @@ export function EslesmelerimView({ matches, role }: EslesmelerimViewProps) {
     return (
       <PanelEmptyState
         icon={<Compass className="h-6 w-6" />}
-        title="Henüz eşleşmeniz yok."
+        title={
+          isPartner
+            ? ORTAQ_COPY.panel.empty.matchesPartnerTitle
+            : ORTAQ_COPY.panel.empty.matchesOwnerTitle
+        }
         description={
           isPartner
             ? ORTAQ_COPY.panel.matchesEmptyPartner
-            : "Dosyalarınız yayına girdikten sonra uygun eşleşmeler burada görünür. Profilinizi güncel tutun."
+            : ORTAQ_COPY.panel.matchesEmptyOwner
         }
         primaryAction={
           <Link href={isPartner ? "/panel/kesfet" : "/panel/firsatlarim"}>
@@ -59,8 +63,8 @@ export function MesajlarView({ role, hasMatches }: MesajlarViewProps) {
   return (
     <PanelEmptyState
       icon={<User className="h-6 w-6" />}
-      title="Henüz aktif bir görüşmeniz yok."
-      description="Eşleşme onaylandığında görüşmeler ORTAQ panelinde listelenir. Önce eşleşme oluşturun."
+      title={ORTAQ_COPY.panel.empty.messagesTitle}
+      description={ORTAQ_COPY.panel.empty.messagesDescription}
       primaryAction={
         <Link href={hasMatches ? "/panel/eslesmelerim" : role === "partner" ? "/panel/kesfet" : "/panel/firsatlarim"}>
           <Button variant="outline">

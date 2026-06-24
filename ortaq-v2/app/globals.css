@@ -53,8 +53,19 @@
     @apply border-b border-ortaq-line bg-ortaq-surface;
   }
 
+  /* Legacy helper — prefer the Button `outlineOnDark` variant.
+     Forced so the base `outline` variant's bg-background / hover:text-foreground
+     utilities cannot leak through and break contrast on dark surfaces. */
   .btn-on-dark-outline {
-    @apply border-ortaq-dark-border bg-transparent text-ortaq-dark-text hover:border-white/30 hover:bg-white/10;
+    background-color: transparent !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+  }
+
+  .btn-on-dark-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: #ffffff !important;
   }
 }
 

@@ -19,7 +19,7 @@ function OwnerZeroState() {
   return (
     <PanelEmptyState
       icon={<FileText className="h-6 w-6" />}
-      title="Henüz bir fırsat dosyanız yok."
+      title={ORTAQ_COPY.panel.empty.ownerOverviewTitle}
       description={ORTAQ_COPY.panel.ownerEmptyDescription}
       primaryAction={
         <Link href="/panel/dosya-olustur">
@@ -28,7 +28,7 @@ function OwnerZeroState() {
       }
       secondaryAction={
         <Link href="/firsatlar" className="text-sm font-medium text-blue-600 hover:underline">
-          Önce fırsatları incele →
+          {ORTAQ_COPY.panel.empty.browseFirstLink}
         </Link>
       }
     />
@@ -39,7 +39,7 @@ function PartnerZeroState() {
   return (
     <PanelEmptyState
       icon={<Compass className="h-6 w-6" />}
-      title="Henüz eşleşme veya kaydedilmiş fırsat görünmüyor."
+      title={ORTAQ_COPY.panel.empty.partnerOverviewTitle}
       description={ORTAQ_COPY.panel.browseDescription}
       primaryAction={
         <Link href="/panel/kesfet">

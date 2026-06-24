@@ -1,37 +1,62 @@
 :root {
-  /* ORTAQ brand palette — light surfaces */
-  --ortaq-navy: #14213d;
-  --ortaq-action: #2d5bff;
-  --ortaq-accent: #6e8bff;
-  --ortaq-bg: #f4f6fa;
+  /* ===========================================================
+     ORTAQ BRAND SYSTEM
+     A premium marketplace for partially-built business opportunities.
+     Palette logic: navy = trust/backbone · cobalt = action/platform ·
+     emerald = Varlık (real ground) · amber = Eksik (open gap / spotlight).
+     =========================================================== */
+
+  /* --- Brand: deep navy (backbone / trust / premium) --- */
+  --ortaq-navy-900: #07152d;
+  --ortaq-navy-800: #0d2247;
+  --ortaq-navy-700: #17376b;
+  --ortaq-navy: #0d2247;
+
+  /* --- Action: electric cobalt (CTA / interaction / platform energy) --- */
+  --ortaq-action: #356dff;
+  --ortaq-action-strong: #2a57d6;
+  --ortaq-accent: #5b87ff;
+
+  /* --- Semantic: Varlık (emerald — what already exists, real ground) --- */
+  --ortaq-asset: #18b57a;
+  --ortaq-asset-soft: #e3f6ee;
+
+  /* --- Semantic: Eksik / spotlight (warm amber — open gap, attention) --- */
+  --ortaq-gap: #d9961e;
+  --ortaq-gap-bright: #f0b24a;
+  --ortaq-gap-soft: #fbf1da;
+
+  /* --- Neutral system: cool blue-grey, premium not sterile --- */
+  --ortaq-bg: #f5f7fb;
   --ortaq-surface: #ffffff;
-  --ortaq-surface-alt: #eef1f6;
-  --ortaq-line: #dde2eb;
-  --ortaq-line-strong: #c8cfdb;
-  --ortaq-text-main: #0f172a;
-  --ortaq-text-secondary: #334155;
-  --ortaq-text-muted: #64748b;
-  --ortaq-success: #1e9e6a;
-  --ortaq-warning: #c98a2b;
+  --ortaq-surface-alt: #eef3fa;
+  --ortaq-line: #d9e3f1;
+  --ortaq-line-strong: #c2d0e4;
+  --ortaq-text-main: #0f1e38;
+  --ortaq-text-secondary: #23324d;
+  --ortaq-text-muted: #5e6c84;
+
+  --ortaq-success: #18b57a;
+  --ortaq-warning: #d9961e;
   --ortaq-danger: #c74a4a;
 
-  /* Dark surfaces — contrast-safe (min ~4.5:1 for secondary text) */
-  --ortaq-dark-bg: #0a0f1a;
-  --ortaq-dark-surface: #111827;
-  --ortaq-dark-elevated: #1a2332;
-  --ortaq-dark-border: rgba(255, 255, 255, 0.14);
-  --ortaq-dark-border-subtle: rgba(255, 255, 255, 0.08);
-  --ortaq-dark-text: #f1f5f9;
-  --ortaq-dark-text-secondary: #cbd5e1;
-  --ortaq-dark-text-muted: #94a3b8;
-  --ortaq-dark-text-subtle: #7b8a9e;
+  /* --- Dark surface system: deliberate deep navy, not black --- */
+  --ortaq-dark-bg: #07152d;
+  --ortaq-dark-surface: #0d2247;
+  --ortaq-dark-elevated: #122b54;
+  --ortaq-dark-border: rgba(255, 255, 255, 0.12);
+  --ortaq-dark-border-subtle: rgba(255, 255, 255, 0.07);
+  --ortaq-dark-text: #eaf0fa;
+  --ortaq-dark-text-secondary: #b9c6dc;
+  --ortaq-dark-text-muted: #8195b2;
+  --ortaq-dark-text-subtle: #6b7e9c;
 
-  /* Elevation */
-  --ortaq-shadow-sm: 0 1px 2px rgba(20, 33, 61, 0.04);
-  --ortaq-shadow-md: 0 4px 16px -4px rgba(20, 33, 61, 0.08);
-  --ortaq-shadow-lg: 0 12px 40px -12px rgba(20, 33, 61, 0.14);
-  --ortaq-shadow-card: 0 1px 2px rgba(20, 33, 61, 0.04), 0 8px 24px -8px rgba(20, 33, 61, 0.1);
-  --ortaq-shadow-dark: 0 16px 48px -12px rgba(0, 0, 0, 0.45);
+  /* Elevation — cool navy-tinted shadows */
+  --ortaq-shadow-sm: 0 1px 2px rgba(13, 34, 71, 0.05);
+  --ortaq-shadow-md: 0 4px 16px -4px rgba(13, 34, 71, 0.1);
+  --ortaq-shadow-lg: 0 12px 40px -12px rgba(13, 34, 71, 0.18);
+  --ortaq-shadow-card: 0 1px 2px rgba(13, 34, 71, 0.05), 0 8px 24px -8px rgba(13, 34, 71, 0.12);
+  --ortaq-shadow-dark: 0 18px 50px -12px rgba(0, 0, 0, 0.55);
 
   /* shadcn-compatible mappings */
   --background: var(--ortaq-bg);

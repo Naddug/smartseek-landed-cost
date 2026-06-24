@@ -14,7 +14,7 @@ const levels: {
     key: "public",
     label: "Herkese açık",
     description:
-      "Temel bilgiler platformda görünür; detaylar yine kontrollü paylaşılır.",
+      "Temel bilgiler arşivde görünür; hassas detaylar ayrıca kontrol edilir.",
     icon: Eye,
   },
   {
@@ -30,7 +30,7 @@ const levels: {
     key: "private",
     label: "Sadece ORTAQ aracılığıyla önerilen",
     description:
-      "Genel listede görünmez; moderasyon ekibi uygun ortaklara yönlendirir.",
+      "Genel arşivde görünmez; ORTAQ uygun ortaklara yönlendirir.",
     icon: EyeOff,
   },
 ];

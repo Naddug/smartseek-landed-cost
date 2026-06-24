@@ -47,7 +47,7 @@ export function PanelNextActions({ overview }: PanelNextActionsProps) {
             <AlertTriangle className="h-4 w-4 shrink-0 text-amber-700" />
             <div>
               <p className="text-sm font-medium text-amber-950">
-                Taslak dosyan tamamlanmayı bekliyor
+                Taslak dosyanız tamamlanmayı bekliyor
               </p>
               <p className="mt-1 text-xs text-amber-800/90">{draftDossier.title}</p>
               <Link

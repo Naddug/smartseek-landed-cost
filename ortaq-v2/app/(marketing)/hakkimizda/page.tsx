@@ -6,24 +6,19 @@ import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
 export default function HakkimizdaPage() {
+  const copy = ORTAQ_COPY.pages.hakkimizda;
+
   return (
     <Section>
       <AppContainer size="narrow">
         <PageShell
           eyebrow="ORTAQ"
           title="Hakkımızda"
-          description="Varlığı olan, takılı kalan fırsatlar için yapılandırılmış dosya arşivi. Seçici yayın, net eşleşme."
+          description={copy.description}
         >
           <div className="mt-8 max-w-none space-y-6 text-sm leading-relaxed text-ortaq-text-secondary">
-            <p>
-              ORTAQ duvar ilanı değil. Her dosyada varlık, eksik parça ve aranan ortak
-              türü ayrı satırlarda yazar. Yayına alınmadan önce ORTAQ incelemesinden geçer.
-            </p>
-            <p>
-              Fırsat sahipleri mevcut varlıklarını netleştirir; ortaklar sıfırdan
-              değil, yapılandırılmış bir dosyaya katkı sunar. Görüşme ORTAQ paneli
-              üzerinden, kademeli gizlilikle ilerler.
-            </p>
+            <p>{copy.paragraph1}</p>
+            <p>{copy.paragraph2}</p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Link href="/kayit/yol-secimi">
                 <Button className="bg-blue-600 hover:bg-blue-700">

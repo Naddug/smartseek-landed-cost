@@ -2,13 +2,10 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AppContainer } from "@/components/shared/AppContainer";
 import { Section } from "@/components/shared/Section";
+import { ArchiveHero } from "@/components/archive/ArchiveHero";
 import { FirsatlarArchive } from "@/components/archive/FirsatlarArchive";
 import { marketingDossiers } from "@/data/marketing/home-dossiers";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
-import { getArchiveStats } from "@/lib/archive/archive-filters";
-
-const published = marketingDossiers.filter((d) => d.status === "published");
-const stats = getArchiveStats(published);
 
 export const metadata: Metadata = {
   title: "Fırsat Dosyaları | ORTAQ",
@@ -21,24 +18,21 @@ export const metadata: Metadata = {
 
 export default function FirsatlarPage() {
   return (
-    <Section className="pb-16 md:pb-24">
-      <AppContainer>
-        <header className="mb-8 border-b border-stone-200 pb-8 md:mb-10">
-          <p className="type-eyebrow mb-2">{ORTAQ_COPY.labels.dossierArchive}</p>
-          <h1 className="type-section">Fırsat Dosyaları</h1>
-          <p className="mt-3 max-w-2xl text-base text-ortaq-text-secondary">
-            {ORTAQ_COPY.archive.intro}
-          </p>
-          <p className="type-meta mt-3 text-ortaq-text-muted">
-            {stats.total} yayında dosya · {stats.categories.length} kategori ·{" "}
-            {stats.partnerTypes.length} ortak türü
-          </p>
-        </header>
-
-        <Suspense fallback={<div className="py-12 text-sm text-stone-500">Yükleniyor…</div>}>
-          <FirsatlarArchive dossiers={marketingDossiers} />
-        </Suspense>
-      </AppContainer>
-    </Section>
+    <>
+      <ArchiveHero />
+      <Section className="pb-16 md:pb-24">
+        <AppContainer>
+          <Suspense
+            fallback={
+              <div className="py-16 text-center text-sm text-ortaq-text-muted">
+                Arşiv yükleniyor…
+              </div>
+            }
+          >
+            <FirsatlarArchive dossiers={marketingDossiers} />
+          </Suspense>
+        </AppContainer>
+      </Section>
+    </>
   );
 }

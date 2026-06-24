@@ -34,7 +34,7 @@ export function FirsatlarimList({ dossiers }: FirsatlarimListProps) {
   if (dossiers.length === 0) {
     return (
       <PanelEmptyState
-        title="Henüz bir fırsat dosyanız yok."
+        title={ORTAQ_COPY.panel.empty.dossiersTitle}
         description={ORTAQ_COPY.panel.dossierEmptyDescription}
         primaryAction={
           <Link href="/panel/dosya-olustur">
@@ -46,7 +46,7 @@ export function FirsatlarimList({ dossiers }: FirsatlarimListProps) {
         }
         secondaryAction={
           <Link href="/firsatlar" className="text-sm font-medium text-blue-600 hover:underline">
-            Örnek dosyaları incele →
+            {ORTAQ_COPY.panel.empty.browseExamplesLink}
           </Link>
         }
       />
@@ -75,7 +75,7 @@ export function FirsatlarimList({ dossiers }: FirsatlarimListProps) {
 
       {filtered.length === 0 ? (
         <p className="rounded-xl border border-stone-200 bg-white px-4 py-8 text-center text-sm text-stone-600">
-          Bu filtrede dosya bulunmuyor.
+          {ORTAQ_COPY.panel.empty.filterEmpty}
         </p>
       ) : (
         <div className="overflow-hidden rounded-xl border border-stone-200 bg-white">

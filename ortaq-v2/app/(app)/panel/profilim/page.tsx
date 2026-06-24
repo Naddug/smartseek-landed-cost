@@ -26,7 +26,7 @@ export default async function ProfilimPage() {
           Profilim
         </h1>
         <p className="mt-1 text-sm text-stone-600">
-          Hesap bilgileriniz, ortak profiliniz ve doğrulama durumu.
+          {ORTAQ_COPY.panel.profileIntro}
         </p>
       </header>
 
@@ -87,7 +87,7 @@ export default async function ProfilimPage() {
                   href="/guven-kalite#premium"
                   className="mt-3 inline-block text-sm font-medium text-blue-600 hover:underline"
                 >
-                  Doğrulanmış ortak katmanı →
+                  Profilimi güçlendir →
                 </Link>
               </div>
             </div>

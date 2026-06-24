@@ -21,7 +21,7 @@ export function HeroCTAs() {
           <Button
             variant="outline"
             size="lg"
-            className="h-11 border-stone-300 bg-white px-6"
+            className="h-11 border-ortaq-line-strong bg-white px-6"
           >
             {ORTAQ_COPY.ctas.createDossier}
           </Button>
@@ -30,7 +30,7 @@ export function HeroCTAs() {
           <Button
             variant="ghost"
             size="lg"
-            className="h-11 px-6 text-stone-700"
+            className="h-11 px-6 text-ortaq-text-secondary"
           >
             {ORTAQ_COPY.ctas.browseDossiers}
           </Button>
@@ -50,7 +50,7 @@ export function HeroCTAs() {
         <Button
           variant="outline"
           size="lg"
-          className="h-11 border-stone-300 bg-white px-6"
+          className="h-11 border-ortaq-line-strong bg-white px-6"
         >
           {ORTAQ_COPY.ctas.browseDossiers}
         </Button>
