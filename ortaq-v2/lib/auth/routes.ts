@@ -1,10 +1,19 @@
 const DEFAULT_POST_AUTH = "/panel";
 
 export function sanitizeNextPath(next: string | null | undefined): string {
-  if (!next || !next.startsWith("/") || next.startsWith("//")) {
+  if (!next) return DEFAULT_POST_AUTH;
+
+  const trimmed = next.trim();
+  if (
+    !trimmed.startsWith("/") ||
+    trimmed.startsWith("//") ||
+    trimmed.includes("\\") ||
+    trimmed.includes("://")
+  ) {
     return DEFAULT_POST_AUTH;
   }
-  return next;
+
+  return trimmed;
 }
 
 export function loginHref(next?: string): string {

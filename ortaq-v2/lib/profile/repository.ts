@@ -3,7 +3,7 @@ import path from "path";
 import type { StoredUserProfile } from "@/types/profile-onboarding";
 import { emptyStoredProfile } from "@/types/profile-onboarding";
 import type { UserRole } from "@/types";
-import { shouldUseDatabaseAuth } from "@/lib/auth/db";
+import { canUseLocalFileAuthStore, isProductionRuntime, shouldUseDatabaseAuth } from "@/lib/auth/db";
 import { prisma } from "@/lib/prisma";
 
 const STORE_DIR = path.join(process.cwd(), "data/store");
@@ -42,12 +42,19 @@ async function fileWriteAll(profiles: StoredUserProfile[]): Promise<void> {
 
 async function readAll(): Promise<StoredUserProfile[]> {
   if (useMemoryStore) return memoryReadAll();
+  if (!canUseLocalFileAuthStore()) return [];
   return fileReadAll();
 }
 
 async function writeAll(profiles: StoredUserProfile[]): Promise<void> {
   if (useMemoryStore) {
     memoryWriteAll(profiles);
+    return;
+  }
+  if (!canUseLocalFileAuthStore()) {
+    if (isProductionRuntime()) {
+      console.error("[profile] Profile file store disabled in production.");
+    }
     return;
   }
   await fileWriteAll(profiles);

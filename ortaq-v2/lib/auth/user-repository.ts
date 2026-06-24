@@ -4,7 +4,7 @@ import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
 import type { UserRole } from "@/types";
 import { defaultRoleForSignup } from "@/lib/auth/roles";
-import { shouldUseDatabaseAuth } from "@/lib/auth/db";
+import { shouldUseDatabaseAuth, canUseLocalFileAuthStore, assertAuthPersistenceAvailable } from "@/lib/auth/db";
 import { prisma } from "@/lib/prisma";
 import { getStoredUserProfile, saveStoredUserProfile } from "@/lib/profile/repository";
 
@@ -39,7 +39,7 @@ export type AuthUserRecord = {
 };
 
 async function readAllFileUsers(): Promise<StoredAuthUser[]> {
-  if (process.env.VERCEL) {
+  if (!canUseLocalFileAuthStore()) {
     return [];
   }
 
@@ -52,7 +52,7 @@ async function readAllFileUsers(): Promise<StoredAuthUser[]> {
 }
 
 async function writeAllFileUsers(users: StoredAuthUser[]): Promise<void> {
-  if (process.env.VERCEL) {
+  if (!canUseLocalFileAuthStore()) {
     throw new Error("DATABASE_URL is required for authentication in production.");
   }
 
@@ -210,9 +210,7 @@ export async function createUserWithPassword(input: {
   name?: string;
   role?: string;
 }): Promise<{ id: string; role: UserRole }> {
-  if (process.env.VERCEL && !(await shouldUseDatabaseAuth())) {
-    throw new Error("DATABASE_URL is required for authentication in production.");
-  }
+  await assertAuthPersistenceAvailable();
 
   const email = input.email.trim().toLowerCase();
   const name = input.name?.trim() || email.split("@")[0];
@@ -326,9 +324,7 @@ export async function findOrCreateOAuthUser(input: {
   providerAccountId: string;
   role?: UserRole | null;
 }): Promise<AuthUserRecord> {
-  if (process.env.VERCEL && !(await shouldUseDatabaseAuth())) {
-    throw new Error("DATABASE_URL is required for OAuth in production.");
-  }
+  await assertAuthPersistenceAvailable();
 
   const email = input.email.trim().toLowerCase();
   const role = input.role ?? defaultRoleForSignup(undefined);
