@@ -15,7 +15,7 @@ const proofItems = [
   {
     icon: Users,
     value: String(pulse.totalApplicants),
-    label: "Aktif ortak başvurusu",
+    label: ORTAQ_COPY.trust.proofApplicantsLabel,
   },
   {
     icon: ShieldCheck,

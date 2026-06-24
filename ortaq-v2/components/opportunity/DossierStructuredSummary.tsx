@@ -140,7 +140,7 @@ export function DossierStructuredSummary({
             <p className="mt-1 max-w-md text-sm leading-relaxed text-ortaq-text-secondary">
               Netlik göstergesi — otomatik onay değildir.{" "}
               <Link href="/guven-kalite" className="font-medium text-blue-600 hover:underline">
-                {ORTAQ_COPY.labels.verification}
+                Güven &amp; Kalite standardı
               </Link>
             </p>
           </div>

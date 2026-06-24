@@ -4,6 +4,7 @@ import { AppContainer } from "@/components/shared/AppContainer";
 import { Section } from "@/components/shared/Section";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { PathChoiceSection } from "@/components/auth/PathChoiceSection";
+import { loginHref } from "@/lib/auth/routes";
 
 type YolSecimiPageProps = {
   searchParams: { next?: string };
@@ -27,7 +28,7 @@ export default function YolSecimiPage({ searchParams }: YolSecimiPageProps) {
         <p className="mx-auto mt-10 max-w-lg text-center text-sm leading-relaxed text-ortaq-text-muted">
           Hangisinin size daha uygun olduğundan emin değil misiniz? Kayıt
           olduktan sonra profilinizi değiştirebilirsiniz.{" "}
-          <Link href="/giris" className="font-medium text-blue-600 hover:underline">
+          <Link href={loginHref(searchParams.next)} className="font-medium text-blue-600 hover:underline">
             Zaten hesabınız var mı?
           </Link>
         </p>

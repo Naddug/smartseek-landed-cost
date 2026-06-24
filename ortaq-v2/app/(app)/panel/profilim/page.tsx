@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { authOptions } from "@/lib/auth";
+import { onboardingPathForProfile } from "@/lib/profile/completion";
 import { getPanelOverview } from "@/lib/panel/get-panel-overview";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
@@ -18,6 +19,10 @@ export default async function ProfilimPage() {
   const { profileCompletion } = overview;
   const displayName = session?.user?.name ?? session?.user?.email ?? "Kullanıcı";
   const isPartner = overview.role === "partner" || overview.role === "hybrid";
+  const onboardingHref = onboardingPathForProfile(
+    overview.role === "owner" ? "opportunity_owner" : "partner"
+  );
+  const showCompleteCta = profileCompletion.level !== "complete";
 
   return (
     <div>
@@ -48,26 +53,31 @@ export default async function ProfilimPage() {
             />
           </div>
           {profileCompletion.missingFields.length > 0 && (
-            <ul className="mt-4 space-y-1 border-t border-stone-100 pt-4">
+            <ul className="mt-4 space-y-2 border-t border-stone-100 pt-4">
               {profileCompletion.missingFields.map((field) => (
-                <li key={field} className="text-sm text-stone-600">
-                  · {field}
+                <li key={field}>
+                  <Link
+                    href={onboardingHref}
+                    className="text-sm text-stone-600 transition-colors hover:text-blue-600"
+                  >
+                    · {field}
+                  </Link>
                 </li>
               ))}
             </ul>
           )}
-          <Link
-            href={
-              overview.role === "partner"
-                ? "/onboarding/ortak"
-                : "/onboarding/firsat-sahibi"
-            }
-            className="mt-4 block"
-          >
-            <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-              Profili Tamamla
-            </Button>
-          </Link>
+          {showCompleteCta && (
+            <Link href={onboardingHref} className="mt-4 block">
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                Profili Tamamla
+              </Button>
+            </Link>
+          )}
+          {!showCompleteCta && (
+            <p className="mt-4 border-t border-stone-100 pt-4 text-sm text-stone-600">
+              Profiliniz tamamlandı. Başvuru ve eşleşme süreçlerine devam edebilirsiniz.
+            </p>
+          )}
         </div>
 
         {isPartner && (

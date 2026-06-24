@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { AppContainer } from "@/components/shared/AppContainer";
-import { partnerTypeChips } from "@/data/marketing/home-dossiers";
+import { getPartnerTypeChips } from "@/data/marketing/home-dossiers";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 import { cn } from "@/lib/utils";
 
 export function PartnerTypeStrip() {
+  const partnerTypeChips = getPartnerTypeChips();
+
   return (
     <section className="section-editorial-alt py-10 md:py-12">
       <AppContainer>

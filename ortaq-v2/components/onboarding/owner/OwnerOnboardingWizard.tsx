@@ -115,15 +115,17 @@ function canProceed(step: number, draft: OwnerOnboardingState): boolean {
 interface OwnerOnboardingWizardProps {
   initialDraft?: OwnerOnboardingState;
   existingId?: string;
+  initialStep?: number;
 }
 
 export function OwnerOnboardingWizard({
   initialDraft,
   existingId,
+  initialStep = 1,
 }: OwnerOnboardingWizardProps) {
   const router = useRouter();
   const { draft, updateDraft, resetDraft, hydrated } = useOwnerOnboardingDraft(initialDraft);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(initialStep);
   const [evidenceTag, setEvidenceTag] = useState("");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);

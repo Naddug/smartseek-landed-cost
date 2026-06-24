@@ -77,6 +77,7 @@ export const ORTAQ_COPY = {
       "Zemini hazır, eksik halkası net — doğru ortağı arayan gerçek fırsatlar.",
     proofPublishedLabel: "Yayındaki dosya",
     proofReviewLabel: "İncelemeden geçen başvuru",
+    proofApplicantsLabel: "Dosya başvuru kaydı",
     proofPartnerTypesLabel: "Aranan ortak tipi",
     proofNewThisWeekLabel: "Bu hafta eklenen fırsat",
   },
@@ -402,8 +403,8 @@ export const ORTAQ_COPY = {
         body: "Yüz yüze tanışma, platformdaki eşleşme sürecini destekler; ORTAQ panelindeki görüşmeler buradan devam eder.",
       },
     ],
-    ctaPrimary: "Fırsatları incele",
-    ctaSecondary: "Davet programı hakkında sor",
+    ctaPrimary: "Davet programı hakkında sor",
+    ctaSecondary: "Fırsatları incele",
     compactLink: "ORTAQ Buluşmaları hakkında",
   },
   pages: {

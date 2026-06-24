@@ -112,7 +112,7 @@ const DETAIL_EXTENSIONS: Record<
     readinessScore: 58,
     status: "under_review",
     longDescription:
-      "10K+ aktif kullanıcı; gelir modeli test edilmedi. Teknik borç ve büyüme yapısı eksik.",
+      "≈ 18.000 aktif kullanıcı; gelir modeli test edilmedi. Teknik borç ve büyüme yapısı eksik.",
     moderationNote: "Monetizasyon planı netleştirilmeli.",
     verification: { dossierReviewed: false },
   },
@@ -122,7 +122,7 @@ const DETAIL_EXTENSIONS: Record<
     partnerOffer:
       "İşletme ortaklığı veya %30 gelir payı; marka ve rezervasyon kanalları ortakla kurulur.",
     longDescription:
-      "Tadilatı tamamlanmış 18 odalı tesis; konsept ve işletme bekliyor.",
+      "Tadilatı tamamlanmış 14 odalı tesis; konsept ve işletme bekliyor.",
     idealContribution: "Marka, rezervasyon kanalları, günlük operasyon.",
     verification: { locationVerified: true, dossierReviewed: true },
   },

@@ -60,7 +60,10 @@ export function PremiumPackagesSection({
       if (parsed) {
         setActivePackage(parsed);
         scrollToDetail();
+        return;
       }
+
+      setActivePackage("owner");
     };
 
     syncFromLocation();
@@ -96,20 +99,14 @@ export function PremiumPackagesSection({
             <PremiumPackageDetailPanel
               packageId={activePackage}
               onClose={() => {
-                setActivePackage(null);
+                setActivePackage("owner");
                 if (isPremiumPage) {
-                  window.history.replaceState(null, "", pathname);
+                  window.history.replaceState(null, "", premiumPackageHref("owner", pathname));
                 }
               }}
             />
           </div>
-        ) : (
-          isPremiumPage && (
-            <p className="mt-6 rounded-xl border border-dashed border-ortaq-line bg-ortaq-surface-alt/60 px-5 py-4 text-center text-sm text-ortaq-text-muted">
-              Bir paket seçin — detaylar, adımlar ve devam yolu burada açılır.
-            </p>
-          )
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ export function PanelTopbar({ navUser }: PanelTopbarProps) {
   const displayName = navUser.firstName ?? navUser.email ?? "Kullanıcı";
   const notificationCount =
     (navUser.unreadMessages ?? 0) + (navUser.pendingMatches ?? 0);
+  const showNotificationBadge = notificationCount > 0;
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between border-b border-stone-200 bg-white px-4 md:px-6">
@@ -68,7 +69,7 @@ export function PanelTopbar({ navUser }: PanelTopbarProps) {
           aria-label="Bildirimler"
         >
           <Bell className="h-4 w-4" />
-          {notificationCount > 0 && (
+          {showNotificationBadge && (
             <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-blue-600 px-0.5 text-[9px] font-medium text-white">
               {notificationCount > 9 ? "9+" : notificationCount}
             </span>
@@ -80,7 +81,6 @@ export function PanelTopbar({ navUser }: PanelTopbarProps) {
           initials={initials}
           items={[
             { label: "Profilim", href: "/panel/profilim" },
-            { label: "Ayarlar", href: "/panel/profilim" },
             { label: "Çıkış", onClick: signOutUser, variant: "danger" },
           ]}
           triggerClassName="hover:bg-stone-100"

@@ -137,16 +137,16 @@ export function OrtaqBulusmalariSection({
       </div>
 
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link href="/firsatlar">
+        <Link href="mailto:destek@ortaq.biz?subject=ORTAQ%20Bulu%C5%9Fmalar%C4%B1%20davet%20program%C4%B1">
           <Button className="bg-blue-600 hover:bg-blue-700">
+            <Mail className="mr-1.5 h-4 w-4" />
             {copy.ctaPrimary}
-            <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
         </Link>
-        <Link href="mailto:destek@ortaq.biz?subject=ORTAQ%20Bulu%C5%9Fmalar%C4%B1%20davet%20program%C4%B1">
+        <Link href="/firsatlar">
           <Button variant="outline">
-            <Mail className="mr-1.5 h-4 w-4" />
             {copy.ctaSecondary}
+            <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
         </Link>
         {isCompact && (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AlertTriangle, ArrowRight, Compass, User } from "lucide-react";
 import type { PanelOverviewPayload } from "@/types/panel";
+import { onboardingPathForProfile } from "@/lib/profile/completion";
 import { Button } from "@/components/ui/button";
 import { ORTAQ_COPY } from "@/lib/copy/ortaq-lexicon";
 
@@ -12,6 +13,11 @@ export function PanelNextActions({ overview }: PanelNextActionsProps) {
   const { role, dossiers, matches, profileCompletion } = overview;
   const draftDossier = dossiers.find((d) => d.status === "draft");
   const pendingCount = matches.filter((m) => m.status === "pending").length;
+  const onboardingHref =
+    role === "owner"
+      ? onboardingPathForProfile("opportunity_owner")
+      : onboardingPathForProfile("partner");
+
   const showProfileCta = profileCompletion.percent < 80;
 
   return (
@@ -31,7 +37,7 @@ export function PanelNextActions({ overview }: PanelNextActionsProps) {
         </div>
         {showProfileCta && (
           <Link
-            href="/panel/profilim"
+            href={onboardingHref}
             className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
           >
             <User className="h-3.5 w-3.5" />

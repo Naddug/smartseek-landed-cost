@@ -6,6 +6,7 @@ import { Section } from "@/components/shared/Section";
 import { KayitForm } from "@/components/auth/KayitForm";
 import { getAuthProviderFlags } from "@/lib/auth/providers";
 import { parseUserRole } from "@/lib/auth/roles";
+import { registerPathChoiceHref } from "@/lib/auth/routes";
 
 type KayitPageProps = {
   searchParams: { role?: string; next?: string };
@@ -16,7 +17,7 @@ export default function KayitPage({ searchParams }: KayitPageProps) {
   const providers = getAuthProviderFlags();
 
   if (!role) {
-    redirect("/kayit/yol-secimi");
+    redirect(registerPathChoiceHref(searchParams.next));
   }
 
   const roleLabel =

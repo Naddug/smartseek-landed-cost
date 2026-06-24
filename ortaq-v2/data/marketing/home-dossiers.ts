@@ -4,6 +4,16 @@ import type {
   MarketingDossier,
   PartnerTypeChip,
 } from "@/types/marketing-dossier";
+import { resolvePartnerFilter } from "@/lib/archive/archive-filters";
+
+const PARTNER_CHIP_DEFINITIONS: Omit<PartnerTypeChip, "count">[] = [
+  { id: "operating", label: "İşletme Ortağı", filterParam: "operating" },
+  { id: "capital", label: "Sermaye Ortağı", filterParam: "capital" },
+  { id: "technical", label: "Teknik Ortak", filterParam: "technical" },
+  { id: "growth", label: "Büyüme Ortağı", filterParam: "growth" },
+  { id: "sector", label: "Sektör Ortağı", filterParam: "sector" },
+  { id: "production", label: "Üretim Ortağı", filterParam: "production" },
+];
 
 export const marketingDossiers: MarketingDossier[] = [
   {
@@ -260,24 +270,30 @@ export function getArchiveMeta(): ArchiveMeta {
   };
 }
 
-/** Marketplace pulse — derived from the dataset, not invented. */
-export function getMarketplacePulse() {
-  return {
-    published: marketingDossiers.filter((d) => d.status === "published").length,
-    inReview: marketingDossiers.filter((d) => d.status === "under_review").length,
-    totalApplicants: marketingDossiers.reduce((sum, d) => sum + (d.applicants ?? 0), 0),
-    partnerTypes: partnerTypeChips.length,
-  };
+/** Partner-type chips with counts derived from published dossiers only. */
+export function getPartnerTypeChips(): PartnerTypeChip[] {
+  const published = marketingDossiers.filter((d) => d.status === "published");
+
+  return PARTNER_CHIP_DEFINITIONS.map((definition) => ({
+    ...definition,
+    count: published.filter(
+      (dossier) => resolvePartnerFilter(dossier) === definition.filterParam
+    ).length,
+  })).filter((chip) => chip.count > 0);
 }
 
-export const partnerTypeChips: PartnerTypeChip[] = [
-  { id: "operating", label: "İşletme Ortağı", filterParam: "operating", count: 5 },
-  { id: "capital", label: "Sermaye Ortağı", filterParam: "capital", count: 2 },
-  { id: "technical", label: "Teknik Ortak", filterParam: "technical", count: 4 },
-  { id: "growth", label: "Büyüme Ortağı", filterParam: "growth", count: 6 },
-  { id: "sector", label: "Sektör Ortağı", filterParam: "sector", count: 3 },
-  { id: "production", label: "Üretim Ortağı", filterParam: "production", count: 4 },
-];
+/** Marketplace pulse — derived from the dataset, not invented. */
+export function getMarketplacePulse() {
+  const published = marketingDossiers.filter((d) => d.status === "published");
+  const partnerTypes = new Set(published.map((d) => resolvePartnerFilter(d)));
+
+  return {
+    published: published.length,
+    inReview: marketingDossiers.filter((d) => d.status === "under_review").length,
+    totalApplicants: marketingDossiers.reduce((sum, d) => sum + (d.applicants ?? 0), 0),
+    partnerTypes: partnerTypes.size,
+  };
+}
 
 export const activityTickerItems: MarketingActivityItem[] = [
   { id: "t1", text: "FD-2026-022 yayına alındı · İstanbul, Hadımköy · 2 saat önce" },
